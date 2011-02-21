@@ -1,6 +1,6 @@
 #include <Windows.h>
 
-#include "../Engine/Engine.h"
+#include "../Core/Engine.h"
 
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
 
