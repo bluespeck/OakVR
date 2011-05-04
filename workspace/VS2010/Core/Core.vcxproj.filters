@@ -21,6 +21,9 @@
       <Filter>Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Core\Scene.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Windows\DirectX11Shader.cpp">
+      <Filter>Windows\DirectX\DirectX11</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Core\Camera.h" />
@@ -49,6 +52,10 @@
       <Filter>Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Core\Scene.h" />
+    <ClInclude Include="..\..\..\src\Core\Shader.h" />
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX11Shader.h">
+      <Filter>Windows\DirectX\DirectX11</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Windows">

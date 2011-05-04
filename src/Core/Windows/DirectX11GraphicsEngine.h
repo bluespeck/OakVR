@@ -45,6 +45,7 @@ namespace Oak3D
 			ID3D11DeviceContext *m_pDeviceContext;           // Direct3D device context
 
 			ID3D11RenderTargetView *m_pBackBufferRenderTargetView;
+
 		};
 	}
 }

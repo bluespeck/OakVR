@@ -80,6 +80,7 @@ namespace Oak3D
 			m_pDeviceContext->RSSetViewports(1, &viewport);
 		}
 
+		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::Render()
 		{			
 			m_pDeviceContext->ClearRenderTargetView(m_pBackBufferRenderTargetView, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
