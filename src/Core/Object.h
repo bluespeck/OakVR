@@ -1,39 +1,48 @@
-#pragma once
+
+// --------------------------------------------------------------------------------
+// Copyright      Mihai Tudorache 2011
+// --------------------------------------------------------------------------------
+
+#ifndef __OAK3D_INCLUDE_OBJECT_H__
+#define __OAK3D_INCLUDE_OBJECT_H__
 
 #include <list>
-#include <tchar.h>
+#include "../Utils/StringID.h"
 
-class IComponent;
-
-class CObject
+namespace Oak3D
 {
-public:
-	CObject( void ); 	
-	virtual ~CObject( void );
-	
-	void AddChild(CObject *pObj);
-	void AddBrother(CObject *pObj);
+	namespace Core
+	{
 
-	CObject *GetRootObj();
+		class IController;
 
-	void AddCustomComponent(IComponent *pComponent);
-	void AddRenderComponent();
-	void AddSoundComponent();
+		class Object
+		{
+		public:
+			Object( void ); 	
+			virtual ~Object( void );
 
-	float	IsObjectUnderMouse();
-		
-public:
-	// links to other objects
-	CObject *m_pParent;
-	CObject *m_pChild;
-	CObject *m_pBrother;
+			void AddChild(Object *pObj);
+			void AddBrother(Object *pObj);
 
-	unsigned int m_objID;
+			Object *GetRootObj();
+			
+		public:
+			// links to other objects
+			Object *m_pParent;
+			Object *m_pChild;
+			Object *m_pBrother;
 
-	// List of the components this object has
-	std::list<IComponent *> m_lstComponents;
+			Oak3D::Utils::StringID m_objID;
 
-protected:
-	static unsigned long m_objCount;
-	
-};
+			// Controllers running on this object
+			std::list<IController *> m_lstControllers;
+
+		protected:
+			static unsigned long m_objCount;
+
+		};
+	} // namespace Core
+}
+
+#endif

@@ -2,82 +2,75 @@
 
 #include "Object.h"
 
-unsigned long CObject::m_objCount = 0;
-
-CObject::CObject( void ):
-m_pParent( NULL ), 
-m_pChild( NULL ), 
-m_pBrother( NULL )
-{	
-	m_objCount++;
-	m_objID = m_objCount;
-}
-
-CObject::~CObject( void )
+namespace Oak3D
 {
-	m_pParent = NULL;
-	m_pChild = NULL;
-	m_pBrother = NULL;
+	namespace Core
+	{
 
-	std::list<IComponent *>::iterator it = m_lstComponents.begin();
-	while(it != m_lstComponents.end())
-	{
-		delete *it;
-		++it;
-	}
-}
+		unsigned long Object::m_objCount = 0;
 
-void CObject::AddBrother(CObject *pObj)
-{
-	if(m_pBrother == NULL)
-	{
-		m_pBrother = pObj;
-	}
-	else
-	{
-		CObject *p = m_pBrother;
-		while(p->m_pBrother != NULL)
-		{
-			p = p->m_pBrother;
+		// --------------------------------------------------------------------------------
+		Object::Object( void )
+		: m_objID( ++m_objCount )
+		, m_pParent( nullptr )
+		, m_pChild( nullptr )
+		, m_pBrother( nullptr )
+		{				
 		}
-		p->m_pBrother = pObj;
-	}
-	pObj->m_pParent = m_pParent;
-}
 
-void CObject::AddChild(CObject *pObj)
-{
-	if(m_pChild == NULL)
-	{
-		// This object has no children. Add pObj as its only child
-		m_pChild = pObj;		
-	}
-	else
-	{
-		// This object has children. Add pObj at the end of the children list
-		CObject *p = m_pChild;
-		while(p->m_pBrother != NULL)
+		// --------------------------------------------------------------------------------
+		Object::~Object( void )
 		{
-			p = p->m_pBrother;
+			m_pParent = nullptr;
+			m_pChild = nullptr;
+			m_pBrother = nullptr;
+
+			for(auto it = m_lstControllers.begin(); it != m_lstControllers.end(); ++it)
+			{
+				delete *it;				
+			}
 		}
-		p->m_pBrother = pObj;		
-	}
-	
-	// Link child to its parent
-	pObj->m_pParent = this;
-}
 
-void CObject::AddRenderComponent()
-{
-	m_lstComponents.push_back(new CRenderComponent(this));
-}
+		// --------------------------------------------------------------------------------
+		void Object::AddBrother(Object *pObj)
+		{
+			if(m_pBrother == nullptr)
+			{
+				m_pBrother = pObj;
+			}
+			else
+			{
+				Object *p = m_pBrother;
+				while(p->m_pBrother != nullptr)
+				{
+					p = p->m_pBrother;
+				}
+				p->m_pBrother = pObj;
+			}
+			pObj->m_pParent = m_pParent;
+		}
 
-void CObject::AddCustomComponent(IComponent *pComponent)
-{
-	m_lstComponents.push_back(pComponent);
-}
+		// --------------------------------------------------------------------------------
+		void Object::AddChild(Object *pObj)
+		{
+			if(m_pChild == nullptr)
+			{
+				// This object has no children. Add pObj as its only child
+				m_pChild = pObj;		
+			}
+			else
+			{
+				// This object has children. Add pObj at the end of the children list
+				Object *p = m_pChild;
+				while(p->m_pBrother != nullptr)
+				{
+					p = p->m_pBrother;
+				}
+				p->m_pBrother = pObj;		
+			}
 
-float CObject::IsObjectUnderMouse()
-{
-	return CEngine::GetRenderEngine()->IsObjectUnderMouse( this ); 
-}
+			// Link child to its parent
+			pObj->m_pParent = this;
+		}
+	} // namespace Core
+}	// namespace Oak3D

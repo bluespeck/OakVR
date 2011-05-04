@@ -1,101 +1,97 @@
 
 
 #include "Timer.h"
-#include "windows.h"
+#include <ctime>
 
-CTimer::CTimer(void)
-: m_secondsPerCount(0.0), m_dt(-1.0), m_baseTime(0), 
-m_pausedTime(0), m_prevTime(0), m_currTime(0), m_bPaused(false)
+namespace Oak3D
 {
-	__int64 countsPerSec;
-	QueryPerformanceFrequency((LARGE_INTEGER *) &countsPerSec);
-	m_secondsPerCount = 1.0 / (double)countsPerSec;
-}
-
-CTimer::~CTimer(void)
-{
-}
-
-void CTimer::Tick()
-{
-	if( m_bPaused )
+	namespace Core
 	{
-		m_dt = 0.0;
-		return;
-	}
+		Timer::Timer(void)
+			: m_secondsPerCount(0.0), m_dt(-1.0), m_baseTime(0), 
+			m_pausedTime(0), m_currTime(0), m_bPaused(false)
+		{
+			m_secondsPerCount = 1.0 / CLOCKS_PER_SEC;
+			Reset();
+		}
 
-	__int64 currTime;
-	QueryPerformanceCounter((LARGE_INTEGER *) &currTime);
-	m_currTime = currTime;
+		Timer::~Timer(void)
+		{
+		}
 
-	// Time difference between current call and last call of Tick
-	m_dt = (m_currTime - m_prevTime) * m_secondsPerCount;
+		void Timer::Tick()
+		{
+			if( m_bPaused )
+			{
+				m_dt = 0.0;
+				return;
+			}
 
-	m_prevTime = m_currTime;
+			m_currTime = clock();
 
-	if(m_dt < 0.0)
-	{
-		m_dt = 0.0;
-	}
-}
+			// Time difference between current call and last call of Tick
+			m_dt = (m_currTime - m_prevTime) * m_secondsPerCount;
 
-// Time elapsed since the timer was started (excluding the time it was paused)
-float CTimer::GetElapsedTime()const
-{	
-	if( m_bPaused )
-	{
-		return (float)((m_pauseTime - m_baseTime) * m_secondsPerCount);
-	}
-	else
-	{
-		return (float)(((m_currTime - m_pausedTime) - m_baseTime) * m_secondsPerCount);
-	}
-}
+			m_prevTime = m_currTime;
 
-float CTimer::GetDeltaTime()const
-{
-	return (float)m_dt;
-}
+			if(m_dt < 0.0)
+			{
+				m_dt = 0.0;
+			}
+		}
 
-bool CTimer::IsPaused()const
-{
-	return m_bPaused;
-}
+		// Time elapsed since the timer was started (excluding the time it was paused)
+		float Timer::GetElapsedTime()const
+		{	
+			if( m_bPaused )
+			{
+				return (float)((m_pauseTime - m_baseTime) * m_secondsPerCount);
+			}
+			else
+			{
+				return (float)(((m_currTime - m_pausedTime) - m_baseTime) * m_secondsPerCount);
+			}
+		}
 
-void CTimer::Reset()
-{
-	__int64 currTime;
-	QueryPerformanceCounter((LARGE_INTEGER *) &currTime);
+		float Timer::GetDeltaTime()const
+		{
+			return (float)m_dt;
+		}
 
-	m_baseTime = currTime;
-	m_prevTime = currTime;
-	m_pauseTime = 0;
-	m_bPaused  = false;
-}
+		bool Timer::IsPaused()const
+		{
+			return m_bPaused;
+		}
 
-void CTimer::Unpause()
-{
-	__int64 startTime;
-	QueryPerformanceCounter((LARGE_INTEGER *) &startTime);
+		void Timer::Reset()
+		{			
+			m_baseTime = clock();
+			m_prevTime = m_baseTime;
+			m_pauseTime = 0;
+			m_bPaused  = false;
+		}
 
-	if( m_bPaused )
-	{
-		m_pausedTime += (startTime - m_pauseTime);	
+		void Timer::Unpause()
+		{			
+			if( m_bPaused )
+			{
+				int64_t startTime = clock();
+				m_pausedTime += (startTime - m_pauseTime);	
 
-		m_prevTime = startTime;
-		m_pauseTime = 0;
-		m_bPaused  = false;
-	}
-}
+				m_prevTime = startTime;
+				m_pauseTime = 0;
+				m_bPaused  = false;
+			}
+		}
 
-void CTimer::Pause()
-{
-	if( !m_bPaused )
-	{
-		__int64 currTime;
-		QueryPerformanceCounter((LARGE_INTEGER *) &currTime);
+		void Timer::Pause()
+		{
+			if( !m_bPaused )
+			{
+				m_pauseTime = clock();
+				m_bPaused  = true;
+			}
+		}
 
-		m_pauseTime = currTime;
-		m_bPaused  = true;
-	}
-}
+	}	// namespace Core
+}	//namespace Oak3D

@@ -1,32 +1,49 @@
-#pragma once
 
-class CTimer
+// --------------------------------------------------------------------------------
+// Copyright      Mihai Tudorache 2011
+// --------------------------------------------------------------------------------
+
+#ifndef __OAK3D_INCLUDE_TIMER_H__
+#define __OAK3D_INCLUDE_TIMER_H__
+
+#include <cstdint>
+
+namespace Oak3D
 {
-public:
-	CTimer(void);
-	~CTimer(void);
+	namespace Core
+	{
 
-	float GetElapsedTime()const;  // [s]
-	float GetDeltaTime()const; // [s]
-	bool IsPaused()const; // true if timer is paused
+		class Timer
+		{
+		public:
+			Timer();
+			virtual ~Timer();
 
-	void Tick();  
-	void Unpause(); 
-	void Pause();  
-	void Reset(); 
+			virtual float GetElapsedTime() const;  // [s]
+			virtual float GetDeltaTime() const; // [s]
+			virtual bool IsPaused() const; // true if timer is paused
+
+			virtual void Tick();  
+			virtual void Unpause(); 
+			virtual void Pause();  
+			virtual void Reset(); 
 
 
-private:
-	double m_secondsPerCount;
-	double m_dt;
+		protected:
+			double m_secondsPerCount;
+			double m_dt;
 
-	__int64 m_baseTime;	
-	__int64 m_pauseTime;
+			int64_t m_baseTime;	
+			int64_t m_pauseTime;
 
-	__int64 m_pausedTime;
+			int64_t m_pausedTime;
 	
-	__int64 m_currTime;
-	__int64 m_prevTime;
+			int64_t m_currTime;
+			int64_t m_prevTime;
 	
-	bool m_bPaused;
-};
+			bool m_bPaused;
+		};
+	}	// namespace Core
+}	// namespace Oak3D
+
+#endif

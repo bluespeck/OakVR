@@ -1,138 +1,59 @@
-/*
- *  Mesh.h
- *
- *  Created by Mircea Ispas
- *
- */
 
-#ifndef __MESH_H__
-#define __MESH_H__
+// --------------------------------------------------------------------------------
+// Copyright      Mihai Tudorache 2011
+// --------------------------------------------------------------------------------
 
-#include <vector>
+#ifndef __OAK3D_INCLUDE_MESH_H__
+#define __OAK3D_INCLUDE_MESH_H__
 
-#include "RenderEngineDefines.h"
-#include "RenderEngine.h"
-#include "Resource.h"
-#include "AABB.h"
-#include "BoundingSphere.h"
+#include "assimp.h"
+#include "aiPostProcess.h"
+#include "aiScene.h"
 
-class Texture;
+#include "IResource.h"
 
-class CIndexBuffer
+#include "../Math/Vector3.h"
+#include "../Math/Vector2.h"
+
+namespace Oak3D
 {
-	public:
-		CIndexBuffer()
+	namespace Core
+	{
+		class Material;
+
+		class Mesh : public IResource
 		{
-			m_data = NULL;
-			m_id = 0;
-			m_count = 0;
-		}
+		public:
+			Mesh(void);
+			~Mesh(void);
 
-		void	Create(UINT count);
-		void	Lock(UINT offsetToLock, UINT sizeToLock, void **ppBuff, DWORD flags);
-		void	Unlock();
-		void	Release();
+			// Configuration methods; must be called before InitMesh
+			void SetNumVertices(unsigned int numVertices);
+			void SetHasNormals(bool bHasNormals);
+			void SetNumTexCoordsPerVertex(unsigned int numTexCoordsPerVertex);
+			void SetNumMaterials(unsigned int numMaterials);
 
-		void*	m_data;
-		UINT	m_id;
-		UINT	m_count;
-};
+			// Allocates memory for all the buffers inside this mesh
+			void InitMesh();
 
-class CVertexBuffer
-{
-	public:
-		CVertexBuffer()
-		{
-			m_data = NULL;
-			m_format = 0;
-			m_vertexSize = 0;
-			m_id = 0;
-			m_count = 0;
-		}
+		public:
+			Oak3D::Math::Vector3	*m_pVertices;
+			Oak3D::Math::Vector3	*m_pNormals;
+			Oak3D::Math::Vector2	*m_pTexCoords[8];
 
-		void	Create(UINT count, DWORD vertexFormat);
-		void	Lock(UINT offsetToLock, UINT sizeToLock, void **ppBuff, DWORD flags);
-		void	Unlock();
-		void	Release();
+			unsigned int		*m_pIndices;
+			unsigned int		*m_pMaterials;
+			unsigned int		*m_pMaterialRanges;		// {mat(1)_start, mat(2)_start, ... mat(m_numMaterials)_start}
 
-		void*	m_data;
-		DWORD	m_format;
-		UINT	m_vertexSize;
-		UINT	m_id;
-		UINT	m_count;
-};
+			bool		m_bHasNormals;
 
-class CMaterial
-{
-	public:
-		CMaterial();		
+			unsigned int		m_numVertices;
+			unsigned int		m_numIndices;
+			unsigned int		m_numTexCoordsPerVertex;	
+			unsigned int		m_numMaterials;
+		};
 
-		Texture*	m_texture0;
-		Texture*	m_texture1;
-
-		void Release();
-
-		BlendMode	m_blendMode;
-		CMatrix		m_UVAnimation0;
-		CMatrix		m_UVAnimation1;
-};
-
-class CMeshElementInfo
-{
-public:
-	CMeshElementInfo();
-	~CMeshElementInfo();				
-	UINT			m_startIndex;
-	UINT			m_indexCount;
-	RenderMode		m_renderMode;
-	
-	Path			m_path0, m_path1;
-	BlendMode		m_matBlendMode;
-};
-
-class CMeshInfo : public Resource
-{
-public:
-	friend int LoadMeshThreadProc(void *pData);
-
-	CMeshInfo();
-	~CMeshInfo();
-
-	void			Load();
-	void			Reload();
-	void			Release();
-
-	CVertexBuffer*				m_pVertexBuffer;
-	CIndexBuffer*				m_pIndexBuffer;
-	std::vector<CMeshElementInfo *> m_vElements;
-
-	CAABB						m_aabb;
-	CBoundingSphere				m_boundingSphere;
-	UINT						m_numFaces;
-};
-
-class CMesh
-{
-public:	
-	friend class CRenderEngine;
-
-	CMesh();
-	~CMesh();
-	
-	void Init(const Path &path);
-	bool IsLoaded();
-	bool RayInteresction( const CVector3 &ray, const CVector3 &origin, float *pU = NULL, float *pV = NULL, float *pDist = NULL );
-
-	const CAABB &GetBoundingBox();
-	const CBoundingSphere &GetBoundingSphere();
-
-protected:
-	void LoadMaterials();
-
-private:
-		CMeshInfo *m_pMeshInfo;
-		std::vector<CMaterial*>	m_vMaterials;
-		bool m_bMaterialsInitialised;
-};
+	} // namespace Core
+}
 
 #endif
