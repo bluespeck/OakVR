@@ -29,7 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Core\Camera.h" />
-    <ClInclude Include="..\..\..\src\Core\Engine.hpp" />
     <ClInclude Include="..\..\..\src\Core\Scene.h" />
     <ClInclude Include="..\..\..\src\Core\Shader.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX11GraphicsEngine.h" />

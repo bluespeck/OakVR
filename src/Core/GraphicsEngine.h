@@ -15,12 +15,13 @@ namespace Oak3D
 		class GraphicsEngine
 		{
 		public:
-			virtual ~GraphicsEngine(){}
+			GraphicsEngine():m_pRenderWindow(nullptr){}
+			virtual ~GraphicsEngine();
 
-			virtual void Initialize() = 0;
-			virtual void Update( float dt ) = 0;
-			virtual void Render(void) = 0;
-			virtual void Cleanup() = 0;
+			virtual void Initialize(){}
+			virtual void Update( float dt ){}
+			virtual void Render(void){}
+			virtual void Cleanup() {}
 
 			void SetRenderWindow( RenderWindow *pRenderWindow );
 

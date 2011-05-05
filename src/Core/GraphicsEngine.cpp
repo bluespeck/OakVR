@@ -9,5 +9,11 @@ namespace Oak3D
 		{
 			m_pRenderWindow = pRenderWindow;
 		}
+
+		GraphicsEngine::~GraphicsEngine()
+		{
+			Cleanup();
+			m_pRenderWindow = nullptr;
+		}
 	}
 }

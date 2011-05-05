@@ -43,7 +43,6 @@
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX11GraphicsEngine.h">
       <Filter>Windows\DirectX\DirectX11</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\Engine.hpp" />
     <ClInclude Include="..\..\..\src\Core\Windows\DirectXUtils.h">
       <Filter>Windows\DirectX</Filter>
     </ClInclude>

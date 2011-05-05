@@ -2,6 +2,7 @@ obj/
 bin/
 *.user
 *.log
+*.opensdf
 *.sdf
 *.ipch
 *.pch

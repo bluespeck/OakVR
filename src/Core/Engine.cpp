@@ -18,12 +18,13 @@ namespace Oak3D
 		Engine::~Engine()
 		{
 			if(m_pGE)
-			{
-				m_pGE->Cleanup();
+			{				
 				delete m_pGE;
 			}
 			if(m_pRW)
 				delete m_pRW;
+			if(m_pTimer)
+				delete m_pTimer;
 		}
 
 		// --------------------------------------------------------------------------------
@@ -61,5 +62,28 @@ namespace Oak3D
 			}
 		}
 
+		// --------------------------------------------------------------------------------
+		void Engine::SetGraphicsEngine(GraphicsEngine *pGE)
+		{
+			if(m_pGE)
+				delete m_pGE;
+			m_pGE = pGE;
+		}
+
+		// --------------------------------------------------------------------------------
+		void Engine::SetRenderWindow(RenderWindow *pRW)
+		{
+			if(m_pRW)
+				delete m_pRW;
+			m_pRW = pRW;
+		}
+
+		// --------------------------------------------------------------------------------
+		void Engine::SetTimer(Timer *pTimer)
+		{
+			if(m_pTimer)
+				delete m_pTimer;
+			m_pTimer = pTimer;
+		}
 	}	// namespace Core
 }	// namespace Oak3D

@@ -23,9 +23,11 @@ namespace Oak3D
 			void Initialize();
 			void Update();
 			
-			inline void SetTimer(Timer *pTimer);
-			inline void SetGraphicsEngine(GraphicsEngine *pGE);
-			inline void SetRenderWindow(RenderWindow *pRW);
+			void SetTimer(Timer *pTimer);
+			void SetGraphicsEngine(GraphicsEngine *pGE);
+			void SetRenderWindow(RenderWindow *pRW);
+
+			inline GraphicsEngine *GetGraphicsEngine();
 
 		private:
 			void Update(float dt);
@@ -35,9 +37,14 @@ namespace Oak3D
 			RenderWindow *m_pRW;
 			Timer *m_pTimer;
 		};
+
+		// --------------------------------------------------------------------------------
+		inline GraphicsEngine *Engine::GetGraphicsEngine()
+		{
+			return m_pGE;
+		}
+
 	}	// namespace Core
 }	// namespace Oak3D
-
-#include "Engine.hpp"
 
 #endif
