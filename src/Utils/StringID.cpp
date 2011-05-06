@@ -1,5 +1,4 @@
 #include "StringID.h"
-#include <cstdint>
 #include <functional>
 
 namespace Oak3D

@@ -6,6 +6,9 @@
 #ifndef __OAK3D_INCLUDE_GRAPHICSENGINE_H__
 #define __OAK3D_INCLUDE_GRAPHICSENGINE_H__
 
+#include <string>
+#include "GraphicsEngineUtils.h"
+
 namespace Oak3D
 {
 	namespace Core
@@ -17,6 +20,8 @@ namespace Oak3D
 		public:
 			GraphicsEngine():m_pRenderWindow(nullptr){}
 			virtual ~GraphicsEngine();
+
+			virtual void* CreateShaderFromFile( const std::wstring &fileName, ShaderType shaderType );
 
 			virtual void Initialize(){}
 			virtual void Update( float dt ){}

@@ -7,9 +7,9 @@
 #define __OAK3D_INCLUDE_MATERIAL_H__
 
 #include <string>
+#include "IResource.h"
 #include "../Math/Vector3.h"
 #include "../Utils/Color.h"
-#include "IResource.h"
 
 namespace Oak3D
 {

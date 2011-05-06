@@ -2,19 +2,28 @@
 #define __OAK3D_INCLUDE_IRESOURCE_H__
 
 #include <string>
+#include "../Utils/StringID.h"
 
-class IResource
+namespace Oak3D
 {
-public:
-	IResource() {}
-	virtual ~IResource() {}
+	namespace Core
+	{
 
-	virtual void Load(std::wstring path) = 0;
-	virtual void Reload() = 0;
-	virtual void Release() = 0;
+		class IResource
+		{
+		public:
+			IResource() : m_id(0) {}
+			virtual ~IResource() {}
+	
+			virtual void Init(const std::wstring &path) = 0;
+			virtual void Load() = 0;
+			virtual void Reload() = 0;
+			virtual void Release() = 0;
 
-private:
-	long m_id;
-};
+		protected:
+			Utils::StringID m_id;
+		};
+	}	// namespace Core
+}	// namespace Oak3D
 
 #endif

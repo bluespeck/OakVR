@@ -15,5 +15,10 @@ namespace Oak3D
 			Cleanup();
 			m_pRenderWindow = nullptr;
 		}
+
+		void* GraphicsEngine::CreateShaderFromFile(const std::wstring &, ShaderType)
+		{
+			return nullptr;
+		}
 	}
 }

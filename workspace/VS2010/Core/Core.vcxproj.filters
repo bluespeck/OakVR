@@ -55,6 +55,7 @@
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX11Shader.h">
       <Filter>Windows\DirectX\DirectX11</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\GraphicsEngineUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Windows">
@@ -66,5 +67,10 @@
     <Filter Include="Windows\DirectX\DirectX11">
       <UniqueIdentifier>{e15d3e3a-c8bc-41fb-822f-e24efe411944}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\src\Core\Windows\shaders\DefaultShader.hlsl">
+      <Filter>Windows\DirectX\DirectX11</Filter>
+    </None>
   </ItemGroup>
 </Project>

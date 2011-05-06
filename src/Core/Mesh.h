@@ -6,11 +6,11 @@
 #ifndef __OAK3D_INCLUDE_MESH_H__
 #define __OAK3D_INCLUDE_MESH_H__
 
-#include "assimp.h"
-#include "aiPostProcess.h"
-#include "aiScene.h"
+#include <assimp.h>
+#include <aiPostProcess.h>
+#include <aiScene.h>
 
-#include "IResource.h"
+//#include "IResource.h"
 
 #include "../Math/Vector3.h"
 #include "../Math/Vector2.h"
@@ -21,7 +21,7 @@ namespace Oak3D
 	{
 		class Material;
 
-		class Mesh : public IResource
+		class Mesh// : public IResource
 		{
 		public:
 			Mesh(void);

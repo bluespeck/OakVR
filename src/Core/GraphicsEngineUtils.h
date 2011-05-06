@@ -3,24 +3,20 @@
 // Copyright      Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_TEXTURE_H__
-#define __OAK3D_INCLUDE_TEXTURE_H__
+#ifndef __OAK3D_INCLUDE_GRAPHICSENGINEUTILS_H__
+#define __OAK3D_INCLUDE_GRAPHICSENGINEUTILS_H__
 
-//#include "IResource.h"
 
 namespace Oak3D
 {
 	namespace Core
 	{
-
-		class Texture //:	public IResource
+		enum ShaderType
 		{
-		public:
-			Texture(void);
-			~Texture(void);
+			eST_VertexShader,
+			eST_PixelShader
 		};
-
-	} // namespace Core
-}
+	}	// namespace Core
+}	// namespace Oak3D
 
 #endif

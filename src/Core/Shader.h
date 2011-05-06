@@ -16,9 +16,15 @@ namespace Oak3D
 		class Shader : public IResource
 		{
 		public:
+			
+
+			virtual ~Shader(){}
+
 			inline void *GetCompiledShader();
+			inline ShaderType GetType();
 		protected:
 			void *m_pCompiledShader;
+			ShaderType m_shaderType;
 		};
 
 		// --------------------------------------------------------------------------------
@@ -27,6 +33,10 @@ namespace Oak3D
 			return m_pCompiledShader;
 		}
 
+		inline ShaderType Shader::GetType()
+		{
+			return m_shaderType;
+		}
 	}	// namespace Core
 }	// namespace Oak3D
 #endif

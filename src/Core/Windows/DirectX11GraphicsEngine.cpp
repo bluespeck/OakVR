@@ -1,10 +1,16 @@
 
 #if defined(OAK3D_WINDOWS) && defined(OAK3D_DIRECTX_11)
 
+#include <D3DX11.h>
+#include <D3D11.h>
+#include <D3D10.h>
+#include <cassert>
+
 #include "DirectX11GraphicsEngine.h"
 #include "WindowsRenderWindow.h"
 
-#include "DirectXUtils.h"
+#include "../GraphicsEngineUtils.h"
+
 
 namespace Oak3D
 {
@@ -106,6 +112,39 @@ namespace Oak3D
 		void DirectX11GraphicsEngine::Update(float dt)
 		{
 
+		}
+
+		// --------------------------------------------------------------------------------
+		void* DirectX11GraphicsEngine::CreateShaderFromFile(const std::wstring &fileName, ShaderType eShaderType)
+		{			
+			void *pShader = nullptr;
+
+			ID3D10Blob *pShaderByteCode;
+			ID3D10Blob *pErrorMsg;
+			
+			switch(eShaderType)
+			{
+			case eST_VertexShader:
+				{
+					// Compile shader from file
+					HR(D3DX11CompileFromFileW(fileName.c_str(), nullptr, nullptr, "VertexShader", "vs_5_0", 0, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr));
+					// Create DirectX shader
+					HR(m_pDevice->CreateVertexShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, (ID3D11VertexShader **)&pShader));
+					break;
+				}
+			case eST_PixelShader:
+				{
+					HR(D3DX11CompileFromFileW(fileName.c_str(), nullptr, nullptr, "PixelShader", "ps_5_0", 0, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr));
+					HR(m_pDevice->CreatePixelShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, (ID3D11PixelShader **)&pShader));
+					break;
+				}
+			default:
+				assert("Shader was not correctly initialized!" && 0);
+				return nullptr;
+			}
+
+			return pShader;
+			
 		}
 
 

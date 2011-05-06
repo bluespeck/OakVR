@@ -20,6 +20,7 @@
 #pragma comment (lib, "d3dx10.lib")
 
 #include "../GraphicsEngine.h"
+#include "DirectXUtils.h"
 
 
 namespace Oak3D
@@ -37,6 +38,8 @@ namespace Oak3D
 			virtual void Update( float dt );
 			virtual void Render();
 			virtual void Cleanup();
+
+			virtual void* CreateShaderFromFile(const std::wstring &fileName, ShaderType eShaderType);
 			
 
 		private:

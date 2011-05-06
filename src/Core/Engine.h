@@ -6,6 +6,8 @@
 #ifndef __OAK3D_INCLUDE_ENGINE_H__
 #define __OAK3D_INCLUDE_ENGINE_H__
 
+#include "../Utils/Singleton.h"
+
 namespace Oak3D
 {
 	namespace Core
@@ -14,7 +16,7 @@ namespace Oak3D
 		class GraphicsEngine;
 		class RenderWindow;
 
-		class Engine
+		class Engine : public Utils::Singleton<Engine>
 		{
 		public:
 			Engine();

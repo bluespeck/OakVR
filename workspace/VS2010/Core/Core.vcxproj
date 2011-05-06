@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Core\Camera.h" />
+    <ClInclude Include="..\..\..\src\Core\GraphicsEngineUtils.h" />
     <ClInclude Include="..\..\..\src\Core\Scene.h" />
     <ClInclude Include="..\..\..\src\Core\Shader.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX11GraphicsEngine.h" />
@@ -47,6 +48,9 @@
     <ClInclude Include="..\..\..\src\Core\Windows\DirectXUtils.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsRenderWindow.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsTimer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\src\Core\Windows\shaders\DefaultShader.hlsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B206EDFA-AB05-40AB-AE4E-3AEAA8808345}</ProjectGuid>

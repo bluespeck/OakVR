@@ -15,8 +15,16 @@ namespace Oak3D
 
 		class DirectX11Shader : public Shader
 		{
-		public:
-			virtual void Load(std::wstring path);		
+		public:		
+			void Init(const std::wstring &path, ShaderType eShaderType);
+			
+			// overrides
+			virtual void Load();
+			virtual void Reload();
+			virtual void Release();
+
+		private:
+			virtual void Init( const std::wstring &path );
 		};
 
 	}	// namespace Core
