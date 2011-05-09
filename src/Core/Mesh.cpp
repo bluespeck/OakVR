@@ -3,13 +3,15 @@
 #include <aiScene.h>
 
 #include <cassert>
-#include <algorithm>
+#include <cvt/wstring>
+#include <codecvt>
 #include <string>
 
 #include "Mesh.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
-#include "Thread.h"
+#include "Engine.h"
+#include "ThreadFactory.h"
 
 using namespace std;
 using namespace Oak3D::Math;
@@ -32,10 +34,11 @@ namespace Oak3D
 			//importer.SetPropertyInteger(AI_CONFIG_GLOB_MEASURE_TIME,1);
 
 			Mesh *pMesh = (Mesh *)pData;
+
+			// convert from wstring to string utf-8
 			std::wstring wPath = pMesh->GetId().GetStrId();
-			std::string path;
-			path.resize(wPath.size() + 1);
-			std::copy(wPath.begin(), wPath.end(), path);
+			stdext::cvt::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+			std::string  path  =  myconv.to_bytes(wPath);
 
 			// Start the loading process
 			pMesh->SetState(IResource::eRS_Loading);
@@ -281,8 +284,8 @@ namespace Oak3D
 		}
 
 		void Mesh::Load()
-		{	Thread thread;
-			thread.Create(LoadMeshThreadProc, this);
+		{	
+			Engine::GetThreadFactory()->CreateThread(LoadMeshThreadProc, this);
 		}
 
 		void Mesh::Reload()
@@ -336,17 +339,8 @@ namespace Oak3D
 			m_pMeshInfo = NULL;
 			m_vMaterials.clear();	
 		}
-		*/
 		
-		bool Mesh::IsLoaded()
-		{
-			bool bMeshInfoLoaded = m_pMeshInfo->IsReady();
-			if( bMeshInfoLoaded && !m_bMaterialsInitialised)
-				LoadMaterials();	// initialise materials after mesh info is loaded
-
-			return bMeshInfoLoaded && m_bMaterialsInitialised;
-		}
-
+		
 		void Mesh::LoadMaterials()
 		{
 			m_vMaterials.resize(m_pMeshInfo->m_vMeshElements.size());
@@ -370,7 +364,7 @@ namespace Oak3D
 			m_pMeshInfo = MakeMeshInfo(path);
 			m_bMaterialsInitialised = false;
 		}
-		/*
+		
 		bool Mesh::RayInteresction( const CVector3 &ray, const CVector3 &origin, float *pU, float *pV, float *pDist )
 		{
 			if(!m_pMeshInfo->IsReady())
@@ -413,7 +407,7 @@ namespace Oak3D
 
 		const Utils::AABB &Mesh::GetBoundingBox()
 		{
-			return m_pMesh->m_aabb;
+			return m_aabb;
 		}
 
 		/*
@@ -478,38 +472,6 @@ namespace Oak3D
 			m_numMaterials = numMaterials;
 		}*/
 
-		// Allocates memory for all the buffers inside this mesh
-		void Mesh::InitMesh()
-		{
-			if(m_numVertices)
-			{
-				m_pVertices = new Vector3[m_numVertices];
-			}
-
-			if(m_numIndices)
-			{	
-				m_pIndices = new unsigned int[m_numIndices];
-			}
-
-			if(m_numMaterials)
-			{
-				m_pMaterials = new unsigned int[m_numMaterials];
-				m_pMaterialRanges = new unsigned int[m_numMaterials];
-
-			}
-
-			if(m_bHasNormals)
-			{
-				m_pNormals = new Vector3[m_numVertices];
-			}
-
-			if(m_numTexCoordsPerVertex > 0)
-			{
-				for(unsigned int i = 0; i < m_numTexCoordsPerVertex; ++i)
-				{
-					m_pTexCoords[i] = new Vector2[m_numVertices];
-				}
-			}
-		}
+		
 	} // namespace Core
 }

@@ -32,8 +32,10 @@
     <ClCompile Include="..\..\..\src\Core\VertexBuffer.cpp">
       <Filter>GraphicsEngine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Core\Thread.cpp" />
-    <ClCompile Include="..\..\..\src\Core\Windows\WindowsThread.cpp" />
+    <ClCompile Include="..\..\..\src\Core\ThreadFactory.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Windows\WindowsThreadFactory.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Core\Camera.h" />
@@ -75,8 +77,8 @@
     <ClInclude Include="..\..\..\src\Core\VertexBuffer.h">
       <Filter>GraphicsEngine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\Thread.h" />
-    <ClInclude Include="..\..\..\src\Core\Windows\WindowsThread.h">
+    <ClInclude Include="..\..\..\src\Core\ThreadFactory.h" />
+    <ClInclude Include="..\..\..\src\Core\Windows\WindowsThreadFactory.h">
       <Filter>Windows</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,6 +10,9 @@
 #include "WindowsRenderWindow.h"
 
 #include "../GraphicsEngineUtils.h"
+#include "../VertexBuffer.h"
+#include "../IndexBuffer.h"
+#include "../Texture.h"
 
 
 namespace Oak3D
@@ -19,14 +22,14 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		DirectX11GraphicsEngine::DirectX11GraphicsEngine()
 		{
-			
+
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::Initialize()
 		{
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
-			
+
 			// Direct3D initialization
 
 			// Create a struct to hold information about the swap chain
@@ -72,7 +75,7 @@ namespace Oak3D
 			// set the render target as the back buffer
 			m_pDeviceContext->OMSetRenderTargets(1, &m_pBackBufferRenderTargetView, NULL);
 
-			
+
 			// Set the viewport
 
 			D3D11_VIEWPORT viewport;
@@ -90,9 +93,9 @@ namespace Oak3D
 		void DirectX11GraphicsEngine::Render()
 		{			
 			m_pDeviceContext->ClearRenderTargetView(m_pBackBufferRenderTargetView, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
-			
+
 			// render 3D stuff to back buffer 
-			
+
 			HR(m_pSwapChain->Present(0, 0));
 		}
 
@@ -121,7 +124,7 @@ namespace Oak3D
 
 			ID3D10Blob *pShaderByteCode;
 			ID3D10Blob *pErrorMsg;
-			
+
 			switch(eShaderType)
 			{
 			case eST_VertexShader:
@@ -144,7 +147,7 @@ namespace Oak3D
 			}
 
 			return pShader;
-			
+
 		}
 
 		// --------------------------------------------------------------------------------
@@ -171,6 +174,103 @@ namespace Oak3D
 			}
 		}
 
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::CreateTexture( Texture *pTexture )
+		{
+			/*
+			ID3D11Texture2D *pDXTexture;
+
+			wchar_t root[100] = L"Data/";
+			wcscat( root, pTexture->GetStrId());
+
+			HRESULT hRet;
+			
+			D3DXIMAGE_INFO imageInfo;
+
+			hRet = D3DXCreateTextureFromFileEx( m_pD3DDevice,
+				root,
+				texture->GetWidth(),
+				texture->GetHeight(),
+				3,
+				0,
+				(D3DFORMAT)texture->GetPixelFormat(),
+				D3DPOOL_MANAGED,
+				D3DX_FILTER_LINEAR, 
+				D3DX_FILTER_LINEAR, 
+				0, &imageInfo, NULL, &n_texture );
+
+			if( FAILED(hRet) ) { n_texture->Release(); n_texture = NULL; }
+
+			texture->SetWidth(imageInfo.Width);
+			texture->SetHeight(imageInfo.Height);
+
+			texture->m_data = n_texture;
+			*/
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::ReleaseTexture( Texture *texture )
+		{
+			//((ID3D11Texture2D *)texture->m_pData)->Release();
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
+		{
+			//IDirect3DVertexBuffer9 *pVB = NULL;
+			//m_pD3DDevice->CreateVertexBuffer( pVertexBuffer->m_count * pVertexBuffer->m_vertexSize , D3DUSAGE_WRITEONLY, pVertexBuffer->m_format, D3DPOOL_MANAGED, &pVB, NULL );
+
+			//pVertexBuffer->m_data = pVB;
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::LockVertexBuffer( VertexBuffer *pVertexBuffer, uint32_t offsetToLock, uint32_t sizeToLock, void **ppBuff, uint32_t flags )
+		{	
+			//((IDirect3DVertexBuffer9 *)pVertexBuffer->m_data)->Lock( offsetToLock, sizeToLock, ppBuff, flags );	
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
+		{	
+			//D3DVERTEXBUFFER_DESC desc;
+			//((IDirect3DVertexBuffer9 *)pVertexBuffer->m_data)->GetDesc(&desc);
+
+			//((IDirect3DVertexBuffer9 *)pVertexBuffer->m_data)->Unlock();	
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
+		{
+			//((IDirect3DVertexBuffer9 *)pVertexBuffer->m_data)->Release();
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
+		{
+			//IDirect3DIndexBuffer9 *pIB = NULL;
+
+			//m_pD3DDevice->CreateIndexBuffer( pIndexBuffer->m_count * sizeof( DWORD ), D3DUSAGE_WRITEONLY, D3DFMT_INDEX32, D3DPOOL_MANAGED, &pIB, NULL );
+
+			//pIndexBuffer->m_data = pIB;
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::LockIndexBuffer( IndexBuffer *pIndexBuffer, uint32_t offsetToLock, uint32_t sizeToLock, void **ppBuff, uint32_t flags )
+		{	
+			//((IDirect3DIndexBuffer9 *)pIndexBuffer->m_data)->Lock( offsetToLock, sizeToLock, ppBuff, flags );	
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::UnlockIndexBuffer( IndexBuffer *pIndexBuffer )
+		{	
+			//((IDirect3DIndexBuffer9 *)pIndexBuffer->m_data)->Unlock();
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::ReleaseIndexBuffer( IndexBuffer *pIndexBuffer )
+		{
+			//((IDirect3DIndexBuffer9 *)pIndexBuffer->m_data)->Release();
+		}
 
 	}	// namespace Core
 }	// namespace Oak3D

@@ -1,11 +1,12 @@
 
 // --------------------------------------------------------------------------------
-// Copyright      Mihai Tudorache 2011
+// Written by      Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
 #ifndef __OAK3D_INCLUDE_OAK3D_H__
 #define __OAK3D_INCLUDE_OAK3D_H__
 
+#include "Oak3DInit.h"
 #include "../Core/Engine.h"
 #include "../Utils/Singleton.h"
 
@@ -29,17 +30,18 @@ namespace Oak3D
 
 	class Oak3D : public Utils::Singleton<Oak3D>
 	{
-	public:		
-		Oak3D();
-
-		~Oak3D();
+	public:
+		friend class Utils::Singleton<Oak3D>;
 		void Update();
 		OperatingSystem os;
 		RenderingAPI renderAPI;
+	
+	protected:
+		Oak3D();
+		~Oak3D();
+
 	private:
 		Core::Engine *m_pEngine;
-
-
 	};
 	
 }	// namespace Oak3D

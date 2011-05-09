@@ -1,6 +1,6 @@
 
 // --------------------------------------------------------------------------------
-// Copyright      Mihai Tudorache 2011
+// Written by      Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
 #ifndef __OAK3D_INCLUDE_MESH_H__
@@ -54,6 +54,8 @@ namespace Oak3D
 			// Allocates memory for all the buffers inside this mesh
 			void InitMesh();
 
+			const Utils::AABB &GetBoundingBox();
+
 		public:
 			std::vector<MeshElement> m_vMeshElements;
 			VertexBuffer *m_pVertexBuffer;
@@ -64,7 +66,6 @@ namespace Oak3D
 
 			uint32_t m_numMeshElements;
 			uint32_t m_numFaces;
-			uint32_t m_numTexCoordsPerVertex;	
 			uint32_t m_numMaterials;
 
 			Oak3D::Utils::AABB m_aabb;

@@ -10,16 +10,14 @@ namespace Oak3D
 	namespace Core
 	{
 		// --------------------------------------------------------------------------------
-		WindowsRenderWindow::WindowsRenderWindow(HINSTANCE hInstance)
+		WindowsRenderWindow::WindowsRenderWindow()
 		: Oak3D::Core::RenderWindow()
-		, m_hInstance(hInstance)
 		{
 		}
 
 		// --------------------------------------------------------------------------------
-		WindowsRenderWindow::WindowsRenderWindow(HINSTANCE hInstance, const std::wstring &name, int posX, int posY, unsigned int width, unsigned int height)
+		WindowsRenderWindow::WindowsRenderWindow(const std::wstring &name, int posX, int posY, unsigned int width, unsigned int height)
 		: RenderWindow( name, posX, posY, width, height)
-		, m_hInstance(hInstance)
 		{
 		}
 
@@ -43,22 +41,24 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void WindowsRenderWindow::Initialize()
 		{
+			HINSTANCE hInstance = GetModuleHandle(nullptr);
+
 			WNDCLASSEX wcex;
 
 			// clear out the window class for use
 			ZeroMemory(&wcex, sizeof(WNDCLASSEX));
 
 			wcex.cbSize = sizeof(WNDCLASSEX); 
-			wcex.style= CS_HREDRAW | CS_VREDRAW;
-			wcex.lpfnWndProc= (WNDPROC)WndProc;
-			wcex.cbClsExtra= 0;
-			wcex.cbWndExtra= 0;
-			wcex.hInstance= m_hInstance;
-			wcex.hIcon= 0;
-			wcex.hCursor= LoadCursor(NULL, IDC_ARROW);			
-			wcex.lpszMenuName= 0;
-			wcex.lpszClassName= L"WindowsRenderWindowClass";
-			wcex.hIconSm= 0;
+			wcex.style = CS_HREDRAW | CS_VREDRAW;
+			wcex.lpfnWndProc = (WNDPROC)WndProc;
+			wcex.cbClsExtra = 0;
+			wcex.cbWndExtra = 0;
+			wcex.hInstance = hInstance;
+			wcex.hIcon = 0;
+			wcex.hCursor = LoadCursor(NULL, IDC_ARROW);			
+			wcex.lpszMenuName = 0;
+			wcex.lpszClassName = L"WindowsRenderWindowClass";
+			wcex.hIconSm = 0;
 
 			RegisterClassEx(&wcex);
 
@@ -66,7 +66,7 @@ namespace Oak3D
 			AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);    // adjust the size
 
 			// Pass a pointer to this object as the lParam in order to later use it to process window messages using the object's methods
-			HWND hWnd = CreateWindowEx(0, L"WindowsRenderWindowClass", m_title.c_str(), WS_OVERLAPPEDWINDOW, m_posX, m_posY, wr.right - wr.left, wr.bottom - wr.top, nullptr, nullptr, m_hInstance, this);
+			HWND hWnd = CreateWindowEx(0, L"WindowsRenderWindowClass", m_title.c_str(), WS_OVERLAPPEDWINDOW, m_posX, m_posY, wr.right - wr.left, wr.bottom - wr.top, nullptr, nullptr, hInstance, this);
 			m_osHandle = reinterpret_cast<long int>(hWnd);
 			
 			ShowWindow(hWnd, SW_SHOW);

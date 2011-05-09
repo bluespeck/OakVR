@@ -14,7 +14,7 @@
     <ClCompile Include="..\..\..\src\Core\Camera.cpp" />
     <ClCompile Include="..\..\..\src\Core\IndexBuffer.cpp" />
     <ClCompile Include="..\..\..\src\Core\Scene.cpp" />
-    <ClCompile Include="..\..\..\src\Core\Thread.cpp" />
+    <ClCompile Include="..\..\..\src\Core\ThreadFactory.cpp" />
     <ClCompile Include="..\..\..\src\Core\VertexBuffer.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX11GraphicsEngine.cpp" />
     <ClCompile Include="..\..\..\src\Core\Engine.cpp" />
@@ -28,7 +28,7 @@
     <ClCompile Include="..\..\..\src\Core\Timer.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX11Shader.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\WindowsRenderWindow.cpp" />
-    <ClCompile Include="..\..\..\src\Core\Windows\WindowsThread.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Windows\WindowsThreadFactory.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\WindowsTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -37,7 +37,7 @@
     <ClInclude Include="..\..\..\src\Core\IndexBuffer.h" />
     <ClInclude Include="..\..\..\src\Core\Scene.h" />
     <ClInclude Include="..\..\..\src\Core\Shader.h" />
-    <ClInclude Include="..\..\..\src\Core\Thread.h" />
+    <ClInclude Include="..\..\..\src\Core\ThreadFactory.h" />
     <ClInclude Include="..\..\..\src\Core\VertexBuffer.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX11GraphicsEngine.h" />
     <ClInclude Include="..\..\..\src\Core\Engine.h" />
@@ -53,7 +53,7 @@
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX11Shader.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\DirectXUtils.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsRenderWindow.h" />
-    <ClInclude Include="..\..\..\src\Core\Windows\WindowsThread.h" />
+    <ClInclude Include="..\..\..\src\Core\Windows\WindowsThreadFactory.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsTimer.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,12 +1,12 @@
 
 // --------------------------------------------------------------------------------
-// Copyright      Mihai Tudorache 2011
+// Written by      Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
 #ifndef __OAK3D_INCLUDE_DIRECTXGRAPHICSENGINE_H__
 #define __OAK3D_INCLUDE_DIRECTXGRAPHICSENGINE_H__
 
-#if defined(OAK3D_WINDOWS) && defined(OAK3D_DIRECTX_11)
+//#if defined(OAK3D_WINDOWS) && defined(OAK3D_DIRECTX_11)
 
 #include <windows.h>
 #include <windowsx.h>
@@ -42,6 +42,18 @@ namespace Oak3D
 			virtual void *CreateShaderFromFile( const std::wstring &fileName, ShaderType eShaderType );
 			virtual void ReleaseShader( void *pShader, ShaderType eShaderType );
 			
+			virtual void CreateTexture	( Texture *texture );
+			virtual void ReleaseTexture	( Texture *texture );
+			
+			virtual void CreateVertexBuffer	( VertexBuffer *pVertexBuffer );
+			virtual void LockVertexBuffer	( VertexBuffer *pVertexBuffer, uint32_t offsetToLock, uint32_t sizeToLock, void **ppBuff, uint32_t flags );
+			virtual void UnlockVertexBuffer	( VertexBuffer *pVertexBuffer );
+			virtual void ReleaseVertexBuffer( VertexBuffer *pVertexBuffer );
+			
+			virtual void CreateIndexBuffer	( IndexBuffer *ibuff );
+			virtual void LockIndexBuffer	( IndexBuffer *pIndexBuffer, uint32_t offsetToLock, uint32_t sizeToLock, void **ppBuff, uint32_t flags );
+			virtual void UnlockIndexBuffer	( IndexBuffer *pIndexBuffer );
+			virtual void ReleaseIndexBuffer	( IndexBuffer *pIndexBuffer );
 
 		private:
 			IDXGISwapChain *m_pSwapChain;             // the swap chain interface
@@ -56,4 +68,4 @@ namespace Oak3D
 
 #endif
 
-#endif
+//#endif

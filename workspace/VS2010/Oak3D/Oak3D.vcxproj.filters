@@ -3,9 +3,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Oak3D\Oak3D.h" />
     <ClInclude Include="..\..\..\src\Oak3D\Oak3DInit.h" />
-    <ClInclude Include="..\..\..\src\Oak3D\InitWindowsDirectX11.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Oak3D\Oak3D.cpp" />
+    <ClCompile Include="..\..\..\src\Oak3D\InitWindowsDirectX11.cpp" />
   </ItemGroup>
 </Project>

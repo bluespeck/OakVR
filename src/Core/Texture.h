@@ -1,24 +1,33 @@
 
 // --------------------------------------------------------------------------------
-// Copyright      Mihai Tudorache 2011
+// Written by      Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
 #ifndef __OAK3D_INCLUDE_TEXTURE_H__
 #define __OAK3D_INCLUDE_TEXTURE_H__
 
-//#include "IResource.h"
+#include "IResource.h"
 
 namespace Oak3D
 {
 	namespace Core
 	{
 
-		class Texture //:	public IResource
+		class Texture :	public IResource
 		{
 		public:
 			Texture(void);
 			~Texture(void);
+			inline void *GetData();
+
+		private:
+			void *m_pData;
 		};
+
+		inline void *Texture::GetData()
+		{
+			return m_pData;
+		}
 
 	} // namespace Core
 }

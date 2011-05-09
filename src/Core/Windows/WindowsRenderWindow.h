@@ -1,12 +1,12 @@
 
 // --------------------------------------------------------------------------------
-// Copyright      Mihai Tudorache 2011
+// Written by      Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
 #ifndef __OAK3D_INCLUDE_RENDERWINDOWWINDOWS_H__
 #define __OAK3D_INCLUDE_RENDERWINDOWWINDOWS_H__
 
-#ifdef OAK3D_WINDOWS
+//#ifdef OAK3D_WINDOWS
 
 #include <string>
 #include "../RenderWindow.h"
@@ -21,8 +21,8 @@ namespace Oak3D
 		class WindowsRenderWindow : public RenderWindow
 		{
 		public:
-			WindowsRenderWindow( HINSTANCE hInstance );
-			WindowsRenderWindow( HINSTANCE hInstance, const std::wstring &title, int posX, int posY, unsigned int width, unsigned int height );
+			WindowsRenderWindow();
+			WindowsRenderWindow( const std::wstring &title, int posX, int posY, unsigned int width, unsigned int height );
 
 			// Overrides
 			virtual void Initialize();
@@ -34,7 +34,6 @@ namespace Oak3D
 			static LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 		protected:
-			HINSTANCE m_hInstance;
 			LRESULT WindowsMessageHandler( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );			
 		};
 	}
@@ -42,4 +41,4 @@ namespace Oak3D
 
 #endif
 
-#endif
+//#endif

@@ -1,8 +1,8 @@
 
 #include <Windows.h>
 
-#define OAK3D_WINDOWS
-#define OAK3D_DIRECTX_11
+//#define OAK3D_WINDOWS
+//#define OAK3D_DIRECTX_11
 
 #include "../Oak3D/Oak3D.h"
 
@@ -10,7 +10,7 @@
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
 
-	Oak3D::Oak3D *oak3D = Oak3D::Oak3D::GetInstance(hInstance);
+	Oak3D::Oak3D *oak3D = Oak3D::Oak3D::GetInstance();
 		
 	// Enter the main loop
 	MSG msg = {0};

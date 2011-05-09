@@ -1,10 +1,10 @@
-#include "Thread.h"
+#include "ThreadFactory.h"
 
 namespace Oak3D
 {
 	namespace Core
 	{
-		void Thread::Create(uint32_t (pThreadFunc)(void *), void *pData)
+		void ThreadFactory::CreateThread(uint32_t (pThreadFunc)(void *), void *pData)
 		{
 			pThreadFunc(pData);
 		}

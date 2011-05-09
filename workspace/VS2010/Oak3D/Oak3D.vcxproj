@@ -55,9 +55,13 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>Core_d.lib; Math_d.lib; Utils_d.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\bin;$(SolutionDir)..\..\extern\assimp\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\extern\assimp\lib</AdditionalLibraryDirectories>
     </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -78,10 +82,21 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\Oak3D\InitWindowsDirectX11.h" />
+    <ClCompile Include="..\..\..\src\Oak3D\InitWindowsDirectX11.cpp" />
     <ClInclude Include="..\..\..\src\Oak3D\Oak3D.h" />
     <ClCompile Include="..\..\..\src\Oak3D\Oak3D.cpp" />
     <ClInclude Include="..\..\..\src\Oak3D\Oak3DInit.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{b206edfa-ab05-40ab-ae4e-3aeaa8808345}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Math\Math.vcxproj">
+      <Project>{c3280099-a291-41b2-a1e2-f37dbab54705}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.vcxproj">
+      <Project>{31c92eb5-3ee0-411c-93a3-43326d60414d}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -32,11 +32,18 @@ namespace Oak3D
 			inline ResourceState GetState();
 			inline Utils::StringId GetId();
 
+			inline bool IsReady();
+
 		protected:
 			Utils::StringId m_id;
 			ResourceState m_state;
 
 		};
+
+		inline bool IResource::IsReady()
+		{
+			return m_state == eRS_Ready;
+		}
 
 		inline Utils::StringId IResource::GetId()
 		{

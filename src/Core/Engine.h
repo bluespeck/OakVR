@@ -1,6 +1,6 @@
 
 // --------------------------------------------------------------------------------
-// Copyright      Mihai Tudorache 2011
+// Written by      Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
 #ifndef __OAK3D_INCLUDE_ENGINE_H__
@@ -15,12 +15,12 @@ namespace Oak3D
 		class Timer;
 		class GraphicsEngine;
 		class RenderWindow;
+		class ThreadFactory;
 
 		class Engine : public Utils::Singleton<Engine>
 		{
 		public:
-			Engine();
-			~Engine();
+			friend class Utils::Singleton<Engine>;
 
 			void Initialize();
 			void Update();
@@ -28,16 +28,23 @@ namespace Oak3D
 			static void SetTimer(Timer *pTimer);
 			static void SetGraphicsEngine(GraphicsEngine *pGE);
 			static void SetRenderWindow(RenderWindow *pRW);
+			static void SetThreadFactory(ThreadFactory *pThreadFactory);
 
 			static GraphicsEngine *GetGraphicsEngine();
+			static ThreadFactory* GetThreadFactory();
 
-		private:
+		protected:
+			Engine();
+			~Engine();
+
+		private:			
 			void Update(float dt);
 
 		private:
 			GraphicsEngine *m_pGE;
 			RenderWindow *m_pRW;
 			Timer *m_pTimer;
+			ThreadFactory *m_pThreadFactory;
 		};
 	
 	}	// namespace Core

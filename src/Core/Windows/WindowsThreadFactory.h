@@ -1,21 +1,22 @@
 
 // --------------------------------------------------------------------------------
-// Copyright      Mihai Tudorache 2011
+// Written by      Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_THREAD_H__
-#define __OAK3D_INCLUDE_THREAD_H__
+#ifndef __OAK3D_INCLUDE_WINDOWSTHREADFACTORY_H__
+#define __OAK3D_INCLUDE_WINDOWSTHREADFACTORY_H__
 
 #include <cstdint>
+#include "../ThreadFactory.h"
 
 namespace Oak3D
 {
 	namespace Core
 	{
-		class Thread
+		class WindowsThreadFactory : public ThreadFactory
 		{
 		public:
-			virtual void Create(uint32_t (pThreadFunction)(void *), void *pData);
+			virtual void CreateThread(uint32_t (pThreadFunction)(void *), void *pData);
 		};
 	}	// namespace Core
 }	// namespace Oak3D

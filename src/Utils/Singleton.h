@@ -1,6 +1,6 @@
 
 // --------------------------------------------------------------------------------
-// Copyright      Mihai Tudorache 2011
+// Written by      Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
 #ifndef __OAK3D_INCLUDE_SINGLETON_H__
@@ -22,23 +22,16 @@ namespace Oak3D
 				else
 					return m_pInstance = new T;
 			}
-
-			static T* GetInstance(void *param)
-			{
-				m_param = param;
-				if(m_pInstance)
-					return m_pInstance;
-				else
-					return m_pInstance = new T();
-			}
-
+			
 			static void Release()
 			{
 				if(m_pInstance)
 					delete m_pInstance;
 			}
+
 		protected:
-			Singleton();
+			Singleton(){}
+			virtual ~Singleton(){}
 
 		protected:
 			static T* m_pInstance;
