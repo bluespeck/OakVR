@@ -147,6 +147,30 @@ namespace Oak3D
 			
 		}
 
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::ReleaseShader(void *pShader, ShaderType eShaderType)
+		{
+			if(pShader == nullptr)
+				return;
+
+			switch(eShaderType)
+			{
+			case eST_VertexShader:
+				{
+					((ID3D11VertexShader *)pShader)->Release();
+					break;
+				}
+			case eST_PixelShader:
+				{
+					((ID3D11PixelShader *)pShader)->Release();
+					break;
+				}
+			default:
+				assert("Shader was not correctly initialized!" && 0);
+				return;
+			}
+		}
+
 
 	}	// namespace Core
 }	// namespace Oak3D

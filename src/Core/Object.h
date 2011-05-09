@@ -33,7 +33,7 @@ namespace Oak3D
 			Object *m_pChild;
 			Object *m_pBrother;
 
-			Oak3D::Utils::StringID m_objID;
+			Oak3D::Utils::StringId m_objID;
 
 			// Controllers running on this object
 			std::list<IController *> m_lstControllers;

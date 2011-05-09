@@ -13,18 +13,18 @@ namespace Oak3D
 {
 	namespace Utils
 	{
-		class StringID
+		class StringId
 		{
 		public:
-			StringID(uint32_t id);
-			StringID(std::wstring strID);
+			StringId(uint32_t id);
+			StringId(std::wstring strId);
 			
-			std::wstring &GetStrID()
+			const std::wstring &GetStrId()
 			{
 				return m_strId;
 			}
 
-			uint32_t GetID()
+			uint32_t GetHashId()
 			{
 				return m_id;
 			}

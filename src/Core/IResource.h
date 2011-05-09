@@ -8,10 +8,18 @@ namespace Oak3D
 {
 	namespace Core
 	{
-
 		class IResource
 		{
 		public:
+
+			enum ResourceState
+			{
+				eRS_Uninitialized,
+				eRS_Loading,
+				eRS_Ready,
+				eRS_Released
+			};
+
 			IResource() : m_id(0) {}
 			virtual ~IResource() {}
 	
@@ -20,9 +28,32 @@ namespace Oak3D
 			virtual void Reload() = 0;
 			virtual void Release() = 0;
 
+			inline void SetState(ResourceState resourceState);
+			inline ResourceState GetState();
+			inline Utils::StringId GetId();
+
 		protected:
-			Utils::StringID m_id;
+			Utils::StringId m_id;
+			ResourceState m_state;
+
 		};
+
+		inline Utils::StringId IResource::GetId()
+		{
+			return m_id;
+		}
+
+		// --------------------------------------------------------------------------------
+		inline IResource::ResourceState IResource::GetState()
+		{
+			return m_state;
+		}
+
+		inline void IResource::SetState(IResource::ResourceState resourceState)
+		{
+			m_state = resourceState;
+		}
+
 	}	// namespace Core
 }	// namespace Oak3D
 

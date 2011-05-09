@@ -39,7 +39,8 @@ namespace Oak3D
 			virtual void Render();
 			virtual void Cleanup();
 
-			virtual void* CreateShaderFromFile(const std::wstring &fileName, ShaderType eShaderType);
+			virtual void *CreateShaderFromFile( const std::wstring &fileName, ShaderType eShaderType );
+			virtual void ReleaseShader( void *pShader, ShaderType eShaderType );
 			
 
 		private:

@@ -38,6 +38,9 @@ namespace Oak3D
 					delete m_pInstance;
 			}
 		protected:
+			Singleton();
+
+		protected:
 			static T* m_pInstance;
 			static void *m_param;
 		};

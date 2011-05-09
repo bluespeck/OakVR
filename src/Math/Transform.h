@@ -31,6 +31,4 @@ namespace Oak3D
 	}
 }
 
-#include "Transform.hpp"
-
 #endif

@@ -8,12 +8,12 @@ namespace Oak3D
 	// --------------------------------------------------------------------------------
 	Oak3D::Oak3D()
 	{
-		// initialize for Windows and DirectX11
-		m_pEngine = new Core::Engine();
+		m_pEngine = Core::Engine::GetInstance();
 	
 #ifndef OAK3D_WINDOWS
 		m_pEngine->SetRenderWindow(CreateRenderWindow());		
 #else
+		// initialize for Windows and DirectX11
 		m_pEngine->SetRenderWindow(CreateRenderWindow(reinterpret_cast<HINSTANCE>(m_param)));
 #endif
 

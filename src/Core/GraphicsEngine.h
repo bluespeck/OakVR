@@ -21,7 +21,8 @@ namespace Oak3D
 			GraphicsEngine():m_pRenderWindow(nullptr){}
 			virtual ~GraphicsEngine();
 
-			virtual void* CreateShaderFromFile( const std::wstring &fileName, ShaderType shaderType );
+			virtual void *CreateShaderFromFile( const std::wstring &fileName, ShaderType eShaderType );
+			virtual void ReleaseShader( void *pShader, ShaderType eShaderType );
 
 			virtual void Initialize(){}
 			virtual void Update( float dt ){}

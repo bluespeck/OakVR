@@ -85,5 +85,12 @@ namespace Oak3D
 				delete m_pTimer;
 			m_pTimer = pTimer;
 		}
+
+		// --------------------------------------------------------------------------------
+		GraphicsEngine *Engine::GetGraphicsEngine()
+		{
+			return m_pInstance->m_pGE;
+		}
+
 	}	// namespace Core
 }	// namespace Oak3D

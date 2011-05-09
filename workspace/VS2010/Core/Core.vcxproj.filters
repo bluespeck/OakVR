@@ -4,7 +4,6 @@
     <ClCompile Include="..\..\..\src\Core\Camera.cpp" />
     <ClCompile Include="..\..\..\src\Core\Engine.cpp" />
     <ClCompile Include="..\..\..\src\Core\Object.cpp" />
-    <ClCompile Include="..\..\..\src\Core\GraphicsEngine.cpp" />
     <ClCompile Include="..\..\..\src\Core\IController.cpp" />
     <ClCompile Include="..\..\..\src\Core\Material.cpp" />
     <ClCompile Include="..\..\..\src\Core\Mesh.cpp" />
@@ -24,12 +23,22 @@
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX11Shader.cpp">
       <Filter>Windows\DirectX\DirectX11</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\GraphicsEngine.cpp">
+      <Filter>GraphicsEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\IndexBuffer.cpp">
+      <Filter>GraphicsEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\VertexBuffer.cpp">
+      <Filter>GraphicsEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Thread.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Windows\WindowsThread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Core\Camera.h" />
     <ClInclude Include="..\..\..\src\Core\Engine.h" />
     <ClInclude Include="..\..\..\src\Core\Object.h" />
-    <ClInclude Include="..\..\..\src\Core\GraphicsEngine.h" />
     <ClInclude Include="..\..\..\src\Core\RenderWindow.h" />
     <ClInclude Include="..\..\..\src\Core\IController.h" />
     <ClInclude Include="..\..\..\src\Core\Material.h" />
@@ -39,7 +48,6 @@
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsRenderWindow.h">
       <Filter>Windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\RenderWindow.hpp" />
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX11GraphicsEngine.h">
       <Filter>Windows\DirectX\DirectX11</Filter>
     </ClInclude>
@@ -55,7 +63,22 @@
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX11Shader.h">
       <Filter>Windows\DirectX\DirectX11</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\GraphicsEngineUtils.h" />
+    <ClInclude Include="..\..\..\src\Core\GraphicsEngine.h">
+      <Filter>GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\GraphicsEngineUtils.h">
+      <Filter>GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\IndexBuffer.h">
+      <Filter>GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\VertexBuffer.h">
+      <Filter>GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Thread.h" />
+    <ClInclude Include="..\..\..\src\Core\Windows\WindowsThread.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Windows">
@@ -66,6 +89,9 @@
     </Filter>
     <Filter Include="Windows\DirectX\DirectX11">
       <UniqueIdentifier>{e15d3e3a-c8bc-41fb-822f-e24efe411944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine">
+      <UniqueIdentifier>{b1fef276-d220-47a1-bbcc-f2c15b8e5526}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

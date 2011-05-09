@@ -6,26 +6,44 @@
 #ifndef __OAK3D_INCLUDE_MESH_H__
 #define __OAK3D_INCLUDE_MESH_H__
 
-#include <assimp.h>
-#include <aiPostProcess.h>
-#include <aiScene.h>
+#include <vector>
 
-//#include "IResource.h"
-
+#include "IResource.h"
 #include "../Math/Vector3.h"
 #include "../Math/Vector2.h"
+#include "../Utils/AABB.h"
+
 
 namespace Oak3D
 {
 	namespace Core
 	{
 		class Material;
+		class IndexBuffer;
+		class VertexBuffer;
 
-		class Mesh// : public IResource
+		class Mesh : public IResource
 		{
 		public:
+
+			class MeshElement
+			{
+			public:
+				MeshElement();
+				
+				uint32_t m_startIndex;
+				uint32_t m_indexCount;
+				uint32_t m_materialIndex;
+			};
+
 			Mesh(void);
 			~Mesh(void);
+
+			// overrides
+			void Init(const std::wstring &path);
+			void Load();
+			void Reload();
+			void Release();
 
 			// Configuration methods; must be called before InitMesh
 			void SetNumVertices(unsigned int numVertices);
@@ -37,20 +55,19 @@ namespace Oak3D
 			void InitMesh();
 
 		public:
-			Oak3D::Math::Vector3	*m_pVertices;
-			Oak3D::Math::Vector3	*m_pNormals;
-			Oak3D::Math::Vector2	*m_pTexCoords[8];
-
-			unsigned int		*m_pIndices;
-			unsigned int		*m_pMaterials;
-			unsigned int		*m_pMaterialRanges;		// {mat(1)_start, mat(2)_start, ... mat(m_numMaterials)_start}
+			std::vector<MeshElement> m_vMeshElements;
+			VertexBuffer *m_pVertexBuffer;
+			IndexBuffer *m_pIndexBuffer;
+			std::vector<uint32_t> m_vMaterials;
 
 			bool		m_bHasNormals;
 
-			unsigned int		m_numVertices;
-			unsigned int		m_numIndices;
-			unsigned int		m_numTexCoordsPerVertex;	
-			unsigned int		m_numMaterials;
+			uint32_t m_numMeshElements;
+			uint32_t m_numFaces;
+			uint32_t m_numTexCoordsPerVertex;	
+			uint32_t m_numMaterials;
+
+			Oak3D::Utils::AABB m_aabb;
 		};
 
 	} // namespace Core
