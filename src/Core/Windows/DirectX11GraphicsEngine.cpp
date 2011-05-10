@@ -1,5 +1,5 @@
 
-#if defined(OAK3D_WINDOWS) && defined(OAK3D_DIRECTX_11)
+//#if defined(OAK3D_WINDOWS) && defined(OAK3D_DIRECTX_11)
 
 #include <D3DX11.h>
 #include <D3D11.h>
@@ -275,4 +275,4 @@ namespace Oak3D
 	}	// namespace Core
 }	// namespace Oak3D
 
-#endif
+//#endif
