@@ -217,10 +217,17 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
-			//IDirect3DVertexBuffer9 *pVB = NULL;
-			//m_pD3DDevice->CreateVertexBuffer( pVertexBuffer->m_count * pVertexBuffer->m_vertexSize , D3DUSAGE_WRITEONLY, pVertexBuffer->m_format, D3DPOOL_MANAGED, &pVB, NULL );
+			D3D11_BUFFER_DESC desc;
+			ID3D11Buffer *pVB = NULL;
+			desc.ByteWidth = pVertexBuffer->GetCount() * pVertexBuffer->GetVertexSize();
+			desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			desc.MiscFlags = 0;
+			desc.StructureByteStride = pVertexBuffer->GetVertexSize();
+			desc.Usage = D3D11_USAGE_DYNAMIC;
 
-			//pVertexBuffer->m_data = pVB;
+			m_pDevice->CreateBuffer(&desc, NULL, &pVB);
+			pVertexBuffer->SetData(pVB);
 		}
 
 		// --------------------------------------------------------------------------------

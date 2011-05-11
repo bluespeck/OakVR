@@ -7,6 +7,7 @@ namespace Oak3D
 {
 	namespace Core
 	{
+		// --------------------------------------------------------------------------------
 		Engine::Engine()
 		{
 			m_pGE = nullptr;

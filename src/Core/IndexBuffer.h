@@ -19,7 +19,8 @@ namespace Oak3D
 			~IndexBuffer();
 
 			inline uint32_t GetCount();
-			inline uint32_t * GetData();
+			inline void * GetData();
+			inline void SetData(void *pData);
 
 			void Create(uint32_t count);
 			void Lock(uint32_t offsetToLock, uint32_t sizeToLock, void **ppBuff, uint32_t flags);
@@ -27,7 +28,7 @@ namespace Oak3D
 			void Release();
 		private:
 			uint32_t m_count;
-			uint32_t *m_pData;
+			void *m_pData;
 		};
 
 		// --------------------------------------------------------------------------------
@@ -37,9 +38,15 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		inline uint32_t * IndexBuffer::GetData()
+		inline void * IndexBuffer::GetData()
 		{
 			return m_pData;
+		}
+
+		// --------------------------------------------------------------------------------		
+		inline void IndexBuffer::SetData(void *pData)
+		{
+			m_pData = pData;
 		}
 	}	// namespace Core
 }	// namespace Oak3D

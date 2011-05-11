@@ -34,6 +34,8 @@ namespace Oak3D
 			inline uint32_t GetFormat();
 
 			inline void SetVertexSize(uint32_t vertexSize);
+			inline void SetData(void *pData);
+
 			void Create(uint32_t count, uint32_t vertexFormat);
 			void Lock(uint32_t offsetToLock, uint32_t sizeToLock, void **ppBuff, uint32_t flags);
 			void Unlock();
@@ -74,6 +76,13 @@ namespace Oak3D
 		{
 			m_vertexSize = vertexSize;
 		}
+
+		// --------------------------------------------------------------------------------		
+		inline void VertexBuffer::SetData(void *pData)
+		{
+			m_pData = pData;
+		}
+
 
 	}	// namespace Core
 }	// namespace Oak3D
