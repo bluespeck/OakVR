@@ -38,12 +38,12 @@ namespace Oak3D
 			virtual void ReleaseTexture	( Texture *texture ) = 0;
 			// vertex buffer
 			virtual void CreateVertexBuffer	( VertexBuffer *pVertexBuffer ) = 0;
-			virtual void LockVertexBuffer	( VertexBuffer *pVertexBuffer, uint32_t offsetToLock, uint32_t sizeToLock, void **ppBuff, uint32_t flags ) = 0;
+			virtual void LockVertexBuffer	( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 ) = 0;
 			virtual void UnlockVertexBuffer	( VertexBuffer *pVertexBuffer ) = 0;
 			virtual void ReleaseVertexBuffer( VertexBuffer *pVertexBuffer ) = 0;
 			// index buffer
 			virtual void CreateIndexBuffer	( IndexBuffer *ibuff ) = 0;
-			virtual void LockIndexBuffer	( IndexBuffer *pIndexBuffer, uint32_t offsetToLock, uint32_t sizeToLock, void **ppBuff, uint32_t flags ) = 0;
+			virtual void LockIndexBuffer	( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 ) = 0;
 			virtual void UnlockIndexBuffer	( IndexBuffer *pIndexBuffer ) = 0;
 			virtual void ReleaseIndexBuffer	( IndexBuffer *pIndexBuffer ) = 0;
 			// shader

@@ -121,8 +121,8 @@ namespace Oak3D
 			char *pVBData = NULL;
 			char *pIBData = NULL;
 
-			pMesh->m_pVertexBuffer->Lock(0, 0, (void **)&pVB, 0);	
-			pMesh->m_pIndexBuffer->Lock(0, 0, (void **)&pIB, 0);
+			pMesh->m_pVertexBuffer->Lock((void **)&pVB);	
+			pMesh->m_pIndexBuffer->Lock((void **)&pIB);
 		
 			pIBData = pIB;	
 			pVBData = pVB;

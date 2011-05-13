@@ -28,37 +28,48 @@ namespace Oak3D
 			VertexBuffer();
 			~VertexBuffer();
 
-			inline uint32_t GetCount();
-			inline void * GetData();
-			inline uint32_t GetVertexSize();
-			inline uint32_t GetFormat();
+			inline uint32_t GetVertexCount();
+			inline void SetVertexCount( uint32_t vertexCount );			
 
-			inline void SetVertexSize(uint32_t vertexSize);
+			inline void * GetData();
 			inline void SetData(void *pData);
 
-			void Create(uint32_t count, uint32_t vertexFormat);
-			void Lock(uint32_t offsetToLock, uint32_t sizeToLock, void **ppBuff, uint32_t flags);
+			inline uint32_t GetVertexSize();
+			inline void SetVertexSize( uint32_t vertexSize );
+
+			inline uint32_t GetVertexFormat();
+			inline void SetVertexFormat( uint32_t vertexFormat );
+			
+			void Create( uint32_t count, uint32_t vertexFormat );
+			void Lock( void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 );
 			void Unlock();
 			void Release();
+
 		private:
-			uint32_t m_format;
-			uint32_t m_vertexSize;
-			uint32_t m_count;
-			void *m_pData;
+			uint32_t m_vertexFormat;
+			uint32_t m_vertexSize;	// [bytes]
+			uint32_t m_vertexCount;
+			void *m_pData;	// holds the address of a vertex buffer in the graphics API (DirectX or OpenGL)
 		};
 
 		// --------------------------------------------------------------------------------
-		inline uint32_t VertexBuffer::GetCount()
+		inline uint32_t VertexBuffer::GetVertexCount()
 		{
-			return m_count;
+			return m_vertexCount;
 		}
-		
+
+		// --------------------------------------------------------------------------------
+		inline void VertexBuffer::SetVertexCount(uint32_t vertexCount)
+		{
+			m_vertexCount = vertexCount;
+		}
+
 		// --------------------------------------------------------------------------------
 		inline void *VertexBuffer::GetData()
 		{
 			return m_pData;
 		}
-		
+
 		// --------------------------------------------------------------------------------
 		inline uint32_t VertexBuffer::GetVertexSize()
 		{
@@ -66,9 +77,15 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		inline uint32_t VertexBuffer::GetFormat()
+		inline uint32_t VertexBuffer::GetVertexFormat()
 		{
-			return m_format;
+			return m_vertexFormat;
+		}
+
+		// --------------------------------------------------------------------------------		
+		inline void VertexBuffer::SetVertexFormat(uint32_t vertexFormat)
+		{
+			m_vertexFormat = vertexFormat;
 		}
 
 		// --------------------------------------------------------------------------------

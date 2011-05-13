@@ -12,7 +12,7 @@ namespace Oak3D
 	namespace Core
 	{
 		// --------------------------------------------------------------------------------
-		IndexBuffer::IndexBuffer() :m_count(0), m_pData(nullptr)
+		IndexBuffer::IndexBuffer() :m_indexCount(0), m_pData(nullptr), m_indexSize(4)
 		{
 		}
 
@@ -24,16 +24,16 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void IndexBuffer::Create(uint32_t count)
+		void IndexBuffer::Create(uint32_t indexCount)
 		{
-			m_count = count;
+			m_indexCount = indexCount;
 			Engine::GetGraphicsEngine()->CreateIndexBuffer(this);
 		}
 
 		// --------------------------------------------------------------------------------
-		void IndexBuffer::Lock(uint32_t offsetToLock, uint32_t sizeToLock, void **ppBuff, uint32_t flags)
+		void IndexBuffer::Lock(void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags)
 		{
-			Engine::GetGraphicsEngine()->LockIndexBuffer(this, offsetToLock, sizeToLock, ppBuff, flags);
+			Engine::GetGraphicsEngine()->LockIndexBuffer(this, ppBuff, offsetToLock, sizeToLock, flags);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ namespace Oak3D
 		{
 			Engine::GetGraphicsEngine()->ReleaseIndexBuffer(this);
 			m_pData = nullptr;
-			m_count = 0;
+			m_indexCount = 0;
 		}
 	}	// namespace Core
 }	// namespace Oak3D

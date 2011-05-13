@@ -18,23 +18,35 @@ namespace Oak3D
 			IndexBuffer();
 			~IndexBuffer();
 
-			inline uint32_t GetCount();
-			inline void * GetData();
+			inline uint32_t GetIndexCount();
+			inline void SetIndexCount( uint32_t indexCount );
+			
+			inline void * GetData();			
 			inline void SetData(void *pData);
 
+			inline uint32_t GetIndexSize();
+			inline void SetIndexSize(uint32_t size);
+
 			void Create(uint32_t count);
-			void Lock(uint32_t offsetToLock, uint32_t sizeToLock, void **ppBuff, uint32_t flags);
+			void Lock( void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 );
 			void Unlock();
 			void Release();
 		private:
-			uint32_t m_count;
-			void *m_pData;
+			uint32_t m_indexCount;
+			uint32_t m_indexSize;	// [bytes]
+			void *m_pData;	// holds the address of an index buffer in the graphics API (DirectX or OpenGL)
 		};
 
 		// --------------------------------------------------------------------------------
-		inline uint32_t IndexBuffer::GetCount()
+		inline uint32_t IndexBuffer::GetIndexCount()
 		{
-			return m_count;
+			return m_indexCount;
+		}
+
+		// --------------------------------------------------------------------------------
+		inline void IndexBuffer::SetIndexCount(uint32_t indexCount)
+		{
+			m_indexCount = indexCount;
 		}
 
 		// --------------------------------------------------------------------------------
@@ -48,6 +60,19 @@ namespace Oak3D
 		{
 			m_pData = pData;
 		}
+
+		// --------------------------------------------------------------------------------
+		inline uint32_t IndexBuffer::GetIndexSize()
+		{
+			return m_indexSize;
+		}
+
+		inline void IndexBuffer::SetIndexSize(uint32_t size)
+		{
+			m_indexSize = size;
+		}
+
+
 	}	// namespace Core
 }	// namespace Oak3D
 
