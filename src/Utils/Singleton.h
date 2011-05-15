@@ -35,13 +35,10 @@ namespace Oak3D
 
 		protected:
 			static T* m_pInstance;
-			static void *m_param;
 		};
 
 		template<typename T>
 		T *Singleton<T>::m_pInstance = nullptr;
-		template<typename T>
-		void *Singleton<T>::m_param = nullptr;
 	}
 }	// namespace Oak3D
 #endif

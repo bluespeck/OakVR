@@ -12,10 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Core\Camera.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Font.cpp" />
     <ClCompile Include="..\..\..\src\Core\IndexBuffer.cpp" />
     <ClCompile Include="..\..\..\src\Core\Scene.cpp" />
     <ClCompile Include="..\..\..\src\Core\ThreadFactory.cpp" />
     <ClCompile Include="..\..\..\src\Core\VertexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Windows\DirectX11DebugText.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX11GraphicsEngine.cpp" />
     <ClCompile Include="..\..\..\src\Core\Engine.cpp" />
     <ClCompile Include="..\..\..\src\Core\GraphicsEngine.cpp" />
@@ -33,12 +35,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Core\Camera.h" />
+    <ClInclude Include="..\..\..\src\Core\DebugText.h" />
+    <ClInclude Include="..\..\..\src\Core\Font.h" />
     <ClInclude Include="..\..\..\src\Core\GraphicsEngineUtils.h" />
     <ClInclude Include="..\..\..\src\Core\IndexBuffer.h" />
     <ClInclude Include="..\..\..\src\Core\Scene.h" />
     <ClInclude Include="..\..\..\src\Core\Shader.h" />
     <ClInclude Include="..\..\..\src\Core\ThreadFactory.h" />
     <ClInclude Include="..\..\..\src\Core\VertexBuffer.h" />
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX11DebugText.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX11GraphicsEngine.h" />
     <ClInclude Include="..\..\..\src\Core\Engine.h" />
     <ClInclude Include="..\..\..\src\Core\GraphicsEngine.h" />
@@ -57,6 +62,9 @@
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsTimer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\src\Core\debugfont\DebugFont.bmp" />
+    <None Include="..\..\..\src\Core\debugfont\DebugFont.index" />
+    <None Include="..\..\..\src\Core\Windows\shaders\DebugFont.hlsl" />
     <None Include="..\..\..\src\Core\Windows\shaders\DefaultShader.hlsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

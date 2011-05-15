@@ -36,6 +36,12 @@
     <ClCompile Include="..\..\..\src\Core\Windows\WindowsThreadFactory.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Windows\DirectX11DebugText.cpp">
+      <Filter>Windows\DirectX\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Font.cpp">
+      <Filter>GraphicsEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Core\Camera.h" />
@@ -81,6 +87,15 @@
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsThreadFactory.h">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\DebugText.h">
+      <Filter>GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX11DebugText.h">
+      <Filter>Windows\DirectX\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Font.h">
+      <Filter>GraphicsEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Windows">
@@ -98,6 +113,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\src\Core\Windows\shaders\DefaultShader.hlsl">
+      <Filter>Windows\DirectX\DirectX11</Filter>
+    </None>
+    <None Include="..\..\..\src\Core\debugfont\DebugFont.index">
+      <Filter>GraphicsEngine</Filter>
+    </None>
+    <None Include="..\..\..\src\Core\debugfont\DebugFont.bmp">
+      <Filter>GraphicsEngine</Filter>
+    </None>
+    <None Include="..\..\..\src\Core\Windows\shaders\DebugFont.hlsl">
       <Filter>Windows\DirectX\DirectX11</Filter>
     </None>
   </ItemGroup>

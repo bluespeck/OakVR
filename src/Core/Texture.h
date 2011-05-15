@@ -39,6 +39,9 @@ namespace Oak3D
 			inline uint32_t GetHeight();
 			inline void SetHeight( uint32_t height );
 
+			inline uint32_t GetPitch();
+			inline void SetPitch( uint32_t pitch );
+
 			inline TextureFormat GetFormat();
 			inline void SetFormat( TextureFormat textureFormat );
 
@@ -53,6 +56,7 @@ namespace Oak3D
 
 			uint32_t m_width;
 			uint32_t m_height;
+			uint32_t m_pitch;
 			TextureFormat m_textureFormat;
 		};
 
@@ -90,6 +94,18 @@ namespace Oak3D
 		inline void Texture::SetHeight(uint32_t height)
 		{
 			m_height = height;
+		}
+
+		// --------------------------------------------------------------------------------		
+		inline uint32_t Texture::GetPitch()
+		{
+			return m_pitch;
+		}
+
+		// --------------------------------------------------------------------------------
+		inline void Texture::SetPitch(uint32_t pitch)
+		{
+			m_pitch = pitch;
 		}
 
 		// --------------------------------------------------------------------------------
