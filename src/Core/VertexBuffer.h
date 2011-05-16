@@ -16,13 +16,19 @@ namespace Oak3D
 		{
 		public:
 
-			enum VertexFormat
+			enum VertexFormat : uint32_t
 			{
 				eVF_XYZ		= 1,
 				eVF_Normal	= 2,
-				eVF_Tex0	= 4,
-				eVF_Tex1	= 8,
-				eVF_Diffuse	= 16
+				eVF_Diffuse	= 4,
+				eVF_Tex0	= 8,	// contains tex coords pair 0
+				eVF_Tex1	= 16,	// contains tex coords pair 1
+				eVF_Tex2	= 32,	// contains tex coords pair 2
+				eVF_Tex3	= 64,	// contains tex coords pair 3
+				eVF_Tex4	= 128,	// contains tex coords pair 4
+				eVF_Tex5	= 256,	// contains tex coords pair 5
+				eVF_Tex6	= 512,	// contains tex coords pair 6
+				eVF_Tex7	= 1024	// contains tex coords pair 7
 			};
 
 			VertexBuffer();

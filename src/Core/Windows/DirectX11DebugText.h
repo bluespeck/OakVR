@@ -12,23 +12,26 @@
 #include <string>
 
 #include "../DebugText.h"
-#include "../Font.h"
 
 namespace Oak3D
 {
 	namespace Core
 	{
+
 		class DirectX11DebugText : public DebugText
 		{
 		public:
+			DirectX11DebugText();
 			~DirectX11DebugText();
 
 			// overrides
 			virtual void Init();
-			virtual void DrawText(const std::wstring &text, uint32_t x, uint32_t y);
+			virtual void OutputText( const std::wstring &text, uint32_t x, uint32_t y );
 			
 		protected:
-			Font *m_pFont;
+			class Font *m_pFont;
+			class DirectX11Shader *m_pVertexShader;
+			class DirectX11Shader *m_pPixelShader;
 			
 		};
 	}	// namespace Core

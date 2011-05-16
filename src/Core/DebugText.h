@@ -18,7 +18,7 @@ namespace Oak3D
 		public:
 			virtual ~DebugText(){}
 			virtual void Init() = 0;
-			virtual void DrawText(const std::wstring &text, uint32_t x, uint32_t y) = 0;
+			virtual void OutputText(const std::wstring &text, uint32_t x, uint32_t y) = 0;
 		};
 	}	// namespace Core
 }	// namespace Oak3D

@@ -17,13 +17,17 @@ namespace Oak3D
 		{
 		public:
 			StringId(uint32_t id);
-			StringId(std::wstring strId);
+			StringId(const std::wstring &strId);
 			
+			void SetStrId(const std::wstring &strId);
+
+			// --------------------------------------------------------------------------------
 			const std::wstring &GetStrId()
 			{
 				return m_strId;
 			}
-
+			
+			// --------------------------------------------------------------------------------
 			uint32_t GetHashId()
 			{
 				return m_id;

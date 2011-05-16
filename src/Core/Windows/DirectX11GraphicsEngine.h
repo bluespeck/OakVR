@@ -27,6 +27,9 @@ namespace Oak3D
 {
 	namespace Core
 	{
+		class DirectX11DebugText;
+		class Shader;
+
 		class DirectX11GraphicsEngine : public GraphicsEngine
 		{
 		public:
@@ -55,12 +58,19 @@ namespace Oak3D
 			virtual void UnlockIndexBuffer	( IndexBuffer *pIndexBuffer );
 			virtual void ReleaseIndexBuffer	( IndexBuffer *pIndexBuffer );
 
+			virtual void OutputText( const std::wstring &text, uint32_t x, uint32_t y);
+
+			void CreateInputLayoutDesc( uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems );
+			void Render( VertexBuffer *pVertexBuffer, Shader *pShader );
+
 		private:
 			IDXGISwapChain *m_pSwapChain;             // the swap chain interface
 			ID3D11Device *m_pDevice;                     // Direct3D device interface
 			ID3D11DeviceContext *m_pDeviceContext;           // Direct3D device context
 
 			ID3D11RenderTargetView *m_pBackBufferRenderTargetView;
+
+			DirectX11DebugText *m_pDebugText;		// object used to draw debug text
 
 		};
 	}

@@ -60,6 +60,7 @@ namespace Oak3D
 			0x2d02ef8dL
 		};*/
 
+		// --------------------------------------------------------------------------------
 		StringId::StringId(uint32_t id)
 		{
 			m_id = id;
@@ -67,7 +68,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		StringId::StringId(std::wstring strId)
+		StringId::StringId(const std::wstring &strId)
 		:m_strId(strId)
 		{			
 			std::hash<std::wstring> h;
@@ -81,5 +82,14 @@ namespace Oak3D
 				m_id = crc32Table[uint8_t(m_id ^ *s++)] ^ (m_id >> 8);
 			*/
 		}
-	}
-}
+
+		// --------------------------------------------------------------------------------
+		void StringId::SetStrId(const std::wstring &strId)
+		{
+			m_strId = strId;
+			std::hash<std::wstring> h;
+			m_id = h(strId);
+		}
+
+	}	// namespace Utils
+}	// namespace Oak3D

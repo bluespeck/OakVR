@@ -12,10 +12,12 @@ namespace Oak3D
 {
 	namespace Core
 	{
+		class ID3D11InputLayout;
 
 		class DirectX11Shader : public Shader
 		{
-		public:		
+		public:
+			DirectX11Shader();
 			void Init(const std::wstring &path, ShaderType eShaderType);
 			
 			// overrides
@@ -25,6 +27,10 @@ namespace Oak3D
 
 		private:
 			virtual void Init( const std::wstring &path );
+
+		protected:
+			ID3D11InputLayout *m_pInputLayout;
+
 		};
 
 	}	// namespace Core

@@ -23,10 +23,8 @@ namespace Oak3D
 		class GraphicsEngine
 		{
 		public:
-			GraphicsEngine():m_pRenderWindow(nullptr){}
+			GraphicsEngine();
 			virtual ~GraphicsEngine();
-
-			
 
 			virtual void Initialize(){}
 			virtual void Update( float dt ){}
@@ -47,8 +45,11 @@ namespace Oak3D
 			virtual void UnlockIndexBuffer	( IndexBuffer *pIndexBuffer ) = 0;
 			virtual void ReleaseIndexBuffer	( IndexBuffer *pIndexBuffer ) = 0;
 			// shader
-			virtual void *CreateShaderFromFile( const std::wstring &fileName, ShaderType eShaderType ) = 0;
-			virtual void ReleaseShader( void *pShader, ShaderType eShaderType ) = 0;
+			virtual void *CreateShaderFromFile( const std::wstring &fileName, ShaderType eShaderType ) = 0;	// returns corresp. API shader
+			virtual void ReleaseShader( void *pShader, ShaderType eShaderType ) = 0;	// releases corresp. API shader
+
+			// misc
+			virtual void OutputText( const std::wstring &text, uint32_t x, uint32_t y);
 
 			void SetRenderWindow( RenderWindow *pRenderWindow );
 

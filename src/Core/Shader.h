@@ -7,6 +7,7 @@
 #define __OAK3D_INCLUDE_SHADER_H__
 
 #include "IResource.h"
+#include "GraphicsEngineUtils.h"
 
 namespace Oak3D
 {
@@ -16,8 +17,6 @@ namespace Oak3D
 		class Shader : public IResource
 		{
 		public:
-			
-
 			virtual ~Shader(){}
 
 			inline void *GetCompiledShader();

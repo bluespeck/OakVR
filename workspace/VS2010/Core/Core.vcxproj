@@ -62,10 +62,11 @@
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsTimer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\resources\font\DebugFont.bmp" />
+    <None Include="..\..\..\resources\font\DebugFont.index" />
+    <None Include="..\..\..\resources\shaders\DebugFont.hlsl" />
+    <None Include="..\..\..\resources\shaders\DefaultShader.hlsl" />
     <None Include="..\..\..\src\Core\debugfont\DebugFont.bmp" />
-    <None Include="..\..\..\src\Core\debugfont\DebugFont.index" />
-    <None Include="..\..\..\src\Core\Windows\shaders\DebugFont.hlsl" />
-    <None Include="..\..\..\src\Core\Windows\shaders\DefaultShader.hlsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B206EDFA-AB05-40AB-AE4E-3AEAA8808345}</ProjectGuid>

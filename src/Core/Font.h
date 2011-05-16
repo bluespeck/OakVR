@@ -1,3 +1,4 @@
+
 // --------------------------------------------------------------------------------
 // Written by      Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
@@ -39,7 +40,7 @@ namespace Oak3D
 			void Initialize(const std::wstring &fontIndexFilename, const std::wstring &fontTextureFilename);
 
 			// builds a triangle list containing the text mesh for the given coordinates
-			TextVertex *BuildVertexArray(const std::wstring &text, float drawX, float drawY);
+			void BuildVertexArray(const std::wstring &text, float drawX, float drawY, TextVertex *&pVertices, uint32_t &numVertices);
 		protected:
 			Texture *m_pTexture;
 			GlyphProperties *m_pGlyphData;

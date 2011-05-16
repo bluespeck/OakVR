@@ -1,4 +1,6 @@
 #include "Texture.h"
+#include "Engine.h"
+#include "GraphicsEngine.h"
 
 namespace Oak3D
 {
@@ -15,12 +17,13 @@ namespace Oak3D
 		}
 
 		void Texture::Init(const std::wstring &path)
-		{ // TODO: implement these
-
+		{ 
+			m_id.SetStrId(path);
 		}
 		
 		void Texture::Load()
 		{
+			Engine::GetInstance()->GetGraphicsEngine()->CreateTexture(this);
 		}
 
 		void Texture::Reload()
@@ -29,6 +32,7 @@ namespace Oak3D
 
 		void Texture::Release()
 		{
+			Engine::GetInstance()->GetGraphicsEngine()->ReleaseTexture(this);
 		}
 	} // namespace Core
 }	// namespace Oak3D

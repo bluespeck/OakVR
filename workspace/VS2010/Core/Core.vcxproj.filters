@@ -112,17 +112,20 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\src\Core\Windows\shaders\DefaultShader.hlsl">
-      <Filter>Windows\DirectX\DirectX11</Filter>
-    </None>
-    <None Include="..\..\..\src\Core\debugfont\DebugFont.index">
-      <Filter>GraphicsEngine</Filter>
-    </None>
     <None Include="..\..\..\src\Core\debugfont\DebugFont.bmp">
       <Filter>GraphicsEngine</Filter>
     </None>
-    <None Include="..\..\..\src\Core\Windows\shaders\DebugFont.hlsl">
+    <None Include="..\..\..\resources\shaders\DebugFont.hlsl">
       <Filter>Windows\DirectX\DirectX11</Filter>
+    </None>
+    <None Include="..\..\..\resources\shaders\DefaultShader.hlsl">
+      <Filter>Windows\DirectX\DirectX11</Filter>
+    </None>
+    <None Include="..\..\..\resources\font\DebugFont.bmp">
+      <Filter>GraphicsEngine</Filter>
+    </None>
+    <None Include="..\..\..\resources\font\DebugFont.index">
+      <Filter>GraphicsEngine</Filter>
     </None>
   </ItemGroup>
 </Project>

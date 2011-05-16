@@ -9,6 +9,27 @@ namespace Oak3D
 {
 	namespace Core
 	{
+		// --------------------------------------------------------------------------------
+		Font::Font()
+		: m_glyphCount(0)
+		, m_pGlyphData(nullptr)
+		, m_pTexture(nullptr)
+		{
+		}
+
+		// --------------------------------------------------------------------------------
+		Font::~Font()
+		{
+			if(m_pTexture)
+			{
+				m_pTexture->Release();
+				delete m_pTexture;
+			}
+			if(m_pGlyphData)
+				delete m_pGlyphData;
+		}
+
+		// --------------------------------------------------------------------------------
 		void Font::Initialize(const std::wstring &fontIndexFilename, const std::wstring &fontTextureFilename)
 		{
 			std::ifstream indexFile(fontIndexFilename);
@@ -40,17 +61,18 @@ namespace Oak3D
 			}
 			indexFile.close();
 
+			m_pTexture = new Texture();
 			m_pTexture->Init(fontTextureFilename);
 			m_pTexture->Load();
 		}
 
-		Font::TextVertex *Font::BuildVertexArray(const std::wstring &text, float drawX, float drawY)
-		{
-			TextVertex* pVertices;
-			
+		// --------------------------------------------------------------------------------
+		void Font::BuildVertexArray(const std::wstring &text, float drawX, float drawY, Font::TextVertex *&pVertices, uint32_t &numVertices)
+		{						
 			uint32_t numLetters = text.length();	// length of the text
+			numVertices = numLetters * 6;
 
-			pVertices = new TextVertex[numLetters * 6];
+			pVertices = new TextVertex[numVertices];
 			
 			TextVertex *pVertex = pVertices;	// vertex iterator			
 
@@ -94,8 +116,6 @@ namespace Oak3D
 				// prepare left position for next glyph
 				drawX = drawX + m_pGlyphData[letter].width + 1.0f;
 			}
-
-			return pVertices;
 		}
 
 	} // namespace Core

@@ -18,6 +18,12 @@ namespace Oak3D
 	namespace Core
 	{
 		// --------------------------------------------------------------------------------
+		DirectX11Shader::DirectX11Shader()
+		: m_pInputLayout(nullptr)
+		{
+		}
+
+		// --------------------------------------------------------------------------------
 		void DirectX11Shader::Init(const std::wstring &path, ShaderType eShaderType)
 		{
 			m_shaderType = eShaderType;
@@ -37,7 +43,6 @@ namespace Oak3D
 			
 			DirectX11GraphicsEngine *pGE = (DirectX11GraphicsEngine*)Engine::GetInstance()->GetGraphicsEngine();
 			m_pCompiledShader = pGE->CreateShaderFromFile(m_id.GetStrId(), m_shaderType);
-			
 		}
 
 		// --------------------------------------------------------------------------------

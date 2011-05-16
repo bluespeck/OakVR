@@ -15,7 +15,7 @@ struct VSOut
 	float5 color : COLOR;
 };
 
-VSOut VertexShader(VSIn input)
+VSOut OakVertexShader(VSIn input)
 {
 	VSOut output;
 	output.positionH = mul(float4(input.position, 1.0f), gWVP);
@@ -23,7 +23,7 @@ VSOut VertexShader(VSIn input)
 	return output;
 }
 
-float4 PixelShader(VSOut input)
+float4 OakPixelShader(VSOut input)
 {
 	PSOut output;
 	output.color = input.color;
