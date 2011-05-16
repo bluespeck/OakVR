@@ -10,11 +10,13 @@
 #include "WindowsRenderWindow.h"
 #include "DirectXUtils.h"
 #include "DirectX11DebugText.h"
+#include "DirectX11Shader.h"
 
 #include "../GraphicsEngineUtils.h"
 #include "../VertexBuffer.h"
 #include "../IndexBuffer.h"
 #include "../Texture.h"
+
 
 
 
@@ -134,23 +136,24 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void* DirectX11GraphicsEngine::CreateShaderFromFile(const std::wstring &fileName, ShaderType eShaderType)
+		void DirectX11GraphicsEngine::CreateShader(Shader *pShader)
 		{
-			switch(eShaderType)
+			switch(pShader->GetType())
 			{
 			case eST_VertexShader:
 				{
 					ID3D10Blob *pShaderByteCode = nullptr;
 					ID3D10Blob *pErrorMsg = nullptr;
 					// Compile shader from file
-					HR_ERR(D3DX11CompileFromFileW(fileName.c_str(), nullptr, nullptr, "OakVertexShader", "vs_4_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
+					HR_ERR(D3DX11CompileFromFileW(pShader->GetId().GetStrId().c_str(), nullptr, nullptr, "OakVertexShader", "vs_4_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
 					
 					// Create DirectX shader
 					if(pShaderByteCode)
 					{
-						ID3D11VertexShader *pShader = nullptr;
-						HR(m_pDevice->CreateVertexShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, &pShader));
-						return pShader;
+						ID3D11VertexShader *pCompiledShader = nullptr;
+						HR(m_pDevice->CreateVertexShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, &pCompiledShader));
+						pShader->SetCompiledShader(pCompiledShader);
+						return ;
 					}
 					break;
 				}
@@ -158,44 +161,29 @@ namespace Oak3D
 				{
 					ID3D10Blob *pShaderByteCode = nullptr;
 					ID3D10Blob *pErrorMsg = nullptr;
-					HR(D3DX11CompileFromFileW(fileName.c_str(), nullptr, nullptr, "OakPixelShader", "ps_4_0", 0, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr));
-					ID3D11PixelShader *pShader = nullptr;
+					HR(D3DX11CompileFromFileW(pShader->GetId().GetStrId().c_str(), nullptr, nullptr, "OakPixelShader", "ps_4_0", 0, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr));
+					ID3D11PixelShader *pCompiledShader = nullptr;
 					if(pShaderByteCode)
 					{
-						HR(m_pDevice->CreatePixelShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, &pShader));
-						return pShader;
+						HR(m_pDevice->CreatePixelShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, &pCompiledShader));
+						pShader->SetCompiledShader(pCompiledShader);
+						return;
 					}
 					break;
 				}
 			default:
 				assert("Shader was not correctly initialized!" && 0);
 			}
-
-			return nullptr;
+			pShader->SetCompiledShader(nullptr);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::ReleaseShader(void *pShader, ShaderType eShaderType)
+		void DirectX11GraphicsEngine::ReleaseShader(Shader *pShader)
 		{
 			if(pShader == nullptr)
 				return;
-
-			switch(eShaderType)
-			{
-			case eST_VertexShader:
-				{
-					((ID3D11VertexShader *)pShader)->Release();
-					break;
-				}
-			case eST_PixelShader:
-				{
-					((ID3D11PixelShader *)pShader)->Release();
-					break;
-				}
-			default:
-				assert("Shader was not correctly initialized!" && 0);
-				return;
-			}
+			((ID3D11Resource *)pShader->GetCompiledShader())->Release();
+			pShader->SetCompiledShader(nullptr);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -247,7 +235,7 @@ namespace Oak3D
 			desc.StructureByteStride = pVertexBuffer->GetVertexSize();
 			desc.Usage = D3D11_USAGE_DYNAMIC;
 
-			m_pDevice->CreateBuffer(&desc, NULL, &pVB);
+			HR(m_pDevice->CreateBuffer(&desc, NULL, &pVB));
 			pVertexBuffer->SetData(pVB);
 		}
 
@@ -371,7 +359,7 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::Render( VertexBuffer *pVertexBuffer, Shader *pShader)
 		{
-			
+			//m_pDevice->CreateInputLayout()
 		}
 	}	// namespace Core
 }	// namespace Oak3D

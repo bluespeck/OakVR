@@ -19,6 +19,7 @@ namespace Oak3D
 		class Texture;
 		class VertexBuffer;
 		class IndexBuffer;
+		class Shader;
 
 		class GraphicsEngine
 		{
@@ -45,8 +46,8 @@ namespace Oak3D
 			virtual void UnlockIndexBuffer	( IndexBuffer *pIndexBuffer ) = 0;
 			virtual void ReleaseIndexBuffer	( IndexBuffer *pIndexBuffer ) = 0;
 			// shader
-			virtual void *CreateShaderFromFile( const std::wstring &fileName, ShaderType eShaderType ) = 0;	// returns corresp. API shader
-			virtual void ReleaseShader( void *pShader, ShaderType eShaderType ) = 0;	// releases corresp. API shader
+			virtual void CreateShader( Shader *pShader ) = 0;
+			virtual void ReleaseShader( Shader *pShader ) = 0;
 
 			// misc
 			virtual void OutputText( const std::wstring &text, uint32_t x, uint32_t y);

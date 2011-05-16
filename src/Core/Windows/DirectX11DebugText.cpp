@@ -83,6 +83,9 @@ namespace Oak3D
 			uint32_t numElems;
 
 			ge->CreateInputLayoutDesc(vb.GetVertexFormat(), pLayoutDesc, numElems);
+			
+			
+			
 			// TODO find a way to create input layout here
 
 			// fill constant buffers
@@ -104,7 +107,7 @@ namespace Oak3D
 			constantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 			constantBufferDesc.MiscFlags = 0;
 			constantBufferDesc.StructureByteStride = 0;
-
+			
 			
 			
 		}

@@ -18,7 +18,7 @@ namespace Oak3D
 		{
 		public:
 			DirectX11Shader();
-			void Init(const std::wstring &path, ShaderType eShaderType);
+			void Init(const std::wstring &path, ShaderType eShaderType, uint32_t vertexFormat = 0);
 			
 			// overrides
 			virtual void Load();
@@ -30,6 +30,7 @@ namespace Oak3D
 
 		protected:
 			ID3D11InputLayout *m_pInputLayout;
+			uint32_t m_vertexFormat;
 
 		};
 

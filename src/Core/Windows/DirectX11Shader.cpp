@@ -20,13 +20,15 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		DirectX11Shader::DirectX11Shader()
 		: m_pInputLayout(nullptr)
+		, m_vertexFormat(0)
 		{
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11Shader::Init(const std::wstring &path, ShaderType eShaderType)
+		void DirectX11Shader::Init(const std::wstring &path, ShaderType eShaderType, uint32_t vertexFormat)
 		{
 			m_shaderType = eShaderType;
+			m_vertexFormat = vertexFormat;
 			Init(path);
 		}
 
@@ -42,7 +44,7 @@ namespace Oak3D
 		{
 			
 			DirectX11GraphicsEngine *pGE = (DirectX11GraphicsEngine*)Engine::GetInstance()->GetGraphicsEngine();
-			m_pCompiledShader = pGE->CreateShaderFromFile(m_id.GetStrId(), m_shaderType);
+			pGE->CreateShader(this);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -54,7 +56,7 @@ namespace Oak3D
 		void DirectX11Shader::Release()
 		{
 			DirectX11GraphicsEngine *pGE = (DirectX11GraphicsEngine*)Engine::GetInstance()->GetGraphicsEngine();
-			pGE->ReleaseShader(m_pCompiledShader, m_shaderType);
+			pGE->ReleaseShader(this);
 			
 		}
 	}	// namespace Core
