@@ -11,6 +11,9 @@
 #include "../Font.h"
 #include "../VertexBuffer.h"
 #include "../Engine.h"
+#include "../Texture.h"
+#include "../../Math/Matrix.h"
+#include "../../Math/Vector3.h"
 
 namespace Oak3D
 {
@@ -51,7 +54,7 @@ namespace Oak3D
 
 			m_pVertexShader = new DirectX11Shader();
 			m_pPixelShader = new DirectX11Shader();
-			m_pVertexShader->Init( L"../resources/shaders/DebugFont.hlsl", eST_VertexShader);
+			m_pVertexShader->Init( L"../resources/shaders/DebugFont.hlsl", eST_VertexShader, (VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0));
 			m_pPixelShader->Init( L"../resources/shaders/DebugFont.hlsl", eST_PixelShader);
 			m_pVertexShader->Load();
 			m_pPixelShader->Load();
@@ -70,7 +73,7 @@ namespace Oak3D
 
 			uint32_t vf = VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0;
 			vb.Create(numVertices, vf);
-
+						
 			void *pData;
 			vb.Lock(&pData);
 			memcpy( pData, pVertices, sizeof(Font::TextVertex) * numVertices);
@@ -78,38 +81,19 @@ namespace Oak3D
 
 			DirectX11GraphicsEngine *ge = (DirectX11GraphicsEngine *)Engine::GetInstance()->GetGraphicsEngine();
 
-			// Create input layout
-			void *pLayoutDesc;
-			uint32_t numElems;
-
-			ge->CreateInputLayoutDesc(vb.GetVertexFormat(), pLayoutDesc, numElems);
+			ge->UseVertexBuffer( &vb );
+			ge->UseShader( m_pVertexShader );
+			ge->UseShader( m_pPixelShader );
+			ge->UsePrimitiveTopology( ePT_TriangleList );			
 			
+			ID3D11ShaderResourceView *pSRView = NULL;
+			HR(ge->GetDevice()->CreateShaderResourceView((ID3D11Resource *)m_pFont->GetTexture()->GetData(), nullptr, &pSRView ));
+			ge->GetDeviceContext()->PSSetShaderResources(0, 1, &pSRView);
 			
-			
-			// TODO find a way to create input layout here
-
-			// fill constant buffers
-			D3D11_BUFFER_DESC constantBufferDesc;
-			D3D11_SAMPLER_DESC samplerDesc;
-			D3D11_BUFFER_DESC pixelBufferDesc;
-
-			struct ConstantBufferType
-			{
-				D3DXMATRIX world;
-				D3DXMATRIX view;
-				D3DXMATRIX projection;
-			};
-
-			// Setup the description of the dynamic constant buffer that is in the vertex shader.
-			constantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-			constantBufferDesc.ByteWidth = sizeof(ConstantBufferType);
-			constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-			constantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-			constantBufferDesc.MiscFlags = 0;
-			constantBufferDesc.StructureByteStride = 0;
-			
-			
-			
+			// TODO Add code for filling up constant buffers and shader resources
+			//ge->DisableDepthBuffer();
+			ge->GetDeviceContext()->Draw(numVertices, 0);
+			//ge->EnableDepthBuffer();
 		}
 
 	} // namespace Core

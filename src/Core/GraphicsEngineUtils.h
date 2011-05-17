@@ -16,6 +16,15 @@ namespace Oak3D
 			eST_VertexShader,
 			eST_PixelShader
 		};
+
+		enum PrimitiveTopology
+		{
+			ePT_PointList,
+			ePT_LineList,
+			ePT_LineStrip,
+			ePT_TriangleList,
+			ePT_TriangleStrip
+		};
 	}	// namespace Core
 }	// namespace Oak3D
 

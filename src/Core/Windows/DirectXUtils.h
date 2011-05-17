@@ -18,9 +18,6 @@
 		if(FAILED(hr))\
 		{\
 			DXTrace(__FILE__, (unsigned long int)__LINE__, hr, L#x, true );\
-			std::ostringstream os;\
-			os << (LONG)hr;\
-			MessageBoxA(NULL, os.str().c_str(), "Result", MB_OK);\
 		}\
 	}
 	#endif

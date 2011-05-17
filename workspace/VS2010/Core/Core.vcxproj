@@ -66,7 +66,6 @@
     <None Include="..\..\..\resources\font\DebugFont.index" />
     <None Include="..\..\..\resources\shaders\DebugFont.hlsl" />
     <None Include="..\..\..\resources\shaders\DefaultShader.hlsl" />
-    <None Include="..\..\..\src\Core\debugfont\DebugFont.bmp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B206EDFA-AB05-40AB-AE4E-3AEAA8808345}</ProjectGuid>

@@ -112,9 +112,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\src\Core\debugfont\DebugFont.bmp">
-      <Filter>GraphicsEngine</Filter>
-    </None>
     <None Include="..\..\..\resources\shaders\DebugFont.hlsl">
       <Filter>Windows\DirectX\DirectX11</Filter>
     </None>

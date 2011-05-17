@@ -1,7 +1,10 @@
 
+#include <cmath>
+
 #include "Vector3.h"
 #include "Vector4.h"
-#include <cmath>
+#include "Matrix.h"
+
 
 namespace Oak3D
 {
@@ -70,8 +73,14 @@ namespace Oak3D
 
 		}
 
+		Vector3 Vector3::operator * ( const Matrix &mat ) const
+		{
+			Vector3 result;
+			result.x = x * mat._11 + y * mat._21 + z * mat._31;
+			result.y = x * mat._12 + y * mat._22 + z * mat._32;
+			result.z = x * mat._13 + y * mat._23 + z * mat._33;
+			return result;
+		}
 
-
-
-	}// namespace Math
-}
+	}	// namespace Math
+}	// namespace Oak3D

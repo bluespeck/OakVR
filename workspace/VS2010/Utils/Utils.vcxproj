@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Utils\AABB.cpp" />
+    <ClCompile Include="..\..\..\src\Utils\Color.cpp" />
     <ClCompile Include="..\..\..\src\Utils\Frustum.cpp" />
     <ClCompile Include="..\..\..\src\Utils\StringID.cpp" />
   </ItemGroup>

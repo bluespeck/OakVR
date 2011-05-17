@@ -16,7 +16,7 @@
 #include "../VertexBuffer.h"
 #include "../IndexBuffer.h"
 #include "../Texture.h"
-
+#include "../../Math/Matrix.h"
 
 
 
@@ -29,7 +29,9 @@ namespace Oak3D
 		: m_pDevice(nullptr)
 		, m_pSwapChain(nullptr)
 		, m_pDeviceContext(nullptr)
-		, m_pDebugText(nullptr)		
+		, m_pDebugText(nullptr)
+		, m_pDepthStencilStateDepthEnabled(nullptr)
+		, m_pDepthStencilStateDepthDisabled(nullptr)
 		{
 		}
 
@@ -38,38 +40,24 @@ namespace Oak3D
 		{
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
 
-			// Direct3D initialization
-
-			// Create a struct to hold information about the swap chain
+			/////
+			// create Direct3D device, device context and swap chain using the information in the scd struct
+						
 			DXGI_SWAP_CHAIN_DESC scd;
-
-			// Zero out the struct for use
-			ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
-
-			// Fill the swap chain description struct
+			
+			memset(&scd, 0, sizeof(scd));
 			scd.BufferCount = 1;                                    // one back buffer
 			scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // use 32-bit color
 			scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // how swap chain is to be used
 			scd.OutputWindow = hWnd;                                // the window to be used
 			scd.SampleDesc.Count = 1;                               // how many multisamples
 			scd.Windowed = TRUE;                                    // windowed/fullscreen mode
-			scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH | D3D11_CREATE_DEVICE_DEBUG ;		// allow windowed/fullscreen switch
-
-			// Create a device, device context and swap chain using the information in the scd struct
-			HR(D3D11CreateDeviceAndSwapChain(NULL,
-				D3D_DRIVER_TYPE_HARDWARE,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				D3D11_SDK_VERSION,
-				&scd,
-				&m_pSwapChain,
-				&m_pDevice,
-				NULL,
-				&m_pDeviceContext));
-
-
+			scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH | D3D11_CREATE_DEVICE_DEBUG;		// allow windowed/fullscreen switch
+			
+			HR(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, 0, 
+				0, nullptr, 0, D3D11_SDK_VERSION, &scd, &m_pSwapChain,	&m_pDevice,	nullptr, &m_pDeviceContext));
+			
+			/////
 			// set the render target
 
 			// get the address of the back buffer
@@ -84,6 +72,7 @@ namespace Oak3D
 			m_pDeviceContext->OMSetRenderTargets(1, &m_pBackBufferRenderTargetView, NULL);
 
 
+			/////
 			// set the viewport
 
 			D3D11_VIEWPORT viewport;
@@ -93,13 +82,89 @@ namespace Oak3D
 			viewport.TopLeftY = 0;
 			viewport.Width = (float)m_pRenderWindow->GetWidth();
 			viewport.Height = (float)m_pRenderWindow->GetHeight();
+			viewport.MinDepth = 0;
+			viewport.MaxDepth = 1000;
 
 			m_pDeviceContext->RSSetViewports(1, &viewport);
 
+			/////
+			// create projection matrices
+			m_pPerspectiveProjectionMatrix = new Math::Matrix();
+			m_pOrthographicProjectionMatrix = new Math::Matrix();
+			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, 3.141592f * 0.25f, 1.25f, 1, 1000);
+			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, viewport.Width, viewport.Height, 0, 1000);
+
+			/////
 			// initialize debug text
 			m_pDebugText = new DirectX11DebugText();
 			m_pDebugText->Init();
 
+			
+			
+			InitializeStateObjects();
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::InitializeStateObjects()
+		{
+			/////
+			// create depth stencil states
+
+			D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
+
+			depthStencilDesc.DepthEnable = true;
+			depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+			depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+			depthStencilDesc.StencilEnable = true;
+			depthStencilDesc.StencilReadMask = 0xFF;
+			depthStencilDesc.StencilWriteMask = 0xFF;
+			depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+			depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+			depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+			depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+			depthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+			depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+			depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+			depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+			
+			m_pDevice->CreateDepthStencilState(&depthStencilDesc, &m_pDepthStencilStateDepthEnabled);
+			depthStencilDesc.DepthEnable = false;
+			HR(m_pDevice->CreateDepthStencilState(&depthStencilDesc, &m_pDepthStencilStateDepthDisabled));
+
+			/////
+			// create rasterizer states
+			
+			D3D11_RASTERIZER_DESC rasterizerDesc;
+			rasterizerDesc.AntialiasedLineEnable = false;
+			rasterizerDesc.DepthBias = 0;
+			rasterizerDesc.DepthBiasClamp = 0.0f;
+			rasterizerDesc.DepthClipEnable = true;
+			rasterizerDesc.MultisampleEnable = false;
+			rasterizerDesc.ScissorEnable = false;
+			rasterizerDesc.SlopeScaledDepthBias = 0.0f;
+
+			rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+			rasterizerDesc.CullMode = D3D11_CULL_BACK;
+			rasterizerDesc.FrontCounterClockwise = false;
+
+			// create the rasterizer state from the description we just filled out.
+			HR(m_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerStates[eRSI_FillSolid_CullBack_FrontCW]));
+			rasterizerDesc.FrontCounterClockwise = true;
+			HR(m_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerStates[eRSI_FillSolid_CullBack_FrontCCW]));
+			rasterizerDesc.FrontCounterClockwise = false;
+			rasterizerDesc.CullMode = D3D11_CULL_FRONT;
+			HR(m_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerStates[eRSI_FillSolid_CullFront_FrontCW]));
+			rasterizerDesc.FrontCounterClockwise = true;
+			HR(m_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerStates[eRSI_FillSolid_CullFront_FrontCCW]));
+			rasterizerDesc.FillMode = D3D11_FILL_WIREFRAME;
+			HR(m_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerStates[eRSI_FillWireframe_CullBack_FrontCW]));
+			rasterizerDesc.FrontCounterClockwise = true;
+			HR(m_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerStates[eRSI_FillWireframe_CullBack_FrontCCW]));
+			rasterizerDesc.FrontCounterClockwise = false;
+			rasterizerDesc.CullMode = D3D11_CULL_FRONT;
+			HR(m_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerStates[eRSI_FillWireframe_CullFront_FrontCW]));
+			rasterizerDesc.FrontCounterClockwise = true;
+			HR(m_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerStates[eRSI_FillWireframe_CullFront_FrontCCW]));
 		}
 
 		// --------------------------------------------------------------------------------
@@ -138,21 +203,31 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::CreateShader(Shader *pShader)
 		{
-			switch(pShader->GetType())
+			DirectX11Shader *pSh = static_cast<DirectX11Shader *>(pShader);
+			switch(pSh->GetType())
 			{
 			case eST_VertexShader:
 				{
 					ID3D10Blob *pShaderByteCode = nullptr;
 					ID3D10Blob *pErrorMsg = nullptr;
-					// Compile shader from file
-					HR_ERR(D3DX11CompileFromFileW(pShader->GetId().GetStrId().c_str(), nullptr, nullptr, "OakVertexShader", "vs_4_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
+					// compile shader from file
+					HR_ERR(D3DX11CompileFromFileW(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakVertexShader", "vs_4_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
 					
-					// Create DirectX shader
+					// create DirectX shader
 					if(pShaderByteCode)
 					{
 						ID3D11VertexShader *pCompiledShader = nullptr;
 						HR(m_pDevice->CreateVertexShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, &pCompiledShader));
-						pShader->SetCompiledShader(pCompiledShader);
+						pSh->SetCompiledShader(pCompiledShader);
+
+						// create input layout
+						void *pLayoutDesc = nullptr;
+						uint32_t numElems;
+						CreateInputLayoutDesc(pSh->GetVertexFormat(), pLayoutDesc, numElems);						
+						D3D11_INPUT_ELEMENT_DESC * pld = (D3D11_INPUT_ELEMENT_DESC *)pLayoutDesc;
+						ID3D11InputLayout *pInputLayout = nullptr;
+						HR(m_pDevice->CreateInputLayout(pld, numElems, pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), &pInputLayout));
+						pSh->SetInputLayout(pInputLayout);
 						return ;
 					}
 					break;
@@ -161,12 +236,14 @@ namespace Oak3D
 				{
 					ID3D10Blob *pShaderByteCode = nullptr;
 					ID3D10Blob *pErrorMsg = nullptr;
-					HR(D3DX11CompileFromFileW(pShader->GetId().GetStrId().c_str(), nullptr, nullptr, "OakPixelShader", "ps_4_0", 0, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr));
+					HR(D3DX11CompileFromFileW(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakPixelShader", "ps_4_0", 0, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr));
 					ID3D11PixelShader *pCompiledShader = nullptr;
 					if(pShaderByteCode)
 					{
 						HR(m_pDevice->CreatePixelShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, &pCompiledShader));
-						pShader->SetCompiledShader(pCompiledShader);
+						pSh->SetCompiledShader(pCompiledShader);
+
+
 						return;
 					}
 					break;
@@ -191,8 +268,10 @@ namespace Oak3D
 		{
 			ID3D11Resource *pTex;
 			const std::wstring path = pTexture->GetId().GetStrId();
-			D3DX11_IMAGE_LOAD_INFO ili;
-			HR(D3DX11CreateTextureFromFileW(m_pDevice, path.c_str(), &ili, nullptr, &pTex, nullptr));
+			D3DX11_IMAGE_INFO ili;
+			
+			HR(D3DX11GetImageInfoFromFileW( path.c_str(), nullptr, &ili, nullptr));
+			HR(D3DX11CreateTextureFromFileW(m_pDevice, path.c_str(), nullptr, nullptr, &pTex, nullptr));
 			
 			// store created texture in our container
 			pTexture->SetData(pTex);
@@ -203,11 +282,11 @@ namespace Oak3D
 
 			switch(ili.Format)
 			{
-			case DXGI_FORMAT_B8G8R8A8_UNORM:
+			case DXGI_FORMAT_R8G8B8A8_UNORM:
 				pTexture->SetFormat(Texture::eTF_R8G8B8A8_UNORM);
 				break;
 			case DXGI_FORMAT_B8G8R8X8_UNORM:
-				pTexture->SetFormat(Texture::eTF_R8G8B8X8_UNORM);
+				pTexture->SetFormat(Texture::eTF_R8G8B8X8_UNORM);// TODO bgr vs rgb here
 				break;
 			case DXGI_FORMAT_R8G8B8A8_UINT:
 				pTexture->SetFormat(Texture::eTF_R8G8B8A8_UINT);
@@ -303,7 +382,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayout, uint32_t &numElems)
+		void DirectX11GraphicsEngine::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
 		{
 			D3D11_INPUT_ELEMENT_DESC layout[12];
 			numElems = 0;
@@ -352,15 +431,89 @@ namespace Oak3D
 				++numElems;
 			}
 
-			pLayout = new D3D11_INPUT_ELEMENT_DESC[numElems];
-			memcpy(pLayout, layout, numElems * sizeof(D3D11_INPUT_ELEMENT_DESC));
+			pLayoutDesc = new D3D11_INPUT_ELEMENT_DESC[numElems];
+			memcpy(pLayoutDesc, layout, numElems * sizeof(D3D11_INPUT_ELEMENT_DESC));
+		}
+
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::UseVertexBuffer( VertexBuffer *pVertexBuffer )
+		{
+			ID3D11Buffer *pBuffer = (ID3D11Buffer *)pVertexBuffer->GetData();
+			uint32_t stride = pVertexBuffer->GetVertexSize();
+			uint32_t offset = 0;
+			m_pDeviceContext->IASetVertexBuffers(0, 1, &pBuffer, &stride, &offset);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::Render( VertexBuffer *pVertexBuffer, Shader *pShader)
+		void DirectX11GraphicsEngine::UseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
-			//m_pDevice->CreateInputLayout()
+			ID3D11Buffer *pBuffer = (ID3D11Buffer *)pIndexBuffer->GetData();
+			m_pDeviceContext->IASetIndexBuffer(pBuffer, DXGI_FORMAT_R32_UINT, 0);
 		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
+		{
+			D3D11_PRIMITIVE_TOPOLOGY pt = D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED;
+			switch( primitiveTopology )
+			{
+			case ePT_PointList:
+				pt = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
+				break;
+			case ePT_LineList:
+				pt = D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
+				break;
+			case ePT_LineStrip:
+				pt = D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP;
+				break;
+			case ePT_TriangleList:
+				pt = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+				break;
+			case ePT_TriangleStrip:
+				pt = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+				break;
+			default:
+				break;
+			}
+			m_pDeviceContext->IASetPrimitiveTopology(pt);
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::UseShader( Shader *pShader )
+		{
+			
+			if(pShader->GetType() == eST_VertexShader)
+			{
+				ID3D11VertexShader *pVertexShader = (ID3D11VertexShader *) pShader->GetCompiledShader();
+				m_pDeviceContext->IASetInputLayout( ((DirectX11Shader*)pShader)->GetInputLayout() );
+				m_pDeviceContext->VSSetShader(pVertexShader, nullptr, 0);
+			}
+			else
+			{
+				ID3D11PixelShader *pPixelShader = (ID3D11PixelShader *) pShader->GetCompiledShader();
+				m_pDeviceContext->PSSetShader(pPixelShader, nullptr, 0);
+			}
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::EnableDepthBuffer()
+		{
+			m_pDeviceContext->OMSetDepthStencilState(m_pDepthStencilStateDepthEnabled, 1);
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::DisableDepthBuffer()
+		{
+			m_pDeviceContext->OMSetDepthStencilState(m_pDepthStencilStateDepthDisabled, 1);
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::SetRasterizerState( RasterizerStateIndex rsi )
+		{
+			m_pDeviceContext->RSSetState( m_pRasterizerStates[rsi] );
+		}
+
 	}	// namespace Core
 }	// namespace Oak3D
 

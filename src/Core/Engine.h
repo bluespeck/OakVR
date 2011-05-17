@@ -20,7 +20,8 @@ namespace Oak3D
 		class Engine : public Utils::Singleton<Engine>
 		{
 		public:
-			friend class Utils::Singleton<Engine>;
+			Engine();
+			~Engine();
 
 			void Initialize();
 			void Update();
@@ -33,10 +34,7 @@ namespace Oak3D
 			static GraphicsEngine *GetGraphicsEngine();
 			static ThreadFactory* GetThreadFactory();
 
-		protected:
-			Engine();
-			~Engine();
-
+		
 		private:			
 			void Update(float dt);
 

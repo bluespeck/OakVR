@@ -28,7 +28,6 @@ namespace Oak3D
 			static const float inv255;
 		};
 
-		const float Color::inv255 = 1.0f / 255.0f;
 	} // namespace Utils
 }
 

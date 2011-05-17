@@ -12,14 +12,14 @@ namespace Oak3D
 			m_bFullScreen = false;
 			m_osHandle = 0;
 			m_posX = m_posY = 0;
-			m_width = 800;
-			m_height = 600;
+			m_width = 1200;
+			m_height = 900;
 		}
 
 		// --------------------------------------------------------------------------------
 		RenderWindow::RenderWindow( const std::wstring &title, int posX, int posY, unsigned int width, unsigned int height)
 			: m_title(title), m_posX(posX), m_posY(posY), m_width(width), m_height(height)
-		{			
+		{
 		}
 
 	}	// namespace Core

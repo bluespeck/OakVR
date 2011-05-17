@@ -10,6 +10,8 @@ namespace Oak3D
 {
 	namespace Math
 	{
+		class Matrix;
+
 		class Vector3
 		{
 		public:
@@ -18,12 +20,13 @@ namespace Oak3D
 			Vector3( float x, float y, float z );
 			Vector3( const class Vector4 &vec );
 			Vector3( const float *arr );
-
+			
 			// cast operators
 			operator float * ();
 			operator const float * () const;
 
 			// assignment operators
+			//Vector3& operator = ( const Vector3 &vec );
 			Vector3& operator += ( const Vector3 &vec );
 			Vector3& operator -= ( const Vector3 &vec );
 			Vector3& operator *= ( float scalar );
@@ -38,6 +41,7 @@ namespace Oak3D
 			Vector3 operator - ( const Vector3 &vec ) const;
 			Vector3 operator * ( float scalar ) const;
 			Vector3 operator / ( float scalar ) const;
+			Vector3 operator * ( const Matrix &mat ) const;
 
 			friend Vector3 operator * ( float scalar, const Vector3 &vec );
 

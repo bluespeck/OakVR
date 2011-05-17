@@ -41,11 +41,18 @@ namespace Oak3D
 
 			// builds a triangle list containing the text mesh for the given coordinates
 			void BuildVertexArray(const std::wstring &text, float drawX, float drawY, TextVertex *&pVertices, uint32_t &numVertices);
+			inline Texture *GetTexture();
 		protected:
 			Texture *m_pTexture;
 			GlyphProperties *m_pGlyphData;
 			uint32_t m_glyphCount;
 		};
+
+		// --------------------------------------------------------------------------------
+		inline Texture *Font::GetTexture()
+		{
+			return m_pTexture;
+		}
 	} // namespace Core
 } // namespace Oak3D
 

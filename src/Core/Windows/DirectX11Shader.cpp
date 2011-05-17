@@ -1,6 +1,6 @@
 
 #include <string>
-#include <assert.h>
+#include <cassert>
 
 #include <d3d11.h>
 
@@ -28,6 +28,7 @@ namespace Oak3D
 		void DirectX11Shader::Init(const std::wstring &path, ShaderType eShaderType, uint32_t vertexFormat)
 		{
 			m_shaderType = eShaderType;
+			assert((eShaderType == eST_PixelShader || vertexFormat != 0) && "Vertex shader needs vertex format when created!");
 			m_vertexFormat = vertexFormat;
 			Init(path);
 		}
