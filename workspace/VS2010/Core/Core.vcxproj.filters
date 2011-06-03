@@ -12,17 +12,11 @@
     <ClCompile Include="..\..\..\src\Core\Windows\WindowsRenderWindow.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Core\Windows\DirectX11GraphicsEngine.cpp">
-      <Filter>Windows\DirectX\DirectX11</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\Core\Timer.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\WindowsTimer.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Core\Scene.cpp" />
-    <ClCompile Include="..\..\..\src\Core\Windows\DirectX11Shader.cpp">
-      <Filter>Windows\DirectX\DirectX11</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\Core\GraphicsEngine.cpp">
       <Filter>GraphicsEngine</Filter>
     </ClCompile>
@@ -36,11 +30,20 @@
     <ClCompile Include="..\..\..\src\Core\Windows\WindowsThreadFactory.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Core\Windows\DirectX11DebugText.cpp">
-      <Filter>Windows\DirectX\DirectX11</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\Core\Font.cpp">
       <Filter>GraphicsEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\OpenGL\OpenGLGraphicsEngine.cpp">
+      <Filter>OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11DebugText.cpp">
+      <Filter>Windows\DirectX\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11GraphicsEngine.cpp">
+      <Filter>Windows\DirectX\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11Shader.cpp">
+      <Filter>Windows\DirectX\DirectX11</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,21 +59,12 @@
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsRenderWindow.h">
       <Filter>Windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\Windows\DirectX11GraphicsEngine.h">
-      <Filter>Windows\DirectX\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\Windows\DirectXUtils.h">
-      <Filter>Windows\DirectX</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\Core\Timer.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsTimer.h">
       <Filter>Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Core\Scene.h" />
     <ClInclude Include="..\..\..\src\Core\Shader.h" />
-    <ClInclude Include="..\..\..\src\Core\Windows\DirectX11Shader.h">
-      <Filter>Windows\DirectX\DirectX11</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\Core\GraphicsEngine.h">
       <Filter>GraphicsEngine</Filter>
     </ClInclude>
@@ -90,25 +84,40 @@
     <ClInclude Include="..\..\..\src\Core\DebugText.h">
       <Filter>GraphicsEngine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\Windows\DirectX11DebugText.h">
-      <Filter>Windows\DirectX\DirectX11</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\Core\Font.h">
       <Filter>GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\OpenGL\OpenGLGraphicsEngine.h">
+      <Filter>OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11DebugText.h">
+      <Filter>Windows\DirectX\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11GraphicsEngine.h">
+      <Filter>Windows\DirectX\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11Shader.h">
+      <Filter>Windows\DirectX\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectXUtils.h">
+      <Filter>Windows\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Windows">
       <UniqueIdentifier>{5683b5c1-7a0e-4009-9644-1da786e6db4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine">
+      <UniqueIdentifier>{b1fef276-d220-47a1-bbcc-f2c15b8e5526}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenGL">
+      <UniqueIdentifier>{ef05a22e-fe5c-4b80-b60c-072a2b53c3b0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Windows\DirectX">
       <UniqueIdentifier>{bfac17ff-0348-4dfd-bf24-b72a60bcd5d1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Windows\DirectX\DirectX11">
       <UniqueIdentifier>{e15d3e3a-c8bc-41fb-822f-e24efe411944}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GraphicsEngine">
-      <UniqueIdentifier>{b1fef276-d220-47a1-bbcc-f2c15b8e5526}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
