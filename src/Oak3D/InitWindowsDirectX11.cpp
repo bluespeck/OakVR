@@ -6,7 +6,7 @@
 #include "Oak3DInit.h"
 
 #include "../Core/Windows/WindowsRenderWindow.h"
-#include "../Core/Windows/DirectX11GraphicsEngine.h"
+#include "../Core/Windows/DirectX/DirectX11/DirectX11GraphicsEngine.h"
 #include "../Core/Windows/WindowsTimer.h"
 #include "../Core/Windows/WindowsThreadFactory.h"
 

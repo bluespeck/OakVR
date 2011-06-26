@@ -8,12 +8,12 @@
 #include "DirectX11Shader.h"
 #include "DirectX11GraphicsEngine.h"
 
-#include "../Font.h"
-#include "../VertexBuffer.h"
-#include "../Engine.h"
-#include "../Texture.h"
-#include "../../Math/Matrix.h"
-#include "../../Math/Vector3.h"
+#include "../../../Font.h"
+#include "../../../VertexBuffer.h"
+#include "../../../Engine.h"
+#include "../../../Texture.h"
+#include "../../../../Math/Matrix.h"
+#include "../../../../Math/Vector3.h"
 
 namespace Oak3D
 {

@@ -11,7 +11,7 @@
 #include <d3dx10.h>
 #include <string>
 
-#include "../DebugText.h"
+#include "../../../DebugText.h"
 
 namespace Oak3D
 {

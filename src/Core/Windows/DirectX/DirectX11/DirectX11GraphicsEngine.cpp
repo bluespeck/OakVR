@@ -7,16 +7,16 @@
 #include <cassert>
 
 #include "DirectX11GraphicsEngine.h"
-#include "WindowsRenderWindow.h"
-#include "DirectXUtils.h"
+#include "../../WindowsRenderWindow.h"
+#include "../DirectXUtils.h"
 #include "DirectX11DebugText.h"
 #include "DirectX11Shader.h"
 
-#include "../GraphicsEngineUtils.h"
-#include "../VertexBuffer.h"
-#include "../IndexBuffer.h"
-#include "../Texture.h"
-#include "../../Math/Matrix.h"
+#include "../../../GraphicsEngineUtils.h"
+#include "../../../VertexBuffer.h"
+#include "../../../IndexBuffer.h"
+#include "../../../Texture.h"
+#include "../../../../Math/Matrix.h"
 
 
 

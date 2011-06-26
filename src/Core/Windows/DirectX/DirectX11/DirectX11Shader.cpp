@@ -4,13 +4,13 @@
 
 #include <d3d11.h>
 
-#include "../GraphicsEngineUtils.h"
+#include "../../../GraphicsEngineUtils.h"
 
 #include "DirectX11Shader.h"
 #include "DirectX11GraphicsEngine.h"
 
-#include "../Engine.h"
-#include "../../Utils/StringID.h"
+#include "../../../Engine.h"
+#include "../../../../Utils/StringID.h"
 
 
 namespace Oak3D
