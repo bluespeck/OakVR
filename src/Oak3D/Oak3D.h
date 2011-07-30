@@ -6,6 +6,7 @@
 #ifndef __OAK3D_INCLUDE_OAK3D_H__
 #define __OAK3D_INCLUDE_OAK3D_H__
 
+#include "Oak3DConfig.h"
 #include "Oak3DInit.h"
 #include "../Core/Engine.h"
 #include "../Utils/Singleton.h"

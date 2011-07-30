@@ -1,4 +1,8 @@
 
+#include "../../../Oak3DCoreConfig.h"
+
+#if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11
+
 #include <string>
 #include <fstream>
 #include <cassert>
@@ -98,3 +102,5 @@ namespace Oak3D
 
 	} // namespace Core
 } // namespace Oak3D
+
+#endif // OAK3D_RENDERER_DIRECTX_11

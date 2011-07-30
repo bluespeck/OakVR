@@ -1,4 +1,7 @@
 
+#include "../Oak3DCoreConfig.h"
+
+#if OAK3D_OS == OAK3D_OS_WINDOWS
 
 #include "WindowsTimer.h"
 #include "windows.h"
@@ -105,3 +108,5 @@ namespace Oak3D
 
 	}	// namespace Core
 }	//namespace Oak3D
+
+#endif // OAK3D_OS == OAK3D_OS_WINDOWS

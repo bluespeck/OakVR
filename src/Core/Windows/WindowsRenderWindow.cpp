@@ -1,7 +1,10 @@
 
-#include "WindowsRenderWindow.h"
+#include "../Oak3DCoreConfig.h"
 
-#ifdef OAK3D_WINDOWS
+#if OAK3D_OS == OAK3D_OS_WINDOWS
+
+
+#include "WindowsRenderWindow.h"
 
 #include <windows.h>
 
@@ -112,4 +115,4 @@ namespace Oak3D
 	} // namespace Core
 } // namespace Oak3D
 
-#endif
+#endif // OAK3D_OS == OAK3D_OS_WINDOWS

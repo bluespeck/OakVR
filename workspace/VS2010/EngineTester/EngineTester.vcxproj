@@ -13,6 +13,11 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\EngineTester\main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Oak3D\Oak3D.vcxproj">
+      <Project>{d58b60ef-d0e8-4c7c-94c8-2e54fc6737a0}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CFB5FB8E-6495-4332-9ACF-F40315F253BD}</ProjectGuid>
     <RootNamespace>EngineTester</RootNamespace>
@@ -43,6 +48,8 @@
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)/</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
     <OutDir>$(SolutionDir)..\..\bin/</OutDir>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;(DXSDK_DIR)/include</IncludePath>
+    <LibraryPath>$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;$(DXSDK_DIR)/lib/x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)</IntDir>
@@ -52,7 +59,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>OAK3D_WINDOWS;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

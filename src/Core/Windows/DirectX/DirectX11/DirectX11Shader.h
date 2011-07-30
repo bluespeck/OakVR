@@ -6,6 +6,7 @@
 #ifndef __OAK3D_INCLUDE_DIRECTX11SHADER_H__
 #define __OAK3D_INCLUDE_DIRECTX11SHADER_H__
 
+
 #include "../../../Shader.h"
 
 namespace Oak3D
@@ -68,4 +69,5 @@ namespace Oak3D
 
 	}	// namespace Core
 }	// namespace Oak3D
+
 #endif

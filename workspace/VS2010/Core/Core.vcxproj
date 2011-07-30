@@ -30,6 +30,9 @@
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11DebugText.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11GraphicsEngine.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11Shader.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9DebugText.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9GraphicsEngine.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9Shader.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\WindowsRenderWindow.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\WindowsThreadFactory.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\WindowsTimer.cpp" />
@@ -40,6 +43,7 @@
     <ClInclude Include="..\..\..\src\Core\Font.h" />
     <ClInclude Include="..\..\..\src\Core\GraphicsEngineUtils.h" />
     <ClInclude Include="..\..\..\src\Core\IndexBuffer.h" />
+    <ClInclude Include="..\..\..\src\Core\Oak3DCoreConfig.h" />
     <ClInclude Include="..\..\..\src\Core\OpenGL\OpenGLGraphicsEngine.h" />
     <ClInclude Include="..\..\..\src\Core\Scene.h" />
     <ClInclude Include="..\..\..\src\Core\Shader.h" />
@@ -58,6 +62,9 @@
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11DebugText.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11GraphicsEngine.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11Shader.h" />
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9DebugText.h" />
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9GraphicsEngine.h" />
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9Shader.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectXUtils.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsRenderWindow.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsThreadFactory.h" />
@@ -68,6 +75,14 @@
     <None Include="..\..\..\resources\font\DebugFont.index" />
     <None Include="..\..\..\resources\shaders\DebugFont.hlsl" />
     <None Include="..\..\..\resources\shaders\DefaultShader.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Math\Math.vcxproj">
+      <Project>{c3280099-a291-41b2-a1e2-f37dbab54705}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.vcxproj">
+      <Project>{31c92eb5-3ee0-411c-93a3-43326d60414d}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B206EDFA-AB05-40AB-AE4E-3AEAA8808345}</ProjectGuid>
@@ -101,6 +116,8 @@
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)/</IntDir>
     <OutDir>$(SolutionDir)..\..\bin/</OutDir>
     <TargetName>$(ProjectName)_d</TargetName>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;$(DXSDK_DIR)/include</IncludePath>
+    <LibraryPath>$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;$(DXSDK_DIR)/lib/x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)</IntDir>
@@ -111,7 +128,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\extern\assimp\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DEBUG;OAK3D_WINDOWS;OAK3D_DIRECTX_11;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

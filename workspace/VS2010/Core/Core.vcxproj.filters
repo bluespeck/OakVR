@@ -45,6 +45,15 @@
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11Shader.cpp">
       <Filter>Windows\DirectX\DirectX11</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9DebugText.cpp">
+      <Filter>Windows\DirectX\DirectX9</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9GraphicsEngine.cpp">
+      <Filter>Windows\DirectX\DirectX9</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9Shader.cpp">
+      <Filter>Windows\DirectX\DirectX9</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Core\Camera.h" />
@@ -102,6 +111,16 @@
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectXUtils.h">
       <Filter>Windows\DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9DebugText.h">
+      <Filter>Windows\DirectX\DirectX9</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9GraphicsEngine.h">
+      <Filter>Windows\DirectX\DirectX9</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9Shader.h">
+      <Filter>Windows\DirectX\DirectX9</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Oak3DCoreConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Windows">
@@ -118,6 +137,9 @@
     </Filter>
     <Filter Include="Windows\DirectX\DirectX11">
       <UniqueIdentifier>{e15d3e3a-c8bc-41fb-822f-e24efe411944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\DirectX\DirectX9">
+      <UniqueIdentifier>{ae68d329-5054-41bf-bbe3-eacd0bd8d8bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

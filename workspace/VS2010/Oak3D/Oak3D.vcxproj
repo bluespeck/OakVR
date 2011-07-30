@@ -40,6 +40,8 @@
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)/</IntDir>
     <OutDir>$(SolutionDir)..\..\bin/</OutDir>
     <TargetName>$(ProjectName)_d</TargetName>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;$(DXSDK_DIR)/include</IncludePath>
+    <LibraryPath>$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;$(DSXDK_DIR)/lib/x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)</IntDir>
@@ -49,7 +51,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>OAK3D_WINDOWS; OAK3D_DIRECTX_11;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -69,7 +71,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>OAK3D_WINDOWS; OAK3D_DIRECTX_11;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -82,20 +84,41 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\Oak3D\InitWindowsDirectX11.cpp" />
+    <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitDirectX11.cpp" />
+    <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitWindows.cpp">
+      <FileType>CppHeader</FileType>
+    </ClCompile>
     <ClInclude Include="..\..\..\src\Oak3D\Oak3D.h" />
+    <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitDirectX9.cpp" />
     <ClCompile Include="..\..\..\src\Oak3D\Oak3D.cpp" />
+    <ClInclude Include="..\..\..\src\Oak3D\Oak3DConfig.h" />
+    <ClInclude Include="..\..\..\src\Oak3D\Oak3DDefines.h" />
     <ClInclude Include="..\..\..\src\Oak3D\Oak3DInit.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{b206edfa-ab05-40ab-ae4e-3aeaa8808345}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\Math\Math.vcxproj">
       <Project>{c3280099-a291-41b2-a1e2-f37dbab54705}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\Utils\Utils.vcxproj">
       <Project>{31c92eb5-3ee0-411c-93a3-43326d60414d}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

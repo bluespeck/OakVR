@@ -42,7 +42,6 @@
 	#ifndef HR_ERR
 	#define HR_ERR(x,y) (x)
 	#endif
-#endif
+#endif // DEBUG
 
-	
 #endif

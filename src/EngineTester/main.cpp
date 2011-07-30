@@ -1,9 +1,6 @@
 
 #include <Windows.h>
 
-//#define OAK3D_WINDOWS
-//#define OAK3D_DIRECTX_11
-
 #include "../Oak3D/Oak3D.h"
 
 // --------------------------------------------------------------------------------

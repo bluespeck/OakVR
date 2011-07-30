@@ -20,9 +20,10 @@ namespace Oak3D
 			enum TextureFormat
 			{
 				eTF_UNKNOWN = 0,
-				eTF_R8G8B8A8_UNORM,
-				eTF_R8G8B8X8_UNORM,
-				eTF_R8G8B8A8_UINT
+				eTF_A8R8G8B8_UNORM,
+				eTF_X8R8G8B8_UNORM,
+				eTF_A8R8G8B8_UINT,
+				eTF_X8R8G8B8_UINT
 			};
 
 			// ctors & dtors

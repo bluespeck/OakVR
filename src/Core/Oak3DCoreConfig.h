@@ -1,0 +1,6 @@
+#ifdef __OAK3D_INCLUDE_OAK3DCORECONFIG_H__
+#define __OAK3D_INCLUDE_OAK3DCORECONFIG_H__
+
+#include "../Oak3D/Oak3DConfig.h"
+
+#endif // __OAK3D_INCLUDE_OAK3DCORECONFIG_H__

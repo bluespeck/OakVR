@@ -1,5 +1,7 @@
 
-//#if defined(OAK3D_WINDOWS) && defined(OAK3D_DIRECTX_11)
+#include "../../../Oak3DCoreConfig.h"
+
+#if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11
 
 #include <D3DX11.h>
 #include <D3D11.h>
@@ -53,9 +55,17 @@ namespace Oak3D
 			scd.SampleDesc.Count = 1;                               // how many multisamples
 			scd.Windowed = TRUE;                                    // windowed/fullscreen mode
 			scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH | D3D11_CREATE_DEVICE_DEBUG;		// allow windowed/fullscreen switch
-			
+			D3D_FEATURE_LEVEL featLevel[] = {
+				D3D_FEATURE_LEVEL_11_0,
+				D3D_FEATURE_LEVEL_10_1,
+				D3D_FEATURE_LEVEL_10_0,
+				D3D_FEATURE_LEVEL_9_3,
+				D3D_FEATURE_LEVEL_9_2,
+				D3D_FEATURE_LEVEL_9_1
+			};
+
 			HR(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, 0, 
-				0, nullptr, 0, D3D11_SDK_VERSION, &scd, &m_pSwapChain,	&m_pDevice,	nullptr, &m_pDeviceContext));
+				0, featLevel, 6, D3D11_SDK_VERSION, &scd, &m_pSwapChain,	&m_pDevice,	nullptr, &m_pDeviceContext));
 			
 			/////
 			// set the render target
@@ -64,7 +74,8 @@ namespace Oak3D
 			ID3D11Texture2D *pBackBufferTexture;
 			m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBufferTexture);
 
-			// use the back buffer address to create the render target
+			// use the back buffer address to create the render target>	EngineTester_d.exe!Oak3D::Core::DirectX11GraphicsEngine::Initialize()  Line 58	C++
+
 			HR(m_pDevice->CreateRenderTargetView(pBackBufferTexture, NULL, &m_pBackBufferRenderTargetView));
 			pBackBufferTexture->Release();
 
@@ -210,10 +221,10 @@ namespace Oak3D
 				{
 					ID3D10Blob *pShaderByteCode = nullptr;
 					ID3D10Blob *pErrorMsg = nullptr;
-					// compile shader from file
-					HR_ERR(D3DX11CompileFromFileW(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakVertexShader", "vs_4_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
+					// compile vertex shader from file
+					HR_ERR(D3DX11CompileFromFileW(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakVertexShader", "vs_2_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
 					
-					// create DirectX shader
+					// create DirectX vertex shader
 					if(pShaderByteCode)
 					{
 						ID3D11VertexShader *pCompiledShader = nullptr;
@@ -236,8 +247,10 @@ namespace Oak3D
 				{
 					ID3D10Blob *pShaderByteCode = nullptr;
 					ID3D10Blob *pErrorMsg = nullptr;
-					HR(D3DX11CompileFromFileW(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakPixelShader", "ps_4_0", 0, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr));
+					// compile pixel shader from file
+					HR(D3DX11CompileFromFileW(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakPixelShader", "ps_2_0", 0, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr));
 					ID3D11PixelShader *pCompiledShader = nullptr;
+					// create directx pixel shader
 					if(pShaderByteCode)
 					{
 						HR(m_pDevice->CreatePixelShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, &pCompiledShader));
@@ -283,13 +296,13 @@ namespace Oak3D
 			switch(ili.Format)
 			{
 			case DXGI_FORMAT_R8G8B8A8_UNORM:
-				pTexture->SetFormat(Texture::eTF_R8G8B8A8_UNORM);
+				pTexture->SetFormat(Texture::eTF_A8R8G8B8_UNORM);
 				break;
 			case DXGI_FORMAT_B8G8R8X8_UNORM:
-				pTexture->SetFormat(Texture::eTF_R8G8B8X8_UNORM);// TODO bgr vs rgb here
+				pTexture->SetFormat(Texture::eTF_X8R8G8B8_UNORM);// TODO bgr vs rgb here
 				break;
 			case DXGI_FORMAT_R8G8B8A8_UINT:
-				pTexture->SetFormat(Texture::eTF_R8G8B8A8_UINT);
+				pTexture->SetFormat(Texture::eTF_A8R8G8B8_UINT);
 				break;
 			default:
 				pTexture->SetFormat(Texture::eTF_UNKNOWN);
@@ -392,7 +405,7 @@ namespace Oak3D
 				layout[numElems].SemanticIndex = 0;
 				layout[numElems].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 				layout[numElems].InputSlot = 0;
-				layout[numElems].AlignedByteOffset = 0;
+				layout[numElems].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 				layout[numElems].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 				layout[numElems].InstanceDataStepRate = 0;
 				++numElems;
@@ -403,7 +416,7 @@ namespace Oak3D
 				layout[numElems].SemanticIndex = 0;
 				layout[numElems].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 				layout[numElems].InputSlot = 0;
-				layout[numElems].AlignedByteOffset = 0;
+				layout[numElems].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 				layout[numElems].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 				layout[numElems].InstanceDataStepRate = 0;
 				++numElems;
@@ -414,7 +427,7 @@ namespace Oak3D
 				layout[numElems].SemanticIndex = 0;
 				layout[numElems].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 				layout[numElems].InputSlot = 0;
-				layout[numElems].AlignedByteOffset = 0;
+				layout[numElems].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 				layout[numElems].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 				layout[numElems].InstanceDataStepRate = 0;
 				++numElems;
@@ -517,4 +530,4 @@ namespace Oak3D
 	}	// namespace Core
 }	// namespace Oak3D
 
-//#endif
+#endif // OAK3D_DIRECTX_11

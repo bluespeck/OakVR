@@ -3,10 +3,8 @@
 // Written by      Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_DIRECTXGRAPHICSENGINE_H__
-#define __OAK3D_INCLUDE_DIRECTXGRAPHICSENGINE_H__
-
-//#if defined(OAK3D_WINDOWS) && defined(OAK3D_DIRECTX_11)
+#ifndef __OAK3D_INCLUDE_DIRECTX11GRAPHICSENGINE_H__
+#define __OAK3D_INCLUDE_DIRECTX11GRAPHICSENGINE_H__
 
 #include <windows.h>
 #include <windowsx.h>
@@ -112,5 +110,3 @@ namespace Oak3D
 }	// namespace Oak3D
 
 #endif
-
-//#endif

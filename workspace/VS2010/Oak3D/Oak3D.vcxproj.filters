@@ -3,9 +3,13 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Oak3D\Oak3D.h" />
     <ClInclude Include="..\..\..\src\Oak3D\Oak3DInit.h" />
+    <ClInclude Include="..\..\..\src\Oak3D\Oak3DConfig.h" />
+    <ClInclude Include="..\..\..\src\Oak3D\Oak3DDefines.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Oak3D\Oak3D.cpp" />
-    <ClCompile Include="..\..\..\src\Oak3D\InitWindowsDirectX11.cpp" />
+    <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitDirectX11.cpp" />
+    <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitDirectX9.cpp" />
+    <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitWindows.cpp" />
   </ItemGroup>
 </Project>
