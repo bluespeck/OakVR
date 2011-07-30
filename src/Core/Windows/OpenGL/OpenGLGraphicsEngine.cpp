@@ -1,32 +1,28 @@
 
-#include "../../../Oak3DCoreConfig.h"
+#include "../../Oak3DCoreConfig.h"
 
-#if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9
+#if OAK3D_RENDERER == OAK3D_RENDERER_OPENGL
 
-// include the Direct3D Library file
-#pragma comment (lib, "d3d9.lib")
-#pragma comment (lib, "d3dx9.lib")
-
-#include <windows.h>
-#include <windowsx.h>
-#include <d3d9.h>
-#include <d3dx9.h>
+// include the OpenGL library file
+#pragma comment (lib, "Opengl32.lib")
 
 #include <cassert>
 
-#include "../DirectXUtils.h"
+#include <windows.h>
+#include <wingdi.h>
+#include <gl/GL.h>
+#include <gl/GLU.h>
 
-#include "DirectX9GraphicsEngine.h"
-#include "../../WindowsRenderWindow.h"
-#include "../DirectXUtils.h"
-#include "DirectX9DebugText.h"
-#include "DirectX9Shader.h"
+#include "OpenGLGraphicsEngine.h"
+#include "../WindowsRenderWindow.h"
+//#include "DirectX9DebugText.h"
+//#include "DirectX9Shader.h"
 
-#include "../../../GraphicsEngineUtils.h"
-#include "../../../VertexBuffer.h"
-#include "../../../IndexBuffer.h"
-#include "../../../Texture.h"
-#include "../../../../Math/Matrix.h"
+#include "../../GraphicsEngineUtils.h"
+#include "../../VertexBuffer.h"
+#include "../../IndexBuffer.h"
+#include "../../Texture.h"
+#include "../../../Math/Matrix.h"
 
 
 
@@ -35,85 +31,83 @@ namespace Oak3D
 	namespace Core
 	{
 		// --------------------------------------------------------------------------------
-		DirectX9GraphicsEngine::DirectX9GraphicsEngine()
-		: m_pDevice(nullptr)
-		, m_pDebugText(nullptr)
+		OpenGLGraphicsEngine::OpenGLGraphicsEngine()
+			: m_pDevice(nullptr)
+			//, m_pDebugText(nullptr)
 		{
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::Initialize()
+		void OpenGLGraphicsEngine::Initialize()
 		{
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
-
+			HDC hdc = GetDC(hWnd);
 			/////
 			// create Direct3D device
 
-			LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);    // create the Direct3D interface
+			PIXELFORMATDESCRIPTOR pfd = { 
+				sizeof(PIXELFORMATDESCRIPTOR),    // size of this pfd  
+				1,                                // version number  
+				PFD_DRAW_TO_WINDOW |              // support window  
+				PFD_SUPPORT_OPENGL |              // support OpenGL  
+				PFD_DOUBLEBUFFER,                 // double buffered  
+				PFD_TYPE_RGBA,                    // RGBA type  
+				24,                               // 24-bit color depth  
+				0, 0, 0, 0, 0, 0,                 // color bits ignored  
+				0,                                // no alpha buffer  
+				0,                                // shift bit ignored  
+				0,                                // no accumulation buffer  
+				0, 0, 0, 0,                       // accum bits ignored  
+				32,                               // 32-bit z-buffer      
+				0,                                // no stencil buffer  
+				0,                                // no auxiliary buffer  
+				PFD_MAIN_PLANE,                   // main layer  
+				0,                                // reserved  
+				0, 0, 0                           // layer masks ignored  
+			}; 
+			 
+			int  iPixelFormat; 
 
-			D3DPRESENT_PARAMETERS d3dpp;    // create a struct to hold various device information
+			// get the device context's best, available pixel format match  
+			iPixelFormat = ChoosePixelFormat(hdc, &pfd); 
 
-			ZeroMemory(&d3dpp, sizeof(d3dpp));    // clear out the struct for use
-			d3dpp.Windowed = TRUE;    // program windowed, not fullscreen
-			d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;    // discard old frames
-			d3dpp.hDeviceWindow = hWnd;    // set the window to be used by Direct3D
+			// make that match the device context's current pixel format  
+			SetPixelFormat(hdc, iPixelFormat, &pfd);
 
-			// create a device class using this information and information from the d3dpp stuct
-			d3d->CreateDevice(D3DADAPTER_DEFAULT,
-				D3DDEVTYPE_HAL,
-				hWnd,
-				D3DCREATE_SOFTWARE_VERTEXPROCESSING,
-				&d3dpp,
-				&m_pDevice);
-
-			/////
-			// set the render target
-
-			// get the address of the back buffer
-			//m_pDevice->GetBackBuffer(0, 0,, &m_pRenderTarget);
-
-			/////
-			// set the viewport
-
-			D3DVIEWPORT9 viewport;
-			ZeroMemory(&viewport, sizeof(D3DVIEWPORT9));
-
-			viewport.X = 0;
-			viewport.Y = 0;
-			viewport.Width = m_pRenderWindow->GetWidth();
-			viewport.Height = m_pRenderWindow->GetHeight();
-			viewport.MinZ = 0;
-			viewport.MaxZ = 1000;
-
-			m_pDevice->SetViewport(&viewport);
-
+			m_pDevice = (HGLRC) wglCreateContext(hdc); 
+			wglMakeCurrent (hdc, (HGLRC)m_pDevice);
+			
+			/*
 			/////
 			// create projection matrices
 			m_pPerspectiveProjectionMatrix = new Math::Matrix();
 			m_pOrthographicProjectionMatrix = new Math::Matrix();
 			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, 3.141592f * 0.25f, 1.25f, 1, 1000);
 			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, (float)viewport.Width, (float)viewport.Height, 0, 1000);
+			*/
 
 			/////
 			// initialize debug text
-			m_pDebugText = new DirectX9DebugText();
-			m_pDebugText->Init();
-			
+			//m_pDebugText = new DirectX9DebugText();
+			//m_pDebugText->Init();
+
 			InitializeStateObjects();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::InitializeStateObjects()
+		void OpenGLGraphicsEngine::InitializeStateObjects()
 		{
-			
+
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::Render()
+		void OpenGLGraphicsEngine::Render()
 		{	
 			// clear the window to a deep blue
-			m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f), 1.0f, 0);
-
+			glClearColor(0.0f, 0.2f, 0.4f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT); 
+			
+			/*
 			m_pDevice->BeginScene();
 
 			// render 3D stuff to back buffer
@@ -121,27 +115,30 @@ namespace Oak3D
 			m_pDebugText->OutputText(L"Testing 123...", 100, 100);
 
 			m_pDevice->EndScene();
-
-			m_pDevice->Present(nullptr, nullptr, nullptr, nullptr);
+			*/
+			
+			SwapBuffers(wglGetCurrentDC());
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::Cleanup()
+		void OpenGLGraphicsEngine::Cleanup()
 		{
-			delete m_pDebugText;
-
-			m_pDevice->Release();
+			//delete m_pDebugText;
+			  
+			wglMakeCurrent (NULL, NULL) ; 
+			wglDeleteContext ((HGLRC)m_pDevice);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::Update(float dt)
+		void OpenGLGraphicsEngine::Update(float dt)
 		{
 
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::CreateShader(Shader *pShader)
+		void OpenGLGraphicsEngine::CreateShader(Shader *pShader)
 		{
+			/*
 			DirectX9Shader *pSh = static_cast<DirectX9Shader *>(pShader);
 			switch(pSh->GetType())
 			{
@@ -151,7 +148,7 @@ namespace Oak3D
 					LPD3DXBUFFER pErrorMsg = nullptr;
 					// compile vertex shader from file
 					HR_ERR(D3DXCompileShaderFromFileW(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakVertexShader", "vs_2_0", 0, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
-					
+
 					// create DirectX vertex shader
 					if(pShaderByteCode)
 					{
@@ -193,27 +190,31 @@ namespace Oak3D
 				assert("Shader was not correctly initialized!" && 0);
 			}
 			pShader->SetCompiledShader(nullptr);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::ReleaseShader(Shader *pShader)
+		void OpenGLGraphicsEngine::ReleaseShader(Shader *pShader)
 		{
+			/*
 			if(pShader == nullptr)
 				return;
 			((IDirect3DResource9 *)pShader->GetCompiledShader())->Release();
 			pShader->SetCompiledShader(nullptr);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::CreateTexture( Texture *pTexture )
+		void OpenGLGraphicsEngine::CreateTexture( Texture *pTexture )
 		{
+			/*
 			IDirect3DTexture9 *pTex;
 			const std::wstring path = pTexture->GetId().GetStrId();
 			D3DXIMAGE_INFO ili;
-			
+
 			HR(D3DXGetImageInfoFromFileW(path.c_str(), &ili));
 			HR(D3DXCreateTextureFromFileW(m_pDevice, path.c_str(), &pTex));
-			
+
 			// store created texture in our container
 			pTexture->SetData(pTex);
 
@@ -232,79 +233,95 @@ namespace Oak3D
 			default:
 				pTexture->SetFormat(Texture::eTF_UNKNOWN);
 			}
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::ReleaseTexture( Texture *pTexture )
+		void OpenGLGraphicsEngine::ReleaseTexture( Texture *pTexture )
 		{
+			/*
 			((IDirect3DResource9 *)pTexture->GetData())->Release();
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
+		void OpenGLGraphicsEngine::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
+			/*
 			IDirect3DVertexBuffer9 *pVB = NULL;
 			unsigned int length = pVertexBuffer->GetVertexCount() * pVertexBuffer->GetVertexSize();
-			
+
 			HR(m_pDevice->CreateVertexBuffer(length, D3DUSAGE_SOFTWAREPROCESSING, 0, D3DPOOL_DEFAULT, &pVB, nullptr));
 			pVertexBuffer->SetData(pVB);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
+		void OpenGLGraphicsEngine::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
 		{	
+			/*
 			// no offset??
 			((IDirect3DVertexBuffer9 *)pVertexBuffer->GetData())->Lock(offsetToLock, sizeToLock, ppBuff, 0);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
+		void OpenGLGraphicsEngine::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
 		{	
+			/*
 			((IDirect3DVertexBuffer9 *)pVertexBuffer)->Unlock();
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
+		void OpenGLGraphicsEngine::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
+			/*
 			((IDirect3DVertexBuffer9 *)pVertexBuffer->GetData())->Release();
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
+		void OpenGLGraphicsEngine::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
+			/*
 			IDirect3DIndexBuffer9 *pIB = NULL;
 			
 			m_pDevice->CreateIndexBuffer(pIndexBuffer->GetIndexCount() * pIndexBuffer->GetIndexSize(), D3DUSAGE_DYNAMIC, pIndexBuffer->GetIndexSize() == 2? D3DFMT_INDEX16: D3DFMT_INDEX32, D3DPOOL_DEFAULT, &pIB, nullptr);
 			pIndexBuffer->SetData(pIB);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::LockIndexBuffer( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
+		void OpenGLGraphicsEngine::LockIndexBuffer( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
 		{	
+			/*
 			((IDirect3DIndexBuffer9 *)pIndexBuffer->GetData())->Lock(offsetToLock, sizeToLock, ppBuff, 0);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UnlockIndexBuffer( IndexBuffer *pIndexBuffer )
+		void OpenGLGraphicsEngine::UnlockIndexBuffer( IndexBuffer *pIndexBuffer )
 		{	
-			((IDirect3DIndexBuffer9 *)pIndexBuffer->GetData())->Unlock();
+			//((IDirect3DIndexBuffer9 *)pIndexBuffer->GetData())->Unlock();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::ReleaseIndexBuffer( IndexBuffer *pIndexBuffer )
+		void OpenGLGraphicsEngine::ReleaseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
-			((IDirect3DIndexBuffer9 *)pIndexBuffer->GetData())->Release();
+			//((IDirect3DIndexBuffer9 *)pIndexBuffer->GetData())->Release();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::OutputText( const std::wstring &text, uint32_t x, uint32_t y)
+		void OpenGLGraphicsEngine::OutputText( const std::wstring &text, uint32_t x, uint32_t y)
 		{
-			m_pDebugText->OutputText(text, x, y);
+			//m_pDebugText->OutputText(text, x, y);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
-		{			
+		void OpenGLGraphicsEngine::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
+		{
+			/*
 			D3DVERTEXELEMENT9 layout[12];
 			numElems = 0;
 			int offset = 0;
@@ -355,36 +372,41 @@ namespace Oak3D
 			}
 
 			pLayoutDesc = new D3DVERTEXELEMENT9[numElems];
-			memcpy(pLayoutDesc, layout, numElems * sizeof(D3DVERTEXELEMENT9));			
+			memcpy(pLayoutDesc, layout, numElems * sizeof(D3DVERTEXELEMENT9));
+			*/
 		}
 
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UseVertexBuffer( VertexBuffer *pVertexBuffer )
+		void OpenGLGraphicsEngine::UseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
+			/*
 			IDirect3DVertexBuffer9 *pBuffer = (IDirect3DVertexBuffer9 *)pVertexBuffer->GetData();
 			uint32_t stride = pVertexBuffer->GetVertexSize();
 			uint32_t offset = 0;
 			m_pDevice->SetStreamSource(0, pBuffer, offset, stride);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UseIndexBuffer( IndexBuffer *pIndexBuffer )
+		void OpenGLGraphicsEngine::UseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
+			/*
 			IDirect3DIndexBuffer9 *pBuffer = (IDirect3DIndexBuffer9 *)pIndexBuffer->GetData();
 			m_pDevice->SetIndices(pBuffer);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
+		void OpenGLGraphicsEngine::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
 		{
 			// Not available
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UseShader( Shader *pShader )
+		void OpenGLGraphicsEngine::UseShader( Shader *pShader )
 		{
-			
+			/*
 			if(pShader->GetType() == eST_VertexShader)
 			{
 				IDirect3DVertexShader9 *pVertexShader = (IDirect3DVertexShader9 *) pShader->GetCompiledShader();
@@ -395,21 +417,22 @@ namespace Oak3D
 				IDirect3DPixelShader9 *pPixelShader = (IDirect3DPixelShader9 *) pShader->GetCompiledShader();
 				m_pDevice->SetPixelShader(pPixelShader);
 			}
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::EnableDepthBuffer()
+		void OpenGLGraphicsEngine::EnableDepthBuffer()
 		{
-			m_pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+			//m_pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::DisableDepthBuffer()
+		void OpenGLGraphicsEngine::DisableDepthBuffer()
 		{
-			m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+			//m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
 		}
 
 	}	// namespace Core
 }	// namespace Oak3D
 
-#endif // OAK3D_DIRECTX_9
+#endif // OAK3D_RENDERER_OPENGL

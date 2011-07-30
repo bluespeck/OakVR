@@ -14,7 +14,6 @@
     <ClCompile Include="..\..\..\src\Core\Camera.cpp" />
     <ClCompile Include="..\..\..\src\Core\Font.cpp" />
     <ClCompile Include="..\..\..\src\Core\IndexBuffer.cpp" />
-    <ClCompile Include="..\..\..\src\Core\OpenGL\OpenGLGraphicsEngine.cpp" />
     <ClCompile Include="..\..\..\src\Core\Scene.cpp" />
     <ClCompile Include="..\..\..\src\Core\ThreadFactory.cpp" />
     <ClCompile Include="..\..\..\src\Core\VertexBuffer.cpp" />
@@ -33,6 +32,7 @@
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9DebugText.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9GraphicsEngine.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9Shader.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Windows\OpenGL\OpenGLGraphicsEngine.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\WindowsRenderWindow.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\WindowsThreadFactory.cpp" />
     <ClCompile Include="..\..\..\src\Core\Windows\WindowsTimer.cpp" />
@@ -44,7 +44,6 @@
     <ClInclude Include="..\..\..\src\Core\GraphicsEngineUtils.h" />
     <ClInclude Include="..\..\..\src\Core\IndexBuffer.h" />
     <ClInclude Include="..\..\..\src\Core\Oak3DCoreConfig.h" />
-    <ClInclude Include="..\..\..\src\Core\OpenGL\OpenGLGraphicsEngine.h" />
     <ClInclude Include="..\..\..\src\Core\Scene.h" />
     <ClInclude Include="..\..\..\src\Core\Shader.h" />
     <ClInclude Include="..\..\..\src\Core\ThreadFactory.h" />
@@ -66,6 +65,7 @@
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9GraphicsEngine.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9Shader.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectXUtils.h" />
+    <ClInclude Include="..\..\..\src\Core\Windows\OpenGL\OpenGLGraphicsEngine.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsRenderWindow.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsThreadFactory.h" />
     <ClInclude Include="..\..\..\src\Core\Windows\WindowsTimer.h" />

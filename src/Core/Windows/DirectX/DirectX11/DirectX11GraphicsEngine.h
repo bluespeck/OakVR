@@ -6,20 +6,15 @@
 #ifndef __OAK3D_INCLUDE_DIRECTX11GRAPHICSENGINE_H__
 #define __OAK3D_INCLUDE_DIRECTX11GRAPHICSENGINE_H__
 
-#include <windows.h>
-#include <windowsx.h>
-#include <d3d11.h>
-#include <d3dx11.h>
-#include <d3dx10.h>
-
-// include the Direct3D Library file
-#pragma comment (lib, "d3d11.lib")
-#pragma comment (lib, "d3dx11.lib")
-#pragma comment (lib, "d3dx10.lib")
-
 #include "../../../GraphicsEngine.h"
-#include "../DirectXUtils.h"
 
+
+struct ID3D11Device;
+struct ID3D11DeviceContext;
+struct IDXGISwapChain;
+struct ID3D11RenderTargetView;
+struct ID3D11RasterizerState;
+struct ID3D11DepthStencilState;
 
 namespace Oak3D
 {

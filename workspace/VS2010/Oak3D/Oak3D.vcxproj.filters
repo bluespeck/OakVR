@@ -11,5 +11,6 @@
     <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitDirectX11.cpp" />
     <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitDirectX9.cpp" />
     <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitWindows.cpp" />
+    <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitOpenGL.cpp" />
   </ItemGroup>
 </Project>

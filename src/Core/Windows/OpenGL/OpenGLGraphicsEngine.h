@@ -1,29 +1,25 @@
 
 // --------------------------------------------------------------------------------
-// Written by      Mihai Tudorache 2011
+// By Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_DIRECTX9GRAPHICSENGINE_H__
-#define __OAK3D_INCLUDE_DIRECTX9GRAPHICSENGINE_H__
+#ifndef __OAK3D_INCLUDE_OPENGLGRAPHICSENGINE_H__
+#define __OAK3D_INCLUDE_OPENGLGRAPHICSENGINE_H__
 
-#include "../../../GraphicsEngine.h"
 
-struct IDirect3DDevice9;
-struct IDirect3DSurface9;
+
+#include "../../GraphicsEngine.h"
 
 namespace Oak3D
 {
 	namespace Core
-	{
-		class DirectX9DebugText;
-		class Shader;
-
-		class DirectX9GraphicsEngine : public GraphicsEngine
+	{		
+		class OpenGLGraphicsEngine : public GraphicsEngine
 		{
 		public:
 
 			// constructors
-			DirectX9GraphicsEngine();
+			OpenGLGraphicsEngine();
 
 			// overrides
 			virtual void Initialize();
@@ -33,13 +29,13 @@ namespace Oak3D
 
 			virtual void CreateTexture	( Texture *texture );
 			virtual void ReleaseTexture	( Texture *texture );
-			
+
 			virtual void CreateVertexBuffer	( VertexBuffer *pVertexBuffer );
 			virtual void LockVertexBuffer	( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 );
 			virtual void UnlockVertexBuffer	( VertexBuffer *pVertexBuffer );
 			virtual void ReleaseVertexBuffer( VertexBuffer *pVertexBuffer );
 			virtual void UseVertexBuffer( VertexBuffer *pVertexBuffer );
-			
+
 			virtual void CreateIndexBuffer	( IndexBuffer *ibuff );
 			virtual void LockIndexBuffer	( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 );
 			virtual void UnlockIndexBuffer	( IndexBuffer *pIndexBuffer );
@@ -61,12 +57,12 @@ namespace Oak3D
 			void EnableDepthBuffer();
 			void DisableDepthBuffer();
 
-			IDirect3DDevice9 *GetDevice() { return m_pDevice; }
+			void *GetDevice() { return m_pDevice; }
 
 		private:
-			IDirect3DDevice9 *m_pDevice;                     // Direct3D device interface
-			IDirect3DSurface9 *m_pRenderTarget;
-			DirectX9DebugText *m_pDebugText;		// object used to draw debug text
+			void *m_pDevice;                     // OpenGL device interface
+			//IDirect3DSurface9 *m_pRenderTarget;
+			//DirectX9DebugText *m_pDebugText;		// object used to draw debug text
 		};
 	}	// namespace Core
 }	// namespace Oak3D

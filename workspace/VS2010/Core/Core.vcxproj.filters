@@ -33,9 +33,6 @@
     <ClCompile Include="..\..\..\src\Core\Font.cpp">
       <Filter>GraphicsEngine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Core\OpenGL\OpenGLGraphicsEngine.cpp">
-      <Filter>OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11DebugText.cpp">
       <Filter>Windows\DirectX\DirectX11</Filter>
     </ClCompile>
@@ -53,6 +50,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\Core\Windows\DirectX\DirectX9\DirectX9Shader.cpp">
       <Filter>Windows\DirectX\DirectX9</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Windows\OpenGL\OpenGLGraphicsEngine.cpp">
+      <Filter>Windows\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +96,6 @@
     <ClInclude Include="..\..\..\src\Core\Font.h">
       <Filter>GraphicsEngine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\OpenGL\OpenGLGraphicsEngine.h">
-      <Filter>OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\Core\Windows\DirectX\DirectX11\DirectX11DebugText.h">
       <Filter>Windows\DirectX\DirectX11</Filter>
     </ClInclude>
@@ -121,6 +118,9 @@
       <Filter>Windows\DirectX\DirectX9</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Core\Oak3DCoreConfig.h" />
+    <ClInclude Include="..\..\..\src\Core\Windows\OpenGL\OpenGLGraphicsEngine.h">
+      <Filter>Windows\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Windows">
@@ -128,9 +128,6 @@
     </Filter>
     <Filter Include="GraphicsEngine">
       <UniqueIdentifier>{b1fef276-d220-47a1-bbcc-f2c15b8e5526}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="OpenGL">
-      <UniqueIdentifier>{ef05a22e-fe5c-4b80-b60c-072a2b53c3b0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Windows\DirectX">
       <UniqueIdentifier>{bfac17ff-0348-4dfd-bf24-b72a60bcd5d1}</UniqueIdentifier>
@@ -140,6 +137,9 @@
     </Filter>
     <Filter Include="Windows\DirectX\DirectX9">
       <UniqueIdentifier>{ae68d329-5054-41bf-bbe3-eacd0bd8d8bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\OpenGL">
+      <UniqueIdentifier>{3b7ba8c7-5f19-4a22-8809-0ee9956af25c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,7 @@
 #include "DirectX9DebugText.h"
 #include "DirectX9Shader.h"
 #include "DirectX9GraphicsEngine.h"
+#include "../DirectXUtils.h"
 
 #include "../../../Font.h"
 #include "../../../VertexBuffer.h"

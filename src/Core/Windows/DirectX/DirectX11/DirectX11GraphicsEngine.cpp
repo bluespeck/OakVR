@@ -3,11 +3,20 @@
 
 #if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11
 
-#include <D3DX11.h>
-#include <D3D11.h>
-#include <D3D10.h>
+// include the Direct3D Library files
+#pragma comment (lib, "d3d11.lib")
+#pragma comment (lib, "d3dx11.lib")
+#pragma comment (lib, "d3dx10.lib")
+
+#include <windows.h>
+#include <windowsx.h>
+#include <d3dx11.h>
+#include <d3d11.h>
+#include <d3d10.h>
+
 #include <cassert>
 
+#include "../DirectXUtils.h"
 #include "DirectX11GraphicsEngine.h"
 #include "../../WindowsRenderWindow.h"
 #include "../DirectXUtils.h"

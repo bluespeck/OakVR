@@ -11,6 +11,7 @@
 #include "DirectX11DebugText.h"
 #include "DirectX11Shader.h"
 #include "DirectX11GraphicsEngine.h"
+#include "../DirectXUtils.h"
 
 #include "../../../Font.h"
 #include "../../../VertexBuffer.h"

@@ -85,6 +85,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitDirectX11.cpp" />
+    <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitOpenGL.cpp" />
     <ClCompile Include="..\..\..\src\Oak3D\Oak3DInitWindows.cpp">
       <FileType>CppHeader</FileType>
     </ClCompile>
