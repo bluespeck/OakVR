@@ -23,7 +23,7 @@
 #include "../../IndexBuffer.h"
 #include "../../Texture.h"
 #include "../../../Math/Matrix.h"
-
+#include "../../../Math/Transform.h"
 
 
 namespace Oak3D
@@ -45,27 +45,15 @@ namespace Oak3D
 			/////
 			// create Direct3D device
 
-			PIXELFORMATDESCRIPTOR pfd = { 
-				sizeof(PIXELFORMATDESCRIPTOR),    // size of this pfd  
-				1,                                // version number  
-				PFD_DRAW_TO_WINDOW |              // support window  
-				PFD_SUPPORT_OPENGL |              // support OpenGL  
-				PFD_DOUBLEBUFFER,                 // double buffered  
-				PFD_TYPE_RGBA,                    // RGBA type  
-				24,                               // 24-bit color depth  
-				0, 0, 0, 0, 0, 0,                 // color bits ignored  
-				0,                                // no alpha buffer  
-				0,                                // shift bit ignored  
-				0,                                // no accumulation buffer  
-				0, 0, 0, 0,                       // accum bits ignored  
-				32,                               // 32-bit z-buffer      
-				0,                                // no stencil buffer  
-				0,                                // no auxiliary buffer  
-				PFD_MAIN_PLANE,                   // main layer  
-				0,                                // reserved  
-				0, 0, 0                           // layer masks ignored  
-			}; 
-			 
+			PIXELFORMATDESCRIPTOR pfd = { 0 };
+			pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+			pfd.nVersion = 1;
+			pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+			pfd.iPixelType = PFD_TYPE_RGBA;
+			pfd.cColorBits = 24; 
+			pfd.cDepthBits = 32;  
+			pfd.iLayerType = PFD_MAIN_PLANE;
+
 			int  iPixelFormat; 
 
 			// get the device context's best, available pixel format match  
@@ -77,14 +65,15 @@ namespace Oak3D
 			m_pDevice = (HGLRC) wglCreateContext(hdc); 
 			wglMakeCurrent (hdc, (HGLRC)m_pDevice);
 			
-			/*
+			
 			/////
 			// create projection matrices
 			m_pPerspectiveProjectionMatrix = new Math::Matrix();
 			m_pOrthographicProjectionMatrix = new Math::Matrix();
-			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, 3.141592f * 0.25f, 1.25f, 1, 1000);
-			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, (float)viewport.Width, (float)viewport.Height, 0, 1000);
-			*/
+			glMatrixMode(GL_PROJECTION);
+			*m_pPerspectiveProjectionMatrix = Math::Transform::CreatePerspectiveProjectionTransform(3.141592f * 0.25f, 1.25f, 1.0f, 1000.0f);
+			*m_pOrthographicProjectionMatrix = Math::Transform::CreateOthographicProjectionTransform(0.0f, (float)m_pRenderWindow->GetWidth(), 0.0f, (float)m_pRenderWindow->GetHeight(), 1.0f, 1000.0f);
+			
 
 			/////
 			// initialize debug text
@@ -432,7 +421,7 @@ namespace Oak3D
 			//m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
 		}
 
-	}	// namespace Core
-}	// namespace Oak3D
+	} // namespace Core
+} // namespace Oak3D
 
 #endif // OAK3D_RENDERER_OPENGL

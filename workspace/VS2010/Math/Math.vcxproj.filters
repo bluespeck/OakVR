@@ -13,7 +13,6 @@
     <ClInclude Include="..\..\..\src\Math\Vector3.h" />
     <ClInclude Include="..\..\..\src\Math\Vector4.h" />
     <ClInclude Include="..\..\..\src\Math\Transform.h" />
-    <ClInclude Include="..\..\..\src\Math\Transform.hpp" />
     <ClInclude Include="..\..\..\src\Math\MathUtils.h" />
   </ItemGroup>
 </Project>

@@ -39,10 +39,12 @@ namespace Oak3D
 			Matrix operator*(const Matrix &mat) const;
 			
 			static Matrix CreateYawPitchRoll(float yaw, float pitch, float roll);
+			static Matrix CreatePerspectiveProjectionMatrix(float fov, float aspect, float znear, float zfar);
+			static Matrix CreateOthographicProjectionMatrix(float left, float right, float bottom, float top, float near, float far);
 			static Matrix CreateIdentityMatrix();
 		};
 		
-	}
-}
+	} // namespace Oak3D
+} // namespace Oak3D
 
 #endif

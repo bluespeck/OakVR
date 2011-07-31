@@ -31,6 +31,6 @@ namespace Oak3D
 	{
 		return new Core::WindowsThreadFactory();
 	}
-}
+} // namespace Oak3D
 
 #endif // OAK3D_OS_WINDOWS

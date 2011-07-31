@@ -17,6 +17,6 @@ namespace Oak3D
 	{
 		return new Core::DirectX9GraphicsEngine();
 	}
-}
+} // namespace Oak3D
 
 #endif // OAK3D_RENDERER_DIRECTX_9

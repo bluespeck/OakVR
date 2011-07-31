@@ -77,5 +77,74 @@ namespace Oak3D
 
 			return t;
 		}
-	}
-}
+
+		// --------------------------------------------------------------------------------
+		Transform Transform::CreatePerspectiveProjectionTransform(float fov, float aspect, float znear, float zfar)
+		{
+			float xymax = znear * tan(fov);
+			float ymin = -xymax;
+			float xmin = -xymax;
+
+			float width = xymax - xmin;
+			float height = xymax - ymin;
+
+			float depth = zfar - znear;
+			float q = -(zfar + znear) / depth;
+			float qn = -2 * (zfar * znear) / depth;
+
+			float w = 2 * znear / width;
+			w = w / aspect;
+			float h = 2 * znear / height;
+
+			Transform transform;
+			transform._11 = w;
+			transform._12 = 0.0f;
+			transform._13 = 0.0f;
+			transform._14	= 0.0f;
+
+			transform._21 = 0.0f;
+			transform._22 = h;
+			transform._23 = 0.0f;
+			transform._24 = 0.0f;
+
+			transform._31 = 0.0f;
+			transform._32 = 0.0f;
+			transform._33 = q;
+			transform._34 = -1.0f;
+
+			transform._41 = 0.0f;
+			transform._42 = 0.0f;
+			transform._43 = qn;
+			transform._44 = 0.0f;
+
+			return transform;
+		}
+
+		// --------------------------------------------------------------------------------
+		Transform Transform::CreateOthographicProjectionTransform(float left, float right, float bottom, float top, float near, float far)
+		{
+			Transform transform;
+			transform._11 = (right - left) * 0.5f;
+			transform._12 = 0.0f;
+			transform._13 = 0.0f;
+			transform._14 = (left + right) * 0.5f;
+
+			transform._21 = 0.0f;
+			transform._22 = (top - left) * 0.5f;
+			transform._23 = 0.0f;
+			transform._24 = (top + bottom) * 0.5f;
+
+			transform._31 = 0.0f;
+			transform._32 = 0.0f;
+			transform._33 = (far - near) * (-0.5f);
+			transform._34 = (far + near) * (-0.5f);
+
+			transform._41 = 0.0f;
+			transform._42 = 0.0f;
+			transform._43 = 0.0f;
+			transform._44 = 1.0f;
+
+			return transform;
+		}
+	} // namespace Math
+} // namespace Oak3D

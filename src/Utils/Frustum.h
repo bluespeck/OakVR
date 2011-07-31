@@ -13,6 +13,7 @@
 using Oak3D::Math::Vector3;
 using Oak3D::Math::Matrix;
 using Oak3D::Utils::AABB;
+
 namespace Oak3D
 {
 	namespace Utils
@@ -65,6 +66,6 @@ namespace Oak3D
 
 
 	} // namespace Utils
-}
+} // namespace Oak3D
 
 #endif

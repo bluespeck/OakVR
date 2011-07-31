@@ -374,5 +374,5 @@ namespace Oak3D
 			return result;
 		}
 
-	}
-}
+	} // namespace Math
+} // namespace Oak3D

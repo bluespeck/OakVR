@@ -17,6 +17,6 @@ namespace Oak3D
 	{
 		return new Core::OpenGLGraphicsEngine();
 	}
-}
+} // namespace Oak3D
 
 #endif // OAK3D_RENDERER_OPENGL
