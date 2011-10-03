@@ -1,0 +1,31 @@
+Oak3D desired features
+
+core
+ customizable memory allocation
+ threads
+ application abstraction
+
+load
+ any filesystem
+ customizable format
+ seamless network access
+
+editor
+ objects
+ resources
+ 
+simulate
+ object tree / list ?
+ dynamic
+ 
+render
+ directx & openGL
+ polygons / voxels
+
+input
+ keyboard, mouse, gamepad, custom
+
+sound
+ wav, mp3
+
+unit testing
