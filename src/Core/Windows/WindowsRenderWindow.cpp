@@ -71,7 +71,7 @@ namespace Oak3D
 			// Pass a pointer to this object as the lParam in order to later use it to process window messages using the object's methods
 			HWND hWnd = CreateWindowEx(0, L"WindowsRenderWindowClass", m_title.c_str(), WS_OVERLAPPEDWINDOW, m_posX, m_posY, wr.right - wr.left, wr.bottom - wr.top, nullptr, nullptr, hInstance, this);
 			m_osHandle = reinterpret_cast<long int>(hWnd);
-			
+			SetWindowTextW(hWnd, m_title.c_str());
 			ShowWindow(hWnd, SW_SHOW);
 			UpdateWindow(hWnd);
 		}

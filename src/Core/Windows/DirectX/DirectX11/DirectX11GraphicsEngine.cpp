@@ -50,7 +50,7 @@ namespace Oak3D
 		void DirectX11GraphicsEngine::Initialize()
 		{
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
-
+			SetWindowTextW(hWnd, L"Oak3D [DX11]");
 			/////
 			// create Direct3D device, device context and swap chain using the information in the scd struct
 						

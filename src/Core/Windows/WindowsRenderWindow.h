@@ -29,6 +29,9 @@ namespace Oak3D
 			virtual void Minimize();
 			virtual void Maximize();
 			virtual void RestoreSize();
+			virtual void Refresh(){};
+			virtual const std::wstring &GetTitle(){ return L"";}
+			virtual void SetTitle(const std::wstring &title){}
 
 			// Generic message handler			
 			static LRESULT CALLBACK WndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );

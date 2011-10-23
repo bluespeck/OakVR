@@ -21,21 +21,25 @@ namespace Oak3D
 			virtual void Minimize() = 0;
 			virtual void Maximize() = 0;
 			virtual void RestoreSize() = 0;
+			virtual void Refresh() = 0;
 
-			inline void SetOSHandle( long int handle );
-			inline long int GetOSHandle();
+			virtual void SetOSHandle( long int handle );
+			virtual long int GetOSHandle();
 			
-			inline void SetPositionX( int posX );
-			inline int GetPositionX();
+			virtual void SetPositionX( int posX );
+			virtual int GetPositionX();
 
-			inline void SetPositionY( int posY );
-			inline int GetPositionY();
+			virtual void SetPositionY( int posY );
+			virtual int GetPositionY();
 
-			inline void SetWidth( unsigned int width );
-			inline unsigned int GetWidth();
+			virtual void SetWidth( unsigned int width );
+			virtual unsigned int GetWidth();
 			
 			inline void SetHeight( unsigned int height );
 			inline unsigned int GetHeight();
+
+			virtual const std::wstring &GetTitle(){ return m_title; }
+			virtual void SetTitle(const std::wstring &title) { m_title = title; }
 						
 		protected:
 

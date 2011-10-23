@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Math", "Math\Math.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Utils", "Utils\Utils.vcxproj", "{31C92EB5-3EE0-411C-93A3-43326D60414D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Leaf3D", "Leaf3D\Leaf3D.vcxproj", "{B20B09DF-868C-44F3-8311-A16F3A0F72AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -49,6 +51,10 @@ Global
 		{31C92EB5-3EE0-411C-93A3-43326D60414D}.Debug|Win32.Build.0 = Debug|Win32
 		{31C92EB5-3EE0-411C-93A3-43326D60414D}.Release|Win32.ActiveCfg = Release|Win32
 		{31C92EB5-3EE0-411C-93A3-43326D60414D}.Release|Win32.Build.0 = Release|Win32
+		{B20B09DF-868C-44F3-8311-A16F3A0F72AE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B20B09DF-868C-44F3-8311-A16F3A0F72AE}.Debug|Win32.Build.0 = Debug|Win32
+		{B20B09DF-868C-44F3-8311-A16F3A0F72AE}.Release|Win32.ActiveCfg = Release|Win32
+		{B20B09DF-868C-44F3-8311-A16F3A0F72AE}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

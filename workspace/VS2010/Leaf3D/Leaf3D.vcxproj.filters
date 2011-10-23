@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Events">
+      <UniqueIdentifier>{b24cf6bb-b168-41ff-b98e-e199d589d720}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Widgets">
+      <UniqueIdentifier>{541eaa92-b74e-45f1-ba6e-388366d80eca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{5edecf5d-1a8b-4f88-afae-e77eb7c43ccc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{859f8714-78dc-4fba-9793-520642da826d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\Leaf3D\Button.h">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\Widget.h">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\Label.h">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\Clickable.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\Focusable.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\ToolTiped.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\ScreenPosition.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\ScreenSize2D.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\Event.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\MouseEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\Leaf3D\Label.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\Widget.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\Clickable.cpp">
+      <Filter>Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\Focusable.cpp">
+      <Filter>Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\ToolTiped.cpp">
+      <Filter>Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\ScreenPosition.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\ScreenSize2D.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\Event.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\MouseEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

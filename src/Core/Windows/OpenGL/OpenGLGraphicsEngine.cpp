@@ -42,6 +42,8 @@ namespace Oak3D
 		{
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
 			HDC hdc = GetDC(hWnd);
+
+			SetWindowTextW(hWnd, L"Oak3D [OpenGL]");
 			/////
 			// create Direct3D device
 

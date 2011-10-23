@@ -45,7 +45,7 @@ namespace Oak3D
 		void DirectX9GraphicsEngine::Initialize()
 		{
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
-
+			SetWindowTextW(hWnd, L"Oak3D [DX9]");
 			/////
 			// create Direct3D device
 
