@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="FileSystem">
+      <UniqueIdentifier>{988c239a-f05a-4063-875e-a7dd25ad5754}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Time">
+      <UniqueIdentifier>{d93434e0-fa48-4767-a8dd-0249306be8b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager">
+      <UniqueIdentifier>{0aaf4c19-e990-41f9-ad3f-586a4abf949e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{3bceca51-be6d-4fe9-8233-63b92c304bf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{1eac9660-a46a-4417-8df2-a3c558ad8cc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Parallel">
+      <UniqueIdentifier>{1b930c7a-8b5a-4a21-b99a-a472804c970e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{22f06410-7ebb-4fc6-80f5-6cd1ebec536e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{2e7d7782-1f13-4b1f-940f-e2ee6f962905}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\Core\Math\MathUtils.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Math\Matrix.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Math\Transform.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Math\Vector2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Math\Vector3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Math\Vector4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Time\Timer.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Utils\AABB.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Utils\Color.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Utils\Frustum.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Utils\Singleton.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Utils\StringID.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Config\Oak3DConfig.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Config\Oak3DDefines.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Config\Oak3DInit.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\FileSystem\File.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\FileSystem\Directory.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\ResourceManager\IResource.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\ResourceManager\ResourceManager.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Parallel\Thread.h">
+      <Filter>Parallel</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\Core\Math\Matrix.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Math\Transform.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Math\Vector2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Math\Vector3.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Math\Vector4.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Utils\AABB.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Utils\Color.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Utils\Frustum.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Utils\StringID.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\FileSystem\File_windows.cpp">
+      <Filter>FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\FileSystem\Directory_windows.cpp">
+      <Filter>FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\ResourceManager\ResourceManager.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Parallel\Thread_windows.cpp">
+      <Filter>Parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Time\Timer_windows.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

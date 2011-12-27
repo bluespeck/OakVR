@@ -1,5 +1,6 @@
 obj/
 bin/
+!extern/*/bin
 *.user
 *.log
 *.opensdf

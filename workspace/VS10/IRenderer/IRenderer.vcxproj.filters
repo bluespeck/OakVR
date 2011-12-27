@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Camera.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Font.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\GraphicsEngine.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\IController.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\IndexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Material.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Mesh.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Object.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\RenderWindow.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Scene.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Texture.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\VertexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\WindowsRenderWindow.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Oak3DInitWindows.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Camera.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\DebugText.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Font.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\GraphicsEngine.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\GraphicsEngineUtils.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\IController.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\IndexBuffer.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Material.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Mesh.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Object.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\RenderWindow.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Scene.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Shader.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Texture.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\VertexBuffer.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\WindowsRenderWindow.h" />
+  </ItemGroup>
+</Project>

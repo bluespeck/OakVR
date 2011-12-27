@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CCF6ED8B-FA5F-4159-929C-E730EDD7987F}</ProjectGuid>
+    <RootNamespace>IRenderer</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)..\..\bin\</OutDir>
+    <IntDir>$(SolutionDir)..\..\obj\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)/../../src/;$(SolutionDir)/../../extern/assimp/include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Projects\Oak3D\extern\assimp\lib;$(LibraryPath)</LibraryPath>
+    <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)..\..\bin\</OutDir>
+    <IntDir>$(SolutionDir)..\..\obj\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)/../../src/;$(SolutionDir)/../../extern/assimp/include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Projects\Oak3D\extern\assimp\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Camera.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Font.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\GraphicsEngine.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\IController.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\IndexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Material.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Mesh.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Oak3DInitWindows.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Object.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\RenderWindow.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Scene.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Texture.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\VertexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\WindowsRenderWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Camera.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\DebugText.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Font.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\GraphicsEngine.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\GraphicsEngineUtils.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\IController.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\IndexBuffer.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Material.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Mesh.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Object.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\RenderWindow.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Scene.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Shader.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Texture.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\VertexBuffer.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\WindowsRenderWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{b206edfa-ab05-40ab-ae4e-3aeaa8808345}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
