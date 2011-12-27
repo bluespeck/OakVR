@@ -1,15 +1,15 @@
 
 // --------------------------------------------------------------------------------
-// Written by      Mihai Tudorache 2011
+
 // --------------------------------------------------------------------------------
 
 #ifndef __OAK3D_INCLUDE_OAK3D_H__
 #define __OAK3D_INCLUDE_OAK3D_H__
 
-#include "Oak3DConfig.h"
-#include "Oak3DInit.h"
-#include "../Core/Engine.h"
-#include "../Utils/Singleton.h"
+#include "Core/Config/Oak3DConfig.h"
+#include "Core/Config/Oak3DInit.h"
+#include "Oak3D/Engine.h"
+#include "Core/Utils/Singleton.h"
 
 namespace Oak3D
 {
@@ -29,10 +29,10 @@ namespace Oak3D
 		eRAPI_DIRECTX_11 = eRAPI_DirectX + 3
 	};
 
-	class Oak3D : public Utils::Singleton<Oak3D>
+	class Oak3D : public Core::Singleton<Oak3D>
 	{
 	public:
-		friend class Utils::Singleton<Oak3D>;
+		friend class Core::Singleton<Oak3D>;
 		void Update();
 		OperatingSystem os;
 		RenderingAPI renderAPI;
@@ -42,7 +42,7 @@ namespace Oak3D
 		~Oak3D();
 
 	private:
-		Core::Engine *m_pEngine;
+		Engine *m_pEngine;
 	};
 	
 }	// namespace Oak3D

@@ -1,10 +1,11 @@
 
 #include "Oak3D.h"
-#include "../Core/Engine.h"
-#include "../Core/RenderWindow.h"
-#include "../Core/ThreadFactory.h"
-#include "../Core/Timer.h"
-#include "../Core/GraphicsEngine.h"
+#include "Oak3D/Engine.h"
+#include "Renderer/IRenderer/RenderWindow.h"
+#include "Renderer/IRenderer/GraphicsEngine.h"
+#include "Core/Parallel/Thread.h"
+#include "Core/Time/Timer.h"
+
 
 namespace Oak3D
 {	
@@ -12,12 +13,12 @@ namespace Oak3D
 	// --------------------------------------------------------------------------------
 	Oak3D::Oak3D()
 	{
-		m_pEngine = Core::Engine::GetInstance();
+		m_pEngine = Engine::GetInstance();
 
 		m_pEngine->SetRenderWindow(CreateRenderWindow());		
-		m_pEngine->SetThreadFactory(CreateThreadFactory());
-		m_pEngine->SetTimer(CreateTimer());
-		m_pEngine->SetGraphicsEngine(CreateGraphicsEngine());		
+		m_pEngine->SetTimer(new Core::Timer());
+		m_pEngine->SetGraphicsEngine(CreateGraphicsEngine());
+		m_pEngine->SetResourceManager(Core::ResourceManager::GetInstance());
 
 		m_pEngine->Initialize();
 	}
