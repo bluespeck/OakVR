@@ -26,19 +26,12 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLShader::Init(const Core::StringId &path, ShaderType eShaderType, uint32_t vertexFormat)
+		void OpenGLShader::Init(const Core::StringId &id, AditionalInitParams *pAditionalInitParams)
 		{
-			m_shaderType = eShaderType;
-			assert((eShaderType == eST_PixelShader || vertexFormat != 0) && "Vertex shader needs vertex format when created!");
-			m_vertexFormat = vertexFormat;
-			Init(path);
-		}
-
-		// --------------------------------------------------------------------------------
-		void OpenGLShader::Init( const Core::StringId &id )
-		{
-			m_id = Core::StringId(id);
-
+			m_id = id;
+			m_shaderType = dynamic_cast<OGLShaderAditionalInitParams*>(pAditionalInitParams)->shaderType;
+			//assert((eShaderType == eST_PixelShader || vertexFormat != 0) && "Vertex shader needs vertex format when created!");
+			//m_vertexFormat = vertexFormat;
 		}
 
 		// --------------------------------------------------------------------------------

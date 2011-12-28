@@ -58,7 +58,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxerr.lib;</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dxerr.lib;d3dcompiler.lib;dxguid.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(DXSDK_DIR)/lib/x86</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -75,7 +75,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;d3dx11.lib;</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dx11.lib;d3dcompiler.lib;dxguid.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(DXSDK_DIR)/lib/x86</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>

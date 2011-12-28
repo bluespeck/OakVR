@@ -48,10 +48,12 @@ namespace Oak3D
 			m_pFont = new Font();
 			m_pFont->Initialize("../resources/font/DebugFont.index", "../resources/font/DebugFont.dds");
 
-
-			// TODO Different resources from the same file :((((((((((((((((((((
-			m_pVertexShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/DebugFont.hlsl");
-			m_pFragmentShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/DebugFont1.hlsl");
+			// TODO Different resources from the same file :(((((((((((((((((((( => same id => second resource is not created
+			OpenGLShader::OGLShaderAditionalInitParams params;
+			params.shaderType = eST_VertexShader;			
+			m_pVertexShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/DebugFont.hlsl", &params);
+			params.shaderType = eST_PixelShader;
+			m_pFragmentShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/DebugFont1.hlsl", &params);
 		}
 
 		// --------------------------------------------------------------------------------

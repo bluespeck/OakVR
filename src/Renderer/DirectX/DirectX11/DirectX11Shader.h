@@ -18,39 +18,25 @@ namespace Oak3D
 		class DirectX11Shader : public Shader
 		{
 		public:
+
+			struct DX11AditionalInitParams : AditionalInitParams
+			{
+				ShaderType shaderType;
+			};
+
 			DirectX11Shader();
-			void Init( const Core::StringId &id, ShaderType eShaderType, uint32_t vertexFormat = 0 );
-			
 			// overrides
+			virtual void Init( const Core::StringId &id, AditionalInitParams *pAditionalInitParams = nullptr);
 			virtual void Load();
 			virtual void Reload();
 			virtual void Release();
-
-			inline uint32_t GetVertexFormat();
-			inline void SetVertexFormat( uint32_t vertexFormat );
 			
 			inline ID3D11InputLayout *GetInputLayout();
 			inline void SetInputLayout( ID3D11InputLayout *pInputLayout );
 
-			virtual void Init( const Core::StringId &id );
-
 		protected:
 			ID3D11InputLayout *m_pInputLayout;
-			uint32_t m_vertexFormat;
-
 		};
-
-		// --------------------------------------------------------------------------------
-		inline uint32_t DirectX11Shader::GetVertexFormat()
-		{
-			return m_vertexFormat;
-		}
-		
-		// --------------------------------------------------------------------------------
-		inline void DirectX11Shader::SetVertexFormat( uint32_t vertexFormat )
-		{
-			m_vertexFormat = vertexFormat;
-		}
 
 		// --------------------------------------------------------------------------------
 		inline ID3D11InputLayout *DirectX11Shader::GetInputLayout()
@@ -63,7 +49,6 @@ namespace Oak3D
 		{
 			m_pInputLayout = pInputLayout;
 		}
-
 
 	}	// namespace Render
 }	// namespace Oak3D

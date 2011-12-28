@@ -1,5 +1,5 @@
 
-#include "../../../Core/Config/Oak3DConfig.h"
+#include "Core/Config/Oak3DConfig.h"
 
 #if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11
 
@@ -24,24 +24,14 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		DirectX11Shader::DirectX11Shader()
 		: m_pInputLayout(nullptr)
-		, m_vertexFormat(0)
 		{
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11Shader::Init(const Core::StringId &id, ShaderType eShaderType, uint32_t vertexFormat)
-		{
-			m_shaderType = eShaderType;
-			assert((eShaderType == eST_PixelShader || vertexFormat != 0) && "Vertex shader needs vertex format when created!");
-			m_vertexFormat = vertexFormat;
-			Init(id);
-		}
-
-		// --------------------------------------------------------------------------------
-		void DirectX11Shader::Init( const Core::StringId &id )
+		void DirectX11Shader::Init(const Core::StringId &id, AditionalInitParams *pAditionalInitParams)
 		{
 			m_id = id;
-
+			m_shaderType = dynamic_cast<DX11AditionalInitParams*>(pAditionalInitParams)->shaderType;
 		}
 
 		// --------------------------------------------------------------------------------

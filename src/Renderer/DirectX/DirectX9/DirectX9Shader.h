@@ -16,8 +16,15 @@ namespace Oak3D
 		class DirectX9Shader : public Shader
 		{
 		public:
+
+			struct DX9AditionalInitParams : public AditionalInitParams
+			{
+				ShaderType shaderType;
+				uint32_t vertexFormat;
+			};
+
 			DirectX9Shader();
-			void Init( const std::string &path, ShaderType eShaderType, uint32_t vertexFormat = 0 );
+			void Init( const Core::StringId &id, AditionalInitParams *pAditionalInitParams);
 			
 			// overrides
 			virtual void Load();
@@ -30,9 +37,6 @@ namespace Oak3D
 			inline IDirect3DVertexDeclaration9 *GetInputLayout();
 			inline void SetInputLayout( IDirect3DVertexDeclaration9 *pInputLayout );
 			
-		private:
-			virtual void Init( const std::string &path );
-
 		protected:
 			IDirect3DVertexDeclaration9 *m_pInputLayout;
 			uint32_t m_vertexFormat;

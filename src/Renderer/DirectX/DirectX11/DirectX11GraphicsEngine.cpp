@@ -12,7 +12,9 @@
 #include <windowsx.h>
 #include <d3dx11.h>
 #include <d3d11.h>
-#include <d3d10.h>
+#include <D3Dcompiler.h>
+#include <D3D11Shader.h>
+#include <vector>
 
 #include <cassert>
 
@@ -225,6 +227,79 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
+		HRESULT CreateInputLayoutDescFromVertexShaderSignature( ID3DBlob* pShaderBlob, ID3D11Device* pD3DDevice, ID3D11InputLayout** pInputLayout )
+		{
+			// Reflect shader info
+			ID3D11ShaderReflection* pVertexShaderReflection = NULL;	
+			if ( FAILED( D3DReflect( pShaderBlob->GetBufferPointer(), pShaderBlob->GetBufferSize(), IID_ID3D11ShaderReflection, (void**) &pVertexShaderReflection ) ) ) 
+			{
+				return S_FALSE;
+			}
+
+			// Get shader info
+			D3D11_SHADER_DESC shaderDesc;
+			pVertexShaderReflection->GetDesc( &shaderDesc );
+
+			// Read input layout description from shader info
+			uint32_t byteOffset = 0;
+			std::vector<D3D11_INPUT_ELEMENT_DESC> inputLayoutDesc;
+			for ( uint32_t i=0; i< shaderDesc.InputParameters; i++ )
+			{
+				D3D11_SIGNATURE_PARAMETER_DESC paramDesc;		
+				pVertexShaderReflection->GetInputParameterDesc(i, &paramDesc );
+
+				// fill out input element desc
+				D3D11_INPUT_ELEMENT_DESC elementDesc;	
+				elementDesc.SemanticName = paramDesc.SemanticName;		
+				elementDesc.SemanticIndex = paramDesc.SemanticIndex;
+				elementDesc.InputSlot = 0;
+				elementDesc.AlignedByteOffset = byteOffset;
+				elementDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+				elementDesc.InstanceDataStepRate = 0;	
+
+				// determine DXGI format
+				if ( paramDesc.Mask == 1 )
+				{
+					if ( paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32 ) elementDesc.Format = DXGI_FORMAT_R32_UINT;
+					else if ( paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32 ) elementDesc.Format = DXGI_FORMAT_R32_SINT;
+					else if ( paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32 ) elementDesc.Format = DXGI_FORMAT_R32_FLOAT;
+					byteOffset += 4;
+				}
+				else if ( paramDesc.Mask <= 3 )
+				{
+					if ( paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32 ) elementDesc.Format = DXGI_FORMAT_R32G32_UINT;
+					else if ( paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32 ) elementDesc.Format = DXGI_FORMAT_R32G32_SINT;
+					else if ( paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32 ) elementDesc.Format = DXGI_FORMAT_R32G32_FLOAT;
+					byteOffset += 8;
+				}
+				else if ( paramDesc.Mask <= 7 )
+				{
+					if ( paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32 ) elementDesc.Format = DXGI_FORMAT_R32G32B32_UINT;
+					else if ( paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32 ) elementDesc.Format = DXGI_FORMAT_R32G32B32_SINT;
+					else if ( paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32 ) elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+					byteOffset += 12;
+				}
+				else if ( paramDesc.Mask <= 15 )
+				{
+					if ( paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32 ) elementDesc.Format = DXGI_FORMAT_R32G32B32A32_UINT;
+					else if ( paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32 ) elementDesc.Format = DXGI_FORMAT_R32G32B32A32_SINT;
+					else if ( paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32 ) elementDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+					byteOffset += 16;
+				}
+
+				//save element desc
+				inputLayoutDesc.push_back(elementDesc);
+			}		
+
+			// Try to create Input Layout
+			HRESULT hr = pD3DDevice->CreateInputLayout( &inputLayoutDesc[0], inputLayoutDesc.size(), pShaderBlob->GetBufferPointer(), pShaderBlob->GetBufferSize(), pInputLayout );
+
+			//Free allocation shader reflection memory
+			pVertexShaderReflection->Release();
+			return hr;
+		}
+
+		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::CreateShader(Shader *pShader)
 		{
 			DirectX11Shader *pSh = static_cast<DirectX11Shader *>(pShader);
@@ -244,14 +319,11 @@ namespace Oak3D
 						HR(m_pDevice->CreateVertexShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, &pCompiledShader));
 						pSh->SetCompiledShader(pCompiledShader);
 
-						// create input layout
-						void *pLayoutDesc = nullptr;
-						uint32_t numElems;
-						CreateInputLayoutDesc(pSh->GetVertexFormat(), pLayoutDesc, numElems);						
-						D3D11_INPUT_ELEMENT_DESC * pld = (D3D11_INPUT_ELEMENT_DESC *)pLayoutDesc;
+						// create input layout (from the compiled shader)						
 						ID3D11InputLayout *pInputLayout = nullptr;
-						HR(m_pDevice->CreateInputLayout(pld, numElems, pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), &pInputLayout));
+						HR(CreateInputLayoutDescFromVertexShaderSignature(pShaderByteCode, m_pDevice, &pInputLayout));
 						pSh->SetInputLayout(pInputLayout);
+						pShaderByteCode->Release();
 						return ;
 					}
 					break;
@@ -269,7 +341,7 @@ namespace Oak3D
 						HR(m_pDevice->CreatePixelShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, &pCompiledShader));
 						pSh->SetCompiledShader(pCompiledShader);
 
-
+						pShaderByteCode->Release();
 						return;
 					}
 					break;
@@ -288,7 +360,7 @@ namespace Oak3D
 			((ID3D11Resource *)pShader->GetCompiledShader())->Release();
 			pShader->SetCompiledShader(nullptr);
 		}
-
+		
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::CreateTexture( Texture *pTexture )
 		{

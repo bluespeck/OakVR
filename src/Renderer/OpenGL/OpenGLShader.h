@@ -16,13 +16,11 @@ namespace Oak3D
 		public:			
 			struct OGLShaderAditionalInitParams : public AditionalInitParams
 			{
-
+				ShaderType shaderType;
 			};
 
-			typedef OGLShaderAditionalInitParams AIP; 
-
 			OpenGLShader();
-			void Init( const Core::StringId &id, AditionalInitParams *pInitParams = nullptr); //ShaderType eShaderType, uint32_t vertexFormat = 0 );
+			void Init( const Core::StringId &id, AditionalInitParams *pAditionalInitParams);
 
 			// overrides
 			virtual void Load();
@@ -31,8 +29,6 @@ namespace Oak3D
 
 			inline uint32_t GetVertexFormat();
 			inline void SetVertexFormat( uint32_t vertexFormat );
-
-			virtual void Init( const Core::StringId &id );
 
 		protected:
 			uint32_t m_vertexFormat;

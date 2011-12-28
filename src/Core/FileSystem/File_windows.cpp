@@ -49,7 +49,7 @@ namespace Oak3D
 			struct __stat64 fileStat; 
 			if(_stat64( filepath.c_str(), &fileStat ))
 				return 0; 
-			return fileStat.st_size;
+			return (unsigned long)fileStat.st_size;
 		}
 
 		unsigned long File::Size()

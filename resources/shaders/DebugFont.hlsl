@@ -27,7 +27,7 @@ cbuffer PixelBuffer
 //////////////
 struct VertexInputType
 {
-    float4 position : POSITION;
+    float3 position : POSITION;
     float2 tex : TEXCOORD0;
 };
 
@@ -54,7 +54,7 @@ PixelInputType OakVertexShader(VertexInputType input)
 	// output.position = mul(output.position, viewMatrix);
 	// output.position = mul(output.position, projectionMatrix);
 	//output.position = input.position;
-	output.position = input.position;
+	output.position = float4(input.position, 1.0f);
     
     // Store the texture coordinates for the pixel shader.
     output.tex = input.tex;

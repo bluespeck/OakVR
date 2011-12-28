@@ -22,7 +22,7 @@ namespace Oak3D
 			void Initialize();
 
 			template<typename ResourceType>
-			ResourceType * GetResource(const StringId &id);
+			ResourceType * GetResource(const StringId &id, IResource::AditionalInitParams *pAditionalInitParams = nullptr);
 			void ReleaseResource(IResource *pRes);
 			void ReleaseResource(const StringId &id);
 
@@ -41,7 +41,7 @@ namespace Oak3D
 
 		// --------------------------------------------------------------------------------
 		template<typename ResourceType>
-		ResourceType * ResourceManager::GetResource(const StringId &id)
+		ResourceType * ResourceManager::GetResource(const StringId &id, IResource::AditionalInitParams *pAditionalInitParams)
 		{
 			{
 				auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](IResource *pt)
@@ -68,7 +68,7 @@ namespace Oak3D
 			
 			// Add new resource to the TO BE LOADED queue
 			auto sp = new ResourceType();
-			sp->Init(id);
+			sp->Init(id, pAditionalInitParams);
 			m_toBeLoaded.push_back(sp);
 			return sp;
 		}

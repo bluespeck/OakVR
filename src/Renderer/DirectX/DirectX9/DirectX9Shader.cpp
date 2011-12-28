@@ -28,20 +28,15 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9Shader::Init(const std::string &path, ShaderType eShaderType, uint32_t vertexFormat)
+		void DirectX9Shader::Init(const Core::StringId &id, AditionalInitParams *pAditionalInitParams)
 		{
-			m_shaderType = eShaderType;
-			assert((eShaderType == eST_PixelShader || vertexFormat != 0) && "Vertex shader needs vertex format when created!");
-			m_vertexFormat = vertexFormat;
-			Init(path);
+			m_id = id;
+			m_shaderType = dynamic_cast<DX9AditionalInitParams*>(pAditionalInitParams)->shaderType;
+			m_vertexFormat = dynamic_cast<DX9AditionalInitParams*>(pAditionalInitParams)->vertexFormat;
+			assert((m_shaderType == eST_PixelShader || m_vertexFormat != 0) && "Vertex shader needs vertex format when created!");
 		}
 
-		// --------------------------------------------------------------------------------
-		void DirectX9Shader::Init( const std::string &path )
-		{
-			m_id = Core::StringId(path);
-
-		}
+		
 
 		// --------------------------------------------------------------------------------
 		void DirectX9Shader::Load()

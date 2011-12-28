@@ -59,10 +59,11 @@ namespace Oak3D
 			m_pFont = new Font();
 			m_pFont->Initialize("../resources/font/DebugFont.index", "../resources/font/DebugFont.dds");
 
-			m_pVertexShader = new DirectX11Shader();
-			m_pPixelShader = new DirectX11Shader();
-			m_pVertexShader->Init( "../resources/shaders/DebugFont.hlsl", eST_VertexShader, (VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0));
-			m_pPixelShader->Init( "../resources/shaders/DebugFont.hlsl", eST_PixelShader);
+			DirectX11Shader::DX11AditionalInitParams params;
+			params.shaderType = eST_VertexShader;
+			m_pVertexShader = Oak3D::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/DebugFont.hlsl", &params);//eST_VertexShader, (VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0));
+			params.shaderType = eST_PixelShader;
+			m_pPixelShader = Oak3D::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/DebugFont1.hlsl", &params);//eST_PixelShader);
 			m_pVertexShader->Load();
 			m_pPixelShader->Load();
 		}

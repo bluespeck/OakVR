@@ -275,7 +275,7 @@ namespace Oak3D
 		{
 		}
 
-		void Mesh::Init(const std::wstring &path)
+		void Mesh::Init(const Core::StringId &id, AditionalInitParams *pAditionalInitParams)
 		{
 			
 		}

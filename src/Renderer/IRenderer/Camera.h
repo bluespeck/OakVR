@@ -7,11 +7,11 @@
 #define __OAK3D_INCLUDE_CAMERA_H__
 
 #include "Object.h"
-#include "../../Core/Math/Matrix.h"
-#include "../../Core/Math/Vector3.h"
-#include "../../Core/Math/MathUtils.h"
+#include "Core/Math/Matrix.h"
+#include "Core/Math/Vector3.h"
+#include "Core/Math/MathUtils.h"
 
-#include "../../Core/Utils/Frustum.h"
+#include "Core/Utils/Frustum.h"
 
 using Oak3D::Math::Vector3;
 using Oak3D::Math::Matrix;
