@@ -11,6 +11,14 @@ namespace Oak3D
 		class IResource
 		{
 		public:
+			
+			// helper struct that is passed to the init function with specific initialization
+			// params that the derived resource classes specify in their own version of the struct
+			// which will be inherited from this one
+			struct AditionalInitParams	
+			{							
+				virtual ~AditionalInitParams();
+			};
 
 			enum ResourceState
 			{
@@ -23,7 +31,7 @@ namespace Oak3D
 			IResource() : m_id(1), m_refCount(1) {}
 			virtual ~IResource() {}
 	
-			virtual void Init(const StringId &id) = 0;
+			virtual void Init(const StringId &id, AditionalInitParams *pInitParams = nullptr) = 0;
 			virtual void Load() = 0;
 			virtual void Reload() = 0;
 			virtual void Release() = 0;

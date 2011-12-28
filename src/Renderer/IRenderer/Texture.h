@@ -47,7 +47,7 @@ namespace Oak3D
 			inline void SetFormat( TextureFormat textureFormat );
 
 			// overrides
-			void Init(const Oak3D::Core::StringId &id);
+			void Init(const Oak3D::Core::StringId &id, AditionalInitParams *pInitParams = nullptr);
 			void Load();
 			void Reload();
 			void Release();

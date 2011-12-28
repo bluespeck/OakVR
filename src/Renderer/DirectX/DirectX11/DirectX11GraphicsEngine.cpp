@@ -1,5 +1,5 @@
 
-#include "../../../Core/Config/Oak3DConfig.h"
+#include "Core/Config/Oak3DConfig.h"
 
 #if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11
 

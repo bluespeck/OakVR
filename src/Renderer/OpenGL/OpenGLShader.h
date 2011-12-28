@@ -13,9 +13,16 @@ namespace Oak3D
 	{
 		class OpenGLShader : public Shader
 		{
-		public:
+		public:			
+			struct OGLShaderAditionalInitParams : public AditionalInitParams
+			{
+
+			};
+
+			typedef OGLShaderAditionalInitParams AIP; 
+
 			OpenGLShader();
-			void Init( const Core::StringId &id, ShaderType eShaderType, uint32_t vertexFormat = 0 );
+			void Init( const Core::StringId &id, AditionalInitParams *pInitParams = nullptr); //ShaderType eShaderType, uint32_t vertexFormat = 0 );
 
 			// overrides
 			virtual void Load();

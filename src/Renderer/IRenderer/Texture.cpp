@@ -16,7 +16,7 @@ namespace Oak3D
 		{
 		}
 
-		void Texture::Init(const Oak3D::Core::StringId &id)
+		void Texture::Init(const Oak3D::Core::StringId &id, AditionalInitParams *)
 		{ 
 			m_id = id;
 		}

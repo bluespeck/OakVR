@@ -37,6 +37,9 @@
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{b206edfa-ab05-40ab-ae4e-3aeaa8808345}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\IRenderer\IRenderer.vcxproj">
+      <Project>{ccf6ed8b-fa5f-4159-929c-e730edd7987f}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B20B09DF-868C-44F3-8311-A16F3A0F72AE}</ProjectGuid>
