@@ -172,13 +172,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../extern/GLEW/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
       <AdditionalDependencies>glew32.lib;glu32.lib;opengl32.lib;SOIL.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/;$(SolutionDir)../../extern/GLEW/lib/x86/;</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
     <ProjectReference>
@@ -190,13 +191,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../extern/GLEW/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
       <AdditionalDependencies>glew32.lib;glu32.lib;opengl32.lib;SOIL.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/;$(SolutionDir)../../extern/GLEW/lib/x86/;</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
     <ProjectReference>
@@ -208,13 +210,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../extern/GLEW/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
       <AdditionalDependencies>glew32.lib;glu32.lib;opengl32.lib;SOIL.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/;$(SolutionDir)../../extern/GLEW/lib/x86/;</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
     <ProjectReference>
@@ -226,13 +229,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>OAK3D_RENDERER=OAK3D_RENDERER_OPENGL;_DEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../extern/GLEW/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
       <AdditionalDependencies>glew32.lib;glu32.lib;opengl32.lib;SOIL.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/;$(SolutionDir)../../extern/GLEW/lib/x86/;</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
     <ProjectReference>
@@ -245,6 +249,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../extern/GLEW/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -253,7 +258,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>SOIL.lib;glew32.lib;glu32.lib;opengl32.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/;$(SolutionDir)../../extern/GLEW/lib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/;$(SolutionDir)../../extern/GLEW/lib/x86/;</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
     <ProjectReference>
@@ -267,6 +272,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>OAK3D_RENDERER=OAK3D_RENDERER_OPENGL;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../extern/GLEW/include/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -275,7 +281,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>SOIL.lib;glew32.lib;glu32.lib;opengl32.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/;$(SolutionDir)../../extern/GLEW/lib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/;$(SolutionDir)../../extern/GLEW/lib/x86/;</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
     <ProjectReference>
@@ -288,6 +294,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../extern/GLEW/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -296,7 +303,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>SOIL.lib;glew32.lib;glu32.lib;opengl32.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/;$(SolutionDir)../../extern/GLEW/lib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/;$(SolutionDir)../../extern/GLEW/lib/x86/;</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
     <ProjectReference>
@@ -309,6 +316,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../extern/GLEW/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -317,7 +325,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>SOIL.lib;glew32.lib;glu32.lib;opengl32.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/;$(SolutionDir)../../extern/GLEW/lib/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../../extern/SOIL/lib/;$(SolutionDir)../../extern/GLEW/lib/x86/;</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
     <ProjectReference>
