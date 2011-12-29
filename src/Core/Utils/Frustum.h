@@ -6,9 +6,9 @@
 #ifndef __OAK3D_INCLUDE_FRUSTUM_H__
 #define __OAK3D_INCLUDE_FRUSTUM_H__
 
-#include "../Math/Matrix.h"
-#include "../Math/Vector3.h"
-#include "../Utils/AABB.h"
+#include "Core/Math/Matrix.h"
+#include "Core/Math/Vector3.h"
+#include "Core/Utils/AABB.h"
 
 using Oak3D::Math::Vector3;
 using Oak3D::Math::Matrix;

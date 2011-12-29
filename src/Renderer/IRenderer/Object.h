@@ -7,7 +7,8 @@
 #define __OAK3D_INCLUDE_OBJECT_H__
 
 #include <list>
-#include "../../Core/Utils/StringID.h"
+
+#include "Core/Utils/StringID.h"
 
 namespace Oak3D
 {

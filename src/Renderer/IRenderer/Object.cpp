@@ -1,5 +1,3 @@
-
-
 #include "Object.h"
 
 namespace Oak3D

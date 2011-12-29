@@ -5,7 +5,7 @@
 #ifndef __OAK3D_INCLUDE_DIRECTX9GRAPHICSENGINE_H__
 #define __OAK3D_INCLUDE_DIRECTX9GRAPHICSENGINE_H__
 
-#include "../../IRenderer/GraphicsEngine.h"
+#include "Renderer/IRenderer/GraphicsEngine.h"
 
 struct IDirect3DDevice9;
 struct IDirect3DSurface9;
