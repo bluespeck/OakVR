@@ -6,7 +6,6 @@
 #include "Core/Parallel/Thread.h"
 #include "Core/Time/Timer.h"
 
-
 namespace Oak3D
 {	
 
