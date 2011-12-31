@@ -46,7 +46,7 @@ namespace Oak3D
 		void OpenGLDebugText::Init()
 		{	
 			m_pFont = new Font();
-			m_pFont->Initialize("../resources/font/DebugFont.index", "../resources/font/DebugFont.dds");
+			m_pFont->Initialize("../resources/font/DebugFont.index", "../resources/font/DebugFont.tga");
 
 			// TODO Different resources from the same file :(((((((((((((((((((( => same id => second resource is not created
 			OpenGLShader::OGLShaderAditionalInitParams params;

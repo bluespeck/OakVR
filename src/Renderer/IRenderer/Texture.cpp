@@ -23,6 +23,7 @@ namespace Oak3D
 		
 		void Texture::Load()
 		{
+			m_state = eRS_Loading;
 			// Create GE texture
 			Oak3D::Engine::GetInstance()->GetGraphicsEngine()->CreateTexture(this);
 			m_state = eRS_Ready;
