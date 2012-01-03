@@ -3,6 +3,8 @@
 #define _OAK3D_LEAF3D_LABEL_H_
 
 #include <string>
+
+#include "Widget.h"
 #include "ToolTiped.h"
 
 
@@ -10,7 +12,7 @@ namespace Oak3D
 {
 	namespace Leaf3D
 	{
-		class Label : public ToolTiped
+		class Label : public Widget, public ToolTiped
 		{
 		public:
 			Label(std::wstring text = L"");

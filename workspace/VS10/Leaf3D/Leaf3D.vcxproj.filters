@@ -45,6 +45,12 @@
     <ClInclude Include="..\..\..\src\Leaf3D\MouseEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\Panel.h">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\WidgetContainer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Leaf3D\Label.cpp">

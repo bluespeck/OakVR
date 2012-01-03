@@ -41,10 +41,12 @@
     <ClInclude Include="..\..\..\src\Leaf3D\Focusable.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\Label.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\MouseEvent.h" />
+    <ClInclude Include="..\..\..\src\Leaf3D\Panel.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\ScreenPosition.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\ScreenSize2D.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\ToolTiped.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\Widget.h" />
+    <ClInclude Include="..\..\..\src\Leaf3D\WidgetContainer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Leaf3D\Clickable.cpp" />

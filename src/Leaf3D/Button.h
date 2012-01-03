@@ -12,7 +12,7 @@ namespace Oak3D
 {
 	namespace Leaf3D
 	{
-		class Button : public Focusable, public Clickable
+		class Button : public Widget, public Focusable, public Clickable
 		{
 		public:
 			Button();
