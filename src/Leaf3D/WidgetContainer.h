@@ -17,7 +17,7 @@ namespace Oak3D
 			WidgetContainer();
 			virtual ~WidgetContainer();
 			
-			void AddWidget(std::shared_ptr<Widget> *pWidget);
+			void AddWidget(std::shared_ptr<Widget> &pWidget);
 
 		private:
 			std::list<std::shared_ptr<Widget>> m_widgets;

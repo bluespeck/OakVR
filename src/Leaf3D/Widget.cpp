@@ -5,29 +5,19 @@ namespace Oak3D
 {
 	namespace Leaf3D
 	{
+		Widget::Widget()
+			:m_bVisible(true)
+		{
+			s_widgets.push_back(std::shared_ptr<Widget>(this));
+		}
+
 		Widget::~Widget()
 		{
-
+			// TODO will the equality be ok?
+			s_widgets.remove(std::shared_ptr<Widget>(this));
 		}
 
-		ScreenPosition Widget::GetPosition()
-		{
-			return m_position;
-		}
+		
 
-		void Widget::SetPosition(const ScreenPosition &position)
-		{
-			m_position = position;
-		}
-
-		ScreenSize2D Widget::GetSize()
-		{
-			return m_size;
-		}
-
-		void Widget::SetSize(const ScreenSize2D &size)
-		{
-			m_size = size;
-		}
 	}
 }

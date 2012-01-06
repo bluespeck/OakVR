@@ -58,6 +58,7 @@
     <ClCompile Include="..\..\..\src\Leaf3D\ScreenSize2D.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\ToolTiped.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\Widget.cpp" />
+    <ClCompile Include="..\..\..\src\Leaf3D\WidgetContainer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">

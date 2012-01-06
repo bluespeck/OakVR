@@ -38,6 +38,8 @@ namespace Oak3D
 	private:			
 		void Update(float dt);
 
+		void DrawInterface();
+
 	private:
 		Render::GraphicsEngine *m_pGE;
 		Render::RenderWindow *m_pRW;

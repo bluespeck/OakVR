@@ -1,8 +1,12 @@
+#include <algorithm>
+
 #include "Engine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
 #include "Renderer/IRenderer/GraphicsEngine.h"
 #include "Core/Time/Timer.h"
 #include "Core/ResourceManager/ResourceManager.h"
+#include "Leaf3D/Widget.h"
+#include "Renderer/IRenderer/VertexBuffer.h"
 
 namespace Oak3D
 {
@@ -63,7 +67,96 @@ namespace Oak3D
 
 			// render scene
 			m_pGE->Render();
+
+			DrawInterface();
 		}
+	}
+
+	void Engine::DrawInterface()
+	{
+		using Oak3D::Leaf3D::Widget;
+		// Sort widget list in reverse depth order
+		Widget::s_widgets;
+		std::sort(Widget::s_widgets.begin(), Widget::s_widgets.end(), 
+			[](std::shared_ptr<Widget> w1, std::shared_ptr<Widget> w2)
+			{
+				return w1->GetDepth() > w2->GetDepth();
+			}
+		);
+
+		uint32_t numVertices = 0;
+		for(auto it = Widget::s_widgets.begin(); it != Widget::s_widgets.end(); ++it)
+		{
+			if((*it)->IsVisible())
+			{
+				numVertices += 4;
+			}
+		}
+
+		
+		using Oak3D::Render::VertexBuffer;
+		
+		VertexBuffer vb;
+		vb.Create(numVertices, VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0);
+		
+		uint8_t *buff = new uint8_t[vb.GetVertexSize() * vb.GetVertexSize()];			
+		float *p = (float *) buff;
+
+		auto it = Widget::s_widgets.begin();
+		while(it != Widget::s_widgets.end())
+		{
+			using Oak3D::Leaf3D::ScreenPosition;
+			using Oak3D::Leaf3D::ScreenSize2D;
+
+			ScreenPosition pos = (*it)->GetPosition();
+			ScreenSize2D size = (*it)->GetSize();
+			
+			*p		= pos.x;
+			*(++p)	= pos.y;
+			*(++p)	= 0.0f;
+			*(++p)	= 0.0f;
+			*(++p)	= 0.0f;
+
+			*(++p)	= pos.x + size.width;
+			*(++p)	= pos.y;
+			*(++p)	= 0.0f;
+			*(++p)	= 1.0f;
+			*(++p)	= 0.0f;
+
+			*(++p)	= pos.x;
+			*(++p)	= pos.y - size.height;
+			*(++p)	= 0.0f;
+			*(++p)	= 0.0f;
+			*(++p)	= 1.0f;
+
+			*(++p)	= pos.x;
+			*(++p)	= pos.y - size.height;
+			*(++p)	= 0.0f;
+			*(++p)	= 0.0f;
+			*(++p)	= 1.0f;
+
+			*(++p)	= pos.x + size.width;
+			*(++p)	= pos.y;
+			*(++p)	= 0.0f;
+			*(++p)	= 1.0f;
+			*(++p)	= 0.0f;
+
+			*(++p)	= pos.x + size.width;
+			*(++p)	= pos.y - size.height;
+			*(++p)	= 0.0f;
+			*(++p)	= 1.0f;
+			*(++p)	= 1.0f;
+
+			++it;
+		}
+
+		void *pBuff = NULL;
+		vb.Lock(&pBuff);
+		memcpy(pBuff, buff, vb.GetVertexSize() * vb.GetVertexSize());
+		vb.Unlock();
+
+		// TODO Draw with this vb
+
 	}
 
 	// --------------------------------------------------------------------------------

@@ -80,5 +80,8 @@
     <ClCompile Include="..\..\..\src\Leaf3D\MouseEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\WidgetContainer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
