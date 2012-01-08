@@ -40,11 +40,13 @@
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)/</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)..\..\bin/</OutDir>
+    <IncludePath>$(SolutionDir)/../../src/;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Editor_Release|Win32'">
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)/</IntDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)..\..\bin/</OutDir>
+    <IncludePath>$(SolutionDir)/../../src/;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Editor_Debug|Win32'">
     <ClCompile>
@@ -54,6 +56,9 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Editor_Release|Win32'">
     <ClCompile>
@@ -81,9 +86,12 @@
     <ProjectReference Include="..\Leaf3D\Leaf3D.vcxproj">
       <Project>{b20b09df-868c-44f3-8311-a16f3a0f72ae}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Oak3D\Oak3D.vcxproj">
-      <Project>{36544f75-378f-491f-b03a-3927fe6feb11}</Project>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\Editor\TestWidgets.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\Editor\TestWidgets.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

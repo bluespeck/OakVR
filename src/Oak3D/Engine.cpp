@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <memory>
+#include <cassert>
 
 #include "Engine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
@@ -7,6 +9,8 @@
 #include "Core/ResourceManager/ResourceManager.h"
 #include "Leaf3D/Widget.h"
 #include "Renderer/IRenderer/VertexBuffer.h"
+#include "Renderer/IRenderer/IndexBuffer.h"
+#include "Renderer/IRenderer/Color.h"
 
 namespace Oak3D
 {
@@ -72,17 +76,13 @@ namespace Oak3D
 		}
 	}
 
+	// --------------------------------------------------------------------------------
 	void Engine::DrawInterface()
-	{
+	{		
 		using Oak3D::Leaf3D::Widget;
-		// Sort widget list in reverse depth order
-		Widget::s_widgets;
-		std::sort(Widget::s_widgets.begin(), Widget::s_widgets.end(), 
-			[](std::shared_ptr<Widget> w1, std::shared_ptr<Widget> w2)
-			{
-				return w1->GetDepth() > w2->GetDepth();
-			}
-		);
+
+		if(Widget::s_widgets.size() == 0)
+			return;
 
 		uint32_t numVertices = 0;
 		for(auto it = Widget::s_widgets.begin(); it != Widget::s_widgets.end(); ++it)
@@ -93,13 +93,26 @@ namespace Oak3D
 			}
 		}
 
-		
-		using Oak3D::Render::VertexBuffer;
-		
+		assert(numVertices != 0 && "There is nothing for DrawInterface to draw!!!");
+		if(numVertices == 0)
+			return;
+
+		/////
+		// Sort widget list in reverse depth order
+		Widget::s_widgets.sort([](Widget * w1, Widget * w2)
+			{
+				return w1->GetDepth() > w2->GetDepth();
+			}
+		);
+
+
+		/////
+		// Create and populate vertex buffer
+		using Oak3D::Render::VertexBuffer;		
 		VertexBuffer vb;
 		vb.Create(numVertices, VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0);
 		
-		uint8_t *buff = new uint8_t[vb.GetVertexSize() * vb.GetVertexSize()];			
+		uint8_t *buff = new uint8_t[vb.GetVertexSize() * vb.GetVertexCount()];			
 		float *p = (float *) buff;
 
 		auto it = Widget::s_widgets.begin();
@@ -111,36 +124,24 @@ namespace Oak3D
 			ScreenPosition pos = (*it)->GetPosition();
 			ScreenSize2D size = (*it)->GetSize();
 			
-			*p		= pos.x;
-			*(++p)	= pos.y;
-			*(++p)	= 0.0f;
-			*(++p)	= 0.0f;
-			*(++p)	= 0.0f;
-
-			*(++p)	= pos.x + size.width;
-			*(++p)	= pos.y;
-			*(++p)	= 0.0f;
-			*(++p)	= 1.0f;
-			*(++p)	= 0.0f;
-
-			*(++p)	= pos.x;
-			*(++p)	= pos.y - size.height;
-			*(++p)	= 0.0f;
-			*(++p)	= 0.0f;
-			*(++p)	= 1.0f;
-
-			*(++p)	= pos.x;
-			*(++p)	= pos.y - size.height;
-			*(++p)	= 0.0f;
-			*(++p)	= 0.0f;
-			*(++p)	= 1.0f;
-
-			*(++p)	= pos.x + size.width;
-			*(++p)	= pos.y;
-			*(++p)	= 0.0f;
-			*(++p)	= 1.0f;
-			*(++p)	= 0.0f;
-
+			*(p++)	= pos.x;
+			*(p++)	= pos.y;
+			*(p++)	= 0.0f;
+			*(p++)	= 0.0f;
+			*(p++)	= 0.0f;
+			
+			*(p++)	= pos.x + size.width;
+			*(p++)	= pos.y;
+			*(p++)	= 0.0f;
+			*(p++)	= 1.0f;
+			*(p++)	= 0.0f;
+			
+			*(p++)	= pos.x;
+			*(p++)	= pos.y - size.height;
+			*(p++)	= 0.0f;
+			*(p++)	= 0.0f;
+			*(p++)	= 1.0f;
+			
 			*(++p)	= pos.x + size.width;
 			*(++p)	= pos.y - size.height;
 			*(++p)	= 0.0f;
@@ -150,11 +151,40 @@ namespace Oak3D
 			++it;
 		}
 
-		void *pBuff = NULL;
+		void *pBuff = nullptr;
 		vb.Lock(&pBuff);
-		memcpy(pBuff, buff, vb.GetVertexSize() * vb.GetVertexSize());
+		memcpy(pBuff, buff, vb.GetVertexSize() * vb.GetVertexCount());
 		vb.Unlock();
+		delete[] buff;
 
+		/////
+		// Create associated index buffer
+		Oak3D::Render::IndexBuffer ib;
+		ib.Create(numVertices);
+
+		buff = new uint8_t[6 * numVertices];	// 6 indices for every 4 vertices, each having 4 bytes
+		uint32_t *pp = (uint32_t *)buff;
+		for(uint32_t i = 0; i < numVertices; i += 4)
+		{
+			*(pp++) = i + 0;
+			*(pp++) = i + 1;
+			*(pp++) = i + 2;
+			*(pp++) = i + 2;
+			*(pp++) = i + 1;
+			*(pp++) = i + 3;
+		}
+
+		pBuff = nullptr;
+		ib.Lock(&pBuff);
+		memcpy(pBuff, buff, 6 * numVertices);
+		ib.Unlock();
+		delete[] buff;
+		buff = nullptr;
+
+		m_pGE->UseVertexBuffer(&vb);
+		m_pGE->UseIndexBuffer(&ib);
+		m_pGE->UsePrimitiveTopology(Oak3D::Render::ePT_TriangleList);
+		m_pGE->ClearBackground(Oak3D::Render::Color::Black);
 		// TODO Draw with this vb
 
 	}

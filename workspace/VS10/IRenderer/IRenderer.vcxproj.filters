@@ -15,6 +15,9 @@
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\VertexBuffer.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\WindowsRenderWindow.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Oak3DInitWindows.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Color.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Frustum.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\AABB.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Camera.h" />
@@ -33,5 +36,8 @@
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Texture.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\VertexBuffer.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\WindowsRenderWindow.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Color.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\AABB.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Frustum.h" />
   </ItemGroup>
 </Project>

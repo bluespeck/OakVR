@@ -81,21 +81,12 @@ namespace Oak3D
 			OpenGLGraphicsEngine *ge = (OpenGLGraphicsEngine *)Engine::GetInstance()->GetGraphicsEngine();
 
 			ge->UseVertexBuffer( &vb );
-
-
-			glEnable( GL_TEXTURE_2D );
-			glBindTexture(GL_TEXTURE_2D, (GLuint)m_pFont->GetTexture()->GetData());
-
-			glTexEnvf(GL_TEXTURE_2D,GL_TEXTURE_ENV_MODE,GL_MODULATE);
-			glDepthMask(GL_FALSE);
-
-			glEnable (GL_BLEND);
-			glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			ge->UseTexture(m_pFont->GetTexture());
 
 			ge->UseShader(m_pVertexShader);
 			ge->UseShader(m_pFragmentShader);
 
-			glDrawArrays(GL_TRIANGLES, 0, numVertices);
+			ge->DrawPrimitives(numVertices * 3);
 		}
 
 	} // namespace Render

@@ -24,6 +24,7 @@ namespace Oak3D
 		class VertexBuffer;
 		class IndexBuffer;
 		class Shader;
+		struct Color;
 
 		class GraphicsEngine
 		{
@@ -36,9 +37,16 @@ namespace Oak3D
 			virtual void Render(void){}
 			virtual void Cleanup() {}
 
+			virtual void ClearBackground(const Color &color) {}
+
+			// render
+			virtual void DrawPrimitives(uint32_t numPrimitives) = 0;
+			virtual void DrawIndexedPrimitives(uint32_t numPrimitives) = 0;
+
 			// texture
 			virtual void CreateTexture	( Texture *texture ) = 0;
 			virtual void ReleaseTexture	( Texture *texture ) = 0;
+			virtual void UseTexture ( Texture *texture ) = 0;
 			// vertex buffer
 			virtual void CreateVertexBuffer	( VertexBuffer *pVertexBuffer ) = 0;
 			virtual void LockVertexBuffer	( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 ) = 0;
@@ -69,6 +77,8 @@ namespace Oak3D
 		protected:
 			RenderWindow *m_pRenderWindow;
 			Math::Matrix *m_pViewMatrix, *m_pPerspectiveProjectionMatrix, *m_pOrthographicProjectionMatrix;
+
+			PrimitiveTopology m_currentPrimitiveTopology;
 		};
 		
 		// --------------------------------------------------------------------------------		

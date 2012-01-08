@@ -30,8 +30,12 @@ namespace Oak3D
 			virtual void Render();
 			virtual void Cleanup();
 
+			virtual void DrawPrimitives(uint32_t numPrimitives);
+			virtual void DrawIndexedPrimitives(uint32_t numPrimitives);
+
 			virtual void CreateTexture	( Texture *texture );
 			virtual void ReleaseTexture	( Texture *texture );
+			virtual void UseTexture ( Texture *texture );
 			
 			virtual void CreateVertexBuffer	( VertexBuffer *pVertexBuffer );
 			virtual void LockVertexBuffer	( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 );

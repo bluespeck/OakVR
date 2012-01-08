@@ -11,11 +11,11 @@
 #include "Core/Math/Vector3.h"
 #include "Core/Math/MathUtils.h"
 
-#include "Core/Utils/Frustum.h"
+#include "Renderer/IRenderer/Frustum.h"
 
 using Oak3D::Math::Vector3;
 using Oak3D::Math::Matrix;
-using Oak3D::Core::Frustum;
+using Oak3D::Render::Frustum;
 
 namespace Oak3D
 {

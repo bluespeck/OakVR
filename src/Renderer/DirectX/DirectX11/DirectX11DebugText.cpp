@@ -95,14 +95,11 @@ namespace Oak3D
 			ge->UseVertexBuffer( &vb );
 			ge->UseShader( m_pVertexShader );
 			ge->UseShader( m_pPixelShader );
-			ge->UsePrimitiveTopology( ePT_TriangleList );			
-			
-			ID3D11ShaderResourceView *pSRView = nullptr;
-			HR(ge->GetDevice()->CreateShaderResourceView((ID3D11Resource *)m_pFont->GetTexture()->GetData(), nullptr, &pSRView ));
-			ge->GetDeviceContext()->PSSetShaderResources(0, 1, &pSRView);
+			ge->UseTexture(m_pFont->GetTexture());
+			ge->UsePrimitiveTopology( ePT_TriangleList );		
 			
 			ge->DisableDepthBuffer();
-			ge->GetDeviceContext()->Draw(numVertices, 0);
+			ge->DrawPrimitives(numVertices / 3);
 			ge->EnableDepthBuffer();
 		}
 

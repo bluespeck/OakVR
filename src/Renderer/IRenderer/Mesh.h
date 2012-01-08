@@ -11,7 +11,7 @@
 #include "Core/ResourceManager/IResource.h"
 #include "Core/Math/Vector3.h"
 #include "Core/Math/Vector2.h"
-#include "Core/Utils/AABB.h"
+#include "Renderer/IRenderer/AABB.h"
 
 
 namespace Oak3D
@@ -54,7 +54,7 @@ namespace Oak3D
 			// Allocates memory for all the buffers inside this mesh
 			void InitMesh();
 
-			const Core::AABB &GetBoundingBox();
+			const Oak3D::Render::AABB &GetBoundingBox();
 
 		public:
 			std::vector<MeshElement> m_vMeshElements;
@@ -68,7 +68,7 @@ namespace Oak3D
 			uint32_t m_numFaces;
 			uint32_t m_numMaterials;
 
-			Oak3D::Core::AABB m_aabb;
+			Oak3D::Render::AABB m_aabb;
 		};
 
 	} // namespace Render

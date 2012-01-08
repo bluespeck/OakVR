@@ -4,7 +4,7 @@
 #include "GraphicsEngine.h"
 #include "Core/Math/Vector2.h"
 #include "Core/Math/Vector3.h"
-#include "Core/Utils/Color.h"
+#include "Renderer/IRenderer/Color.h"
 
 namespace Oak3D
 {
@@ -49,7 +49,7 @@ namespace Oak3D
 			}
 			if(vertexFormat & VertexBuffer::eVF_Diffuse)
 			{
-				vertexSize += sizeof(Oak3D::Core::Color);
+				vertexSize += sizeof(Oak3D::Render::Color);
 			}
 			if(vertexFormat & VertexBuffer::eVF_Tex0)
 			{

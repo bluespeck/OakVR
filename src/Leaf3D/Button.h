@@ -2,9 +2,10 @@
 #ifndef _OAK3D_LEAF3D_BUTTON_H_
 #define _OAK3D_LEAF3D_BUTTON_H_
 
-#include <wstring>
+#include <string>
 #include <functional>
 
+#include "Widget.h"
 #include "Clickable.h"
 #include "Focusable.h"
 

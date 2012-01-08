@@ -3,14 +3,14 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_AABB_H__
-#define __OAK3D_INCLUDE_AABB_H__
+#ifndef __OAK3D_RENDER_INCLUDE_AABB_H__
+#define __OAK3D_RENDER_INCLUDE_AABB_H__
 
 #include "Core/Math/Vector3.h"
 
 namespace Oak3D
 {
-	namespace Core
+	namespace Render
 	{
 
 		class AABB
@@ -23,7 +23,7 @@ namespace Oak3D
 			Oak3D::Math::Vector3 m_vecRightTopBack;
 		};
 
-	} // namespace Utils
-}
+	} // namespace Render
+} // namespace Oak3D
 
 #endif

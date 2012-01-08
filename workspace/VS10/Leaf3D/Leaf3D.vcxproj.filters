@@ -83,5 +83,8 @@
     <ClCompile Include="..\..\..\src\Leaf3D\WidgetContainer.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\Button.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

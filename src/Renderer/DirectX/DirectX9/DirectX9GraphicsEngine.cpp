@@ -242,6 +242,72 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
+		void DirectX9GraphicsEngine::UseTexture( Texture *pTexture )
+		{
+			m_pDevice->SetTexture(0, (IDirect3DTexture9 *)pTexture->GetData());
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX9GraphicsEngine::DrawPrimitives(uint32_t numPrimitives)
+		{
+			D3DPRIMITIVETYPE pt = D3DPT_TRIANGLELIST;
+			switch( m_currentPrimitiveTopology )
+			{
+			case ePT_PointList:
+				pt = D3DPT_POINTLIST;
+				break;
+			case ePT_LineList:
+				pt = D3DPT_LINELIST;
+				break;
+			case ePT_LineStrip:
+				pt = D3DPT_LINESTRIP;
+				break;
+			case ePT_TriangleList:
+				pt = D3DPT_TRIANGLELIST;
+				break;
+			case ePT_TriangleStrip:
+				pt = D3DPT_TRIANGLESTRIP;
+				break;
+			default:
+				break;
+			}
+			m_pDevice->DrawPrimitive(pt, 0, numPrimitives);
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX9GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives)
+		{
+			uint8_t numVerticesPerPrimitive = 0;
+			D3DPRIMITIVETYPE pt = D3DPT_TRIANGLELIST;
+			switch( m_currentPrimitiveTopology )
+			{
+			case ePT_PointList:
+				pt = D3DPT_POINTLIST;
+				numVerticesPerPrimitive = 1;
+				break;
+			case ePT_LineList:
+				pt = D3DPT_LINELIST;
+				numVerticesPerPrimitive = 2;
+				break;
+			case ePT_LineStrip:
+				pt = D3DPT_LINESTRIP;
+				numVerticesPerPrimitive = 2;
+				break;
+			case ePT_TriangleList:
+				pt = D3DPT_TRIANGLELIST;
+				numVerticesPerPrimitive = 3;
+				break;
+			case ePT_TriangleStrip:
+				pt = D3DPT_TRIANGLESTRIP;
+				numVerticesPerPrimitive = 3;
+				break;
+			default:
+				break;
+			}
+			m_pDevice->DrawIndexedPrimitive(pt,0, 0, numVerticesPerPrimitive * numPrimitives, 0, numPrimitives);
+		}
+
+		// --------------------------------------------------------------------------------
 		void DirectX9GraphicsEngine::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 			IDirect3DVertexBuffer9 *pVB = NULL;
@@ -379,7 +445,7 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX9GraphicsEngine::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
 		{
-			// Not available
+			m_currentPrimitiveTopology = primitiveTopology;
 		}
 
 		// --------------------------------------------------------------------------------

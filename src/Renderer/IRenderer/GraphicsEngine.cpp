@@ -11,6 +11,7 @@ namespace Oak3D
 		: m_pRenderWindow(nullptr)
 		, m_pOrthographicProjectionMatrix(nullptr)
 		, m_pPerspectiveProjectionMatrix(nullptr)
+		, m_currentPrimitiveTopology(ePT_TriangleList)
 		{
 		}
 

@@ -3,13 +3,13 @@
 
 namespace Oak3D
 {
-	namespace Core
+	namespace Render
 	{
 		
 
-Frustum::Frustum(void)
-{		
-}
+	Frustum::Frustum(void)
+	{		
+	}
 
 /*
 #include "Plane.h"
@@ -133,5 +133,5 @@ void Frustum::ComputePlanesFromMatrix(const CMatrix &m)
 }
 */
 
-	} // namespace Utils
-}
+	} // namespace Render
+} // namespace Oak3D

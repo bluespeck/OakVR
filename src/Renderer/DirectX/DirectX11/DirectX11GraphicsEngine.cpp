@@ -193,6 +193,12 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::ClearBackground(const Color &color)
+		{
+
+		}
+
+		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::Render()
 		{			
 			m_pDeviceContext->ClearRenderTargetView(m_pBackBufferRenderTargetView, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
@@ -364,15 +370,15 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::CreateTexture( Texture *pTexture )
 		{
-			ID3D11Resource *pTex;
+			ID3D11ShaderResourceView *pTexView;
 			const std::string path = pTexture->GetId().GetStrId();
 			D3DX11_IMAGE_INFO ili;
 			
 			HR(D3DX11GetImageInfoFromFileA( path.c_str(), nullptr, &ili, nullptr));
-			HR(D3DX11CreateTextureFromFileA(m_pDevice, path.c_str(), nullptr, nullptr, &pTex, nullptr));
+			HR(D3DX11CreateShaderResourceViewFromFileA(m_pDevice, path.c_str(), nullptr, nullptr, &pTexView, nullptr));
 			
 			// store created texture in our container
-			pTexture->SetData(pTex);
+			pTexture->SetData(pTexView);
 
 			// fill texture properties
 			pTexture->SetWidth(ili.Width);
@@ -392,13 +398,72 @@ namespace Oak3D
 			default:
 				pTexture->SetFormat(Texture::eTF_UNKNOWN);
 			}
+
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::ReleaseTexture( Texture *pTexture )
 		{
-			((ID3D11Resource *)pTexture->GetData())->Release();
+			((ID3D11ShaderResourceView *)pTexture->GetData())->Release();
 		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::UseTexture ( Texture *texture )
+		{	
+			ID3D11ShaderResourceView *pSRV = (ID3D11ShaderResourceView*)texture->GetData();
+			m_pDeviceContext->PSSetShaderResources(0, 1, &pSRV);
+
+			// TODO this resource view needs to be released
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::DrawPrimitives(uint32_t numPrimitives)
+		{
+			uint8_t numVerticesPerPrimitive = 0;
+			switch( m_currentPrimitiveTopology )
+			{
+			case ePT_PointList:
+				numVerticesPerPrimitive = 1;
+				break;
+			case ePT_LineList:
+			case ePT_LineStrip:
+				numVerticesPerPrimitive = 2;
+				break;
+			case ePT_TriangleList:
+			case ePT_TriangleStrip:
+				numVerticesPerPrimitive = 3;
+				break;
+			default:
+				assert("Unknown primitive topology" && 0);
+				break;
+			}
+			m_pDeviceContext->Draw(numPrimitives * numVerticesPerPrimitive, 0);
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives)
+		{
+			uint8_t numIndicesPerPrimitive = 0;
+			switch( m_currentPrimitiveTopology )
+			{
+			case ePT_PointList:
+				numIndicesPerPrimitive = 1;
+				break;
+			case ePT_LineList:
+			case ePT_LineStrip:
+				numIndicesPerPrimitive = 2;
+				break;
+			case ePT_TriangleList:
+			case ePT_TriangleStrip:
+				numIndicesPerPrimitive = 3;
+				break;
+			default:
+				assert("Unknown primitive topology" && 0);
+				break;
+			}
+			m_pDeviceContext->DrawIndexed(numPrimitives * numIndicesPerPrimitive, 0, 0);
+		}
+
 
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
@@ -575,6 +640,7 @@ namespace Oak3D
 				break;
 			}
 			m_pDeviceContext->IASetPrimitiveTopology(pt);
+			m_currentPrimitiveTopology = primitiveTopology;
 		}
 
 		// --------------------------------------------------------------------------------

@@ -48,15 +48,6 @@
     <ClInclude Include="..\..\..\src\Core\Time\Timer.h">
       <Filter>Time</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\Utils\AABB.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\Utils\Color.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\Core\Utils\Frustum.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\Core\Utils\Singleton.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -103,15 +94,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\Core\Math\Vector4.cpp">
       <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\Core\Utils\AABB.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\Core\Utils\Color.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\Core\Utils\Frustum.cpp">
-      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Core\Utils\StringID.cpp">
       <Filter>Utils</Filter>

@@ -402,7 +402,7 @@ namespace Oak3D
 		}
 		*/
 
-		const Core::AABB &Mesh::GetBoundingBox()
+		const Render::AABB &Mesh::GetBoundingBox()
 		{
 			return m_aabb;
 		}

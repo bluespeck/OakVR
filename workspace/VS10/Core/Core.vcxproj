@@ -50,9 +50,6 @@
     <ClInclude Include="..\..\..\src\Core\ResourceManager\IResource.h" />
     <ClInclude Include="..\..\..\src\Core\ResourceManager\ResourceManager.h" />
     <ClInclude Include="..\..\..\src\Core\Time\Timer.h" />
-    <ClInclude Include="..\..\..\src\Core\Utils\AABB.h" />
-    <ClInclude Include="..\..\..\src\Core\Utils\Color.h" />
-    <ClInclude Include="..\..\..\src\Core\Utils\Frustum.h" />
     <ClInclude Include="..\..\..\src\Core\Utils\Singleton.h" />
     <ClInclude Include="..\..\..\src\Core\Utils\StringID.h" />
   </ItemGroup>
@@ -67,9 +64,6 @@
     <ClCompile Include="..\..\..\src\Core\Parallel\Thread_windows.cpp" />
     <ClCompile Include="..\..\..\src\Core\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="..\..\..\src\Core\Time\Timer_windows.cpp" />
-    <ClCompile Include="..\..\..\src\Core\Utils\AABB.cpp" />
-    <ClCompile Include="..\..\..\src\Core\Utils\Color.cpp" />
-    <ClCompile Include="..\..\..\src\Core\Utils\Frustum.cpp" />
     <ClCompile Include="..\..\..\src\Core\Utils\StringID.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

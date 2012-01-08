@@ -3,17 +3,14 @@
 
 namespace Oak3D
 {
-	namespace Core
+	namespace Render
 	{
-
-
 		AABB::AABB(void)
 		{
 		}
-
-
+		
 		AABB::~AABB(void)
 		{
 		}
-	} // namespace Utils
-}
+	} // namespace Render
+} // namespace Oak3D

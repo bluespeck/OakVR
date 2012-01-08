@@ -9,7 +9,7 @@
 #include <string>
 #include "Core/ResourceManager/IResource.h"
 #include "Core/Math/Vector3.h"
-#include "Core/Utils/Color.h"
+#include "Renderer/IRenderer/Color.h"
 
 namespace Oak3D
 {
@@ -21,9 +21,9 @@ namespace Oak3D
 		public:
 			std::wstring m_name;
 
-			Oak3D::Core::Color m_vAmbient;
-			Oak3D::Core::Color m_vDiffuse;
-			Oak3D::Core::Color m_vSpecular;
+			Oak3D::Render::Color m_vAmbient;
+			Oak3D::Render::Color m_vDiffuse;
+			Oak3D::Render::Color m_vSpecular;
 
 			int m_nShininess;
 			float m_fAlpha;

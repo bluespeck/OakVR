@@ -3,20 +3,20 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_FRUSTUM_H__
-#define __OAK3D_INCLUDE_FRUSTUM_H__
+#ifndef __OAK3D_RENDER_INCLUDE_FRUSTUM_H__
+#define __OAK3D_RENDER_INCLUDE_FRUSTUM_H__
 
 #include "Core/Math/Matrix.h"
 #include "Core/Math/Vector3.h"
-#include "Core/Utils/AABB.h"
+#include "Renderer/IRenderer/AABB.h"
 
 using Oak3D::Math::Vector3;
 using Oak3D::Math::Matrix;
-using Oak3D::Core::AABB;
+using Oak3D::Render::AABB;
 
 namespace Oak3D
 {
-	namespace Core
+	namespace Render
 	{
 
 

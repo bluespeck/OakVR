@@ -43,6 +43,8 @@ namespace Oak3D
 		OpenGLGraphicsEngine::OpenGLGraphicsEngine()
 			: m_pDevice(nullptr)
 			, m_pDebugText(nullptr)
+			, m_pCurrentVertexBuffer(nullptr)
+			, m_pCurrentIndexBuffer(nullptr)
 		{			
 		}
 
@@ -147,10 +149,10 @@ namespace Oak3D
 			GLenum shaderType;
 			switch(pShader->GetType())
 			{
-			case ShaderType::eST_VertexShader:
+			case eST_VertexShader:
 				shaderType = GL_VERTEX_SHADER;
 				break;
-			case ShaderType::eST_PixelShader:
+			case eST_PixelShader:
 				shaderType = GL_FRAGMENT_SHADER;
 				break;
 			default:
@@ -162,15 +164,15 @@ namespace Oak3D
 			
 			Core::File file(pShader->GetId().GetStrId());
 			const uint32_t buffSize = file.Size();
-			unsigned char **buff = &(new unsigned char [buffSize]);
+			uint8_t *buff = new uint8_t[buffSize];
 			
-			file.Open(Core::File::FileOpenMode::eFOM_OpenRead);			
-			file.Read(*buff, buffSize, 0);
+			file.Open(Core::File::eFOM_OpenRead);			
+			file.Read(buff, buffSize, 0);
 			
 
-			glShaderSource(shaderId, 1, (const GLchar**)buff, nullptr);
+			glShaderSource(shaderId, 1, (const GLchar**)&buff, nullptr);
 
-			delete[] *buff;
+			delete[] buff;
 			glCompileShader(shaderId);
 
 			pShader->SetCompiledShader((void *)shaderId);
@@ -210,6 +212,82 @@ namespace Oak3D
 		{
 			GLuint tex = (GLuint)pTexture->GetData();
 			glDeleteTextures(1, &tex);
+		}
+
+		// --------------------------------------------------------------------------------
+		void OpenGLGraphicsEngine::UseTexture ( Texture *texture )
+		{
+			glEnable( GL_TEXTURE_2D );
+			glBindTexture(GL_TEXTURE_2D, (GLuint) texture->GetData());
+		}
+
+		// --------------------------------------------------------------------------------
+		void OpenGLGraphicsEngine::DrawPrimitives(uint32_t numPrimitives)
+		{
+			uint8_t numVerticesPerPrimitive = 0;
+			GLenum pt;
+			switch( m_currentPrimitiveTopology )
+			{
+			case ePT_PointList:
+				numVerticesPerPrimitive = 1;
+				pt = GL_POINTS;
+				break;
+			case ePT_LineList:
+				pt = GL_LINES;
+				numVerticesPerPrimitive = 2;
+				break;
+			case ePT_LineStrip:
+				pt = GL_LINE_STRIP;
+				numVerticesPerPrimitive = 2;
+				break;
+			case ePT_TriangleList:
+				pt = GL_TRIANGLES;
+				numVerticesPerPrimitive = 3;
+				break;
+			case ePT_TriangleStrip:
+				pt = GL_TRIANGLE_STRIP;
+				numVerticesPerPrimitive = 3;
+				break;
+			default:
+				assert("Unknown primitive topology" && 0);
+				break;
+			}
+
+			glDrawArrays(pt, 0, numPrimitives * numVerticesPerPrimitive);
+		}
+
+		// --------------------------------------------------------------------------------
+		void OpenGLGraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives)
+		{
+			uint8_t numIndicesPerPrimitive = 0;
+			GLenum pt;
+			switch( m_currentPrimitiveTopology )
+			{
+			case ePT_PointList:
+				numIndicesPerPrimitive = 1;
+				pt = GL_POINTS;
+				break;
+			case ePT_LineList:
+				pt = GL_LINES;
+				numIndicesPerPrimitive = 2;
+				break;
+			case ePT_LineStrip:
+				pt = GL_LINE_STRIP;
+				numIndicesPerPrimitive = 2;
+				break;
+			case ePT_TriangleList:
+				pt = GL_TRIANGLES;
+				numIndicesPerPrimitive = 3;
+				break;
+			case ePT_TriangleStrip:
+				pt = GL_TRIANGLE_STRIP;
+				numIndicesPerPrimitive = 3;
+				break;
+			default:
+				assert("Unknown primitive topology" && 0);
+				break;
+			}
+			glDrawElements(pt, numIndicesPerPrimitive * numPrimitives, GL_UNSIGNED_INT, m_pCurrentIndexBuffer->GetData());
 		}
 
 		// --------------------------------------------------------------------------------
@@ -358,6 +436,7 @@ namespace Oak3D
 			uint32_t vertexFormat = pVertexBuffer->GetVertexFormat();
 			uint32_t vertexSize = pVertexBuffer->GetVertexSize();
 			glBindBuffer(GL_ARRAY_BUFFER, (GLuint)pVertexBuffer->GetData());
+			m_pCurrentVertexBuffer = pVertexBuffer;
 			uint8_t *offset = nullptr;
 			if(vertexFormat & VertexBuffer::eVF_XYZ)
 			{
@@ -390,12 +469,13 @@ namespace Oak3D
 		void OpenGLGraphicsEngine::UseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (GLuint)pIndexBuffer->GetData());
+			m_pCurrentIndexBuffer = pIndexBuffer;
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
 		{
-			// Not available
+			m_currentPrimitiveTopology = primitiveTopology;
 		}
 
 		// --------------------------------------------------------------------------------

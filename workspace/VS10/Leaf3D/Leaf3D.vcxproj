@@ -49,6 +49,7 @@
     <ClInclude Include="..\..\..\src\Leaf3D\WidgetContainer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\Leaf3D\Button.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\Clickable.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\Event.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\Focusable.cpp" />

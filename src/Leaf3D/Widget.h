@@ -4,7 +4,6 @@
 
 #include <cstdint>
 #include <list>
-#include <memory>
 
 #include "ScreenPosition.h"
 #include "ScreenSize2D.h"
@@ -21,9 +20,11 @@ namespace Oak3D
 
 			inline ScreenPosition GetPosition();
 			inline void SetPosition(const ScreenPosition &position);
+			inline void SetPosition(uint32_t x, uint32_t y);
 
 			inline ScreenSize2D GetSize();
 			inline void SetSize(const ScreenSize2D &size);
+			inline void SetSize(uint32_t width, uint32_t height);
 
 			inline uint32_t GetDepth();
 			inline void SetDepth(uint32_t depth);
@@ -32,7 +33,7 @@ namespace Oak3D
 			inline void SetVisible(bool visible);
 
 			// Global list of all widgets
-			static std::list< std::shared_ptr<Widget> > s_widgets;
+			static std::list< Widget * > s_widgets;
 			
 		private:
 			ScreenPosition m_position;
@@ -51,6 +52,12 @@ namespace Oak3D
 			m_position = position;
 		}
 
+		void Widget::SetPosition(uint32_t x, uint32_t y)
+		{
+			m_position.x = x;
+			m_position.y = y;
+		}
+
 		ScreenSize2D Widget::GetSize()
 		{
 			return m_size;
@@ -59,6 +66,12 @@ namespace Oak3D
 		void Widget::SetSize(const ScreenSize2D &size)
 		{
 			m_size = size;
+		}
+
+		void Widget::SetSize(uint32_t width, uint32_t height)
+		{
+			m_size.width = width;
+			m_size.height = height;
 		}
 
 		uint32_t Widget::GetDepth()

@@ -2,13 +2,12 @@
 #include "Camera.h"
 
 #include "Core/Math/Matrix.h"
-#include "Core/Utils/AABB.h"
+#include "Renderer/IRenderer/AABB.h"
 
 namespace Oak3D
 {
 	namespace Render
 	{
-
 		Camera::Camera()
 		{	
 			m_frustum.m_vecRight        = Oak3D::Math::Vector3( 1.0f, 0.0f, 0.0f );
@@ -19,8 +18,6 @@ namespace Oak3D
 			m_frustum.m_fFOV	= 45.0f;
 			m_frustum.m_fNear	= 1.0f;
 			m_frustum.m_fFar	= 1000.0f;
-
-
 
 			m_fPitch = 0.0f;
 			m_fRoll  = 0.0f;
