@@ -18,6 +18,7 @@
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Color.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Frustum.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\AABB.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Camera.h" />

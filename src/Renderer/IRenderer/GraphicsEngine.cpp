@@ -1,6 +1,9 @@
+#include <cassert>
+
 #include "GraphicsEngine.h"
 #include "RenderWindow.h"
 #include "Core/Math/Matrix.h"
+
 
 namespace Oak3D
 {
@@ -35,8 +38,9 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void GraphicsEngine::OutputText( const std::wstring &text, uint32_t x, uint32_t y)
+		void GraphicsEngine::OutputText( const std::string &text, uint32_t x, uint32_t y)
 		{
+			assert(0 && "OutputText not implemented!");
 		}
 	}	// namespace Render
 }	// namespace Oak3D

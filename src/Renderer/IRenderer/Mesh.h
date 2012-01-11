@@ -40,7 +40,7 @@ namespace Oak3D
 			~Mesh(void);
 
 			// overrides
-			void Init(const Core::StringId &id, AditionalInitParams *pAditionalInitParams = nullptr);
+			void Init(const Core::StringId &id, AdditionalInitParams *pAdditionalInitParams = nullptr);
 			void Load();
 			void Reload();
 			void Release();

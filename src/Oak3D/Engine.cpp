@@ -11,6 +11,18 @@
 #include "Renderer/IRenderer/VertexBuffer.h"
 #include "Renderer/IRenderer/IndexBuffer.h"
 #include "Renderer/IRenderer/Color.h"
+#include "Renderer/IRenderer/Texture.h"
+#include "Renderer/IRenderer/Shader.h"
+#ifdef OAK3D_EDITOR
+#include "Editor/EditorEntryPoint.h"
+#endif
+
+#if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11
+# include <d3d11.h>
+# include "Renderer/DirectX/DirectX11/DirectX11Shader.h"
+#elif OAK3D_RENDERER == OAK3D_RENDERER_OPENGL
+# include "Renderer/OpenGL/OpenGLShader.h"
+#endif
 
 namespace Oak3D
 {
@@ -46,6 +58,9 @@ namespace Oak3D
 			m_pGE->SetRenderWindow(m_pRW);
 			m_pGE->Initialize();
 			m_pRM->Initialize();
+#ifdef OAK3D_EDITOR
+			Oak3D::Editor::EntryPoint();
+#endif
 		}
 
 		if(m_pTimer)
@@ -69,23 +84,49 @@ namespace Oak3D
 		{
 			// update engine stuff
 
-			// render scene
-			m_pGE->Render();
+			m_pGE->ClearBackground(Oak3D::Render::Color::Black);
+						
+			char str[128];
+			sprintf_s(str, "FPS: %.0f", (1.0f / GetTimer()->GetDeltaTime()));
+			m_pGE->OutputText(str, 10, 10);
 
 			DrawInterface();
+
+			m_pGE->SwapBuffers();
+
+			
 		}
 	}
 
 	// --------------------------------------------------------------------------------
 	void Engine::DrawInterface()
-	{		
+	{
+		Oak3D::Render::Texture *pTexture = GetResourceManager()->GetResource<Oak3D::Render::Texture>("../resources/Skins/Button.dds");
+		if(!pTexture->IsReady())
+			return;
+
+		Oak3D::Render::Shader::ShaderAdditionalInitParams params1, params2;
+		params1.shaderType = Oak3D::Render::eST_VertexShader;
+		params2.shaderType = Oak3D::Render::eST_PixelShader;
+		Oak3D::Render::Shader *pVertexShader = nullptr;
+		Oak3D::Render::Shader *pPixelShader = nullptr;
+#if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11
+		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::DirectX11Shader>( "../resources/shaders/InterfaceVS.hlsl", &params1);
+		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::DirectX11Shader>( "../resources/shaders/InterfacePS.hlsl", &params2);
+#elif OAK3D_RENDERER == OAK3D_RENDERER_OPENGL
+		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/InterfaceVS.hlsl", &params1);
+		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/InterfacePS.hlsl", &params2);
+#endif
+		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
+			return;
+		
 		using Oak3D::Leaf3D::Widget;
 
-		if(Widget::s_widgets.size() == 0)
+		if(!Widget::WidgetsAvailable())
 			return;
 
 		uint32_t numVertices = 0;
-		for(auto it = Widget::s_widgets.begin(); it != Widget::s_widgets.end(); ++it)
+		for(auto it = Widget::s_widgets->begin(); it != Widget::s_widgets->end(); ++it)
 		{
 			if((*it)->IsVisible())
 			{
@@ -99,7 +140,7 @@ namespace Oak3D
 
 		/////
 		// Sort widget list in reverse depth order
-		Widget::s_widgets.sort([](Widget * w1, Widget * w2)
+		Widget::s_widgets->sort([](Widget * w1, Widget * w2)
 			{
 				return w1->GetDepth() > w2->GetDepth();
 			}
@@ -112,11 +153,11 @@ namespace Oak3D
 		VertexBuffer vb;
 		vb.Create(numVertices, VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0);
 		
-		uint8_t *buff = new uint8_t[vb.GetVertexSize() * vb.GetVertexCount()];			
+		uint8_t *buff = new uint8_t[vb.GetVertexSize() * vb.GetVertexCount() * Widget::s_widgets->size()];			
 		float *p = (float *) buff;
 
-		auto it = Widget::s_widgets.begin();
-		while(it != Widget::s_widgets.end())
+		auto it = Widget::s_widgets->begin();
+		while(it != Widget::s_widgets->end())
 		{
 			using Oak3D::Leaf3D::ScreenPosition;
 			using Oak3D::Leaf3D::ScreenSize2D;
@@ -124,29 +165,29 @@ namespace Oak3D
 			ScreenPosition pos = (*it)->GetPosition();
 			ScreenSize2D size = (*it)->GetSize();
 			
-			*(p++)	= pos.x;
-			*(p++)	= pos.y;
+			*(p++)	= (float)pos.x;
+			*(p++)	= (float)pos.y;
 			*(p++)	= 0.0f;
 			*(p++)	= 0.0f;
 			*(p++)	= 0.0f;
 			
-			*(p++)	= pos.x + size.width;
-			*(p++)	= pos.y;
+			*(p++)	= (float)(pos.x + size.width);
+			*(p++)	= (float)pos.y;
 			*(p++)	= 0.0f;
 			*(p++)	= 1.0f;
 			*(p++)	= 0.0f;
 			
-			*(p++)	= pos.x;
-			*(p++)	= pos.y - size.height;
+			*(p++)	= (float)pos.x;
+			*(p++)	= (float)(pos.y - size.height);
 			*(p++)	= 0.0f;
 			*(p++)	= 0.0f;
 			*(p++)	= 1.0f;
 			
-			*(++p)	= pos.x + size.width;
-			*(++p)	= pos.y - size.height;
-			*(++p)	= 0.0f;
-			*(++p)	= 1.0f;
-			*(++p)	= 1.0f;
+			*(p++)	= (float)(pos.x + size.width);
+			*(p++)	= (float)(pos.y - size.height);
+			*(p++)	= 0.0f;
+			*(p++)	= 1.0f;
+			*(p++)	= 1.0f;
 
 			++it;
 		}
@@ -155,7 +196,7 @@ namespace Oak3D
 		vb.Lock(&pBuff);
 		memcpy(pBuff, buff, vb.GetVertexSize() * vb.GetVertexCount());
 		vb.Unlock();
-		delete[] buff;
+		delete buff;
 
 		/////
 		// Create associated index buffer
@@ -180,13 +221,14 @@ namespace Oak3D
 		ib.Unlock();
 		delete[] buff;
 		buff = nullptr;
-
+		
+		m_pGE->UseShader(pVertexShader);
+		m_pGE->UseShader(pPixelShader);
+		m_pGE->UseTexture(pTexture);
 		m_pGE->UseVertexBuffer(&vb);
 		m_pGE->UseIndexBuffer(&ib);
 		m_pGE->UsePrimitiveTopology(Oak3D::Render::ePT_TriangleList);
-		m_pGE->ClearBackground(Oak3D::Render::Color::Black);
-		// TODO Draw with this vb
-
+		m_pGE->DrawPrimitives(numVertices / 2);
 	}
 
 	// --------------------------------------------------------------------------------

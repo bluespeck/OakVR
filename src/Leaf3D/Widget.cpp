@@ -8,22 +8,29 @@ namespace Oak3D
 {
 	namespace Leaf3D
 	{
-		std::list<Widget *> Widget::s_widgets = std::list<Widget *>();
+		// HACK this will leak eventually, but the executable will cleanup at exit
+		std::list<Widget *> *Widget::s_widgets = nullptr;
 
 		Widget::Widget()
 			:m_bVisible(true)
 		{
-			// TODO this is called before s_widgets is initialized because of other globals that need a widget
-			s_widgets.push_back(this);
+			if( s_widgets == nullptr )
+				s_widgets = new std::list<Widget *>();
+			
+			s_widgets->push_back(this);
 		}
 
 		Widget::~Widget()
 		{
 			// TODO will the equality be ok?
-			s_widgets.erase(std::find(s_widgets.begin(), s_widgets.end(), this));
+			s_widgets->erase(std::find(s_widgets->begin(), s_widgets->end(), this));
+
 		}
 
-		
+		bool Widget::WidgetsAvailable()
+		{
+			return s_widgets != nullptr && s_widgets->size() > 0;
+		}
 
 	}
 }

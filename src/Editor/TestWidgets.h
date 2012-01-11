@@ -9,12 +9,13 @@ struct TestButton
 	{
 		b.SetPosition(100, 100);
 		b.SetDepth(0);
-		b.SetSize( 64, 32);
+		b.SetSize(64, 32);
 	}
 
 	Oak3D::Leaf3D::Button b;
 };
 
-extern TestButton *tb;
+extern TestButton tb;
+
 
 #endif

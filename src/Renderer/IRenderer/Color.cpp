@@ -4,13 +4,13 @@ namespace Oak3D
 {
 	namespace Render
 	{
-		const Color	Color::Black(0x000000ff);
+		const Color	Color::Black(0xff000000);
 		const Color Color::Red(0xff0000ff);
-		const Color Color::Green(0x00ff00ff);
-		const Color Color::Blue(0x0000ffff);
-		const Color Color::Yellow(0xffff00ff);
-		const Color Color::Cyan(0x00ffffff);
-		const Color Color::Magenta(0xff00ffff);
+		const Color Color::Green(0xff00ff00);
+		const Color Color::Blue(0xff0000ff);
+		const Color Color::Yellow(0xffffff00);
+		const Color Color::Cyan(0xff00ffff);
+		const Color Color::Magenta(0xffff00ff);
 		const Color Color::White(0xffffffff);
 
 		Color::Color()

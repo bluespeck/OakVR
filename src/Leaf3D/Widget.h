@@ -33,7 +33,8 @@ namespace Oak3D
 			inline void SetVisible(bool visible);
 
 			// Global list of all widgets
-			static std::list< Widget * > s_widgets;
+			static std::list< Widget * > *s_widgets;
+			static bool WidgetsAvailable();
 			
 		private:
 			ScreenPosition m_position;

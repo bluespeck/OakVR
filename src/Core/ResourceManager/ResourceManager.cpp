@@ -19,20 +19,25 @@ namespace Oak3D
 			while(!pRM->m_bShouldStop)
 			{
 				IResource *pRes = nullptr;
-
-				// start crit section
+				pRM->m_loadCritSection.EnterCriticalSection();
 				if(pRM->m_toBeLoaded.size())
 				{
 					pRes = pRM->m_toBeLoaded.front();
-					pRM->m_toBeLoaded.pop_front();
 				}
-				// end crit section
-				if(pRes)
-					pRes->Load();
-				else
-					Thread::Sleep(5);
-			}
+				pRM->m_loadCritSection.LeaveCriticalSection();
 
+				if(pRes)
+				{
+					pRes->Load();
+					
+					pRM->m_loadCritSection.EnterCriticalSection();
+					pRM->m_toBeLoaded.pop_front();
+					pRM->m_loadCritSection.LeaveCriticalSection();
+					pRM->m_memoryCritSection.EnterCriticalSection();
+					pRM->m_inMemory.push_back(pRes);
+					pRM->m_memoryCritSection.LeaveCriticalSection();
+				}
+			}
 			return 0;
 		}
 
@@ -53,7 +58,7 @@ namespace Oak3D
 			{
 				auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](IResource *pt)
 				{
-					return pt->m_id.GetHashId() == pRes->m_id.GetHashId();
+					return pt->m_id == pRes->m_id;
 				});
 				if(it != m_inMemory.end())
 				{

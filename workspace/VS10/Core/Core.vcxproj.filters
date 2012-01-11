@@ -78,6 +78,9 @@
     <ClInclude Include="..\..\..\src\Core\Parallel\Thread.h">
       <Filter>Parallel</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Parallel\CriticalSection.h">
+      <Filter>Parallel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Core\Math\Matrix.cpp">
@@ -112,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\Core\Time\Timer_windows.cpp">
       <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Parallel\CriticalSection_windows.cpp">
+      <Filter>Parallel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

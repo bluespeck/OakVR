@@ -34,10 +34,10 @@ namespace Oak3D
 
 			virtual void Initialize(){}
 			virtual void Update( float dt ){}
-			virtual void Render(void){}
 			virtual void Cleanup() {}
 
-			virtual void ClearBackground(const Color &color) {}
+			virtual void ClearBackground(const Color &color) = 0;
+			virtual void SwapBuffers() = 0;
 
 			// render
 			virtual void DrawPrimitives(uint32_t numPrimitives) = 0;
@@ -66,7 +66,7 @@ namespace Oak3D
 			virtual void UseShader( Shader *pShader ) = 0;
 
 			// misc
-			virtual void OutputText( const std::wstring &text, uint32_t x, uint32_t y);
+			virtual void OutputText( const std::string &text, uint32_t x, uint32_t y);
 
 			void SetRenderWindow( RenderWindow *pRenderWindow );
 

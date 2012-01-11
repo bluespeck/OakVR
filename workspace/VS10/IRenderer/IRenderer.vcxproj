@@ -304,6 +304,7 @@
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Object.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\RenderWindow.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Scene.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Shader.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Texture.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\VertexBuffer.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\WindowsRenderWindow.cpp" />

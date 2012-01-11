@@ -17,20 +17,13 @@ namespace Oak3D
 		{
 		public:
 
-			struct DX9AditionalInitParams : public AditionalInitParams
+			struct DX9AdditionalInitParams : public ShaderAdditionalInitParams
 			{
-				ShaderType shaderType;
 				uint32_t vertexFormat;
 			};
 
 			DirectX9Shader();
-			void Init( const Core::StringId &id, AditionalInitParams *pAditionalInitParams);
 			
-			// overrides
-			virtual void Load();
-			virtual void Reload();
-			virtual void Release();
-
 			inline uint32_t GetVertexFormat();
 			inline void SetVertexFormat( uint32_t vertexFormat );
 

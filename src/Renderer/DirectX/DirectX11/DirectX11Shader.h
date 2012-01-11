@@ -19,17 +19,7 @@ namespace Oak3D
 		{
 		public:
 
-			struct DX11AditionalInitParams : AditionalInitParams
-			{
-				ShaderType shaderType;
-			};
-
 			DirectX11Shader();
-			// overrides
-			virtual void Init( const Core::StringId &id, AditionalInitParams *pAditionalInitParams = nullptr);
-			virtual void Load();
-			virtual void Reload();
-			virtual void Release();
 			
 			inline ID3D11InputLayout *GetInputLayout();
 			inline void SetInputLayout( ID3D11InputLayout *pInputLayout );

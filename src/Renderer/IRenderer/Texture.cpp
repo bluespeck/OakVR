@@ -16,7 +16,7 @@ namespace Oak3D
 		{
 		}
 
-		void Texture::Init(const Oak3D::Core::StringId &id, AditionalInitParams *)
+		void Texture::Init(const Oak3D::Core::StringId &id, AdditionalInitParams *)
 		{ 
 			m_id = id;
 		}
@@ -36,6 +36,7 @@ namespace Oak3D
 		void Texture::Release()
 		{
 			Oak3D::Engine::GetInstance()->GetGraphicsEngine()->ReleaseTexture(this);
+			m_state = eRS_Released;
 		}
 	} // namespace Render
 }	// namespace Oak3D

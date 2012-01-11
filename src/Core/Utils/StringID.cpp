@@ -35,5 +35,10 @@ namespace Oak3D
 			m_id = h(m_strId);
 		}
 
+		bool StringId::operator ==(const StringId &id)
+		{
+			return m_strId == id.m_strId;
+		}
+
 	}	// namespace Core
 }	// namespace Oak3D

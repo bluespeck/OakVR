@@ -26,34 +26,6 @@ namespace Oak3D
 		: m_pInputLayout(nullptr)
 		{
 		}
-
-		// --------------------------------------------------------------------------------
-		void DirectX11Shader::Init(const Core::StringId &id, AditionalInitParams *pAditionalInitParams)
-		{
-			m_id = id;
-			m_shaderType = dynamic_cast<DX11AditionalInitParams*>(pAditionalInitParams)->shaderType;
-		}
-
-		// --------------------------------------------------------------------------------
-		void DirectX11Shader::Load()
-		{
-			
-			DirectX11GraphicsEngine *pGE = (DirectX11GraphicsEngine*)Engine::GetInstance()->GetGraphicsEngine();
-			pGE->CreateShader(this);
-		}
-
-		// --------------------------------------------------------------------------------
-		void DirectX11Shader::Reload()
-		{
-		}
-
-		// --------------------------------------------------------------------------------
-		void DirectX11Shader::Release()
-		{
-			DirectX11GraphicsEngine *pGE = (DirectX11GraphicsEngine*)Engine::GetInstance()->GetGraphicsEngine();
-			pGE->ReleaseShader(this);
-			
-		}
 	}	// namespace Render
 }	// namespace Oak3D
 

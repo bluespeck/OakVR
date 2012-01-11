@@ -88,9 +88,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\Editor\EditorEntryPoint.cpp" />
     <ClCompile Include="..\..\..\src\Editor\TestWidgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\src\Editor\EditorEntryPoint.h" />
     <ClInclude Include="..\..\..\src\Editor\TestWidgets.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

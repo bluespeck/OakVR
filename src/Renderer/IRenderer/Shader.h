@@ -15,8 +15,19 @@ namespace Oak3D
 		class Shader : public Core::IResource
 		{
 		public:
+
+			struct ShaderAdditionalInitParams : AdditionalInitParams
+			{
+				ShaderType shaderType;
+			};
+
 			Shader() : m_pCompiledShader(nullptr), m_shaderType(eST_VertexShader) {}
 			virtual ~Shader() {}
+
+			virtual void Init(const Oak3D::Core::StringId &id, AdditionalInitParams *pInitParams);
+			virtual void Load();
+			virtual void Reload();
+			virtual void Release();
 
 			inline void *GetCompiledShader();
 			inline ShaderType GetType();

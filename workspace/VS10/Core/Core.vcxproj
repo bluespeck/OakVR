@@ -46,6 +46,7 @@
     <ClInclude Include="..\..\..\src\Core\Math\Vector2.h" />
     <ClInclude Include="..\..\..\src\Core\Math\Vector3.h" />
     <ClInclude Include="..\..\..\src\Core\Math\Vector4.h" />
+    <ClInclude Include="..\..\..\src\Core\Parallel\CriticalSection.h" />
     <ClInclude Include="..\..\..\src\Core\Parallel\Thread.h" />
     <ClInclude Include="..\..\..\src\Core\ResourceManager\IResource.h" />
     <ClInclude Include="..\..\..\src\Core\ResourceManager\ResourceManager.h" />
@@ -61,6 +62,7 @@
     <ClCompile Include="..\..\..\src\Core\Math\Vector2.cpp" />
     <ClCompile Include="..\..\..\src\Core\Math\Vector3.cpp" />
     <ClCompile Include="..\..\..\src\Core\Math\Vector4.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Parallel\CriticalSection_windows.cpp" />
     <ClCompile Include="..\..\..\src\Core\Parallel\Thread_windows.cpp" />
     <ClCompile Include="..\..\..\src\Core\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="..\..\..\src\Core\Time\Timer_windows.cpp" />

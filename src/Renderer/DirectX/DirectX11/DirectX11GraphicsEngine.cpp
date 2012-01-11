@@ -30,6 +30,7 @@
 #include "Renderer/IRenderer/VertexBuffer.h"
 #include "Renderer/IRenderer/IndexBuffer.h"
 #include "Renderer/IRenderer/Texture.h"
+#include "Renderer/IRenderer/Color.h"
 #include "Core/Math/Matrix.h"
 
 #include "Core/Time/Timer.h"
@@ -195,20 +196,12 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::ClearBackground(const Color &color)
 		{
-
+			m_pDeviceContext->ClearRenderTargetView(m_pBackBufferRenderTargetView, color);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::Render()
-		{			
-			m_pDeviceContext->ClearRenderTargetView(m_pBackBufferRenderTargetView, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
-
-			// render 3D stuff to back buffer 
-
-			char str[128];
-			sprintf_s(str, "FPS: %.0f", (1.0f / Oak3D::Engine::GetTimer()->GetDeltaTime()));
-			m_pDebugText->OutputText(str, 10, 10);
-
+		void DirectX11GraphicsEngine::SwapBuffers()
+		{
 			HR(m_pSwapChain->Present(0, 0));
 		}
 
@@ -339,7 +332,7 @@ namespace Oak3D
 					ID3D10Blob *pShaderByteCode = nullptr;
 					ID3D10Blob *pErrorMsg = nullptr;
 					// compile pixel shader from file
-					HR(D3DX11CompileFromFileA(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakPixelShader", "ps_4_0", 0, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr));
+					HR_ERR(D3DX11CompileFromFileA(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakPixelShader", "ps_4_0", 0, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
 					ID3D11PixelShader *pCompiledShader = nullptr;
 					// create directx pixel shader
 					if(pShaderByteCode)
@@ -524,6 +517,7 @@ namespace Oak3D
 			// no offset?
 			D3D11_MAPPED_SUBRESOURCE ms;
 			m_pDeviceContext->Map((ID3D11Resource *)pIndexBuffer->GetData(), 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
+			*ppBuff = ms.pData;
 		}
 
 		// --------------------------------------------------------------------------------

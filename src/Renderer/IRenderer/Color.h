@@ -19,8 +19,8 @@ namespace Oak3D
 			Color(float r, float g, float b, float a);
 
 			operator uint32_t () const;
-			operator float* ();
-			operator const float * () const;
+			operator float const * () const;
+			operator float * ();
 
 			static const Color Black;
 			static const Color White;

@@ -20,6 +20,7 @@ namespace Oak3D
 			StringId(const char *strId);
 			
 			void SetStrId(const std::string &strId);
+			bool operator ==(const StringId &id);
 
 			// --------------------------------------------------------------------------------
 			const std::string &GetStrId() const
