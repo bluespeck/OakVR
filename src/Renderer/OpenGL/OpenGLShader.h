@@ -14,12 +14,8 @@ namespace Oak3D
 		class OpenGLShader : public Shader
 		{
 		public:			
-			struct OGLShaderAdditionalInitParams : public AdditionalInitParams
-			{	
-			};
 
 			OpenGLShader();
-			void Init( const Core::StringId &id, AdditionalInitParams *pAdditionalInitParams);
 
 			inline uint32_t GetVertexFormat();
 			inline void SetVertexFormat( uint32_t vertexFormat );

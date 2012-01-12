@@ -28,35 +28,12 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9Shader::Init(const Core::StringId &id, AditionalInitParams *pAditionalInitParams)
+		void DirectX9Shader::Init(const Core::StringId &id, Core::IResource::AdditionalInitParams *pAdditionalInitParams)
 		{
 			m_id = id;
-			m_shaderType = dynamic_cast<DX9AditionalInitParams*>(pAditionalInitParams)->shaderType;
-			m_vertexFormat = dynamic_cast<DX9AditionalInitParams*>(pAditionalInitParams)->vertexFormat;
+			m_shaderType = dynamic_cast<DX9AdditionalInitParams*>(pAdditionalInitParams)->shaderType;
+			m_vertexFormat = dynamic_cast<DX9AdditionalInitParams*>(pAdditionalInitParams)->vertexFormat;
 			assert((m_shaderType == eST_PixelShader || m_vertexFormat != 0) && "Vertex shader needs vertex format when created!");
-		}
-
-		
-
-		// --------------------------------------------------------------------------------
-		void DirectX9Shader::Load()
-		{
-			
-			DirectX9GraphicsEngine *pGE = (DirectX9GraphicsEngine*)Engine::GetInstance()->GetGraphicsEngine();
-			pGE->CreateShader(this);
-		}
-
-		// --------------------------------------------------------------------------------
-		void DirectX9Shader::Reload()
-		{
-		}
-
-		// --------------------------------------------------------------------------------
-		void DirectX9Shader::Release()
-		{
-			DirectX9GraphicsEngine *pGE = (DirectX9GraphicsEngine*)Engine::GetInstance()->GetGraphicsEngine();
-			pGE->ReleaseShader(this);
-			
 		}
 	}	// namespace Render
 }	// namespace Oak3D

@@ -26,6 +26,7 @@
 #include "Renderer/IRenderer/VertexBuffer.h"
 #include "Renderer/IRenderer/IndexBuffer.h"
 #include "Renderer/IRenderer/Texture.h"
+#include "Renderer/IRenderer/Color.h"
 #include "Core/Math/Matrix.h"
 
 namespace Oak3D
@@ -108,21 +109,27 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::Render()
-		{	
+		void DirectX9GraphicsEngine::ClearBackground(const Color &color)
+		{
 			// clear the window to a deep blue
-			m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f), 1.0f, 0);
+			m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET, (uint32_t)color, 0.0f, 0);
+		}
 
+		// --------------------------------------------------------------------------------
+		void DirectX9GraphicsEngine::BeginDraw()
+		{
 			m_pDevice->BeginScene();
-
-			// render 3D stuff to back buffer
-
-			char str[128];
-			sprintf(str, "FPS: %.0f", (1.0f / Oak3D::Engine::GetTimer()->GetDeltaTime()));
-			m_pDebugText->OutputText(str, 10, 10);
-
+		}
+		
+		// --------------------------------------------------------------------------------
+		void DirectX9GraphicsEngine::EndDraw()
+		{
 			m_pDevice->EndScene();
+		}
 
+		// --------------------------------------------------------------------------------
+		void DirectX9GraphicsEngine::SwapBuffers()
+		{
 			m_pDevice->Present(nullptr, nullptr, nullptr, nullptr);
 		}
 
@@ -372,54 +379,67 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX9GraphicsEngine::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
 		{			
-			D3DVERTEXELEMENT9 layout[12];
+			D3DVERTEXELEMENT9 layout[13];
 			numElems = 0;
 			int offset = 0;
 			if(vertexFormat & VertexBuffer::eVF_XYZ)
 			{
-				layout[numElems].Usage = D3DDECLUSAGE_POSITION;
-				layout[numElems].UsageIndex = 0;
-				layout[numElems].Type = D3DDECLTYPE_FLOAT3;
 				layout[numElems].Stream = 0;
 				layout[numElems].Offset = offset;
+				layout[numElems].Type = D3DDECLTYPE_FLOAT3;
 				layout[numElems].Method = D3DDECLMETHOD_DEFAULT;
+				layout[numElems].Usage = D3DDECLUSAGE_POSITION;
+				layout[numElems].UsageIndex = 0;
+				
+				
+				
+				
 				offset += 12;
 				++numElems;
 			}
 			if(vertexFormat & VertexBuffer::eVF_Normal)
-			{
-				layout[numElems].Usage = D3DDECLUSAGE_NORMAL;
-				layout[numElems].UsageIndex = 0;
-				layout[numElems].Type = D3DDECLTYPE_FLOAT3;
+			{				
 				layout[numElems].Stream = 0;
 				layout[numElems].Offset = offset;
+				layout[numElems].Type = D3DDECLTYPE_FLOAT3;
 				layout[numElems].Method = D3DDECLMETHOD_DEFAULT;
+				layout[numElems].Usage = D3DDECLUSAGE_NORMAL;
+				layout[numElems].UsageIndex = 0;
 				offset += 12;
 				++numElems;
 			}
 			if(vertexFormat & VertexBuffer::eVF_Diffuse)
 			{
-				layout[numElems].Usage = D3DDECLUSAGE_COLOR;
-				layout[numElems].UsageIndex = 0;
-				layout[numElems].Type= D3DDECLTYPE_D3DCOLOR;
 				layout[numElems].Stream = 0;
 				layout[numElems].Offset = offset;
+				layout[numElems].Type= D3DDECLTYPE_D3DCOLOR;
 				layout[numElems].Method = D3DDECLMETHOD_DEFAULT;
+				layout[numElems].Usage = D3DDECLUSAGE_COLOR;
+				layout[numElems].UsageIndex = 0;
 				offset += 16;
 				++numElems;
 			}
 
 			if(vertexFormat & VertexBuffer::eVF_Tex0)
 			{
-				layout[numElems].Usage = D3DDECLUSAGE_TEXCOORD;
-				layout[numElems].UsageIndex = 0;
-				layout[numElems].Type = D3DDECLTYPE_FLOAT2;
 				layout[numElems].Stream = 0;
 				layout[numElems].Offset = offset;
+				layout[numElems].Type = D3DDECLTYPE_FLOAT2;
 				layout[numElems].Method = D3DDECLMETHOD_DEFAULT;
+				layout[numElems].Usage = D3DDECLUSAGE_TEXCOORD;
+				layout[numElems].UsageIndex = 0;
 				offset += 8;
 				++numElems;
 			}
+
+			// D3DDECL_END()
+			layout[numElems].Stream = 0xff;
+			layout[numElems].Offset = 0;
+			layout[numElems].Type = D3DDECLTYPE_UNUSED;
+			layout[numElems].Method = 0;
+			layout[numElems].Usage = 0;
+			layout[numElems].UsageIndex = 0;
+			numElems ++;
 
 			pLayoutDesc = new D3DVERTEXELEMENT9[numElems];
 			memcpy(pLayoutDesc, layout, numElems * sizeof(D3DVERTEXELEMENT9));			

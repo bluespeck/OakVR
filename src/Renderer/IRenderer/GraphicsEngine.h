@@ -38,6 +38,8 @@ namespace Oak3D
 
 			virtual void ClearBackground(const Color &color) = 0;
 			virtual void SwapBuffers() = 0;
+			virtual void BeginDraw() {};
+			virtual void EndDraw() {};
 
 			// render
 			virtual void DrawPrimitives(uint32_t numPrimitives) = 0;

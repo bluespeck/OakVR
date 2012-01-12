@@ -27,6 +27,7 @@
 #include "Renderer/IRenderer/VertexBuffer.h"
 #include "Renderer/IRenderer/IndexBuffer.h"
 #include "Renderer/IRenderer/Texture.h"
+#include "Renderer/IRenderer/Color.h"
 
 #include "Core/Math/Matrix.h"
 #include "Core/Math/Transform.h"
@@ -109,22 +110,27 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::Render()
-		{	
-			// clear the window to a deep blue
-			glClearColor(0.0f, 0.2f, 0.4f, 1.0f);
+		void OpenGLGraphicsEngine::ClearBackground(const Color &color)
+		{
+			glClearColor(color.r, color.g, color.b, color.a);
 			glClear(GL_COLOR_BUFFER_BIT);
-									
-			// render 3D stuff to back buffer
-			glUseProgram(m_shaderProgramId);
+		}
 
-			// print fps on screen
-			char str[128];
-			sprintf(str, "FPS: %.0f", (1.0f / Oak3D::Engine::GetTimer()->GetDeltaTime()));
-			m_pDebugText->OutputText(str, 10, 10);
+		// --------------------------------------------------------------------------------
+		void OpenGLGraphicsEngine::BeginDraw()
+		{
+		}
+		
+		// --------------------------------------------------------------------------------
+		void OpenGLGraphicsEngine::EndDraw()
+		{
 
-						
-			SwapBuffers(wglGetCurrentDC());
+		}
+
+		// --------------------------------------------------------------------------------
+		void OpenGLGraphicsEngine::SwapBuffers()
+		{
+			::SwapBuffers(wglGetCurrentDC());
 		}
 
 		// --------------------------------------------------------------------------------

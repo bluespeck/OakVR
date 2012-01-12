@@ -27,8 +27,12 @@ namespace Oak3D
 			// overrides
 			virtual void Initialize();
 			virtual void Update( float dt );
-			virtual void Render();
 			virtual void Cleanup();
+
+			virtual void ClearBackground(const Color &color);
+			virtual void SwapBuffers();
+			virtual void BeginDraw();
+			virtual void EndDraw();
 
 			virtual void DrawPrimitives(uint32_t numPrimitives);
 			virtual void DrawIndexedPrimitives(uint32_t numPrimitives);

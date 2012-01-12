@@ -23,6 +23,7 @@ namespace Oak3D
 			};
 
 			DirectX9Shader();
+			virtual void Init(const Core::StringId &id, AdditionalInitParams *pAdditionalInitParams);
 			
 			inline uint32_t GetVertexFormat();
 			inline void SetVertexFormat( uint32_t vertexFormat );
