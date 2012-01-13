@@ -2,6 +2,8 @@
 #include <memory>
 #include <cassert>
 
+#include "Core/Config/Oak3DConfig.h"
+
 #include "Engine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
 #include "Renderer/IRenderer/GraphicsEngine.h"
@@ -13,19 +15,19 @@
 #include "Renderer/IRenderer/Color.h"
 #include "Renderer/IRenderer/Texture.h"
 #include "Renderer/IRenderer/Shader.h"
+
+#if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
+# include "Renderer/DirectX/DirectX9/DirectX9Shader.h"
+#elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
+# include "Renderer/DirectX/DirectX11/DirectX11Shader.h"
+#elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
+# include "Renderer/OpenGL/OpenGLShader.h"
+#endif
+
 #ifdef OAK3D_EDITOR
 #include "Editor/EditorEntryPoint.h"
 #endif
 
-#if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9
-# include <d3d9.h>
-# include "Renderer/DirectX/DirectX9/DirectX9Shader.h"
-#elif OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11
-# include <d3d11.h>
-# include "Renderer/DirectX/DirectX11/DirectX11Shader.h"
-#elif OAK3D_RENDERER == OAK3D_RENDERER_OPENGL
-# include "Renderer/OpenGL/OpenGLShader.h"
-#endif
 
 namespace Oak3D
 {
@@ -113,7 +115,7 @@ namespace Oak3D
 		using Oak3D::Render::VertexBuffer;
 		Oak3D::Render::Shader *pVertexShader = nullptr;
 		Oak3D::Render::Shader *pPixelShader = nullptr;
-#if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9
+#if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
 		Oak3D::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
 		params1.shaderType = Oak3D::Render::eST_VertexShader;
 		params1.vertexFormat = VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0;
@@ -121,14 +123,14 @@ namespace Oak3D
 
 		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::DirectX9Shader>( "../resources/shaders/InterfaceVS.hlsl", &params1);
 		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::DirectX9Shader>( "../resources/shaders/InterfacePS.hlsl", &params2);
-#elif OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11
+#elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
 		Oak3D::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = Oak3D::Render::eST_VertexShader;
 		params2.shaderType = Oak3D::Render::eST_PixelShader;
 
 		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::DirectX11Shader>( "../resources/shaders/InterfaceVS.hlsl", &params1);
 		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::DirectX11Shader>( "../resources/shaders/InterfacePS.hlsl", &params2);
-#elif OAK3D_RENDERER == OAK3D_RENDERER_OPENGL
+#elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
 		Oak3D::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = Oak3D::Render::eST_VertexShader;
 		params2.shaderType = Oak3D::Render::eST_PixelShader;

@@ -11,8 +11,6 @@ namespace Oak3D
 {
 	namespace Render
 	{
-		struct ::IDirect3DVertexDeclaration9;
-
 		class DirectX9Shader : public Shader
 		{
 		public:
@@ -28,11 +26,11 @@ namespace Oak3D
 			inline uint32_t GetVertexFormat();
 			inline void SetVertexFormat( uint32_t vertexFormat );
 
-			inline IDirect3DVertexDeclaration9 *GetInputLayout();
-			inline void SetInputLayout( IDirect3DVertexDeclaration9 *pInputLayout );
+			inline void *GetInputLayout();
+			inline void SetInputLayout( void *pInputLayout );
 			
 		protected:
-			IDirect3DVertexDeclaration9 *m_pInputLayout;
+			void *m_pInputLayout;
 			uint32_t m_vertexFormat;
 
 		};
@@ -50,13 +48,13 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		inline IDirect3DVertexDeclaration9 *DirectX9Shader::GetInputLayout()
+		inline void *DirectX9Shader::GetInputLayout()
 		{
 			return m_pInputLayout;
 		}
 
 		// --------------------------------------------------------------------------------
-		inline void DirectX9Shader::SetInputLayout( IDirect3DVertexDeclaration9 *pInputLayout )
+		inline void DirectX9Shader::SetInputLayout( void *pInputLayout )
 		{
 			m_pInputLayout = pInputLayout;
 		}

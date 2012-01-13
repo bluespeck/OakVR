@@ -79,6 +79,11 @@
     </ProjectReference>
     <ProjectReference Include="..\DirectX11Renderer\DirectX11Renderer.vcxproj">
       <Project>{0fe85c8b-0304-45d2-a1ac-526612ee05eb}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\IRenderer\IRenderer.vcxproj">
       <Project>{ccf6ed8b-fa5f-4159-929c-e730edd7987f}</Project>

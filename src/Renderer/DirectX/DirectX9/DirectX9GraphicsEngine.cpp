@@ -475,7 +475,7 @@ namespace Oak3D
 			if(pShader->GetType() == eST_VertexShader)
 			{
 				IDirect3DVertexShader9 *pVertexShader = (IDirect3DVertexShader9 *) pShader->GetCompiledShader();
-				m_pDevice->SetVertexDeclaration( ((DirectX9Shader*)pShader)->GetInputLayout() );
+				m_pDevice->SetVertexDeclaration( (IDirect3DVertexDeclaration9 *)((DirectX9Shader*)pShader)->GetInputLayout() );
 			}
 			else
 			{

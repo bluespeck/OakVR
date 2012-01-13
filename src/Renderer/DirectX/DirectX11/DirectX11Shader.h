@@ -13,29 +13,27 @@ namespace Oak3D
 {
 	namespace Render
 	{
-		struct ::ID3D11InputLayout;
-
 		class DirectX11Shader : public Shader
 		{
 		public:
 
 			DirectX11Shader();
 			
-			inline ID3D11InputLayout *GetInputLayout();
-			inline void SetInputLayout( ID3D11InputLayout *pInputLayout );
+			inline void *GetInputLayout();
+			inline void SetInputLayout( void *pInputLayout );
 
 		protected:
-			ID3D11InputLayout *m_pInputLayout;
+			void *m_pInputLayout;
 		};
 
 		// --------------------------------------------------------------------------------
-		inline ID3D11InputLayout *DirectX11Shader::GetInputLayout()
+		inline void *DirectX11Shader::GetInputLayout()
 		{
 			return m_pInputLayout;
 		}
 		
 		// --------------------------------------------------------------------------------
-		inline void DirectX11Shader::SetInputLayout( ID3D11InputLayout *pInputLayout )
+		inline void DirectX11Shader::SetInputLayout( void *pInputLayout )
 		{
 			m_pInputLayout = pInputLayout;
 		}

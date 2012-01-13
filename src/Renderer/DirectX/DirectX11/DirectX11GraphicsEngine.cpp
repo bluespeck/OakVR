@@ -200,6 +200,18 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::BeginDraw()
+		{
+
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX11GraphicsEngine::EndDraw()
+		{
+
+		}
+
+		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::SwapBuffers()
 		{
 			HR(m_pSwapChain->Present(0, 0));
@@ -644,7 +656,7 @@ namespace Oak3D
 			if(pShader->GetType() == eST_VertexShader)
 			{
 				ID3D11VertexShader *pVertexShader = (ID3D11VertexShader *) pShader->GetCompiledShader();
-				m_pDeviceContext->IASetInputLayout( ((DirectX11Shader*)pShader)->GetInputLayout() );
+				m_pDeviceContext->IASetInputLayout( (ID3D11InputLayout *)((DirectX11Shader*)pShader)->GetInputLayout() );
 				m_pDeviceContext->VSSetShader(pVertexShader, nullptr, 0);
 			}
 			else
