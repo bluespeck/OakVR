@@ -81,6 +81,13 @@ namespace Oak3D
 			Math::Matrix *m_pViewMatrix, *m_pPerspectiveProjectionMatrix, *m_pOrthographicProjectionMatrix;
 
 			PrimitiveTopology m_currentPrimitiveTopology;
+			uint8_t m_numVerticesPerPrimitive;
+
+			VertexBuffer *m_pCurrentVertexBuffer;
+			IndexBuffer *m_pCurrentIndexBuffer;
+			Shader *m_pCurrentVertexShader;
+			Shader *m_pCurrentPixelShader;
+
 		};
 		
 		// --------------------------------------------------------------------------------		

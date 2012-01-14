@@ -71,8 +71,11 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11DebugText::OutputText(const std::string &text, uint32_t x, uint32_t y)
 		{
-			if(!m_pFont->GetTexture()->IsReady())
+			if(!m_pFont->GetTexture()->IsReady() || !m_pVertexShader->IsReady() || !m_pPixelShader->IsReady())
+			{
+				printf("Font is not yet initialised!");
 				return;
+			}
 
 			Font::TextVertex *pVertices;
 			uint32_t numVertices = 0;

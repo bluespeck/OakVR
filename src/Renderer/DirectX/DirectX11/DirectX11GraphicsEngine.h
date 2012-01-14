@@ -110,10 +110,7 @@ namespace Oak3D
 			ID3D11DepthStencilState *m_pDepthStencilStateDepthEnabled;
 			ID3D11RasterizerState *m_pRasterizerStates[eRSI_Count];
 
-			VertexBuffer *m_pCurrentVertexBuffer;
-			IndexBuffer *m_pCurrentIndexBuffer;
-			Shader *m_pCurrentVertexShader;
-			Shader *m_pCurrentPixelShader;
+			
 		};
 	}	// namespace Render
 }	// namespace Oak3D

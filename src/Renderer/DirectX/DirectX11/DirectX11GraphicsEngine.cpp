@@ -69,7 +69,7 @@ namespace Oak3D
 			scd.OutputWindow = hWnd;                                // the window to be used
 			scd.SampleDesc.Count = 1;                               // how many multisamples
 			scd.Windowed = TRUE;                                    // windowed/fullscreen mode
-			scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH | D3D11_CREATE_DEVICE_DEBUG;		// allow windowed/fullscreen switch
+			scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;		// allow windowed/fullscreen switch
 			D3D_FEATURE_LEVEL featLevel[] = {
 				D3D_FEATURE_LEVEL_11_0,
 				D3D_FEATURE_LEVEL_10_1,
@@ -322,7 +322,6 @@ namespace Oak3D
 					ID3D10Blob *pErrorMsg = nullptr;
 					// compile vertex shader from file
 					HR_ERR(D3DX11CompileFromFileA(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakVertexShader", "vs_4_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
-					
 					// create DirectX vertex shader
 					if(pShaderByteCode)
 					{
@@ -424,49 +423,13 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::DrawPrimitives(uint32_t numPrimitives)
 		{
-			uint8_t numVerticesPerPrimitive = 0;
-			switch( m_currentPrimitiveTopology )
-			{
-			case ePT_PointList:
-				numVerticesPerPrimitive = 1;
-				break;
-			case ePT_LineList:
-			case ePT_LineStrip:
-				numVerticesPerPrimitive = 2;
-				break;
-			case ePT_TriangleList:
-			case ePT_TriangleStrip:
-				numVerticesPerPrimitive = 3;
-				break;
-			default:
-				assert("Unknown primitive topology" && 0);
-				break;
-			}
-			m_pDeviceContext->Draw(numPrimitives * numVerticesPerPrimitive, 0);
+			m_pDeviceContext->Draw(numPrimitives * m_numVerticesPerPrimitive, 0);
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives)
 		{
-			uint8_t numIndicesPerPrimitive = 0;
-			switch( m_currentPrimitiveTopology )
-			{
-			case ePT_PointList:
-				numIndicesPerPrimitive = 1;
-				break;
-			case ePT_LineList:
-			case ePT_LineStrip:
-				numIndicesPerPrimitive = 2;
-				break;
-			case ePT_TriangleList:
-			case ePT_TriangleStrip:
-				numIndicesPerPrimitive = 3;
-				break;
-			default:
-				assert("Unknown primitive topology" && 0);
-				break;
-			}
-			m_pDeviceContext->DrawIndexed(numPrimitives * numIndicesPerPrimitive, 0, 0);
+			m_pDeviceContext->DrawIndexed(numPrimitives * m_numVerticesPerPrimitive, 0, 0);
 		}
 
 
@@ -479,7 +442,7 @@ namespace Oak3D
 			desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 			desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 			desc.MiscFlags = 0;
-			desc.StructureByteStride = pVertexBuffer->GetVertexSize();
+			desc.StructureByteStride = 0;//pVertexBuffer->GetVertexSize();
 			desc.Usage = D3D11_USAGE_DYNAMIC;
 
 			HR(m_pDevice->CreateBuffer(&desc, NULL, &pVB));
@@ -516,7 +479,7 @@ namespace Oak3D
 			desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 			desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 			desc.MiscFlags = 0;
-			desc.StructureByteStride = pIndexBuffer->GetIndexSize();
+			desc.StructureByteStride = 0;//pIndexBuffer->GetIndexSize();
 			desc.Usage = D3D11_USAGE_DYNAMIC;
 
 			m_pDevice->CreateBuffer(&desc, NULL, &pIB);
@@ -629,18 +592,23 @@ namespace Oak3D
 			{
 			case ePT_PointList:
 				pt = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
+				m_numVerticesPerPrimitive = 1;
 				break;
 			case ePT_LineList:
 				pt = D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
+				m_numVerticesPerPrimitive = 2;
 				break;
 			case ePT_LineStrip:
 				pt = D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP;
+				m_numVerticesPerPrimitive = 2;
 				break;
 			case ePT_TriangleList:
 				pt = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+				m_numVerticesPerPrimitive = 3;
 				break;
 			case ePT_TriangleStrip:
 				pt = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+				m_numVerticesPerPrimitive = 3;
 				break;
 			default:
 				break;

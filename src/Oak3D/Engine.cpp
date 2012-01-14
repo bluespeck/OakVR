@@ -39,6 +39,25 @@ namespace Oak3D
 		m_pTimer = nullptr;
 		m_pRM = nullptr;
 		m_bIsInitialized = false;
+		b1.SetPosition(100, 100);
+		b1.SetDepth(0);
+		b1.SetSize(64, 32);
+
+		b2.SetPosition(250, 100);
+		b2.SetDepth(1);
+		b2.SetSize(200, 100);
+
+		b3.SetPosition(240, 110);
+		b3.SetDepth(0);
+		b3.SetSize(70, 20);
+
+		b4.SetPosition(230, 120);
+		b4.SetDepth(2);
+		b4.SetSize(70, 20);
+
+		b5.SetPosition(220, 130);
+		b5.SetDepth(3);
+		b5.SetSize(70, 20);
 	}
 
 	// --------------------------------------------------------------------------------
@@ -176,6 +195,12 @@ namespace Oak3D
 		uint8_t *buff = new uint8_t[vb.GetVertexSize() * vb.GetVertexCount() * Widget::s_widgets->size()];			
 		float *p = (float *) buff;
 
+		float hw = GetRenderWindow()->GetWidth() / 2.f;
+		float hh = GetRenderWindow()->GetHeight() / 2.f;
+
+		float invWidth = 1.0f / hw;
+		float invHeight = 1.0f / hh;
+
 		auto it = Widget::s_widgets->begin();
 		while(it != Widget::s_widgets->end())
 		{
@@ -184,29 +209,33 @@ namespace Oak3D
 
 			ScreenPosition pos = (*it)->GetPosition();
 			ScreenSize2D size = (*it)->GetSize();
-			
-			*(p++)	= (float)pos.x;
-			*(p++)	= (float)pos.y;
+			float fx = (pos.x - hw) * invWidth;
+			float fy = (hh - pos.y) * invHeight;
+			float fw = size.width * invWidth;
+			float fh = size.height * invHeight;
+
+			*(p++)	= fx;
+			*(p++)	= fy;
 			*(p++)	= 0.0f;
 			*(p++)	= 0.0f;
 			*(p++)	= 0.0f;
 			
-			*(p++)	= (float)(pos.x + size.width);
-			*(p++)	= (float)pos.y;
+			*(p++)	= fx + fw;
+			*(p++)	= fy;
 			*(p++)	= 0.0f;
 			*(p++)	= 1.0f;
 			*(p++)	= 0.0f;
 			
-			*(p++)	= (float)pos.x;
-			*(p++)	= (float)(pos.y - size.height);
+			*(p++)	= fx + fw;
+			*(p++)	= fy - fh;
 			*(p++)	= 0.0f;
-			*(p++)	= 0.0f;
+			*(p++)	= 1.0f;
 			*(p++)	= 1.0f;
 			
-			*(p++)	= (float)(pos.x + size.width);
-			*(p++)	= (float)(pos.y - size.height);
+			*(p++)	= fx;
+			*(p++)	= fy - fh;
 			*(p++)	= 0.0f;
-			*(p++)	= 1.0f;
+			*(p++)	= 0.0f;
 			*(p++)	= 1.0f;
 
 			++it;
@@ -216,12 +245,12 @@ namespace Oak3D
 		vb.Lock(&pBuff);
 		memcpy(pBuff, buff, vb.GetVertexSize() * vb.GetVertexCount());
 		vb.Unlock();
-		delete buff;
+		delete[] buff;
 
 		/////
 		// Create associated index buffer
 		Oak3D::Render::IndexBuffer ib;
-		ib.Create(numVertices);
+		ib.Create(numVertices * 6 / 4);
 
 		buff = new uint8_t[6 * numVertices];	// 6 indices for every 4 vertices, each having 4 bytes
 		uint32_t *pp = (uint32_t *)buff;
@@ -229,9 +258,9 @@ namespace Oak3D
 		{
 			*(pp++) = i + 0;
 			*(pp++) = i + 1;
-			*(pp++) = i + 2;
-			*(pp++) = i + 2;
+			*(pp++) = i + 3;
 			*(pp++) = i + 1;
+			*(pp++) = i + 2;
 			*(pp++) = i + 3;
 		}
 
@@ -248,7 +277,7 @@ namespace Oak3D
 		m_pGE->UseVertexBuffer(&vb);
 		m_pGE->UseIndexBuffer(&ib);
 		m_pGE->UsePrimitiveTopology(Oak3D::Render::ePT_TriangleList);
-		m_pGE->DrawPrimitives(numVertices / 2);
+		m_pGE->DrawIndexedPrimitives(numVertices / 2);
 	}
 
 	// --------------------------------------------------------------------------------

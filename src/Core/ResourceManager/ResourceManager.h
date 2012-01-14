@@ -47,22 +47,23 @@ namespace Oak3D
 		ResourceType * ResourceManager::GetResource(const StringId &id, IResource::AdditionalInitParams *pAditionalInitParams)
 		{
 			m_memoryCritSection.EnterCriticalSection();
+			m_loadCritSection.EnterCriticalSection();
 			if(m_inMemory.size() > 0)
 			{
 				auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](IResource *pt)
 				{
-					return pt->m_id.GetHashId() == id.GetHashId();
+					return pt->m_id == id;
 				});
 				if(it != m_inMemory.end())
 				{
 					(*it)->m_refCount++;
+					ResourceType *pRes = dynamic_cast<ResourceType *>(*it);
 					m_memoryCritSection.LeaveCriticalSection();
-					return dynamic_cast<ResourceType *>(*it);
+					m_loadCritSection.LeaveCriticalSection();
+					return pRes;
 				}
 			}
-			m_memoryCritSection.LeaveCriticalSection();
-
-			m_loadCritSection.EnterCriticalSection();
+						
 			if(m_toBeLoaded.size() > 0)
 			{
 				auto it = std::find_if(m_toBeLoaded.begin(), m_toBeLoaded.end(), [&](IResource *pt)
@@ -72,10 +73,13 @@ namespace Oak3D
 				if(it != m_toBeLoaded.end())
 				{
 					(*it)->m_refCount++;
+					ResourceType *pRes = dynamic_cast<ResourceType *>(*it);
+					m_memoryCritSection.LeaveCriticalSection();
 					m_loadCritSection.LeaveCriticalSection();
-					return dynamic_cast<ResourceType *>(*it);
+					return pRes;
 				}
 			}
+			m_memoryCritSection.LeaveCriticalSection();
 			m_loadCritSection.LeaveCriticalSection();
 			// Add new resource to the TO BE LOADED queue
 			auto sp = new ResourceType();

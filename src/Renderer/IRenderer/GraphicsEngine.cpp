@@ -15,6 +15,11 @@ namespace Oak3D
 		, m_pOrthographicProjectionMatrix(nullptr)
 		, m_pPerspectiveProjectionMatrix(nullptr)
 		, m_currentPrimitiveTopology(ePT_TriangleList)
+		, m_numVerticesPerPrimitive(3)
+		, m_pCurrentVertexBuffer(nullptr)
+		, m_pCurrentIndexBuffer(nullptr)
+		, m_pCurrentVertexShader(nullptr)
+		, m_pCurrentPixelShader(nullptr)
 		{
 		}
 

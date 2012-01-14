@@ -11,6 +11,7 @@
 #include "Renderer/IRenderer/GraphicsEngine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
 #include "Core/Time/Timer.h"
+#include "Leaf3D/Button.h"
 
 namespace Oak3D
 {
@@ -47,6 +48,15 @@ namespace Oak3D
 		Core::ResourceManager *m_pRM;
 
 		bool m_bIsInitialized;
+
+		// TODO These were added for testing only! Please remove them!
+		Oak3D::Leaf3D::Button b1;
+		Oak3D::Leaf3D::Button b2;
+		Oak3D::Leaf3D::Button b3;
+		Oak3D::Leaf3D::Button b4;
+		Oak3D::Leaf3D::Button b5;
+
+		
 	};
 }	// namespace Oak3D
 

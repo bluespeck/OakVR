@@ -30,11 +30,11 @@ namespace Oak3D
 				{
 					pRes->Load();
 					
+					pRM->m_memoryCritSection.EnterCriticalSection();
 					pRM->m_loadCritSection.EnterCriticalSection();
 					pRM->m_toBeLoaded.pop_front();
-					pRM->m_loadCritSection.LeaveCriticalSection();
-					pRM->m_memoryCritSection.EnterCriticalSection();
 					pRM->m_inMemory.push_back(pRes);
+					pRM->m_loadCritSection.LeaveCriticalSection();
 					pRM->m_memoryCritSection.LeaveCriticalSection();
 				}
 			}

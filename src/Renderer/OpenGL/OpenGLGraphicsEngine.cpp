@@ -92,7 +92,7 @@ namespace Oak3D
 			glMatrixMode(GL_PROJECTION);
 			*m_pPerspectiveProjectionMatrix = Math::Transform::CreatePerspectiveProjectionTransform(3.141592f * 0.25f, 1.25f, 1.0f, 1000.0f);
 			*m_pOrthographicProjectionMatrix = Math::Transform::CreateOthographicProjectionTransform(0.0f, (float)m_pRenderWindow->GetWidth(), 0.0f, (float)m_pRenderWindow->GetHeight(), 1.0f, 1000.0f);
-			
+			glFrontFace(GL_CW);
 			InitializeStateObjects();
 
 			/////
@@ -230,36 +230,30 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::DrawPrimitives(uint32_t numPrimitives)
 		{
-			uint8_t numVerticesPerPrimitive = 0;
 			GLenum pt;
 			switch( m_currentPrimitiveTopology )
 			{
 			case ePT_PointList:
-				numVerticesPerPrimitive = 1;
 				pt = GL_POINTS;
 				break;
 			case ePT_LineList:
 				pt = GL_LINES;
-				numVerticesPerPrimitive = 2;
 				break;
 			case ePT_LineStrip:
 				pt = GL_LINE_STRIP;
-				numVerticesPerPrimitive = 2;
 				break;
 			case ePT_TriangleList:
 				pt = GL_TRIANGLES;
-				numVerticesPerPrimitive = 3;
 				break;
 			case ePT_TriangleStrip:
 				pt = GL_TRIANGLE_STRIP;
-				numVerticesPerPrimitive = 3;
 				break;
 			default:
 				assert("Unknown primitive topology" && 0);
 				break;
 			}
 
-			glDrawArrays(pt, 0, numPrimitives * numVerticesPerPrimitive);
+			glDrawArrays(pt, 0, numPrimitives * m_numVerticesPerPrimitive);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -293,7 +287,7 @@ namespace Oak3D
 				assert("Unknown primitive topology" && 0);
 				break;
 			}
-			glDrawElements(pt, numIndicesPerPrimitive * numPrimitives, GL_UNSIGNED_INT, m_pCurrentIndexBuffer->GetData());
+			glDrawElements(pt, numIndicesPerPrimitive * numPrimitives, GL_UNSIGNED_INT, 0);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -482,6 +476,26 @@ namespace Oak3D
 		void OpenGLGraphicsEngine::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
 		{
 			m_currentPrimitiveTopology = primitiveTopology;
+			switch(primitiveTopology)
+			{
+			case ePT_PointList:
+				m_numVerticesPerPrimitive = 1;
+				break;
+			case ePT_LineList:
+				m_numVerticesPerPrimitive = 2;
+				break;
+			case ePT_LineStrip:
+				m_numVerticesPerPrimitive = 2;
+				break;
+			case ePT_TriangleList:
+				m_numVerticesPerPrimitive = 3;
+				break;
+			case ePT_TriangleStrip:
+				m_numVerticesPerPrimitive = 3;
+				break;
+			default:
+				break;
+			}
 		}
 
 		// --------------------------------------------------------------------------------

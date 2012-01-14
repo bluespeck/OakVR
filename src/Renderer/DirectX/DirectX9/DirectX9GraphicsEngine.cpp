@@ -284,34 +284,28 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX9GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives)
 		{
-			uint8_t numVerticesPerPrimitive = 0;
 			D3DPRIMITIVETYPE pt = D3DPT_TRIANGLELIST;
 			switch( m_currentPrimitiveTopology )
 			{
 			case ePT_PointList:
 				pt = D3DPT_POINTLIST;
-				numVerticesPerPrimitive = 1;
 				break;
 			case ePT_LineList:
 				pt = D3DPT_LINELIST;
-				numVerticesPerPrimitive = 2;
 				break;
 			case ePT_LineStrip:
 				pt = D3DPT_LINESTRIP;
-				numVerticesPerPrimitive = 2;
 				break;
 			case ePT_TriangleList:
 				pt = D3DPT_TRIANGLELIST;
-				numVerticesPerPrimitive = 3;
 				break;
 			case ePT_TriangleStrip:
 				pt = D3DPT_TRIANGLESTRIP;
-				numVerticesPerPrimitive = 3;
 				break;
 			default:
 				break;
 			}
-			m_pDevice->DrawIndexedPrimitive(pt,0, 0, numVerticesPerPrimitive * numPrimitives, 0, numPrimitives);
+			m_pDevice->DrawIndexedPrimitive(pt, 0, 0, m_numVerticesPerPrimitive * numPrimitives, 0, numPrimitives);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -328,13 +322,13 @@ namespace Oak3D
 		void DirectX9GraphicsEngine::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
 		{	
 			// no offset??
-			((IDirect3DVertexBuffer9 *)pVertexBuffer->GetData())->Lock(offsetToLock, sizeToLock, ppBuff, 0);
+			((IDirect3DVertexBuffer9 *)pVertexBuffer->GetData())->Lock(offsetToLock, sizeToLock, ppBuff, D3DLOCK_DISCARD);
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX9GraphicsEngine::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
 		{	
-			((IDirect3DVertexBuffer9 *)pVertexBuffer)->Unlock();
+			((IDirect3DVertexBuffer9 *)pVertexBuffer->GetData())->Unlock();
 		}
 
 		// --------------------------------------------------------------------------------
@@ -466,6 +460,26 @@ namespace Oak3D
 		void DirectX9GraphicsEngine::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
 		{
 			m_currentPrimitiveTopology = primitiveTopology;
+			switch(primitiveTopology)
+			{
+			case ePT_PointList:
+				m_numVerticesPerPrimitive = 1;
+				break;
+			case ePT_LineList:
+				m_numVerticesPerPrimitive = 2;
+				break;
+			case ePT_LineStrip:
+				m_numVerticesPerPrimitive = 2;
+				break;
+			case ePT_TriangleList:
+				m_numVerticesPerPrimitive = 3;
+				break;
+			case ePT_TriangleStrip:
+				m_numVerticesPerPrimitive = 3;
+				break;
+			default:
+				break;
+			}
 		}
 
 		// --------------------------------------------------------------------------------
