@@ -1,6 +1,6 @@
 
-#ifndef _OAK3D_LEAF3D_LABEL_H_
-#define _OAK3D_LEAF3D_LABEL_H_
+#ifndef __OAK3D_INCLUDE_LEAF3D_LABEL_H__
+#define __OAK3D_INCLUDE_LEAF3D_LABEL_H__
 
 #include <string>
 

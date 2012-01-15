@@ -39,6 +39,7 @@ namespace Oak3D
 	private:			
 		void Update(float dt);
 
+		void TriggerInputEvents();
 		void DrawInterface();
 
 	private:

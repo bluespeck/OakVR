@@ -294,6 +294,9 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
+    <ProjectReference Include="..\Input\Input.vcxproj">
+      <Project>{0c467289-ec1e-4531-94b6-be02bd75c66f}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\IRenderer\IRenderer.vcxproj">
       <Project>{ccf6ed8b-fa5f-4159-929c-e730edd7987f}</Project>
       <Private>true</Private>

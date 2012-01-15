@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_TRANSFORM_H__
-#define __OAK3D_INCLUDE_TRANSFORM_H__
+#ifndef __OAK3D_INCLUDE_CORE_TRANSFORM_H__
+#define __OAK3D_INCLUDE_CORE_TRANSFORM_H__
 
 #include "Matrix.h"
 

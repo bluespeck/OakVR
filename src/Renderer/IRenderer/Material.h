@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_MATERIAL_H__
-#define __OAK3D_INCLUDE_MATERIAL_H__
+#ifndef __OAK3D_INCLUDE_RENDER_MATERIAL_H__
+#define __OAK3D_INCLUDE_RENDER_MATERIAL_H__
 
 #include <string>
 #include "Core/ResourceManager/IResource.h"

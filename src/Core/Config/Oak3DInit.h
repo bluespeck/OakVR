@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_INITOAK3D_H__
-#define __OAK3D_INCLUDE_INITOAK3D_H__
+#ifndef __OAK3D_INCLUDE_CORE_INITOAK3D_H__
+#define __OAK3D_INCLUDE_CORE_INITOAK3D_H__
 
 namespace Oak3D
 {

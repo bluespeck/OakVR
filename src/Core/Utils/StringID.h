@@ -2,8 +2,8 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_STRINGID_H__
-#define __OAK3D_INCLUDE_STRINGID_H__
+#ifndef __OAK3D_INCLUDE_CORE_STRINGID_H__
+#define __OAK3D_INCLUDE_CORE_STRINGID_H__
 
 #include <string>
 #include <cstdint>
@@ -20,7 +20,8 @@ namespace Oak3D
 			StringId(const char *strId);
 			
 			void SetStrId(const std::string &strId);
-			bool operator ==(const StringId &id);
+			bool operator ==(const StringId &id) const ;
+			bool operator <(const StringId &id) const;
 
 			// --------------------------------------------------------------------------------
 			const std::string &GetStrId() const

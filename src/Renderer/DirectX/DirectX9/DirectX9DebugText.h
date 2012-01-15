@@ -2,8 +2,8 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_DIRECTX9DEBUGTEXT_H__
-#define __OAK3D_INCLUDE_DIRECTX9DEBUGTEXT_H__
+#ifndef __OAK3D_INCLUDE_RENDER_DIRECTX9DEBUGTEXT_H__
+#define __OAK3D_INCLUDE_RENDER_DIRECTX9DEBUGTEXT_H__
 
 #include <d3d9.h>
 #include <d3dx9.h>

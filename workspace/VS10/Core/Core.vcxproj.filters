@@ -25,6 +25,9 @@
     <Filter Include="Config">
       <UniqueIdentifier>{2e7d7782-1f13-4b1f-940f-e2ee6f962905}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{57b63aae-4b19-45d5-a3c6-19aadbb3e190}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Core\Math\MathUtils.h">
@@ -81,6 +84,9 @@
     <ClInclude Include="..\..\..\src\Core\Parallel\CriticalSection.h">
       <Filter>Parallel</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\Interface\IUpdatable.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Core\Math\Matrix.cpp">
@@ -118,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\Core\Parallel\CriticalSection_windows.cpp">
       <Filter>Parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\Interface\IUpdatable.cpp">
+      <Filter>Interface</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

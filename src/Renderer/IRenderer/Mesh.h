@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_MESH_H__
-#define __OAK3D_INCLUDE_MESH_H__
+#ifndef __OAK3D_INCLUDE_RENDER_MESH_H__
+#define __OAK3D_INCLUDE_RENDER_MESH_H__
 
 #include <vector>
 

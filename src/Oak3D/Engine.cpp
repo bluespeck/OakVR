@@ -15,6 +15,9 @@
 #include "Renderer/IRenderer/Color.h"
 #include "Renderer/IRenderer/Texture.h"
 #include "Renderer/IRenderer/Shader.h"
+#include "Leaf3D/EventManager.h"
+#include "Leaf3D/MouseEvent.h"
+#include "Input/MouseInput.h"
 
 #if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
 # include "Renderer/DirectX/DirectX9/DirectX9Shader.h"
@@ -71,6 +74,9 @@ namespace Oak3D
 			delete m_pRW;
 		if(m_pTimer)
 			delete m_pTimer;
+		Oak3D::Leaf3D::Widget::ReleaseWidgetList();
+		Oak3D::Core::IUpdatable::ReleaseUpdatableList();
+		Oak3D::Leaf3D::EventManager::Release();
 	}
 
 	// --------------------------------------------------------------------------------
@@ -104,16 +110,29 @@ namespace Oak3D
 	// --------------------------------------------------------------------------------
 	void Engine::Update(float dt)
 	{
+		Oak3D::Input::MouseInput::GetInstance()->Update();
+		TriggerInputEvents();
+		Oak3D::Leaf3D::EventManager::GetInstance()->Update();
+
 		if(m_pGE)
 		{
-			// update engine stuff
 			m_pGE->ClearBackground(Oak3D::Render::Color::Black);
-			
+
 			m_pGE->BeginDraw();
 
+			// update engine stuff
+
+
+			/////
+			// Draw debug text
 			char str[128];
 			sprintf_s(str, "FPS: %.0f", (1.0f / GetTimer()->GetDeltaTime()));
 			m_pGE->OutputText(str, 10, 10);
+
+			auto coords = Oak3D::Input::MouseInput::GetInstance()->GetPosition();
+			sprintf_s(str, "Mouse Coords: %2d,%2d", coords.first, coords.second);
+			m_pGE->OutputText(str, 10, 30);
+			
 			
 			DrawInterface();
 			
@@ -125,8 +144,157 @@ namespace Oak3D
 	}
 
 	// --------------------------------------------------------------------------------
+	void Engine::TriggerInputEvents()
+	{
+		using Leaf3D::MouseEvent;
+		// trigger mouse events
+		auto pMouseInput = Oak3D::Input::MouseInput::GetInstance();
+		MouseEvent ev;
+		ev.m_mouseData.m_bLButtonDown = pMouseInput->IsLeftButtonDown();
+		ev.m_mouseData.m_bLButtonDown = pMouseInput->IsMiddleButtonDown();
+		ev.m_mouseData.m_bRButtonDown = pMouseInput->IsRightButtonDown();
+		ev.m_mouseData.m_mousePosition.x = pMouseInput->GetPosition().first;
+		ev.m_mouseData.m_mousePosition.y = pMouseInput->GetPosition().second;
+		ev.m_mouseData.m_wheelDelta = pMouseInput->GetWheelDelta();
+		if(pMouseInput->IsLeftButtonDown())
+		{
+			MouseEvent *pev = new MouseEvent();
+			pev->m_mouseData = ev.m_mouseData;
+			pev->SetEventSubType(ev.eventSubtypeLButtonDown);
+			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+
+			if(pMouseInput->IsLeftButtonHeld())
+			{
+				MouseEvent *pev = new MouseEvent();
+				pev->m_mouseData = ev.m_mouseData;
+				pev->SetEventSubType(ev.eventSubtypeLButtonHeld);
+				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+			}
+			else
+			{
+				MouseEvent *pev = new MouseEvent();
+				pev->m_mouseData = ev.m_mouseData;
+				pev->SetEventSubType(ev.eventSubtypeLButtonPressed);
+				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+			}
+		}
+		else if(pMouseInput->IsLeftButtonUp())
+		{
+			MouseEvent *pev = new MouseEvent();
+			pev->m_mouseData = ev.m_mouseData;
+			pev->SetEventSubType(ev.eventSubtypeLButtonUp);
+			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+
+			if(pMouseInput->IsLeftButtonReleased())
+			{
+				MouseEvent *pev = new MouseEvent();
+				pev->m_mouseData = ev.m_mouseData;
+				pev->SetEventSubType(ev.eventSubtypeLButtonReleased);
+				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+			}
+		}
+
+		if(pMouseInput->IsMiddleButtonDown())
+		{
+			MouseEvent *pev = new MouseEvent();
+			pev->m_mouseData = ev.m_mouseData;
+			pev->SetEventSubType(ev.eventSubtypeMButtonDown);
+			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+
+			if(pMouseInput->IsMiddleButtonHeld())
+			{
+				MouseEvent *pev = new MouseEvent();
+				pev->m_mouseData = ev.m_mouseData;
+				pev->SetEventSubType(ev.eventSubtypeMButtonHeld);
+				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+			}
+			else
+			{
+				MouseEvent *pev = new MouseEvent();
+				pev->m_mouseData = ev.m_mouseData;
+				pev->SetEventSubType(ev.eventSubtypeMButtonPressed);
+				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+			}
+		}
+		else if(pMouseInput->IsMiddleButtonUp())
+		{
+			MouseEvent *pev = new MouseEvent();
+			pev->m_mouseData = ev.m_mouseData;
+			pev->SetEventSubType(ev.eventSubtypeMButtonUp);
+			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+
+			if(pMouseInput->IsMiddleButtonReleased())
+			{
+				MouseEvent *pev = new MouseEvent();
+				pev->m_mouseData = ev.m_mouseData;
+				pev->SetEventSubType(ev.eventSubtypeMButtonReleased);
+				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+			}
+		}
+
+		if(pMouseInput->IsRightButtonDown())
+		{
+			MouseEvent *pev = new MouseEvent();
+			pev->m_mouseData = ev.m_mouseData;
+			pev->SetEventSubType(ev.eventSubtypeRButtonDown);
+			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+
+			if(pMouseInput->IsRightButtonHeld())
+			{
+				MouseEvent *pev = new MouseEvent();
+				pev->m_mouseData = ev.m_mouseData;
+				pev->SetEventSubType(ev.eventSubtypeRButtonHeld);
+				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+			}
+			else
+			{
+				MouseEvent *pev = new MouseEvent();
+				pev->m_mouseData = ev.m_mouseData;
+				pev->SetEventSubType(ev.eventSubtypeRButtonPressed);
+				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+			}
+		}
+		else if(pMouseInput->IsRightButtonUp())
+		{
+			MouseEvent *pev = new MouseEvent();
+			pev->m_mouseData = ev.m_mouseData;
+			pev->SetEventSubType(ev.eventSubtypeRButtonUp);
+			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+
+			if(pMouseInput->IsRightButtonReleased())
+			{
+				MouseEvent *pev = new MouseEvent();
+				pev->m_mouseData = ev.m_mouseData;
+				pev->SetEventSubType(ev.eventSubtypeRButtonReleased);
+				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+			}
+		}
+
+		if(pMouseInput->HasMouseMoved())
+		{
+			MouseEvent *pev = new MouseEvent();
+			pev->m_mouseData = ev.m_mouseData;
+			pev->SetEventSubType(ev.eventSubtypeMouseMoved);
+			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		}
+
+		if(pMouseInput->GetWheelDelta() != 0)
+		{
+			MouseEvent *pev = new MouseEvent();
+			pev->m_mouseData = ev.m_mouseData;
+			pev->SetEventSubType(ev.eventSubtypeMouseWheel);
+			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		}
+	}
+
+	// --------------------------------------------------------------------------------
 	void Engine::DrawInterface()
 	{
+		using Oak3D::Leaf3D::Widget;
+
+		if(Widget::GetWidgetList()->size() == 0)
+			return;
+
 		Oak3D::Render::Texture *pTexture = GetResourceManager()->GetResource<Oak3D::Render::Texture>("../resources/Skins/Button.dds");
 		if(!pTexture->IsReady())
 			return;
@@ -160,13 +328,10 @@ namespace Oak3D
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
 			return;
 		
-		using Oak3D::Leaf3D::Widget;
-
-		if(!Widget::WidgetsAvailable())
-			return;
+		auto widgets = Widget::GetWidgetList();
 
 		uint32_t numVertices = 0;
-		for(auto it = Widget::s_widgets->begin(); it != Widget::s_widgets->end(); ++it)
+		for(auto it = widgets->begin(); it != widgets->end(); ++it)
 		{
 			if((*it)->IsVisible())
 			{
@@ -180,7 +345,7 @@ namespace Oak3D
 
 		/////
 		// Sort widget list in reverse depth order
-		Widget::s_widgets->sort([](Widget * w1, Widget * w2)
+		widgets->sort([](Widget * w1, Widget * w2)
 			{
 				return w1->GetDepth() > w2->GetDepth();
 			}
@@ -192,7 +357,7 @@ namespace Oak3D
 		VertexBuffer vb;
 		vb.Create(numVertices, VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0);
 		
-		uint8_t *buff = new uint8_t[vb.GetVertexSize() * vb.GetVertexCount() * Widget::s_widgets->size()];			
+		uint8_t *buff = new uint8_t[vb.GetVertexSize() * vb.GetVertexCount() * widgets->size()];			
 		float *p = (float *) buff;
 
 		float hw = GetRenderWindow()->GetWidth() / 2.f;
@@ -201,8 +366,8 @@ namespace Oak3D
 		float invWidth = 1.0f / hw;
 		float invHeight = 1.0f / hh;
 
-		auto it = Widget::s_widgets->begin();
-		while(it != Widget::s_widgets->end())
+		auto it = widgets->begin();
+		while(it != widgets->end())
 		{
 			using Oak3D::Leaf3D::ScreenPosition;
 			using Oak3D::Leaf3D::ScreenSize2D;

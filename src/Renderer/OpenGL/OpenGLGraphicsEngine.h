@@ -3,8 +3,8 @@
 // Written by		Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_OPENGLGRAPHICSENGINE_H__
-#define __OAK3D_INCLUDE_OPENGLGRAPHICSENGINE_H__
+#ifndef __OAK3D_INCLUDE_RENDER_OPENGLGRAPHICSENGINE_H__
+#define __OAK3D_INCLUDE_RENDER_OPENGLGRAPHICSENGINE_H__
 
 #include <map>
 

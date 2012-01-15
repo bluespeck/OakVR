@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_ICONTROLLER_H__
-#define __OAK3D_INCLUDE_ICONTROLLER_H__
+#ifndef __OAK3D_INCLUDE_CORE_ICONTROLLER_H__
+#define __OAK3D_INCLUDE_CORE_ICONTROLLER_H__
 
 namespace Oak3D
 {

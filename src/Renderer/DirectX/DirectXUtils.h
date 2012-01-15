@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_DIRECTXUTILS_H__
-#define __OAK3D_INCLUDE_DIRECTXUTILS_H__
+#ifndef __OAK3D_INCLUDE_RENDER_DIRECTXUTILS_H__
+#define __OAK3D_INCLUDE_RENDER_DIRECTXUTILS_H__
 
 #if defined(DEBUG) || defined(_DEBUG)
 	#include <sstream>

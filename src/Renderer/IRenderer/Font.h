@@ -2,8 +2,8 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_FONT_H__
-#define __OAK3D_INCLUDE_FONT_H__
+#ifndef __OAK3D_INCLUDE_RENDER_FONT_H__
+#define __OAK3D_INCLUDE_RENDER_FONT_H__
 
 #include <cstdint>
 #include <string>

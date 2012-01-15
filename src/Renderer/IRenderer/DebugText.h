@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_DEBUGTEXT_H__
-#define __OAK3D_INCLUDE_DEBUGTEXT_H__
+#ifndef __OAK3D_INCLUDE_RENDER_DEBUGTEXT_H__
+#define __OAK3D_INCLUDE_RENDER_DEBUGTEXT_H__
 
 #include <string>
 #include <cstdint>

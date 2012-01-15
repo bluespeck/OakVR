@@ -2,8 +2,8 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_MATHUTILS_H__
-#define __OAK3D_INCLUDE_MATHUTILS_H__
+#ifndef __OAK3D_INCLUDE_CORE_MATHUTILS_H__
+#define __OAK3D_INCLUDE_CORE_MATHUTILS_H__
 
 #define MAX(a, b) (((a) < (b))? (a) : (b))
 #define MIN(a, b) (((a) < (b))? (b) : (a))

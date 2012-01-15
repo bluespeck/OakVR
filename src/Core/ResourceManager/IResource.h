@@ -1,5 +1,5 @@
-#ifndef __OAK3D_INCLUDE_IRESOURCE_H__
-#define __OAK3D_INCLUDE_IRESOURCE_H__
+#ifndef __OAK3D_INCLUDE_CORE_IRESOURCE_H__
+#define __OAK3D_INCLUDE_CORE_IRESOURCE_H__
 
 #include <string>
 #include "Core/Utils/StringID.h"

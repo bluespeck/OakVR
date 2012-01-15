@@ -40,6 +40,7 @@
     <ClInclude Include="..\..\..\src\Core\Config\Oak3DInit.h" />
     <ClInclude Include="..\..\..\src\Core\FileSystem\Directory.h" />
     <ClInclude Include="..\..\..\src\Core\FileSystem\File.h" />
+    <ClInclude Include="..\..\..\src\Core\Interface\IUpdatable.h" />
     <ClInclude Include="..\..\..\src\Core\Math\MathUtils.h" />
     <ClInclude Include="..\..\..\src\Core\Math\Matrix.h" />
     <ClInclude Include="..\..\..\src\Core\Math\Transform.h" />
@@ -57,6 +58,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Core\FileSystem\Directory_windows.cpp" />
     <ClCompile Include="..\..\..\src\Core\FileSystem\File_windows.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Interface\IUpdatable.cpp" />
     <ClCompile Include="..\..\..\src\Core\Math\Matrix.cpp" />
     <ClCompile Include="..\..\..\src\Core\Math\Transform.cpp" />
     <ClCompile Include="..\..\..\src\Core\Math\Vector2.cpp" />

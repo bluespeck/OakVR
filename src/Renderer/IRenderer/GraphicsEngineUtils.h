@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_GRAPHICSENGINEUTILS_H__
-#define __OAK3D_INCLUDE_GRAPHICSENGINEUTILS_H__
+#ifndef __OAK3D_INCLUDE_RENDER_GRAPHICSENGINEUTILS_H__
+#define __OAK3D_INCLUDE_RENDER_GRAPHICSENGINEUTILS_H__
 
 
 namespace Oak3D

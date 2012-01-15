@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_MATRIX_H__
-#define __OAK3D_INCLUDE_MATRIX_H__
+#ifndef __OAK3D_INCLUDE_CORE_MATRIX_H__
+#define __OAK3D_INCLUDE_CORE_MATRIX_H__
 
 namespace Oak3D
 {

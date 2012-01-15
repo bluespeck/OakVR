@@ -1,6 +1,6 @@
 
-#ifndef _OAK3D_LEAF3D_CLICKEVENT_H_
-#define _OAK3D_LEAF3D_CLICKEVENT_H_
+#ifndef __OAK3D_INCLUDE_LEAF3D_CLICKEVENT_H__
+#define __OAK3D_INCLUDE_LEAF3D_CLICKEVENT_H__
 
 #include "Event.h"
 #include "ScreenPosition.h"
@@ -11,13 +11,37 @@ namespace Oak3D
 	{
 		class MouseEvent : public Event
 		{
-			MouseEvent(ScreenPosition mousePosition);
+		public:
+			MouseEvent();
 
 			ScreenPosition GetMousePos();
 
+			static EventSubtype eventSubtypeLButtonDown;
+			static EventSubtype eventSubtypeMButtonDown;
+			static EventSubtype eventSubtypeRButtonDown;
+			static EventSubtype eventSubtypeLButtonUp;
+			static EventSubtype eventSubtypeMButtonUp;
+			static EventSubtype eventSubtypeRButtonUp;
+			static EventSubtype eventSubtypeLButtonHeld;
+			static EventSubtype eventSubtypeMButtonHeld;
+			static EventSubtype eventSubtypeRButtonHeld;
+			static EventSubtype eventSubtypeLButtonPressed;
+			static EventSubtype eventSubtypeMButtonPressed;
+			static EventSubtype eventSubtypeRButtonPressed;
+			static EventSubtype eventSubtypeLButtonReleased;
+			static EventSubtype eventSubtypeMButtonReleased;
+			static EventSubtype eventSubtypeRButtonReleased;
+			static EventSubtype eventSubtypeMouseMoved;
+			static EventSubtype eventSubtypeMouseWheel;
 
-		protected:
-			ScreenPosition m_mousePosition;
+			struct MouseData
+			{
+				bool m_bLButtonDown;
+				bool m_bMButtonDown;
+				bool m_bRButtonDown;
+				int32_t m_wheelDelta;
+				ScreenPosition m_mousePosition;
+			} m_mouseData;
 		};
 	}
 }

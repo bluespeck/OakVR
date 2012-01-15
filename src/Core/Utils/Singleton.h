@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_SINGLETON_H__
-#define __OAK3D_INCLUDE_SINGLETON_H__
+#ifndef __OAK3D_INCLUDE_CORE_SINGLETON_H__
+#define __OAK3D_INCLUDE_CORE_SINGLETON_H__
 
 namespace Oak3D
 {
@@ -27,6 +27,7 @@ namespace Oak3D
 			{
 				if(m_pInstance)
 					delete m_pInstance;
+				m_pInstance = nullptr;
 			}
 
 		protected:

@@ -2,8 +2,8 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_OPENGLSHADER_H__
-#define __OAK3D_INCLUDE_OPENGLSHADER_H__
+#ifndef __OAK3D_INCLUDE_RENDER_OPENGLSHADER_H__
+#define __OAK3D_INCLUDE_RENDER_OPENGLSHADER_H__
 
 #include "Renderer/IRenderer/Shader.h"
 

@@ -2,8 +2,8 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_SHADER_H__
-#define __OAK3D_INCLUDE_SHADER_H__
+#ifndef __OAK3D_INCLUDE_RENDER_SHADER_H__
+#define __OAK3D_INCLUDE_RENDER_SHADER_H__
 
 #include "Core/ResourceManager/IResource.h"
 #include "GraphicsEngineUtils.h"

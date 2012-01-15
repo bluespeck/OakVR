@@ -2,8 +2,8 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_THREAD_H__
-#define __OAK3D_INCLUDE_THREAD_H__
+#ifndef __OAK3D_INCLUDE_CORE_THREAD_H__
+#define __OAK3D_INCLUDE_CORE_THREAD_H__
 
 
 namespace Oak3D

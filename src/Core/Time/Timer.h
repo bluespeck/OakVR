@@ -2,8 +2,8 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_TIMER_H__
-#define __OAK3D_INCLUDE_TIMER_H__
+#ifndef __OAK3D_INCLUDE_CORE_TIMER_H__
+#define __OAK3D_INCLUDE_CORE_TIMER_H__
 
 #include <cstdint>
 

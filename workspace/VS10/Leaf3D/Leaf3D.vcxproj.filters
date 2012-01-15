@@ -51,6 +51,15 @@
     <ClInclude Include="..\..\..\src\Leaf3D\WidgetContainer.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\EventManager.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\IListenForEvents.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\IListenForMouseEvents.h">
+      <Filter>Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Leaf3D\Label.cpp">
@@ -85,6 +94,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\Leaf3D\Button.cpp">
       <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\IListenForMouseEvents.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\EventManager.cpp">
+      <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

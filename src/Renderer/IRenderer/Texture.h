@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_TEXTURE_H__
-#define __OAK3D_INCLUDE_TEXTURE_H__
+#ifndef __OAK3D_INCLUDE_RENDER_TEXTURE_H__
+#define __OAK3D_INCLUDE_RENDER_TEXTURE_H__
 
 #include "Core/ResourceManager/IResource.h"
 #include <cstdint>

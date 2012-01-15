@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_DIRECTORY_H__
-#define __OAK3D_INCLUDE_DIRECTORY_H__
+#ifndef __OAK3D_INCLUDE_CORE_DIRECTORY_H__
+#define __OAK3D_INCLUDE_CORE_DIRECTORY_H__
 
 #include <string>
 #include <vector>

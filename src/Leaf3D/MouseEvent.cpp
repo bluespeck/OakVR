@@ -5,16 +5,28 @@ namespace Oak3D
 {
 	namespace Leaf3D
 	{
-		MouseEvent::MouseEvent(ScreenPosition mousePosition)
-		: Event(nullptr)
-		, m_mousePosition(mousePosition)
-		{
+		Event::EventSubtype MouseEvent::eventSubtypeLButtonDown = "MouseLButtonDown";
+		Event::EventSubtype MouseEvent::eventSubtypeMButtonDown = "MouseMButtonDown";
+		Event::EventSubtype MouseEvent::eventSubtypeRButtonDown = "MouseRButtonDown";
+		Event::EventSubtype MouseEvent::eventSubtypeLButtonUp = "MouseLButtonUp";
+		Event::EventSubtype MouseEvent::eventSubtypeMButtonUp = "MouseMButtonUp";
+		Event::EventSubtype MouseEvent::eventSubtypeRButtonUp = "MouseRButtonUp";
+		Event::EventSubtype MouseEvent::eventSubtypeLButtonHeld = "MouseLButtonHeld";
+		Event::EventSubtype MouseEvent::eventSubtypeMButtonHeld = "MouseMButtonHeld";
+		Event::EventSubtype MouseEvent::eventSubtypeRButtonHeld = "MouseRButtonHeld";
+		Event::EventSubtype MouseEvent::eventSubtypeLButtonPressed = "MouseLButtonPressed";
+		Event::EventSubtype MouseEvent::eventSubtypeMButtonPressed = "MouseMButtonPressed";
+		Event::EventSubtype MouseEvent::eventSubtypeRButtonPressed = "MouseRButtonPressed";
+		Event::EventSubtype MouseEvent::eventSubtypeLButtonReleased = "MouseLButtonReleased";
+		Event::EventSubtype MouseEvent::eventSubtypeMButtonReleased = "MouseMButtonReleased";
+		Event::EventSubtype MouseEvent::eventSubtypeRButtonReleased = "MouseRButtonReleased";
+		Event::EventSubtype MouseEvent::eventSubtypeMouseMoved = "MouseMoved";
+		Event::EventSubtype MouseEvent::eventSubtypeMouseWheel = "MouseWheel";
 
-		}
-
-		ScreenPosition MouseEvent::GetMousePos()
+		// --------------------------------------------------------------------------------
+		MouseEvent::MouseEvent()
 		{
-			return m_mousePosition;
+			m_eventType = EventType("MouseEvent");
 		}
 	}
 }

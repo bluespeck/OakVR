@@ -1,5 +1,5 @@
-#ifndef __OAK3D_INCLUDE_COLOR_H__
-#define __OAK3D_INCLUDE_COLOR_H__
+#ifndef __OAK3D_INCLUDE_RENDER_COLOR_H__
+#define __OAK3D_INCLUDE_RENDER_COLOR_H__
 
 #include <cstdint>
 

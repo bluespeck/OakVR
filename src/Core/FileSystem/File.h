@@ -2,8 +2,8 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_FILE_H__
-#define __OAK3D_INCLUDE_FILE_H__
+#ifndef __OAK3D_INCLUDE_CORE_FILE_H__
+#define __OAK3D_INCLUDE_CORE_FILE_H__
 
 #include <string>
 #include <cstdint>

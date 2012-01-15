@@ -2,8 +2,8 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_RESOURCEMANAGER_H__
-#define __OAK3D_INCLUDE_RESOURCEMANAGER_H__
+#ifndef __OAK3D_INCLUDE_CORE_RESOURCEMANAGER_H__
+#define __OAK3D_INCLUDE_CORE_RESOURCEMANAGER_H__
 
 #include <list>
 #include <algorithm>

@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_SCENE_H__
-#define __OAK3D_INCLUDE_SCENE_H__
+#ifndef __OAK3D_INCLUDE_RENDER_SCENE_H__
+#define __OAK3D_INCLUDE_RENDER_SCENE_H__
 
 namespace Oak3D
 {

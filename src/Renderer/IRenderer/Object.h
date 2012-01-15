@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_OBJECT_H__
-#define __OAK3D_INCLUDE_OBJECT_H__
+#ifndef __OAK3D_INCLUDE_RENDER_OBJECT_H__
+#define __OAK3D_INCLUDE_RENDER_OBJECT_H__
 
 #include <list>
 

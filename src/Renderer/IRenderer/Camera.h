@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_CAMERA_H__
-#define __OAK3D_INCLUDE_CAMERA_H__
+#ifndef __OAK3D_INCLUDE_RENDER_CAMERA_H__
+#define __OAK3D_INCLUDE_RENDER_CAMERA_H__
 
 #include "Object.h"
 #include "Core/Math/Matrix.h"

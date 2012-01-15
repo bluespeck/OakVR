@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_VERTEXBUFFER_H__
-#define __OAK3D_INCLUDE_VERTEXBUFFER_H__
+#ifndef __OAK3D_INCLUDE_RENDER_VERTEXBUFFER_H__
+#define __OAK3D_INCLUDE_RENDER_VERTEXBUFFER_H__
 
 #include <cstdint>
 

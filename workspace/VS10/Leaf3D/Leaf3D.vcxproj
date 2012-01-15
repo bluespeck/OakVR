@@ -38,7 +38,10 @@
     <ClInclude Include="..\..\..\src\Leaf3D\Button.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\Clickable.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\Event.h" />
+    <ClInclude Include="..\..\..\src\Leaf3D\EventManager.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\Focusable.h" />
+    <ClInclude Include="..\..\..\src\Leaf3D\IListenForEvents.h" />
+    <ClInclude Include="..\..\..\src\Leaf3D\IListenForMouseEvents.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\Label.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\MouseEvent.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\Panel.h" />
@@ -52,7 +55,9 @@
     <ClCompile Include="..\..\..\src\Leaf3D\Button.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\Clickable.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\Event.cpp" />
+    <ClCompile Include="..\..\..\src\Leaf3D\EventManager.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\Focusable.cpp" />
+    <ClCompile Include="..\..\..\src\Leaf3D\IListenForMouseEvents.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\Label.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\MouseEvent.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\ScreenPosition.cpp" />
@@ -64,6 +69,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{b206edfa-ab05-40ab-ae4e-3aeaa8808345}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Input\Input.vcxproj">
+      <Project>{0c467289-ec1e-4531-94b6-be02bd75c66f}</Project>
     </ProjectReference>
     <ProjectReference Include="..\IRenderer\IRenderer.vcxproj">
       <Project>{ccf6ed8b-fa5f-4159-929c-e730edd7987f}</Project>

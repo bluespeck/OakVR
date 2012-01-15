@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_VECTOR2_H__
-#define __OAK3D_INCLUDE_VECTOR2_H__
+#ifndef __OAK3D_INCLUDE_CORE_VECTOR2_H__
+#define __OAK3D_INCLUDE_CORE_VECTOR2_H__
 
 namespace Oak3D
 {

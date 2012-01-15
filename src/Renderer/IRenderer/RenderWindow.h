@@ -3,8 +3,8 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_RENDERWINDOW_H__
-#define __OAK3D_INCLUDE_RENDERWINDOW_H__
+#ifndef __OAK3D_INCLUDE_RENDER_RENDERWINDOW_H__
+#define __OAK3D_INCLUDE_RENDER_RENDERWINDOW_H__
 
 #include <string>
 namespace Oak3D
