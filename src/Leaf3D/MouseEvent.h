@@ -14,7 +14,7 @@ namespace Oak3D
 		public:
 			MouseEvent();
 
-			ScreenPosition GetMousePos();
+			ScreenPosition2D GetMousePos();
 
 			static EventSubtype eventSubtypeLButtonDown;
 			static EventSubtype eventSubtypeMButtonDown;
@@ -40,7 +40,7 @@ namespace Oak3D
 				bool m_bMButtonDown;
 				bool m_bRButtonDown;
 				int32_t m_wheelDelta;
-				ScreenPosition m_mousePosition;
+				ScreenPosition2D m_mousePosition;
 			} m_mouseData;
 		};
 	}

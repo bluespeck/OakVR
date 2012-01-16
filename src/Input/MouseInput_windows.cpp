@@ -213,6 +213,20 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
+		void *MouseInput::GetMouseOwner()
+		{
+			return m_pMouseOwner;
+		}
+
+		// --------------------------------------------------------------------------------
+		void *MouseInput::SetMouseOwner(void *newOwner)
+		{
+			void * oldOwner = m_pMouseOwner;
+			m_pMouseOwner = newOwner;
+			return oldOwner;
+		}
+
+		// --------------------------------------------------------------------------------
 		LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam)
 		{
 			if(nCode == 0)

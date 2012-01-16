@@ -6,20 +6,18 @@
 #include <functional>
 
 #include "Widget.h"
-#include "Clickable.h"
-#include "Focusable.h"
 #include "IListenForMouseEvents.h"
 
 namespace Oak3D
 {
 	namespace Leaf3D
 	{
-		class Button : public Widget, public Focusable, public Clickable, public IListenForMouseEvents
+		class Button : public Widget
 		{
 		public:
 			Button();
 
-			virtual void OnMouseMoved(MouseEvent *mev);
+			virtual void OnMouseLeftButtonHeld(MouseEvent *mev);
 
 		private:
 			std::wstring m_text;	// TODO ?

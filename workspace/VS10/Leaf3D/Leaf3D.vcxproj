@@ -36,10 +36,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Leaf3D\Button.h" />
-    <ClInclude Include="..\..\..\src\Leaf3D\Clickable.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\Event.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\EventManager.h" />
-    <ClInclude Include="..\..\..\src\Leaf3D\Focusable.h" />
+    <ClInclude Include="..\..\..\src\Leaf3D\FocusZone.h" />
+    <ClInclude Include="..\..\..\src\Leaf3D\ScreenRectangle.h" />
+    <ClInclude Include="..\..\..\src\Leaf3D\IFocusable.h" />
+    <ClInclude Include="..\..\..\src\Leaf3D\InterfaceFocusManager.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\IListenForEvents.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\IListenForMouseEvents.h" />
     <ClInclude Include="..\..\..\src\Leaf3D\Label.h" />
@@ -53,15 +55,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Leaf3D\Button.cpp" />
-    <ClCompile Include="..\..\..\src\Leaf3D\Clickable.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\Event.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\EventManager.cpp" />
-    <ClCompile Include="..\..\..\src\Leaf3D\Focusable.cpp" />
+    <ClCompile Include="..\..\..\src\Leaf3D\IFocusable.cpp" />
+    <ClCompile Include="..\..\..\src\Leaf3D\InterfaceFocusManager.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\IListenForMouseEvents.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\Label.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\MouseEvent.cpp" />
-    <ClCompile Include="..\..\..\src\Leaf3D\ScreenPosition.cpp" />
-    <ClCompile Include="..\..\..\src\Leaf3D\ScreenSize2D.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\ToolTiped.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\Widget.cpp" />
     <ClCompile Include="..\..\..\src\Leaf3D\WidgetContainer.cpp" />

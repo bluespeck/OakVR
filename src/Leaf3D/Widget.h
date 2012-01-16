@@ -9,19 +9,21 @@
 #include "ScreenSize2D.h"
 #include "Core/Interface/IUpdatable.h"
 #include "IListenForEvents.h"
+#include "IListenForMouseEvents.h"
+#include "IFocusable.h"
 
 namespace Oak3D
 {
 	namespace Leaf3D
 	{
-		class Widget : public Core::IUpdatable
+		class Widget : public Core::IUpdatable, public IFocusable, public virtual IListenForMouseEvents
 		{
 		public:
 			Widget();
 			virtual ~Widget();
 
-			inline ScreenPosition GetPosition();
-			inline void SetPosition(const ScreenPosition &position);
+			inline ScreenPosition2D GetPosition();
+			inline void SetPosition(const ScreenPosition2D &position);
 			inline void SetPosition(uint32_t x, uint32_t y);
 
 			inline ScreenSize2D GetSize();
@@ -33,12 +35,17 @@ namespace Oak3D
 
 			inline bool IsVisible();
 			inline void SetVisible(bool visible);
-						
+									
 			static inline std::list<Widget *>* GetWidgetList();
 			static inline void ReleaseWidgetList();
-			
+
+			virtual void OnMouseLeftButtonPressed(MouseEvent *mev);
+			virtual void OnMouseLeftButtonReleased(MouseEvent *mev);
+			virtual void OnMouseLeftButtonHeld(MouseEvent *mev);
+
+			virtual FocusZone GetFocusZone();
 		protected:
-			ScreenPosition m_position;
+			ScreenPosition2D m_position;
 			ScreenSize2D m_size;
 			uint32_t m_depth; // 0 is on top
 			bool m_bVisible;
@@ -71,13 +78,13 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		ScreenPosition Widget::GetPosition()
+		ScreenPosition2D Widget::GetPosition()
 		{
 			return m_position;
 		}
 
 		// --------------------------------------------------------------------------------
-		void Widget::SetPosition(const ScreenPosition &position)
+		void Widget::SetPosition(const ScreenPosition2D &position)
 		{
 			m_position = position;
 		}

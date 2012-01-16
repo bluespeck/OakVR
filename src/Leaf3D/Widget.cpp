@@ -13,7 +13,8 @@ namespace Oak3D
 
 		// --------------------------------------------------------------------------------
 		Widget::Widget()
-			:m_bVisible(true)
+		: m_bVisible(true)
+		, IFocusable()
 		{
 			GetWidgetList()->push_back(this);
 		}
@@ -27,5 +28,44 @@ namespace Oak3D
 				delete s_widgets;
 
 		}
+
+		// --------------------------------------------------------------------------------
+		FocusZone Widget::GetFocusZone()
+		{
+			return FocusZone(m_position, m_size, m_depth);
+		}
+		
+		// --------------------------------------------------------------------------------
+		void Widget::OnMouseLeftButtonPressed(MouseEvent *mev)
+		{
+			if(m_bHasFocus)
+			{
+				this->CaptureMouse();
+			}
+
+		}
+
+		// --------------------------------------------------------------------------------
+		void Widget::OnMouseLeftButtonHeld(MouseEvent *mev)
+		{
+			if(m_bHasFocus)
+			{
+				m_position = mev->m_mouseData.m_mousePosition;
+				m_position.x -= 50;
+				m_position.y -= 50;
+			}
+			
+		}
+
+		// --------------------------------------------------------------------------------
+		void Widget::OnMouseLeftButtonReleased(MouseEvent *mev)
+		{
+			if(m_bHasFocus)
+			{
+				this->ReleaseMouse();
+			}
+
+		}
+
 	}
 }

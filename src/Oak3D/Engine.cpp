@@ -17,6 +17,7 @@
 #include "Renderer/IRenderer/Shader.h"
 #include "Leaf3D/EventManager.h"
 #include "Leaf3D/MouseEvent.h"
+#include "Leaf3D/InterfaceFocusManager.h"
 #include "Input/MouseInput.h"
 
 #if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
@@ -77,6 +78,7 @@ namespace Oak3D
 		Oak3D::Leaf3D::Widget::ReleaseWidgetList();
 		Oak3D::Core::IUpdatable::ReleaseUpdatableList();
 		Oak3D::Leaf3D::EventManager::Release();
+		Oak3D::Leaf3D::InterfaceFocusManager::Release();
 	}
 
 	// --------------------------------------------------------------------------------
@@ -111,6 +113,7 @@ namespace Oak3D
 	void Engine::Update(float dt)
 	{
 		Oak3D::Input::MouseInput::GetInstance()->Update();
+		Oak3D::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
 		TriggerInputEvents();
 		Oak3D::Leaf3D::EventManager::GetInstance()->Update();
 
@@ -369,10 +372,10 @@ namespace Oak3D
 		auto it = widgets->begin();
 		while(it != widgets->end())
 		{
-			using Oak3D::Leaf3D::ScreenPosition;
+			using Oak3D::Leaf3D::ScreenPosition2D;
 			using Oak3D::Leaf3D::ScreenSize2D;
 
-			ScreenPosition pos = (*it)->GetPosition();
+			ScreenPosition2D pos = (*it)->GetPosition();
 			ScreenSize2D size = (*it)->GetSize();
 			float fx = (pos.x - hw) * invWidth;
 			float fy = (hh - pos.y) * invHeight;

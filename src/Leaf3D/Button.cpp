@@ -10,9 +10,14 @@ namespace Oak3D
 
 		}
 
-		void Button::OnMouseMoved(MouseEvent *mev)
+		void Button::OnMouseLeftButtonHeld(MouseEvent *mev)
 		{
-			m_position = mev->m_mouseData.m_mousePosition;
+			if(m_bHasFocus)
+			{
+				m_position.y = mev->m_mouseData.m_mousePosition.y - 5;
+				m_position.x = mev->m_mouseData.m_mousePosition.x - 5;
+			}
+			
 		}
 	}
 }

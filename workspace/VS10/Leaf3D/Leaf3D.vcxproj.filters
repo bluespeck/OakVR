@@ -24,12 +24,6 @@
     <ClInclude Include="..\..\..\src\Leaf3D\Label.h">
       <Filter>Widgets</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Leaf3D\Clickable.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\Leaf3D\Focusable.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\Leaf3D\ToolTiped.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -60,6 +54,18 @@
     <ClInclude Include="..\..\..\src\Leaf3D\IListenForMouseEvents.h">
       <Filter>Events</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\IFocusable.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\ScreenRectangle.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\FocusZone.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Leaf3D\InterfaceFocusManager.h">
+      <Filter>Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Leaf3D\Label.cpp">
@@ -68,20 +74,8 @@
     <ClCompile Include="..\..\..\src\Leaf3D\Widget.cpp">
       <Filter>Widgets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\Leaf3D\Clickable.cpp">
-      <Filter>Interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\Leaf3D\Focusable.cpp">
-      <Filter>Interfaces</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\Leaf3D\ToolTiped.cpp">
       <Filter>Interfaces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\Leaf3D\ScreenPosition.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\Leaf3D\ScreenSize2D.cpp">
-      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Leaf3D\Event.cpp">
       <Filter>Events</Filter>
@@ -99,6 +93,12 @@
       <Filter>Events</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Leaf3D\EventManager.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\IFocusable.cpp">
+      <Filter>Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Leaf3D\InterfaceFocusManager.cpp">
       <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>

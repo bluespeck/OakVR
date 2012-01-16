@@ -40,8 +40,12 @@ namespace Oak3D
 			std::pair<uint32_t, uint32_t> GetPosition();
 			int32_t GetWheelDelta();
 
+			void *GetMouseOwner();
+			void *SetMouseOwner(void *newOwner);
+
 		private:
 			MouseInputImpl *m_pImpl;
+			void *m_pMouseOwner;
 		};
 	}
 }
