@@ -45,8 +45,8 @@ namespace Oak3D
 				(*it)->SetFocus(false);
 				FocusZone focusZone = (*it)->GetFocusZone();
 				if(focusZone.m_focusRect.m_pos.x <= mousePosition.first && focusZone.m_focusRect.m_pos.y <= mousePosition.second 
-					&& focusZone.m_focusRect.m_pos.x + focusZone.m_focusRect.m_size.width >= mousePosition.first
-					&& focusZone.m_focusRect.m_pos.y + focusZone.m_focusRect.m_size.height >= mousePosition.second
+					&& focusZone.m_focusRect.m_pos.x + (int32_t)focusZone.m_focusRect.m_size.width >= mousePosition.first
+					&& focusZone.m_focusRect.m_pos.y + (int32_t)focusZone.m_focusRect.m_size.height >= mousePosition.second
 					&& focusZone.m_focusDepth < minDepth)
 				{
 					pToGiveFocus = *it;

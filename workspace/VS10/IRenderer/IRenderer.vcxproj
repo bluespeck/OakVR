@@ -313,7 +313,7 @@
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\AABB.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Camera.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Color.h" />
-    <ClInclude Include="..\..\..\src\Renderer\IRenderer\DebugText.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\DebugTextRenderer.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Font.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Frustum.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\GraphicsEngine.h" />

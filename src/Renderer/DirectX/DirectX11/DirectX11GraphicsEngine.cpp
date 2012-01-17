@@ -10,19 +10,23 @@
 
 #include <windows.h>
 #include <windowsx.h>
-#include <d3dx11.h>
 #include <d3d11.h>
+#include <d3dx11.h>
+#include <d3dx10.h>
+
 #include <D3Dcompiler.h>
 #include <D3D11Shader.h>
 #include <vector>
 
 #include <cassert>
 
+#include "Renderer/DirectX/DirectXUtils.h"
+
 #include "Oak3D/Engine.h"
 
-#include "Renderer/DirectX/DirectXUtils.h"
+
 #include "DirectX11GraphicsEngine.h"
-#include "DirectX11DebugText.h"
+#include "DirectX11DebugTextRenderer.h"
 #include "DirectX11Shader.h"
 
 #include "Renderer/IRenderer/WindowsRenderWindow.h"
@@ -46,7 +50,6 @@ namespace Oak3D
 		: m_pDevice(nullptr)
 		, m_pSwapChain(nullptr)
 		, m_pDeviceContext(nullptr)
-		, m_pDebugText(nullptr)
 		, m_pDepthStencilStateDepthEnabled(nullptr)
 		, m_pDepthStencilStateDepthDisabled(nullptr)
 		{
@@ -120,13 +123,6 @@ namespace Oak3D
 			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, 3.141592f * 0.25f, 1.25f, 1, 1000);
 			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, viewport.Width, viewport.Height, 0, 1000);
 
-			/////
-			// initialize debug text
-			m_pDebugText = new DirectX11DebugText();
-			m_pDebugText->Init();
-
-			
-			
 			InitializeStateObjects();
 		}
 
@@ -220,15 +216,13 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::Cleanup()
 		{
-			delete m_pDebugText;
-
-			m_pSwapChain->SetFullscreenState(FALSE, NULL);    // switch to windowed mode
+			m_pSwapChain->SetFullscreenState(FALSE, nullptr);    // switch to windowed mode
 
 			// Close and release all existing COM objects
 			m_pSwapChain->Release();
 			m_pBackBufferRenderTargetView->Release();
-			m_pDevice->Release();
 			m_pDeviceContext->Release();
+			m_pDevice->Release();
 		}
 
 		// --------------------------------------------------------------------------------
@@ -412,24 +406,26 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::UseTexture ( Texture *texture )
+		void DirectX11GraphicsEngine::UseTexture ( Texture *pTexture )
 		{	
-			ID3D11ShaderResourceView *pSRV = (ID3D11ShaderResourceView*)texture->GetData();
+			if(pTexture == nullptr)
+				return;
+			ID3D11ShaderResourceView *pSRV = (ID3D11ShaderResourceView*)pTexture->GetData();
 			m_pDeviceContext->PSSetShaderResources(0, 1, &pSRV);
 
-			// TODO this resource view needs to be released
+			// TODO this resource view needs to be released somehow
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::DrawPrimitives(uint32_t numPrimitives)
+		void DirectX11GraphicsEngine::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
 		{
-			m_pDeviceContext->Draw(numPrimitives * m_numVerticesPerPrimitive, 0);
+			m_pDeviceContext->Draw(numPrimitives * m_numVerticesPerPrimitive, startVertex);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives)
+		void DirectX11GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
-			m_pDeviceContext->DrawIndexed(numPrimitives * m_numVerticesPerPrimitive, 0, 0);
+			m_pDeviceContext->DrawIndexed(numPrimitives * m_numVerticesPerPrimitive, startIndex, startVertex);
 		}
 
 
@@ -510,7 +506,7 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::OutputText( const std::string &text, uint32_t x, uint32_t y)
 		{
-			m_pDebugText->OutputText(text, x, y);
+			m_pDebugTextRenderer->OutputText(text, x, y);
 		}
 
 		// --------------------------------------------------------------------------------

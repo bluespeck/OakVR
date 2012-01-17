@@ -32,6 +32,11 @@ namespace Oak3D
 			::Sleep(ms);
 		}
 
+		void Thread::Join()
+		{
+			::WaitForSingleObject((HANDLE)m_pImpl->threadId, 0);
+		}
+
 	}	// namespace Core
 }	// namespace Oak3D
 

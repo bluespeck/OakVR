@@ -20,6 +20,7 @@ namespace Oak3D
 		, m_pCurrentIndexBuffer(nullptr)
 		, m_pCurrentVertexShader(nullptr)
 		, m_pCurrentPixelShader(nullptr)
+		, m_pDebugTextRenderer(nullptr)
 		{
 		}
 
@@ -27,6 +28,12 @@ namespace Oak3D
 		void GraphicsEngine::SetRenderWindow(RenderWindow *pRenderWindow)
 		{
 			m_pRenderWindow = pRenderWindow;
+		}
+
+		// --------------------------------------------------------------------------------
+		void GraphicsEngine::SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer)
+		{
+			m_pDebugTextRenderer = pDebugTextRenderer;
 		}
 
 		// --------------------------------------------------------------------------------

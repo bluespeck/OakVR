@@ -37,7 +37,7 @@ namespace Oak3D
 			bool IsRightButtonReleased();
 			bool HasMouseMoved();
 
-			std::pair<uint32_t, uint32_t> GetPosition();
+			std::pair<int32_t, int32_t> GetPosition();
 			int32_t GetWheelDelta();
 
 			void *GetMouseOwner();

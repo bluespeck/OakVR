@@ -12,6 +12,7 @@
 #include "Renderer/IRenderer/RenderWindow.h"
 #include "Core/Time/Timer.h"
 #include "Leaf3D/Button.h"
+#include "Renderer/IRenderer/Mesh.h"
 
 namespace Oak3D
 {
@@ -41,6 +42,7 @@ namespace Oak3D
 
 		void TriggerInputEvents();
 		void DrawInterface();
+		void DrawMeshes();
 
 	private:
 		Render::GraphicsEngine *m_pGE;
@@ -57,7 +59,7 @@ namespace Oak3D
 		Oak3D::Leaf3D::Button b4;
 		Oak3D::Leaf3D::Button b5;
 
-		
+		Oak3D::Render::Mesh *pm1;
 	};
 }	// namespace Oak3D
 

@@ -303,13 +303,13 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\Renderer\DirectX\DirectX9\DirectX9DebugText.h" />
+    <ClInclude Include="..\..\..\src\Renderer\DirectX\DirectX9\DirectX9DebugTextRenderer.h" />
     <ClInclude Include="..\..\..\src\Renderer\DirectX\DirectX9\DirectX9GraphicsEngine.h" />
     <ClInclude Include="..\..\..\src\Renderer\DirectX\DirectX9\DirectX9Shader.h" />
     <ClInclude Include="..\..\..\src\Renderer\DirectX\DirectXUtils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\Renderer\DirectX\DirectX9\DirectX9DebugText.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\DirectX\DirectX9\DirectX9DebugTextRenderer.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\DirectX\DirectX9\DirectX9GraphicsEngine.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\DirectX\DirectX9\DirectX9Shader.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\DirectX\DirectX9\Oak3DInitDirectX9.cpp" />

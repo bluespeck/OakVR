@@ -297,13 +297,13 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\Renderer\DirectX\DirectX11\DirectX11DebugText.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\DirectX\DirectX11\DirectX11DebugTextRenderer.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\DirectX\DirectX11\DirectX11GraphicsEngine.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\DirectX\DirectX11\DirectX11Shader.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\DirectX\DirectX11\Oak3DInitDirectX11.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\Renderer\DirectX\DirectX11\DirectX11DebugText.h" />
+    <ClInclude Include="..\..\..\src\Renderer\DirectX\DirectX11\DirectX11DebugTextRenderer.h" />
     <ClInclude Include="..\..\..\src\Renderer\DirectX\DirectX11\DirectX11GraphicsEngine.h" />
     <ClInclude Include="..\..\..\src\Renderer\DirectX\DirectX11\DirectX11Shader.h" />
   </ItemGroup>

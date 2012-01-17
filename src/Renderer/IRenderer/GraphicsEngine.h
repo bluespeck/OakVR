@@ -11,6 +11,7 @@
 #include "GraphicsEngineUtils.h"
 
 
+
 namespace Oak3D
 {
 	namespace Math
@@ -25,6 +26,7 @@ namespace Oak3D
 		class IndexBuffer;
 		class Shader;
 		struct Color;
+		class DebugTextRenderer;
 
 		class GraphicsEngine
 		{
@@ -42,8 +44,8 @@ namespace Oak3D
 			virtual void EndDraw() {};
 
 			// render
-			virtual void DrawPrimitives(uint32_t numPrimitives) = 0;
-			virtual void DrawIndexedPrimitives(uint32_t numPrimitives) = 0;
+			virtual void DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex = 0) = 0;
+			virtual void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex = 0, uint32_t startVertex = 0) = 0;
 
 			// texture
 			virtual void CreateTexture	( Texture *texture ) = 0;
@@ -71,6 +73,8 @@ namespace Oak3D
 			virtual void OutputText( const std::string &text, uint32_t x, uint32_t y);
 
 			void SetRenderWindow( RenderWindow *pRenderWindow );
+			void SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer);
+			DebugTextRenderer * GetDebugTextRenderer() { return m_pDebugTextRenderer; }
 
 			inline Math::Matrix *GetViewMatrix();
 			inline Math::Matrix *GetOrthographicProjectionMatrix();
@@ -87,6 +91,8 @@ namespace Oak3D
 			IndexBuffer *m_pCurrentIndexBuffer;
 			Shader *m_pCurrentVertexShader;
 			Shader *m_pCurrentPixelShader;
+
+			DebugTextRenderer *m_pDebugTextRenderer;		// object used to draw debug text
 
 		};
 		

@@ -10,14 +10,11 @@
 
 #include "Renderer/IRenderer/GraphicsEngine.h"
 
+
 namespace Oak3D
 {
 	namespace Render
 	{
-		class OpenGLDebugText;
-		class VertexBuffer;
-		class IndexBuffer;
-
 		class OpenGLGraphicsEngine : public GraphicsEngine
 		{
 		public:
@@ -35,8 +32,8 @@ namespace Oak3D
 			virtual void BeginDraw();
 			virtual void EndDraw();
 
-			virtual void DrawPrimitives(uint32_t numPrimitives);
-			virtual void DrawIndexedPrimitives(uint32_t numPrimitives);
+			virtual void DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex = 0);
+			virtual void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex = 0, uint32_t startVertex = 0);
 
 			virtual void CreateTexture	( Texture *texture );
 			virtual void ReleaseTexture	( Texture *texture );
@@ -75,7 +72,6 @@ namespace Oak3D
 			void *m_pDevice;                    // OpenGL device interface (context)
 			void *m_pWorkerThreadDevice;		// worker thread context
 			long m_mainThreadId;
-			OpenGLDebugText *m_pDebugText;		// object used to draw debug text
 			long m_shaderProgramId;
 
 			VertexBuffer *m_pCurrentVertexBuffer;

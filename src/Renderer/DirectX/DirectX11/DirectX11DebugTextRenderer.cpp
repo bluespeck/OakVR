@@ -8,9 +8,14 @@
 #include <cassert>
 #include <cctype>
 
+#include <d3d11.h>
+#include <d3dx11.h>
+#include <d3dx10.h>
+
+
 #include "Oak3D/Engine.h"
 
-#include "DirectX11DebugText.h"
+#include "DirectX11DebugTextRenderer.h"
 #include "DirectX11Shader.h"
 #include "DirectX11GraphicsEngine.h"
 #include "Renderer/DirectX/DirectXUtils.h"
@@ -27,7 +32,7 @@ namespace Oak3D
 	namespace Render
 	{
 		// --------------------------------------------------------------------------------
-		DirectX11DebugText::DirectX11DebugText()
+		DirectX11DebugTextRenderer::DirectX11DebugTextRenderer()
 		: m_pFont(nullptr)
 		, m_pVertexShader(nullptr)
 		, m_pPixelShader(nullptr)
@@ -35,26 +40,24 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		DirectX11DebugText::~DirectX11DebugText()
+		DirectX11DebugTextRenderer::~DirectX11DebugTextRenderer()
 		{
 			if(m_pFont)
 				delete m_pFont;
 			if(m_pPixelShader)
 			{
-				m_pPixelShader->Release();
-				delete m_pPixelShader;
+				Oak3D::Engine::GetResourceManager()->ReleaseResource(m_pPixelShader);
 				m_pPixelShader = nullptr;
 			}
 			if(m_pVertexShader)
 			{
-				m_pVertexShader->Release();
-				delete m_pVertexShader;
+				Oak3D::Engine::GetResourceManager()->ReleaseResource(m_pVertexShader);
 				m_pVertexShader = nullptr;
 			}
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11DebugText::Init()
+		void DirectX11DebugTextRenderer::Init()
 		{	
 			m_pFont = new Font();
 			m_pFont->Initialize("../resources/font/DebugFont.index", "../resources/font/DebugFont.dds");
@@ -64,12 +67,10 @@ namespace Oak3D
 			m_pVertexShader = Oak3D::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/DebugFontVS.hlsl", &params);
 			params.shaderType = eST_PixelShader;
 			m_pPixelShader = Oak3D::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/DebugFontPS.hlsl", &params);
-			//m_pVertexShader->Load();
-			//m_pPixelShader->Load();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11DebugText::OutputText(const std::string &text, uint32_t x, uint32_t y)
+		void DirectX11DebugTextRenderer::OutputText(const std::string &text, uint32_t x, uint32_t y)
 		{
 			if(!m_pFont->GetTexture()->IsReady() || !m_pVertexShader->IsReady() || !m_pPixelShader->IsReady())
 			{
@@ -104,6 +105,7 @@ namespace Oak3D
 			ge->DisableDepthBuffer();
 			ge->DrawPrimitives(numVertices / 3);
 			ge->EnableDepthBuffer();
+			vb.Release();
 		}
 
 	} // namespace Render

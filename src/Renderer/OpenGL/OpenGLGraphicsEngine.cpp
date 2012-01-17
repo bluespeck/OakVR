@@ -20,7 +20,7 @@
 #include "Oak3D/Engine.h"
 
 #include "OpenGLGraphicsEngine.h"
-#include "OpenGLDebugText.h"
+#include "OpenGLDebugTextRenderer.h"
 
 #include "Renderer/IRenderer/WindowsRenderWindow.h"
 #include "Renderer/IRenderer/GraphicsEngineUtils.h"
@@ -43,7 +43,6 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		OpenGLGraphicsEngine::OpenGLGraphicsEngine()
 			: m_pDevice(nullptr)
-			, m_pDebugText(nullptr)
 			, m_pCurrentVertexBuffer(nullptr)
 			, m_pCurrentIndexBuffer(nullptr)
 		{			
@@ -95,11 +94,6 @@ namespace Oak3D
 			glFrontFace(GL_CW);
 			InitializeStateObjects();
 
-			/////
-			// initialize debug text
-			m_pDebugText = new OpenGLDebugText();
-			m_pDebugText->Init();
-
 			m_shaderProgramId = glCreateProgram();
 		}
 
@@ -135,9 +129,7 @@ namespace Oak3D
 
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::Cleanup()
-		{
-			delete m_pDebugText;
-			  
+		{	
 			wglMakeCurrent (NULL, NULL) ; 
 			wglDeleteContext ((HGLRC)m_pDevice);
 			wglDeleteContext( (HGLRC)m_pWorkerThreadDevice);
@@ -223,12 +215,20 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::UseTexture ( Texture *texture )
 		{
-			glEnable( GL_TEXTURE_2D );
-			glBindTexture(GL_TEXTURE_2D, (GLuint) texture->GetData());
+			if(texture != nullptr)
+			{
+				glEnable( GL_TEXTURE_2D );
+				glBindTexture(GL_TEXTURE_2D, (GLuint) texture->GetData());
+			}
+			else
+			{
+				glDisable( GL_TEXTURE_2D);
+			}
+			
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::DrawPrimitives(uint32_t numPrimitives)
+		void OpenGLGraphicsEngine::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
 		{
 			GLenum pt;
 			switch( m_currentPrimitiveTopology )
@@ -253,11 +253,11 @@ namespace Oak3D
 				break;
 			}
 
-			glDrawArrays(pt, 0, numPrimitives * m_numVerticesPerPrimitive);
+			glDrawArrays(pt, startVertex, numPrimitives * m_numVerticesPerPrimitive);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives)
+		void OpenGLGraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
 			uint8_t numIndicesPerPrimitive = 0;
 			GLenum pt;
@@ -287,6 +287,7 @@ namespace Oak3D
 				assert("Unknown primitive topology" && 0);
 				break;
 			}
+			// TODO figure out how to set first index and first vertex to use from the buffers
 			glDrawElements(pt, numIndicesPerPrimitive * numPrimitives, GL_UNSIGNED_INT, 0);
 		}
 
@@ -368,7 +369,7 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::OutputText( const std::string &text, uint32_t x, uint32_t y)
 		{
-			m_pDebugText->OutputText(text, x, y);
+			m_pDebugTextRenderer->OutputText(text, x, y);
 		}
 
 		// --------------------------------------------------------------------------------

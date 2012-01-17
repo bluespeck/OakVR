@@ -7,7 +7,6 @@
 
 #include "Renderer/IRenderer/GraphicsEngine.h"
 
-
 struct ID3D11Device;
 struct ID3D11DeviceContext;
 struct IDXGISwapChain;
@@ -19,10 +18,6 @@ namespace Oak3D
 {
 	namespace Render
 	{
-		class DirectX11DebugText;
-		class Shader;
-		struct Color;
-
 		class DirectX11GraphicsEngine : public GraphicsEngine
 		{
 		public:
@@ -55,8 +50,8 @@ namespace Oak3D
 			virtual void BeginDraw();
 			virtual void EndDraw();
 
-			virtual void DrawPrimitives(uint32_t numPrimitives);
-			virtual void DrawIndexedPrimitives(uint32_t numPrimitives);
+			virtual void DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex = 0);
+			virtual void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex = 0, uint32_t startVertex = 0);
 
 
 			virtual void CreateTexture	( Texture *texture );
@@ -102,9 +97,7 @@ namespace Oak3D
 			ID3D11DeviceContext *m_pDeviceContext;           // Direct3D device context
 
 			ID3D11RenderTargetView *m_pBackBufferRenderTargetView;
-
-			DirectX11DebugText *m_pDebugText;		// object used to draw debug text
-
+			
 			// directx state objects
 			ID3D11DepthStencilState *m_pDepthStencilStateDepthDisabled;
 			ID3D11DepthStencilState *m_pDepthStencilStateDepthEnabled;

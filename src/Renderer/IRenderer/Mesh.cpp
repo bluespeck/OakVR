@@ -20,6 +20,8 @@ namespace Oak3D
 {
 	namespace Render
 	{
+		std::list<Mesh *> *Mesh::s_meshes;
+		bool Mesh::s_bDeleteListIfEmpty;
 
 		static uint32_t LoadMeshThreadProc(void *pData)
 		{
@@ -86,43 +88,23 @@ namespace Oak3D
 				
 				//pMeshInfo->m_vElements[i]->m_matBlendMode = eBM_BlendNone;
 			}
-
-			// Initialize and fill buffers
-			if(pMesh->m_pVertexBuffer)
-			{
-				pMesh->m_pVertexBuffer->Release();
-				delete pMesh->m_pVertexBuffer;
-			}
-			if(pMesh->m_pIndexBuffer)
-			{
-				pMesh->m_pIndexBuffer->Release();
-				delete pMesh->m_pIndexBuffer;
-			}
-
-			pMesh->m_pVertexBuffer = new VertexBuffer();
-			pMesh->m_pIndexBuffer = new IndexBuffer();
 	
 			bool bHasPositions, bHasNormals, bHasTextureCoords0, bHasTextureCoords1, bHasVertexColors;
-			uint32_t nFormat =	((bHasPositions			=	pScene->mMeshes[0]->HasPositions())			? VertexBuffer::eVF_XYZ		: 0)|
-								((bHasNormals			=	pScene->mMeshes[0]->HasNormals())			? VertexBuffer::eVF_Normal	: 0)|
-								((bHasTextureCoords0	=	pScene->mMeshes[0]->HasTextureCoords(0))	? VertexBuffer::eVF_Tex0	: 0)|
-								((bHasTextureCoords1	=	pScene->mMeshes[0]->HasTextureCoords(1))	? VertexBuffer::eVF_Tex1	: 0)|
-								((bHasVertexColors		=	pScene->mMeshes[0]->HasVertexColors(0))		? VertexBuffer::eVF_Diffuse	: 0);
+			pMesh->m_vertexFormat =	((bHasPositions			=	pScene->mMeshes[0]->HasPositions())			? VertexBuffer::eVF_XYZ		: 0)|
+									((bHasNormals			=	pScene->mMeshes[0]->HasNormals())			? VertexBuffer::eVF_Normal	: 0)|
+									((bHasTextureCoords0	=	pScene->mMeshes[0]->HasTextureCoords(0))	? VertexBuffer::eVF_Tex0	: 0)|
+									((bHasTextureCoords1	=	pScene->mMeshes[0]->HasTextureCoords(1))	? VertexBuffer::eVF_Tex1	: 0)|
+									((bHasVertexColors		=	pScene->mMeshes[0]->HasVertexColors(0))		? VertexBuffer::eVF_Diffuse	: 0);
 	
-			pMesh->m_pVertexBuffer->SetVertexSize(sizeof(float) * (3 * (bHasPositions + bHasNormals + bHasTextureCoords0 + bHasTextureCoords1) + 4 * bHasVertexColors));
-			pMesh->m_pVertexBuffer->Create(nVertexCount, nFormat);		
-			pMesh->m_pIndexBuffer->Create(nIndexCount);
+			pMesh->m_vertexSize = sizeof(float) * (3 * (bHasPositions + bHasNormals + bHasTextureCoords0 + bHasTextureCoords1) + 4 * bHasVertexColors);
+			pMesh->m_vertexCount = nVertexCount;
+			pMesh->m_indexCount = nIndexCount;
+			
+			pMesh->m_pVertexData = new uint8_t[nVertexCount * pMesh->m_vertexSize];
+			pMesh->m_pIndexData = new uint32_t[nIndexCount];
 
-			char *pIB = NULL;	
-			char *pVB = NULL;		
-			char *pVBData = NULL;
-			char *pIBData = NULL;
-
-			pMesh->m_pVertexBuffer->Lock((void **)&pVB);	
-			pMesh->m_pIndexBuffer->Lock((void **)&pIB);
-		
-			pIBData = pIB;	
-			pVBData = pVB;
+			uint8_t *pVBData = pMesh->m_pVertexData;
+			uint32_t *pIBData = pMesh->m_pIndexData;
 
 			uint32_t nFaceCount = 0;	
 
@@ -132,7 +114,7 @@ namespace Oak3D
 			for(uint32_t i = 0; i < pScene->mNumMeshes; ++i)
 			{
 				aiMesh *pAIMesh = pScene->mMeshes[i];
-				memset(pVBData, 0, pAIMesh->mNumVertices * pMesh->m_pVertexBuffer->GetVertexSize());
+				memset(pVBData, 0, pAIMesh->mNumVertices * pMesh->m_vertexSize);
 		
 				for(uint32_t j = 0; j < pAIMesh->mNumVertices; ++j)
 				{
@@ -204,16 +186,14 @@ namespace Oak3D
 
 				for(uint32_t j = 0; j < pAIMesh->mNumFaces; ++j)
 				{
-					((uint32_t *)pIBData)[0] = pAIMesh->mFaces[j].mIndices[0] + pMesh->m_vMeshElements[i].m_startIndex;
-					((uint32_t *)pIBData)[1] = pAIMesh->mFaces[j].mIndices[1] + pMesh->m_vMeshElements[i].m_startIndex;
-					((uint32_t *)pIBData)[2] = pAIMesh->mFaces[j].mIndices[2] + pMesh->m_vMeshElements[i].m_startIndex;			
-					pIBData += 3 * sizeof(uint32_t);
+					pIBData[0] = pAIMesh->mFaces[j].mIndices[0] + pMesh->m_vMeshElements[i].m_startIndex;
+					pIBData[1] = pAIMesh->mFaces[j].mIndices[1] + pMesh->m_vMeshElements[i].m_startIndex;
+					pIBData[2] = pAIMesh->mFaces[j].mIndices[2] + pMesh->m_vMeshElements[i].m_startIndex;			
+					pIBData += 3;
 				}		
 			}
 	
-			pMesh->m_pIndexBuffer->Unlock();
-			pMesh->m_pVertexBuffer->Unlock();	
-	
+
 			pMesh->m_numFaces = nFaceCount;
 			pMesh->m_aabb.m_vecLeftBottomFront = vecLBF;
 			pMesh->m_aabb.m_vecRightTopBack = vecRTB;
@@ -259,14 +239,17 @@ namespace Oak3D
 		}
 
 		Mesh::Mesh()
-		: m_pVertexBuffer(NULL)
-		, m_pIndexBuffer(NULL)	
 		{
 		//	m_type = Resource::eTypeMeshInfo;
+			GetMeshList()->push_back(this);
 		}
 
 		Mesh::~Mesh()
 		{	
+			// TODO will the equality be ok?
+			s_meshes->erase(std::find(s_meshes->begin(), s_meshes->end(), this));
+			if(s_bDeleteListIfEmpty && s_meshes->size() == 0)
+				delete s_meshes;
 		}
 
 		Mesh::MeshElement::MeshElement()
@@ -277,12 +260,13 @@ namespace Oak3D
 
 		void Mesh::Init(const Core::StringId &id, AdditionalInitParams *pAdditionalInitParams)
 		{
-			
+			m_id = id;
 		}
 
 		void Mesh::Load()
 		{	
-			new Oak3D::Core::Thread(LoadMeshThreadProc, this);
+			LoadMeshThreadProc(this);
+			//Oak3D::Core::Thread(LoadMeshThreadProc, this);
 		}
 
 		void Mesh::Reload()
@@ -292,20 +276,16 @@ namespace Oak3D
 
 		void Mesh::Release()
 		{
-			SetState(eRS_Loading);
-
-			if(m_pVertexBuffer)
-			{
-				m_pVertexBuffer->Release();
-				delete m_pVertexBuffer;
-				m_pVertexBuffer = NULL;
+			if(m_pVertexData)
+			{	
+				delete[] m_pVertexData;
+				m_pVertexData = NULL;
 			}
 
-			if(m_pIndexBuffer)
+			if(m_pIndexData)
 			{
-				m_pIndexBuffer->Release();		
-				delete m_pIndexBuffer;
-				m_pIndexBuffer = NULL;
+				delete[] m_pIndexData;
+				m_pIndexData = NULL;
 			}
 			/* TODO need pointers here?
 			for(uint32_t i = 0, n = m_vMeshElements.size(); i < n; ++i)
@@ -317,27 +297,10 @@ namespace Oak3D
 			m_vMeshElements.clear();
 		
 			SetState(eRS_Released);
-			delete this;
+			
 		}
+		
 		/*
-		Mesh::Mesh()
-		{
-			//m_pMesh = NULL;
-			m_bMaterialsInitialised = false;
-		}
-
-		Mesh::~Mesh()
-		{
-			for(uint32_t i = 0, s = m_pMesh->m_vMeshElements.size(); i < s; ++i)
-			{
-				m_vMaterials[i]->Release();
-			}
-			ReleaseMesh(m_pMeshInfo);
-			m_pMeshInfo = NULL;
-			m_vMaterials.clear();	
-		}
-		
-		
 		void Mesh::LoadMaterials()
 		{
 			m_vMaterials.resize(m_pMeshInfo->m_vMeshElements.size());
@@ -469,6 +432,26 @@ namespace Oak3D
 			m_numMaterials = numMaterials;
 		}*/
 
-		
+
+		// --------------------------------------------------------------------------------
+		std::list<Mesh *>* Mesh::GetMeshList()
+		{
+			if( s_meshes == nullptr )
+				s_meshes = new std::list<Mesh *>();
+
+			return s_meshes;
+		}
+
+		// --------------------------------------------------------------------------------
+		void Mesh::ReleaseMeshList()
+		{
+			if( s_meshes != nullptr )
+			{
+				if(s_meshes->size() == 0)
+					delete s_meshes;
+				else
+					s_bDeleteListIfEmpty = true;
+			}
+		}
 	} // namespace Render
 }// namespace Oak3D

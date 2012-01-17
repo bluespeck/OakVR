@@ -23,8 +23,7 @@ namespace Oak3D
 		{
 			if(m_pTexture)
 			{
-				m_pTexture->Release();
-				delete m_pTexture;
+				Oak3D::Engine::GetResourceManager()->ReleaseResource(m_pTexture);
 			}
 			if(m_pGlyphData)
 				delete m_pGlyphData;

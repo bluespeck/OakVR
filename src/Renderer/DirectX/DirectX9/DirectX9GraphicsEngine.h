@@ -6,6 +6,8 @@
 #define __OAK3D_INCLUDE_RENDER_DIRECTX9GRAPHICSENGINE_H__
 
 #include "Renderer/IRenderer/GraphicsEngine.h"
+#include "Renderer/IRenderer/Shader.h"
+#include "Renderer/IRenderer/DebugTextRenderer.h"
 
 struct IDirect3DDevice9;
 struct IDirect3DSurface9;
@@ -14,9 +16,6 @@ namespace Oak3D
 {
 	namespace Render
 	{
-		class DirectX9DebugText;
-		class Shader;
-
 		class DirectX9GraphicsEngine : public GraphicsEngine
 		{
 		public:
@@ -34,8 +33,8 @@ namespace Oak3D
 			virtual void BeginDraw();
 			virtual void EndDraw();
 
-			virtual void DrawPrimitives(uint32_t numPrimitives);
-			virtual void DrawIndexedPrimitives(uint32_t numPrimitives);
+			virtual void DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex = 0);
+			virtual void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex = 0, uint32_t startVertex = 0);
 
 			virtual void CreateTexture	( Texture *texture );
 			virtual void ReleaseTexture	( Texture *texture );
@@ -73,7 +72,6 @@ namespace Oak3D
 		private:
 			IDirect3DDevice9 *m_pDevice;                     // Direct3D device interface
 			IDirect3DSurface9 *m_pRenderTarget;
-			DirectX9DebugText *m_pDebugText;		// object used to draw debug text
 		};
 	}	// namespace Render
 }	// namespace Oak3D

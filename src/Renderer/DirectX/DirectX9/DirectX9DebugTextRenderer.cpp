@@ -3,17 +3,22 @@
 
 #if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9
 
+#include <d3d9.h>
+#include <d3dx9.h>
+
 #include <string>
 #include <fstream>
 #include <cassert>
 #include <cctype>
 
+#include "Renderer/DirectX/DirectXUtils.h"
+
 #include "Oak3D/Engine.h"
 
-#include "DirectX9DebugText.h"
+#include "DirectX9DebugTextRenderer.h"
 #include "DirectX9Shader.h"
 #include "DirectX9GraphicsEngine.h"
-#include "Renderer/DirectX/DirectXUtils.h"
+
 
 #include "Renderer/IRenderer/Font.h"
 #include "Renderer/IRenderer/VertexBuffer.h"
@@ -27,23 +32,23 @@ namespace Oak3D
 	namespace Render
 	{
 		// --------------------------------------------------------------------------------
-		DirectX9DebugText::DirectX9DebugText()
+		DirectX9DebugTextRenderer::DirectX9DebugTextRenderer()
 		: m_pFont(nullptr)
 		{
 		}
 
 		// --------------------------------------------------------------------------------
-		DirectX9DebugText::~DirectX9DebugText()
+		DirectX9DebugTextRenderer::~DirectX9DebugTextRenderer()
 		{
 			if(m_pFont)
 			{
 				m_pFont->Release();
-				delete m_pFont;
+				m_pFont = nullptr;
 			}
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9DebugText::Init()
+		void DirectX9DebugTextRenderer::Init()
 		{
 			DirectX9GraphicsEngine *ge = (DirectX9GraphicsEngine *)Engine::GetInstance()->GetGraphicsEngine();
 			HR(D3DXCreateFont(ge->GetDevice(),     //D3D Device
@@ -61,7 +66,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9DebugText::OutputText(const std::string &text, uint32_t x, uint32_t y)
+		void DirectX9DebugTextRenderer::OutputText(const std::string &text, uint32_t x, uint32_t y)
 		{
 			RECT rc = {x, y};
 			

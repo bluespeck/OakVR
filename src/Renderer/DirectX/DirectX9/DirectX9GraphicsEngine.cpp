@@ -18,7 +18,7 @@
 
 #include "Renderer/DirectX/DirectXUtils.h"
 #include "DirectX9GraphicsEngine.h"
-#include "DirectX9DebugText.h"
+#include "DirectX9DebugTextRenderer.h"
 #include "DirectX9Shader.h"
 
 #include "Renderer/IRenderer/WindowsRenderWindow.h"
@@ -36,7 +36,6 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		DirectX9GraphicsEngine::DirectX9GraphicsEngine()
 		: m_pDevice(nullptr)
-		, m_pDebugText(nullptr)
 		{
 		}
 
@@ -94,11 +93,6 @@ namespace Oak3D
 			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, 3.141592f * 0.25f, 1.25f, 1, 1000);
 			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, (float)viewport.Width, (float)viewport.Height, 0, 1000);
 
-			/////
-			// initialize debug text
-			m_pDebugText = new DirectX9DebugText();
-			m_pDebugText->Init();
-			
 			InitializeStateObjects();
 		}
 
@@ -136,8 +130,6 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX9GraphicsEngine::Cleanup()
 		{
-			delete m_pDebugText;
-
 			m_pDevice->Release();
 		}
 
@@ -251,11 +243,13 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX9GraphicsEngine::UseTexture( Texture *pTexture )
 		{
+			if(pTexture == nullptr)
+				return;
 			m_pDevice->SetTexture(0, (IDirect3DTexture9 *)pTexture->GetData());
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::DrawPrimitives(uint32_t numPrimitives)
+		void DirectX9GraphicsEngine::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
 		{
 			D3DPRIMITIVETYPE pt = D3DPT_TRIANGLELIST;
 			switch( m_currentPrimitiveTopology )
@@ -278,11 +272,11 @@ namespace Oak3D
 			default:
 				break;
 			}
-			m_pDevice->DrawPrimitive(pt, 0, numPrimitives);
+			m_pDevice->DrawPrimitive(pt, startVertex, numPrimitives);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives)
+		void DirectX9GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
 			D3DPRIMITIVETYPE pt = D3DPT_TRIANGLELIST;
 			switch( m_currentPrimitiveTopology )
@@ -305,7 +299,7 @@ namespace Oak3D
 			default:
 				break;
 			}
-			m_pDevice->DrawIndexedPrimitive(pt, 0, 0, m_numVerticesPerPrimitive * numPrimitives, 0, numPrimitives);
+			m_pDevice->DrawIndexedPrimitive(pt, startVertex, 0, m_numVerticesPerPrimitive * numPrimitives, startIndex, numPrimitives);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -367,7 +361,7 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX9GraphicsEngine::OutputText( const std::string &text, uint32_t x, uint32_t y)
 		{
-			m_pDebugText->OutputText(text, x, y);
+			m_pDebugTextRenderer->OutputText(text, x, y);
 		}
 
 		// --------------------------------------------------------------------------------

@@ -14,6 +14,7 @@ namespace Oak3D
 		{
 		public:
 			Thread(uint32_t (pThreadFunction)(void *), void *pData);
+			void Join();
 			static void Sleep(uint32_t ms);
 		private:
 			struct ThreadImpl;

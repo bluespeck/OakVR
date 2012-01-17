@@ -22,10 +22,13 @@
 
 #if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
 # include "Renderer/DirectX/DirectX9/DirectX9Shader.h"
+# include "Renderer/DirectX/DirectX9/DirectX9DebugTextRenderer.h"
 #elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
+# include "Renderer/DirectX/DirectX11/DirectX11DebugTextRenderer.h"
 # include "Renderer/DirectX/DirectX11/DirectX11Shader.h"
 #elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
 # include "Renderer/OpenGL/OpenGLShader.h"
+# include "Renderer/OpenGL/OpenGLDebugTextRenderer.h"
 #endif
 
 #ifdef OAK3D_EDITOR
@@ -62,13 +65,18 @@ namespace Oak3D
 		b5.SetPosition(220, 130);
 		b5.SetDepth(3);
 		b5.SetSize(70, 20);
+
+		pm1 = nullptr;
 	}
 
 	// --------------------------------------------------------------------------------
 	Engine::~Engine()
 	{
+		delete m_pGE->GetDebugTextRenderer();
+		Oak3D::Core::ResourceManager::Release();
 		if(m_pGE)
 		{				
+			m_pGE->Cleanup();
 			delete m_pGE;
 		}
 		if(m_pRW)
@@ -79,6 +87,7 @@ namespace Oak3D
 		Oak3D::Core::IUpdatable::ReleaseUpdatableList();
 		Oak3D::Leaf3D::EventManager::Release();
 		Oak3D::Leaf3D::InterfaceFocusManager::Release();
+		
 	}
 
 	// --------------------------------------------------------------------------------
@@ -88,7 +97,17 @@ namespace Oak3D
 		{
 			m_pRW->Initialize();
 			m_pGE->SetRenderWindow(m_pRW);
+			Oak3D::Render::DebugTextRenderer *pDebugTextRenderer = nullptr;			
+# if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
+			pDebugTextRenderer = new Oak3D::Render::DirectX9DebugTextRenderer();
+# elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
+			pDebugTextRenderer = new Oak3D::Render::DirectX11DebugTextRenderer();
+# elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
+			pDebugTextRenderer = new Oak3D::Render::OpenGLDebugTextRenderer();
+# endif
+			m_pGE->SetDebugTextRenderer(pDebugTextRenderer);
 			m_pGE->Initialize();
+			pDebugTextRenderer->Init();
 			m_pRM->Initialize();
 #ifdef OAK3D_EDITOR
 			Oak3D::Editor::EntryPoint();
@@ -100,6 +119,8 @@ namespace Oak3D
 			m_pTimer->Reset();
 		}
 		m_bIsInitialized = true;
+
+		pm1 = m_pRM->GetResource<Oak3D::Render::Mesh>("../resources/Models/table2.obj");
 	}
 
 	// --------------------------------------------------------------------------------
@@ -124,7 +145,7 @@ namespace Oak3D
 			m_pGE->BeginDraw();
 
 			// update engine stuff
-
+			DrawMeshes();
 
 			/////
 			// Draw debug text
@@ -143,6 +164,46 @@ namespace Oak3D
 			m_pGE->SwapBuffers();
 
 			
+		}
+	}
+
+	// --------------------------------------------------------------------------------
+	void Engine::DrawMeshes()
+	{
+		auto pMeshes = Oak3D::Render::Mesh::GetMeshList();
+		for(auto it = pMeshes->begin(); it != pMeshes->end(); ++it)
+		{
+			Oak3D::Render::Mesh *pMesh = *it;
+			if(pMesh->IsReady())
+			{
+				Oak3D::Render::VertexBuffer vb;
+				Oak3D::Render::IndexBuffer ib;
+
+				vb.Create(pMesh->m_vertexCount, pMesh->m_vertexFormat);
+				ib.Create(pMesh->m_indexCount);
+
+				void *pVB = nullptr;
+				void *pIB = nullptr;
+				vb.Lock(&pVB);
+				memcpy(pVB, pMesh->m_pVertexData, pMesh->m_vertexCount * pMesh->m_vertexSize);
+				vb.Unlock();
+				ib.Lock(&pIB);
+				memcpy(pIB, pMesh->m_pIndexData, pMesh->m_indexCount * sizeof(uint32_t));
+				ib.Unlock();
+
+				m_pGE->UseVertexBuffer(&vb);
+				m_pGE->UseIndexBuffer(&ib);
+				m_pGE->UseTexture(nullptr);
+				m_pGE->UsePrimitiveTopology(Oak3D::Render::ePT_TriangleList);
+				for(uint32_t i = 0; i < pMesh->m_vMeshElements.size(); ++i)
+				{
+					// TODO add materials
+					//m_pGE->UseTexture(pMesh->m_vMaterials[pMesh->m_vMeshElements[i].m_materialIndex]].)
+					m_pGE->DrawIndexedPrimitives(pMesh->m_vMeshElements[i].m_indexCount / 3, pMesh->m_vMeshElements[i].m_startIndex);
+				}
+				vb.Release();
+				ib.Release();
+			}
 		}
 	}
 
@@ -446,6 +507,9 @@ namespace Oak3D
 		m_pGE->UseIndexBuffer(&ib);
 		m_pGE->UsePrimitiveTopology(Oak3D::Render::ePT_TriangleList);
 		m_pGE->DrawIndexedPrimitives(numVertices / 2);
+		vb.Release();
+		ib.Release();
+		m_pRM->ReleaseResource(pVertexShader);
 	}
 
 	// --------------------------------------------------------------------------------

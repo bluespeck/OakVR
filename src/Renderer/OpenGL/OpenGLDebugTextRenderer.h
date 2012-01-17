@@ -2,33 +2,34 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_RENDER_DIRECTX9DEBUGTEXT_H__
-#define __OAK3D_INCLUDE_RENDER_DIRECTX9DEBUGTEXT_H__
+#ifndef __OAK3D_INCLUDE_RENDER_OPENGLDEBUGTEXT_H__
+#define __OAK3D_INCLUDE_RENDER_OPENGLDEBUGTEXT_H__
 
-#include <d3d9.h>
-#include <d3dx9.h>
 #include <string>
 
-#include "Renderer/IRenderer/DebugText.h"
+#include "Renderer/IRenderer/DebugTextRenderer.h"
 
 namespace Oak3D
 {
 	namespace Render
 	{
+		class Font;
+		class Shader;
 
-		class DirectX9DebugText : public DebugText
+		class OpenGLDebugTextRenderer : public DebugTextRenderer
 		{
 		public:
-			DirectX9DebugText();
-			~DirectX9DebugText();
+			OpenGLDebugTextRenderer();
+			~OpenGLDebugTextRenderer();
 
 			// overrides
 			virtual void Init();
 			virtual void OutputText( const std::string &text, uint32_t x, uint32_t y );
 			
 		protected:
-			struct ID3DXFont *m_pFont;
-			
+			Font *m_pFont;
+			Shader *m_pVertexShader;
+			Shader *m_pFragmentShader;
 		};
 	}	// namespace Render
 }	// namespace Oak3D

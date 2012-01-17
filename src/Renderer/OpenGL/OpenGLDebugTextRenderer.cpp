@@ -13,7 +13,7 @@
 
 #include "Oak3D/Engine.h"
 
-#include "OpenGLDebugText.h"
+#include "OpenGLDebugTextRenderer.h"
 #include "OpenGLGraphicsEngine.h"
 #include "OpenGLShader.h"
 
@@ -30,20 +30,20 @@ namespace Oak3D
 	namespace Render
 	{
 		// --------------------------------------------------------------------------------
-		OpenGLDebugText::OpenGLDebugText()
+		OpenGLDebugTextRenderer::OpenGLDebugTextRenderer()
 		: m_pFont(nullptr)
 		{
 		}
 
 		// --------------------------------------------------------------------------------
-		OpenGLDebugText::~OpenGLDebugText()
+		OpenGLDebugTextRenderer::~OpenGLDebugTextRenderer()
 		{
 			if(m_pFont)
 				delete m_pFont;
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLDebugText::Init()
+		void OpenGLDebugTextRenderer::Init()
 		{	
 			m_pFont = new Font();
 			m_pFont->Initialize("../resources/font/DebugFont.index", "../resources/font/DebugFont.tga");
@@ -57,7 +57,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLDebugText::OutputText(const std::string &text, uint32_t x, uint32_t y)
+		void OpenGLDebugTextRenderer::OutputText(const std::string &text, uint32_t x, uint32_t y)
 		{
 			if(!m_pFont->GetTexture()->IsReady())
 				return;

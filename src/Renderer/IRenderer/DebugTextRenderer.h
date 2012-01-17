@@ -13,10 +13,10 @@ namespace Oak3D
 {
 	namespace Render
 	{
-		class DebugText
+		class DebugTextRenderer
 		{
 		public:
-			virtual ~DebugText(){}
+			virtual ~DebugTextRenderer(){}
 			virtual void Init() = 0;
 			virtual void OutputText(const std::string &text, uint32_t x, uint32_t y) = 0;
 		};

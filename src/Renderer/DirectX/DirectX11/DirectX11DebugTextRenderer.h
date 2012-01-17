@@ -2,34 +2,33 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_RENDER_OPENGLDEBUGTEXT_H__
-#define __OAK3D_INCLUDE_RENDER_OPENGLDEBUGTEXT_H__
+#ifndef __OAK3D_INCLUDE_RENDER_DIRECTX11DEBUGTEXT_H__
+#define __OAK3D_INCLUDE_RENDER_DIRECTX11DEBUGTEXT_H__
 
 #include <string>
 
-#include "Renderer/IRenderer/DebugText.h"
+#include "Renderer/IRenderer/DebugTextRenderer.h"
 
 namespace Oak3D
 {
 	namespace Render
 	{
-		class Font;
-		class Shader;
 
-		class OpenGLDebugText : public DebugText
+		class DirectX11DebugTextRenderer : public DebugTextRenderer
 		{
 		public:
-			OpenGLDebugText();
-			~OpenGLDebugText();
+			DirectX11DebugTextRenderer();
+			~DirectX11DebugTextRenderer();
 
 			// overrides
 			virtual void Init();
 			virtual void OutputText( const std::string &text, uint32_t x, uint32_t y );
 			
 		protected:
-			Font *m_pFont;
-			Shader *m_pVertexShader;
-			Shader *m_pFragmentShader;
+			class Font *m_pFont;
+			class DirectX11Shader *m_pVertexShader;
+			class DirectX11Shader *m_pPixelShader;
+			
 		};
 	}	// namespace Render
 }	// namespace Oak3D

@@ -7,6 +7,7 @@
 #define __OAK3D_INCLUDE_RENDER_MESH_H__
 
 #include <vector>
+#include <list>
 
 #include "Core/ResourceManager/IResource.h"
 #include "Core/Math/Vector3.h"
@@ -57,14 +58,23 @@ namespace Oak3D
 			const Oak3D::Render::AABB &GetBoundingBox();
 
 		public:
+			static std::list<Mesh *> *GetMeshList();
+			static void ReleaseMeshList();
+			static std::list<Mesh *> *s_meshes;
+			static bool s_bDeleteListIfEmpty;
+
 			std::vector<MeshElement> m_vMeshElements;
-			VertexBuffer *m_pVertexBuffer;
-			IndexBuffer *m_pIndexBuffer;
+			uint8_t *m_pVertexData;
+			uint32_t *m_pIndexData;
+			uint32_t m_vertexFormat;
+			uint32_t m_vertexSize;
+			uint32_t m_vertexCount;
+			uint32_t m_indexCount;
+
 			std::vector<uint32_t> m_vMaterials;
 
-			bool		m_bHasNormals;
+			bool m_bHasNormals;
 
-			uint32_t m_numMeshElements;
 			uint32_t m_numFaces;
 			uint32_t m_numMaterials;
 

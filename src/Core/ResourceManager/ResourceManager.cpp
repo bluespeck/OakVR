@@ -1,4 +1,6 @@
 
+#include <cassert>
+
 #include "ResourceManager.h"
 #include "IResource.h"
 #include "Core/Parallel/Thread.h"
@@ -9,33 +11,31 @@ namespace Oak3D
 {
 	namespace Core
 	{
-		bool ResourceManager::m_bShouldStop = false;
-
 		// --------------------------------------------------------------------------------
 		uint32_t ResourceManager::ResourceLoaderThread(void *pResMgr)
 		{
 			ResourceManager *pRM = static_cast<ResourceManager*>(pResMgr);
 			
-			while(!pRM->m_bShouldStop)
+			while(!pRM->m_bLoaderThreadShouldStop)
 			{
 				IResource *pRes = nullptr;
-				pRM->m_loadCritSection.EnterCriticalSection();
+				pRM->m_pLoadCritSection->EnterCriticalSection();
 				if(pRM->m_toBeLoaded.size())
 				{
 					pRes = pRM->m_toBeLoaded.front();
 				}
-				pRM->m_loadCritSection.LeaveCriticalSection();
+				pRM->m_pLoadCritSection->LeaveCriticalSection();
 
 				if(pRes)
 				{
 					pRes->Load();
 					
-					pRM->m_memoryCritSection.EnterCriticalSection();
-					pRM->m_loadCritSection.EnterCriticalSection();
+					pRM->m_pMemoryCritSection->EnterCriticalSection();
+					pRM->m_pLoadCritSection->EnterCriticalSection();
 					pRM->m_toBeLoaded.pop_front();
 					pRM->m_inMemory.push_back(pRes);
-					pRM->m_loadCritSection.LeaveCriticalSection();
-					pRM->m_memoryCritSection.LeaveCriticalSection();
+					pRM->m_pLoadCritSection->LeaveCriticalSection();
+					pRM->m_pMemoryCritSection->LeaveCriticalSection();
 				}
 			}
 			return 0;
@@ -43,33 +43,51 @@ namespace Oak3D
 
 		// --------------------------------------------------------------------------------
 		ResourceManager::ResourceManager()
+		: m_bLoaderThreadShouldStop(false)
 		{
+			m_pLoadCritSection = new CriticalSection();
+			m_pMemoryCritSection = new CriticalSection();
+		}
+
+		// --------------------------------------------------------------------------------
+		ResourceManager::~ResourceManager()
+		{
+			m_bLoaderThreadShouldStop = true;
+			m_pLoaderThread->Join();
+			delete m_pLoaderThread;
+			delete m_pLoadCritSection;
+			delete m_pMemoryCritSection;
+
+			for(auto it = m_inMemory.begin(); it != m_inMemory.end(); ++it)
+			{
+				(*it)->Release();
+				delete *it;
+			}
+			m_inMemory.clear();
+
 		}
 
 		// --------------------------------------------------------------------------------
 		void ResourceManager::Initialize()
 		{
-			new Thread(ResourceLoaderThread, this);
+			m_pLoaderThread = new Thread(ResourceLoaderThread, this);
 		}
 
 		// --------------------------------------------------------------------------------
 		void ResourceManager::ReleaseResource(IResource *pRes)
 		{
 			{
+				m_pMemoryCritSection->EnterCriticalSection();
 				auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](IResource *pt)
 				{
 					return pt->m_id == pRes->m_id;
 				});
 				if(it != m_inMemory.end())
 				{
-					if(--(*it)->m_refCount <= 0)
-					{
-						IResource *p = *it;
-						m_inMemory.erase(it);
-						p->Release();
-						delete p;
-					}
+					--(*it)->m_refCount;
+					
 				}
+				m_pMemoryCritSection->LeaveCriticalSection();
 			}
 			
 		}
@@ -78,20 +96,17 @@ namespace Oak3D
 		void ResourceManager::ReleaseResource(const StringId &id)
 		{
 			{
+				m_pMemoryCritSection->EnterCriticalSection();
 				auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](IResource *pt)
 				{
 					return pt->m_id.GetHashId() == id.GetHashId();
 				});
 				if(it != m_inMemory.end())
 				{
-					if(--(*it)->m_refCount <= 0)
-					{
-						IResource *p = *it;
-						m_inMemory.erase(it);
-						p->Release();
-						delete p;
-					}
+					--(*it)->m_refCount;
+					
 				}
+				m_pMemoryCritSection->LeaveCriticalSection();
 			}
 		}
 	} // namespace Core

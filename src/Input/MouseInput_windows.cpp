@@ -149,9 +149,9 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		std::pair<uint32_t, uint32_t> MouseInput::GetPosition()
+		std::pair<int32_t, int32_t> MouseInput::GetPosition()
 		{			
-			return std::pair<uint32_t, uint32_t>(m_pImpl->m_currentState.m_x, m_pImpl->m_currentState.m_y);
+			return std::make_pair(m_pImpl->m_currentState.m_x, m_pImpl->m_currentState.m_y);
 		}
 
 		// --------------------------------------------------------------------------------

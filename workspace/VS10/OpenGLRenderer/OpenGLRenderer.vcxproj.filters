@@ -3,12 +3,12 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Renderer\OpenGL\OpenGLGraphicsEngine.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\OpenGL\Oak3DInitOpenGL.cpp" />
-    <ClCompile Include="..\..\..\src\Renderer\OpenGL\OpenGLDebugText.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\OpenGL\OpenGlShader.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\OpenGL\OpenGLDebugTextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Renderer\OpenGL\OpenGLGraphicsEngine.h" />
-    <ClInclude Include="..\..\..\src\Renderer\OpenGL\OpenGLDebugText.h" />
     <ClInclude Include="..\..\..\src\Renderer\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="..\..\..\src\Renderer\OpenGL\OpenGLDebugTextRenderer.h" />
   </ItemGroup>
 </Project>
