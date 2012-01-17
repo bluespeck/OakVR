@@ -18,7 +18,7 @@ namespace Oak3D
 		CriticalSection::CriticalSection()
 		{
 			m_pImpl = new CriticalSectionImpl;
-			InitializeCriticalSectionAndSpinCount(&m_pImpl->critSection, 0x00000010);
+			InitializeCriticalSectionAndSpinCount(&m_pImpl->critSection, 0x00000400);
 		}
 
 		CriticalSection::~CriticalSection()

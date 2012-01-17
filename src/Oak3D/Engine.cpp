@@ -120,7 +120,7 @@ namespace Oak3D
 		}
 		m_bIsInitialized = true;
 
-		pm1 = m_pRM->GetResource<Oak3D::Render::Mesh>("../resources/Models/table2.obj");
+		pm1 = m_pRM->GetResource<Oak3D::Render::Mesh>("../resources/Models/hammer.obj");
 	}
 
 	// --------------------------------------------------------------------------------
@@ -170,6 +170,35 @@ namespace Oak3D
 	// --------------------------------------------------------------------------------
 	void Engine::DrawMeshes()
 	{
+		Oak3D::Render::Shader *pVertexShader = nullptr;
+		Oak3D::Render::Shader *pPixelShader = nullptr;
+
+#if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
+		Oak3D::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
+		params1.shaderType = Oak3D::Render::eST_VertexShader;
+		params1.vertexFormat = Oak3D::Render::VertexBuffer::eVF_XYZ | Oak3D::Render::VertexBuffer::eVF_Normal;
+		params2.shaderType = Oak3D::Render::eST_PixelShader;
+
+		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::DirectX9Shader>( "../resources/shaders/PosNormalVS.hlsl", &params1);
+		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::DirectX9Shader>( "../resources/shaders/PosNormalPS.hlsl", &params2);
+#elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
+		Oak3D::Render::Shader::ShaderAdditionalInitParams params1, params2;
+		params1.shaderType = Oak3D::Render::eST_VertexShader;
+		params2.shaderType = Oak3D::Render::eST_PixelShader;
+
+		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::DirectX11Shader>( "../resources/shaders/PosNormalVS.hlsl", &params1);
+		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::DirectX11Shader>( "../resources/shaders/PosNormalPS.hlsl", &params2);
+#elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
+		Oak3D::Render::Shader::ShaderAdditionalInitParams params1, params2;
+		params1.shaderType = Oak3D::Render::eST_VertexShader;
+		params2.shaderType = Oak3D::Render::eST_PixelShader;
+
+		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/PosNormalVS.hlsl", &params1);
+		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/PosNormalPS.hlsl", &params2);
+#endif
+		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
+			return;
+
 		auto pMeshes = Oak3D::Render::Mesh::GetMeshList();
 		for(auto it = pMeshes->begin(); it != pMeshes->end(); ++it)
 		{
@@ -194,6 +223,8 @@ namespace Oak3D
 				m_pGE->UseVertexBuffer(&vb);
 				m_pGE->UseIndexBuffer(&ib);
 				m_pGE->UseTexture(nullptr);
+				m_pGE->UseShader(pVertexShader);
+				m_pGE->UseShader(pPixelShader);
 				m_pGE->UsePrimitiveTopology(Oak3D::Render::ePT_TriangleList);
 				for(uint32_t i = 0; i < pMesh->m_vMeshElements.size(); ++i)
 				{
@@ -205,6 +236,8 @@ namespace Oak3D
 				ib.Release();
 			}
 		}
+		m_pRM->GetInstance()->ReleaseResource(pVertexShader);
+		m_pRM->GetInstance()->ReleaseResource(pPixelShader);
 	}
 
 	// --------------------------------------------------------------------------------

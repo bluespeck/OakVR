@@ -187,6 +187,7 @@ namespace Oak3D
 			HR(m_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerStates[eRSI_FillWireframe_CullFront_FrontCW]));
 			rasterizerDesc.FrontCounterClockwise = true;
 			HR(m_pDevice->CreateRasterizerState(&rasterizerDesc, &m_pRasterizerStates[eRSI_FillWireframe_CullFront_FrontCCW]));
+
 		}
 
 		// --------------------------------------------------------------------------------

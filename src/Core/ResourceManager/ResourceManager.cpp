@@ -16,7 +16,7 @@ namespace Oak3D
 		{
 			ResourceManager *pRM = static_cast<ResourceManager*>(pResMgr);
 			
-			while(!pRM->m_bLoaderThreadShouldStop)
+			while(pRM && !pRM->m_bLoaderThreadShouldStop)
 			{
 				IResource *pRes = nullptr;
 				pRM->m_pLoadCritSection->EnterCriticalSection();
@@ -37,6 +37,7 @@ namespace Oak3D
 					pRM->m_pLoadCritSection->LeaveCriticalSection();
 					pRM->m_pMemoryCritSection->LeaveCriticalSection();
 				}
+				Core::Thread::Sleep(10);
 			}
 			return 0;
 		}

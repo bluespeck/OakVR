@@ -103,7 +103,19 @@ namespace Oak3D
 					// close the application entirely
 					PostQuitMessage(0);
 					return 0;
-				} 
+				}
+				break;
+			case WM_SIZE:
+				{
+					m_width = LOWORD(lParam);
+					m_height = HIWORD(lParam);
+				}
+				break;
+			case WM_MOVE:
+				{
+					m_posX = LOWORD(lParam);
+					m_posY = HIWORD(lParam);
+				}
 				break;
 			default:
 				return DefWindowProc(hWnd, uMsg, wParam, lParam);

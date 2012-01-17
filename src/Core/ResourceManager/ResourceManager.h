@@ -39,7 +39,7 @@ namespace Oak3D
 			CriticalSection *m_pLoadCritSection;
 			CriticalSection *m_pMemoryCritSection;
 
-			mutable bool m_bLoaderThreadShouldStop;
+			volatile bool m_bLoaderThreadShouldStop;
 
 			Core::Thread *m_pLoaderThread;
 		};

@@ -11,7 +11,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 {
 
 	Oak3D::Oak3D *oak3D = Oak3D::Oak3D::GetInstance();
-		
+	
 	// Enter the main loop
 	MSG msg = {0};
 	while(true)

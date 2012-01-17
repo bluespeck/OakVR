@@ -47,8 +47,8 @@ namespace Oak3D
 				aiProcess_SplitLargeMeshes			| // split large, unrenderable meshes into submeshes
 				aiProcess_Triangulate				| // triangulate polygons with more than 3 edges
 				aiProcess_ConvertToLeftHanded		| // convert everything to D3D left handed space
-				aiProcess_PreTransformVertices		| // pretransform all vertices with local transformation; destroys animations
-				aiProcess_SortByPType				| // make 'clean' meshes which consist of a single typ of primitives
+				//aiProcess_PreTransformVertices		| // pretransform all vertices with local transformation; destroys animations
+				aiProcess_SortByPType				| // make 'clean' meshes which consist of a single type of primitives
 				0);
 
 			assert(pScene && "Error reading file");	
