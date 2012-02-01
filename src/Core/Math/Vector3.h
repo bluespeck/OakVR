@@ -22,8 +22,8 @@ namespace Oak3D
 			Vector3( const float *arr );
 			
 			// cast operators
-			operator float * ();
-			operator const float * () const;
+			inline operator float * ();
+			inline operator const float * () const;
 
 			// assignment operators
 			//Vector3& operator = ( const Vector3 &vec );
@@ -60,7 +60,20 @@ namespace Oak3D
 		};
 
 		Vector3 operator * ( float scalar, const Vector3 &vec );
+		
+		//------------------------------------------------------
+		// cast operators
+		// --------------------------------------------------------------------------------
+		Vector3::operator float *()
+		{
+			return &x;
+		}
 
+		// --------------------------------------------------------------------------------
+		Vector3::operator const float *() const
+		{
+			return &x;
+		}
 	} // namespace Math
 }
 

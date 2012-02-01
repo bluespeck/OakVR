@@ -51,9 +51,9 @@ namespace Oak3D
 			// TODO Different resources from the same file :(((((((((((((((((((( => same id => second resource is not created
 			Shader::ShaderAdditionalInitParams params;
 			params.shaderType = eST_VertexShader;			
-			m_pVertexShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/DebugFontVS.hlsl", &params);
+			m_pVertexShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/hlsl_4_0/DebugFontVS.hlsl", &params);
 			params.shaderType = eST_PixelShader;
-			m_pFragmentShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/DebugFontPS.hlsl", &params);
+			m_pFragmentShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/hlsl_4_0/DebugFontPS.hlsl", &params);
 		}
 
 		// --------------------------------------------------------------------------------

@@ -1,13 +1,13 @@
 struct VertexInputType
 {
     float3 position : POSITION;
-    float3 normal : NORMAL;
+    float2 tex : TEXCOORD0;
 };
 
 struct PixelInputType
 {
-    float4 position : POSITION;
-    //float3 normal : NORMAL;
+    float4 position : SV_POSITION;
+    float2 tex : TEXCOORD0;
 };
 
 PixelInputType OakVertexShader(VertexInputType input)
@@ -15,7 +15,9 @@ PixelInputType OakVertexShader(VertexInputType input)
     PixelInputType output;
     
     output.position = float4(input.position, 1.0f);
-	//output.normal = input.normal;
-	
+    
+    // Store the texture coordinates for the pixel shader.
+    output.tex = input.tex;
+    
     return output;
 }

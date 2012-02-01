@@ -64,9 +64,9 @@ namespace Oak3D
 
 			DirectX11Shader::ShaderAdditionalInitParams params;
 			params.shaderType = eST_VertexShader;
-			m_pVertexShader = Oak3D::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/DebugFontVS.hlsl", &params);
+			m_pVertexShader = Oak3D::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/hlsl_4_0/DebugFontVS.hlsl", &params);
 			params.shaderType = eST_PixelShader;
-			m_pPixelShader = Oak3D::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/DebugFontPS.hlsl", &params);
+			m_pPixelShader = Oak3D::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/hlsl_4_0/DebugFontPS.hlsl", &params);
 		}
 
 		// --------------------------------------------------------------------------------

@@ -32,20 +32,6 @@ namespace Oak3D
 		}
 
 		//------------------------------------------------------
-		// cast operators
-		// --------------------------------------------------------------------------------
-		Vector3::operator float *()
-		{
-			return &x;
-		}
-
-		// --------------------------------------------------------------------------------
-		Vector3::operator const float *() const
-		{
-			return &x;
-		}
-
-		//------------------------------------------------------
 		// other methods
 		// --------------------------------------------------------------------------------
 		float Vector3::Length() const
@@ -86,6 +72,17 @@ namespace Oak3D
 			result.y = x * mat._12 + y * mat._22 + z * mat._32;
 			result.z = x * mat._13 + y * mat._23 + z * mat._33;
 			return result;
+		}
+		// --------------------------------------------------------------------------------
+		Vector3 Vector3::operator * ( float scalar ) const
+		{
+			return Vector3(scalar * x, scalar * y, scalar * z);
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector3 Vector3::operator / ( float scalar ) const
+		{
+			return Vector3(x / scalar, y / scalar, z / scalar);
 		}
 
 	}	// namespace Math

@@ -28,6 +28,9 @@ namespace Oak3D
 			Matrix();
 			Matrix( float *m );
 
+			inline operator float* ();
+			inline operator const float* () const;
+
 			void SetInverseOfRotoTranslation();
 			void SetInverse();			
 			void SetYawPitchRoll(float yaw, float pitch, float roll);
@@ -43,7 +46,18 @@ namespace Oak3D
 			static Matrix CreateOthographicProjectionMatrix(float left, float right, float bottom, float top, float near, float far);
 			static Matrix CreateIdentityMatrix();
 		};
-		
+
+		// --------------------------------------------------------------------------------
+		Matrix::operator float* ()
+		{
+			return (float *) &_11;
+		}
+
+		// --------------------------------------------------------------------------------	
+		Matrix::operator const float* () const
+		{
+			return (const float *) &_11;
+		}
 	} // namespace Oak3D
 } // namespace Oak3D
 

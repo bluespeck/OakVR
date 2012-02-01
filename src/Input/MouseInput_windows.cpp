@@ -50,6 +50,7 @@ namespace Oak3D
 		{
 			memcpy(&m_pImpl->m_previousState, &m_pImpl->m_currentState, sizeof(MouseInputImpl::MouseState));
 			memcpy(&m_pImpl->m_currentState, (const void *)&m_pImpl->m_volatileState, sizeof(MouseInputImpl::MouseState));
+			m_pImpl->m_volatileState.m_wheelDelta = 0;
 		}
 
 		// --------------------------------------------------------------------------------
@@ -155,6 +156,12 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
+		std::pair<int32_t, int32_t> MouseInput::GetPositionDelta()
+		{
+			return std::make_pair(m_pImpl->m_currentState.m_x - m_pImpl->m_previousState.m_x, m_pImpl->m_currentState.m_y - m_pImpl->m_previousState.m_y);
+		}
+
+		// --------------------------------------------------------------------------------
 		int32_t MouseInput::GetWheelDelta()
 		{
 			return m_pImpl->m_currentState.m_wheelDelta;
@@ -196,7 +203,7 @@ namespace Oak3D
 				m_pInstance->m_volatileState.m_bRButtonDown = true;
 				break;
 			case WM_MOUSEWHEEL:
-				m_pInstance->m_volatileState.m_wheelDelta = HIWORD(msllhs.mouseData);
+				m_pInstance->m_volatileState.m_wheelDelta = (int16_t)HIWORD(msllhs.mouseData);
 				break;
 			case WM_LBUTTONUP:
 				m_pInstance->m_volatileState.m_bLButtonDown = false;

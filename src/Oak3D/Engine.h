@@ -43,6 +43,9 @@ namespace Oak3D
 		void TriggerInputEvents();
 		void DrawInterface();
 		void DrawMeshes();
+		void DrawDebugText();
+		void DrawAxes();
+		void DrawMeshBoundingBoxes();
 
 	private:
 		Render::GraphicsEngine *m_pGE;

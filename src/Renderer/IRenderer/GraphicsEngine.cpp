@@ -12,8 +12,6 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		GraphicsEngine::GraphicsEngine()
 		: m_pRenderWindow(nullptr)
-		, m_pOrthographicProjectionMatrix(nullptr)
-		, m_pPerspectiveProjectionMatrix(nullptr)
 		, m_currentPrimitiveTopology(ePT_TriangleList)
 		, m_numVerticesPerPrimitive(3)
 		, m_pCurrentVertexBuffer(nullptr)
@@ -22,6 +20,16 @@ namespace Oak3D
 		, m_pCurrentPixelShader(nullptr)
 		, m_pDebugTextRenderer(nullptr)
 		{
+			Math::Matrix identityMatrix = Math::Matrix::CreateIdentityMatrix();
+			m_pPerspectiveProjectionMatrix = new Math::Matrix();
+			m_pOrthographicProjectionMatrix = new Math::Matrix();
+			m_pWorldMatrix = new Math::Matrix();			
+			m_pViewMatrix = new Math::Matrix();
+			*m_pPerspectiveProjectionMatrix = identityMatrix;
+			*m_pOrthographicProjectionMatrix = identityMatrix;
+			*m_pWorldMatrix = identityMatrix;
+			*m_pViewMatrix = identityMatrix;
+				
 		}
 
 		// --------------------------------------------------------------------------------

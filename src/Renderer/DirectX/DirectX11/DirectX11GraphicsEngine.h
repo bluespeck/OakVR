@@ -13,6 +13,8 @@ struct IDXGISwapChain;
 struct ID3D11RenderTargetView;
 struct ID3D11RasterizerState;
 struct ID3D11DepthStencilState;
+struct ID3D11Buffer;
+struct ID3D11SamplerState;
 
 namespace Oak3D
 {
@@ -78,15 +80,22 @@ namespace Oak3D
 
 			virtual void OutputText( const std::string &text, uint32_t x, uint32_t y);
 
+			virtual void EnableOrtographicProjection();
+			virtual void EnablePerspectiveProjection();
+
+			virtual void EnableDepthBuffer();
+			virtual void DisableDepthBuffer();
+
+			virtual void EnableFillWireframe();
+			virtual void EnableFillSolid();
+
+
 			// misc
 			void CreateInputLayoutDesc( uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems );
 			void InitializeStateObjects();
-
-			void EnableDepthBuffer();
-			void DisableDepthBuffer();
-
+						
 			void SetRasterizerState( RasterizerStateIndex rsi );
-
+			Oak3D::Math::Matrix CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up);
 
 			ID3D11Device *GetDevice() { return m_pDevice; }
 			ID3D11DeviceContext *GetDeviceContext() { return m_pDeviceContext; }
@@ -102,6 +111,9 @@ namespace Oak3D
 			ID3D11DepthStencilState *m_pDepthStencilStateDepthDisabled;
 			ID3D11DepthStencilState *m_pDepthStencilStateDepthEnabled;
 			ID3D11RasterizerState *m_pRasterizerStates[eRSI_Count];
+			ID3D11SamplerState *m_pSamplerState;
+
+			ID3D11Buffer *m_pMatrixBuffer;
 
 			
 		};

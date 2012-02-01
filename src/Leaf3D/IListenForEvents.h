@@ -15,7 +15,7 @@ namespace Oak3D
 			// for internal use only
 			virtual void DispatchByEventSubtype(Event *) {}
 
-		private:
+		protected:
 			bool m_bIListenForEvents;
 		};
 	}

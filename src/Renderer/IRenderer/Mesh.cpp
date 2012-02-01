@@ -47,8 +47,10 @@ namespace Oak3D
 				aiProcess_SplitLargeMeshes			| // split large, unrenderable meshes into submeshes
 				aiProcess_Triangulate				| // triangulate polygons with more than 3 edges
 				aiProcess_ConvertToLeftHanded		| // convert everything to D3D left handed space
-				//aiProcess_PreTransformVertices		| // pretransform all vertices with local transformation; destroys animations
+				aiProcess_PreTransformVertices		| // pretransform all vertices with local transformation; destroys animations
 				aiProcess_SortByPType				| // make 'clean' meshes which consist of a single type of primitives
+				aiProcess_JoinIdenticalVertices		|
+				aiProcess_FlipWindingOrder			|
 				0);
 
 			assert(pScene && "Error reading file");	
@@ -190,7 +192,7 @@ namespace Oak3D
 					pIBData[1] = pAIMesh->mFaces[j].mIndices[1] + pMesh->m_vMeshElements[i].m_startIndex;
 					pIBData[2] = pAIMesh->mFaces[j].mIndices[2] + pMesh->m_vMeshElements[i].m_startIndex;			
 					pIBData += 3;
-				}		
+				}
 			}
 	
 

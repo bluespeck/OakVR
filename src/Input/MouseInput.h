@@ -38,6 +38,7 @@ namespace Oak3D
 			bool HasMouseMoved();
 
 			std::pair<int32_t, int32_t> GetPosition();
+			std::pair<int32_t, int32_t> GetPositionDelta();
 			int32_t GetWheelDelta();
 
 			void *GetMouseOwner();

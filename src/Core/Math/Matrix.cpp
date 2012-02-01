@@ -269,8 +269,34 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void Matrix::SetYawPitchRoll(float yaw, float pitch, float roll)
+		void Matrix::SetYawPitchRoll(float yaw, float pitch, float roll) // y * x * z
 		{
+			float cx = std::cos(pitch);
+			float cy = std::cos(yaw);
+			float cz = std::cos(roll);
+			float sx = std::sin(pitch);
+			float sy = std::sin(yaw);
+			float sz = std::sin(roll);
+
+			_11 = cz * cy + sz * sx * sy;
+			_12 = sz * cz;
+			_13 = cz * (-sy) + sz * sx * cy;
+			_14 = 0.0f;
+
+			_21 = -sz * cy + cz * sx * sy;
+			_22 = cz * cx;
+			_23 = sz * sy + cz * sx * cy;
+			_24 = 0.0f;
+
+			_31 = cx * sy;
+			_32 = -sx;
+			_33 = cx * cy;
+			_34 = 0.0f;
+			_41 = _42 = _43 = 0.0f;
+			_44 = 1.0f;
+
+			/*
+
 			float calpha = std::cos(yaw);
 			float cbeta = std::cos(pitch);
 			float cgamma = std::cos(roll);
@@ -287,12 +313,39 @@ namespace Oak3D
 			_31 = -sbeta;
 			_32 = cbeta * sgamma;
 			_33 = cbeta * cgamma;
+
+			*/
 		}
 
 
 		// --------------------------------------------------------------------------------
 		Matrix Matrix::CreateYawPitchRoll(float yaw, float pitch, float roll)
 		{
+			float cx = std::cos(pitch);
+			float cy = std::cos(yaw);
+			float cz = std::cos(roll);
+			float sx = std::sin(pitch);
+			float sy = std::sin(yaw);
+			float sz = std::sin(roll);
+			
+			Matrix mat;
+
+			mat._11 = cz * cy + sz * sx * sy;
+			mat._12 = sz * cz;
+			mat._13 = cz * (-sy) + sz * sx * cy;
+			mat._14 = 0.0f;
+			mat._21 = -sz * cy + cz * sx * sy;
+			mat._22 = cz * cx;
+			mat._23 = sz * sy + cz * sx * cy;
+			mat._24 = 0.0f;
+			mat._31 = cx * sy;
+			mat._32 = -sx;
+			mat._33 = cx * cy;
+			mat._34 = 0.0f;
+			mat._41 = mat._42 = mat._43 = 0.0f;
+			mat._44 = 1.0f;
+
+			/*
 			float calpha = std::cos(yaw);
 			float cbeta = std::cos(pitch);
 			float cgamma = std::cos(roll);
@@ -316,7 +369,7 @@ namespace Oak3D
 			mat._34 = 0.0f;
 			mat._41 = mat._42 = mat._43 = 0.0f;
 			mat._44 = 1.0f;
-
+			*/
 			return mat;
 		}
 
@@ -374,5 +427,6 @@ namespace Oak3D
 			return result;
 		}
 
+		
 	} // namespace Math
 } // namespace Oak3D

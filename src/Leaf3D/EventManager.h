@@ -21,9 +21,10 @@ namespace Oak3D
 			void RegisterListener(Event::EventType evType, IListenForEvents *pListener);
 			void UnregisterListener(IListenForEvents *pListener);
 			void AddEvent(Event *ev);
-			void DispatchEvent(Event *ev);
 			void Update();
 		private:
+			void DispatchEvent(Event *ev);
+
 			std::map<Event::EventType, std::set<IListenForEvents *> > m_listeners;
 			std::queue<Event *> m_eventQueue;
 		};

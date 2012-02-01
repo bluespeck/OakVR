@@ -10,6 +10,8 @@
 #include <string>
 #include "GraphicsEngineUtils.h"
 
+#include "Core/Math/Vector3.h"
+
 
 
 namespace Oak3D
@@ -70,19 +72,27 @@ namespace Oak3D
 			virtual void UseShader( Shader *pShader ) = 0;
 
 			// misc
+			virtual Oak3D::Math::Matrix CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up) = 0; 
+
 			virtual void OutputText( const std::string &text, uint32_t x, uint32_t y);
+
+			virtual void EnableOrtographicProjection() = 0;
+			virtual void EnablePerspectiveProjection() = 0;
+			virtual void EnableFillWireframe() = 0;
+			virtual void EnableFillSolid() = 0;
 
 			void SetRenderWindow( RenderWindow *pRenderWindow );
 			void SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer);
 			DebugTextRenderer * GetDebugTextRenderer() { return m_pDebugTextRenderer; }
 
+			inline Math::Matrix *GetWorldMatrix();
 			inline Math::Matrix *GetViewMatrix();
 			inline Math::Matrix *GetOrthographicProjectionMatrix();
 			inline Math::Matrix *GetPerspectiveProjectionMatrix();
 
 		protected:
 			RenderWindow *m_pRenderWindow;
-			Math::Matrix *m_pViewMatrix, *m_pPerspectiveProjectionMatrix, *m_pOrthographicProjectionMatrix;
+			Math::Matrix *m_pWorldMatrix, *m_pViewMatrix, *m_pPerspectiveProjectionMatrix, *m_pOrthographicProjectionMatrix;
 
 			PrimitiveTopology m_currentPrimitiveTopology;
 			uint8_t m_numVerticesPerPrimitive;
@@ -97,22 +107,29 @@ namespace Oak3D
 		};
 		
 		// --------------------------------------------------------------------------------		
-		inline Math::Matrix *GraphicsEngine::GetViewMatrix()
+		Math::Matrix *GraphicsEngine::GetWorldMatrix()
+		{
+			return m_pWorldMatrix;
+		}
+
+		// --------------------------------------------------------------------------------		
+		Math::Matrix *GraphicsEngine::GetViewMatrix()
 		{
 			return m_pViewMatrix;
 		}
 
 		// --------------------------------------------------------------------------------		
-		inline Math::Matrix *GraphicsEngine::GetPerspectiveProjectionMatrix()
+		Math::Matrix *GraphicsEngine::GetPerspectiveProjectionMatrix()
 		{
 			return m_pPerspectiveProjectionMatrix;
 		}
 
 		// --------------------------------------------------------------------------------		
-		inline Math::Matrix *GraphicsEngine::GetOrthographicProjectionMatrix()
+		Math::Matrix *GraphicsEngine::GetOrthographicProjectionMatrix()
 		{
 			return m_pOrthographicProjectionMatrix;
 		}
+
 	}	// namespace Render
 }	// namespace Oak3D
 
