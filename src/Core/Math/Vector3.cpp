@@ -85,5 +85,29 @@ namespace Oak3D
 			return Vector3(x / scalar, y / scalar, z / scalar);
 		}
 
+		// --------------------------------------------------------------------------------
+		Vector3 Vector3::operator + () const
+		{
+			return *this;
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector3 Vector3::operator - () const
+		{
+			return Vector3(-x, -y, -z);
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector3 Vector3::operator + ( const Vector3 &vec ) const
+		{
+			return Vector3(x + vec.x, y + vec.y, z + vec.z);
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector3 Vector3::operator - ( const Vector3 &vec ) const
+		{
+			return Vector3(x - vec.x, y - vec.y, z - vec.z);
+		}
+
 	}	// namespace Math
 }	// namespace Oak3D

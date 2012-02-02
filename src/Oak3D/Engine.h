@@ -13,6 +13,7 @@
 #include "Core/Time/Timer.h"
 #include "Leaf3D/Button.h"
 #include "Renderer/IRenderer/Mesh.h"
+#include "Renderer/IRenderer/CameraManager.h"
 
 namespace Oak3D
 {
@@ -50,6 +51,7 @@ namespace Oak3D
 	private:
 		Render::GraphicsEngine *m_pGE;
 		Render::RenderWindow *m_pRW;
+		Render::CameraManager *m_pCM;
 		Core::Timer *m_pTimer;
 		Core::ResourceManager *m_pRM;
 

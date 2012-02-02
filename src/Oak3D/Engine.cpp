@@ -45,6 +45,7 @@ namespace Oak3D
 	{
 		m_pGE = nullptr;
 		m_pRW = nullptr;
+		m_pCM = nullptr;
 		m_pTimer = nullptr;
 		m_pRM = nullptr;
 		m_bIsInitialized = false;
@@ -80,11 +81,23 @@ namespace Oak3D
 		{				
 			m_pGE->Cleanup();
 			delete m_pGE;
+			m_pGE = nullptr;
 		}
 		if(m_pRW)
+		{
 			delete m_pRW;
+			m_pRW = nullptr;
+		}
+		if(m_pCM)
+		{
+			delete m_pCM;
+			m_pCM = nullptr;
+		}
 		if(m_pTimer)
+		{
 			delete m_pTimer;
+			m_pTimer = nullptr;
+		}
 		Oak3D::Leaf3D::Widget::ReleaseWidgetList();
 		Oak3D::Core::IUpdatable::ReleaseUpdatableList();
 		Oak3D::Leaf3D::EventManager::Release();
@@ -111,6 +124,9 @@ namespace Oak3D
 			m_pGE->Initialize();
 			pDebugTextRenderer->Init();
 			m_pRM->Initialize();
+			m_pCM = new Oak3D::Render::CameraManager();
+			m_pCM->SetAsCurrentCamera(new Oak3D::Render::Camera(Vector3(0.f, 0.f, -5.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)));
+
 #ifdef OAK3D_EDITOR
 			Oak3D::Editor::EntryPoint();
 #endif
@@ -145,24 +161,19 @@ namespace Oak3D
 			int32_t wd = Oak3D::Input::MouseInput::GetInstance()->GetWheelDelta();
 			if(wd != 0 || (Oak3D::Input::MouseInput::GetInstance()->IsLeftButtonDown() && Oak3D::Input::MouseInput::GetInstance()->HasMouseMoved()))
 			{
-				using Oak3D::Math::Vector3;
+				Oak3D::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
+
 				Oak3D::Math::Matrix *pMatrixView = m_pGE->GetViewMatrix();
-				//pMatrixView->_42 = 15.f;
-				//pMatrixView->_43 = 50.f;
-				Oak3D::Math::Matrix matInvView = pMatrixView->CreateInverse();
-				Vector3 eye(matInvView._41, matInvView._42, matInvView._43);
-				Vector3 lookAt(matInvView._13, matInvView._23, matInvView._33);
+			
 				if(Oak3D::Input::MouseInput::GetInstance()->IsLeftButtonDown())
 				{
 					auto delta = Oak3D::Input::MouseInput::GetInstance()->GetPositionDelta();
-					auto rot = Oak3D::Math::Matrix::CreateYawPitchRoll(delta.first * dt, delta.second * dt, 0.0f);
-					eye = eye * rot;
-					lookAt = lookAt * rot;
+					pCurrentCamera->Rotate(delta.second * dt, delta.first * dt, 0.0f);
 				}
 
-				eye.z += -wd / 120.f;
+				pCurrentCamera->Translate(0.f, 0.f, wd / 120.f);
 
-				*pMatrixView = m_pGE->CreateViewMatrix(eye, lookAt, Vector3(0.0f, 1.0f, 0.0f));
+				*pMatrixView = m_pGE->CreateViewMatrix(pCurrentCamera->GetPosition(), pCurrentCamera->GetLook(), pCurrentCamera->GetUp());
 			}
 
 			m_pGE->ClearBackground(Oak3D::Render::Color::Black);
@@ -348,11 +359,13 @@ namespace Oak3D
 				Vector3 v1 = aabb.m_vecLeftBottomFront;
 				Vector3 v2 = aabb.m_vecRightTopBack;
 				v1 = Vector3(250.f, 250.f, 10.0f) ;
-				v2 = Vector3(800.0f, 600.f, 200.f);
-				//v1 = Vector3(-0.5f, -0.5f, 10.0f) ;
-				//v2 = Vector3(0.5f, 0.5f, 20.f);
+				v2 = Vector3(500.0f, 350.f, 20.f);
+				//v1 = Vector3(-0.5f, -0.5f, 0.4f) ;
+				//v2 = Vector3(0.5f, 0.5f, 0.5f);
 
-				Oak3D::Math::Matrix *pMat = m_pGE->GetViewMatrix();
+				Oak3D::Math::Matrix mat = Oak3D::Math::Matrix::CreateIdentityMatrix();
+				auto pMat = &mat;
+				//Oak3D::Math::Matrix *pMat = m_pGE->GetViewMatrix();
 								
 				Vector3 *pBuff = nullptr;
 				vb.Lock((void**)&pBuff);
@@ -425,7 +438,7 @@ namespace Oak3D
 				m_pGE->UseShader(pVertexShader);
 				m_pGE->UseShader(pPixelShader);
 				m_pGE->UsePrimitiveTopology(Oak3D::Render::ePT_TriangleList);
-				m_pGE->DrawIndexedPrimitives(4);
+				m_pGE->DrawIndexedPrimitives(12);
 				vb.Release();
 				ib.Release();
 			}
