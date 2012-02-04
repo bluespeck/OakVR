@@ -47,7 +47,7 @@ namespace Oak3D
 
 			// render
 			virtual void DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex = 0) = 0;
-			virtual void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex = 0, uint32_t startVertex = 0) = 0;
+			virtual void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t numVertices, uint32_t startIndex = 0, uint32_t startVertex = 0) = 0;
 
 			// texture
 			virtual void CreateTexture	( Texture *texture ) = 0;

@@ -29,21 +29,22 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void Camera::Rotate( float x, float y, float z )
+		void Camera::Rotate( float alpha, float beta, float gamma )
 		{
 			Oak3D::Math::Matrix matRotate;
-			matRotate.SetYawPitchRoll(-y, -x, z);
-			Oak3D::Math::Vector3 relativeLook = m_look - m_position;
-			relativeLook = relativeLook * matRotate;
-			m_look = m_position + relativeLook;
-			
+			matRotate.SetYawPitchRoll(beta, alpha, gamma);
+			m_look = m_position + (m_look - m_position) * matRotate;
+			m_up = (m_up * matRotate).GetNormalized();
 		}
 
 		// --------------------------------------------------------------------------------
 		void Camera::Translate(float x, float y, float z)
 		{
-			m_position.x += x; m_position.y += y; m_position.z += z;
-			m_look.x += x; m_look.y += y; m_look.z += z;
+			Oak3D::Math::Vector3 direction = (m_look - m_position).GetNormalized();
+			Oak3D::Math::Vector3 right = direction.Cross(m_up).GetNormalized();
+			Oak3D::Math::Vector3 displacement = -x * right + -y * m_up + z * direction;
+			m_position += displacement; 
+			m_look += displacement;
 		}
 
 		// --------------------------------------------------------------------------------

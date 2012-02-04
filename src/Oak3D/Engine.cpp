@@ -125,7 +125,7 @@ namespace Oak3D
 			pDebugTextRenderer->Init();
 			m_pRM->Initialize();
 			m_pCM = new Oak3D::Render::CameraManager();
-			m_pCM->SetAsCurrentCamera(new Oak3D::Render::Camera(Vector3(0.f, 0.f, -5.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)));
+			m_pCM->SetAsCurrentCamera(new Oak3D::Render::Camera(Vector3(0.f, 0.f, -50.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)));
 
 #ifdef OAK3D_EDITOR
 			Oak3D::Editor::EntryPoint();
@@ -159,20 +159,25 @@ namespace Oak3D
 		if(m_pGE)
 		{
 			int32_t wd = Oak3D::Input::MouseInput::GetInstance()->GetWheelDelta();
-			if(wd != 0 || (Oak3D::Input::MouseInput::GetInstance()->IsLeftButtonDown() && Oak3D::Input::MouseInput::GetInstance()->HasMouseMoved()))
+			if(wd != 0 || ((Oak3D::Input::MouseInput::GetInstance()->IsLeftButtonDown() || Oak3D::Input::MouseInput::GetInstance()->IsRightButtonDown()) && Oak3D::Input::MouseInput::GetInstance()->HasMouseMoved()))
 			{
-				Oak3D::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
+				auto delta = Oak3D::Input::MouseInput::GetInstance()->GetPositionDelta();
 
-				Oak3D::Math::Matrix *pMatrixView = m_pGE->GetViewMatrix();
-			
+				Oak3D::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
+							
 				if(Oak3D::Input::MouseInput::GetInstance()->IsLeftButtonDown())
 				{
-					auto delta = Oak3D::Input::MouseInput::GetInstance()->GetPositionDelta();
-					pCurrentCamera->Rotate(delta.second * dt, delta.first * dt, 0.0f);
+						pCurrentCamera->Rotate(delta.second * dt, delta.first * dt, 0.0f);
 				}
 
-				pCurrentCamera->Translate(0.f, 0.f, wd / 120.f);
+				if(Oak3D::Input::MouseInput::GetInstance()->IsRightButtonDown())
+				{
+					pCurrentCamera->Translate(delta.first, delta.second, 0.0f);
+				}
 
+				pCurrentCamera->Translate(0.f, 0.f, wd / 20.f);
+
+				Oak3D::Math::Matrix *pMatrixView = m_pGE->GetViewMatrix();
 				*pMatrixView = m_pGE->CreateViewMatrix(pCurrentCamera->GetPosition(), pCurrentCamera->GetLook(), pCurrentCamera->GetUp());
 			}
 
@@ -187,7 +192,7 @@ namespace Oak3D
 
 			DrawDebugText();
 
-			//DrawAxes();
+			DrawAxes();
 			
 			//DrawInterface();
 			
@@ -230,10 +235,10 @@ namespace Oak3D
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
 			return;
 
-		//m_pGE->EnablePerspectiveProjection();
-		m_pGE->EnableOrtographicProjection();
-		//m_pGE->EnableFillWireframe();
-		m_pGE->EnableFillSolid();
+		m_pGE->EnablePerspectiveProjection();
+		//m_pGE->EnableOrtographicProjection();
+		m_pGE->EnableFillWireframe();
+		//m_pGE->EnableFillSolid();
 
 		Oak3D::Render::VertexBuffer vb;
 		vb.Create(6, Oak3D::Render::VertexBuffer::eVF_XYZ | Oak3D::Render::VertexBuffer::eVF_Diffuse);
@@ -244,30 +249,21 @@ namespace Oak3D
 		*(pBuff++) = 0.0f;
 
 		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 1.0f;
-
-		*(pBuff++) = 5.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
-
-		*(pBuff++) = 0.0f;
 		*(pBuff++) = 1.0f;
 		*(pBuff++) = 1.0f;
 		*(pBuff++) = 1.0f;
 
-		*(pBuff++) = 0.0f;
+		*(pBuff++) = 20.0f;
 		*(pBuff++) = 0.0f;
 		*(pBuff++) = 0.0f;
 
 		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
+		*(pBuff++) = 1.0f;
+		*(pBuff++) = 1.0f;
 		*(pBuff++) = 1.0f;
 
 		*(pBuff++) = 0.0f;
-		*(pBuff++) = 5.0f;
+		*(pBuff++) = 0.0f;
 		*(pBuff++) = 0.0f;
 
 		*(pBuff++) = 1.0f;
@@ -276,17 +272,26 @@ namespace Oak3D
 		*(pBuff++) = 1.0f;
 
 		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
+		*(pBuff++) = 20.0f;
 		*(pBuff++) = 0.0f;
 
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
+		*(pBuff++) = 1.0f;
+		*(pBuff++) = 1.0f;
 		*(pBuff++) = 0.0f;
 		*(pBuff++) = 1.0f;
 
 		*(pBuff++) = 0.0f;
 		*(pBuff++) = 0.0f;
-		*(pBuff++) = 5.0f;
+		*(pBuff++) = 0.0f;
+
+		*(pBuff++) = 1.0f;
+		*(pBuff++) = 0.0f;
+		*(pBuff++) = 1.0f;
+		*(pBuff++) = 1.0f;
+
+		*(pBuff++) = 0.0f;
+		*(pBuff++) = 0.0f;
+		*(pBuff++) = 20.0f;
 
 		*(pBuff++) = 1.0f;
 		*(pBuff++) = 0.0f;
@@ -358,8 +363,8 @@ namespace Oak3D
 				using Oak3D::Math::Vector3;
 				Vector3 v1 = aabb.m_vecLeftBottomFront;
 				Vector3 v2 = aabb.m_vecRightTopBack;
-				v1 = Vector3(250.f, 250.f, 10.0f) ;
-				v2 = Vector3(500.0f, 350.f, 20.f);
+				v1 = Vector3(25.f, 25.f, 1.0f) ;
+				v2 = Vector3(50.0f, 50.f, 26.f);
 				//v1 = Vector3(-0.5f, -0.5f, 0.4f) ;
 				//v2 = Vector3(0.5f, 0.5f, 0.5f);
 
@@ -438,7 +443,7 @@ namespace Oak3D
 				m_pGE->UseShader(pVertexShader);
 				m_pGE->UseShader(pPixelShader);
 				m_pGE->UsePrimitiveTopology(Oak3D::Render::ePT_TriangleList);
-				m_pGE->DrawIndexedPrimitives(12);
+				m_pGE->DrawIndexedPrimitives(12, 8);
 				vb.Release();
 				ib.Release();
 			}
@@ -839,7 +844,7 @@ namespace Oak3D
 		m_pGE->UseVertexBuffer(&vb);
 		m_pGE->UseIndexBuffer(&ib);
 		m_pGE->UsePrimitiveTopology(Oak3D::Render::ePT_TriangleList);
-		m_pGE->DrawIndexedPrimitives(numVertices / 2);
+		m_pGE->DrawIndexedPrimitives(numVertices / 2, numVertices);
 		vb.Release();
 		ib.Release();
 		m_pRM->ReleaseResource(pVertexShader);

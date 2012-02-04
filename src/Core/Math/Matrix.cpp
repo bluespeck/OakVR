@@ -294,27 +294,6 @@ namespace Oak3D
 			_34 = 0.0f;
 			_41 = _42 = _43 = 0.0f;
 			_44 = 1.0f;
-
-			/*
-
-			float calpha = std::cos(yaw);
-			float cbeta = std::cos(pitch);
-			float cgamma = std::cos(roll);
-			float salpha = std::sin(yaw);
-			float sbeta = std::sin(pitch);
-			float sgamma = std::sin(roll);
-			
-			_11 = calpha * cbeta;
-			_12 = calpha * sbeta * sgamma - salpha * cgamma;
-			_13 = calpha * sbeta * cgamma + salpha * sgamma;
-			_21 = salpha * cbeta;
-			_22 = salpha * sbeta * sgamma + calpha * cgamma;
-			_23 = salpha * sbeta * cgamma - calpha * sgamma;
-			_31 = -sbeta;
-			_32 = cbeta * sgamma;
-			_33 = cbeta * cgamma;
-
-			*/
 		}
 
 
@@ -345,31 +324,6 @@ namespace Oak3D
 			mat._41 = mat._42 = mat._43 = 0.0f;
 			mat._44 = 1.0f;
 
-			/*
-			float calpha = std::cos(yaw);
-			float cbeta = std::cos(pitch);
-			float cgamma = std::cos(roll);
-			float salpha = std::sin(yaw);
-			float sbeta = std::sin(pitch);
-			float sgamma = std::sin(roll);
-
-			Matrix mat;
-
-			mat._11 = calpha * cbeta;
-			mat._12 = calpha * sbeta * sgamma - salpha * cgamma;
-			mat._13 = calpha * sbeta * cgamma + salpha * sgamma;
-			mat._14 = 0.0f;
-			mat._21 = salpha * cbeta;
-			mat._22 = salpha * sbeta * sgamma + calpha * cgamma;
-			mat._23 = salpha * sbeta * cgamma - calpha * sgamma;
-			mat._24 = mat._24 = 0.0f;
-			mat._31 = -sbeta;
-			mat._32 = cbeta * sgamma;
-			mat._33 = cbeta * cgamma;
-			mat._34 = 0.0f;
-			mat._41 = mat._42 = mat._43 = 0.0f;
-			mat._44 = 1.0f;
-			*/
 			return mat;
 		}
 

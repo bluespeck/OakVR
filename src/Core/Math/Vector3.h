@@ -42,7 +42,7 @@ namespace Oak3D
 			Vector3 operator * ( float scalar ) const;
 			Vector3 operator / ( float scalar ) const;
 			Vector3 operator * ( const Matrix &mat ) const;
-
+			friend Vector3 operator *(const Matrix &mat, const Vector3 &vec);
 			friend Vector3 operator * ( float scalar, const Vector3 &vec );
 
 			// equality operators
@@ -50,8 +50,9 @@ namespace Oak3D
 			bool operator != ( const Vector3 &vec ) const;
 
 			// other methods
-			float Length() const;
-			Vector3 Normalize() const;
+			float GetLength() const;
+			Vector3 GetNormalized() const;
+			float Normalize();
 			float Dot( const Vector3 &vec ) const;
 			Vector3 Cross( const Vector3 &vec ) const;
 
@@ -60,6 +61,7 @@ namespace Oak3D
 		};
 
 		Vector3 operator * ( float scalar, const Vector3 &vec );
+		Vector3 operator * ( const Matrix &mat, const Vector3 &vec );
 		
 		//------------------------------------------------------
 		// cast operators

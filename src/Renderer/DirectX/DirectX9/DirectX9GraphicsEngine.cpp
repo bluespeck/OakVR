@@ -61,15 +61,9 @@ namespace Oak3D
 			d3d->CreateDevice(D3DADAPTER_DEFAULT,
 				D3DDEVTYPE_HAL,
 				hWnd,
-				D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+				D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED,
 				&d3dpp,
 				&m_pDevice);
-
-			/////
-			// set the render target
-
-			// get the address of the back buffer
-			//m_pDevice->GetBackBuffer(0, 0,, &m_pRenderTarget);
 
 			/////
 			// set the viewport
@@ -81,8 +75,8 @@ namespace Oak3D
 			viewport.Y = 0;
 			viewport.Width = m_pRenderWindow->GetWidth();
 			viewport.Height = m_pRenderWindow->GetHeight();
-			viewport.MinZ = 0;
-			viewport.MaxZ = 1000;
+			viewport.MinZ = 0.0f;
+			viewport.MaxZ = 1.0f;
 
 			m_pDevice->SetViewport(&viewport);
 
@@ -90,8 +84,8 @@ namespace Oak3D
 			// create projection matrices
 			m_pPerspectiveProjectionMatrix = new Math::Matrix();
 			m_pOrthographicProjectionMatrix = new Math::Matrix();
-			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, 3.141592f * 0.25f, 1.25f, 1, 1000);
-			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, (float)viewport.Width, (float)viewport.Height, 0, 1000);
+			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, 3.141592f * 0.25f, 1.25f, 0.01f, 1000.f);
+			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, (float)viewport.Width, (float)viewport.Height, 0.01f, 1000.f);
 
 			InitializeStateObjects();
 		}
@@ -272,11 +266,13 @@ namespace Oak3D
 			default:
 				break;
 			}
+			m_pDevice->SetTransform(D3DTS_VIEW, (D3DMATRIX *)m_pViewMatrix);
+
 			m_pDevice->DrawPrimitive(pt, startVertex, numPrimitives);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
+		void DirectX9GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t numVertices, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
 			D3DPRIMITIVETYPE pt = D3DPT_TRIANGLELIST;
 			switch( m_currentPrimitiveTopology )
@@ -299,7 +295,8 @@ namespace Oak3D
 			default:
 				break;
 			}
-			m_pDevice->DrawIndexedPrimitive(pt, startVertex, 0, m_numVerticesPerPrimitive * numPrimitives, startIndex, numPrimitives);
+			m_pDevice->SetTransform(D3DTS_VIEW, (D3DMATRIX *)m_pViewMatrix);
+			m_pDevice->DrawIndexedPrimitive(pt, startVertex, 0, numVertices, startIndex, numPrimitives);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -308,7 +305,7 @@ namespace Oak3D
 			IDirect3DVertexBuffer9 *pVB = NULL;
 			unsigned int length = pVertexBuffer->GetVertexCount() * pVertexBuffer->GetVertexSize();
 			
-			HR(m_pDevice->CreateVertexBuffer(length, D3DUSAGE_SOFTWAREPROCESSING, 0, D3DPOOL_DEFAULT, &pVB, nullptr));
+			HR(m_pDevice->CreateVertexBuffer(length, D3DUSAGE_DYNAMIC, 0, D3DPOOL_DEFAULT, &pVB, nullptr));
 			pVertexBuffer->SetData(pVB);
 		}
 
@@ -378,10 +375,6 @@ namespace Oak3D
 				layout[numElems].Method = D3DDECLMETHOD_DEFAULT;
 				layout[numElems].Usage = D3DDECLUSAGE_POSITION;
 				layout[numElems].UsageIndex = 0;
-				
-				
-				
-				
 				offset += 12;
 				++numElems;
 			}
@@ -504,6 +497,37 @@ namespace Oak3D
 			m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
 		}
 
+		// --------------------------------------------------------------------------------
+		Oak3D::Math::Matrix DirectX9GraphicsEngine::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
+		{
+			Oak3D::Math::Matrix mat;
+			D3DXMatrixLookAtLH((D3DXMATRIX *)&mat, (D3DXVECTOR3 *)&eye, (D3DXVECTOR3 *)&lookAt, (D3DXVECTOR3 *)&up);
+			return mat;
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX9GraphicsEngine::EnableOrtographicProjection()
+		{
+			m_pDevice->SetTransform(D3DTS_PROJECTION, (D3DMATRIX *)m_pOrthographicProjectionMatrix);
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX9GraphicsEngine::EnablePerspectiveProjection()
+		{
+			m_pDevice->SetTransform(D3DTS_PROJECTION, (D3DMATRIX *)m_pPerspectiveProjectionMatrix);
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX9GraphicsEngine::EnableFillWireframe()
+		{
+			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		}
+
+		// --------------------------------------------------------------------------------
+		void DirectX9GraphicsEngine::EnableFillSolid()
+		{
+			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		}
 	}	// namespace Render
 }	// namespace Oak3D
 

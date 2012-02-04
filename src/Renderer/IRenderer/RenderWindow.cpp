@@ -12,8 +12,8 @@ namespace Oak3D
 			m_bFullScreen = false;
 			m_osHandle = 0;
 			m_posX = m_posY = 0;
-			m_width = 1200;
-			m_height = 800;
+			m_width = 1280;
+			m_height = 960;
 			m_title = L"Oak3D";
 		}
 

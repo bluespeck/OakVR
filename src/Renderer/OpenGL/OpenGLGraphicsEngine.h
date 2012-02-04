@@ -33,7 +33,7 @@ namespace Oak3D
 			virtual void EndDraw();
 
 			virtual void DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex = 0);
-			virtual void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex = 0, uint32_t startVertex = 0);
+			virtual void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t numVertices, uint32_t startIndex = 0, uint32_t startVertex = 0);
 
 			virtual void CreateTexture	( Texture *texture );
 			virtual void ReleaseTexture	( Texture *texture );
@@ -59,13 +59,21 @@ namespace Oak3D
 
 			virtual void OutputText( const std::string &text, uint32_t x, uint32_t y);
 
+			virtual void EnableDepthBuffer();
+			virtual void DisableDepthBuffer();
+
+			virtual Oak3D::Math::Matrix CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up);
+
+			virtual void EnableOrtographicProjection();
+			virtual void EnablePerspectiveProjection();
+			virtual void EnableFillWireframe();
+			virtual void EnableFillSolid();
+
 			// misc
 			void CreateInputLayoutDesc( uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems );
 			void InitializeStateObjects();
 
-			void EnableDepthBuffer();
-			void DisableDepthBuffer();
-
+			
 			void *GetDevice() { return m_pDevice; }
 
 		private:
@@ -76,6 +84,8 @@ namespace Oak3D
 
 			VertexBuffer *m_pCurrentVertexBuffer;
 			IndexBuffer *m_pCurrentIndexBuffer;
+
+			bool m_bPerspectiveProjection;
 		};
 	}	// namespace Render
 }	// namespace Oak3D

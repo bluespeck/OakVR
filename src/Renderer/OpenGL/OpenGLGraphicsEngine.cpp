@@ -45,6 +45,7 @@ namespace Oak3D
 			: m_pDevice(nullptr)
 			, m_pCurrentVertexBuffer(nullptr)
 			, m_pCurrentIndexBuffer(nullptr)
+			, m_bPerspectiveProjection(true)
 		{			
 		}
 
@@ -253,11 +254,14 @@ namespace Oak3D
 				break;
 			}
 
+			glMatrixMode(GL_PROJECTION);
+			glLoadMatrixf(m_bPerspectiveProjection ? (GLfloat *)m_pPerspectiveProjectionMatrix : (GLfloat *)m_pOrthographicProjectionMatrix);
+			
 			glDrawArrays(pt, startVertex, numPrimitives * m_numVerticesPerPrimitive);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
+		void OpenGLGraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t /*numVertices*/ , uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
 			uint8_t numIndicesPerPrimitive = 0;
 			GLenum pt;
@@ -517,6 +521,59 @@ namespace Oak3D
 		void OpenGLGraphicsEngine::DisableDepthBuffer()
 		{
 			glDisable(GL_DEPTH_TEST);
+		}
+
+		// --------------------------------------------------------------------------------
+		Oak3D::Math::Matrix OpenGLGraphicsEngine::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
+		{
+			Oak3D::Math::Vector3 look = (lookAt - eye).GetNormalized();
+			Oak3D::Math::Vector3 right = look.Cross(up).GetNormalized();
+			Oak3D::Math::Matrix mat;
+			mat._11 = right.x;
+			mat._12 = right.y;
+			mat._13 = right.z;
+			mat._14 = 0.0f;
+
+			mat._21 = up.x;
+			mat._22 = up.y;
+			mat._23 = up.z;
+			mat._24 = 0.0f;
+
+			mat._31 = look.x;
+			mat._32 = look.y;
+			mat._33 = look.z;
+			mat._34 = 0.0f;
+
+			mat._41 = eye.Dot(right);
+			mat._42 = eye.Dot(up);
+			mat._43 = eye.Dot(look);
+			mat._44 = 1.0f;
+
+			return mat;
+		}
+
+		// --------------------------------------------------------------------------------
+		void OpenGLGraphicsEngine::EnableOrtographicProjection()
+		{
+			m_bPerspectiveProjection = false;
+		}
+		
+		// --------------------------------------------------------------------------------
+		void OpenGLGraphicsEngine::EnablePerspectiveProjection()
+		{
+			m_bPerspectiveProjection = true;
+		}
+
+		// --------------------------------------------------------------------------------
+		void OpenGLGraphicsEngine::EnableFillWireframe()
+		{
+			glPolygonMode(GL_FRONT, GL_LINE);
+		}
+
+		// --------------------------------------------------------------------------------
+		void OpenGLGraphicsEngine::EnableFillSolid()
+		{
+			glPolygonMode(GL_FRONT, GL_FILL);
 		}
 
 	} // namespace Render

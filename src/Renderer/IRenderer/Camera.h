@@ -11,8 +11,6 @@
 #include "Core/Math/Vector3.h"
 #include "Core/Math/MathUtils.h"
 
-#include "Renderer/IRenderer/Frustum.h"
-
 using Oak3D::Math::Vector3;
 
 namespace Oak3D
@@ -35,7 +33,7 @@ namespace Oak3D
 			void SetUp( const Vector3& up )					{ m_up = up; }
 			
 
-			void Rotate( float alpha, float beta, float gamma );	// [radians]
+			void Rotate( float alpha, float beta, float gamma );	// angles around x,y,z axes [radians]
 			void Translate(float x, float y, float z);
 			void Update( float dt );
 

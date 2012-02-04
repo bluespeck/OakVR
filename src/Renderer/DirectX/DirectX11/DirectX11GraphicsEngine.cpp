@@ -52,6 +52,7 @@ namespace Oak3D
 		, m_pDeviceContext(nullptr)
 		, m_pDepthStencilStateDepthEnabled(nullptr)
 		, m_pDepthStencilStateDepthDisabled(nullptr)
+		, m_bPerspectiveProjection(true)
 		{
 		}
 
@@ -108,7 +109,7 @@ namespace Oak3D
 		Oak3D::Math::Matrix DirectX11GraphicsEngine::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
 		{
 			Oak3D::Math::Matrix mat;
-			D3DXMatrixLookAtLH((D3DXMATRIX *)(void *)&mat, (D3DXVECTOR3 *)(void *)&eye, (D3DXVECTOR3 *)(void *)&lookAt, (D3DXVECTOR3 *)(void *)&up);
+			D3DXMatrixLookAtLH((D3DXMATRIX *)&mat, (D3DXVECTOR3 *)&eye, (D3DXVECTOR3 *)&lookAt, (D3DXVECTOR3 *)&up);
 			return mat;
 		}
 
@@ -137,17 +138,16 @@ namespace Oak3D
 			Oak3D::Math::Vector3 up(0.0f, 1.0f, 0.0f);
 
 			D3DXMatrixLookAtLH((D3DXMATRIX *)(void *)m_pViewMatrix, (D3DXVECTOR3 *)(void *)&eye, (D3DXVECTOR3 *)(void *)&lookAt, (D3DXVECTOR3 *)(void *)&up);
-			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, (3.141592f / 4.f), (viewport.Width / viewport.Height), 1.f, 1000.0f);
-			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, viewport.Width, viewport.Height, 1.0f, 1000.0f);
-			m_pWorldMatrix->_43 = 50;
+			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, (3.141592f / 4.f), (viewport.Width / viewport.Height), .1f, 1000.0f);
+			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, viewport.Width, viewport.Height, .1f, 1000.0f);
+			
 			/////
 			// create shader matrix buffer
 			D3D11_BUFFER_DESC mbdesc;
+			memset(&mbdesc, 0, sizeof(D3D11_BUFFER_DESC));
 			mbdesc.ByteWidth = 3 * sizeof(Oak3D::Math::Matrix);
 			mbdesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 			mbdesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-			mbdesc.MiscFlags = 0;
-			mbdesc.StructureByteStride = 0;
 			mbdesc.Usage = D3D11_USAGE_DYNAMIC;
 			HR(m_pDevice->CreateBuffer(&mbdesc, nullptr, &m_pMatrixBuffer));
 			
@@ -464,12 +464,14 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
 		{
+			SetMatrices();
 			m_pDeviceContext->Draw(numPrimitives * m_numVerticesPerPrimitive, startVertex);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
+		void DirectX11GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t /*numVertices*/, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
+			SetMatrices();
 			m_pDeviceContext->DrawIndexed(numPrimitives * m_numVerticesPerPrimitive, startIndex, startVertex);
 		}
 
@@ -696,34 +698,13 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::EnableOrtographicProjection()
 		{
-			D3D11_MAPPED_SUBRESOURCE mappedResource;
-			HR(m_pDeviceContext->Map(m_pMatrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource));
-			Oak3D::Math::Matrix * pMatrix = (Oak3D::Math::Matrix *)mappedResource.pData;
-			memcpy(pMatrix++, m_pWorldMatrix, sizeof(Oak3D::Math::Matrix));
-			memcpy(pMatrix++, m_pViewMatrix, sizeof(Oak3D::Math::Matrix));
-			memcpy(pMatrix++, m_pOrthographicProjectionMatrix, sizeof(Oak3D::Math::Matrix));
-			m_pDeviceContext->Unmap(m_pMatrixBuffer, 0);
-			m_pDeviceContext->VSSetConstantBuffers(0, 1, &m_pMatrixBuffer);
+			m_bPerspectiveProjection = false;
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::EnablePerspectiveProjection()
 		{
-			struct MatrixBuffer
-			{
-				D3DXMATRIX mw, mv, mp;
-			};
-			D3D11_MAPPED_SUBRESOURCE mappedResource;
-			HR(m_pDeviceContext->Map(m_pMatrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource));
-			MatrixBuffer *pMB = (MatrixBuffer *)mappedResource.pData;
-			pMB->mw = (float *)*m_pWorldMatrix;
-			pMB->mv = (float *)*m_pViewMatrix;
-			pMB->mp = (float *)*m_pPerspectiveProjectionMatrix;
-			//memcpy(pMatrix++, m_pWorldMatrix, sizeof(Oak3D::Math::Matrix));
-			//memcpy(pMatrix++, m_pViewMatrix, sizeof(Oak3D::Math::Matrix));
-			//memcpy(pMatrix++, m_pPerspectiveProjectionMatrix, sizeof(Oak3D::Math::Matrix));
-			m_pDeviceContext->Unmap(m_pMatrixBuffer, 0);
-			m_pDeviceContext->VSSetConstantBuffers(0, 1, &m_pMatrixBuffer);
+			m_bPerspectiveProjection = true;
 		}
 
 		// --------------------------------------------------------------------------------
@@ -736,6 +717,28 @@ namespace Oak3D
 		void DirectX11GraphicsEngine::EnableFillSolid()
 		{
 			SetRasterizerState(eRSI_FillSolid_CullBack_FrontCW);
+		}
+
+		void DirectX11GraphicsEngine::SetMatrices()
+		{
+			struct MatrixBuffer
+			{
+				D3DXMATRIX mw, mv, mp;
+			};
+			D3D11_MAPPED_SUBRESOURCE mappedResource;
+			HR(m_pDeviceContext->Map(m_pMatrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource));
+			MatrixBuffer *pMB = (MatrixBuffer *)mappedResource.pData;
+			pMB->mw = (float *)*m_pWorldMatrix;
+			pMB->mv = (float *)*m_pViewMatrix;
+			pMB->mp = m_bPerspectiveProjection ? (float *)*m_pPerspectiveProjectionMatrix : (float *)*m_pOrthographicProjectionMatrix;
+			
+			// transpose matrices before sending them to the shader. This is required by DX 11
+			D3DXMatrixTranspose(&pMB->mw, &pMB->mw);
+			D3DXMatrixTranspose(&pMB->mv, &pMB->mv);
+			D3DXMatrixTranspose(&pMB->mp, &pMB->mp);
+
+			m_pDeviceContext->Unmap(m_pMatrixBuffer, 0);
+			m_pDeviceContext->VSSetConstantBuffers(0, 1, &m_pMatrixBuffer);
 		}
 
 	}	// namespace Render

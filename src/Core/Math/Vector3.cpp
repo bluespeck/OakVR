@@ -34,13 +34,13 @@ namespace Oak3D
 		//------------------------------------------------------
 		// other methods
 		// --------------------------------------------------------------------------------
-		float Vector3::Length() const
+		float Vector3::GetLength() const
 		{ 
 			return std::pow(x * x + y * y + z * z, 0.5f); 
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3 Vector3::Normalize() const
+		Vector3 Vector3::GetNormalized() const
 		{
 			const float magnitudeSquare = x * x + y * y + z * z;
 
@@ -51,9 +51,26 @@ namespace Oak3D
 			return Vector3(x * invDenom, y * invDenom, z * invDenom);
 		}
 
+		// --------------------------------------------------------------------------------
+		float Vector3::Normalize()
+		{
+			const float magnitudeSquare = x * x + y * y + z * z;
+
+			if(magnitudeSquare < 1e-15f)
+				return 0.0f;
+
+			float length = std::pow(magnitudeSquare, 0.5f);
+			const float invDenom = 1.0f / length;
+			x *= invDenom;
+			y *= invDenom;
+			z *= invDenom;
+			return length;
+		}
+
+		// --------------------------------------------------------------------------------
 		float Vector3::Dot(const Vector3 &vec) const
 		{
-			return x * vec.x + y * vec.y;
+			return x * vec.x + y * vec.y + z * vec.z;
 		}
 
 		// --------------------------------------------------------------------------------
@@ -68,11 +85,22 @@ namespace Oak3D
 		Vector3 Vector3::operator * ( const Matrix &mat ) const
 		{
 			Vector3 result;
-			result.x = x * mat._11 + y * mat._21 + z * mat._31;
-			result.y = x * mat._12 + y * mat._22 + z * mat._32;
-			result.z = x * mat._13 + y * mat._23 + z * mat._33;
+			result.x = x * mat._11 + y * mat._21 + z * mat._31 + mat._41;
+			result.y = x * mat._12 + y * mat._22 + z * mat._32 + mat._42;
+			result.z = x * mat._13 + y * mat._23 + z * mat._33 + mat._43;
 			return result;
 		}
+
+		// --------------------------------------------------------------------------------
+		Vector3 operator * (const Matrix &mat, const Vector3 &vec)
+		{
+			Vector3 result;
+			result.x = vec.x * mat._11 + vec.y * mat._12 + vec.z * mat._23 + mat._14;
+			result.y = vec.x * mat._21 + vec.y * mat._22 + vec.z * mat._23 + mat._24;
+			result.z = vec.x * mat._31 + vec.y * mat._32 + vec.z * mat._33 + mat._34;
+			return result;
+		}
+
 		// --------------------------------------------------------------------------------
 		Vector3 Vector3::operator * ( float scalar ) const
 		{
@@ -80,9 +108,16 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
+		Vector3 operator * ( float scalar, const Vector3 &vec )
+		{
+			return Vector3(scalar * vec.x, scalar * vec.y, scalar * vec.z);
+		}
+
+		// --------------------------------------------------------------------------------
 		Vector3 Vector3::operator / ( float scalar ) const
 		{
-			return Vector3(x / scalar, y / scalar, z / scalar);
+			float invDenom = 1 / scalar;
+			return Vector3(x * invDenom, y * invDenom, z * invDenom);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -107,6 +142,15 @@ namespace Oak3D
 		Vector3 Vector3::operator - ( const Vector3 &vec ) const
 		{
 			return Vector3(x - vec.x, y - vec.y, z - vec.z);
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector3& Vector3::operator += ( const Vector3 &vec )
+		{
+			x += vec.x;
+			y += vec.y;
+			z += vec.z;
+			return *this;
 		}
 
 	}	// namespace Math
