@@ -618,11 +618,15 @@ namespace Oak3D
 			uint32_t stride = pVertexBuffer->GetVertexSize();
 			uint32_t offset = 0;
 			m_pDeviceContext->IASetVertexBuffers(0, 1, &pBuffer, &stride, &offset);
+			m_pCurrentVertexBuffer = pVertexBuffer;
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::UseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
+			m_pCurrentIndexBuffer = pIndexBuffer;
+			if(pIndexBuffer == nullptr || pIndexBuffer->GetData() == nullptr)
+				return;
 			ID3D11Buffer *pBuffer = (ID3D11Buffer *)pIndexBuffer->GetData();
 			m_pDeviceContext->IASetIndexBuffer(pBuffer, DXGI_FORMAT_R32_UINT, 0);
 		}
@@ -663,7 +667,8 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11GraphicsEngine::UseShader( Shader *pShader )
 		{
-			
+			if(!pShader || !pShader->IsReady())
+				return;
 			if(pShader->GetType() == eST_VertexShader)
 			{
 				ID3D11VertexShader *pVertexShader = (ID3D11VertexShader *) pShader->GetCompiledShader();
@@ -730,7 +735,7 @@ namespace Oak3D
 			MatrixBuffer *pMB = (MatrixBuffer *)mappedResource.pData;
 			pMB->mw = (float *)*m_pWorldMatrix;
 			pMB->mv = (float *)*m_pViewMatrix;
-			pMB->mp = m_bPerspectiveProjection ? (float *)*m_pPerspectiveProjectionMatrix : (float *)*m_pOrthographicProjectionMatrix;
+			pMB->mp = (m_bPerspectiveProjection ? (float *)*m_pPerspectiveProjectionMatrix : (float *)*m_pOrthographicProjectionMatrix);
 			
 			// transpose matrices before sending them to the shader. This is required by DX 11
 			D3DXMatrixTranspose(&pMB->mw, &pMB->mw);

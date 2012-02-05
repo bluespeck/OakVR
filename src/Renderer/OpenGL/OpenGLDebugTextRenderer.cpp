@@ -51,9 +51,9 @@ namespace Oak3D
 			// TODO Different resources from the same file :(((((((((((((((((((( => same id => second resource is not created
 			Shader::ShaderAdditionalInitParams params;
 			params.shaderType = eST_VertexShader;			
-			m_pVertexShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/hlsl_4_0/DebugFontVS.hlsl", &params);
+			m_pVertexShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/glsl/DebugFontVS.glsl", &params);
 			params.shaderType = eST_PixelShader;
-			m_pFragmentShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/hlsl_4_0/DebugFontPS.hlsl", &params);
+			m_pFragmentShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/glsl/DebugFontPS.glsl", &params);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -80,13 +80,17 @@ namespace Oak3D
 
 			OpenGLGraphicsEngine *ge = (OpenGLGraphicsEngine *)Engine::GetInstance()->GetGraphicsEngine();
 
+			Oak3D::Math::Matrix *pM = ge->GetViewMatrix();
+			*pM = Oak3D::Math::Matrix::CreateIdentityMatrix();
 			ge->UseVertexBuffer( &vb );
+			//ge->UseIndexBuffer( nullptr );
 			ge->UseTexture(m_pFont->GetTexture());
 
 			ge->UseShader(m_pVertexShader);
 			ge->UseShader(m_pFragmentShader);
 
 			ge->DrawPrimitives(numVertices * 3);
+			ge->ReleaseVertexBuffer(&vb);
 		}
 
 	} // namespace Render

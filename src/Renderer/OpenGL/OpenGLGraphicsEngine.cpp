@@ -58,7 +58,7 @@ namespace Oak3D
 
 			SetWindowTextW(hWnd, L"Oak3D [OpenGL]");
 			/////
-			// create Direct3D device
+			// create OpenGL device
 
 			PIXELFORMATDESCRIPTOR pfd = { 0 };
 			pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
@@ -84,7 +84,15 @@ namespace Oak3D
 			wglMakeCurrent (hdc, (HGLRC)m_pDevice);
 						
 			glewInit();
+						
+			InitializeStateObjects();
 
+			m_shaderProgramId = glCreateProgramObjectARB();
+		}
+
+		// --------------------------------------------------------------------------------
+		void OpenGLGraphicsEngine::InitializeStateObjects()
+		{
 			/////
 			// create projection matrices
 			m_pPerspectiveProjectionMatrix = new Math::Matrix();
@@ -92,16 +100,11 @@ namespace Oak3D
 			glMatrixMode(GL_PROJECTION);
 			*m_pPerspectiveProjectionMatrix = Math::Transform::CreatePerspectiveProjectionTransform(3.141592f * 0.25f, 1.25f, 1.0f, 1000.0f);
 			*m_pOrthographicProjectionMatrix = Math::Transform::CreateOthographicProjectionTransform(0.0f, (float)m_pRenderWindow->GetWidth(), 0.0f, (float)m_pRenderWindow->GetHeight(), 1.0f, 1000.0f);
+			
+
+			glCullFace(GL_BACK);
 			glFrontFace(GL_CW);
-			InitializeStateObjects();
-
-			m_shaderProgramId = glCreateProgram();
-		}
-
-		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::InitializeStateObjects()
-		{
-
+			glEnable(GL_CULL_FACE);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -114,6 +117,10 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::BeginDraw()
 		{
+			m_pCurrentIndexBuffer = nullptr;
+			m_pCurrentVertexBuffer = nullptr;
+			m_pCurrentVertexShader = nullptr;
+			m_pCurrentPixelShader = nullptr;
 		}
 		
 		// --------------------------------------------------------------------------------
@@ -159,22 +166,38 @@ namespace Oak3D
 				break;
 			}
 
-			GLuint shaderId = glCreateShader(shaderType);
+			GLuint shaderId = glCreateShaderObjectARB(shaderType);
 			
 			Core::File file(pShader->GetId().GetStrId());
 			const uint32_t buffSize = file.Size();
 			uint8_t *buff = new uint8_t[buffSize];
 			
 			file.Open(Core::File::eFOM_OpenRead);			
-			file.Read(buff, buffSize, 0);
-			
+			int charsRead = file.Read(buff, buffSize, 0);
+			buff[charsRead] = 0;
 
-			glShaderSource(shaderId, 1, (const GLchar**)&buff, nullptr);
+			const GLcharARB * sources[1];
+			const GLint lengths[1] = {charsRead};
+			sources[0] = (GLcharARB *) buff;
 
-			delete[] buff;
-			glCompileShader(shaderId);
+			glShaderSourceARB(shaderId, 1, sources, lengths);
+
+			glCompileShaderARB(shaderId);
+			GLint compileSuccessfull;
+			glGetShaderiv(shaderId, GL_COMPILE_STATUS, &compileSuccessfull);
+			if( compileSuccessfull == GL_FALSE)
+			{
+				GLcharARB infoLog[1024];
+				GLsizei charsWritten;
+				glGetInfoLogARB(shaderId, 1024, &charsWritten, infoLog);
+				infoLog[charsWritten] = 0;
+				printf("[Oak3D] OpenGL shader compilation has failed: %s\n", infoLog);
+				exit(1);
+			}
 
 			pShader->SetCompiledShader((void *)shaderId);
+
+			delete[] buff;
 			file.Close();
 		}
 
@@ -254,10 +277,40 @@ namespace Oak3D
 				break;
 			}
 
-			glMatrixMode(GL_PROJECTION);
-			glLoadMatrixf(m_bPerspectiveProjection ? (GLfloat *)m_pPerspectiveProjectionMatrix : (GLfloat *)m_pOrthographicProjectionMatrix);
+			SetMatrices();
 			
+			UseShaderProgram();
+
 			glDrawArrays(pt, startVertex, numPrimitives * m_numVerticesPerPrimitive);
+			
+		}
+
+		// --------------------------------------------------------------------------------
+		void OpenGLGraphicsEngine::UseShaderProgram()
+		{
+			if(!m_pCurrentVertexShader || !m_pCurrentVertexShader->IsReady() || !m_pCurrentPixelShader || !m_pCurrentPixelShader->IsReady())
+			{
+				glUseProgramObjectARB(0);
+				return;
+			}
+			
+			glAttachObjectARB(m_shaderProgramId, (GLuint)m_pCurrentVertexShader->GetCompiledShader());
+			glAttachObjectARB(m_shaderProgramId, (GLuint)m_pCurrentPixelShader->GetCompiledShader());
+			
+			glLinkProgramARB(m_shaderProgramId);
+			GLint linkSuccess;
+			glGetProgramiv(m_shaderProgramId, GL_LINK_STATUS, &linkSuccess);
+			if(!linkSuccess)
+			{
+				GLcharARB infoLog[1024];
+				GLsizei charsWritten;
+				glGetInfoLogARB(m_shaderProgramId, 1024, &charsWritten, infoLog);
+				infoLog[charsWritten] = 0;
+				printf("[Oak3D] OpenGL shader program link has failed: %s\n", infoLog);
+				exit(1);
+			}
+			
+			glUseProgramObjectARB(m_shaderProgramId);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -291,17 +344,35 @@ namespace Oak3D
 				assert("Unknown primitive topology" && 0);
 				break;
 			}
+
+			SetMatrices();
+
+			UseShaderProgram();
+
 			// TODO figure out how to set first index and first vertex to use from the buffers
 			glDrawElements(pt, numIndicesPerPrimitive * numPrimitives, GL_UNSIGNED_INT, 0);
+			if(glGetError() != GL_NO_ERROR)
+			{
+				printf("glDrawElements error!");
+			}
+			
+		}
+
+		void OpenGLGraphicsEngine::SetMatrices()
+		{
+			glMatrixMode(GL_PROJECTION);
+			glLoadMatrixf(m_bPerspectiveProjection ? (GLfloat *)m_pPerspectiveProjectionMatrix : (GLfloat *)m_pOrthographicProjectionMatrix);
+			glMatrixMode(GL_MODELVIEW);
+			glLoadMatrixf((GLfloat *)m_pViewMatrix);
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 			GLuint vbId; 
-			glGenBuffers(1, &vbId);
-			glBindBuffer(GL_ARRAY_BUFFER, vbId);
-			glBufferData(GL_ARRAY_BUFFER, pVertexBuffer->GetVertexSize() * pVertexBuffer->GetVertexCount(), nullptr, GL_DYNAMIC_DRAW);
+			glGenBuffersARB(1, &vbId);
+			glBindBufferARB(GL_ARRAY_BUFFER, vbId);
+			glBufferDataARB(GL_ARRAY_BUFFER, pVertexBuffer->GetVertexSize() * pVertexBuffer->GetVertexCount(), nullptr, GL_DYNAMIC_DRAW);
 			pVertexBuffer->SetData((void *)vbId);
 		}
 
@@ -310,9 +381,9 @@ namespace Oak3D
 		{	
 			int oldId = 0;
 			glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldId);
-			glBindBuffer(GL_ARRAY_BUFFER, (int)pVertexBuffer->GetData());
-			*ppBuff = glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE);
-			glBindBuffer(GL_ARRAY_BUFFER, oldId);
+			glBindBufferARB(GL_ARRAY_BUFFER, (int)pVertexBuffer->GetData());
+			*ppBuff = glMapBufferARB(GL_ARRAY_BUFFER, GL_READ_WRITE);
+			glBindBufferARB(GL_ARRAY_BUFFER, oldId);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -320,25 +391,25 @@ namespace Oak3D
 		{	
 			int oldId = 0;
 			glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldId);
-			glBindBuffer(GL_ARRAY_BUFFER, (int)pVertexBuffer->GetData());
-			glUnmapBuffer(GL_ARRAY_BUFFER);
-			glBindBuffer(GL_ARRAY_BUFFER, oldId);
+			glBindBufferARB(GL_ARRAY_BUFFER, (int)pVertexBuffer->GetData());
+			glUnmapBufferARB(GL_ARRAY_BUFFER);
+			glBindBufferARB(GL_ARRAY_BUFFER, oldId);
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 			GLuint id = (GLuint)pVertexBuffer->GetData();
-			glDeleteBuffers(1, &id);
+			glDeleteBuffersARB(1, &id);
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			GLuint ibId; 
-			glGenBuffers(1, &ibId);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibId);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexSize() * pIndexBuffer->GetIndexCount(), NULL, GL_DYNAMIC_DRAW);
+			glGenBuffersARB(1, &ibId);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, ibId);
+			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexSize() * pIndexBuffer->GetIndexCount(), NULL, GL_DYNAMIC_DRAW);
 
 			pIndexBuffer->SetData((void *)ibId);
 		}
@@ -438,9 +509,15 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::UseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
+			if(!pVertexBuffer)
+			{
+				glBindBufferARB(GL_ARRAY_BUFFER, 0);
+				return;
+			}
+			
 			uint32_t vertexFormat = pVertexBuffer->GetVertexFormat();
 			uint32_t vertexSize = pVertexBuffer->GetVertexSize();
-			glBindBuffer(GL_ARRAY_BUFFER, (GLuint)pVertexBuffer->GetData());
+			glBindBufferARB(GL_ARRAY_BUFFER, (GLuint)pVertexBuffer->GetData());
 			m_pCurrentVertexBuffer = pVertexBuffer;
 			uint8_t *offset = nullptr;
 			if(vertexFormat & VertexBuffer::eVF_XYZ)
@@ -473,7 +550,10 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::UseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (GLuint)pIndexBuffer->GetData());
+			if(!pIndexBuffer)
+				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+			else
+				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, (GLuint)pIndexBuffer->GetData());
 			m_pCurrentIndexBuffer = pIndexBuffer;
 		}
 
@@ -506,9 +586,15 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::UseShader( Shader *pShader )
 		{
-			glAttachShader(m_shaderProgramId, (GLuint)pShader->GetCompiledShader());
-			glLinkProgram(m_shaderProgramId);
-			glUseProgram(m_shaderProgramId);
+			
+			if(pShader->GetType() == eST_VertexShader)
+			{
+				m_pCurrentVertexShader = pShader;
+			}
+			else if (pShader->GetType() == eST_PixelShader)
+			{
+				m_pCurrentPixelShader = pShader;
+			}
 		}
 
 		// --------------------------------------------------------------------------------
@@ -567,13 +653,13 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::EnableFillWireframe()
 		{
-			glPolygonMode(GL_FRONT, GL_LINE);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::EnableFillSolid()
 		{
-			glPolygonMode(GL_FRONT, GL_FILL);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 
 	} // namespace Render

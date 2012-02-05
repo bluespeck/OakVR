@@ -20,7 +20,8 @@ namespace Oak3D
 			{
 				IResource *pRes = nullptr;
 				pRM->m_pLoadCritSection->EnterCriticalSection();
-				if(pRM->m_toBeLoaded.size())
+				uint32_t ss = pRM->m_toBeLoaded.size();
+				if(ss)
 				{
 					pRes = pRM->m_toBeLoaded.front();
 				}
@@ -37,7 +38,8 @@ namespace Oak3D
 					pRM->m_pLoadCritSection->LeaveCriticalSection();
 					pRM->m_pMemoryCritSection->LeaveCriticalSection();
 				}
-				Core::Thread::Sleep(10);
+				if(ss <= 1)
+					Core::Thread::Sleep(150);
 			}
 			return 0;
 		}

@@ -69,9 +69,12 @@ namespace Oak3D
 			virtual void EnableFillWireframe();
 			virtual void EnableFillSolid();
 
+		private:
 			// misc
 			void CreateInputLayoutDesc( uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems );
 			void InitializeStateObjects();
+			void UseShaderProgram();
+			void SetMatrices();
 
 			
 			void *GetDevice() { return m_pDevice; }

@@ -156,6 +156,8 @@ namespace Oak3D
 		TriggerInputEvents();
 		Oak3D::Leaf3D::EventManager::GetInstance()->Update();
 
+		Oak3D::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
+
 		if(m_pGE)
 		{
 			int32_t wd = Oak3D::Input::MouseInput::GetInstance()->GetWheelDelta();
@@ -163,7 +165,7 @@ namespace Oak3D
 			{
 				auto delta = Oak3D::Input::MouseInput::GetInstance()->GetPositionDelta();
 
-				Oak3D::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
+
 							
 				if(Oak3D::Input::MouseInput::GetInstance()->IsLeftButtonDown())
 				{
@@ -172,14 +174,14 @@ namespace Oak3D
 
 				if(Oak3D::Input::MouseInput::GetInstance()->IsRightButtonDown())
 				{
-					pCurrentCamera->Translate(delta.first, delta.second, 0.0f);
+					pCurrentCamera->Translate((float)delta.first, (float)delta.second, 0.0f);
 				}
 
 				pCurrentCamera->Translate(0.f, 0.f, wd / 20.f);
-
-				Oak3D::Math::Matrix *pMatrixView = m_pGE->GetViewMatrix();
-				*pMatrixView = m_pGE->CreateViewMatrix(pCurrentCamera->GetPosition(), pCurrentCamera->GetLook(), pCurrentCamera->GetUp());
 			}
+
+			Oak3D::Math::Matrix *pMatrixView = m_pGE->GetViewMatrix();
+			*pMatrixView = m_pGE->CreateViewMatrix(pCurrentCamera->GetPosition(), pCurrentCamera->GetLook(), pCurrentCamera->GetUp());
 
 			m_pGE->ClearBackground(Oak3D::Render::Color::Black);
 
@@ -189,13 +191,13 @@ namespace Oak3D
 			//DrawMeshes();
 
 			DrawMeshBoundingBoxes();
-
+			
+			//DrawAxes();
+			
+			DrawInterface();
+			
 			DrawDebugText();
 
-			DrawAxes();
-			
-			//DrawInterface();
-			
 			m_pGE->EndDraw();
 			m_pGE->SwapBuffers();
 
@@ -229,8 +231,8 @@ namespace Oak3D
 		params1.shaderType = Oak3D::Render::eST_VertexShader;
 		params2.shaderType = Oak3D::Render::eST_PixelShader;
 
-		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/hlsl_4_0/LinesVS.hlsl", &params1);
-		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/hlsl_4_0/LinesPS.hlsl", &params2);
+		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/glsl/LinesVS.glsl", &params1);
+		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/glsl/LinesPS.glsl", &params2);
 #endif
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
 			return;
@@ -301,11 +303,13 @@ namespace Oak3D
 		vb.Unlock();
 
 		m_pGE->UseVertexBuffer(&vb);
+		m_pGE->UseIndexBuffer(nullptr);
 		m_pGE->UseTexture(nullptr);
 		m_pGE->UseShader(pVertexShader);
 		m_pGE->UseShader(pPixelShader);
 		m_pGE->UsePrimitiveTopology(Oak3D::Render::ePT_LineList);
 		m_pGE->DrawPrimitives(3);
+		m_pGE->ReleaseVertexBuffer(&vb);
 		
 	}
 
@@ -335,16 +339,16 @@ namespace Oak3D
 		params1.shaderType = Oak3D::Render::eST_VertexShader;
 		params2.shaderType = Oak3D::Render::eST_PixelShader;
 
-		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/hlsl_4_0/BBVS.hlsl", &params1);
-		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/hlsl_4_0/BBPS.hlsl", &params2);
+		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/glsl/BBVS.glsl", &params1);
+		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/glsl/BBPS.glsl", &params2);
 #endif
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
 			return;
 
 		m_pGE->EnablePerspectiveProjection();
 		//m_pGE->EnableOrtographicProjection();
-		m_pGE->EnableFillWireframe();
-		//m_pGE->EnableFillSolid();
+		//m_pGE->EnableFillWireframe();
+		m_pGE->EnableFillSolid();
 
 		auto pMeshes = Oak3D::Render::Mesh::GetMeshList();
 		for(auto it = pMeshes->begin(); it != pMeshes->end(); ++it)
@@ -368,21 +372,17 @@ namespace Oak3D
 				//v1 = Vector3(-0.5f, -0.5f, 0.4f) ;
 				//v2 = Vector3(0.5f, 0.5f, 0.5f);
 
-				Oak3D::Math::Matrix mat = Oak3D::Math::Matrix::CreateIdentityMatrix();
-				auto pMat = &mat;
-				//Oak3D::Math::Matrix *pMat = m_pGE->GetViewMatrix();
-								
 				Vector3 *pBuff = nullptr;
 				vb.Lock((void**)&pBuff);
 				Vector3 *pVBData = pBuff;
-				*(pVBData++) = v1 * *pMat;
-				*(pVBData++) = Vector3(v2.x, v1.y, v1.z) * *pMat;
-				*(pVBData++) = Vector3(v2.x, v1.y, v2.z) * *pMat;
-				*(pVBData++) = Vector3(v1.x, v1.y, v2.z) * *pMat;
-				*(pVBData++) = Vector3(v1.x, v2.y, v1.z) * *pMat;
-				*(pVBData++) = Vector3(v2.x, v2.y, v1.z) * *pMat;
-				*(pVBData++) = Vector3(v2.x, v2.y, v2.z) * *pMat;
-				*(pVBData++) = Vector3(v1.x, v2.y, v2.z) * *pMat;
+				*(pVBData++) = v1;
+				*(pVBData++) = Vector3(v2.x, v1.y, v1.z);
+				*(pVBData++) = Vector3(v2.x, v1.y, v2.z);
+				*(pVBData++) = Vector3(v1.x, v1.y, v2.z);
+				*(pVBData++) = Vector3(v1.x, v2.y, v1.z);
+				*(pVBData++) = Vector3(v2.x, v2.y, v1.z);
+				*(pVBData++) = v2;
+				*(pVBData++) = Vector3(v1.x, v2.y, v2.z);
 				vb.Unlock();
 
 				uint32_t *pIBData = nullptr;
@@ -448,8 +448,8 @@ namespace Oak3D
 				ib.Release();
 			}
 		}
-		m_pRM->GetInstance()->ReleaseResource(pVertexShader);
-		m_pRM->GetInstance()->ReleaseResource(pPixelShader);
+		//m_pRM->GetInstance()->ReleaseResource(pVertexShader);
+		//m_pRM->GetInstance()->ReleaseResource(pPixelShader);
 	}
 
 	// --------------------------------------------------------------------------------
@@ -492,8 +492,8 @@ namespace Oak3D
 		params1.shaderType = Oak3D::Render::eST_VertexShader;
 		params2.shaderType = Oak3D::Render::eST_PixelShader;
 
-		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/hlsl_4_0/PosNormalVS.hlsl", &params1);
-		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/hlsl_4_0/PosNormalPS.hlsl", &params2);
+		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/glsl/PosNormalVS.glsl", &params1);
+		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/glsl/PosNormalPS.glsl", &params2);
 #endif
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
 			return;
@@ -722,8 +722,8 @@ namespace Oak3D
 		params1.shaderType = Oak3D::Render::eST_VertexShader;
 		params2.shaderType = Oak3D::Render::eST_PixelShader;
 
-		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/hlsl_4_0/InterfaceVS.hlsl", &params1);
-		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/hlsl_4_0/InterfacePS.hlsl", &params2);
+		pVertexShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/glsl/InterfaceVS.glsl", &params1);
+		pPixelShader	= Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Render::OpenGLShader>( "../resources/shaders/glsl/InterfacePS.glsl", &params2);
 #endif
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
 			return;
@@ -838,16 +838,16 @@ namespace Oak3D
 		delete[] buff;
 		buff = nullptr;
 		
-		m_pGE->UseShader(pVertexShader);
-		m_pGE->UseShader(pPixelShader);
-		m_pGE->UseTexture(pTexture);
 		m_pGE->UseVertexBuffer(&vb);
 		m_pGE->UseIndexBuffer(&ib);
+		m_pGE->UseTexture(pTexture);
+		m_pGE->UseShader(pVertexShader);
+		m_pGE->UseShader(pPixelShader);
 		m_pGE->UsePrimitiveTopology(Oak3D::Render::ePT_TriangleList);
 		m_pGE->DrawIndexedPrimitives(numVertices / 2, numVertices);
 		vb.Release();
 		ib.Release();
-		m_pRM->ReleaseResource(pVertexShader);
+		//m_pRM->ReleaseResource(pVertexShader);
 	}
 
 	// --------------------------------------------------------------------------------

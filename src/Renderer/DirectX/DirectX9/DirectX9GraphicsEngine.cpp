@@ -434,13 +434,21 @@ namespace Oak3D
 			uint32_t stride = pVertexBuffer->GetVertexSize();
 			uint32_t offset = 0;
 			m_pDevice->SetStreamSource(0, pBuffer, offset, stride);
+			m_pCurrentVertexBuffer = pVertexBuffer;
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX9GraphicsEngine::UseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
+			if(pIndexBuffer == nullptr || pIndexBuffer->GetData() == nullptr)
+			{
+				m_pCurrentIndexBuffer = nullptr;
+				return;
+			}
+
 			IDirect3DIndexBuffer9 *pBuffer = (IDirect3DIndexBuffer9 *)pIndexBuffer->GetData();
 			m_pDevice->SetIndices(pBuffer);
+			m_pCurrentIndexBuffer = pIndexBuffer;
 		}
 
 		// --------------------------------------------------------------------------------
