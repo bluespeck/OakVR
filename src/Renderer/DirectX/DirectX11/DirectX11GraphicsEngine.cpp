@@ -138,7 +138,7 @@ namespace Oak3D
 			Oak3D::Math::Vector3 up(0.0f, 1.0f, 0.0f);
 
 			D3DXMatrixLookAtLH((D3DXMATRIX *)(void *)m_pViewMatrix, (D3DXVECTOR3 *)(void *)&eye, (D3DXVECTOR3 *)(void *)&lookAt, (D3DXVECTOR3 *)(void *)&up);
-			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, (3.141592f / 4.f), (viewport.Width / viewport.Height), .1f, 1000.0f);
+			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, (3.141592f / 4.f), (viewport.Width / viewport.Height), 1.f, 1000.0f);
 			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, viewport.Width, viewport.Height, .1f, 1000.0f);
 			
 			/////

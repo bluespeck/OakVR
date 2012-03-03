@@ -19,6 +19,7 @@
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\AABB.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Shader.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\CameraManager.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Effect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Camera.h" />
@@ -40,5 +41,6 @@
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\AABB.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\DebugTextRenderer.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\CameraManager.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Effect.h" />
   </ItemGroup>
 </Project>

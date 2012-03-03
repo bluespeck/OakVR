@@ -53,7 +53,8 @@
     <ClInclude Include="..\..\..\src\Core\ResourceManager\ResourceManager.h" />
     <ClInclude Include="..\..\..\src\Core\Time\Timer.h" />
     <ClInclude Include="..\..\..\src\Core\Utils\Singleton.h" />
-    <ClInclude Include="..\..\..\src\Core\Utils\StringID.h" />
+    <ClInclude Include="..\..\..\src\Core\Utils\StringId.h" />
+    <ClInclude Include="..\..\..\src\Core\Utils\UniqueId.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Core\FileSystem\Directory_windows.cpp" />
@@ -68,7 +69,7 @@
     <ClCompile Include="..\..\..\src\Core\Parallel\Thread_windows.cpp" />
     <ClCompile Include="..\..\..\src\Core\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="..\..\..\src\Core\Time\Timer_windows.cpp" />
-    <ClCompile Include="..\..\..\src\Core\Utils\StringID.cpp" />
+    <ClCompile Include="..\..\..\src\Core\Utils\StringId.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B206EDFA-AB05-40AB-AE4E-3AEAA8808345}</ProjectGuid>

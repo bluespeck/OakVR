@@ -2,7 +2,7 @@
 #define __OAK3D_INCLUDE_CORE_IRESOURCE_H__
 
 #include <string>
-#include "Core/Utils/StringID.h"
+#include "Core/Utils/StringId.h"
 
 namespace Oak3D
 {

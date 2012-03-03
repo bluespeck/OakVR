@@ -57,7 +57,7 @@ namespace Oak3D
 
 		bool m_bIsInitialized;
 
-		// TODO These were added for testing only! Please remove them!
+		// TODO These were added for testing only. Please remove them!
 		Oak3D::Leaf3D::Button b1;
 		Oak3D::Leaf3D::Button b2;
 		Oak3D::Leaf3D::Button b3;

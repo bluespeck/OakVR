@@ -5,14 +5,14 @@
 #include <string>
 
 #include "Widget.h"
-#include "ToolTiped.h"
+#include "IToolTipped.h"
 
 
 namespace Oak3D
 {
 	namespace Leaf3D
 	{
-		class Label : public Widget, public ToolTiped
+		class Label : public Widget, public IToolTipped
 		{
 		public:
 			Label(std::wstring text = L"");

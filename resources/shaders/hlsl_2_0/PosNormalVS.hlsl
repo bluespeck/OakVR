@@ -1,3 +1,5 @@
+shared uniform extern float4x4 gViewProj:VIEWPROJECTION;
+
 struct VertexInputType
 {
     float3 position : POSITION;
@@ -14,7 +16,7 @@ PixelInputType OakVertexShader(VertexInputType input)
 {
     PixelInputType output;
     
-    output.position = mul(float4(input.position, 1.0f), gWVP);
+    output.position = mul(float4(input.position, 1.0f), gViewProj);
 	
 	output.normal = float4(input.normal, 1.0f);
 	

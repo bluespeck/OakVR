@@ -21,8 +21,8 @@ PixelInputType OakVertexShader(VertexInputType input)
     float4x4 matrixWVP = matrixWorld * matrixView * matrixProjection;
     //output.position = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	//output.position = float4(input.position, 1.0f);
-	output.position = mul(float4(input.position, 1.0f), matrixWVP);
-	//output.position = mul(float4(input.position, 1.0f), matrixView);
+	//output.position = mul(float4(input.position, 1.0f), matrixWVP);
+	output.position = mul(float4(input.position, 1.0f), matrixView);
 	//output.position = mul(float4(input.position, 1.0f), matrixWorld);
 	//output.position = mul(float4(input.position, 1.0f), matrixWorld);
 	//output.position = mul(output.position, matrixView);

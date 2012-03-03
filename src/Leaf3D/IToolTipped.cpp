@@ -1,22 +1,22 @@
 
-#include "ToolTiped.h"
+#include "IToolTipped.h"
 
 namespace Oak3D
 {
 	namespace Leaf3D
 	{
-		ToolTiped::ToolTiped()
+		IToolTipped::IToolTipped()
 			:m_toolTipText(L"")
 		{
 			
 		}
 
-		void ToolTiped::SetToolTip(std::wstring text)
+		void IToolTipped::SetToolTip(std::wstring text)
 		{
 			m_toolTipText = text;
 		}
 
-		std::wstring ToolTiped::GetToolTip()
+		std::wstring IToolTipped::GetToolTip()
 		{
 			return m_toolTipText;
 		}

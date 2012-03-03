@@ -40,6 +40,59 @@
 
 namespace Oak3D
 {
+		// --------------------------------------------------------------------------------
+	void Engine::Update(float dt)
+	{
+		Oak3D::Input::MouseInput::GetInstance()->Update();
+		Oak3D::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
+		TriggerInputEvents();
+		Oak3D::Leaf3D::EventManager::GetInstance()->Update();
+
+		Oak3D::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
+
+		if(m_pGE)
+		{
+			int32_t wd = Oak3D::Input::MouseInput::GetInstance()->GetWheelDelta();
+			if(wd != 0 || ((Oak3D::Input::MouseInput::GetInstance()->IsLeftButtonDown() || Oak3D::Input::MouseInput::GetInstance()->IsRightButtonDown()) && Oak3D::Input::MouseInput::GetInstance()->HasMouseMoved()))
+			{
+				auto delta = Oak3D::Input::MouseInput::GetInstance()->GetPositionDelta();
+
+
+							
+				if(Oak3D::Input::MouseInput::GetInstance()->IsLeftButtonDown())
+				{
+						pCurrentCamera->Rotate(delta.second * dt, delta.first * dt, 0.0f);
+				}
+
+				if(Oak3D::Input::MouseInput::GetInstance()->IsRightButtonDown())
+				{
+					pCurrentCamera->Translate((float)delta.first, (float)delta.second, 0.0f);
+				}
+
+				pCurrentCamera->Translate(0.f, 0.f, wd / 20.f);
+			}
+
+			Oak3D::Math::Matrix *pMatrixView = m_pGE->GetViewMatrix();
+			*pMatrixView = m_pGE->CreateViewMatrix(pCurrentCamera->GetPosition(), pCurrentCamera->GetLook(), pCurrentCamera->GetUp());
+
+			m_pGE->ClearBackground(Oak3D::Render::Color::Black);
+
+			m_pGE->BeginDraw();
+			// update rendered stuff
+
+			DrawAxes();
+			//DrawMeshes();
+			DrawMeshBoundingBoxes();
+			DrawDebugText();
+			//DrawInterface();
+	
+			m_pGE->EndDraw();
+			m_pGE->SwapBuffers();
+
+			
+		}
+	}
+
 	// --------------------------------------------------------------------------------
 	Engine::Engine()
 	{
@@ -146,63 +199,6 @@ namespace Oak3D
 	{
 		m_pTimer->Tick();
 		Update(m_pTimer->GetDeltaTime());
-	}
-
-	// --------------------------------------------------------------------------------
-	void Engine::Update(float dt)
-	{
-		Oak3D::Input::MouseInput::GetInstance()->Update();
-		Oak3D::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
-		TriggerInputEvents();
-		Oak3D::Leaf3D::EventManager::GetInstance()->Update();
-
-		Oak3D::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
-
-		if(m_pGE)
-		{
-			int32_t wd = Oak3D::Input::MouseInput::GetInstance()->GetWheelDelta();
-			if(wd != 0 || ((Oak3D::Input::MouseInput::GetInstance()->IsLeftButtonDown() || Oak3D::Input::MouseInput::GetInstance()->IsRightButtonDown()) && Oak3D::Input::MouseInput::GetInstance()->HasMouseMoved()))
-			{
-				auto delta = Oak3D::Input::MouseInput::GetInstance()->GetPositionDelta();
-
-
-							
-				if(Oak3D::Input::MouseInput::GetInstance()->IsLeftButtonDown())
-				{
-						pCurrentCamera->Rotate(delta.second * dt, delta.first * dt, 0.0f);
-				}
-
-				if(Oak3D::Input::MouseInput::GetInstance()->IsRightButtonDown())
-				{
-					pCurrentCamera->Translate((float)delta.first, (float)delta.second, 0.0f);
-				}
-
-				pCurrentCamera->Translate(0.f, 0.f, wd / 20.f);
-			}
-
-			Oak3D::Math::Matrix *pMatrixView = m_pGE->GetViewMatrix();
-			*pMatrixView = m_pGE->CreateViewMatrix(pCurrentCamera->GetPosition(), pCurrentCamera->GetLook(), pCurrentCamera->GetUp());
-
-			m_pGE->ClearBackground(Oak3D::Render::Color::Black);
-
-			m_pGE->BeginDraw();
-
-			// update engine stuff
-			//DrawMeshes();
-
-			DrawMeshBoundingBoxes();
-			
-			//DrawAxes();
-			
-			DrawInterface();
-			
-			DrawDebugText();
-
-			m_pGE->EndDraw();
-			m_pGE->SwapBuffers();
-
-			
-		}
 	}
 
 	// --------------------------------------------------------------------------------
@@ -347,8 +343,8 @@ namespace Oak3D
 
 		m_pGE->EnablePerspectiveProjection();
 		//m_pGE->EnableOrtographicProjection();
-		//m_pGE->EnableFillWireframe();
-		m_pGE->EnableFillSolid();
+		m_pGE->EnableFillWireframe();
+		//m_pGE->EnableFillSolid();
 
 		auto pMeshes = Oak3D::Render::Mesh::GetMeshList();
 		for(auto it = pMeshes->begin(); it != pMeshes->end(); ++it)

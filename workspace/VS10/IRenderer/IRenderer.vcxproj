@@ -294,6 +294,7 @@
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Camera.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\CameraManager.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Color.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\Effect.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Font.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\GraphicsEngine.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\IController.cpp" />
@@ -315,6 +316,7 @@
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\CameraManager.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Color.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\DebugTextRenderer.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\Effect.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Font.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\GraphicsEngine.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\GraphicsEngineUtils.h" />
