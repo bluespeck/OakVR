@@ -19,6 +19,7 @@ namespace Oak3D
 		, m_pCurrentVertexShader(nullptr)
 		, m_pCurrentPixelShader(nullptr)
 		, m_pDebugTextRenderer(nullptr)
+		, m_bInitialized(false)
 		{
 			Math::Matrix identityMatrix = Math::Matrix::CreateIdentityMatrix();
 			m_pPerspectiveProjectionMatrix = new Math::Matrix();

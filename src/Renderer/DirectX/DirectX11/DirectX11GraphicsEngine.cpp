@@ -103,6 +103,8 @@ namespace Oak3D
 
 
 			InitializeStateObjects();
+
+			m_bInitialized = true;
 		}
 
 		// --------------------------------------------------------------------------------

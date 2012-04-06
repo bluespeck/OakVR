@@ -90,6 +90,18 @@
     <ClInclude Include="..\..\..\src\Core\Utils\StringId.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\ResourceManager\Image.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\ResourceManager\BMPLoader.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\ResourceManager\RawImageData.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Core\ResourceManager\Buffer.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\Core\Math\Matrix.cpp">
@@ -130,6 +142,18 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\Core\Utils\StringId.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\ResourceManager\Image.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\ResourceManager\RawImageData.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\ResourceManager\Buffer.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Core\ResourceManager\BMPLoader.cpp">
+      <Filter>ResourceManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

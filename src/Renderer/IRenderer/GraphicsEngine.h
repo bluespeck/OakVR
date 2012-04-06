@@ -90,6 +90,8 @@ namespace Oak3D
 			inline Math::Matrix *GetOrthographicProjectionMatrix();
 			inline Math::Matrix *GetPerspectiveProjectionMatrix();
 
+			inline bool IsInitialized() { return m_bInitialized; }
+
 		protected:
 			RenderWindow *m_pRenderWindow;
 			Math::Matrix *m_pWorldMatrix, *m_pViewMatrix, *m_pPerspectiveProjectionMatrix, *m_pOrthographicProjectionMatrix;
@@ -104,6 +106,7 @@ namespace Oak3D
 
 			DebugTextRenderer *m_pDebugTextRenderer;		// object used to draw debug text
 
+			bool m_bInitialized;
 		};
 		
 		// --------------------------------------------------------------------------------		

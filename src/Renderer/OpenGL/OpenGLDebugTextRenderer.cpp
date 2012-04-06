@@ -7,9 +7,11 @@
 #include <fstream>
 #include <cassert>
 #include <cctype>
-#include <gl/glew.h>
-#include <gl/glu.h>
+#include <windows.h>
+#include <wingdi.h>
 #include <gl/gl.h>
+#include <gl/glu.h>
+#include <gl/wglext.h>
 
 #include "Oak3D/Engine.h"
 
@@ -48,9 +50,10 @@ namespace Oak3D
 			m_pFont = new Font();
 			m_pFont->Initialize("../resources/font/DebugFont.index", "../resources/font/DebugFont.tga");
 
+			while(!Engine::GetGraphicsEngine()->IsInitialized());
 			// TODO Different resources from the same file :(((((((((((((((((((( => same id => second resource is not created
 			Shader::ShaderAdditionalInitParams params;
-			params.shaderType = eST_VertexShader;			
+			params.shaderType = eST_VertexShader;
 			m_pVertexShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/glsl/DebugFontVS.glsl", &params);
 			params.shaderType = eST_PixelShader;
 			m_pFragmentShader = Engine::GetResourceManager()->GetResource<OpenGLShader>("../resources/shaders/glsl/DebugFontPS.glsl", &params);

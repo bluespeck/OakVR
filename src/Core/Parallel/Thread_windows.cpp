@@ -16,7 +16,7 @@ namespace Oak3D
 			uint32_t threadId;
 		};
 
-		Thread::Thread(uint32_t (pThreadFunc)(void *), void *pData)
+		void Thread::CreateThread(uint32_t (pThreadFunc)(void *), void *pData)
 		{
 			m_pImpl = new ThreadImpl;
 			::CreateThread(NULL,						// default security attributes

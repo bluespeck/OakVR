@@ -35,8 +35,8 @@ namespace Oak3D
 			void Open(FileOpenMode eFileOpenMode);
 			void Close();
 
-			uint32_t Read(unsigned char *buffer, unsigned int bufferSize, unsigned int bytesToRead, unsigned int offset = 0);
-			void Write(unsigned char *buffer, unsigned int bufferSize, unsigned int bytesToWrite, unsigned int offset = 0);
+			uint32_t Read(unsigned char *buffer, uint32_t bufferSize, uint32_t bytesToRead, uint32_t offset = 0);
+			void Write(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToWrite, uint32_t offset = 0);
 			
 
 			bool IsOpen();

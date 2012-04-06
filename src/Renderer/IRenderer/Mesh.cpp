@@ -1,6 +1,6 @@
-#include <assimp.hpp>
-#include <aiPostProcess.h>
-#include <aiScene.h>
+//#include <assimp.hpp>
+//#include <aiPostProcess.h>
+//#include <aiScene.h>
 
 #include <cassert>
 #include <cvt/wstring>
@@ -23,9 +23,10 @@ namespace Oak3D
 		std::list<Mesh *> *Mesh::s_meshes;
 		bool Mesh::s_bDeleteListIfEmpty;
 
+		// --------------------------------------------------------------------------------
 		static uint32_t LoadMeshThreadProc(void *pData)
 		{
-			Assimp::Importer importer;
+			/*Assimp::Importer importer;
 			importer.SetPropertyInteger(AI_CONFIG_IMPORT_TER_MAKE_UVS,1);
 			//importer.SetPropertyFloat(AI_CONFIG_PP_GSN_MAX_SMOOTHING_ANGLE,80.0f);
 	
@@ -201,7 +202,7 @@ namespace Oak3D
 			pMesh->m_aabb.m_vecRightTopBack = vecRTB;
 	
 			// compute bounding sphere
-			/*
+			//
 			float x;
 			float y;
 			float z;
@@ -232,53 +233,60 @@ namespace Oak3D
 				}
 			}
 			pMesh->m_boundingSphere.m_radius = sqrtf(sqrRadius);
-			*/
+			
 
 			// Mesh loading has finished
 			pMesh->SetState(Oak3D::Core::IResource::eRS_Ready);
-
+			*/
 			return 0;
 		}
 
+		// --------------------------------------------------------------------------------
 		Mesh::Mesh()
 		{
 		//	m_type = Resource::eTypeMeshInfo;
 			GetMeshList()->push_back(this);
 		}
 
+		// --------------------------------------------------------------------------------
 		Mesh::~Mesh()
 		{	
 			// TODO will the equality be ok?
-			s_meshes->erase(std::find(s_meshes->begin(), s_meshes->end(), this));
-			if(s_bDeleteListIfEmpty && s_meshes->size() == 0)
-				delete s_meshes;
+			//s_meshes->erase(std::find(s_meshes->begin(), s_meshes->end(), this));
+			//if(s_bDeleteListIfEmpty && s_meshes->size() == 0)
+			//	delete s_meshes;
 		}
 
+		// --------------------------------------------------------------------------------
 		Mesh::MeshElement::MeshElement()
 		: m_startIndex(0)
 		, m_indexCount(0)
 		{
 		}
 
+		// --------------------------------------------------------------------------------
 		void Mesh::Init(const Core::StringId &id, AdditionalInitParams *pAdditionalInitParams)
 		{
 			m_id = id;
 		}
 
+		// --------------------------------------------------------------------------------
 		void Mesh::Load()
 		{	
 			LoadMeshThreadProc(this);
 			//Oak3D::Core::Thread(LoadMeshThreadProc, this);
 		}
 
+		// --------------------------------------------------------------------------------
 		void Mesh::Reload()
 		{
 
 		}
 
+		// --------------------------------------------------------------------------------
 		void Mesh::Release()
 		{
-			if(m_pVertexData)
+			/*if(m_pVertexData)
 			{	
 				delete[] m_pVertexData;
 				m_pVertexData = NULL;
@@ -289,20 +297,21 @@ namespace Oak3D
 				delete[] m_pIndexData;
 				m_pIndexData = NULL;
 			}
-			/* TODO need pointers here?
+			// TODO need pointers here?
 			for(uint32_t i = 0, n = m_vMeshElements.size(); i < n; ++i)
 			{	
 				delete m_vMeshElements[i];
 				m_vMeshElements[i] = NULL;
 			}
-			*/
+			
 			m_vMeshElements.clear();
-		
+		*/
 			SetState(eRS_Released);
 			
 		}
 		
 		/*
+		// --------------------------------------------------------------------------------
 		void Mesh::LoadMaterials()
 		{
 			m_vMaterials.resize(m_pMeshInfo->m_vMeshElements.size());
@@ -321,12 +330,14 @@ namespace Oak3D
 			m_bMaterialsInitialised = true;
 		}
 
+		// --------------------------------------------------------------------------------
 		void Mesh::Init(const Path &path)
 		{
 			m_pMeshInfo = MakeMeshInfo(path);
 			m_bMaterialsInitialised = false;
 		}
 		
+		// --------------------------------------------------------------------------------
 		bool Mesh::RayInteresction( const CVector3 &ray, const CVector3 &origin, float *pU, float *pV, float *pDist )
 		{
 			if(!m_pMeshInfo->IsReady())
@@ -367,18 +378,20 @@ namespace Oak3D
 		}
 		*/
 
+		// --------------------------------------------------------------------------------
 		const Render::AABB &Mesh::GetBoundingBox()
 		{
 			return m_aabb;
 		}
 
 		/*
+		// --------------------------------------------------------------------------------
 		const CBoundingSphere &Mesh::GetBoundingSphere()
 		{
 			return m_pMeshInfo->m_boundingSphere;
 		}
 		
-
+		// --------------------------------------------------------------------------------
 		Mesh::Mesh(void)
 			: m_pVertices(nullptr)
 			, m_pIndices(nullptr)
@@ -397,6 +410,7 @@ namespace Oak3D
 			}
 		}
 
+		// --------------------------------------------------------------------------------
 		Mesh::~Mesh(void)
 		{
 			if(m_pVertices)
@@ -414,21 +428,25 @@ namespace Oak3D
 					delete[] m_pTexCoords[i];
 		}
 
+		// --------------------------------------------------------------------------------
 		void Mesh::SetNumVertices(unsigned int numVertices)
 		{
 			m_numVertices = numVertices;
 		}
 
+		// --------------------------------------------------------------------------------
 		void Mesh::SetHasNormals(bool bHasNormals)
 		{
 			m_bHasNormals = bHasNormals;
 		}
 
+		// --------------------------------------------------------------------------------
 		void Mesh::SetNumTexCoordsPerVertex(unsigned int numTexCoordsPerVertex)
 		{
 			m_numTexCoordsPerVertex = numTexCoordsPerVertex;
 		}
 
+		// --------------------------------------------------------------------------------
 		void Mesh::SetNumMaterials(unsigned int numMaterials)
 		{
 			m_numMaterials = numMaterials;

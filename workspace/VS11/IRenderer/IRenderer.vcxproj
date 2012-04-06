@@ -124,56 +124,57 @@
     <OutDir>$(SolutionDir)..\..\bin\</OutDir>
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)/../../src/;$(SolutionDir)/../../extern/assimp/include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Projects\Oak3D\extern\assimp\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)/../../extern/assimp/lib;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX11_Debug|Win32'">
     <OutDir>$(SolutionDir)..\..\bin\</OutDir>
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)/../../src/;$(SolutionDir)/../../extern/assimp/include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)/../../extern/assimp/lib;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <ExecutablePath>$(SolutionDir)/../../extern/assimp/lib;$(VCInstallDir)bin;$(WindowsSDK_ExecutablePath_x86);$(VSInstallDir)Common7\Tools\bin;$(VSInstallDir)Common7\tools;$(VSInstallDir)Common7\ide;$(ProgramFiles)\HTML Help Workshop;$(MSBuildToolsPath32);$(VSInstallDir);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Editor_Debug|Win32'">
     <OutDir>$(SolutionDir)..\..\bin\</OutDir>
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)/../../src/;$(SolutionDir)/../../extern/assimp/include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)/../../extern/assimp/lib;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OpenGL_Debug|Win32'">
     <OutDir>$(SolutionDir)..\..\bin\</OutDir>
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)/../../src/;$(SolutionDir)/../../extern/assimp/include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Projects\Oak3D\extern\assimp\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)/../../extern/assimp/lib;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OpenGL_Release|Win32'">
     <OutDir>$(SolutionDir)..\..\bin\</OutDir>
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)/../../src/;$(SolutionDir)/../../extern/assimp/include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Projects\Oak3D\extern\assimp\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)/../../extern/assimp/lib;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX11_Release|Win32'">
     <OutDir>$(SolutionDir)..\..\bin\</OutDir>
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)/../../src/;$(SolutionDir)/../../extern/assimp/include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Projects\Oak3D\extern\assimp\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)/../../extern/assimp/lib;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Editor_Release|Win32'">
     <OutDir>$(SolutionDir)..\..\bin\</OutDir>
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)/../../src/;$(SolutionDir)/../../extern/assimp/include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Projects\Oak3D\extern\assimp\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)/../../extern/assimp/lib;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DX9_Release|Win32'">
     <OutDir>$(SolutionDir)..\..\bin\</OutDir>
     <IntDir>$(SolutionDir)..\..\obj\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)/../../src/;$(SolutionDir)/../../extern/assimp/include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Projects\Oak3D\extern\assimp\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)/../../extern/assimp/lib$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DX9_Debug|Win32'">

@@ -96,7 +96,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		uint32_t File::Read(unsigned char *buffer, unsigned int bufferSize, unsigned int bytesToRead, unsigned int offset)
+		uint32_t File::Read(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToRead, uint32_t offset)
 		{
 			assert((bufferSize > 0) && (offset + bytesToRead < bufferSize) && "Buffer overflow!");
 			if(bytesToRead == 0)
@@ -108,7 +108,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void File::Write(unsigned char *buffer, unsigned int bufferSize, unsigned int bytesToWrite, unsigned int offset)
+		void File::Write(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToWrite, uint32_t offset)
 		{
 			assert((offset + bytesToWrite < bufferSize) && "Buffer overflow!");
 			fwrite(buffer + offset, bytesToWrite, 1, m_pImpl->pFileHandle);

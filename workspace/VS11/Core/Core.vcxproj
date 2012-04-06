@@ -49,7 +49,11 @@
     <ClInclude Include="..\..\..\src\Core\Math\Vector4.h" />
     <ClInclude Include="..\..\..\src\Core\Parallel\CriticalSection.h" />
     <ClInclude Include="..\..\..\src\Core\Parallel\Thread.h" />
+    <ClInclude Include="..\..\..\src\Core\ResourceManager\BMPLoader.h" />
+    <ClInclude Include="..\..\..\src\Core\ResourceManager\Buffer.h" />
+    <ClInclude Include="..\..\..\src\Core\ResourceManager\Image.h" />
     <ClInclude Include="..\..\..\src\Core\ResourceManager\IResource.h" />
+    <ClInclude Include="..\..\..\src\Core\ResourceManager\RawImageData.h" />
     <ClInclude Include="..\..\..\src\Core\ResourceManager\ResourceManager.h" />
     <ClInclude Include="..\..\..\src\Core\Time\Timer.h" />
     <ClInclude Include="..\..\..\src\Core\Utils\Singleton.h" />
@@ -67,6 +71,10 @@
     <ClCompile Include="..\..\..\src\Core\Math\Vector4.cpp" />
     <ClCompile Include="..\..\..\src\Core\Parallel\CriticalSection_windows.cpp" />
     <ClCompile Include="..\..\..\src\Core\Parallel\Thread_windows.cpp" />
+    <ClCompile Include="..\..\..\src\Core\ResourceManager\BMPLoader.cpp" />
+    <ClCompile Include="..\..\..\src\Core\ResourceManager\Buffer.cpp" />
+    <ClCompile Include="..\..\..\src\Core\ResourceManager\Image.cpp" />
+    <ClCompile Include="..\..\..\src\Core\ResourceManager\RawImageData.cpp" />
     <ClCompile Include="..\..\..\src\Core\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="..\..\..\src\Core\Time\Timer_windows.cpp" />
     <ClCompile Include="..\..\..\src\Core\Utils\StringId.cpp" />

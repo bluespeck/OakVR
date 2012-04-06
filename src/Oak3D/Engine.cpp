@@ -84,7 +84,7 @@ namespace Oak3D
 			//DrawMeshes();
 			DrawMeshBoundingBoxes();
 			DrawDebugText();
-			//DrawInterface();
+			DrawInterface();
 	
 			m_pGE->EndDraw();
 			m_pGE->SwapBuffers();

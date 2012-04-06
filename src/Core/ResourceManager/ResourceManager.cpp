@@ -30,8 +30,8 @@ namespace Oak3D
 
 				if(pRes)
 				{
-					pRes->Load();
-					
+					Oak3D::Core::Thread resourceLoader([pRes](void *)->uint32_t{pRes->Load(); return 0;}, nullptr);
+
 					pRM->m_pMemoryCritSection->EnterCriticalSection();
 					pRM->m_pLoadCritSection->EnterCriticalSection();
 					pRM->m_toBeLoaded.pop_front();

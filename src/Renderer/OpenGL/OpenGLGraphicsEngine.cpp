@@ -12,10 +12,13 @@
 
 #include <windows.h>
 #include <wingdi.h>
-#include <gl/glew.h>
-#include <gl/glu.h>
+#include <GLEW/include/GL/glew.h>
 #include <gl/gl.h>
-#include <SOIL/include/SOIL.h>
+#include <gl/glu.h>
+//#include <SOIL/include/SOIL.h>
+
+#include <gl/wglext.h>
+
 
 #include "Oak3D/Engine.h"
 
@@ -34,6 +37,7 @@
 #include "Renderer/IRenderer/Shader.h"
 
 #include "Core/FileSystem/File.h"
+#include "Core/ResourceManager/Image.h"
 
 
 namespace Oak3D
@@ -83,11 +87,13 @@ namespace Oak3D
 
 			wglMakeCurrent (hdc, (HGLRC)m_pDevice);
 						
-			glewInit();
+			assert(glewInit() == GLEW_OK);
 						
 			InitializeStateObjects();
 
-			m_shaderProgramId = glCreateProgramObjectARB();
+			m_shaderProgramId = glCreateProgram();
+
+			m_bInitialized = true;
 		}
 
 		// --------------------------------------------------------------------------------
@@ -152,6 +158,9 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void OpenGLGraphicsEngine::CreateShader(Shader *pShader)
 		{
+			if(GetCurrentThreadId() != m_mainThreadId)
+				wglMakeCurrent(GetDC(reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle())), (HGLRC)m_pWorkerThreadDevice);
+
 			GLenum shaderType;
 			switch(pShader->GetType())
 			{
@@ -219,7 +228,8 @@ namespace Oak3D
 
 			glGenTextures(1, &texId);
 			
-			texId = SOIL_load_OGL_texture(pTexture->GetId().GetStrId().c_str(), SOIL_LOAD_AUTO, texId, SOIL_FLAG_MULTIPLY_ALPHA);
+			Oak3D::Core::Image *pImage = Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Core::Image>(pTexture->GetId().GetStrId().c_str());
+			// Separate resources on unique threads
 			assert("Could not load texture from file!" && texId > 0);
 
 			pTexture->SetData((void *)texId);

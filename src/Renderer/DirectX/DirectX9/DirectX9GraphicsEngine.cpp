@@ -88,6 +88,8 @@ namespace Oak3D
 			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, (float)viewport.Width, (float)viewport.Height, 0.01f, 1000.f);
 
 			InitializeStateObjects();
+
+			m_bInitialized = true;
 		}
 
 		// --------------------------------------------------------------------------------
