@@ -1,46 +1,26 @@
 
 // --------------------------------------------------------------------------------
+// Written by		Mihai Tudorache 2011
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_RENDER_DIRECTX11GRAPHICSENGINE_H__
-#define __OAK3D_INCLUDE_RENDER_DIRECTX11GRAPHICSENGINE_H__
+#ifndef __OAK3D_INCLUDE_RENDER_OPENGLRENDERER_H__
+#define __OAK3D_INCLUDE_RENDER_OPENGLRENDERER_H__
 
-#include "Renderer/IRenderer/GraphicsEngine.h"
+#include <map>
 
-struct ID3D11Device;
-struct ID3D11DeviceContext;
-struct IDXGISwapChain;
-struct ID3D11RenderTargetView;
-struct ID3D11RasterizerState;
-struct ID3D11DepthStencilState;
-struct ID3D11Buffer;
-struct ID3D11SamplerState;
+#include "Renderer/IRenderer/IRenderer.h"
+
 
 namespace Oak3D
 {
 	namespace Render
 	{
-		class DirectX11GraphicsEngine : public GraphicsEngine
+		class OpenGLRenderer : public IRenderer
 		{
 		public:
 
-			enum RasterizerStateIndex
-			{
-				eRSI_First = 0,
-				eRSI_FillSolid_CullBack_FrontCCW = eRSI_First,
-				eRSI_FillSolid_CullBack_FrontCW,
-				eRSI_FillSolid_CullFront_FrontCCW,
-				eRSI_FillSolid_CullFront_FrontCW,
-				eRSI_FillWireframe_CullBack_FrontCCW,
-				eRSI_FillWireframe_CullBack_FrontCW,
-				eRSI_FillWireframe_CullFront_FrontCCW,
-				eRSI_FillWireframe_CullFront_FrontCW,
-				eRSI_Last = eRSI_FillWireframe_CullFront_FrontCW,
-				eRSI_Count
-			};
-
 			// constructors
-			DirectX11GraphicsEngine();
+			OpenGLRenderer();
 
 			// overrides
 			virtual void Initialize();
@@ -53,18 +33,18 @@ namespace Oak3D
 			virtual void EndDraw();
 
 			virtual void DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex = 0);
-			virtual void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t numVertices = 0, uint32_t startIndex = 0, uint32_t startVertex = 0);
-			
+			virtual void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t numVertices, uint32_t startIndex = 0, uint32_t startVertex = 0);
+
 			virtual void CreateTexture	( Texture *texture );
 			virtual void ReleaseTexture	( Texture *texture );
 			virtual void UseTexture ( Texture *texture );
-			
+
 			virtual void CreateVertexBuffer	( VertexBuffer *pVertexBuffer );
 			virtual void LockVertexBuffer	( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 );
 			virtual void UnlockVertexBuffer	( VertexBuffer *pVertexBuffer );
 			virtual void ReleaseVertexBuffer( VertexBuffer *pVertexBuffer );
 			virtual void UseVertexBuffer( VertexBuffer *pVertexBuffer );
-			
+
 			virtual void CreateIndexBuffer	( IndexBuffer *ibuff );
 			virtual void LockIndexBuffer	( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 );
 			virtual void UnlockIndexBuffer	( IndexBuffer *pIndexBuffer );
@@ -79,50 +59,39 @@ namespace Oak3D
 
 			virtual void OutputText( const std::string &text, uint32_t x, uint32_t y);
 
-			virtual void EnableOrtographicProjection();
-			virtual void EnablePerspectiveProjection();
-
 			virtual void EnableDepthBuffer();
 			virtual void DisableDepthBuffer();
 
+			virtual Oak3D::Math::Matrix CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up);
+
+			virtual void EnableOrtographicProjection();
+			virtual void EnablePerspectiveProjection();
 			virtual void EnableFillWireframe();
 			virtual void EnableFillSolid();
 
-			virtual Oak3D::Math::Matrix CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up);
-
-
+		private:
 			// misc
 			void CreateInputLayoutDesc( uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems );
 			void InitializeStateObjects();
-						
-			void SetRasterizerState( RasterizerStateIndex rsi );
-			
-
-			ID3D11Device *GetDevice() { return m_pDevice; }
-			ID3D11DeviceContext *GetDeviceContext() { return m_pDeviceContext; }
-
-		private:
+			void UseShaderProgram();
 			void SetMatrices();
 
+			
+			void *GetDevice() { return m_pDevice; }
+
 		private:
-			IDXGISwapChain *m_pSwapChain;             // the swap chain interface
-			ID3D11Device *m_pDevice;                     // Direct3D device interface
-			ID3D11DeviceContext *m_pDeviceContext;           // Direct3D device context
+			void *m_pDevice;                    // OpenGL device interface (context)
+			void *m_pWorkerThreadDevice;		// worker thread context
+			long m_mainThreadId;
+			long m_shaderProgramId;
 
-			ID3D11RenderTargetView *m_pBackBufferRenderTargetView;
-			
-			// directx state objects
-			ID3D11DepthStencilState *m_pDepthStencilStateDepthDisabled;
-			ID3D11DepthStencilState *m_pDepthStencilStateDepthEnabled;
-			ID3D11RasterizerState *m_pRasterizerStates[eRSI_Count];
-			ID3D11SamplerState *m_pSamplerState;
+			VertexBuffer *m_pCurrentVertexBuffer;
+			IndexBuffer *m_pCurrentIndexBuffer;
 
-			ID3D11Buffer *m_pMatrixBuffer;
 			bool m_bPerspectiveProjection;
-
-			
 		};
 	}	// namespace Render
 }	// namespace Oak3D
 
 #endif
+

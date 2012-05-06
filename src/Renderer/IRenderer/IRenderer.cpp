@@ -1,6 +1,6 @@
 #include <cassert>
 
-#include "GraphicsEngine.h"
+#include "IRenderer.h"
 #include "RenderWindow.h"
 #include "Core/Math/Matrix.h"
 
@@ -10,7 +10,7 @@ namespace Oak3D
 	namespace Render
 	{
 		// --------------------------------------------------------------------------------
-		GraphicsEngine::GraphicsEngine()
+		IRenderer::IRenderer()
 		: m_pRenderWindow(nullptr)
 		, m_currentPrimitiveTopology(ePT_TriangleList)
 		, m_numVerticesPerPrimitive(3)
@@ -34,19 +34,19 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void GraphicsEngine::SetRenderWindow(RenderWindow *pRenderWindow)
+		void IRenderer::SetRenderWindow(RenderWindow *pRenderWindow)
 		{
 			m_pRenderWindow = pRenderWindow;
 		}
 
 		// --------------------------------------------------------------------------------
-		void GraphicsEngine::SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer)
+		void IRenderer::SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer)
 		{
 			m_pDebugTextRenderer = pDebugTextRenderer;
 		}
 
 		// --------------------------------------------------------------------------------
-		GraphicsEngine::~GraphicsEngine()
+		IRenderer::~IRenderer()
 		{
 			Cleanup();
 			m_pRenderWindow = nullptr;	// it should not be the owner of this object
@@ -59,7 +59,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void GraphicsEngine::OutputText( const std::string &text, uint32_t x, uint32_t y)
+		void IRenderer::OutputText( const std::string &text, uint32_t x, uint32_t y)
 		{
 			assert(0 && "OutputText not implemented!");
 		}

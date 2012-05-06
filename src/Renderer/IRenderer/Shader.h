@@ -6,7 +6,7 @@
 #define __OAK3D_INCLUDE_RENDER_SHADER_H__
 
 #include "Core/ResourceManager/IResource.h"
-#include "GraphicsEngineUtils.h"
+#include "RendererUtils.h"
 
 namespace Oak3D
 {

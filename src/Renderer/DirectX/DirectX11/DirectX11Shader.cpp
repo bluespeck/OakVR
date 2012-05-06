@@ -8,10 +8,10 @@
 
 #include <d3d11.h>
 
-#include "Renderer/IRenderer/GraphicsEngineUtils.h"
+#include "Renderer/IRenderer/RendererUtils.h"
 
 #include "DirectX11Shader.h"
-#include "DirectX11GraphicsEngine.h"
+#include "DirectX11Renderer.h"
 
 #include "Oak3D/Engine.h"
 #include "Core/Utils/StringID.h"

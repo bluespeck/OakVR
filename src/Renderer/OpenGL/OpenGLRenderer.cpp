@@ -22,11 +22,11 @@
 
 #include "Oak3D/Engine.h"
 
-#include "OpenGLGraphicsEngine.h"
+#include "OpenGLRenderer.h"
 #include "OpenGLDebugTextRenderer.h"
 
 #include "Renderer/IRenderer/WindowsRenderWindow.h"
-#include "Renderer/IRenderer/GraphicsEngineUtils.h"
+#include "Renderer/IRenderer/RendererUtils.h"
 #include "Renderer/IRenderer/VertexBuffer.h"
 #include "Renderer/IRenderer/IndexBuffer.h"
 #include "Renderer/IRenderer/Texture.h"
@@ -45,7 +45,7 @@ namespace Oak3D
 	namespace Render
 	{
 		// --------------------------------------------------------------------------------
-		OpenGLGraphicsEngine::OpenGLGraphicsEngine()
+		OpenGLRenderer::OpenGLRenderer()
 			: m_pDevice(nullptr)
 			, m_pCurrentVertexBuffer(nullptr)
 			, m_pCurrentIndexBuffer(nullptr)
@@ -54,7 +54,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::Initialize()
+		void OpenGLRenderer::Initialize()
 		{
 			m_mainThreadId = GetCurrentThreadId();
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
@@ -97,7 +97,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::InitializeStateObjects()
+		void OpenGLRenderer::InitializeStateObjects()
 		{
 			/////
 			// create projection matrices
@@ -114,14 +114,14 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::ClearBackground(const Color &color)
+		void OpenGLRenderer::ClearBackground(const Color &color)
 		{
 			glClearColor(color.r, color.g, color.b, color.a);
 			glClear(GL_COLOR_BUFFER_BIT);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::BeginDraw()
+		void OpenGLRenderer::BeginDraw()
 		{
 			m_pCurrentIndexBuffer = nullptr;
 			m_pCurrentVertexBuffer = nullptr;
@@ -130,19 +130,19 @@ namespace Oak3D
 		}
 		
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::EndDraw()
+		void OpenGLRenderer::EndDraw()
 		{
 
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::SwapBuffers()
+		void OpenGLRenderer::SwapBuffers()
 		{
 			::SwapBuffers(wglGetCurrentDC());
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::Cleanup()
+		void OpenGLRenderer::Cleanup()
 		{	
 			wglMakeCurrent (NULL, NULL) ; 
 			wglDeleteContext ((HGLRC)m_pDevice);
@@ -150,13 +150,13 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::Update(float dt)
+		void OpenGLRenderer::Update(float dt)
 		{
 
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::CreateShader(Shader *pShader)
+		void OpenGLRenderer::CreateShader(Shader *pShader)
 		{
 			if(GetCurrentThreadId() != m_mainThreadId)
 				wglMakeCurrent(GetDC(reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle())), (HGLRC)m_pWorkerThreadDevice);
@@ -211,7 +211,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::ReleaseShader(Shader *pShader)
+		void OpenGLRenderer::ReleaseShader(Shader *pShader)
 		{
 			if(pShader == nullptr)
 				return;
@@ -219,7 +219,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::CreateTexture( Texture *pTexture )
+		void OpenGLRenderer::CreateTexture( Texture *pTexture )
 		{
 			if(GetCurrentThreadId() != m_mainThreadId)
 				wglMakeCurrent(GetDC(reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle())), (HGLRC)m_pWorkerThreadDevice);
@@ -240,14 +240,14 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::ReleaseTexture( Texture *pTexture )
+		void OpenGLRenderer::ReleaseTexture( Texture *pTexture )
 		{
 			GLuint tex = (GLuint)pTexture->GetData();
 			glDeleteTextures(1, &tex);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::UseTexture ( Texture *texture )
+		void OpenGLRenderer::UseTexture ( Texture *texture )
 		{
 			if(texture != nullptr)
 			{
@@ -262,7 +262,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
+		void OpenGLRenderer::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
 		{
 			GLenum pt;
 			switch( m_currentPrimitiveTopology )
@@ -296,7 +296,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::UseShaderProgram()
+		void OpenGLRenderer::UseShaderProgram()
 		{
 			if(!m_pCurrentVertexShader || !m_pCurrentVertexShader->IsReady() || !m_pCurrentPixelShader || !m_pCurrentPixelShader->IsReady())
 			{
@@ -324,7 +324,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t /*numVertices*/ , uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
+		void OpenGLRenderer::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t /*numVertices*/ , uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
 			uint8_t numIndicesPerPrimitive = 0;
 			GLenum pt;
@@ -368,7 +368,7 @@ namespace Oak3D
 			
 		}
 
-		void OpenGLGraphicsEngine::SetMatrices()
+		void OpenGLRenderer::SetMatrices()
 		{
 			glMatrixMode(GL_PROJECTION);
 			glLoadMatrixf(m_bPerspectiveProjection ? (GLfloat *)m_pPerspectiveProjectionMatrix : (GLfloat *)m_pOrthographicProjectionMatrix);
@@ -377,7 +377,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
+		void OpenGLRenderer::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 			GLuint vbId; 
 			glGenBuffersARB(1, &vbId);
@@ -387,7 +387,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t /*offsetToLock*/, uint32_t /*sizeToLock*/, uint32_t flags )
+		void OpenGLRenderer::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t /*offsetToLock*/, uint32_t /*sizeToLock*/, uint32_t flags )
 		{	
 			int oldId = 0;
 			glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldId);
@@ -397,7 +397,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
+		void OpenGLRenderer::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
 		{	
 			int oldId = 0;
 			glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldId);
@@ -407,14 +407,14 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
+		void OpenGLRenderer::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 			GLuint id = (GLuint)pVertexBuffer->GetData();
 			glDeleteBuffersARB(1, &id);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
+		void OpenGLRenderer::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			GLuint ibId; 
 			glGenBuffersARB(1, &ibId);
@@ -425,7 +425,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::LockIndexBuffer( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
+		void OpenGLRenderer::LockIndexBuffer( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
 		{	
 			int oldId = 0;
 			glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &oldId);
@@ -435,7 +435,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::UnlockIndexBuffer( IndexBuffer *pIndexBuffer )
+		void OpenGLRenderer::UnlockIndexBuffer( IndexBuffer *pIndexBuffer )
 		{	
 			int oldId = 0;
 			glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &oldId);
@@ -445,20 +445,20 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::ReleaseIndexBuffer( IndexBuffer *pIndexBuffer )
+		void OpenGLRenderer::ReleaseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			GLuint id = (GLuint)pIndexBuffer->GetData();
 			glDeleteBuffers(1, &id);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::OutputText( const std::string &text, uint32_t x, uint32_t y)
+		void OpenGLRenderer::OutputText( const std::string &text, uint32_t x, uint32_t y)
 		{
 			m_pDebugTextRenderer->OutputText(text, x, y);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
+		void OpenGLRenderer::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
 		{
 			/*
 			D3DVERTEXELEMENT9 layout[12];
@@ -517,7 +517,7 @@ namespace Oak3D
 
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::UseVertexBuffer( VertexBuffer *pVertexBuffer )
+		void OpenGLRenderer::UseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 			if(!pVertexBuffer)
 			{
@@ -558,7 +558,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::UseIndexBuffer( IndexBuffer *pIndexBuffer )
+		void OpenGLRenderer::UseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			if(!pIndexBuffer)
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -568,7 +568,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
+		void OpenGLRenderer::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
 		{
 			m_currentPrimitiveTopology = primitiveTopology;
 			switch(primitiveTopology)
@@ -594,7 +594,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::UseShader( Shader *pShader )
+		void OpenGLRenderer::UseShader( Shader *pShader )
 		{
 			
 			if(pShader->GetType() == eST_VertexShader)
@@ -608,19 +608,19 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::EnableDepthBuffer()
+		void OpenGLRenderer::EnableDepthBuffer()
 		{
 			glEnable(GL_DEPTH_TEST);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::DisableDepthBuffer()
+		void OpenGLRenderer::DisableDepthBuffer()
 		{
 			glDisable(GL_DEPTH_TEST);
 		}
 
 		// --------------------------------------------------------------------------------
-		Oak3D::Math::Matrix OpenGLGraphicsEngine::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
+		Oak3D::Math::Matrix OpenGLRenderer::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
 		{
 			Oak3D::Math::Vector3 look = (lookAt - eye).GetNormalized();
 			Oak3D::Math::Vector3 right = look.Cross(up).GetNormalized();
@@ -649,25 +649,25 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::EnableOrtographicProjection()
+		void OpenGLRenderer::EnableOrtographicProjection()
 		{
 			m_bPerspectiveProjection = false;
 		}
 		
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::EnablePerspectiveProjection()
+		void OpenGLRenderer::EnablePerspectiveProjection()
 		{
 			m_bPerspectiveProjection = true;
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::EnableFillWireframe()
+		void OpenGLRenderer::EnableFillWireframe()
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLGraphicsEngine::EnableFillSolid()
+		void OpenGLRenderer::EnableFillSolid()
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}

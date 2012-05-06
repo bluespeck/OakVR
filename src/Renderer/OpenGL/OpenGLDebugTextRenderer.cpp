@@ -16,7 +16,7 @@
 #include "Oak3D/Engine.h"
 
 #include "OpenGLDebugTextRenderer.h"
-#include "OpenGLGraphicsEngine.h"
+#include "OpenGLRenderer.h"
 #include "OpenGLShader.h"
 
 #include "Renderer/IRenderer/Font.h"
@@ -50,7 +50,7 @@ namespace Oak3D
 			m_pFont = new Font();
 			m_pFont->Initialize("../resources/font/DebugFont.index", "../resources/font/DebugFont.tga");
 
-			while(!Engine::GetGraphicsEngine()->IsInitialized());
+			while(!Engine::GetRenderer()->IsInitialized());
 			// TODO Different resources from the same file :(((((((((((((((((((( => same id => second resource is not created
 			Shader::ShaderAdditionalInitParams params;
 			params.shaderType = eST_VertexShader;
@@ -81,7 +81,7 @@ namespace Oak3D
 			memcpy( pData, pVertices, sizeof(Font::TextVertex) * numVertices);
 			vb.Unlock();
 
-			OpenGLGraphicsEngine *ge = (OpenGLGraphicsEngine *)Engine::GetInstance()->GetGraphicsEngine();
+			OpenGLRenderer *ge = (OpenGLRenderer *)Engine::GetInstance()->GetRenderer();
 
 			Oak3D::Math::Matrix *pM = ge->GetViewMatrix();
 			*pM = Oak3D::Math::Matrix::CreateIdentityMatrix();

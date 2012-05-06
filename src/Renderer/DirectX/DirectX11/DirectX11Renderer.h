@@ -2,26 +2,46 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_RENDER_DIRECTX9GRAPHICSENGINE_H__
-#define __OAK3D_INCLUDE_RENDER_DIRECTX9GRAPHICSENGINE_H__
+#ifndef __OAK3D_INCLUDE_RENDER_DIRECTX11RENDERER_H__
+#define __OAK3D_INCLUDE_RENDER_DIRECTX11RENDERER_H__
 
-#include "Renderer/IRenderer/GraphicsEngine.h"
-#include "Renderer/IRenderer/Shader.h"
-#include "Renderer/IRenderer/DebugTextRenderer.h"
+#include "Renderer/IRenderer/IRenderer.h"
 
-struct IDirect3DDevice9;
-struct IDirect3DSurface9;
+struct ID3D11Device;
+struct ID3D11DeviceContext;
+struct IDXGISwapChain;
+struct ID3D11RenderTargetView;
+struct ID3D11RasterizerState;
+struct ID3D11DepthStencilState;
+struct ID3D11Buffer;
+struct ID3D11SamplerState;
+struct ID3D11DepthStencilView;
 
 namespace Oak3D
 {
 	namespace Render
 	{
-		class DirectX9GraphicsEngine : public GraphicsEngine
+		class DirectX11Renderer : public IRenderer
 		{
 		public:
 
+			enum RasterizerStateIndex
+			{
+				eRSI_First = 0,
+				eRSI_FillSolid_CullBack_FrontCCW = eRSI_First,
+				eRSI_FillSolid_CullBack_FrontCW,
+				eRSI_FillSolid_CullFront_FrontCCW,
+				eRSI_FillSolid_CullFront_FrontCW,
+				eRSI_FillWireframe_CullBack_FrontCCW,
+				eRSI_FillWireframe_CullBack_FrontCW,
+				eRSI_FillWireframe_CullFront_FrontCCW,
+				eRSI_FillWireframe_CullFront_FrontCW,
+				eRSI_Last = eRSI_FillWireframe_CullFront_FrontCW,
+				eRSI_Count
+			};
+
 			// constructors
-			DirectX9GraphicsEngine();
+			DirectX11Renderer();
 
 			// overrides
 			virtual void Initialize();
@@ -35,7 +55,7 @@ namespace Oak3D
 
 			virtual void DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex = 0);
 			virtual void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t numVertices = 0, uint32_t startIndex = 0, uint32_t startVertex = 0);
-
+			
 			virtual void CreateTexture	( Texture *texture );
 			virtual void ReleaseTexture	( Texture *texture );
 			virtual void UseTexture ( Texture *texture );
@@ -57,31 +77,54 @@ namespace Oak3D
 			virtual void CreateShader( Shader *pShader );
 			virtual void ReleaseShader( Shader *pShader );
 			virtual void UseShader( Shader *pShader );			
-			virtual Oak3D::Math::Matrix CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up);
 
 			virtual void OutputText( const std::string &text, uint32_t x, uint32_t y);
 
 			virtual void EnableOrtographicProjection();
 			virtual void EnablePerspectiveProjection();
+
+			virtual void EnableDepthBuffer();
+			virtual void DisableDepthBuffer();
+
 			virtual void EnableFillWireframe();
 			virtual void EnableFillSolid();
 
-			
+			virtual Oak3D::Math::Matrix CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up);
+
+
 			// misc
 			void CreateInputLayoutDesc( uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems );
 			void InitializeStateObjects();
+						
+			void SetRasterizerState( RasterizerStateIndex rsi );
+			
 
-			void EnableDepthBuffer();
-			void DisableDepthBuffer();
-
-			IDirect3DDevice9 *GetDevice() { return m_pDevice; }
+			ID3D11Device *GetDevice() { return m_pDevice; }
+			ID3D11DeviceContext *GetDeviceContext() { return m_pDeviceContext; }
 
 		private:
-			IDirect3DDevice9 *m_pDevice;                     // Direct3D device interface
-			IDirect3DSurface9 *m_pRenderTarget;
+			void SetMatrices();
+
+		private:
+			IDXGISwapChain *m_pSwapChain;             // the swap chain interface
+			ID3D11Device *m_pDevice;                     // Direct3D device interface
+			ID3D11DeviceContext *m_pDeviceContext;           // Direct3D device context
+
+			ID3D11RenderTargetView *m_pBackBufferRenderTargetView;
+			ID3D11DepthStencilView *m_pDepthStencilView;
+			
+			// directx state objects
+			ID3D11DepthStencilState *m_pDepthStencilStateDepthDisabled;
+			ID3D11DepthStencilState *m_pDepthStencilStateDepthEnabled;
+			ID3D11RasterizerState *m_pRasterizerStates[eRSI_Count];
+			ID3D11SamplerState *m_pSamplerState;
+
+			ID3D11Buffer *m_pMatrixBuffer;
+			bool m_bPerspectiveProjection;
+
+			
 		};
 	}	// namespace Render
 }	// namespace Oak3D
 
 #endif
-

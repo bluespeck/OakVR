@@ -3,12 +3,12 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_RENDER_GRAPHICSENGINE_H__
-#define __OAK3D_INCLUDE_RENDER_GRAPHICSENGINE_H__
+#ifndef __OAK3D_INCLUDE_RENDER_Renderer_H__
+#define __OAK3D_INCLUDE_RENDER_Renderer_H__
 
 #include <cstdint>
 #include <string>
-#include "GraphicsEngineUtils.h"
+#include "RendererUtils.h"
 
 #include "Core/Math/Vector3.h"
 
@@ -30,11 +30,11 @@ namespace Oak3D
 		struct Color;
 		class DebugTextRenderer;
 
-		class GraphicsEngine
+		class IRenderer
 		{
 		public:
-			GraphicsEngine();
-			virtual ~GraphicsEngine();
+			IRenderer();
+			virtual ~IRenderer();
 
 			virtual void Initialize(){}
 			virtual void Update( float dt ){}
@@ -110,25 +110,25 @@ namespace Oak3D
 		};
 		
 		// --------------------------------------------------------------------------------		
-		Math::Matrix *GraphicsEngine::GetWorldMatrix()
+		Math::Matrix *IRenderer::GetWorldMatrix()
 		{
 			return m_pWorldMatrix;
 		}
 
 		// --------------------------------------------------------------------------------		
-		Math::Matrix *GraphicsEngine::GetViewMatrix()
+		Math::Matrix *IRenderer::GetViewMatrix()
 		{
 			return m_pViewMatrix;
 		}
 
 		// --------------------------------------------------------------------------------		
-		Math::Matrix *GraphicsEngine::GetPerspectiveProjectionMatrix()
+		Math::Matrix *IRenderer::GetPerspectiveProjectionMatrix()
 		{
 			return m_pPerspectiveProjectionMatrix;
 		}
 
 		// --------------------------------------------------------------------------------		
-		Math::Matrix *GraphicsEngine::GetOrthographicProjectionMatrix()
+		Math::Matrix *IRenderer::GetOrthographicProjectionMatrix()
 		{
 			return m_pOrthographicProjectionMatrix;
 		}

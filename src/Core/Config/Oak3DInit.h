@@ -11,7 +11,7 @@ namespace Oak3D
 	namespace Render
 	{
 		class RenderWindow;
-		class GraphicsEngine;
+		class IRenderer;
 	}
 
 	namespace Core
@@ -20,7 +20,7 @@ namespace Oak3D
 	}
 
 	Render::RenderWindow *CreateRenderWindow();
-	Render::GraphicsEngine *CreateGraphicsEngine();
+	Render::IRenderer *CreateRenderer();
 	Core::Timer *CreateTimer();
 }	// namespace Oak3D
 

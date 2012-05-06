@@ -7,14 +7,14 @@
 #if OAK3D_RENDERER == OAK3D_RENDERER_OPENGL
 
 #include "Core/Config/Oak3DInit.h"
-#include "Renderer/OpenGL/OpenGLGraphicsEngine.h"
+#include "Renderer/OpenGL/OpenGLRenderer.h"
 
 namespace Oak3D
 {
 	// --------------------------------------------------------------------------------
-	Render::GraphicsEngine *CreateGraphicsEngine()
+	Render::IRenderer *CreateRenderer()
 	{
-		return new Render::OpenGLGraphicsEngine();
+		return new Render::OpenGLRenderer();
 	}
 } // namespace Oak3D
 

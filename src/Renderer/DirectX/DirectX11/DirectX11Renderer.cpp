@@ -25,12 +25,12 @@
 #include "Oak3D/Engine.h"
 
 
-#include "DirectX11GraphicsEngine.h"
+#include "DirectX11Renderer.h"
 #include "DirectX11DebugTextRenderer.h"
 #include "DirectX11Shader.h"
 
 #include "Renderer/IRenderer/WindowsRenderWindow.h"
-#include "Renderer/IRenderer/GraphicsEngineUtils.h"
+#include "Renderer/IRenderer/RendererUtils.h"
 #include "Renderer/IRenderer/VertexBuffer.h"
 #include "Renderer/IRenderer/IndexBuffer.h"
 #include "Renderer/IRenderer/Texture.h"
@@ -46,7 +46,7 @@ namespace Oak3D
 	namespace Render
 	{
 		// --------------------------------------------------------------------------------
-		DirectX11GraphicsEngine::DirectX11GraphicsEngine()
+		DirectX11Renderer::DirectX11Renderer()
 		: m_pDevice(nullptr)
 		, m_pSwapChain(nullptr)
 		, m_pDeviceContext(nullptr)
@@ -57,7 +57,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::Initialize()
+		void DirectX11Renderer::Initialize()
 		{
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
 			SetWindowTextW(hWnd, L"Oak3D [DX11]");
@@ -95,8 +95,28 @@ namespace Oak3D
 
 			// use the back buffer address to create the render target
 
-			HR(m_pDevice->CreateRenderTargetView(pBackBufferTexture, NULL, &m_pBackBufferRenderTargetView));
-			pBackBufferTexture->Release();
+			m_pDevice->CreateRenderTargetView(pBackBufferTexture, NULL, &m_pBackBufferRenderTargetView);
+			//pBackBufferTexture->Release();
+
+
+			// Create the depth/stencil buffer and view.
+			D3D11_TEXTURE2D_DESC depthStencilDesc;
+	
+			depthStencilDesc.Width     = m_pRenderWindow->GetWidth();
+			depthStencilDesc.Height    = m_pRenderWindow->GetHeight();
+			depthStencilDesc.MipLevels = 1;
+			depthStencilDesc.ArraySize = 1;
+			depthStencilDesc.Format    = DXGI_FORMAT_D24_UNORM_S8_UINT;
+			depthStencilDesc.SampleDesc.Count   = 1;
+			depthStencilDesc.SampleDesc.Quality = 0;
+			depthStencilDesc.Usage          = D3D11_USAGE_DEFAULT;
+			depthStencilDesc.BindFlags      = D3D11_BIND_DEPTH_STENCIL;
+			depthStencilDesc.CPUAccessFlags = 0; 
+			depthStencilDesc.MiscFlags      = 0;
+
+			ID3D11Texture2D *pDepthStencilBuffer = NULL;
+			m_pDevice->CreateTexture2D(&depthStencilDesc, 0, &pDepthStencilBuffer);
+			m_pDevice->CreateDepthStencilView(pDepthStencilBuffer, 0, &m_pDepthStencilView);
 
 			// set the render target as the back buffer
 			m_pDeviceContext->OMSetRenderTargets(1, &m_pBackBufferRenderTargetView, NULL);
@@ -108,7 +128,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		Oak3D::Math::Matrix DirectX11GraphicsEngine::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
+		Oak3D::Math::Matrix DirectX11Renderer::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
 		{
 			Oak3D::Math::Matrix mat;
 			D3DXMatrixLookAtLH((D3DXMATRIX *)&mat, (D3DXVECTOR3 *)&eye, (D3DXVECTOR3 *)&lookAt, (D3DXVECTOR3 *)&up);
@@ -116,7 +136,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::InitializeStateObjects()
+		void DirectX11Renderer::InitializeStateObjects()
 		{
 			/////
 			// set the viewport
@@ -237,31 +257,32 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::ClearBackground(const Color &color)
+		void DirectX11Renderer::ClearBackground(const Color &color)
 		{
 			m_pDeviceContext->ClearRenderTargetView(m_pBackBufferRenderTargetView, color);
+			m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilView ,D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL, 1.0f, 0);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::BeginDraw()
+		void DirectX11Renderer::BeginDraw()
 		{
 
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::EndDraw()
+		void DirectX11Renderer::EndDraw()
 		{
 
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::SwapBuffers()
+		void DirectX11Renderer::SwapBuffers()
 		{
 			HR(m_pSwapChain->Present(0, 0));
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::Cleanup()
+		void DirectX11Renderer::Cleanup()
 		{
 			m_pSwapChain->SetFullscreenState(FALSE, nullptr);    // switch to windowed mode
 
@@ -273,7 +294,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::Update(float dt)
+		void DirectX11Renderer::Update(float dt)
 		{
 
 		}
@@ -352,7 +373,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::CreateShader(Shader *pShader)
+		void DirectX11Renderer::CreateShader(Shader *pShader)
 		{
 			DirectX11Shader *pSh = static_cast<DirectX11Shader *>(pShader);
 			switch(pSh->GetType())
@@ -404,7 +425,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::ReleaseShader(Shader *pShader)
+		void DirectX11Renderer::ReleaseShader(Shader *pShader)
 		{
 			if(pShader == nullptr)
 				return;
@@ -413,7 +434,7 @@ namespace Oak3D
 		}
 		
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::CreateTexture( Texture *pTexture )
+		void DirectX11Renderer::CreateTexture( Texture *pTexture )
 		{
 			ID3D11ShaderResourceView *pTexView;
 			const std::string path = pTexture->GetId().GetStrId();
@@ -447,13 +468,13 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::ReleaseTexture( Texture *pTexture )
+		void DirectX11Renderer::ReleaseTexture( Texture *pTexture )
 		{
 			((ID3D11ShaderResourceView *)pTexture->GetData())->Release();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::UseTexture ( Texture *pTexture )
+		void DirectX11Renderer::UseTexture ( Texture *pTexture )
 		{	
 			if(pTexture == nullptr)
 				return;
@@ -464,14 +485,14 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
+		void DirectX11Renderer::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
 		{
 			SetMatrices();
 			m_pDeviceContext->Draw(numPrimitives * m_numVerticesPerPrimitive, startVertex);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t /*numVertices*/, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
+		void DirectX11Renderer::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t /*numVertices*/, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
 			SetMatrices();
 			m_pDeviceContext->DrawIndexed(numPrimitives * m_numVerticesPerPrimitive, startIndex, startVertex);
@@ -479,7 +500,7 @@ namespace Oak3D
 
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
+		void DirectX11Renderer::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 			D3D11_BUFFER_DESC desc;
 			ID3D11Buffer *pVB = nullptr;
@@ -495,7 +516,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
+		void DirectX11Renderer::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
 		{	
 			// no offset??
 			D3D11_MAPPED_SUBRESOURCE ms;
@@ -504,19 +525,19 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
+		void DirectX11Renderer::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
 		{	
 			m_pDeviceContext->Unmap((ID3D11Resource *)pVertexBuffer->GetData(), NULL);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
+		void DirectX11Renderer::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 			((ID3D11Resource *)pVertexBuffer->GetData())->Release();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
+		void DirectX11Renderer::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			D3D11_BUFFER_DESC desc;
 			ID3D11Buffer *pIB = nullptr;
@@ -532,7 +553,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::LockIndexBuffer( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
+		void DirectX11Renderer::LockIndexBuffer( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
 		{	
 			// no offset?
 			D3D11_MAPPED_SUBRESOURCE ms;
@@ -541,25 +562,25 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::UnlockIndexBuffer( IndexBuffer *pIndexBuffer )
+		void DirectX11Renderer::UnlockIndexBuffer( IndexBuffer *pIndexBuffer )
 		{	
 			m_pDeviceContext->Unmap((ID3D11Resource *)pIndexBuffer->GetData(), 0);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::ReleaseIndexBuffer( IndexBuffer *pIndexBuffer )
+		void DirectX11Renderer::ReleaseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			((ID3D11Resource *)pIndexBuffer->GetData())->Release();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::OutputText( const std::string &text, uint32_t x, uint32_t y)
+		void DirectX11Renderer::OutputText( const std::string &text, uint32_t x, uint32_t y)
 		{
 			m_pDebugTextRenderer->OutputText(text, x, y);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
+		void DirectX11Renderer::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
 		{
 			D3D11_INPUT_ELEMENT_DESC layout[12];
 			numElems = 0;
@@ -614,7 +635,7 @@ namespace Oak3D
 
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::UseVertexBuffer( VertexBuffer *pVertexBuffer )
+		void DirectX11Renderer::UseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 			ID3D11Buffer *pBuffer = (ID3D11Buffer *)pVertexBuffer->GetData();
 			uint32_t stride = pVertexBuffer->GetVertexSize();
@@ -624,7 +645,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::UseIndexBuffer( IndexBuffer *pIndexBuffer )
+		void DirectX11Renderer::UseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			m_pCurrentIndexBuffer = pIndexBuffer;
 			if(pIndexBuffer == nullptr || pIndexBuffer->GetData() == nullptr)
@@ -634,7 +655,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
+		void DirectX11Renderer::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
 		{
 			D3D11_PRIMITIVE_TOPOLOGY pt = D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED;
 			switch( primitiveTopology )
@@ -667,7 +688,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::UseShader( Shader *pShader )
+		void DirectX11Renderer::UseShader( Shader *pShader )
 		{
 			if(!pShader || !pShader->IsReady())
 				return;
@@ -685,48 +706,48 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::EnableDepthBuffer()
+		void DirectX11Renderer::EnableDepthBuffer()
 		{
 			m_pDeviceContext->OMSetDepthStencilState(m_pDepthStencilStateDepthEnabled, 1);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::DisableDepthBuffer()
+		void DirectX11Renderer::DisableDepthBuffer()
 		{
 			m_pDeviceContext->OMSetDepthStencilState(m_pDepthStencilStateDepthDisabled, 1);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::SetRasterizerState( RasterizerStateIndex rsi )
+		void DirectX11Renderer::SetRasterizerState( RasterizerStateIndex rsi )
 		{
 			m_pDeviceContext->RSSetState( m_pRasterizerStates[rsi] );
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::EnableOrtographicProjection()
+		void DirectX11Renderer::EnableOrtographicProjection()
 		{
 			m_bPerspectiveProjection = false;
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::EnablePerspectiveProjection()
+		void DirectX11Renderer::EnablePerspectiveProjection()
 		{
 			m_bPerspectiveProjection = true;
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::EnableFillWireframe()
+		void DirectX11Renderer::EnableFillWireframe()
 		{
 			SetRasterizerState(eRSI_FillWireframe_CullBack_FrontCW);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX11GraphicsEngine::EnableFillSolid()
+		void DirectX11Renderer::EnableFillSolid()
 		{
 			SetRasterizerState(eRSI_FillSolid_CullBack_FrontCW);
 		}
 
-		void DirectX11GraphicsEngine::SetMatrices()
+		void DirectX11Renderer::SetMatrices()
 		{
 			struct MatrixBuffer
 			{

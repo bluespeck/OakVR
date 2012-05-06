@@ -1,6 +1,6 @@
 #include "Texture.h"
 #include "Oak3D/Engine.h"
-#include "GraphicsEngine.h"
+#include "IRenderer.h"
 
 namespace Oak3D
 {
@@ -25,7 +25,7 @@ namespace Oak3D
 		{
 			m_state = eRS_Loading;
 			// Create GE texture
-			Oak3D::Engine::GetInstance()->GetGraphicsEngine()->CreateTexture(this);
+			Oak3D::Engine::GetInstance()->GetRenderer()->CreateTexture(this);
 			m_state = eRS_Ready;
 		}
 
@@ -35,7 +35,7 @@ namespace Oak3D
 
 		void Texture::Release()
 		{
-			Oak3D::Engine::GetInstance()->GetGraphicsEngine()->ReleaseTexture(this);
+			Oak3D::Engine::GetInstance()->GetRenderer()->ReleaseTexture(this);
 			m_state = eRS_Released;
 		}
 	} // namespace Render

@@ -6,10 +6,10 @@
 #include <string>
 #include <cassert>
 
-#include "Renderer/IRenderer/GraphicsEngineUtils.h"
+#include "Renderer/IRenderer/RendererUtils.h"
 
 #include "OpenGLShader.h"
-#include "OpenGLGraphicsEngine.h"
+#include "OpenGLRenderer.h"
 
 #include "Oak3D/Engine.h"
 #include "Core/Utils/StringID.h"

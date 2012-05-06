@@ -2,7 +2,7 @@
 #include "Oak3D.h"
 #include "Oak3D/Engine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
-#include "Renderer/IRenderer/GraphicsEngine.h"
+#include "Renderer/IRenderer/IRenderer.h"
 #include "Core/Parallel/Thread.h"
 #include "Core/Time/Timer.h"
 
@@ -16,7 +16,7 @@ namespace Oak3D
 
 		m_pEngine->SetRenderWindow(CreateRenderWindow());		
 		m_pEngine->SetTimer(new Core::Timer());
-		m_pEngine->SetGraphicsEngine(CreateGraphicsEngine());
+		m_pEngine->SetRenderer(CreateRenderer());
 		m_pEngine->SetResourceManager(Core::ResourceManager::GetInstance());
 
 		m_pEngine->Initialize();

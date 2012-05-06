@@ -17,12 +17,12 @@
 #include "Oak3D/Engine.h"
 
 #include "Renderer/DirectX/DirectXUtils.h"
-#include "DirectX9GraphicsEngine.h"
+#include "DirectX9Renderer.h"
 #include "DirectX9DebugTextRenderer.h"
 #include "DirectX9Shader.h"
 
 #include "Renderer/IRenderer/WindowsRenderWindow.h"
-#include "Renderer/IRenderer/GraphicsEngineUtils.h"
+#include "Renderer/IRenderer/RendererUtils.h"
 #include "Renderer/IRenderer/VertexBuffer.h"
 #include "Renderer/IRenderer/IndexBuffer.h"
 #include "Renderer/IRenderer/Texture.h"
@@ -34,13 +34,13 @@ namespace Oak3D
 	namespace Render
 	{
 		// --------------------------------------------------------------------------------
-		DirectX9GraphicsEngine::DirectX9GraphicsEngine()
+		DirectX9Renderer::DirectX9Renderer()
 		: m_pDevice(nullptr)
 		{
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::Initialize()
+		void DirectX9Renderer::Initialize()
 		{
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
 			SetWindowTextW(hWnd, L"Oak3D [DX9]");
@@ -93,50 +93,50 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::InitializeStateObjects()
+		void DirectX9Renderer::InitializeStateObjects()
 		{
 			
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::ClearBackground(const Color &color)
+		void DirectX9Renderer::ClearBackground(const Color &color)
 		{
 			// clear the window to a deep blue
 			m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET, (uint32_t)color, 0.0f, 0);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::BeginDraw()
+		void DirectX9Renderer::BeginDraw()
 		{
 			m_pDevice->BeginScene();
 		}
 		
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::EndDraw()
+		void DirectX9Renderer::EndDraw()
 		{
 			m_pDevice->EndScene();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::SwapBuffers()
+		void DirectX9Renderer::SwapBuffers()
 		{
 			m_pDevice->Present(nullptr, nullptr, nullptr, nullptr);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::Cleanup()
+		void DirectX9Renderer::Cleanup()
 		{
 			m_pDevice->Release();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::Update(float dt)
+		void DirectX9Renderer::Update(float dt)
 		{
 
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::CreateShader(Shader *pShader)
+		void DirectX9Renderer::CreateShader(Shader *pShader)
 		{
 			DirectX9Shader *pSh = static_cast<DirectX9Shader *>(pShader);
 			switch(pSh->GetType())
@@ -192,7 +192,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::ReleaseShader(Shader *pShader)
+		void DirectX9Renderer::ReleaseShader(Shader *pShader)
 		{
 			if(pShader == nullptr)
 				return;
@@ -201,7 +201,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::CreateTexture( Texture *pTexture )
+		void DirectX9Renderer::CreateTexture( Texture *pTexture )
 		{
 			IDirect3DTexture9 *pTex;
 			const std::string path = pTexture->GetId().GetStrId();
@@ -231,13 +231,13 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::ReleaseTexture( Texture *pTexture )
+		void DirectX9Renderer::ReleaseTexture( Texture *pTexture )
 		{
 			((IDirect3DResource9 *)pTexture->GetData())->Release();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UseTexture( Texture *pTexture )
+		void DirectX9Renderer::UseTexture( Texture *pTexture )
 		{
 			if(pTexture == nullptr)
 				return;
@@ -245,7 +245,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
+		void DirectX9Renderer::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
 		{
 			D3DPRIMITIVETYPE pt = D3DPT_TRIANGLELIST;
 			switch( m_currentPrimitiveTopology )
@@ -274,7 +274,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t numVertices, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
+		void DirectX9Renderer::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t numVertices, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
 			D3DPRIMITIVETYPE pt = D3DPT_TRIANGLELIST;
 			switch( m_currentPrimitiveTopology )
@@ -302,7 +302,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
+		void DirectX9Renderer::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 			IDirect3DVertexBuffer9 *pVB = NULL;
 			unsigned int length = pVertexBuffer->GetVertexCount() * pVertexBuffer->GetVertexSize();
@@ -312,26 +312,26 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
+		void DirectX9Renderer::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
 		{	
 			// no offset??
 			((IDirect3DVertexBuffer9 *)pVertexBuffer->GetData())->Lock(offsetToLock, sizeToLock, ppBuff, D3DLOCK_DISCARD);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
+		void DirectX9Renderer::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
 		{	
 			((IDirect3DVertexBuffer9 *)pVertexBuffer->GetData())->Unlock();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
+		void DirectX9Renderer::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 			((IDirect3DVertexBuffer9 *)pVertexBuffer->GetData())->Release();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
+		void DirectX9Renderer::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			IDirect3DIndexBuffer9 *pIB = NULL;
 			
@@ -340,31 +340,31 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::LockIndexBuffer( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
+		void DirectX9Renderer::LockIndexBuffer( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
 		{	
 			((IDirect3DIndexBuffer9 *)pIndexBuffer->GetData())->Lock(offsetToLock, sizeToLock, ppBuff, 0);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UnlockIndexBuffer( IndexBuffer *pIndexBuffer )
+		void DirectX9Renderer::UnlockIndexBuffer( IndexBuffer *pIndexBuffer )
 		{	
 			((IDirect3DIndexBuffer9 *)pIndexBuffer->GetData())->Unlock();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::ReleaseIndexBuffer( IndexBuffer *pIndexBuffer )
+		void DirectX9Renderer::ReleaseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			((IDirect3DIndexBuffer9 *)pIndexBuffer->GetData())->Release();
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::OutputText( const std::string &text, uint32_t x, uint32_t y)
+		void DirectX9Renderer::OutputText( const std::string &text, uint32_t x, uint32_t y)
 		{
 			m_pDebugTextRenderer->OutputText(text, x, y);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
+		void DirectX9Renderer::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
 		{			
 			D3DVERTEXELEMENT9 layout[13];
 			numElems = 0;
@@ -430,7 +430,7 @@ namespace Oak3D
 
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UseVertexBuffer( VertexBuffer *pVertexBuffer )
+		void DirectX9Renderer::UseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 			IDirect3DVertexBuffer9 *pBuffer = (IDirect3DVertexBuffer9 *)pVertexBuffer->GetData();
 			uint32_t stride = pVertexBuffer->GetVertexSize();
@@ -440,7 +440,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UseIndexBuffer( IndexBuffer *pIndexBuffer )
+		void DirectX9Renderer::UseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			if(pIndexBuffer == nullptr || pIndexBuffer->GetData() == nullptr)
 			{
@@ -454,7 +454,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
+		void DirectX9Renderer::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
 		{
 			m_currentPrimitiveTopology = primitiveTopology;
 			switch(primitiveTopology)
@@ -480,7 +480,7 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::UseShader( Shader *pShader )
+		void DirectX9Renderer::UseShader( Shader *pShader )
 		{
 			
 			if(pShader->GetType() == eST_VertexShader)
@@ -496,19 +496,19 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::EnableDepthBuffer()
+		void DirectX9Renderer::EnableDepthBuffer()
 		{
 			m_pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::DisableDepthBuffer()
+		void DirectX9Renderer::DisableDepthBuffer()
 		{
 			m_pDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
 		}
 
 		// --------------------------------------------------------------------------------
-		Oak3D::Math::Matrix DirectX9GraphicsEngine::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
+		Oak3D::Math::Matrix DirectX9Renderer::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
 		{
 			Oak3D::Math::Matrix mat;
 			D3DXMatrixLookAtLH((D3DXMATRIX *)&mat, (D3DXVECTOR3 *)&eye, (D3DXVECTOR3 *)&lookAt, (D3DXVECTOR3 *)&up);
@@ -516,25 +516,25 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::EnableOrtographicProjection()
+		void DirectX9Renderer::EnableOrtographicProjection()
 		{
 			m_pDevice->SetTransform(D3DTS_PROJECTION, (D3DMATRIX *)m_pOrthographicProjectionMatrix);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::EnablePerspectiveProjection()
+		void DirectX9Renderer::EnablePerspectiveProjection()
 		{
 			m_pDevice->SetTransform(D3DTS_PROJECTION, (D3DMATRIX *)m_pPerspectiveProjectionMatrix);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::EnableFillWireframe()
+		void DirectX9Renderer::EnableFillWireframe()
 		{
 			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		}
 
 		// --------------------------------------------------------------------------------
-		void DirectX9GraphicsEngine::EnableFillSolid()
+		void DirectX9Renderer::EnableFillSolid()
 		{
 			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		}

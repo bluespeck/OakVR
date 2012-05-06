@@ -17,7 +17,7 @@
 
 #include "DirectX11DebugTextRenderer.h"
 #include "DirectX11Shader.h"
-#include "DirectX11GraphicsEngine.h"
+#include "DirectX11Renderer.h"
 #include "Renderer/DirectX/DirectXUtils.h"
 
 #include "Renderer/IRenderer/Font.h"
@@ -94,7 +94,7 @@ namespace Oak3D
 			memcpy( pData, pVertices, sizeof(Font::TextVertex) * numVertices);
 			vb.Unlock();
 
-			DirectX11GraphicsEngine *ge = (DirectX11GraphicsEngine *)Engine::GetInstance()->GetGraphicsEngine();
+			DirectX11Renderer *ge = (DirectX11Renderer *)Engine::GetInstance()->GetRenderer();
 
 			ge->UseVertexBuffer( &vb );
 			ge->UseShader( m_pVertexShader );

@@ -306,7 +306,7 @@
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Color.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Effect.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Font.cpp" />
-    <ClCompile Include="..\..\..\src\Renderer\IRenderer\GraphicsEngine.cpp" />
+    <ClCompile Include="..\..\..\src\Renderer\IRenderer\IRenderer.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\IController.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\IndexBuffer.cpp" />
     <ClCompile Include="..\..\..\src\Renderer\IRenderer\Material.cpp" />
@@ -328,8 +328,8 @@
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\DebugTextRenderer.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Effect.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Font.h" />
-    <ClInclude Include="..\..\..\src\Renderer\IRenderer\GraphicsEngine.h" />
-    <ClInclude Include="..\..\..\src\Renderer\IRenderer\GraphicsEngineUtils.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\IRenderer.h" />
+    <ClInclude Include="..\..\..\src\Renderer\IRenderer\RendererUtils.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\IController.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\IndexBuffer.h" />
     <ClInclude Include="..\..\..\src\Renderer\IRenderer\Material.h" />

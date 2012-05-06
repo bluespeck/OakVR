@@ -1,6 +1,6 @@
 #include "Shader.h"
 #include "Oak3D/Engine.h"
-#include "GraphicsEngine.h"
+#include "IRenderer.h"
 
 
 
@@ -19,7 +19,7 @@ namespace Oak3D
 		void Shader::Load()
 		{
 			m_state = eRS_Loading;
-			GraphicsEngine *pGE = (GraphicsEngine*)Engine::GetInstance()->GetGraphicsEngine();
+			IRenderer *pGE = (IRenderer*)Engine::GetInstance()->GetRenderer();
 			pGE->CreateShader(this);
 			m_state = eRS_Ready;
 		}
@@ -32,7 +32,7 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void Shader::Release()
 		{
-			GraphicsEngine *pGE = (GraphicsEngine*)Engine::GetInstance()->GetGraphicsEngine();
+			IRenderer *pGE = (IRenderer*)Engine::GetInstance()->GetRenderer();
 			pGE->ReleaseShader(this);
 			m_state = eRS_Released;
 		}

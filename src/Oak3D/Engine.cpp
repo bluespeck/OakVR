@@ -6,7 +6,7 @@
 
 #include "Engine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
-#include "Renderer/IRenderer/GraphicsEngine.h"
+#include "Renderer/IRenderer/IRenderer.h"
 #include "Core/Time/Timer.h"
 #include "Core/ResourceManager/ResourceManager.h"
 #include "Leaf3D/Widget.h"
@@ -847,7 +847,7 @@ namespace Oak3D
 	}
 
 	// --------------------------------------------------------------------------------
-	void Engine::SetGraphicsEngine(Render::GraphicsEngine *pGE)
+	void Engine::SetRenderer(Render::IRenderer *pGE)
 	{
 		if(m_pInstance->m_pGE)
 			delete m_pInstance->m_pGE;
@@ -895,7 +895,7 @@ namespace Oak3D
 	}
 
 	// --------------------------------------------------------------------------------
-	Render::GraphicsEngine *Engine::GetGraphicsEngine()
+	Render::IRenderer *Engine::GetRenderer()
 	{
 		return m_pInstance->m_pGE;
 	}

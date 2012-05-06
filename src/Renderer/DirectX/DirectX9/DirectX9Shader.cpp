@@ -8,10 +8,10 @@
 
 #include <d3d9.h>
 
-#include "Renderer/IRenderer/GraphicsEngineUtils.h"
+#include "Renderer/IRenderer/RendererUtils.h"
 
 #include "DirectX9Shader.h"
-#include "DirectX9GraphicsEngine.h"
+#include "DirectX9Renderer.h"
 
 #include "Oak3D/Engine.h"
 #include "Core/Utils/StringID.h"

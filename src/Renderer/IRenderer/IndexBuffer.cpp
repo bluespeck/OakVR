@@ -2,7 +2,7 @@
 #include <cstdint>
 
 #include "Oak3D/Engine.h"
-#include "GraphicsEngine.h"
+#include "IRenderer.h"
 
 #include "IndexBuffer.h"
 
@@ -28,25 +28,25 @@ namespace Oak3D
 		void IndexBuffer::Create(uint32_t indexCount)
 		{
 			m_indexCount = indexCount;
-			Engine::GetGraphicsEngine()->CreateIndexBuffer(this);
+			Engine::GetRenderer()->CreateIndexBuffer(this);
 		}
 
 		// --------------------------------------------------------------------------------
 		void IndexBuffer::Lock(void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags)
 		{
-			Engine::GetGraphicsEngine()->LockIndexBuffer(this, ppBuff, offsetToLock, sizeToLock, flags);
+			Engine::GetRenderer()->LockIndexBuffer(this, ppBuff, offsetToLock, sizeToLock, flags);
 		}
 
 		// --------------------------------------------------------------------------------
 		void IndexBuffer::Unlock()
 		{
-			Engine::GetGraphicsEngine()->UnlockIndexBuffer(this);
+			Engine::GetRenderer()->UnlockIndexBuffer(this);
 		}
 
 		// --------------------------------------------------------------------------------
 		void IndexBuffer::Release()
 		{
-			Engine::GetGraphicsEngine()->ReleaseIndexBuffer(this);
+			Engine::GetRenderer()->ReleaseIndexBuffer(this);
 			m_pData = nullptr;
 			m_indexCount = 0;
 		}

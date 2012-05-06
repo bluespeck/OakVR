@@ -17,7 +17,7 @@
 
 #include "DirectX9DebugTextRenderer.h"
 #include "DirectX9Shader.h"
-#include "DirectX9GraphicsEngine.h"
+#include "DirectX9Renderer.h"
 
 
 #include "Renderer/IRenderer/Font.h"
@@ -50,7 +50,7 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX9DebugTextRenderer::Init()
 		{
-			DirectX9GraphicsEngine *ge = (DirectX9GraphicsEngine *)Engine::GetInstance()->GetGraphicsEngine();
+			DirectX9Renderer *ge = (DirectX9Renderer *)Engine::GetInstance()->GetRenderer();
 			HR(D3DXCreateFont(ge->GetDevice(),     //D3D Device
 				22,               //Font height
 				0,                //Font width
