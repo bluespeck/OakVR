@@ -1,14 +1,7 @@
-solution "Core"
-	configurations { "Debug", "Release" }
-
-	project "Core"
+	project "Utils"
 		kind "StaticLib"
 		language "C++"
 
-		dofile("LLAPI/LLAPI-premake4.lua")
-		dofile("Math/Math-premake4.lua")
-		dofile("Utils/Utils-premake4.lua")
-		dofile("ResourceManager/ResourceManager-premake4.lua")
 
-		files { "*.h", "*.cpp" }
+		files { "**.h", "**.cpp" }
 
