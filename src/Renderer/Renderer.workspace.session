@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Session Name="/home/bluespeck/Desktop/Link to Oak3D/src/Renderer/Renderer.workspace">
+  <int Value="1" Name="m_selectedTab"/>
+  <wxString Value="/home/bluespeck/Desktop/Link to Oak3D/src/Renderer/Renderer.workspace" Name="m_workspaceName"/>
+  <TabInfoArray Name="TabInfoArray">
+    <TabInfo>
+      <wxString Value="/home/bluespeck/Documents/Projects/Oak3D/src/Renderer/OpenGL/Oak3DInitOpenGL.cpp" Name="FileName"/>
+      <int Value="0" Name="FirstVisibleLine"/>
+      <int Value="15" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="/home/bluespeck/Documents/Projects/Oak3D/src/Renderer/IRenderer/Mesh.cpp" Name="FileName"/>
+      <int Value="414" Name="FirstVisibleLine"/>
+      <int Value="10" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+    </TabInfo>
+  </TabInfoArray>
+  <SerializedObject Name="m_breakpoints">
+    <long Value="0" Name="Count"/>
+  </SerializedObject>
+</Session>
