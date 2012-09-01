@@ -1,7 +1,7 @@
 solution "LLAPI"
 	configurations { "Debug", "Release" }
 	--platforms {"windows32", "windows64", "linux32", "linux64"}
-	location("_build/" .. _ACTION)
+	location(Oak3DRoot .. "/workspace/" .. _ACTION .. "/LLAPI")
 
 	dofile("FileSystem/p4-FileSystem.lua")
 	dofile("Input/p4-Input.lua")
