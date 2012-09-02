@@ -1,9 +1,8 @@
-#include "File.h"
-
 #include <cstdio>
-#include <cassert>
 #include <sys\types.h>
 #include <sys\stat.h> 
+
+#include "File.h"
 
 namespace Oak3D
 {
@@ -12,47 +11,57 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		struct File::FileImpl
 		{
-			std::string filepath;
-			bool bIsOpen;
-			FILE *pFileHandle;			
-			File::FileOpenMode eFileOpenMode;
+			FILE *pFileHandle;
 		};
 
 		// --------------------------------------------------------------------------------
 		File::File(std::string filepath)
+			: m_bFileOpened(false) , m_eFileOpenMode(eFOM_Unknown), m_filePath(filepath)
 		{
 			m_pImpl = new FileImpl;
-			m_pImpl->filepath = filepath;
-			m_pImpl->bIsOpen = false;
+			m_bFileOpened = false;
 		}
 
 		// --------------------------------------------------------------------------------
 		File::~File()
 		{
-			if(IsOpen())
-			{				
+			if(m_bFileOpened)
 				Close();
-			}
 			delete m_pImpl;
 		}
 
 		// --------------------------------------------------------------------------------
 		bool File::Exists(std::string filepath)
 		{
-			return GetFileAttributesA(filepath.c_str()) != INVALID_FILE_ATTRIBUTES;
+			struct stat st;
+			if(stat(filepath.c_str(), &st ))
+			{
+				fprintf(stderr, "stat(%s, %p) error code(errno) %d",filepath.c_str(), &st, errno);
+				return false;
+			}
+			return S_ISREG(st.st_mode) && st.st_size != 0;
 		}
 
+		// --------------------------------------------------------------------------------
 		unsigned long File::Size(std::string filepath)
 		{
-			struct __stat64 fileStat; 
-			if(_stat64( filepath.c_str(), &fileStat ))
-				return 0; 
-			return (unsigned long)fileStat.st_size;
+			struct stat st; 
+			if(stat(filepath.c_str(), &st ))
+			{
+				fprintf(stderr, "[OAK3D_ERROR] stat(%s, %p) error code(errno) %d.\n",filepath.c_str(), &st, errno);
+				return false;
+			}
+			if(!S_IREG(st.st_mode))
+			{
+				printf("[OAK3D_WARNING] Oak3D::Core::File::Size called for non file object \"%s\".\n", filepath.c_str());
+			}
+			return st.st_size;
 		}
 
+		// --------------------------------------------------------------------------------
 		unsigned long File::Size()
 		{
-			return Size(m_pImpl->filepath);
+			return Size(m_filePath);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -63,55 +72,67 @@ namespace Oak3D
 			switch(eFileOpenMode)
 			{
 			case eFOM_OpenRead:
-				strcpy_s(mode, "r");
+				strcpy(mode, "r");
 				break;
 			case eFOM_OpenWrite:
-				strcpy_s(mode, "w");
+				strcpy(mode, "w");
 				break;
 			case eFOM_OpenAppend:
-				strcpy_s(mode, "a");
+				strcpy(mode, "a");
+				break;
+			case eFOM_OpenReadAndWrite:
+				strcpy(mode, "a");
 				break;
 			default:
-				strcpy_s(mode, "r");
+				strcpy(mode, "r");
 			}
 
 			m_pImpl->pFileHandle = fopen(m_pImpl->filepath.c_str(), mode);
-			m_pImpl->bIsOpen = m_pImpl->pFileHandle != nullptr;
+			m_bFileOpened = m_pImpl->pFileHandle != nullptr;
 		}
 
 		// --------------------------------------------------------------------------------
 		void File::Close()
 		{
 			fclose(m_pImpl->pFileHandle);
+			m_eFileOpenMode = eFOM_Unknown;
 			m_pImpl->pFileHandle = nullptr;
-			m_pImpl->bIsOpen = false;
-		}
-
-		// --------------------------------------------------------------------------------
-		bool File::IsOpen()
-		{
-			return m_pImpl->bIsOpen;
+			m_bFileOpened = false;
 		}
 
 		// --------------------------------------------------------------------------------
 		uint32_t File::Read(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToRead, uint32_t offset)
 		{
-			assert((bufferSize > 0) && (offset + bytesToRead < bufferSize) && "Buffer overflow!");
-			if(bytesToRead == 0)
+			if(offset + bytesToRead > bufferSize) 
 			{
-				uint32_t fileSize = Size();
-				return fread(buffer + offset, 1, fileSize - offset, m_pImpl->pFileHandle);
+				fprintf(stderr, "[OAK3D_ERROR] Oak3D::Core::File::Read  Attempt to write past buffer limit!\n");
+				return 0;
 			}
+			
+			uint32_t fileSize = Size();
+			
+			if(bytesToRead == 0)
+				return fread(buffer + offset, 1, fileSize - offset, m_pImpl->pFileHandle);
+				
+			if(bytesToRead > fileSize)
+			{
+				fprintf(stderr, "[OAK3D_ERROR] Oak3D::Core::File::Read  Attempt to read more than file size!\n");
+				return 0;
+			}
+			
 			return fread(buffer + offset, 1, bytesToRead, m_pImpl->pFileHandle);
 		}
 
 		// --------------------------------------------------------------------------------
 		void File::Write(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToWrite, uint32_t offset)
 		{
-			assert((offset + bytesToWrite < bufferSize) && "Buffer overflow!");
+			if(offset + bytesToWrite > bufferSize)
+			{
+				fprintf(stderr, "[OAK3D_ERROR] Oak3D::Core::File::Write  Attempt to read past buffer limit!\n");
+				return 0;
+			}
+			
 			fwrite(buffer + offset, bytesToWrite, 1, m_pImpl->pFileHandle);
 		}
 	}
 }
-
-#endif

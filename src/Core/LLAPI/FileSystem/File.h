@@ -19,9 +19,11 @@ namespace Oak3D
 			struct FileImpl;
 			enum FileOpenMode
 			{
-				eFOM_OpenRead = 0,
+				eFOM_Unknown = 0,
+				eFOM_OpenRead,
 				eFOM_OpenWrite,
-				eFOM_OpenAppend
+				eFOM_OpenReadAndWrite,
+				eFOM_OpenAppend,
 			};
 
 			File(std::string filepath);
@@ -38,11 +40,17 @@ namespace Oak3D
 			uint32_t Read(unsigned char *buffer, uint32_t bufferSize, uint32_t bytesToRead, uint32_t offset = 0);
 			void Write(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToWrite, uint32_t offset = 0);
 			
-
-			bool IsOpen();
+			std::string GetFilePathWithoutFileName();
+			std::string GetFilePath() { return m_filePath; } // includes file name
+			std::string GetFileName();
+			bool IsOpen() { return m_bFileOpened; }
+			FileOpenMode GetFileOpenMode() { return m_eFileOpenMode }
 
 		private:
 			FileImpl *m_pImpl;
+			bool m_bFileOpened;
+			FileOpenMode m_eFileOpenMode;
+			std::string m_filePath;
 		};
 	}
 }
