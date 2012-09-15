@@ -6,6 +6,7 @@
 #define __OAK3D_INCLUDE_CORE_THREAD_H__
 
 #include <functional>
+#include <cstdint>
 
 namespace Oak3D
 {
@@ -16,9 +17,10 @@ namespace Oak3D
 		public:
 			template<typename CallableFunction>
 			Thread(CallableFunction func, void *pData);
+			~Thread();
 			
 			void Join();
-			static void Sleep(uint32_t ms);
+			void Sleep(uint64_t ms);
 		private:
 			struct ThreadFunc
 			{
@@ -32,11 +34,13 @@ namespace Oak3D
 
 			// --------------------------------------------------------------------------------
 			static uint32_t ThreadStart(void *pThis)
-			{
-				// call the actual thread function
+			{				
 				ThreadFunc *pFunc = reinterpret_cast<ThreadFunc *>(pThis);
+				// call the actual thread function
 				pFunc->func(pFunc->arg);
+				// and delete the ThreadFunc container created in the constructor
 				delete pFunc;
+				pFunc = nullptr;
 				return 0;
 			}
 
@@ -49,6 +53,7 @@ namespace Oak3D
 		template<typename CF>
 		Thread::Thread(CF func, void *pData)
 		{
+			// Create ThreadFunc container here and delete it in ThreadStart
 			ThreadFunc *pFunc = new ThreadFunc();
 			pFunc->func = func;
 			pFunc->arg = pData;

@@ -16,9 +16,10 @@ namespace Oak3D
 		{
 		public:
 			Timer();
-			virtual ~Timer();
+			~Timer();
 
-			virtual float GetElapsedTime() const;  // [s]
+			float GetElapsedTime() const;  // [s]
+			
 			virtual float GetDeltaTime() const; // [s]
 			virtual bool IsPaused() const; // true if timer is paused
 

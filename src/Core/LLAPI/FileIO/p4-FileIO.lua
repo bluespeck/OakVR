@@ -1,4 +1,4 @@
-project "FileSystem"
+project "FileIO"
 	kind "StaticLib"
 	language "C++"
 

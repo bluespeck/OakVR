@@ -1,3 +1,7 @@
+#include <cstdio>
+#include <vector>
+#include <string>
+
 #include "Startup.h"
 
 int main(int argc, char **argv)
@@ -9,7 +13,13 @@ int main(int argc, char **argv)
 	else
 	{
 		printf("Oak3D successfully initialized.\n");
-		Oak3D::Oak3DMainLoop();
+
+		while(true)
+		{
+			if(!Oak3D::Oak3DUpdate())
+				break;
+		}
+
 		Oak3D::Oak3DExit();
 	}
 	

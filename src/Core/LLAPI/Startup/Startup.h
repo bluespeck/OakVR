@@ -1,17 +1,18 @@
-#ifdef __Startup_h__
+#ifndef __Startup_h__
 #	define __Startup_h__
 
 #	include <vector>
 #	include <string>
 
-// These functions are defined in the Oak3D project in the Core solution
-extern bool Oak3D::Oak3DInit( std::vector<std::string> cmdLine );
-extern void Oak3D::Oak3DMainLoop();
-extern void Oak3D::Oak3DExit();
-
 namespace Oak3D
 {
-	vector<string> ParseCommandLine(int argc, char **argv);
-}
+	// These functions are defined in the Oak3D project in the Core solution
+	extern bool Oak3DInit( std::vector<std::string> cmdLine );
+	extern bool Oak3DUpdate();
+	extern void Oak3DExit();
+
+	std::vector<std::string> ParseCommandLine(int argc, char **argv);
+
+} // end namespace Oak3D
 
 #endif

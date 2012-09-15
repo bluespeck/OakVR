@@ -41,10 +41,10 @@ namespace Oak3D
 			void Write(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToWrite, uint32_t offset = 0);
 			
 			std::string GetFilePathWithoutFileName();
-			std::string GetFilePath() { return m_filePath; } // includes file name
+			std::string GetFilePath() { return m_filePath; } // also includes file name
 			std::string GetFileName();
 			bool IsOpen() { return m_bFileOpened; }
-			FileOpenMode GetFileOpenMode() { return m_eFileOpenMode }
+			FileOpenMode GetFileOpenMode() { return m_eFileOpenMode; }
 
 		private:
 			FileImpl *m_pImpl;

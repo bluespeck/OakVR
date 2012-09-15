@@ -1,3 +1,6 @@
+#include <vector>
+#include <string>
+
 #include "Startup.h"
 
 namespace Oak3D

@@ -1,6 +1,6 @@
 #include <cstdio>
-#include <sys\types.h>
-#include <sys\stat.h> 
+#include <sys/stat.h> 
+#include <cstring>
 
 #include "File.h"
 
@@ -51,7 +51,7 @@ namespace Oak3D
 				fprintf(stderr, "[OAK3D_ERROR] stat(%s, %p) error code(errno) %d.\n",filepath.c_str(), &st, errno);
 				return false;
 			}
-			if(!S_IREG(st.st_mode))
+			if(!S_ISREG(st.st_mode))
 			{
 				printf("[OAK3D_WARNING] Oak3D::Core::File::Size called for non file object \"%s\".\n", filepath.c_str());
 			}
@@ -87,7 +87,7 @@ namespace Oak3D
 				strcpy(mode, "r");
 			}
 
-			m_pImpl->pFileHandle = fopen(m_pImpl->filepath.c_str(), mode);
+			m_pImpl->pFileHandle = fopen(m_filePath.c_str(), mode);
 			m_bFileOpened = m_pImpl->pFileHandle != nullptr;
 		}
 
@@ -129,7 +129,7 @@ namespace Oak3D
 			if(offset + bytesToWrite > bufferSize)
 			{
 				fprintf(stderr, "[OAK3D_ERROR] Oak3D::Core::File::Write  Attempt to read past buffer limit!\n");
-				return 0;
+				exit(1);
 			}
 			
 			fwrite(buffer + offset, bytesToWrite, 1, m_pImpl->pFileHandle);
