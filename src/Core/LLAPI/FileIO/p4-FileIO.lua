@@ -1,5 +1,7 @@
 project "FileIO"
 	kind "StaticLib"
 	language "C++"
+	
+	files {"**.h"}
 
-	files {"**.h", "**_".. platformName ..".cpp"}
+	Oak3DPlatformSpecificFiles("**_", ".cpp")

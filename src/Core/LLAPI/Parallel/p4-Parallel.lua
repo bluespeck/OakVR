@@ -2,4 +2,5 @@ project "Parallel"
 	kind "StaticLib"
 	language "C++"
 
-	files {"**.h", "**_".. platformName ..".cpp" }
+	files {"**.h"}
+	Oak3DPlatformSpecificFiles("**_", ".cpp")
