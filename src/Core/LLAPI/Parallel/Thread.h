@@ -20,7 +20,7 @@ namespace Oak3D
 			~Thread();
 			
 			void Join();
-			void Sleep(uint64_t ms);
+			void Sleep(uint32_t ms);
 		private:
 			struct ThreadFunc
 			{

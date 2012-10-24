@@ -6,7 +6,7 @@
 #ifndef __OAK3D_RENDER_INCLUDE_AABB_H__
 #define __OAK3D_RENDER_INCLUDE_AABB_H__
 
-#include "Core/Math/Vector3.h"
+#include "Vector3.h"
 
 namespace Oak3D
 {

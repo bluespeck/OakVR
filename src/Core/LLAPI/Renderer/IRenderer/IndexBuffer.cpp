@@ -1,7 +1,6 @@
 
 #include <cstdint>
 
-#include "Oak3D/Engine.h"
 #include "IRenderer.h"
 
 #include "IndexBuffer.h"
@@ -28,7 +27,7 @@ namespace Oak3D
 		void IndexBuffer::Create(uint32_t indexCount)
 		{
 			m_indexCount = indexCount;
-			Engine::GetRenderer()->CreateIndexBuffer(this);
+			CreateIndexBuffer(this);
 		}
 
 		// --------------------------------------------------------------------------------

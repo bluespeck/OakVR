@@ -5,8 +5,6 @@
 #ifndef __OAK3D_INCLUDE_RENDER_INDEXBUFFER_H__
 #define __OAK3D_INCLUDE_RENDER_INDEXBUFFER_H__
 
-#include "Core/ResourceManager/IResource.h"
-
 namespace Oak3D
 {
 	namespace Render

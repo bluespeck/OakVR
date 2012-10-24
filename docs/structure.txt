@@ -1,0 +1,36 @@
+
+Folder structure
+
++Oak3D
+	+bin
+		+<config>				# binaries for each configuration (debug, release, final)
+			+<platform>			# binaries for each platform in current config(linux32, windows64, etc.)
+	-premake-config				# general config scripts for premake
+	-resources					# engine resources like fonts and shaders(might be removed/moved)
+	+src
+		+Core 					# core engine features
+			+LLAPI 				# low level interface with each supported platform
+				-FileIO 		# file system interface with platform API
+				-Input			# input interface with platform API
+				-Log			# logging feature
+				-Math 			# basic 3D math support
+				-Parallel		# multithreading and synchronization interface with platform API
+				+Renderer		# render features
+					-IRenderer	# engine basic interface for renderers
+					-OpenGL		# engine interface with OpenGL
+					-DirectX9	# engine interface with DirectX 9
+					-DirectX11	# engine interface with DirectX 11
+				-Startup		# engine platform dependent starting point
+				-Time			# time and date interface with platform API
+			-ResourceManager	# asynchronous multithreading resource manager
+			-Utils				# core utility features
+			-Oak3D				# central access point for the engine
+			-Config				# deprecated, will be removed
+			-Interface			# interfaces for some key engine concepts (now deprecated, might be removed)
+			
+			
+		-Editor 				# engine visual editor
+		-Leaf3D 				# UI generation features
+	+workspace					# this is where premake generates projects and solutions
+		-<premake-action>		# generated files for each premake action (gmake, vs2010,etc.)
+			

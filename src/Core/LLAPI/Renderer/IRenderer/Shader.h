@@ -5,6 +5,7 @@
 #ifndef __OAK3D_INCLUDE_RENDER_SHADER_H__
 #define __OAK3D_INCLUDE_RENDER_SHADER_H__
 
+/*
 #include "Core/ResourceManager/IResource.h"
 #include "RendererUtils.h"
 
@@ -56,5 +57,7 @@ namespace Oak3D
 		}
 	}	// namespace Render
 }	// namespace Oak3D
+
+*/
 
 #endif

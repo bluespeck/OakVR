@@ -40,7 +40,7 @@ namespace Core
 
 
 		// --------------------------------------------------------------------------------
-		void Thread::Sleep(uint64_t ms)
+		void Thread::Sleep(uint32_t ms)
 		{
 			//m_pImpl->m_pThread->sleep_for(std::chrono::milliseconds(ms));
 			timespec ts = {ms / 1000, (ms % 1000) * 1000};

@@ -10,7 +10,7 @@
 #include <string>
 #include "RendererUtils.h"
 
-#include "Core/Math/Vector3.h"
+#include "Vector3.h"
 
 
 

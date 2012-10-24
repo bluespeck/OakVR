@@ -1,4 +1,4 @@
-
+/*
 #include "Effect.h"
 
 namespace Oak3D
@@ -12,3 +12,5 @@ namespace Oak3D
 		}
 	}
 }
+
+*/
