@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_VERTEXBUFFER_H__
-#define __OAK3D_INCLUDE_RENDER_VERTEXBUFFER_H__
+#pragma once
 
 #include <cstdint>
 
@@ -111,5 +105,3 @@ namespace Oak3D
 
 	}	// namespace Render
 }	// namespace Oak3D
-
-#endif

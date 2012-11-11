@@ -1,8 +1,6 @@
 #include <windows.h>
 
 #include "MouseInput.h"
-#include "Oak3D/Engine.h"
-
 
 namespace Oak3D
 {
@@ -189,7 +187,7 @@ namespace Oak3D
 			switch(wParam)
 			{
 			case WM_MOUSEMOVE:
-				::ScreenToClient((HWND)Oak3D::Engine::GetRenderWindow()->GetOSHandle(), &msllhs.pt);
+				//::ScreenToClient((HWND)Oak3D::Engine::GetRenderWindow()->GetOSHandle(), &msllhs.pt);
 				m_pInstance->m_volatileState.m_x = msllhs.pt.x;
 				m_pInstance->m_volatileState.m_y = msllhs.pt.y;
 				break;

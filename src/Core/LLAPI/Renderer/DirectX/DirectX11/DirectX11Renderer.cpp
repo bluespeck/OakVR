@@ -1,8 +1,4 @@
 
-#include "Core/Config/Oak3DConfig.h"
-
-#if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11
-
 // include the Direct3D Library files
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dx11.lib")
@@ -11,8 +7,6 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <d3d11.h>
-#include <d3dx11.h>
-#include <d3dx10.h>
 
 #include <D3Dcompiler.h>
 #include <D3D11Shader.h>
@@ -22,22 +16,21 @@
 
 #include "Renderer/DirectX/DirectXUtils.h"
 
-#include "Oak3D/Engine.h"
 
 
 #include "DirectX11Renderer.h"
 #include "DirectX11DebugTextRenderer.h"
 #include "DirectX11Shader.h"
 
-#include "Renderer/IRenderer/WindowsRenderWindow.h"
+#include "Renderer/IRenderer/RenderWindow.h"
 #include "Renderer/IRenderer/RendererUtils.h"
 #include "Renderer/IRenderer/VertexBuffer.h"
 #include "Renderer/IRenderer/IndexBuffer.h"
 #include "Renderer/IRenderer/Texture.h"
 #include "Renderer/IRenderer/Color.h"
-#include "Core/Math/Matrix.h"
+#include "Math/Matrix.h"
 
-#include "Core/Time/Timer.h"
+#include "Time/Timer.h"
 
 
 
@@ -83,8 +76,8 @@ namespace Oak3D
 				D3D_FEATURE_LEVEL_9_1
 			};
 
-			HR(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, 0, 
-				0, featLevel, 6, D3D11_SDK_VERSION, &scd, &m_pSwapChain,	&m_pDevice,	nullptr, &m_pDeviceContext));
+//			HR(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, 0, 
+//				0, featLevel, 6, D3D11_SDK_VERSION, &scd, &m_pSwapChain,	&m_pDevice,	nullptr, &m_pDeviceContext));
 			
 			/////
 			// set the render target
@@ -131,7 +124,7 @@ namespace Oak3D
 		Oak3D::Math::Matrix DirectX11Renderer::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
 		{
 			Oak3D::Math::Matrix mat;
-			D3DXMatrixLookAtLH((D3DXMATRIX *)&mat, (D3DXVECTOR3 *)&eye, (D3DXVECTOR3 *)&lookAt, (D3DXVECTOR3 *)&up);
+//			D3DXMatrixLookAtLH((D3DXMATRIX *)&mat, (D3DXVECTOR3 *)&eye, (D3DXVECTOR3 *)&lookAt, (D3DXVECTOR3 *)&up);
 			return mat;
 		}
 
@@ -159,9 +152,9 @@ namespace Oak3D
 			Oak3D::Math::Vector3 lookAt(0.0f, 0.0f, 0.0f);
 			Oak3D::Math::Vector3 up(0.0f, 1.0f, 0.0f);
 
-			D3DXMatrixLookAtLH((D3DXMATRIX *)(void *)m_pViewMatrix, (D3DXVECTOR3 *)(void *)&eye, (D3DXVECTOR3 *)(void *)&lookAt, (D3DXVECTOR3 *)(void *)&up);
-			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, (3.141592f / 4.f), (viewport.Width / viewport.Height), 1.f, 1000.0f);
-			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, viewport.Width, viewport.Height, .1f, 1000.0f);
+//			D3DXMatrixLookAtLH((D3DXMATRIX *)(void *)m_pViewMatrix, (D3DXVECTOR3 *)(void *)&eye, (D3DXVECTOR3 *)(void *)&lookAt, (D3DXVECTOR3 *)(void *)&up);
+//			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, (3.141592f / 4.f), (viewport.Width / viewport.Height), 1.f, 1000.0f);
+//			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, viewport.Width, viewport.Height, .1f, 1000.0f);
 			
 			/////
 			// create shader matrix buffer
@@ -383,7 +376,7 @@ namespace Oak3D
 					ID3D10Blob *pShaderByteCode = nullptr;
 					ID3D10Blob *pErrorMsg = nullptr;
 					// compile vertex shader from file
-					HR_ERR(D3DX11CompileFromFileA(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakVertexShader", "vs_4_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
+//					HR_ERR(D3DX11CompileFromFileA(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakVertexShader", "vs_4_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
 					// create DirectX vertex shader
 					if(pShaderByteCode)
 					{
@@ -405,7 +398,7 @@ namespace Oak3D
 					ID3D10Blob *pShaderByteCode = nullptr;
 					ID3D10Blob *pErrorMsg = nullptr;
 					// compile pixel shader from file
-					HR_ERR(D3DX11CompileFromFileA(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakPixelShader", "ps_4_0", 0, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
+//					HR_ERR(D3DX11CompileFromFileA(pSh->GetId().GetStrId().c_str(), nullptr, nullptr, "OakPixelShader", "ps_4_0", 0, 0, nullptr, &pShaderByteCode, &pErrorMsg, nullptr), pErrorMsg);
 					ID3D11PixelShader *pCompiledShader = nullptr;
 					// create directx pixel shader
 					if(pShaderByteCode)
@@ -436,7 +429,7 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11Renderer::CreateTexture( Texture *pTexture )
 		{
-			ID3D11ShaderResourceView *pTexView;
+/*			ID3D11ShaderResourceView *pTexView;
 			const std::string path = pTexture->GetId().GetStrId();
 			D3DX11_IMAGE_INFO ili;
 			
@@ -464,7 +457,7 @@ namespace Oak3D
 			default:
 				pTexture->SetFormat(Texture::eTF_UNKNOWN);
 			}
-
+*/
 		}
 
 		// --------------------------------------------------------------------------------
@@ -690,8 +683,8 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11Renderer::UseShader( Shader *pShader )
 		{
-			if(!pShader || !pShader->IsReady())
-				return;
+//			if(!pShader || !pShader->IsReady())
+//				return;
 			if(pShader->GetType() == eST_VertexShader)
 			{
 				ID3D11VertexShader *pVertexShader = (ID3D11VertexShader *) pShader->GetCompiledShader();
@@ -749,7 +742,7 @@ namespace Oak3D
 
 		void DirectX11Renderer::SetMatrices()
 		{
-			struct MatrixBuffer
+/*			struct MatrixBuffer
 			{
 				D3DXMATRIX mw, mv, mp;
 			};
@@ -767,9 +760,8 @@ namespace Oak3D
 
 			m_pDeviceContext->Unmap(m_pMatrixBuffer, 0);
 			m_pDeviceContext->VSSetConstantBuffers(0, 1, &m_pMatrixBuffer);
+*/
 		}
 
 	}	// namespace Render
 }	// namespace Oak3D
-
-#endif // OAK3D_DIRECTX_11

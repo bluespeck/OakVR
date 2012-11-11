@@ -1,9 +1,5 @@
+#pragma once
 
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_EFFECT_H__
-#define __OAK3D_INCLUDE_RENDER_EFFECT_H__
 /*
 #include "Shader.h"
 #include "RendererUtils.h"
@@ -25,4 +21,3 @@ namespace Oak3D
 	}
 }
 */
-#endif

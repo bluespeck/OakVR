@@ -1,9 +1,4 @@
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_CORE_FILE_H__
-#define __OAK3D_INCLUDE_CORE_FILE_H__
+#pragma once
 
 #include <string>
 #include <cstdint>
@@ -17,13 +12,13 @@ namespace Oak3D
 		{
 		public:
 			struct FileImpl;
-			enum FileOpenMode
+			enum class FileOpenMode
 			{
-				eFOM_Unknown = 0,
-				eFOM_OpenRead,
-				eFOM_OpenWrite,
-				eFOM_OpenReadAndWrite,
-				eFOM_OpenAppend,
+				unknown = 0,
+				read,
+				write,
+				readAndWrite,
+				append,
 			};
 
 			File(std::string filepath);
@@ -54,5 +49,3 @@ namespace Oak3D
 		};
 	}
 }
-
-#endif

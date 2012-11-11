@@ -1,9 +1,6 @@
+#pragma once
 
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_OPENGLSHADER_H__
-#define __OAK3D_INCLUDE_RENDER_OPENGLSHADER_H__
+#include <cstdint>
 
 #include "Renderer/IRenderer/Shader.h"
 
@@ -39,5 +36,3 @@ namespace Oak3D
 
 	}	// namespace Render
 }	// namespace Oak3D
-
-#endif

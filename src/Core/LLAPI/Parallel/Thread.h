@@ -1,9 +1,4 @@
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_CORE_THREAD_H__
-#define __OAK3D_INCLUDE_CORE_THREAD_H__
+#pragma once
 
 #include <functional>
 #include <cstdint>
@@ -63,5 +58,3 @@ namespace Oak3D
 		
 	}
 }
-
-#endif

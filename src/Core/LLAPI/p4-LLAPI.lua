@@ -1,5 +1,4 @@
 Oak3DSolution "LLAPI"
-	location(Oak3DRoot .. "/workspace/" .. (_ACTION or "").. "/LLAPI")
 	configuration "linux*"
 		buildoptions { "-std=c++0x" }
 
@@ -11,3 +10,6 @@ Oak3DSolution "LLAPI"
 	dofile("Renderer/p4-Renderer.lua")
 	dofile("Startup/p4-Startup.lua")
 	dofile("Log/p4-Log.lua")
+	dofile("Utils/p4-Utils.lua")
+
+	configuration {}

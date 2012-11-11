@@ -1,9 +1,4 @@
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_CORE_MATHUTILS_H__
-#define __OAK3D_INCLUDE_CORE_MATHUTILS_H__
+#pragma once
 
 #define MAX(a, b) (((a) < (b))? (a) : (b))
 #define MIN(a, b) (((a) < (b))? (b) : (a))
@@ -12,4 +7,3 @@
 #define DEG2RAD(deg) ((180 / PI) * (deg))
 #define RAD2DEG(rad) ((PI / 180) * (rad))
 
-#endif

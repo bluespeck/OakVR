@@ -6,18 +6,18 @@
 #ifndef __OAK3D_INCLUDE_ENGINE_H__
 #define __OAK3D_INCLUDE_ENGINE_H__
 
-#include "Core/Utils/Singleton.h"
-#include "Core/ResourceManager/ResourceManager.h"
+#include "Utils/Singleton.h"
+#include "ResourceManager/ResourceManager.h"
 #include "Renderer/IRenderer/IRenderer.h"
 #include "Renderer/IRenderer/RenderWindow.h"
-#include "Core/Time/Timer.h"
-#include "Leaf3D/Button.h"
+#include "Time/Timer.h"
+//#include "Leaf3D/Button.h"
 #include "Renderer/IRenderer/Mesh.h"
-#include "Renderer/IRenderer/CameraManager.h"
+#include "CameraManager.h"
 
 namespace Oak3D
 {
-	class Engine : public Core::Singleton<Engine>
+	class Engine : public Oak3D::LLAPI::Singleton<Engine>
 	{
 	public:
 		Engine();
@@ -56,15 +56,6 @@ namespace Oak3D
 		Core::ResourceManager *m_pRM;
 
 		bool m_bIsInitialized;
-
-		// TODO These were added for testing only. Please remove them!
-		Oak3D::Leaf3D::Button b1;
-		Oak3D::Leaf3D::Button b2;
-		Oak3D::Leaf3D::Button b3;
-		Oak3D::Leaf3D::Button b4;
-		Oak3D::Leaf3D::Button b5;
-
-		Oak3D::Render::Mesh *pm1;
 	};
 }	// namespace Oak3D
 

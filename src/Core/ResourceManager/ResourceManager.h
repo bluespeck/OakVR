@@ -8,17 +8,17 @@
 #include <list>
 #include <algorithm>
 
-#include "Core/ResourceManager/IResource.h"
-#include "Core/Utils/StringID.h"
-#include "Core/Utils/Singleton.h"
-#include "Core/Parallel/CriticalSection.h"
-#include "Core/Parallel/Thread.h"
+#include "ResourceManager/IResource.h"
+#include "Utils/StringID.h"
+#include "Utils/Singleton.h"
+#include "Parallel/CriticalSection.h"
+#include "Parallel/Thread.h"
 
 namespace Oak3D
 {
 	namespace Core
 	{
-		class ResourceManager: public Singleton<ResourceManager>
+		class ResourceManager: public Oak3D::LLAPI::Singleton<ResourceManager>
 		{
 		public:
 			void Initialize();
@@ -85,11 +85,11 @@ namespace Oak3D
 			m_pLoadCritSection->LeaveCriticalSection();
 			// Add new resource to the TO BE LOADED queue
 			auto sp = new ResourceType();
-			sp->Init(id, pAditionalInitParams);
-			m_pLoadCritSection->EnterCriticalSection();
-			m_toBeLoaded.push_back(sp);
-			m_pLoadCritSection->LeaveCriticalSection();
-			sp->m_refCount++;
+//			sp->Init(id, pAditionalInitParams);
+//			m_pLoadCritSection->EnterCriticalSection();
+//			m_toBeLoaded.push_back(sp);
+//			m_pLoadCritSection->LeaveCriticalSection();
+//			sp->m_refCount++;
 			return sp;
 		}
 

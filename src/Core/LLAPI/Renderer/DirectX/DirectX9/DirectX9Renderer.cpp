@@ -1,8 +1,4 @@
 
-#include "Core/Config/Oak3DConfig.h"
-
-#if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9
-
 // include the Direct3D Library file
 #pragma comment (lib, "d3d9.lib")
 #pragma comment (lib, "d3dx9.lib")
@@ -10,24 +6,22 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <d3d9.h>
-#include <d3dx9.h>
+//#include <d3dx9.h>
 
 #include <cassert>
-
-#include "Oak3D/Engine.h"
 
 #include "Renderer/DirectX/DirectXUtils.h"
 #include "DirectX9Renderer.h"
 #include "DirectX9DebugTextRenderer.h"
 #include "DirectX9Shader.h"
 
-#include "Renderer/IRenderer/WindowsRenderWindow.h"
+#include "Renderer/IRenderer/RenderWindow.h"
 #include "Renderer/IRenderer/RendererUtils.h"
 #include "Renderer/IRenderer/VertexBuffer.h"
 #include "Renderer/IRenderer/IndexBuffer.h"
 #include "Renderer/IRenderer/Texture.h"
 #include "Renderer/IRenderer/Color.h"
-#include "Core/Math/Matrix.h"
+#include "Math/Matrix.h"
 
 namespace Oak3D
 {
@@ -84,8 +78,8 @@ namespace Oak3D
 			// create projection matrices
 			m_pPerspectiveProjectionMatrix = new Math::Matrix();
 			m_pOrthographicProjectionMatrix = new Math::Matrix();
-			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, 3.141592f * 0.25f, 1.25f, 0.01f, 1000.f);
-			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, (float)viewport.Width, (float)viewport.Height, 0.01f, 1000.f);
+//			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, 3.141592f * 0.25f, 1.25f, 0.01f, 1000.f);
+//			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, (float)viewport.Width, (float)viewport.Height, 0.01f, 1000.f);
 
 			InitializeStateObjects();
 
@@ -138,6 +132,7 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX9Renderer::CreateShader(Shader *pShader)
 		{
+			/*
 			DirectX9Shader *pSh = static_cast<DirectX9Shader *>(pShader);
 			switch(pSh->GetType())
 			{
@@ -189,6 +184,7 @@ namespace Oak3D
 				assert("Shader was not correctly initialized!" && 0);
 			}
 			pShader->SetCompiledShader(nullptr);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
@@ -204,8 +200,8 @@ namespace Oak3D
 		void DirectX9Renderer::CreateTexture( Texture *pTexture )
 		{
 			IDirect3DTexture9 *pTex;
-			const std::string path = pTexture->GetId().GetStrId();
-			D3DXIMAGE_INFO ili;
+//			const std::string path = pTexture->GetId().GetStrId();
+//			D3DXIMAGE_INFO ili;
 			
 			HR(D3DXGetImageInfoFromFileA(path.c_str(), &ili));
 			HR(D3DXCreateTextureFromFileA(m_pDevice, path.c_str(), &pTex));
@@ -213,7 +209,7 @@ namespace Oak3D
 			// store created texture in our container
 			pTexture->SetData(pTex);
 
-			// fill texture properties
+/*			// fill texture properties
 			pTexture->SetWidth(ili.Width);
 			pTexture->SetHeight(ili.Height);
 
@@ -228,6 +224,7 @@ namespace Oak3D
 			default:
 				pTexture->SetFormat(Texture::eTF_UNKNOWN);
 			}
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
@@ -511,7 +508,7 @@ namespace Oak3D
 		Oak3D::Math::Matrix DirectX9Renderer::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
 		{
 			Oak3D::Math::Matrix mat;
-			D3DXMatrixLookAtLH((D3DXMATRIX *)&mat, (D3DXVECTOR3 *)&eye, (D3DXVECTOR3 *)&lookAt, (D3DXVECTOR3 *)&up);
+//			D3DXMatrixLookAtLH((D3DXMATRIX *)&mat, (D3DXVECTOR3 *)&eye, (D3DXVECTOR3 *)&lookAt, (D3DXVECTOR3 *)&up);
 			return mat;
 		}
 
@@ -540,5 +537,3 @@ namespace Oak3D
 		}
 	}	// namespace Render
 }	// namespace Oak3D
-
-#endif // OAK3D_DIRECTX_9

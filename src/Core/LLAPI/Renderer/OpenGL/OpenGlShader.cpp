@@ -1,8 +1,4 @@
 
-#include "Core/Config/Oak3DConfig.h"
-
-#if OAK3D_RENDERER == OAK3D_RENDERER_OPENGL
-
 #include <string>
 #include <cassert>
 
@@ -11,8 +7,8 @@
 #include "OpenGLShader.h"
 #include "OpenGLRenderer.h"
 
-#include "Oak3D/Engine.h"
-#include "Core/Utils/StringID.h"
+//#include "Oak3D/Engine.h"
+//#include "Core/Utils/StringID.h"
 
 
 namespace Oak3D
@@ -26,5 +22,3 @@ namespace Oak3D
 		}
 	}	// namespace Render
 }	// namespace Oak3D
-
-#endif // OAK3D_OPENGL

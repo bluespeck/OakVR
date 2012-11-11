@@ -1,10 +1,11 @@
 
 #include <cassert>
 #include <memory>
+#include <thread>
 
 #include "ResourceManager.h"
 #include "IResource.h"
-#include "Core/Parallel/Thread.h"
+#include "Parallel/Thread.h"
 
 using std::shared_ptr;
 
@@ -40,7 +41,7 @@ namespace Oak3D
 					pRM->m_pMemoryCritSection->LeaveCriticalSection();
 				}
 				if(ss <= 1)
-					Core::Thread::Sleep(150);
+					std::this_thread::sleep_for(std::chrono::milliseconds(150));
 			}
 			return 0;
 		}

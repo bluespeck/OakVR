@@ -1,6 +1,27 @@
-	project "Oak3D"
-		kind "StaticLib"
-		language "C++"
+Oak3DProject "Oak3D"
+	configuration { "linux*" }
+		kind "ConsoleApp"
+	configuration { "windows*" }
+		kind "WindowedApp"
+	configuration {}
+	
+	language "C++"
 
-
-		files { "**.h", "**.cpp" }
+	includedirs
+	{
+		"../LLAPI",
+		".."
+	}
+	
+	files { "**.h", "**.cpp" }
+	
+	
+	links
+	{
+		"Startup",
+		"FileIO",
+		"Math",
+		"IRenderer",
+		"Utils"
+		
+	}

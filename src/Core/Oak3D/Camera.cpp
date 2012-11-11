@@ -1,7 +1,7 @@
 
 #include "Camera.h"
 
-#include "Core/Math/Matrix.h"
+#include "Math/Matrix.h"
 #include "Renderer/IRenderer/AABB.h"
 
 namespace Oak3D

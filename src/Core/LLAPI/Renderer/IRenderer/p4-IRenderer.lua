@@ -1,8 +1,8 @@
-project "IRenderer"
+Oak3DProject "IRenderer"
 		kind "StaticLib"
 		language "C++"
 		
-		includedirs { "../../Math" }
+		includedirs { "../.." }
 
 		files { "**.h", "**.cpp" }
 

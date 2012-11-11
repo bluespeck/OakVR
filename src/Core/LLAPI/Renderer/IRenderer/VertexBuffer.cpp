@@ -1,10 +1,10 @@
 
-#include "Oak3D/Engine.h"
 #include "VertexBuffer.h"
 #include "IRenderer.h"
-#include "Core/Math/Vector2.h"
-#include "Core/Math/Vector3.h"
-#include "Renderer/IRenderer/Color.h"
+#include "Color.h"
+#include "Math/Vector2.h"
+#include "Math/Vector3.h"
+
 
 namespace Oak3D
 {
@@ -33,7 +33,7 @@ namespace Oak3D
 			m_vertexCount = vertexCount;
 			m_vertexFormat = vertexFormat;
 			m_vertexSize = ComputeVertexSizeFromFormat(m_vertexFormat);
-			Engine::GetRenderer()->CreateVertexBuffer(this);
+			//Engine::GetRenderer()->CreateVertexBuffer(this);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -91,19 +91,19 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::Lock(void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags)
 		{
-			Engine::GetRenderer()->LockVertexBuffer(this, ppBuff, offsetToLock, sizeToLock, flags);
+			//Engine::GetRenderer()->LockVertexBuffer(this, ppBuff, offsetToLock, sizeToLock, flags);
 		}
 
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::Unlock()
 		{
-			Engine::GetRenderer()->UnlockVertexBuffer(this);
+			//Engine::GetRenderer()->UnlockVertexBuffer(this);
 		}
 
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::Release()
 		{
-			Engine::GetRenderer()->ReleaseVertexBuffer(this);
+			//Engine::GetRenderer()->ReleaseVertexBuffer(this);
 			m_pData = nullptr;
 		}
 	}	// namespace Render

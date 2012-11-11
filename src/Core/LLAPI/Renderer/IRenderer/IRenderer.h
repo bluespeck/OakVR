@@ -1,16 +1,10 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_Renderer_H__
-#define __OAK3D_INCLUDE_RENDER_Renderer_H__
+#pragma once
 
 #include <cstdint>
 #include <string>
 #include "RendererUtils.h"
 
-#include "Vector3.h"
+#include "Math/Vector3.h"
 
 
 
@@ -135,5 +129,3 @@ namespace Oak3D
 
 	}	// namespace Render
 }	// namespace Oak3D
-
-#endif

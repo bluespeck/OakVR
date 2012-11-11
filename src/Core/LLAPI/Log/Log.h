@@ -1,5 +1,4 @@
-#ifndef __OAK3D_INCLUDE_CORE_LLAPI_LOG_H__
-#	define __OAK3D_INCLUDE_CORE_LLAPI_LOG_H__
+#pragma once
 
 // Oak3D logging support
 // Define OAK3D_LOG_LEVEL with one of the values bellow to control logging
@@ -20,5 +19,3 @@ namespace Oak3D
 	void LogInfo(const char * logMsg, ...);
 	void LogError(const char * logMsg, ...);
 }
-
-#endif

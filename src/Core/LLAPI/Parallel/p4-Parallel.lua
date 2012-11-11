@@ -1,4 +1,4 @@
-project "Parallel"
+Oak3DProject "Parallel"
 	kind "StaticLib"
 	language "C++"
 

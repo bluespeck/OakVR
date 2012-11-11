@@ -1,6 +1,4 @@
 
-#include "Core/Config/Oak3DConfig.h"
-
 #if OAK3D_RENDERER == OAK3D_RENDERER_OPENGL
 
 // include the OpenGL library file
@@ -12,32 +10,32 @@
 
 #include <windows.h>
 #include <wingdi.h>
-#include <GLEW/include/GL/glew.h>
+//#include <GLEW/include/GL/glew.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
 //#include <SOIL/include/SOIL.h>
 
-#include <gl/wglext.h>
+//#include <gl/wglext.h>
 
 
-#include "Oak3D/Engine.h"
+//#include "Oak3D/Engine.h"
 
 #include "OpenGLRenderer.h"
 #include "OpenGLDebugTextRenderer.h"
 
-#include "Renderer/IRenderer/WindowsRenderWindow.h"
+#include "Renderer/IRenderer/RenderWindow.h"
 #include "Renderer/IRenderer/RendererUtils.h"
 #include "Renderer/IRenderer/VertexBuffer.h"
 #include "Renderer/IRenderer/IndexBuffer.h"
 #include "Renderer/IRenderer/Texture.h"
 #include "Renderer/IRenderer/Color.h"
 
-#include "Core/Math/Matrix.h"
-#include "Core/Math/Transform.h"
+#include "Math/Matrix.h"
+#include "Math/Transform.h"
 #include "Renderer/IRenderer/Shader.h"
 
-#include "Core/FileSystem/File.h"
-#include "Core/ResourceManager/Image.h"
+#include "FileIO/File.h"
+//#include "ResourceManager/Image.h"
 
 
 namespace Oak3D
@@ -87,11 +85,11 @@ namespace Oak3D
 
 			wglMakeCurrent (hdc, (HGLRC)m_pDevice);
 						
-			assert(glewInit() == GLEW_OK);
+//			assert(glewInit() == GLEW_OK);
 						
 			InitializeStateObjects();
 
-			m_shaderProgramId = glCreateProgram();
+//			m_shaderProgramId = glCreateProgram();
 
 			m_bInitialized = true;
 		}
@@ -161,21 +159,21 @@ namespace Oak3D
 			if(GetCurrentThreadId() != m_mainThreadId)
 				wglMakeCurrent(GetDC(reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle())), (HGLRC)m_pWorkerThreadDevice);
 
-			GLenum shaderType;
+//			GLenum shaderType;
 			switch(pShader->GetType())
 			{
 			case eST_VertexShader:
-				shaderType = GL_VERTEX_SHADER;
+//				shaderType = GL_VERTEX_SHADER;
 				break;
 			case eST_PixelShader:
-				shaderType = GL_FRAGMENT_SHADER;
+//				shaderType = GL_FRAGMENT_SHADER;
 				break;
 			default:
 				assert("Unknown shader type" && 0);
 				break;
 			}
 
-			GLuint shaderId = glCreateShaderObjectARB(shaderType);
+/*			GLuint shaderId = glCreateShaderObjectARB(shaderType);
 			
 			Core::File file(pShader->GetId().GetStrId());
 			const uint32_t buffSize = file.Size();
@@ -208,6 +206,7 @@ namespace Oak3D
 
 			delete[] buff;
 			file.Close();
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
@@ -215,7 +214,7 @@ namespace Oak3D
 		{
 			if(pShader == nullptr)
 				return;
-			glDeleteShader((GLuint)pShader->GetCompiledShader());
+//			glDeleteShader((GLuint)pShader->GetCompiledShader());
 		}
 
 		// --------------------------------------------------------------------------------
@@ -228,9 +227,9 @@ namespace Oak3D
 
 			glGenTextures(1, &texId);
 			
-			Oak3D::Core::Image *pImage = Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Core::Image>(pTexture->GetId().GetStrId().c_str());
+//			Oak3D::Core::Image *pImage = Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Core::Image>(pTexture->GetId().GetStrId().c_str());
 			// Separate resources on unique threads
-			assert("Could not load texture from file!" && texId > 0);
+//			assert("Could not load texture from file!" && texId > 0);
 
 			pTexture->SetData((void *)texId);
 
@@ -298,7 +297,7 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::UseShaderProgram()
 		{
-			if(!m_pCurrentVertexShader || !m_pCurrentVertexShader->IsReady() || !m_pCurrentPixelShader || !m_pCurrentPixelShader->IsReady())
+/*			if(!m_pCurrentVertexShader || !m_pCurrentVertexShader->IsReady() || !m_pCurrentPixelShader || !m_pCurrentPixelShader->IsReady())
 			{
 				glUseProgramObjectARB(0);
 				return;
@@ -321,6 +320,7 @@ namespace Oak3D
 			}
 			
 			glUseProgramObjectARB(m_shaderProgramId);
+*/
 		}
 
 		// --------------------------------------------------------------------------------
@@ -379,76 +379,86 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
-			GLuint vbId; 
+/*			GLuint vbId; 
 			glGenBuffersARB(1, &vbId);
 			glBindBufferARB(GL_ARRAY_BUFFER, vbId);
 			glBufferDataARB(GL_ARRAY_BUFFER, pVertexBuffer->GetVertexSize() * pVertexBuffer->GetVertexCount(), nullptr, GL_DYNAMIC_DRAW);
 			pVertexBuffer->SetData((void *)vbId);
+*/
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t /*offsetToLock*/, uint32_t /*sizeToLock*/, uint32_t flags )
 		{	
-			int oldId = 0;
+/*			int oldId = 0;
 			glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldId);
 			glBindBufferARB(GL_ARRAY_BUFFER, (int)pVertexBuffer->GetData());
 			*ppBuff = glMapBufferARB(GL_ARRAY_BUFFER, GL_READ_WRITE);
 			glBindBufferARB(GL_ARRAY_BUFFER, oldId);
+*/
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
 		{	
-			int oldId = 0;
+/*			int oldId = 0;
 			glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldId);
 			glBindBufferARB(GL_ARRAY_BUFFER, (int)pVertexBuffer->GetData());
 			glUnmapBufferARB(GL_ARRAY_BUFFER);
 			glBindBufferARB(GL_ARRAY_BUFFER, oldId);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
-			GLuint id = (GLuint)pVertexBuffer->GetData();
+/*			GLuint id = (GLuint)pVertexBuffer->GetData();
 			glDeleteBuffersARB(1, &id);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
-			GLuint ibId; 
+			/*GLuint ibId; 
 			glGenBuffersARB(1, &ibId);
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, ibId);
 			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexSize() * pIndexBuffer->GetIndexCount(), NULL, GL_DYNAMIC_DRAW);
 
 			pIndexBuffer->SetData((void *)ibId);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::LockIndexBuffer( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
-		{	
+		{	/*
 			int oldId = 0;
 			glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &oldId);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (int)pIndexBuffer->GetData());
 			*ppBuff = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_READ_WRITE);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, oldId);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::UnlockIndexBuffer( IndexBuffer *pIndexBuffer )
 		{	
+			/*
 			int oldId = 0;
 			glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &oldId);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (int)pIndexBuffer->GetData());
 			glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, oldId);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::ReleaseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
+			/*
 			GLuint id = (GLuint)pIndexBuffer->GetData();
 			glDeleteBuffers(1, &id);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
@@ -521,13 +531,13 @@ namespace Oak3D
 		{
 			if(!pVertexBuffer)
 			{
-				glBindBufferARB(GL_ARRAY_BUFFER, 0);
+//				glBindBufferARB(GL_ARRAY_BUFFER, 0);
 				return;
 			}
 			
 			uint32_t vertexFormat = pVertexBuffer->GetVertexFormat();
 			uint32_t vertexSize = pVertexBuffer->GetVertexSize();
-			glBindBufferARB(GL_ARRAY_BUFFER, (GLuint)pVertexBuffer->GetData());
+//			glBindBufferARB(GL_ARRAY_BUFFER, (GLuint)pVertexBuffer->GetData());
 			m_pCurrentVertexBuffer = pVertexBuffer;
 			uint8_t *offset = nullptr;
 			if(vertexFormat & VertexBuffer::eVF_XYZ)
@@ -550,7 +560,7 @@ namespace Oak3D
 			}
 			if(vertexFormat & VertexBuffer::eVF_Tex0)
 			{	
-				glClientActiveTexture(GL_TEXTURE0);
+//				glClientActiveTexture(GL_TEXTURE0);
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 				glTexCoordPointer(2, GL_FLOAT, vertexSize, offset);
 				offset += 2 * sizeof(float);
@@ -560,11 +570,11 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::UseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
-			if(!pIndexBuffer)
+/*			if(!pIndexBuffer)
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 			else
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, (GLuint)pIndexBuffer->GetData());
-			m_pCurrentIndexBuffer = pIndexBuffer;
+*/			m_pCurrentIndexBuffer = pIndexBuffer;
 		}
 
 		// --------------------------------------------------------------------------------

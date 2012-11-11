@@ -1,7 +1,7 @@
 #include "Image.h"
-#include "Core/ResourceManager/RawImageData.h"
-#include "Core/ResourceManager/BMPLoader.h"
-#include "Core/FileSystem/File.h"
+#include "ResourceManager/RawImageData.h"
+#include "ResourceManager/BMPLoader.h"
+#include "FileIO/File.h"
 
 namespace Oak3D
 {

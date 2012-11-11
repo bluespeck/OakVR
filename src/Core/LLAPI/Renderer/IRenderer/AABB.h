@@ -1,12 +1,6 @@
+#pragma once
 
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_RENDER_INCLUDE_AABB_H__
-#define __OAK3D_RENDER_INCLUDE_AABB_H__
-
-#include "Vector3.h"
+#include "Math/Vector3.h"
 
 namespace Oak3D
 {
@@ -25,5 +19,3 @@ namespace Oak3D
 
 	} // namespace Render
 } // namespace Oak3D
-
-#endif

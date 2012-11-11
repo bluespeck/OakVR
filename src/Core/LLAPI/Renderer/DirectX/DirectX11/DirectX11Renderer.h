@@ -1,9 +1,4 @@
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_DIRECTX11RENDERER_H__
-#define __OAK3D_INCLUDE_RENDER_DIRECTX11RENDERER_H__
+#pragma once
 
 #include "Renderer/IRenderer/IRenderer.h"
 
@@ -126,5 +121,3 @@ namespace Oak3D
 		};
 	}	// namespace Render
 }	// namespace Oak3D
-
-#endif

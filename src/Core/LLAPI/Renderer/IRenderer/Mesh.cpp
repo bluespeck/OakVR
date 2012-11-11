@@ -10,8 +10,7 @@
 #include "Mesh.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
-#include "Oak3D/Engine.h"
-#include "Core/Parallel/Thread.h"
+#include "Parallel/Thread.h"
 
 using namespace std;
 using namespace Oak3D::Math;
@@ -264,51 +263,51 @@ namespace Oak3D
 		{
 		}
 
-		// --------------------------------------------------------------------------------
-		void Mesh::Init(const Core::StringId &id, AdditionalInitParams *pAdditionalInitParams)
-		{
-			m_id = id;
-		}
+		//// --------------------------------------------------------------------------------
+		//void Mesh::Init(const Core::StringId &id, AdditionalInitParams *pAdditionalInitParams)
+		//{
+		//	m_id = id;
+		//}
 
-		// --------------------------------------------------------------------------------
-		void Mesh::Load()
-		{	
-			LoadMeshThreadProc(this);
-			//Oak3D::Core::Thread(LoadMeshThreadProc, this);
-		}
+		//// --------------------------------------------------------------------------------
+		//void Mesh::Load()
+		//{	
+		//	LoadMeshThreadProc(this);
+		//	//Oak3D::Core::Thread(LoadMeshThreadProc, this);
+		//}
 
-		// --------------------------------------------------------------------------------
-		void Mesh::Reload()
-		{
+		//// --------------------------------------------------------------------------------
+		//void Mesh::Reload()
+		//{
 
-		}
+		//}
 
-		// --------------------------------------------------------------------------------
-		void Mesh::Release()
-		{
-			/*if(m_pVertexData)
-			{	
-				delete[] m_pVertexData;
-				m_pVertexData = NULL;
-			}
+		//// --------------------------------------------------------------------------------
+		//void Mesh::Release()
+		//{
+		//	/*if(m_pVertexData)
+		//	{	
+		//		delete[] m_pVertexData;
+		//		m_pVertexData = NULL;
+		//	}
 
-			if(m_pIndexData)
-			{
-				delete[] m_pIndexData;
-				m_pIndexData = NULL;
-			}
-			// TODO need pointers here?
-			for(uint32_t i = 0, n = m_vMeshElements.size(); i < n; ++i)
-			{	
-				delete m_vMeshElements[i];
-				m_vMeshElements[i] = NULL;
-			}
-			
-			m_vMeshElements.clear();
-		*/
-			SetState(eRS_Released);
-			
-		}
+		//	if(m_pIndexData)
+		//	{
+		//		delete[] m_pIndexData;
+		//		m_pIndexData = NULL;
+		//	}
+		//	// TODO need pointers here?
+		//	for(uint32_t i = 0, n = m_vMeshElements.size(); i < n; ++i)
+		//	{	
+		//		delete m_vMeshElements[i];
+		//		m_vMeshElements[i] = NULL;
+		//	}
+		//	
+		//	m_vMeshElements.clear();
+		//*/
+		//	SetState(eRS_Released);
+		//	
+		//}
 		
 		/*
 		// --------------------------------------------------------------------------------

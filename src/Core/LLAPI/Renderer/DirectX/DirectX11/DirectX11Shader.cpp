@@ -1,8 +1,4 @@
 
-#include "Core/Config/Oak3DConfig.h"
-
-#if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11
-
 #include <string>
 #include <cassert>
 
@@ -13,8 +9,7 @@
 #include "DirectX11Shader.h"
 #include "DirectX11Renderer.h"
 
-#include "Oak3D/Engine.h"
-#include "Core/Utils/StringID.h"
+#include "Utils/StringID.h"
 
 
 namespace Oak3D
@@ -28,5 +23,3 @@ namespace Oak3D
 		}
 	}	// namespace Render
 }	// namespace Oak3D
-
-#endif // OAK3D_DIRECTX_11

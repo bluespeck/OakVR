@@ -1,4 +1,4 @@
-	project "Math"
+	Oak3DProject "Math"
 		kind "StaticLib"
 		language "C++"
 

@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_CORE_DIRECTORY_H__
-#define __OAK3D_INCLUDE_CORE_DIRECTORY_H__
+#pragma once
 
 #include <string>
 #include <vector>
@@ -19,10 +13,10 @@ namespace Oak3D
 			struct DirEntry
 			{
 				std::string path;
-				enum EntryType
+				enum class EntryType
 				{
-					eET_File,
-					eET_Directory
+					file,
+					directory
 				} type;
 			};
 			
@@ -46,5 +40,3 @@ namespace Oak3D
 		};
 	}
 }
-
-#endif

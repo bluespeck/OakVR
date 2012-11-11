@@ -1,22 +1,15 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_MATERIAL_H__
-#define __OAK3D_INCLUDE_RENDER_MATERIAL_H__
+#pragma once
 
 #include <string>
-#include "Core/ResourceManager/IResource.h"
-#include "Core/Math/Vector3.h"
-#include "Renderer/IRenderer/Color.h"
+#include "Math/Vector3.h"
+#include "Color.h"
 
 namespace Oak3D
 {
 	namespace Render
 	{
 
-		class Material : public Oak3D::Core::IResource
+		class Material
 		{
 		public:
 			std::wstring m_name;
@@ -36,5 +29,3 @@ namespace Oak3D
 		};
 	} // namespace Render
 } // namespace Oak3D
-
-#endif

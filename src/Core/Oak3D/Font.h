@@ -8,8 +8,8 @@
 #include <cstdint>
 #include <string>
 
-#include "Core/Math/Vector3.h"
-#include "Core/Math/Vector2.h"
+#include "Math/Vector3.h"
+#include "Math/Vector2.h"
 
 namespace Oak3D
 {

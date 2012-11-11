@@ -7,7 +7,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 {
 
 	//Oak3D::Oak3D *oak3D = Oak3D::Oak3D::GetInstance();
-	if(!Oak3D::Oak3DInit(Oak3D::ParseCommandLine(argc, argv)))
+	if(!Oak3D::Oak3DInit(Oak3D::ParseCommandLine(std::string(lpCmdLine))))
 	{
 		printf("Failed to initialize Oak3D!!!\n");
 	}
@@ -30,7 +30,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			else
 			{
 				// engine update
-				Oak3D::Oak3DRun();
+				Oak3D::Oak3DUpdate();
 			}
 		}
 
@@ -38,5 +38,3 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	}
 	return 0;
 }
-
-#endif

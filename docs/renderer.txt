@@ -1,0 +1,25 @@
+
+
+
+Oak3D Reference system is a left handed system of reference with the Oy axis pointing up, Ox pointing to the right
+and Oz pointing into the screen.
+
+			^ y
+			|
+			|			
+			|         _  z
+			|        _/| 
+			|      _/
+			|    _/
+			|  _/
+			|_/
+			+------------------------> x
+			O
+			
+Oak3D matrices are row major.
+
+			| 11, 12, 13, 14 |
+			| 21, 22, 23, 24 |
+			| 31, 32, 33, 34 |
+			| 41, 42, 43, 44 |
+

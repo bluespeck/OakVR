@@ -8,7 +8,7 @@
 //#ifdef OAK3D_WINDOWS
 
 #include <string>
-#include "RenderWindow.h"
+#include "Renderer/IRenderer/RenderWindow.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

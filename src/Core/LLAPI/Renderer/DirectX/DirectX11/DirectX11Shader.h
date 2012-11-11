@@ -1,11 +1,4 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_DIRECTX11SHADER_H__
-#define __OAK3D_INCLUDE_RENDER_DIRECTX11SHADER_H__
-
+#pragma once
 
 #include "Renderer/IRenderer/Shader.h"
 
@@ -40,5 +33,3 @@ namespace Oak3D
 
 	}	// namespace Render
 }	// namespace Oak3D
-
-#endif

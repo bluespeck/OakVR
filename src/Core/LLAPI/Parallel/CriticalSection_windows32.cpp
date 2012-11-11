@@ -1,4 +1,3 @@
-#include "Core/Config/Oak3DConfig.h"
 
 #if OAK3D_OS == OAK3D_OS_WINDOWS
 

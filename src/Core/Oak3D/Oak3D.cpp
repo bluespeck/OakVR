@@ -3,8 +3,8 @@
 #include "Oak3D/Engine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
 #include "Renderer/IRenderer/IRenderer.h"
-#include "Core/Parallel/Thread.h"
-#include "Core/Time/Timer.h"
+#include "Parallel/Thread.h"
+#include "Time/Timer.h"
 
 namespace Oak3D
 {	
@@ -14,11 +14,11 @@ namespace Oak3D
 	{
 		m_pEngine = Engine::GetInstance();
 
-		m_pEngine->SetRenderWindow(CreateRenderWindow());		
+	/*	m_pEngine->SetRenderWindow(CreateRenderWindow());		
 		m_pEngine->SetTimer(new Core::Timer());
 		m_pEngine->SetRenderer(CreateRenderer());
 		m_pEngine->SetResourceManager(Core::ResourceManager::GetInstance());
-
+*/
 		m_pEngine->Initialize();
 	}
 

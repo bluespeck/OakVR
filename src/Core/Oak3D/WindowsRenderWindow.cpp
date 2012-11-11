@@ -1,9 +1,3 @@
-
-#include "Core/Config/Oak3DConfig.h"
-
-#if OAK3D_OS == OAK3D_OS_WINDOWS
-
-
 #include "WindowsRenderWindow.h"
 
 #include <windows.h>
@@ -46,7 +40,7 @@ namespace Oak3D
 		{
 			HINSTANCE hInstance = GetModuleHandle(nullptr);
 
-			WNDCLASSEX wcex;
+			WNDCLASSEXW wcex;
 
 			// clear out the window class for use
 			ZeroMemory(&wcex, sizeof(WNDCLASSEX));
@@ -63,13 +57,13 @@ namespace Oak3D
 			wcex.lpszClassName = L"WindowsRenderWindowClass";
 			wcex.hIconSm = 0;
 
-			RegisterClassEx(&wcex);
+			RegisterClassExW(&wcex);
 
 			RECT wr = {0, 0, m_width, m_height};    // set the size, but not the position
 			AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);    // adjust the size
 
 			// Pass a pointer to this object as the lParam in order to later use it to process window messages using the object's methods
-			HWND hWnd = CreateWindowEx(0, L"WindowsRenderWindowClass", m_title.c_str(), WS_OVERLAPPEDWINDOW, m_posX, m_posY, wr.right - wr.left, wr.bottom - wr.top, nullptr, nullptr, hInstance, this);
+			HWND hWnd = CreateWindowExW(0, L"WindowsRenderWindowClass", m_title.c_str(), WS_OVERLAPPEDWINDOW, m_posX, m_posY, wr.right - wr.left, wr.bottom - wr.top, nullptr, nullptr, hInstance, this);
 			m_osHandle = reinterpret_cast<long int>(hWnd);
 			SetWindowTextW(hWnd, m_title.c_str());
 			ShowWindow(hWnd, SW_SHOW);
@@ -126,5 +120,3 @@ namespace Oak3D
 
 	} // namespace Render
 } // namespace Oak3D
-
-#endif // OAK3D_OS == OAK3D_OS_WINDOWS

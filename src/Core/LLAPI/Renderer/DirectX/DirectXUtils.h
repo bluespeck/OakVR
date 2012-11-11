@@ -8,18 +8,18 @@
 
 #if defined(DEBUG) || defined(_DEBUG)
 	#include <sstream>
-	#include <dxerr.h>
+//	#include <dxerr.h>
 	#pragma comment (lib, "dxerr.lib")
 
 	#ifndef HR
-	#define HR(x)\
+	#define HR(x)/*\
 	{\
 		HRESULT hr = (x);\
 		if(FAILED(hr))\
 		{\
 			DXTrace(__FILE__, (unsigned long int)__LINE__, hr, L#x, true );\
 		}\
-	}
+	}*/
 	#endif
 	
 	#ifndef HR_ERR

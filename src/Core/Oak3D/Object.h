@@ -8,7 +8,7 @@
 
 #include <list>
 
-#include "Core/Utils/StringID.h"
+#include "Utils/StringID.h"
 
 namespace Oak3D
 {

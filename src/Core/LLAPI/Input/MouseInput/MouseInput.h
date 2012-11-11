@@ -1,17 +1,15 @@
-
-#ifndef __OAK3D_INCLUDE_INPUT_MOUSEINPUT_H__
-#define __OAK3D_INCLUDE_INPUT_MOUSEINPUT_H__
+#pragma once
 
 #include <cstdint>
 #include <utility>
 
-#include "Core/Utils/Singleton.h"
+#include "Utils/Singleton.h"
 
 namespace Oak3D
 {
 	namespace Input
 	{
-		class MouseInput : public Core::Singleton<MouseInput>
+		class MouseInput : public Oak3D::LLAPI::Singleton<MouseInput>
 		{
 		public:
 			class MouseInputImpl;
@@ -50,5 +48,3 @@ namespace Oak3D
 		};
 	}
 }
-
-#endif

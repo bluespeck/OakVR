@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_CORE_MATRIX_H__
-#define __OAK3D_INCLUDE_CORE_MATRIX_H__
+#pragma once
 
 namespace Oak3D
 {
@@ -60,5 +54,3 @@ namespace Oak3D
 		}
 	} // namespace Oak3D
 } // namespace Oak3D
-
-#endif

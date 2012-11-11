@@ -3,7 +3,7 @@
 #include <cctype>
 
 #include "Font.h"
-#include "Texture.h"
+#include "Renderer/IRenderer/Texture.h"
 #include "Oak3D/Engine.h"
 
 namespace Oak3D
@@ -23,7 +23,7 @@ namespace Oak3D
 		{
 			if(m_pTexture)
 			{
-				Oak3D::Engine::GetResourceManager()->ReleaseResource(m_pTexture);
+				//Oak3D::Engine::GetResourceManager()->ReleaseResource(m_pTexture);
 			}
 			if(m_pGlyphData)
 				delete m_pGlyphData;

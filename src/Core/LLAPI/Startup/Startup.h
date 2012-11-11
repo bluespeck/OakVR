@@ -1,8 +1,7 @@
-#ifndef __Startup_h__
-#	define __Startup_h__
+#pragma once
 
-#	include <vector>
-#	include <string>
+#include <vector>
+#include <string>
 
 namespace Oak3D
 {
@@ -12,7 +11,6 @@ namespace Oak3D
 	extern void Oak3DExit();
 
 	std::vector<std::string> ParseCommandLine(int argc, char **argv);
+	std::vector<std::string> ParseCommandLine(const std::string& cmdLine);
 
 } // end namespace Oak3D
-
-#endif

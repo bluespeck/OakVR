@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_RENDERWINDOW_H__
-#define __OAK3D_INCLUDE_RENDER_RENDERWINDOW_H__
+#pragma once
 
 #include <string>
 namespace Oak3D
@@ -120,5 +114,3 @@ namespace Oak3D
 		}
 	} // namespace Render
 } // namespace Oak3D
-
-#endif

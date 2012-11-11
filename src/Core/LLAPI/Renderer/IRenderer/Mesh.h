@@ -1,18 +1,12 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_MESH_H__
-#define __OAK3D_INCLUDE_RENDER_MESH_H__
+#pragma once
 
 #include <vector>
 #include <list>
+#include <cstdint>
 
-#include "Core/ResourceManager/IResource.h"
-#include "Core/Math/Vector3.h"
-#include "Core/Math/Vector2.h"
-#include "Renderer/IRenderer/AABB.h"
+#include "Math/Vector3.h"
+#include "Math/Vector2.h"
+#include "AABB.h"
 
 
 namespace Oak3D
@@ -23,7 +17,7 @@ namespace Oak3D
 		class IndexBuffer;
 		class VertexBuffer;
 
-		class Mesh : public Oak3D::Core::IResource
+		class Mesh
 		{
 		public:
 
@@ -39,12 +33,6 @@ namespace Oak3D
 
 			Mesh(void);
 			~Mesh(void);
-
-			// overrides
-			void Init(const Core::StringId &id, AdditionalInitParams *pAdditionalInitParams = nullptr);
-			void Load();
-			void Reload();
-			void Release();
 
 			// Configuration methods; must be called before InitMesh
 			void SetNumVertices(unsigned int numVertices);
@@ -84,4 +72,3 @@ namespace Oak3D
 	} // namespace Render
 } // namespace Oak3D
 
-#endif

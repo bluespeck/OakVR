@@ -48,7 +48,7 @@ namespace Oak3D
 				{
 					DirEntry dirEntry;
 					dirEntry.path = findFileData.cFileName;
-					dirEntry.type = (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)? DirEntry::eET_Directory : DirEntry::eET_File;
+					dirEntry.type = (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)? DirEntry::EntryType::directory : DirEntry::EntryType::file;
 					result.push_back(dirEntry);
 				}
 				while( FindNextFileA(hFind, &findFileData) );

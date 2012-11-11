@@ -1,5 +1,4 @@
-#ifndef __OAK3D_INCLUDE_RENDER_COLOR_H__
-#define __OAK3D_INCLUDE_RENDER_COLOR_H__
+#pragma once
 
 #include <cstdint>
 
@@ -54,5 +53,3 @@ namespace Oak3D
 
 	}
 }
-
-#endif

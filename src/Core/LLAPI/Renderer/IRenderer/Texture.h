@@ -1,12 +1,5 @@
+#pragma once
 
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_TEXTURE_H__
-#define __OAK3D_INCLUDE_RENDER_TEXTURE_H__
-
-#include "Core/ResourceManager/IResource.h"
 #include <cstdint>
 
 namespace Oak3D
@@ -14,7 +7,7 @@ namespace Oak3D
 	namespace Render
 	{
 
-		class Texture :	public Oak3D::Core::IResource
+		class Texture
 		{
 		public:
 			enum TextureFormat
@@ -45,12 +38,7 @@ namespace Oak3D
 
 			inline TextureFormat GetFormat();
 			inline void SetFormat( TextureFormat textureFormat );
-
-			// overrides
-			void Init(const Oak3D::Core::StringId &id, AdditionalInitParams *pInitParams = nullptr);
-			void Load();
-			void Reload();
-			void Release();
+			
 
 		private:
 			void *m_pData;
@@ -123,5 +111,3 @@ namespace Oak3D
 
 	} // namespace Render
 }	// namespace Oak3D
-
-#endif

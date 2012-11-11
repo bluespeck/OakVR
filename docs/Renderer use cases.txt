@@ -1,0 +1,33 @@
+The renderer provides an interface to the necessary underlying API calls
+
+User ---GetObject--> might call all the bellow APIs
+User ---GetTexture-->		Engine ---GetTexture--> RM ---CreateTexture--> Renderer
+									|-GetTexture--> RM
+User ---CreateShader-->		Engine ---CreateShader--> RM ---CreateShader--> Renderer
+User ---CreateMesh-->		Engine ---CreateMesh--> RM ---CreateVertexBuffer--> Renderer
+									|-CreateIndexBuffer--> Renderer
+User ---OutputText-->		Engine ---OutputText--> RM ---CreateTextMesh-> Renderer
+
+Resources: uses cooked data
+	DataFile
+	MeshFile (cooked)
+	ImageFile (cooked)
+	SoundFile 
+	ShaderFile (cooked)
+	FontFile
+	
+	Material
+	Mesh
+	
+Renderer
+	Texture
+	IndexBuffer
+	VertexBuffer
+	ShaderPass
+	VertexShader
+	PixelShader
+	GeometryShader
+	
+	
+	
+	

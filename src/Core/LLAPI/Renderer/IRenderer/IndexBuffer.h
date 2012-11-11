@@ -1,9 +1,4 @@
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_INDEXBUFFER_H__
-#define __OAK3D_INCLUDE_RENDER_INDEXBUFFER_H__
+#pragma once
 
 namespace Oak3D
 {
@@ -72,5 +67,3 @@ namespace Oak3D
 
 	}	// namespace Render
 }	// namespace Oak3D
-
-#endif

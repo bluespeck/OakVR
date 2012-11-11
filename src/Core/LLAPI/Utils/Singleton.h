@@ -8,7 +8,7 @@
 
 namespace Oak3D
 {
-	namespace Core
+	namespace LLAPI
 	{
 
 		template<typename T>

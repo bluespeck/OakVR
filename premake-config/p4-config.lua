@@ -33,8 +33,10 @@ function Oak3DSolution(solutionName)
 	print("### Configuring solution(" .. solutionName .. ") ###")
 
 	CurrentSln = solution (solutionName)
-		configurations { "debug", "fastdebug", "profile", "final"}
-		platforms { "linux32", "linux64", "windows32", "windows64" }
+		cfgs = { "debug", "fastdebug", "profile", "final"}
+		configurations (cfgs)
+		plfs = { "linux32", "linux64", "windows32", "windows64" }
+		platforms (plfs)
 	
 		configuration "debug"
 			flags       { "Symbols" }
@@ -52,25 +54,36 @@ function Oak3DSolution(solutionName)
 			system "Linux"
 			architecture "x32"
 			toolset "gcc"
-
+		
 		configuration "linux64"
 			system "Linux"
 			architecture "x64"
 			toolset "gcc"
 
-		--[[configuration "windows32"
+		configuration "windows32"
 			system "Windows"
 			architecture "x32"
-			toolset "msc"
+			--toolset "msc"
 
 		configuration "windows64"
 			system "Windows"
 			architecture "x64"
-			toolset "msc"
-	]]
-		for cfg in premake.solution.eachconfig(CurrentSln) do
-			configuration (cfg.platform)
-				targetdir (Oak3DRoot .. "/bin/" .. (cfg.buildcfg or "") .."/".. (cfg.platform or ""))
+			--toolset "msc"	
+		
+		for _, cfg in ipairs(cfgs) do
+			for _, plf in ipairs(plfs) do
+				configuration { cfg, plf }
+					targetdir (Oak3DRoot .. "/bin/" .. cfg .."/".. plf)
+			end
 		end
+		
+		configuration {}
+		
+		location(Oak3DRoot .. "/workspace/" .. (_ACTION or "").. "/" .. solutionName)
+end
+
+function Oak3DProject(projectName)
+	project(projectName)
+		location(Oak3DRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.getobject("solution").name .. "/" .. projectName)
 end
 

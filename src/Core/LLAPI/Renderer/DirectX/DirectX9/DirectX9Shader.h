@@ -1,9 +1,6 @@
+#pragma once
 
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_DIRECTX9SHADER_H__
-#define __OAK3D_INCLUDE_RENDER_DIRECTX9SHADER_H__
+#include <cstdint>
 
 #include "Renderer/IRenderer/Shader.h"
 
@@ -14,14 +11,8 @@ namespace Oak3D
 		class DirectX9Shader : public Shader
 		{
 		public:
-
-			struct DX9AdditionalInitParams : public ShaderAdditionalInitParams
-			{
-				uint32_t vertexFormat;
-			};
-
+						
 			DirectX9Shader();
-			virtual void Init(const Core::StringId &id, AdditionalInitParams *pAdditionalInitParams);
 			
 			inline uint32_t GetVertexFormat();
 			inline void SetVertexFormat( uint32_t vertexFormat );
@@ -60,5 +51,3 @@ namespace Oak3D
 		}
 	}	// namespace Render
 }	// namespace Oak3D
-
-#endif

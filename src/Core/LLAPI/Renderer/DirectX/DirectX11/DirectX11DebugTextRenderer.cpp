@@ -1,31 +1,27 @@
 
-#include "Core/Config/Oak3DConfig.h"
-
-#if OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11
-
 #include <string>
 #include <fstream>
 #include <cassert>
 #include <cctype>
 
 #include <d3d11.h>
-#include <d3dx11.h>
-#include <d3dx10.h>
+//#include <d3dx11.h>
+//#include <d3dx10.h>
 
 
-#include "Oak3D/Engine.h"
+//#include "Oak3D/Engine.h"
 
 #include "DirectX11DebugTextRenderer.h"
 #include "DirectX11Shader.h"
 #include "DirectX11Renderer.h"
 #include "Renderer/DirectX/DirectXUtils.h"
 
-#include "Renderer/IRenderer/Font.h"
+//#include "Renderer/IRenderer/Font.h"
 #include "Renderer/IRenderer/VertexBuffer.h"
 #include "Renderer/IRenderer/Texture.h"
 
-#include "Core/Math/Matrix.h"
-#include "Core/Math/Vector3.h"
+#include "Math/Matrix.h"
+#include "Math/Vector3.h"
 
 namespace Oak3D
 {
@@ -42,16 +38,16 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		DirectX11DebugTextRenderer::~DirectX11DebugTextRenderer()
 		{
-			if(m_pFont)
-				delete m_pFont;
+//			if(m_pFont)
+//				delete m_pFont;
 			if(m_pPixelShader)
 			{
-				Oak3D::Engine::GetResourceManager()->ReleaseResource(m_pPixelShader);
+//				Oak3D::Engine::GetResourceManager()->ReleaseResource(m_pPixelShader);
 				m_pPixelShader = nullptr;
 			}
 			if(m_pVertexShader)
 			{
-				Oak3D::Engine::GetResourceManager()->ReleaseResource(m_pVertexShader);
+//				Oak3D::Engine::GetResourceManager()->ReleaseResource(m_pVertexShader);
 				m_pVertexShader = nullptr;
 			}
 		}
@@ -59,7 +55,7 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void DirectX11DebugTextRenderer::Init()
 		{	
-			m_pFont = new Font();
+/*			m_pFont = new Font();
 			m_pFont->Initialize("../resources/font/DebugFont.index", "../resources/font/DebugFont.dds");
 
 			DirectX11Shader::ShaderAdditionalInitParams params;
@@ -67,12 +63,13 @@ namespace Oak3D
 			m_pVertexShader = Oak3D::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/hlsl_4_0/DebugFontVS.hlsl", &params);
 			params.shaderType = eST_PixelShader;
 			m_pPixelShader = Oak3D::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/hlsl_4_0/DebugFontPS.hlsl", &params);
+*/
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX11DebugTextRenderer::OutputText(const std::string &text, uint32_t x, uint32_t y)
 		{
-			if(!m_pFont->GetTexture()->IsReady() || !m_pVertexShader->IsReady() || !m_pPixelShader->IsReady())
+/*			if(!m_pFont->GetTexture()->IsReady() || !m_pVertexShader->IsReady() || !m_pPixelShader->IsReady())
 			{
 				printf("Font is not yet initialised!");
 				return;
@@ -106,9 +103,8 @@ namespace Oak3D
 			ge->DrawPrimitives(numVertices / 3);
 			ge->EnableDepthBuffer();
 			vb.Release();
+*/
 		}
 
 	} // namespace Render
 } // namespace Oak3D
-
-#endif // OAK3D_RENDERER_DIRECTX_11

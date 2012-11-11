@@ -1,7 +1,6 @@
-#ifndef __OAK3D_TIME_H__
-#	define __OAK3D_TIME_H__
+#pragma once
 
-#	include <cstdint>
+#include <cstdint>
 
 namespace Oak3D
 {
@@ -30,7 +29,3 @@ namespace Oak3D
 	TimeOfDay GetCurrentTimeOfDay();
 	
 }
-
-
-#endif
-

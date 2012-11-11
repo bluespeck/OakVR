@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-// Written by		Mihai Tudorache 2011
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_OPENGLRENDERER_H__
-#define __OAK3D_INCLUDE_RENDER_OPENGLRENDERER_H__
+#pragma once
 
 #include <map>
 
@@ -92,6 +86,4 @@ namespace Oak3D
 		};
 	}	// namespace Render
 }	// namespace Oak3D
-
-#endif
 

@@ -7,9 +7,9 @@
 #define __OAK3D_INCLUDE_RENDER_CAMERA_H__
 
 #include "Object.h"
-#include "Core/Math/Matrix.h"
-#include "Core/Math/Vector3.h"
-#include "Core/Math/MathUtils.h"
+#include "Math/Matrix.h"
+#include "Math/Vector3.h"
+#include "Math/MathUtils.h"
 
 using Oak3D::Math::Vector3;
 

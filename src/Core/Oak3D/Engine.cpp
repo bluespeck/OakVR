@@ -2,25 +2,23 @@
 #include <memory>
 #include <cassert>
 
-#include "Core/Config/Oak3DConfig.h"
-
 #include "Engine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
 #include "Renderer/IRenderer/IRenderer.h"
-#include "Core/Time/Timer.h"
-#include "Core/ResourceManager/ResourceManager.h"
-#include "Leaf3D/Widget.h"
+#include "Time/Timer.h"
+#include "ResourceManager/ResourceManager.h"
+//#include "Leaf3D/Widget.h"
 #include "Renderer/IRenderer/VertexBuffer.h"
 #include "Renderer/IRenderer/IndexBuffer.h"
 #include "Renderer/IRenderer/Color.h"
 #include "Renderer/IRenderer/Texture.h"
 #include "Renderer/IRenderer/Shader.h"
-#include "Leaf3D/EventManager.h"
-#include "Leaf3D/MouseEvent.h"
-#include "Leaf3D/InterfaceFocusManager.h"
-#include "Input/MouseInput.h"
-#include "Core/Math/Matrix.h"
-#include "Core/Math/Vector3.h"
+//#include "Leaf3D/EventManager.h"
+//#include "Leaf3D/MouseEvent.h"
+//#include "Leaf3D/InterfaceFocusManager.h"
+#include "Input/MouseInput/MouseInput.h"
+#include "Math/Matrix.h"
+#include "Math/Vector3.h"
 
 #if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
 # include "Renderer/DirectX/DirectX9/DirectX9Shader.h"
@@ -44,9 +42,9 @@ namespace Oak3D
 	void Engine::Update(float dt)
 	{
 		Oak3D::Input::MouseInput::GetInstance()->Update();
-		Oak3D::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
+//		Oak3D::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
 		TriggerInputEvents();
-		Oak3D::Leaf3D::EventManager::GetInstance()->Update();
+//		Oak3D::Leaf3D::EventManager::GetInstance()->Update();
 
 		Oak3D::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
 
@@ -102,27 +100,6 @@ namespace Oak3D
 		m_pTimer = nullptr;
 		m_pRM = nullptr;
 		m_bIsInitialized = false;
-		b1.SetPosition(100, 100);
-		b1.SetDepth(0);
-		b1.SetSize(64, 32);
-
-		b2.SetPosition(250, 100);
-		b2.SetDepth(1);
-		b2.SetSize(200, 100);
-
-		b3.SetPosition(240, 110);
-		b3.SetDepth(0);
-		b3.SetSize(70, 20);
-
-		b4.SetPosition(230, 120);
-		b4.SetDepth(2);
-		b4.SetSize(70, 20);
-
-		b5.SetPosition(220, 130);
-		b5.SetDepth(3);
-		b5.SetSize(70, 20);
-
-		pm1 = nullptr;
 	}
 
 	// --------------------------------------------------------------------------------
@@ -151,10 +128,10 @@ namespace Oak3D
 			delete m_pTimer;
 			m_pTimer = nullptr;
 		}
-		Oak3D::Leaf3D::Widget::ReleaseWidgetList();
-		Oak3D::Core::IUpdatable::ReleaseUpdatableList();
-		Oak3D::Leaf3D::EventManager::Release();
-		Oak3D::Leaf3D::InterfaceFocusManager::Release();
+//		Oak3D::Leaf3D::Widget::ReleaseWidgetList();
+//		Oak3D::Core::IUpdatable::ReleaseUpdatableList();
+//		Oak3D::Leaf3D::EventManager::Release();
+//		Oak3D::Leaf3D::InterfaceFocusManager::Release();
 		
 	}
 
@@ -191,7 +168,7 @@ namespace Oak3D
 		}
 		m_bIsInitialized = true;
 
-		pm1 = m_pRM->GetResource<Oak3D::Render::Mesh>("../resources/Models/hammer.obj");
+//		pm1 = m_pRM->GetResource<Oak3D::Render::Mesh>("../resources/Models/hammer.obj");
 	}
 
 	// --------------------------------------------------------------------------------
@@ -204,7 +181,7 @@ namespace Oak3D
 	// --------------------------------------------------------------------------------
 	void Engine::DrawAxes()
 	{
-		Oak3D::Render::Shader *pVertexShader = nullptr;
+/*		Oak3D::Render::Shader *pVertexShader = nullptr;
 		Oak3D::Render::Shader *pPixelShader = nullptr;
 
 #if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
@@ -306,12 +283,13 @@ namespace Oak3D
 		m_pGE->UsePrimitiveTopology(Oak3D::Render::ePT_LineList);
 		m_pGE->DrawPrimitives(3);
 		m_pGE->ReleaseVertexBuffer(&vb);
-		
+		*/
 	}
 
 	// --------------------------------------------------------------------------------
 	void Engine::DrawMeshBoundingBoxes()
 	{
+		/*
 		Oak3D::Render::Shader *pVertexShader = nullptr;
 		Oak3D::Render::Shader *pPixelShader = nullptr;
 
@@ -446,11 +424,14 @@ namespace Oak3D
 		}
 		//m_pRM->GetInstance()->ReleaseResource(pVertexShader);
 		//m_pRM->GetInstance()->ReleaseResource(pPixelShader);
+
+		*/
 	}
 
 	// --------------------------------------------------------------------------------
 	void Engine::DrawDebugText()
 	{
+		/*
 		m_pGE->EnableFillSolid();
 
 		char str[128];
@@ -460,11 +441,13 @@ namespace Oak3D
 		auto coords = Oak3D::Input::MouseInput::GetInstance()->GetPosition();
 		sprintf_s(str, "Mouse Coords: %2d,%2d", coords.first, coords.second);
 		m_pGE->OutputText(str, 10, 30);
+		*/
 	}
 
 	// --------------------------------------------------------------------------------
 	void Engine::DrawMeshes()
 	{
+		/*
 		Oak3D::Render::Shader *pVertexShader = nullptr;
 		Oak3D::Render::Shader *pPixelShader = nullptr;
 
@@ -537,11 +520,13 @@ namespace Oak3D
 		}
 		m_pRM->GetInstance()->ReleaseResource(pVertexShader);
 		m_pRM->GetInstance()->ReleaseResource(pPixelShader);
+		*/
 	}
 
 	// --------------------------------------------------------------------------------
 	void Engine::TriggerInputEvents()
 	{
+		/*
 		using Leaf3D::MouseEvent;
 		// trigger mouse events
 		auto pMouseInput = Oak3D::Input::MouseInput::GetInstance();
@@ -681,11 +666,14 @@ namespace Oak3D
 			pev->SetEventSubType(ev.eventSubtypeMouseWheel);
 			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
 		}
+
+		*/
 	}
 
 	// --------------------------------------------------------------------------------
 	void Engine::DrawInterface()
 	{
+		/*
 		using Oak3D::Leaf3D::Widget;
 		
 		if(Widget::GetWidgetList()->size() == 0)
@@ -844,6 +832,8 @@ namespace Oak3D
 		vb.Release();
 		ib.Release();
 		//m_pRM->ReleaseResource(pVertexShader);
+
+		*/
 	}
 
 	// --------------------------------------------------------------------------------

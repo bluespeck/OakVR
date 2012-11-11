@@ -1,7 +1,15 @@
-project "FileIO"
+Oak3DProject "FileIO"
 	kind "StaticLib"
 	language "C++"
 	
-	files {"**.h"}
+	includedirs
+	{
+		"..",
+	}
+	
+	files
+	{
+		"*.h",
+	}
 
-	Oak3DPlatformSpecificFiles("**_", ".cpp")
+	Oak3DPlatformSpecificFiles("*_", ".cpp")

@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_CORE_TRANSFORM_H__
-#define __OAK3D_INCLUDE_CORE_TRANSFORM_H__
+#pragma once
 
 #include "Matrix.h"
 
@@ -33,5 +27,3 @@ namespace Oak3D
 
 	} // namespace Math
 } // namespace Oak3D
-
-#endif
