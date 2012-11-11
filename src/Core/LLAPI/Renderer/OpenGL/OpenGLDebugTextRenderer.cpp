@@ -11,7 +11,7 @@
 #include <gl/glu.h>
 //#include <gl/wglext.h>
 
-//#include "Oak3D/Engine.h"
+//#include "ro3d/Engine.h"
 
 #include "OpenGLDebugTextRenderer.h"
 #include "OpenGLRenderer.h"
@@ -25,7 +25,7 @@
 #include "Math/Matrix.h"
 #include "Math/Vector3.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -82,8 +82,8 @@ namespace Oak3D
 
 			OpenGLRenderer *ge = (OpenGLRenderer *)Engine::GetInstance()->GetRenderer();
 
-			Oak3D::Math::Matrix *pM = ge->GetViewMatrix();
-			*pM = Oak3D::Math::Matrix::CreateIdentityMatrix();
+			ro3d::Math::Matrix *pM = ge->GetViewMatrix();
+			*pM = ro3d::Math::Matrix::CreateIdentityMatrix();
 			ge->UseVertexBuffer( &vb );
 			//ge->UseIndexBuffer( nullptr );
 			ge->UseTexture(m_pFont->GetTexture());
@@ -97,6 +97,6 @@ namespace Oak3D
 		}
 
 	} // namespace Render
-} // namespace Oak3D
+} // namespace ro3d
 
 #endif // OAK3D_RENDERER_DIRECTX_11

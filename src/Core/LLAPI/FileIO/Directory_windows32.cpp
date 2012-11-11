@@ -5,7 +5,7 @@
 #include <cassert>
 #include <windows.h>
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Core
 	{

@@ -1,4 +1,4 @@
-Oak3DProject "Oak3D"
+ro3dProject "ro3d"
 	configuration { "linux*" }
 		kind "ConsoleApp"
 	configuration { "windows*" }

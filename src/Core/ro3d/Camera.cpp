@@ -4,11 +4,11 @@
 #include "Math/Matrix.h"
 #include "Renderer/IRenderer/AABB.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
-		using Oak3D::Math::Vector3;
+		using ro3d::Math::Vector3;
 
 		// --------------------------------------------------------------------------------
 		Camera::Camera()
@@ -31,7 +31,7 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void Camera::Rotate( float alpha, float beta, float gamma )
 		{
-			Oak3D::Math::Matrix matRotate;
+			ro3d::Math::Matrix matRotate;
 			matRotate.SetYawPitchRoll(beta, alpha, gamma);
 			m_look = m_position + (m_look - m_position) * matRotate;
 			m_up = (m_up * matRotate).GetNormalized();
@@ -40,9 +40,9 @@ namespace Oak3D
 		// --------------------------------------------------------------------------------
 		void Camera::Translate(float x, float y, float z)
 		{
-			Oak3D::Math::Vector3 direction = (m_look - m_position).GetNormalized();
-			Oak3D::Math::Vector3 right = direction.Cross(m_up).GetNormalized();
-			Oak3D::Math::Vector3 displacement = -x * right + -y * m_up + z * direction;
+			ro3d::Math::Vector3 direction = (m_look - m_position).GetNormalized();
+			ro3d::Math::Vector3 right = direction.Cross(m_up).GetNormalized();
+			ro3d::Math::Vector3 displacement = -x * right + -y * m_up + z * direction;
 			m_position += displacement; 
 			m_look += displacement;
 		}
@@ -53,4 +53,4 @@ namespace Oak3D
 		}
 
 	}	// namespace Render
-}	// namespace Oak3D
+}	// namespace ro3d

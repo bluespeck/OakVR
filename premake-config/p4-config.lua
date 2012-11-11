@@ -1,4 +1,4 @@
-function Oak3DFindSolutionWithProject(projectName)
+function ro3dFindSolutionWithProject(projectName)
 	for sln in premake.solution.each() do
 		prj = premake.solution.findproject(sln, projectName)
 		if prj ~= nil then
@@ -9,7 +9,7 @@ function Oak3DFindSolutionWithProject(projectName)
 	return nil
 end
 
-function Oak3DPlatformSpecificFiles(prefix, suffix)
+function ro3dPlatformSpecificFiles(prefix, suffix)
 	-- try to get current project
 	container = premake.getobject("container")
 	if container.platforms == nil then
@@ -29,7 +29,7 @@ function Oak3DPlatformSpecificFiles(prefix, suffix)
 end
 				
 CurrentSln = nil
-function Oak3DSolution(solutionName)
+function ro3dSolution(solutionName)
 	print("### Configuring solution(" .. solutionName .. ") ###")
 
 	CurrentSln = solution (solutionName)
@@ -73,17 +73,17 @@ function Oak3DSolution(solutionName)
 		for _, cfg in ipairs(cfgs) do
 			for _, plf in ipairs(plfs) do
 				configuration { cfg, plf }
-					targetdir (Oak3DRoot .. "/bin/" .. cfg .."/".. plf)
+					targetdir (ro3dRoot .. "/bin/" .. cfg .."/".. plf)
 			end
 		end
 		
 		configuration {}
 		
-		location(Oak3DRoot .. "/workspace/" .. (_ACTION or "").. "/" .. solutionName)
+		location(ro3dRoot .. "/workspace/" .. (_ACTION or "").. "/" .. solutionName)
 end
 
-function Oak3DProject(projectName)
+function ro3dProject(projectName)
 	project(projectName)
-		location(Oak3DRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.getobject("solution").name .. "/" .. projectName)
+		location(ro3dRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.getobject("solution").name .. "/" .. projectName)
 end
 

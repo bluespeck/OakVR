@@ -34,7 +34,7 @@
 
 
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -53,7 +53,7 @@ namespace Oak3D
 		void DirectX11Renderer::Initialize()
 		{
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
-			SetWindowTextW(hWnd, L"Oak3D [DX11]");
+			SetWindowTextW(hWnd, L"ro3d [DX11]");
 			/////
 			// create Direct3D device, device context and swap chain using the information in the scd struct
 						
@@ -121,9 +121,9 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		Oak3D::Math::Matrix DirectX11Renderer::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
+		ro3d::Math::Matrix DirectX11Renderer::CreateViewMatrix(ro3d::Math::Vector3 eye, ro3d::Math::Vector3 lookAt, ro3d::Math::Vector3 up)
 		{
-			Oak3D::Math::Matrix mat;
+			ro3d::Math::Matrix mat;
 //			D3DXMatrixLookAtLH((D3DXMATRIX *)&mat, (D3DXVECTOR3 *)&eye, (D3DXVECTOR3 *)&lookAt, (D3DXVECTOR3 *)&up);
 			return mat;
 		}
@@ -148,9 +148,9 @@ namespace Oak3D
 
 			/////
 			// create projection matrices
-			Oak3D::Math::Vector3 eye(10.0f, 10.0f, -1.f);
-			Oak3D::Math::Vector3 lookAt(0.0f, 0.0f, 0.0f);
-			Oak3D::Math::Vector3 up(0.0f, 1.0f, 0.0f);
+			ro3d::Math::Vector3 eye(10.0f, 10.0f, -1.f);
+			ro3d::Math::Vector3 lookAt(0.0f, 0.0f, 0.0f);
+			ro3d::Math::Vector3 up(0.0f, 1.0f, 0.0f);
 
 //			D3DXMatrixLookAtLH((D3DXMATRIX *)(void *)m_pViewMatrix, (D3DXVECTOR3 *)(void *)&eye, (D3DXVECTOR3 *)(void *)&lookAt, (D3DXVECTOR3 *)(void *)&up);
 //			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, (3.141592f / 4.f), (viewport.Width / viewport.Height), 1.f, 1000.0f);
@@ -160,7 +160,7 @@ namespace Oak3D
 			// create shader matrix buffer
 			D3D11_BUFFER_DESC mbdesc;
 			memset(&mbdesc, 0, sizeof(D3D11_BUFFER_DESC));
-			mbdesc.ByteWidth = 3 * sizeof(Oak3D::Math::Matrix);
+			mbdesc.ByteWidth = 3 * sizeof(ro3d::Math::Matrix);
 			mbdesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 			mbdesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 			mbdesc.Usage = D3D11_USAGE_DYNAMIC;
@@ -764,4 +764,4 @@ namespace Oak3D
 		}
 
 	}	// namespace Render
-}	// namespace Oak3D
+}	// namespace ro3d

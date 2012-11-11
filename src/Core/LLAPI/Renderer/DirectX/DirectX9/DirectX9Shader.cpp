@@ -12,7 +12,7 @@
 #include "Utils/StringID.h"
 
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -23,4 +23,4 @@ namespace Oak3D
 		}
 
 	}	// namespace Render
-}	// namespace Oak3D
+}	// namespace ro3d

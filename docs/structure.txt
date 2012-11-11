@@ -1,7 +1,7 @@
 
 Folder structure
 
-+Oak3D
++RunningOak3D
 	+bin
 		+<config>				# binaries for each configuration (debug, release, final)
 			+<platform>			# binaries for each platform in current config(linux32, windows64, etc.)

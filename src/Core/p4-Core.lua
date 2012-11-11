@@ -1,6 +1,6 @@
 	dofile("LLAPI/p4-LLAPI.lua")
 
-Oak3DSolution "Core"
+ro3dSolution "Core"
 
 	dofile("ResourceManager/p4-ResourceManager.lua")
-	dofile("Oak3D/p4-Oak3D.lua")
+	dofile("ro3d/p4-ro3d.lua")

@@ -21,7 +21,7 @@
 #include "Math/Matrix.h"
 #include "Math/Vector3.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -75,5 +75,5 @@ namespace Oak3D
 		}
 
 	} // namespace Render
-} // namespace Oak3D
+} // namespace ro3d
 

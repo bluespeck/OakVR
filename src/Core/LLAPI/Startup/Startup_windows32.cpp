@@ -6,14 +6,14 @@
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
 
-	//Oak3D::Oak3D *oak3D = Oak3D::Oak3D::GetInstance();
-	if(!Oak3D::Oak3DInit(Oak3D::ParseCommandLine(std::string(lpCmdLine))))
+	//ro3d::ro3d *oak3D = ro3d::ro3d::GetInstance();
+	if(!ro3d::Oak3DInit(ro3d::ParseCommandLine(std::string(lpCmdLine))))
 	{
-		printf("Failed to initialize Oak3D!!!\n");
+		printf("Failed to initialize ro3d!!!\n");
 	}
 	else
 	{
-		printf("Oak3D successfully initialized.\n");
+		printf("ro3d successfully initialized.\n");
 		// Enter the main loop
 		MSG msg = {0};
 		while(true)
@@ -30,11 +30,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			else
 			{
 				// engine update
-				Oak3D::Oak3DUpdate();
+				ro3d::Oak3DUpdate();
 			}
 		}
 
-		Oak3D::Oak3DExit();
+		ro3d::Oak3DExit();
 	}
 	return 0;
 }

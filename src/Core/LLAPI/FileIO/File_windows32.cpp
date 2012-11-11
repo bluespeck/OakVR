@@ -4,7 +4,7 @@
 
 #include "File.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Core
 	{
@@ -48,7 +48,7 @@ namespace Oak3D
 			struct stat st; 
 			if(stat(filepath.c_str(), &st ))
 			{
-				fprintf(stderr, "[OAK3D_ERROR] stat(%s, %p) error code(errno) %d.\n",filepath.c_str(), &st, errno);
+				fprintf(stderr, "[RO3D_ERROR] stat(%s, %p) error code(errno) %d.\n",filepath.c_str(), &st, errno);
 				return false;
 			}
 			
@@ -102,7 +102,7 @@ namespace Oak3D
 		{
 			if(offset + bytesToRead > bufferSize) 
 			{
-				fprintf(stderr, "[OAK3D_ERROR] Oak3D::Core::File::Read  Attempt to write past buffer limit!\n");
+				fprintf(stderr, "[RO3D_ERROR] ro3d::Core::File::Read  Attempt to write past buffer limit!\n");
 				return 0;
 			}
 			
@@ -113,7 +113,7 @@ namespace Oak3D
 				
 			if(bytesToRead > fileSize)
 			{
-				fprintf(stderr, "[OAK3D_ERROR] Oak3D::Core::File::Read  Attempt to read more than file size!\n");
+				fprintf(stderr, "[RO3D_ERROR] ro3d::Core::File::Read  Attempt to read more than file size!\n");
 				return 0;
 			}
 			
@@ -125,7 +125,7 @@ namespace Oak3D
 		{
 			if(offset + bytesToWrite > bufferSize)
 			{
-				fprintf(stderr, "[OAK3D_ERROR] Oak3D::Core::File::Write  Attempt to read past buffer limit!\n");
+				fprintf(stderr, "[RO3D_ERROR] ro3d::Core::File::Write  Attempt to read past buffer limit!\n");
 				exit(1);
 			}
 			

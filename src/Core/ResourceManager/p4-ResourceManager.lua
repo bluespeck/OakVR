@@ -1,4 +1,4 @@
-	Oak3DProject "ResourceManager"
+	ro3dProject "ResourceManager"
 		kind "StaticLib"
 		language "C++"
 

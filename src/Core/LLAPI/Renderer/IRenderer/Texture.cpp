@@ -1,7 +1,7 @@
 #include "Texture.h"
 #include "IRenderer.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -15,7 +15,7 @@ namespace Oak3D
 		{
 		}
 
-		//void Texture::Init(const Oak3D::Core::StringId &id, AdditionalInitParams *)
+		//void Texture::Init(const ro3d::Core::StringId &id, AdditionalInitParams *)
 		//{ 
 		//	m_id = id;
 		//}
@@ -24,7 +24,7 @@ namespace Oak3D
 		//{
 		//	m_state = eRS_Loading;
 		//	// Create GE texture
-		//	Oak3D::Engine::GetInstance()->GetRenderer()->CreateTexture(this);
+		//	ro3d::Engine::GetInstance()->GetRenderer()->CreateTexture(this);
 		//	m_state = eRS_Ready;
 		//}
 
@@ -34,8 +34,8 @@ namespace Oak3D
 
 		//void Texture::Release()
 		//{
-		//	Oak3D::Engine::GetInstance()->GetRenderer()->ReleaseTexture(this);
+		//	ro3d::Engine::GetInstance()->GetRenderer()->ReleaseTexture(this);
 		//	m_state = eRS_Released;
 		//}
 	} // namespace Render
-}	// namespace Oak3D
+}	// namespace ro3d

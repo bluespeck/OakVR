@@ -1,6 +1,6 @@
-Oak3DProject "Parallel"
+ro3dProject "Parallel"
 	kind "StaticLib"
 	language "C++"
 
 	files {"**.h"}
-	Oak3DPlatformSpecificFiles("**_", ".cpp")
+	ro3dPlatformSpecificFiles("**_", ".cpp")

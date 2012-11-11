@@ -1,4 +1,4 @@
-Oak3DProject "FileIO"
+ro3dProject "FileIO"
 	kind "StaticLib"
 	language "C++"
 	
@@ -12,4 +12,4 @@ Oak3DProject "FileIO"
 		"*.h",
 	}
 
-	Oak3DPlatformSpecificFiles("*_", ".cpp")
+	ro3dPlatformSpecificFiles("*_", ".cpp")

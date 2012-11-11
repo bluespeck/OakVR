@@ -1,4 +1,4 @@
-Oak3DProject "IRenderer"
+ro3dProject "IRenderer"
 		kind "StaticLib"
 		language "C++"
 		

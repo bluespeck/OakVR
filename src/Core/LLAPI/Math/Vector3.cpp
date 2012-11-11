@@ -6,7 +6,7 @@
 #include "Matrix.h"
 
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Math
 	{
@@ -154,4 +154,4 @@ namespace Oak3D
 		}
 
 	}	// namespace Math
-}	// namespace Oak3D
+}	// namespace ro3d

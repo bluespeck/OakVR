@@ -1,5 +1,5 @@
 
-	Oak3DProject "DirectX11"
+	ro3dProject "DirectX11"
 		platforms { "windows32", "windows64"}
 		kind "StaticLib"
 		language "C++"

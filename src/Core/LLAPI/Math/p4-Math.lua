@@ -1,4 +1,4 @@
-	Oak3DProject "Math"
+	ro3dProject "Math"
 		kind "StaticLib"
 		language "C++"
 

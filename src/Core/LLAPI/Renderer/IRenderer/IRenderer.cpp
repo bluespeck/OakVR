@@ -5,7 +5,7 @@
 #include "Math/Matrix.h"
 
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -64,4 +64,4 @@ namespace Oak3D
 			assert(0 && "OutputText not implemented!");
 		}
 	}	// namespace Render
-}	// namespace Oak3D
+}	// namespace ro3d

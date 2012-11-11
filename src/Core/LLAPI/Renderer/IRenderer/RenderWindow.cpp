@@ -1,7 +1,7 @@
 
 #include "RenderWindow.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -14,7 +14,7 @@ namespace Oak3D
 			m_posX = m_posY = 0;
 			m_width = 1280;
 			m_height = 960;
-			m_title = L"Oak3D";
+			m_title = L"ro3d";
 		}
 
 		// --------------------------------------------------------------------------------
@@ -24,4 +24,4 @@ namespace Oak3D
 		}
 
 	}	// namespace Render
-}	// namespace Oak3D
+}	// namespace ro3d

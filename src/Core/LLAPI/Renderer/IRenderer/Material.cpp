@@ -1,7 +1,7 @@
 
 #include "Material.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -15,4 +15,4 @@ namespace Oak3D
 		{
 		}
 	} // namespace Render
-} //Oak3D
+} //ro3d

@@ -1,4 +1,4 @@
-Oak3D desired features
+Running Oak 3D desired features
 
 core
  customizable memory allocation
@@ -20,7 +20,7 @@ simulate
  
 render
  directx & openGL
- polygons / voxels
+ polygons / voxels?
 
 input
  keyboard, mouse, gamepad, custom

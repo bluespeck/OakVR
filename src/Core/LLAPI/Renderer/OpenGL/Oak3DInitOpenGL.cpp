@@ -1,12 +1,12 @@
 
 #include "Renderer/OpenGL/OpenGLRenderer.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	// --------------------------------------------------------------------------------
 	Render::IRenderer *CreateRenderer()
 	{
 		return new Render::OpenGLRenderer();
 	}
-} // namespace Oak3D
+} // namespace ro3d
 

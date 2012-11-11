@@ -1,4 +1,4 @@
-	Oak3DProject "Utils"
+	ro3dProject "Utils"
 		kind "StaticLib"
 		language "C++"
 

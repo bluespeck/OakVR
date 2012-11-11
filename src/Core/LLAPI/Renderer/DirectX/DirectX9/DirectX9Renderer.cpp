@@ -23,7 +23,7 @@
 #include "Renderer/IRenderer/Color.h"
 #include "Math/Matrix.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -37,7 +37,7 @@ namespace Oak3D
 		void DirectX9Renderer::Initialize()
 		{
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
-			SetWindowTextW(hWnd, L"Oak3D [DX9]");
+			SetWindowTextW(hWnd, L"ro3d [DX9]");
 			/////
 			// create Direct3D device
 
@@ -505,9 +505,9 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		Oak3D::Math::Matrix DirectX9Renderer::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
+		ro3d::Math::Matrix DirectX9Renderer::CreateViewMatrix(ro3d::Math::Vector3 eye, ro3d::Math::Vector3 lookAt, ro3d::Math::Vector3 up)
 		{
-			Oak3D::Math::Matrix mat;
+			ro3d::Math::Matrix mat;
 //			D3DXMatrixLookAtLH((D3DXMATRIX *)&mat, (D3DXVECTOR3 *)&eye, (D3DXVECTOR3 *)&lookAt, (D3DXVECTOR3 *)&up);
 			return mat;
 		}
@@ -536,4 +536,4 @@ namespace Oak3D
 			m_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		}
 	}	// namespace Render
-}	// namespace Oak3D
+}	// namespace ro3d

@@ -13,9 +13,9 @@
 #include "Parallel/Thread.h"
 
 using namespace std;
-using namespace Oak3D::Math;
+using namespace ro3d::Math;
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -40,7 +40,7 @@ namespace Oak3D
 			std::string  path  = pMesh->GetId().GetStrId();
 
 			// Start the loading process
-			pMesh->SetState(Oak3D::Core::IResource::eRS_Loading);
+			pMesh->SetState(ro3d::Core::IResource::eRS_Loading);
 	
 			aiScene *pScene = (aiScene*)importer.ReadFile(path.c_str(),
 				aiProcess_GenSmoothNormals			| // generate smooth normal vectors if not existing
@@ -110,8 +110,8 @@ namespace Oak3D
 
 			uint32_t nFaceCount = 0;	
 
-			Oak3D::Math::Vector3 vecLBF = Oak3D::Math::Vector3(0, 0, 0);
-			Vector3 vecRTB = Oak3D::Math::Vector3(0, 0, 0);
+			ro3d::Math::Vector3 vecLBF = ro3d::Math::Vector3(0, 0, 0);
+			Vector3 vecRTB = ro3d::Math::Vector3(0, 0, 0);
 
 			for(uint32_t i = 0; i < pScene->mNumMeshes; ++i)
 			{
@@ -235,7 +235,7 @@ namespace Oak3D
 			
 
 			// Mesh loading has finished
-			pMesh->SetState(Oak3D::Core::IResource::eRS_Ready);
+			pMesh->SetState(ro3d::Core::IResource::eRS_Ready);
 			*/
 			return 0;
 		}
@@ -273,7 +273,7 @@ namespace Oak3D
 		//void Mesh::Load()
 		//{	
 		//	LoadMeshThreadProc(this);
-		//	//Oak3D::Core::Thread(LoadMeshThreadProc, this);
+		//	//ro3d::Core::Thread(LoadMeshThreadProc, this);
 		//}
 
 		//// --------------------------------------------------------------------------------
@@ -473,4 +473,4 @@ namespace Oak3D
 			}
 		}
 	} // namespace Render
-}// namespace Oak3D
+}// namespace ro3d

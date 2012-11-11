@@ -6,21 +6,21 @@
 
 int main(int argc, char **argv)
 {
-	if(!Oak3D::Oak3DInit(Oak3D::ParseCommandLine(argc, argv)))
+	if(!ro3d::Oak3DInit(ro3d::ParseCommandLine(argc, argv)))
 	{
-		printf("Failed to initialize Oak3D!!!\n");
+		printf("Failed to initialize ro3d!!!\n");
 	}
 	else
 	{
-		printf("Oak3D successfully initialized.\n");
+		printf("ro3d successfully initialized.\n");
 
 		while(true)
 		{
-			if(!Oak3D::Oak3DUpdate())
+			if(!ro3d::Oak3DUpdate())
 				break;
 		}
 
-		Oak3D::Oak3DExit();
+		ro3d::Oak3DExit();
 	}
 	
 	return 0;

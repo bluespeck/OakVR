@@ -7,11 +7,11 @@
 #include "OpenGLShader.h"
 #include "OpenGLRenderer.h"
 
-//#include "Oak3D/Engine.h"
+//#include "ro3d/Engine.h"
 //#include "Core/Utils/StringID.h"
 
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -21,4 +21,4 @@ namespace Oak3D
 		{
 		}
 	}	// namespace Render
-}	// namespace Oak3D
+}	// namespace ro3d

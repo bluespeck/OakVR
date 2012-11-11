@@ -1,4 +1,4 @@
-Oak3DSolution "LLAPI"
+ro3dSolution "LLAPI"
 	configuration "linux*"
 		buildoptions { "-std=c++0x" }
 

@@ -3,7 +3,7 @@
 #include "Vector3.h"
 #include <cmath>
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Math
 	{

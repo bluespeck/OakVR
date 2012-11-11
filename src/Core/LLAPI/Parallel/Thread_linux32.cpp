@@ -3,7 +3,7 @@
 
 #include "Thread.h"
 
-namespace Oak3D
+namespace ro3d
 {
 namespace Core
 {
@@ -57,4 +57,4 @@ namespace Core
 		}
 		
 } // end namespace Core
-} // end namespace Oak3D
+} // end namespace ro3d

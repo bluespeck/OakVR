@@ -18,7 +18,7 @@
 //#include <gl/wglext.h>
 
 
-//#include "Oak3D/Engine.h"
+//#include "ro3d/Engine.h"
 
 #include "OpenGLRenderer.h"
 #include "OpenGLDebugTextRenderer.h"
@@ -38,7 +38,7 @@
 //#include "ResourceManager/Image.h"
 
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -58,7 +58,7 @@ namespace Oak3D
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
 			HDC hdc = GetDC(hWnd);
 
-			SetWindowTextW(hWnd, L"Oak3D [OpenGL]");
+			SetWindowTextW(hWnd, L"ro3d [OpenGL]");
 			/////
 			// create OpenGL device
 
@@ -198,7 +198,7 @@ namespace Oak3D
 				GLsizei charsWritten;
 				glGetInfoLogARB(shaderId, 1024, &charsWritten, infoLog);
 				infoLog[charsWritten] = 0;
-				printf("[Oak3D] OpenGL shader compilation has failed: %s\n", infoLog);
+				printf("[ro3d] OpenGL shader compilation has failed: %s\n", infoLog);
 				exit(1);
 			}
 
@@ -227,7 +227,7 @@ namespace Oak3D
 
 			glGenTextures(1, &texId);
 			
-//			Oak3D::Core::Image *pImage = Oak3D::Engine::GetResourceManager()->GetResource<Oak3D::Core::Image>(pTexture->GetId().GetStrId().c_str());
+//			ro3d::Core::Image *pImage = ro3d::Engine::GetResourceManager()->GetResource<ro3d::Core::Image>(pTexture->GetId().GetStrId().c_str());
 			// Separate resources on unique threads
 //			assert("Could not load texture from file!" && texId > 0);
 
@@ -315,7 +315,7 @@ namespace Oak3D
 				GLsizei charsWritten;
 				glGetInfoLogARB(m_shaderProgramId, 1024, &charsWritten, infoLog);
 				infoLog[charsWritten] = 0;
-				printf("[Oak3D] OpenGL shader program link has failed: %s\n", infoLog);
+				printf("[ro3d] OpenGL shader program link has failed: %s\n", infoLog);
 				exit(1);
 			}
 			
@@ -630,11 +630,11 @@ namespace Oak3D
 		}
 
 		// --------------------------------------------------------------------------------
-		Oak3D::Math::Matrix OpenGLRenderer::CreateViewMatrix(Oak3D::Math::Vector3 eye, Oak3D::Math::Vector3 lookAt, Oak3D::Math::Vector3 up)
+		ro3d::Math::Matrix OpenGLRenderer::CreateViewMatrix(ro3d::Math::Vector3 eye, ro3d::Math::Vector3 lookAt, ro3d::Math::Vector3 up)
 		{
-			Oak3D::Math::Vector3 look = (lookAt - eye).GetNormalized();
-			Oak3D::Math::Vector3 right = look.Cross(up).GetNormalized();
-			Oak3D::Math::Matrix mat;
+			ro3d::Math::Vector3 look = (lookAt - eye).GetNormalized();
+			ro3d::Math::Vector3 right = look.Cross(up).GetNormalized();
+			ro3d::Math::Matrix mat;
 			mat._11 = right.x;
 			mat._12 = right.y;
 			mat._13 = right.z;
@@ -683,6 +683,6 @@ namespace Oak3D
 		}
 
 	} // namespace Render
-} // namespace Oak3D
+} // namespace ro3d
 
 #endif // OAK3D_RENDERER_OPENGL

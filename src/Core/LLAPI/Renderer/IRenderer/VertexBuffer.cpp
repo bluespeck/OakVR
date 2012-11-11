@@ -6,7 +6,7 @@
 #include "Math/Vector3.h"
 
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -42,47 +42,47 @@ namespace Oak3D
 			uint32_t vertexSize = 0;
 			if(vertexFormat & VertexBuffer::eVF_XYZ)
 			{
-				vertexSize += sizeof(Oak3D::Math::Vector3);
+				vertexSize += sizeof(ro3d::Math::Vector3);
 			}
 			if(vertexFormat & VertexBuffer::eVF_Normal)
 			{
-				vertexSize += sizeof(Oak3D::Math::Vector3);
+				vertexSize += sizeof(ro3d::Math::Vector3);
 			}
 			if(vertexFormat & VertexBuffer::eVF_Diffuse)
 			{
-				vertexSize += sizeof(Oak3D::Render::Color);
+				vertexSize += sizeof(ro3d::Render::Color);
 			}
 			if(vertexFormat & VertexBuffer::eVF_Tex0)
 			{
-				vertexSize += sizeof(Oak3D::Math::Vector2);
+				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
 			if(vertexFormat & VertexBuffer::eVF_Tex1)
 			{
-				vertexSize += sizeof(Oak3D::Math::Vector2);
+				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
 			if(vertexFormat & VertexBuffer::eVF_Tex2)
 			{
-				vertexSize += sizeof(Oak3D::Math::Vector2);
+				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
 			if(vertexFormat & VertexBuffer::eVF_Tex3)
 			{
-				vertexSize += sizeof(Oak3D::Math::Vector2);
+				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
 			if(vertexFormat & VertexBuffer::eVF_Tex4)
 			{
-				vertexSize += sizeof(Oak3D::Math::Vector2);
+				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
 			if(vertexFormat & VertexBuffer::eVF_Tex5)
 			{
-				vertexSize += sizeof(Oak3D::Math::Vector2);
+				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
 			if(vertexFormat & VertexBuffer::eVF_Tex6)
 			{
-				vertexSize += sizeof(Oak3D::Math::Vector2);
+				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
 			if(vertexFormat & VertexBuffer::eVF_Tex7)
 			{
-				vertexSize += sizeof(Oak3D::Math::Vector2);
+				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
 
 			return vertexSize;
@@ -107,4 +107,4 @@ namespace Oak3D
 			m_pData = nullptr;
 		}
 	}	// namespace Render
-}	// namespace Oak3D
+}	// namespace ro3d

@@ -9,7 +9,7 @@
 
 using std::shared_ptr;
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Core
 	{
@@ -31,7 +31,7 @@ namespace Oak3D
 
 				if(pRes)
 				{
-					Oak3D::Core::Thread resourceLoader([pRes](void *)->uint32_t{pRes->Load(); return 0;}, nullptr);
+					ro3d::Core::Thread resourceLoader([pRes](void *)->uint32_t{pRes->Load(); return 0;}, nullptr);
 
 					pRM->m_pMemoryCritSection->EnterCriticalSection();
 					pRM->m_pLoadCritSection->EnterCriticalSection();
@@ -115,4 +115,4 @@ namespace Oak3D
 			}
 		}
 	} // namespace Core
-} // namespace Oak3D
+} // namespace ro3d

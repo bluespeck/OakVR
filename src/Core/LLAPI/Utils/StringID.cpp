@@ -1,6 +1,6 @@
 #include "StringId.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Core
 	{
@@ -96,4 +96,4 @@ namespace Oak3D
 #       undef get16bits
 
 	}	// namespace Core
-}	// namespace Oak3D
+}	// namespace ro3d

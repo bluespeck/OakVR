@@ -2,7 +2,7 @@
 
 #include "MouseInput.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Input
 	{
@@ -187,7 +187,7 @@ namespace Oak3D
 			switch(wParam)
 			{
 			case WM_MOUSEMOVE:
-				//::ScreenToClient((HWND)Oak3D::Engine::GetRenderWindow()->GetOSHandle(), &msllhs.pt);
+				//::ScreenToClient((HWND)ro3d::Engine::GetRenderWindow()->GetOSHandle(), &msllhs.pt);
 				m_pInstance->m_volatileState.m_x = msllhs.pt.x;
 				m_pInstance->m_volatileState.m_y = msllhs.pt.y;
 				break;

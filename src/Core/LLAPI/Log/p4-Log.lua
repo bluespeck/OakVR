@@ -1,8 +1,8 @@
-Oak3DProject "Log"
+ro3dProject "Log"
 	kind "StaticLib"
 	language "C++"
 
 	includedirs{ ".." }
 	
 	files {"**.h"}
-	Oak3DPlatformSpecificFiles("**_", ".cpp")
+	ro3dPlatformSpecificFiles("**_", ".cpp")

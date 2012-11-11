@@ -4,19 +4,19 @@
 
 #include "MouseEvent.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Leaf3D
 	{
 		// --------------------------------------------------------------------------------
 		IListenForMouseEvents::IListenForMouseEvents()
 		{
-			Oak3D::Leaf3D::EventManager::GetInstance()->RegisterListener(Event::EventType("MouseEvent"), this);
+			ro3d::Leaf3D::EventManager::GetInstance()->RegisterListener(Event::EventType("MouseEvent"), this);
 		}
 
 		IListenForMouseEvents::~IListenForMouseEvents()
 		{
-			Oak3D::Leaf3D::EventManager::GetInstance()->UnregisterListener(this);
+			ro3d::Leaf3D::EventManager::GetInstance()->UnregisterListener(this);
 		}
 
 		// --------------------------------------------------------------------------------

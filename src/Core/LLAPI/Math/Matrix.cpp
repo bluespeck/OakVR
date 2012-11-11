@@ -3,7 +3,7 @@
 #include "Matrix.h"
 #include <cmath>
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Math
 	{
@@ -383,4 +383,4 @@ namespace Oak3D
 
 		
 	} // namespace Math
-} // namespace Oak3D
+} // namespace ro3d

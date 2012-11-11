@@ -7,7 +7,7 @@
 #include "IndexBuffer.h"
 
 using namespace std;
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -51,4 +51,4 @@ namespace Oak3D
 			m_indexCount = 0;
 		}
 	}	// namespace Render
-}	// namespace Oak3D
+}	// namespace ro3d
