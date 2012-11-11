@@ -4,7 +4,7 @@
 
 #include "Core/Utils/StringID.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Leaf3D
 	{
@@ -13,8 +13,8 @@ namespace Oak3D
 		class Event
 		{
 		public:
-			typedef Oak3D::Core::StringId EventType;
-			typedef Oak3D::Core::StringId EventSubtype;
+			typedef ro3d::Core::StringId EventType;
+			typedef ro3d::Core::StringId EventSubtype;
 
 			Event(): m_eventType("BaseEvent"), m_eventSubtype("None") {}
 			virtual ~Event() {}

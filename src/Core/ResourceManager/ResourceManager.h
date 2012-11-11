@@ -14,11 +14,11 @@
 #include "Parallel/CriticalSection.h"
 #include "Parallel/Thread.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Core
 	{
-		class ResourceManager: public Oak3D::LLAPI::Singleton<ResourceManager>
+		class ResourceManager: public ro3d::LLAPI::Singleton<ResourceManager>
 		{
 		public:
 			void Initialize();

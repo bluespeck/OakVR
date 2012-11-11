@@ -13,7 +13,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -37,7 +37,7 @@ namespace Oak3D
 			LRESULT WindowsMessageHandler( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );			
 		};
 	} // namespace Render
-} // namespace Oak3D
+} // namespace ro3d
 
 #endif
 

@@ -11,11 +11,11 @@
 #include "Core/Utils/Singleton.h"
 
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Leaf3D
 	{
-		class EventManager : public Oak3D::Core::Singleton<EventManager>
+		class EventManager : public ro3d::Core::Singleton<EventManager>
 		{
 		public:
 			void RegisterListener(Event::EventType evType, IListenForEvents *pListener);

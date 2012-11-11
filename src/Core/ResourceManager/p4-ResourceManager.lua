@@ -4,7 +4,7 @@
 
 		includedirs
 		{
-			"../LLAPI",
+			"../../LLAPI",
 			".."
 		}
 		

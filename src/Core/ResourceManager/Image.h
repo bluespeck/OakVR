@@ -4,7 +4,7 @@
 #include <cstdint>
 #include "IResource.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Core
 	{

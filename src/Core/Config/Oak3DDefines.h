@@ -4,7 +4,7 @@
 // --------------------------------------------------------------------------------
 
 
-// Oak3D defines
+// ro3d defines
 
 #ifndef __OAK3D_INCLUDE_CORE_OAK3DDEFINES_H__
 #define __OAK3D_INCLUDE_CORE_OAK3DDEFINES_H__

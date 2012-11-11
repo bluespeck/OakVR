@@ -8,11 +8,11 @@ struct TestButton
 	TestButton()
 	{
 
-		Oak3D::Leaf3D::Button b1;
-		Oak3D::Leaf3D::Button b2;
-		Oak3D::Leaf3D::Button b3;
-		Oak3D::Leaf3D::Button b4;
-		Oak3D::Leaf3D::Button b5;
+		ro3d::Leaf3D::Button b1;
+		ro3d::Leaf3D::Button b2;
+		ro3d::Leaf3D::Button b3;
+		ro3d::Leaf3D::Button b4;
+		ro3d::Leaf3D::Button b5;
 
 		b1.SetPosition(100, 100);
 		b1.SetDepth(0);
@@ -36,7 +36,7 @@ struct TestButton
 
 	}
 
-		Oak3D::Leaf3D::Button b;	
+		ro3d::Leaf3D::Button b;	
 	
 
 

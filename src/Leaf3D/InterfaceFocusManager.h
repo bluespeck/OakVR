@@ -7,11 +7,11 @@
 #include "IFocusable.h"
 #include "Core/Utils/Singleton.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Leaf3D
 	{
-		class InterfaceFocusManager : public Oak3D::Core::Singleton<InterfaceFocusManager>
+		class InterfaceFocusManager : public ro3d::Core::Singleton<InterfaceFocusManager>
 		{
 		public:
 			InterfaceFocusManager();

@@ -10,7 +10,7 @@
 
 #include "Utils/StringID.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{
@@ -34,7 +34,7 @@ namespace Oak3D
 			Object *m_pChild;
 			Object *m_pBrother;
 
-			Oak3D::Core::StringId m_objID;
+			ro3d::Core::StringId m_objID;
 
 			// Controllers running on this object
 			std::list<IController *> m_lstControllers;
@@ -44,6 +44,6 @@ namespace Oak3D
 
 		};
 	} // namespace Render
-} // namespace Oak3D
+} // namespace ro3d
 
 #endif

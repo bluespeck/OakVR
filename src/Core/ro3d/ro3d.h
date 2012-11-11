@@ -6,10 +6,10 @@
 #ifndef __OAK3D_INCLUDE_OAK3D_H__
 #define __OAK3D_INCLUDE_OAK3D_H__
 
-#include "Oak3D/Engine.h"
+#include "ro3d/Engine.h"
 #include "Utils/Singleton.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	enum OperatingSystem
 	{
@@ -27,22 +27,22 @@ namespace Oak3D
 		eRAPI_DIRECTX_11 = eRAPI_DirectX + 3
 	};
 
-	class Oak3D : public LLAPI::Singleton<Oak3D>
+	class ro3d : public LLAPI::Singleton<ro3d>
 	{
 	public:
-		//friend class Core::Singleton<Oak3D>;
+		//friend class Core::Singleton<ro3d>;
 		void Update();
 		OperatingSystem os;
 		RenderingAPI renderAPI;
 	
 	protected:
-		Oak3D();
-		~Oak3D();
+		ro3d();
+		~ro3d();
 
 	private:
 		Engine *m_pEngine;
 	};
 	
-}	// namespace Oak3D
+}	// namespace ro3d
 
 #endif

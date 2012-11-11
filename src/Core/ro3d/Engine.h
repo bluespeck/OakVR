@@ -15,9 +15,9 @@
 #include "Renderer/IRenderer/Mesh.h"
 #include "CameraManager.h"
 
-namespace Oak3D
+namespace ro3d
 {
-	class Engine : public Oak3D::LLAPI::Singleton<Engine>
+	class Engine : public ro3d::LLAPI::Singleton<Engine>
 	{
 	public:
 		Engine();
@@ -57,6 +57,6 @@ namespace Oak3D
 
 		bool m_bIsInitialized;
 	};
-}	// namespace Oak3D
+}	// namespace ro3d
 
 #endif

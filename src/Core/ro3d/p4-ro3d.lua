@@ -9,13 +9,14 @@ ro3dProject "ro3d"
 
 	includedirs
 	{
-		"../LLAPI",
+		"../../LLAPI",
 		".."
 	}
 	
 	files { "**.h", "**.cpp" }
 	
-	
+	ro3dAddBinDirAsLinkDir(ro3d)
+		
 	links
 	{
 		"Startup",

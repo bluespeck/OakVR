@@ -4,7 +4,7 @@
 #include <list>
 #include "Camera.h"
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{

@@ -11,9 +11,9 @@
 #include "Math/Vector3.h"
 #include "Math/MathUtils.h"
 
-using Oak3D::Math::Vector3;
+using ro3d::Math::Vector3;
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Render
 	{

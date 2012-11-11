@@ -27,6 +27,18 @@ function ro3dPlatformSpecificFiles(prefix, suffix)
 	end
 
 end
+
+function ro3dAddBinDirAsLinkDir(prjName)
+	prj = premake.getobject("container")
+	print("-----"..prj.name)
+	for _, cfgname in ipairs(prj.configurations) do
+		for _, plfname in ipairs(prj.platforms) do
+			configuration { cfgname, plfname }
+				libdirs { ro3dRoot .. "/bin/" .. cfgname .. "/" .. plfname }
+		end
+	end
+	configuration {}
+end
 				
 CurrentSln = nil
 function ro3dSolution(solutionName)

@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace Oak3D
+namespace ro3d
 {
 	namespace Core
 	{

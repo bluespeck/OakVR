@@ -3,7 +3,7 @@
 // --------------------------------------------------------------------------------
 
 
-// Oak3D configuration file
+// ro3d configuration file
 
 #ifndef __OAK3D_INCLUDE_CORE_OAK3DCONFIG_H__
 #define __OAK3D_INCLUDE_CORE_OAK3DCONFIG_H__
