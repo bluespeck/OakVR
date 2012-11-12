@@ -1,4 +1,6 @@
 
+#include <iostream>
+
 #include "ro3d.h"
 #include "ro3d/Engine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
@@ -9,6 +11,26 @@
 
 namespace ro3d
 {	
+	bool Oak3DInit( std::vector<std::string> cmdLine )
+	{
+		std::cout << "Init!" << std::endl;
+		return true;
+	}
+
+	bool Oak3DUpdate()
+	{
+		static uint8_t count = 0;
+		std::cout << "This is stuff" << std::endl;
+		if(count++ == 5)
+			return false;
+		return true;
+	}
+
+	void Oak3DExit()
+	{
+		std::cout << "Going out!" << std::endl;
+	}
+
 
 	// --------------------------------------------------------------------------------
 	ro3d::ro3d()

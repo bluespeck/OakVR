@@ -1,9 +1,5 @@
 ro3dProject "ro3d"
-	configuration { "linux*" }
-		kind "ConsoleApp"
-	configuration { "windows*" }
-		kind "WindowedApp"
-	configuration {}
+	kind "ConsoleApp"
 	
 	language "C++"
 
@@ -15,14 +11,22 @@ ro3dProject "ro3d"
 	
 	files { "**.h", "**.cpp" }
 	
-	ro3dAddBinDirAsLinkDir(ro3d)
-		
 	links
 	{
+		"ResourceManager",
 		"Startup",
 		"FileIO",
 		"Math",
 		"IRenderer",
-		"Utils"
+		"Utils",
+		"Input",
+		"Time",
+		"Parallel",
+		"DirectX9Renderer",
+		"DirectX11Renderer"
+	
 		
 	}
+	
+	ro3dAddBinDirAsLinkDir(ro3d)
+	

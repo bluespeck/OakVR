@@ -11,7 +11,7 @@ end
 
 function ro3dPlatformSpecificFiles(prefix, suffix)
 	-- try to get current project
-	container = premake.getobject("container")
+	local container = premake.getobject("container")
 	if container.platforms == nil then
 		-- project doesn't have any specified platforms
 		-- try with the solution
@@ -26,6 +26,7 @@ function ro3dPlatformSpecificFiles(prefix, suffix)
 			files { prefix .. plf .. suffix }
 	end
 
+	configuration {}
 end
 
 function ro3dAddBinDirAsLinkDir(prjName)

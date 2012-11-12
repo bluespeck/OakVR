@@ -35,6 +35,16 @@ namespace ro3d
 			::WaitForSingleObject((HANDLE)m_pImpl->threadId, 0);
 		}
 
+		// --------------------------------------------------------------------------------
+		Thread::~Thread()
+		{
+			if(m_pImpl)
+			{
+				Join();
+				delete m_pImpl;
+			}
+		}
+
 	}	// namespace Core
 }	// namespace ro3d
 

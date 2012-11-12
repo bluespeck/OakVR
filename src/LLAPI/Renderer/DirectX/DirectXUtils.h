@@ -8,8 +8,6 @@
 
 #if defined(DEBUG) || defined(_DEBUG)
 	#include <sstream>
-//	#include <dxerr.h>
-	#pragma comment (lib, "dxerr.lib")
 
 	#ifndef HR
 	#define HR(x)/*\

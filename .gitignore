@@ -9,3 +9,5 @@ bin/
 *.pch
 *.suo
 *~
+premake4.exe
+workspace/*

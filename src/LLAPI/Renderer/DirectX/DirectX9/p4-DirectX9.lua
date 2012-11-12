@@ -1,6 +1,6 @@
 
-	ro3dProject "DirectX9"
-		platforms {"windows32", "windows64"}
+	ro3dProject "DirectX9Renderer"
+		removeplatforms { "linux*" }
 		kind "StaticLib"
 		language "C++"
 		

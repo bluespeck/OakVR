@@ -1,7 +1,6 @@
 
 // include the Direct3D Library file
 #pragma comment (lib, "d3d9.lib")
-#pragma comment (lib, "d3dx9.lib")
 
 #include <windows.h>
 #include <windowsx.h>
@@ -199,17 +198,17 @@ namespace ro3d
 		// --------------------------------------------------------------------------------
 		void DirectX9Renderer::CreateTexture( Texture *pTexture )
 		{
-			IDirect3DTexture9 *pTex;
+//			IDirect3DTexture9 *pTex;
 //			const std::string path = pTexture->GetId().GetStrId();
 //			D3DXIMAGE_INFO ili;
 			
-			HR(D3DXGetImageInfoFromFileA(path.c_str(), &ili));
-			HR(D3DXCreateTextureFromFileA(m_pDevice, path.c_str(), &pTex));
+//			HR(D3DXGetImageInfoFromFileA(path.c_str(), &ili));
+//			HR(D3DXCreateTextureFromFileA(m_pDevice, path.c_str(), &pTex));
 			
 			// store created texture in our container
-			pTexture->SetData(pTex);
+/*			pTexture->SetData(pTex);
 
-/*			// fill texture properties
+			// fill texture properties
 			pTexture->SetWidth(ili.Width);
 			pTexture->SetHeight(ili.Height);
 

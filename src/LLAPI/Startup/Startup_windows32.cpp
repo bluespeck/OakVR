@@ -3,11 +3,12 @@
 #include "Startup.h"
 
 // --------------------------------------------------------------------------------
-int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
+//int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
+int main(int argc, char **argv)
 {
 
 	//ro3d::ro3d *oak3D = ro3d::ro3d::GetInstance();
-	if(!ro3d::Oak3DInit(ro3d::ParseCommandLine(std::string(lpCmdLine))))
+	if(!ro3d::Oak3DInit(ro3d::ParseCommandLine(argc, argv)))//std::string(lpCmdLine))))
 	{
 		printf("Failed to initialize ro3d!!!\n");
 	}
