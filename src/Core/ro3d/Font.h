@@ -1,9 +1,4 @@
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_FONT_H__
-#define __OAK3D_INCLUDE_RENDER_FONT_H__
+#pragma once
 
 #include <cstdint>
 #include <string>
@@ -55,5 +50,3 @@ namespace ro3d
 	} // namespace Render
 } // namespace ro3d
 
-
-#endif

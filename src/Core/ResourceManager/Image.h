@@ -1,5 +1,4 @@
-#ifndef __OAK3D_INCLUDE_CORE_IMAGE_H__
-#define __OAK3D_INCLUDE_CORE_IMAGE_H__
+#pragma once
 
 #include <cstdint>
 #include "IResource.h"
@@ -24,4 +23,3 @@ namespace ro3d
 	}
 }
 
-#endif

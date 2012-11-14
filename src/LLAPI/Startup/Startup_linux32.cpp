@@ -6,7 +6,7 @@
 
 int main(int argc, char **argv)
 {
-	if(!ro3d::Oak3DInit(ro3d::ParseCommandLine(argc, argv)))
+	if(!ro3d::ro3dInit(ro3d::ParseCommandLine(argc, argv)))
 	{
 		printf("Failed to initialize ro3d!!!\n");
 	}
@@ -16,11 +16,11 @@ int main(int argc, char **argv)
 
 		while(true)
 		{
-			if(!ro3d::Oak3DUpdate())
+			if(!ro3d::ro3dUpdate())
 				break;
 		}
 
-		ro3d::Oak3DExit();
+		ro3d::ro3dExit();
 	}
 	
 	return 0;

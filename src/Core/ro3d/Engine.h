@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_ENGINE_H__
-#define __OAK3D_INCLUDE_ENGINE_H__
+#pragma once
 
 #include "Utils/Singleton.h"
 #include "ResourceManager/ResourceManager.h"
@@ -59,4 +53,3 @@ namespace ro3d
 	};
 }	// namespace ro3d
 
-#endif

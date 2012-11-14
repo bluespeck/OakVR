@@ -1,5 +1,4 @@
-#ifndef __OAK3D_INCLUDE_CORE_RAWIMAGEDATA_H__
-#define __OAK3D_INCLUDE_CORE_RAWIMAGEDATA_H__
+#pragma once
 
 #include <cstdint>
 
@@ -26,4 +25,3 @@ namespace ro3d
 	}
 }
 
-#endif

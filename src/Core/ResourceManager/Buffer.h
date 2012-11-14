@@ -1,5 +1,4 @@
-#ifndef __OAK3D_INCLUDE_CORE_BUFFER_H__
-#define __OAK3D_INCLUDE_CORE_BUFFER_H__
+#pragma once
 
 #include <cstdint>
 
@@ -42,4 +41,3 @@ namespace ro3d
 	}
 }
 
-#endif

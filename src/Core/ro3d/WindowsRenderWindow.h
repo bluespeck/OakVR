@@ -1,11 +1,4 @@
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_RENDERWINDOWWINDOWS_H__
-#define __OAK3D_INCLUDE_RENDER_RENDERWINDOWWINDOWS_H__
-
-//#ifdef OAK3D_WINDOWS
+#pragma once
 
 #include <string>
 #include "Renderer/IRenderer/RenderWindow.h"
@@ -38,7 +31,3 @@ namespace ro3d
 		};
 	} // namespace Render
 } // namespace ro3d
-
-#endif
-
-//#endif

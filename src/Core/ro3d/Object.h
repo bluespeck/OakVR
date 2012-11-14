@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_OBJECT_H__
-#define __OAK3D_INCLUDE_RENDER_OBJECT_H__
+#pragma once
 
 #include <list>
 
@@ -45,5 +39,3 @@ namespace ro3d
 		};
 	} // namespace Render
 } // namespace ro3d
-
-#endif

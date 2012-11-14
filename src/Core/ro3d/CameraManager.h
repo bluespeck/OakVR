@@ -1,5 +1,4 @@
-#ifndef __OAK3D_INCLUDE_RENDER_CAMERAMANAGER_H__
-#define __OAK3D_INCLUDE_RENDER_CAMERAMANAGER_H__
+#pragma once
 
 #include <list>
 #include "Camera.h"
@@ -22,5 +21,3 @@ namespace ro3d
 		};
 	}
 }
-
-#endif

@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_OAK3D_H__
-#define __OAK3D_INCLUDE_OAK3D_H__
+#pragma once
 
 #include "ro3d/Engine.h"
 #include "Utils/Singleton.h"
@@ -45,4 +39,3 @@ namespace ro3d
 	
 }	// namespace ro3d
 
-#endif

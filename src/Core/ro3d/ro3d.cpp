@@ -11,13 +11,13 @@
 
 namespace ro3d
 {	
-	bool Oak3DInit( std::vector<std::string> cmdLine )
+	bool ro3dInit( std::vector<std::string> cmdLine )
 	{
 		std::cout << "Init!" << std::endl;
 		return true;
 	}
 
-	bool Oak3DUpdate()
+	bool ro3dUpdate()
 	{
 		static uint8_t count = 0;
 		std::cout << "This is stuff" << std::endl;
@@ -26,7 +26,7 @@ namespace ro3d
 		return true;
 	}
 
-	void Oak3DExit()
+	void ro3dExit()
 	{
 		std::cout << "Going out!" << std::endl;
 	}

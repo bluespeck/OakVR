@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_CAMERA_H__
-#define __OAK3D_INCLUDE_RENDER_CAMERA_H__
+#pragma once
 
 #include "Object.h"
 #include "Math/Matrix.h"
@@ -44,5 +38,3 @@ namespace ro3d
 		};
 	} // namespace Render
 }
-
-#endif

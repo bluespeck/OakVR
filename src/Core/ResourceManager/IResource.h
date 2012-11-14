@@ -1,5 +1,4 @@
-#ifndef __OAK3D_INCLUDE_CORE_IRESOURCE_H__
-#define __OAK3D_INCLUDE_CORE_IRESOURCE_H__
+#pragma once
 
 #include <string>
 #include "Utils/StringID.h"
@@ -76,4 +75,3 @@ namespace ro3d
 	}	// namespace Core
 }	// namespace ro3d
 
-#endif

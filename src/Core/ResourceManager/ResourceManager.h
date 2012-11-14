@@ -1,9 +1,4 @@
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_CORE_RESOURCEMANAGER_H__
-#define __OAK3D_INCLUDE_CORE_RESOURCEMANAGER_H__
+#pragma once
 
 #include <list>
 #include <algorithm>
@@ -95,7 +90,3 @@ namespace ro3d
 
 	}
 }
-
-
-
-#endif

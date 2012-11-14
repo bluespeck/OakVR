@@ -1,5 +1,4 @@
-#ifndef __OAK3D_INCLUDE_CORE_BMPLOADER_H__
-#define __OAK3D_INCLUDE_CORE_BMPLOADER_H__
+#pragma once
 
 #include <cstdint>
 #include <string>
@@ -18,4 +17,3 @@ namespace ro3d
 	}
 }
 
-#endif
