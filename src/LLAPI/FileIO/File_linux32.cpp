@@ -16,7 +16,7 @@ namespace ro3d
 
 		// --------------------------------------------------------------------------------
 		File::File(std::string filepath)
-			: m_bFileOpened(false) , m_eFileOpenMode(eFOM_Unknown), m_filePath(filepath)
+			: m_bFileOpened(false) , m_eFileOpenMode(FileOpenMode::unknown), m_filePath(filepath)
 		{
 			m_pImpl = new FileImpl;
 			m_bFileOpened = false;
@@ -71,16 +71,16 @@ namespace ro3d
 			char mode[4];
 			switch(eFileOpenMode)
 			{
-			case eFOM_OpenRead:
+			case FileOpenMode::read:
 				strcpy(mode, "r");
 				break;
-			case eFOM_OpenWrite:
+			case FileOpenMode::write:
 				strcpy(mode, "w");
 				break;
-			case eFOM_OpenAppend:
+			case FileOpenMode::append:
 				strcpy(mode, "a");
 				break;
-			case eFOM_OpenReadAndWrite:
+			case FileOpenMode::readAndWrite:
 				strcpy(mode, "a");
 				break;
 			default:
@@ -95,7 +95,7 @@ namespace ro3d
 		void File::Close()
 		{
 			fclose(m_pImpl->pFileHandle);
-			m_eFileOpenMode = eFOM_Unknown;
+			m_eFileOpenMode = FileOpenMode::unknown;
 			m_pImpl->pFileHandle = nullptr;
 			m_bFileOpened = false;
 		}
