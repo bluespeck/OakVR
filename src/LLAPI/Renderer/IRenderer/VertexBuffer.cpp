@@ -40,47 +40,47 @@ namespace ro3d
 		uint32_t VertexBuffer::ComputeVertexSizeFromFormat(uint32_t vertexFormat)
 		{
 			uint32_t vertexSize = 0;
-			if(vertexFormat & VertexBuffer::eVF_XYZ)
+			if(vertexFormat & (uint32_t)VertexFormat::xyz)
 			{
 				vertexSize += sizeof(ro3d::Math::Vector3);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Normal)
+			if(vertexFormat & (uint32_t)VertexFormat::normal)
 			{
 				vertexSize += sizeof(ro3d::Math::Vector3);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Diffuse)
+			if(vertexFormat & (uint32_t)VertexFormat::diffuse)
 			{
 				vertexSize += sizeof(ro3d::Render::Color);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Tex0)
+			if(vertexFormat & (uint32_t)VertexFormat::tex0)
 			{
 				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Tex1)
+			if(vertexFormat & (uint32_t)VertexFormat::tex1)
 			{
 				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Tex2)
+			if(vertexFormat & (uint32_t)VertexFormat::tex2)
 			{
 				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Tex3)
+			if(vertexFormat & (uint32_t)VertexFormat::tex3)
 			{
 				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Tex4)
+			if(vertexFormat & (uint32_t)VertexFormat::tex4)
 			{
 				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Tex5)
+			if(vertexFormat & (uint32_t)VertexFormat::tex5)
 			{
 				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Tex6)
+			if(vertexFormat & (uint32_t)VertexFormat::tex6)
 			{
 				vertexSize += sizeof(ro3d::Math::Vector2);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Tex7)
+			if(vertexFormat & (uint32_t)VertexFormat::tex7)
 			{
 				vertexSize += sizeof(ro3d::Math::Vector2);
 			}

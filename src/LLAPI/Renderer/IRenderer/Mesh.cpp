@@ -3,10 +3,7 @@
 //#include <aiScene.h>
 
 #include <cassert>
-#include <cvt/wstring>
-#include <codecvt>
 #include <string>
-
 #include "Mesh.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"

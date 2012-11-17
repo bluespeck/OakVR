@@ -1,22 +1,20 @@
 
-#if OAK3D_RENDERER == OAK3D_RENDERER_OPENGL
-
 // include the OpenGL library file
 //#pragma comment (lib, "Opengl32.lib")
 
 #include <cassert>
 
 
-
-#include <windows.h>
-#include <wingdi.h>
+#if defined (_WIN32)
+#	include <windows.h>
+#	include <wingdi.h>
 //#include <GLEW/include/GL/glew.h>
-#include <gl/gl.h>
-#include <gl/glu.h>
-//#include <SOIL/include/SOIL.h>
-
 //#include <gl/wglext.h>
+#endif
 
+#include <GL/gl.h>
+#include <GL/glu.h>
+//#include <SOIL/include/SOIL.h>
 
 //#include "ro3d/Engine.h"
 
@@ -54,6 +52,7 @@ namespace ro3d
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::Initialize()
 		{
+#	if defined(_WIN32)
 			m_mainThreadId = GetCurrentThreadId();
 			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
 			HDC hdc = GetDC(hWnd);
@@ -84,7 +83,9 @@ namespace ro3d
 			wglShareLists((HGLRC)m_pDevice, (HGLRC)m_pWorkerThreadDevice);
 
 			wglMakeCurrent (hdc, (HGLRC)m_pDevice);
-						
+
+#	endif
+
 //			assert(glewInit() == GLEW_OK);
 						
 			InitializeStateObjects();
@@ -136,15 +137,17 @@ namespace ro3d
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::SwapBuffers()
 		{
-			::SwapBuffers(wglGetCurrentDC());
+			//::SwapBuffers(wglGetCurrentDC());
 		}
 
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::Cleanup()
 		{	
+#	if defined(_WIN32)
 			wglMakeCurrent (NULL, NULL) ; 
 			wglDeleteContext ((HGLRC)m_pDevice);
 			wglDeleteContext( (HGLRC)m_pWorkerThreadDevice);
+#	endif
 		}
 
 		// --------------------------------------------------------------------------------
@@ -156,9 +159,12 @@ namespace ro3d
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::CreateShader(Shader *pShader)
 		{
+#	if defined(_WIN32)
 			if(GetCurrentThreadId() != m_mainThreadId)
+			{
 				wglMakeCurrent(GetDC(reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle())), (HGLRC)m_pWorkerThreadDevice);
-
+			}
+#	endif
 //			GLenum shaderType;
 			switch(pShader->GetType())
 			{
@@ -220,9 +226,10 @@ namespace ro3d
 		// --------------------------------------------------------------------------------
 		void OpenGLRenderer::CreateTexture( Texture *pTexture )
 		{
+#			if defined(_WIN32)
 			if(GetCurrentThreadId() != m_mainThreadId)
 				wglMakeCurrent(GetDC(reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle())), (HGLRC)m_pWorkerThreadDevice);
-
+#			endif
 			GLuint texId;
 
 			glGenTextures(1, &texId);
@@ -540,25 +547,25 @@ namespace ro3d
 //			glBindBufferARB(GL_ARRAY_BUFFER, (GLuint)pVertexBuffer->GetData());
 			m_pCurrentVertexBuffer = pVertexBuffer;
 			uint8_t *offset = nullptr;
-			if(vertexFormat & VertexBuffer::eVF_XYZ)
+			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::xyz)
 			{
 				glEnableClientState(GL_VERTEX_ARRAY);
 				glVertexPointer(3, GL_FLOAT, vertexSize, offset);
 				offset += 3 * sizeof(float);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Normal)
+			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::normal)
 			{
 				glEnableClientState(GL_NORMAL_ARRAY);
 				glNormalPointer(GL_FLOAT, vertexSize, offset);
 				offset += 3 * sizeof(float);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Diffuse)
+			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::diffuse)
 			{
 				glEnableClientState(GL_COLOR_ARRAY);
 				glNormalPointer(GL_FLOAT, vertexSize, offset);
 				offset += 4 * sizeof(float);
 			}
-			if(vertexFormat & VertexBuffer::eVF_Tex0)
+			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::tex0)
 			{	
 //				glClientActiveTexture(GL_TEXTURE0);
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -685,4 +692,3 @@ namespace ro3d
 	} // namespace Render
 } // namespace ro3d
 
-#endif // OAK3D_RENDERER_OPENGL

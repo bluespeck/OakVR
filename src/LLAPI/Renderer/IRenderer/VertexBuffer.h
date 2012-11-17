@@ -10,19 +10,19 @@ namespace ro3d
 		{
 		public:
 
-			enum VertexFormat : uint32_t
+			enum class VertexFormat : uint32_t
 			{
-				eVF_XYZ		= 0x0001,
-				eVF_Normal	= 0x0002,
-				eVF_Diffuse	= 0x0004,
-				eVF_Tex0	= 0x0008,	// contains tex coords pair 0
-				eVF_Tex1	= 0x0010,	// contains tex coords pair 1
-				eVF_Tex2	= 0x0020,	// contains tex coords pair 2
-				eVF_Tex3	= 0x0040,	// contains tex coords pair 3
-				eVF_Tex4	= 0x0080,	// contains tex coords pair 4
-				eVF_Tex5	= 0x0100,	// contains tex coords pair 5
-				eVF_Tex6	= 0x0200,	// contains tex coords pair 6
-				eVF_Tex7	= 0x0400	// contains tex coords pair 7
+				xyz		= 0x0001,
+				normal	= 0x0002,
+				diffuse	= 0x0004,
+				tex0	= 0x0008,	// contains tex coords pair 0
+				tex1	= 0x0010,	// contains tex coords pair 1
+				tex2	= 0x0020,	// contains tex coords pair 2
+				tex3	= 0x0040,	// contains tex coords pair 3
+				tex4	= 0x0080,	// contains tex coords pair 4
+				tex5	= 0x0100,	// contains tex coords pair 5
+				tex6	= 0x0200,	// contains tex coords pair 6
+				tex7	= 0x0400	// contains tex coords pair 7
 			};
 
 			VertexBuffer();
@@ -45,7 +45,7 @@ namespace ro3d
 			void Unlock();
 			void Release();
 
-			uint32_t VertexBuffer::ComputeVertexSizeFromFormat( uint32_t vertexFormat );
+			uint32_t ComputeVertexSizeFromFormat( uint32_t vertexFormat );
 
 		private:
 			uint32_t m_vertexFormat;

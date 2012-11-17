@@ -1,14 +1,16 @@
 
-#if OAK3D_RENDERER == OAK3D_RENDERER_OPENGL
+#if defined _WIN32
+#	include <windows.h>
+#	include <wingdi.h>
+#endif
+
 
 #include <string>
 #include <fstream>
 #include <cassert>
 #include <cctype>
-#include <windows.h>
-#include <wingdi.h>
-#include <gl/gl.h>
-#include <gl/glu.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 //#include <gl/wglext.h>
 
 //#include "ro3d/Engine.h"
@@ -99,4 +101,3 @@ namespace ro3d
 	} // namespace Render
 } // namespace ro3d
 
-#endif // OAK3D_RENDERER_DIRECTX_11

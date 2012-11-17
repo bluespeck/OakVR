@@ -1,4 +1,6 @@
-#include "StringId.h"
+#include <cstring>
+
+#include "StringID.h"
 
 namespace ro3d
 {

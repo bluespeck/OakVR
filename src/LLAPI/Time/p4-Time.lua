@@ -4,5 +4,5 @@ ro3dProject "Time"
 
 	includedirs{ ".." }
 	
-	files {"**.h"}
+	files {"**.h", "Timer.cpp"}
 	ro3dPlatformSpecificFiles("**_", ".cpp")

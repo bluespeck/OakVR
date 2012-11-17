@@ -1,6 +1,5 @@
 ro3dProject "ro3d"
 	kind "ConsoleApp"
-	
 	language "C++"
 
 	includedirs
@@ -10,7 +9,11 @@ ro3dProject "ro3d"
 	}
 	
 	files { "**.h", "**.cpp" }
-	
+
+	configuration {"linux*"}
+		excludes {"WindowsRenderWindow.*", "ro3dInitWindows.cpp"}	
+	configuration {}
+
 	links
 	{
 		"ResourceManager",
@@ -22,11 +25,13 @@ ro3dProject "ro3d"
 		"Input",
 		"Time",
 		"Parallel",
-		"DirectX9Renderer",
-		"DirectX11Renderer"
-	
-		
 	}
+	
+	configuration {"windows*"}
+		links {	"DirectX9Renderer",	"DirectX11Renderer" }
+	configuration {"windows* or linux*"}
+		links {	"OpenGLRenderer" }
+	configuration {}
 	
 	ro3dAddBinDirAsLinkDir(ro3d)
 	

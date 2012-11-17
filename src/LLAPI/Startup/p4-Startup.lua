@@ -5,6 +5,6 @@ ro3dProject "Startup"
 	includedirs{ ".." }
 	
 	files {"*.h"}
-	ro3dPlatformSpecificFiles("**_", ".cpp")
+	ro3dPlatformSpecificFiles("**", ".cpp")
 
 	files {"Startup.cpp"}

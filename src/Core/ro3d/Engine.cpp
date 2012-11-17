@@ -20,16 +20,16 @@
 #include "Math/Matrix.h"
 #include "Math/Vector3.h"
 
-#if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
-# include "Renderer/DirectX/DirectX9/DirectX9Shader.h"
-# include "Renderer/DirectX/DirectX9/DirectX9DebugTextRenderer.h"
-#elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
-# include "Renderer/DirectX/DirectX11/DirectX11DebugTextRenderer.h"
-# include "Renderer/DirectX/DirectX11/DirectX11Shader.h"
-#elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
-# include "Renderer/OpenGL/OpenGLShader.h"
-# include "Renderer/OpenGL/OpenGLDebugTextRenderer.h"
+#if defined(_WIN32)
+#	include "Renderer/DirectX/DirectX9/DirectX9Shader.h"
+#	include "Renderer/DirectX/DirectX9/DirectX9DebugTextRenderer.h"
+
+#	include "Renderer/DirectX/DirectX11/DirectX11DebugTextRenderer.h"
+#	include "Renderer/DirectX/DirectX11/DirectX11Shader.h"
 #endif
+
+#include "Renderer/OpenGL/OpenGLShader.h"
+#include "Renderer/OpenGL/OpenGLDebugTextRenderer.h"
 
 #ifdef OAK3D_EDITOR
 #include "Editor/EditorEntryPoint.h"
@@ -143,13 +143,13 @@ namespace ro3d
 			m_pRW->Initialize();
 			m_pGE->SetRenderWindow(m_pRW);
 			ro3d::Render::DebugTextRenderer *pDebugTextRenderer = nullptr;			
-# if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
+#if defined(_WIN32)
 			pDebugTextRenderer = new ro3d::Render::DirectX9DebugTextRenderer();
-# elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
+
 			pDebugTextRenderer = new ro3d::Render::DirectX11DebugTextRenderer();
-# elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
+#endif
 			pDebugTextRenderer = new ro3d::Render::OpenGLDebugTextRenderer();
-# endif
+
 			m_pGE->SetDebugTextRenderer(pDebugTextRenderer);
 			m_pGE->Initialize();
 			pDebugTextRenderer->Init();

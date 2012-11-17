@@ -3,4 +3,4 @@ ro3dProject "Parallel"
 	language "C++"
 
 	files {"**.h"}
-	ro3dPlatformSpecificFiles("**_", ".cpp")
+	ro3dPlatformSpecificFiles("**", ".cpp")

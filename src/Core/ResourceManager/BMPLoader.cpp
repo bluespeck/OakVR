@@ -1,5 +1,10 @@
 
+#include <cstdio>
+#include <cstdint>
+
 #include "BMPLoader.h"
+
+
 
 namespace ro3d
 {
