@@ -7,4 +7,7 @@
 		includedirs { "../.." }
 		
 		files { "**.h", "**.cpp" }
+		
+		configuration {"linux64"}
+			buildoptions {"-fpermissive"}
 
