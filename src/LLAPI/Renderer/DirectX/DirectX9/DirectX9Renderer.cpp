@@ -365,7 +365,7 @@ namespace ro3d
 			D3DVERTEXELEMENT9 layout[13];
 			numElems = 0;
 			int offset = 0;
-			if(vertexFormat & VertexBuffer::eVF_XYZ)
+			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::xyz)
 			{
 				layout[numElems].Stream = 0;
 				layout[numElems].Offset = offset;
@@ -376,7 +376,7 @@ namespace ro3d
 				offset += 12;
 				++numElems;
 			}
-			if(vertexFormat & VertexBuffer::eVF_Normal)
+			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::normal)
 			{				
 				layout[numElems].Stream = 0;
 				layout[numElems].Offset = offset;
@@ -387,7 +387,7 @@ namespace ro3d
 				offset += 12;
 				++numElems;
 			}
-			if(vertexFormat & VertexBuffer::eVF_Diffuse)
+			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::diffuse)
 			{
 				layout[numElems].Stream = 0;
 				layout[numElems].Offset = offset;
@@ -399,7 +399,7 @@ namespace ro3d
 				++numElems;
 			}
 
-			if(vertexFormat & VertexBuffer::eVF_Tex0)
+			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::tex0)
 			{
 				layout[numElems].Stream = 0;
 				layout[numElems].Offset = offset;

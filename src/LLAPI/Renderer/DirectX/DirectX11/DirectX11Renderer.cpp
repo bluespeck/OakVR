@@ -576,7 +576,7 @@ namespace ro3d
 		{
 			D3D11_INPUT_ELEMENT_DESC layout[12];
 			numElems = 0;
-			if(vertexFormat & VertexBuffer::eVF_XYZ)
+			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::xyz)
 			{
 				layout[numElems].SemanticName = "POSITION";
 				layout[numElems].SemanticIndex = 0;
@@ -587,7 +587,7 @@ namespace ro3d
 				layout[numElems].InstanceDataStepRate = 0;
 				++numElems;
 			}
-			if(vertexFormat & VertexBuffer::eVF_Normal)
+			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::normal)
 			{
 				layout[numElems].SemanticName = "NORMAL";
 				layout[numElems].SemanticIndex = 0;
@@ -598,7 +598,7 @@ namespace ro3d
 				layout[numElems].InstanceDataStepRate = 0;
 				++numElems;
 			}
-			if(vertexFormat & VertexBuffer::eVF_Diffuse)
+			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::diffuse)
 			{
 				layout[numElems].SemanticName = "COLOR";
 				layout[numElems].SemanticIndex = 0;
@@ -609,7 +609,7 @@ namespace ro3d
 				layout[numElems].InstanceDataStepRate = 0;
 				++numElems;
 			}
-			if(vertexFormat & VertexBuffer::eVF_Tex0)
+			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::tex0)
 			{
 				layout[numElems].SemanticName = "TEXCOORD";
 				layout[numElems].SemanticIndex = 0;

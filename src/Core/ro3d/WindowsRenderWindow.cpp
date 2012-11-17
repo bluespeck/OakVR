@@ -24,10 +24,10 @@ namespace ro3d
 			if (uMsg == WM_NCCREATE)
 			{
 				// Get window object pointer from create params
-				SetWindowLong(hWnd, GWL_USERDATA, (long)((LPCREATESTRUCT(lParam))->lpCreateParams));
+				SetWindowLong(hWnd, -21, (long)((LPCREATESTRUCT(lParam))->lpCreateParams));
 			}
 						
-			WindowsRenderWindow* pWnd = (WindowsRenderWindow *)GetWindowLong(hWnd, GWL_USERDATA);
+			WindowsRenderWindow* pWnd = (WindowsRenderWindow *)GetWindowLong(hWnd, -21);
 
 			if(pWnd)
 				return pWnd->WindowsMessageHandler(hWnd, uMsg, wParam, lParam);
