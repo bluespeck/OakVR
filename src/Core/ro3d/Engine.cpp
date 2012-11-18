@@ -153,7 +153,7 @@ namespace ro3d
 			m_pGE->SetDebugTextRenderer(pDebugTextRenderer);
 			m_pGE->Initialize();
 			pDebugTextRenderer->Init();
-			m_pRM->Initialize();
+			
 			m_pCM = new ro3d::Render::CameraManager();
 			m_pCM->SetAsCurrentCamera(new ro3d::Render::Camera(Vector3(0.f, 0.f, -50.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)));
 

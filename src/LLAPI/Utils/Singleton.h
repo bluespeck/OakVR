@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_CORE_SINGLETON_H__
-#define __OAK3D_INCLUDE_CORE_SINGLETON_H__
+#pragma once
 
 namespace ro3d
 {
@@ -42,4 +36,3 @@ namespace ro3d
 		T *Singleton<T>::m_pInstance = nullptr;
 	}
 }	// namespace ro3d
-#endif

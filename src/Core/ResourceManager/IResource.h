@@ -19,15 +19,15 @@ namespace ro3d
 				virtual ~AdditionalInitParams(){}
 			};
 
-			enum ResourceState
+			enum class ResourceState
 			{
-				eRS_Uninitialized,
-				eRS_Loading,
-				eRS_Ready,
-				eRS_Released
+				uninitialized,
+				loading,
+				ready,
+				unloading
 			};
 
-			IResource() : m_id(1), m_refCount(1), m_state(eRS_Uninitialized) {}
+			IResource() : m_id(1), m_refCount(1), m_state(ResourceState::uninitialized) {}
 			virtual ~IResource() {}
 	
 			virtual void Init(const StringId &id, AdditionalInitParams *pInitParams) = 0;
@@ -53,7 +53,7 @@ namespace ro3d
 
 		inline bool IResource::IsReady()
 		{
-			return m_state == eRS_Ready;
+			return m_state == ResourceState::ready;
 		}
 
 		inline Core::StringId IResource::GetId()

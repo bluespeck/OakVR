@@ -1,7 +1,12 @@
 #pragma once
 
-#include <list>
+#include <vector>
 #include <algorithm>
+
+#include <mutex>
+#include <thread>
+#include <memory>
+#include <condition_variable>
 
 #include "ResourceManager/IResource.h"
 #include "Utils/StringID.h"
@@ -29,21 +34,30 @@ namespace ro3d
 		private:
 			static uint32_t ResourceLoaderThread(void *pRM);
 
-			std::list<IResource *> m_toBeLoaded;
-			std::list<IResource *> m_inMemory;
-			CriticalSection *m_pLoadCritSection;
-			CriticalSection *m_pMemoryCritSection;
+			std::vector<IResource *> m_toBeLoaded;
+			std::vector<IResource *> m_inMemory;
+			std::vector<IResource *> m_toBeUnloaded;	//to be released
+			
+			std::mutex m_rmThreadsShouldStopMutex;
+			std::condition_variable m_rmThreadsShouldStopCondVar;
+			bool m_bRMThreadsShouldStop;
+			
+			std::mutex m_loadMutex;
+			std::condition_variable m_loadCondVar;
 
-			volatile bool m_bLoaderThreadShouldStop;
+			std::mutex m_unloadMutex;
+			std::condition_variable m_unloadCondVar;
 
-			Core::Thread *m_pLoaderThread;
+
+			std::unique_ptr<std::thread> m_pRMLoadThread;
+			std::unique_ptr<std::thread> m_pRMUnloadThread;
 		};
 
 		// --------------------------------------------------------------------------------
 		template<typename ResourceType>
 		ResourceType * ResourceManager::GetResource(const StringId &id, IResource::AdditionalInitParams *pAditionalInitParams)
 		{
-			m_pMemoryCritSection->EnterCriticalSection();
+			/*m_pMemoryCritSection->EnterCriticalSection();
 			m_pLoadCritSection->EnterCriticalSection();
 			if(m_inMemory.size() > 0)
 			{
@@ -86,6 +100,8 @@ namespace ro3d
 //			m_pLoadCritSection->LeaveCriticalSection();
 //			sp->m_refCount++;
 			return sp;
+			*/
+			return nullptr;
 		}
 
 	}
