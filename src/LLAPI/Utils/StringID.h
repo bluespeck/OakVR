@@ -1,46 +1,38 @@
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_CORE_STRINGID_H__
-#define __OAK3D_INCLUDE_CORE_STRINGID_H__
+#pragma once
 
 #include <string>
 #include <cstdint>
+#include <map>
+#include <set>
 
 namespace ro3d
 {
-	namespace Core
+	class StringId
 	{
-		class StringId
-		{
-		public:
-			StringId(uint32_t id);
-			StringId(const std::string &strId);
-			StringId(const char *strId);
-			
-			void SetStrId(const std::string &strId);
-			bool operator ==(const StringId &id) const ;
-			bool operator <(const StringId &id) const;
+	public:
+		typedef std::pair<std::uint32_t, std::string> StrIdPair;
 
-			// --------------------------------------------------------------------------------
-			const std::string &GetStrId() const
-			{
-				return m_strId;
-			}
-			
-			// --------------------------------------------------------------------------------
-			uint32_t GetHashId() const
-			{
-				return m_id;
-			}
+		StringId(uint32_t id);
+		StringId(const std::string &strId);
+		StringId(const char *strId);
+		
+		void SetId(uint32_t id);
+		void SetId(const std::string &strId);
+		void SetId(const char *strId);
 
+		const StrIdPair &GetId() const { return m_id; }
 
-		private:
-			std::string m_strId;
-			uint32_t m_id;
-		};
-	}	// namespace Core
-}	// namespace ro3d
+		bool operator ==(const StringId &id) const ;
+		bool operator <(const StringId &id) const;
 
+		
+
+	private:
+		StrIdPair m_id;
+				
+#if defined (_DEBUG)				
+		void TrackStrIdPair();
+		static std::map<uint32_t, std::set<std::string>> s_idsToStrings; // for duplicates checking
 #endif
+	};
+}	// namespace ro3d

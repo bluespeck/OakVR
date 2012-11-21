@@ -2,37 +2,33 @@
 
 namespace ro3d
 {
-	namespace LLAPI
+	template<typename T>
+	class Singleton
 	{
-
-		template<typename T>
-		class Singleton
+	public:
+		static T* GetInstance()
 		{
-		public:
-			static T* GetInstance()
-			{
-				if(m_pInstance)
-					return m_pInstance;
-				else
-					return m_pInstance = new T;
-			}
+			if(m_pInstance)
+				return m_pInstance;
+			else
+				return m_pInstance = new T;
+		}
 			
-			static void Release()
-			{
-				if(m_pInstance)
-					delete m_pInstance;
-				m_pInstance = nullptr;
-			}
+		static void Release()
+		{
+			if(m_pInstance)
+				delete m_pInstance;
+			m_pInstance = nullptr;
+		}
 
-		protected:
-			Singleton(){}
-			virtual ~Singleton(){}
+	protected:
+		Singleton(){}
+		virtual ~Singleton(){}
 
-		protected:
-			static T* m_pInstance;
-		};
+	protected:
+		static T* m_pInstance;
+	};
 
-		template<typename T>
-		T *Singleton<T>::m_pInstance = nullptr;
-	}
+	template<typename T>
+	T *Singleton<T>::m_pInstance = nullptr;
 }	// namespace ro3d

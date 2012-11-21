@@ -1,77 +1,71 @@
 #pragma once
 
-#include <string>
-#include "Utils/StringID.h"
+#include "Utils/StringId.h"
 
 namespace ro3d
 {
-	namespace Core
-	{
-		class IResource
+	namespace Core{class ResourceManager; }
+	enum class ResourceState
 		{
-		public:
-			
-			// helper struct that is passed to the init function with specific initialization
-			// params that the derived resource classes specify in their own version of the struct
-			// which will be inherited from this one
-			struct AdditionalInitParams	
-			{							
-				virtual ~AdditionalInitParams(){}
-			};
-
-			enum class ResourceState
-			{
-				uninitialized,
-				loading,
-				ready,
-				unloading
-			};
-
-			IResource() : m_id(1), m_refCount(1), m_state(ResourceState::uninitialized) {}
-			virtual ~IResource() {}
-	
-			virtual void Init(const StringId &id, AdditionalInitParams *pInitParams) = 0;
-			virtual void Load() = 0;
-			virtual void Reload() = 0;
-			virtual void Release() = 0;
-
-			inline void SetState(ResourceState resourceState);
-			inline ResourceState GetState();
-			inline Core::StringId GetId();
-
-			inline bool IsReady();
-
-		protected:
-			friend class ResourceManager;
-
-			Core::StringId m_id;
-			ResourceState m_state;
-			int m_refCount;
-
-			
+			uninitialized,
+			loading,
+			ready,
+			unloading
 		};
 
-		inline bool IResource::IsReady()
-		{
-			return m_state == ResourceState::ready;
-		}
+	class IResource
+	{
+	public:
+			
+		typedef std::string ResourceType;
 
-		inline Core::StringId IResource::GetId()
-		{
-			return m_id;
-		}
+		IResource(const StringId &id) : m_id(id), m_state(ResourceState::uninitialized), m_type("IResource") {}
+		virtual ~IResource() {}
+			
+		inline void SetState(ResourceState resourceState);
+		inline ResourceState GetState();
+		inline StringId GetId();
+		ResourceType GetType() { return m_type; }
 
-		// --------------------------------------------------------------------------------
-		inline IResource::ResourceState IResource::GetState()
-		{
-			return m_state;
-		}
+		inline bool IsReady();
+		
+	private:
+		friend class ro3d::Core::ResourceManager;
+		void _Init() { this->Init(); }
+		void _Load() { this->Load(); }
+		void _Reload() { this->Reload(); }
+		void _Release() { this->Release(); }
 
-		inline void IResource::SetState(IResource::ResourceState resourceState)
-		{
-			m_state = resourceState;
-		}
+	protected:
+		StringId m_id;
+		ResourceState m_state;
+		ResourceType m_type;
 
-	}	// namespace Core
+		virtual void Init() = 0;
+		virtual void Load() = 0;
+		virtual void Reload() = 0;
+		virtual void Release() = 0;
+			
+	};
+
+	inline bool IResource::IsReady()
+	{
+		return m_state == ResourceState::ready;
+	}
+
+	inline StringId IResource::GetId()
+	{
+		return m_id;
+	}
+
+	// --------------------------------------------------------------------------------
+	inline ResourceState IResource::GetState()
+	{
+		return m_state;
+	}
+
+	inline void IResource::SetState(ResourceState resourceState)
+	{
+		m_state = resourceState;
+	}
 }	// namespace ro3d
-

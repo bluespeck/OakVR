@@ -21,7 +21,7 @@ namespace ro3d
 		eRAPI_DIRECTX_11 = eRAPI_DirectX + 3
 	};
 
-	class ro3d : public LLAPI::Singleton<ro3d>
+	class ro3d : public Singleton<ro3d>
 	{
 	public:
 		//friend class Core::Singleton<ro3d>;

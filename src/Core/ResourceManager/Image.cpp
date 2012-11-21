@@ -8,19 +8,20 @@ namespace ro3d
 	namespace Core
 	{
 		// --------------------------------------------------------------------------------
-		Image::Image()
+		Image::Image(const StringId &id)
+			:IResource(id)
 		{
 		}
 
 		// --------------------------------------------------------------------------------
-		void Image::Init(const StringId &id, AdditionalInitParams *pInitParams)
+		void Image::Init()
 		{
 		}
 
 		// --------------------------------------------------------------------------------
 		void Image::Load()
 		{
-			Core::File file(m_id.GetStrId());
+			Core::File file(m_id.GetId().second);
 			Core::Buffer buff(file.Size());
 			file.Read(buff.GetDataPtr(), buff.GetSize(), file.Size());
 			m_pRawImageData = new RawImageData(BMPLoader::GetRawImage(buff));

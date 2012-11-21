@@ -11,7 +11,7 @@
 
 namespace ro3d
 {
-	class Engine : public ro3d::LLAPI::Singleton<Engine>
+	class Engine : public ro3d::Singleton<Engine>
 	{
 	public:
 		Engine();

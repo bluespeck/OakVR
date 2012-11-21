@@ -28,7 +28,7 @@ namespace ro3d
 			Object *m_pChild;
 			Object *m_pBrother;
 
-			ro3d::Core::StringId m_objID;
+			ro3d::StringId m_objID;
 
 			// Controllers running on this object
 			std::list<IController *> m_lstControllers;

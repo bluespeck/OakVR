@@ -16,18 +16,25 @@ namespace ro3d
 		// --------------------------------------------------------------------------------
 		ResourceManager::ResourceManager()
 		: m_bRMThreadsShouldStop(false)
-		, m_pRMLoadThread(new std::thread([this]
+		{
+			m_pRMLoadThread.reset(new std::thread([this]
 			{
 				while(true)
 				{
 					{
-						std::unique_lock<std::mutex> ul(m_loadMutex);
-						m_loadCondVar.wait_for(ul, std::chrono::milliseconds(50), [=]()->bool{ return m_toBeLoaded.size() > 0; } );
-						for(auto e: m_toBeLoaded)
+						// check if we have any resources to be loaded
+						std::unique_lock<std::mutex> ul(m_toBeLoadedMutex);
+						m_toBeLoadedCondVar.wait_for(ul, std::chrono::milliseconds(50), [=]()->bool{ return m_toBeLoaded.size() > 0; } );
+						while(m_toBeLoaded.size())
 						{
-							m_inMemory.push_back(e);
-							e->Load();
-							e->SetState(IResource::ResourceState::loading);
+							auto e = m_toBeLoaded.back();
+							m_toBeLoaded.pop_back();							
+							{
+								std::lock_guard<std::mutex> lg(m_inMemoryMutex);
+								m_inMemory.push_back(e);
+							}
+							e->_Load();
+							e->SetState(ResourceState::loading);
 						}
 					}
 
@@ -39,8 +46,8 @@ namespace ro3d
 							break;
 					}
 				}
-			}))
-		, m_pRMUnloadThread(new std::thread([this]
+			}));
+			m_pRMUnloadThread.reset(new std::thread([this]
 			{
 				while(true)
 				{
@@ -50,8 +57,7 @@ namespace ro3d
 						while(m_toBeUnloaded.size())
 						{
 							auto e = m_toBeUnloaded.back();
-							e->SetState(IResource::ResourceState::unloading);
-							e->Release();
+							e->SetState(ResourceState::unloading);
 							m_toBeUnloaded.pop_back();
 						}
 					}
@@ -64,8 +70,7 @@ namespace ro3d
 							break;
 					}
 				}
-			}))
-		{
+			}));
 		}
 
 		// --------------------------------------------------------------------------------
@@ -87,31 +92,65 @@ namespace ro3d
 		}
 
 		// --------------------------------------------------------------------------------
-		void ResourceManager::ReleaseResource(IResource *pRes)
+		void ResourceManager::ReleaseResource(std::shared_ptr<IResource> pRes)
 		{
-			auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](IResource *pt)
+			assert(pRes->IsReady());
+			std::lock_guard<std::mutex> lg(m_inMemoryMutex);
+
+			typedef decltype(*m_inMemory.begin()) ElemType;
+			auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](ElemType &rpRes)
 			{
-				return pt->m_id == pRes->m_id;
+				return rpRes->GetId() == pRes->GetId();
 			});
 			if(it != m_inMemory.end())
 			{
-				--(*it)->m_refCount;
-				
+				m_inMemory.erase(it);
 			}
 		}
 
 		// --------------------------------------------------------------------------------
 		void ResourceManager::ReleaseResource(const StringId &id)
 		{
-			auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](IResource *pt)
+			std::lock_guard<std::mutex> lg(m_inMemoryMutex);
+
+			typedef decltype(*m_inMemory.begin()) ElemType;
+			auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](ElemType &pRes)
 			{
-				return pt->m_id.GetHashId() == id.GetHashId();
+				return pRes->GetId() == id;
 			});
 			if(it != m_inMemory.end())
 			{
-				--(*it)->m_refCount;
-				
+				m_inMemory.erase(it);
 			}
+		}
+
+		// --------------------------------------------------------------------------------
+		std::shared_ptr<IResource> ResourceManager::GetResource(const StringId &id)
+		{
+			auto compareFct = [](std::shared_ptr<IResource> e1, std::shared_ptr<IResource> e2)
+				{
+					return e1->GetId() < e2->GetId();
+				};				
+			{
+				std::lock_guard<std::mutex> lg(m_inMemoryMutex);
+				auto endIt = m_inMemory.end();
+				auto range = std::equal_range(m_inMemory.begin(), endIt, std::make_shared<EmptyResource>(id), compareFct);
+				if(range.first != range.second)
+					return *range.first;
+			}
+			{
+				std::unique_lock<std::mutex> ul(m_toBeLoadedMutex);
+				auto startIt = m_toBeLoaded.begin();
+				auto endIt = m_toBeLoaded.end();
+				auto range = std::equal_range(startIt, endIt, std::make_shared<EmptyResource>(id), compareFct);
+				if(range.first != range.second)
+					return *range.first;
+
+				// if we get to this point, we need to load the resource
+				auto it = std::lower_bound(startIt, endIt, std::make_shared<EmptyResource>(id), compareFct);
+				m_toBeLoaded.insert(it,std::make_shared<EmptyResource>(id));
+			}
+			return nullptr;
 		}
 	} // namespace Core
 } // namespace ro3d

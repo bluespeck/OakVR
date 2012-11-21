@@ -9,7 +9,7 @@ namespace ro3d
 {
 	namespace Input
 	{
-		class MouseInput : public ro3d::LLAPI::Singleton<MouseInput>
+		class MouseInput : public ro3d::Singleton<MouseInput>
 		{
 		public:
 			class MouseInputImpl;

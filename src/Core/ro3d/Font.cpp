@@ -61,7 +61,7 @@ namespace ro3d
 			}
 			indexFile.close();
 
-			m_pTexture = ro3d::Engine::GetResourceManager()->GetResource<Texture>(fontTextureFilename);
+			//m_pTexture = ro3d::Engine::GetResourceManager()->GetResource(fontTextureFilename);
 		}
 
 		// --------------------------------------------------------------------------------
