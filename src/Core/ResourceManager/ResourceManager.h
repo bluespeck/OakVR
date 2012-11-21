@@ -10,7 +10,7 @@
 
 #include "ResourceManager/IResource.h"
 #include "ResourceManager/EmptyResource.h"
-#include "Utils/StringID.h"
+#include "Utils/StringId.h"
 #include "Utils/Singleton.h"
 
 namespace ro3d
