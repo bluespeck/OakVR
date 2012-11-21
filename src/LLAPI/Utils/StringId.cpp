@@ -4,11 +4,10 @@
 
 namespace ro3d
 {
-	std::map<uint32_t, std::set<std::string>> StringId::s_idsToStrings;
-
 	uint32_t HashId(const uint8_t *data, int len);
 
 #if defined(_DEBUG)
+	std::map<uint32_t, std::set<std::string>> StringId::s_idsToStrings;
 	// --------------------------------------------------------------------------------
 	void StringId::TrackStrIdPair()
 	{
