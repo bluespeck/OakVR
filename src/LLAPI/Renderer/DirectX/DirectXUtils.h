@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_RENDER_DIRECTXUTILS_H__
-#define __OAK3D_INCLUDE_RENDER_DIRECTXUTILS_H__
+#pragma once
 
 #if defined(DEBUG) || defined(_DEBUG)
 	#include <sstream>
@@ -42,4 +36,3 @@
 	#endif
 #endif // DEBUG
 
-#endif

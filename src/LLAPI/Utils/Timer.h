@@ -1,10 +1,4 @@
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-#ifndef __OAK3D_INCLUDE_CORE_TIMER_H__
-#define __OAK3D_INCLUDE_CORE_TIMER_H__
-
+#pragma once
 #include <cstdint>
 
 namespace ro3d
@@ -45,5 +39,3 @@ namespace ro3d
 		};
 	}	// namespace Core
 }	// namespace ro3d
-
-#endif

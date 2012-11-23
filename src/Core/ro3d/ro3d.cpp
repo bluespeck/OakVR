@@ -5,8 +5,7 @@
 #include "ro3d/Engine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
 #include "Renderer/IRenderer/IRenderer.h"
-#include "Parallel/Thread.h"
-#include "Time/Timer.h"
+#include "Utils/Timer.h"
 
 
 namespace ro3d

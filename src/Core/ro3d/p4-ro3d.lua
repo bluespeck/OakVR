@@ -23,8 +23,6 @@ ro3dProject "ro3d"
 		"IRenderer",
 		"Utils",
 		"Input",
-		"Time",
-		"Parallel",
 	}
 	
 	configuration {"windows*"}

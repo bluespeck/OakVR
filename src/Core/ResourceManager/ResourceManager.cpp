@@ -5,7 +5,6 @@
 
 #include "ResourceManager.h"
 #include "IResource.h"
-#include "Parallel/Thread.h"
 
 using std::shared_ptr;
 

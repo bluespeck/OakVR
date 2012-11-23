@@ -7,7 +7,6 @@
 #include "Mesh.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
-#include "Parallel/Thread.h"
 
 using namespace std;
 using namespace ro3d::Math;

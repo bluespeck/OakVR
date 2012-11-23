@@ -1,6 +1,6 @@
 
 #include "ro3d/WindowsRenderWindow.h"
-#include "Time/WindowsTimer.h"
+//#include "Time/WindowsTimer.h"
 
 
 namespace ro3d
