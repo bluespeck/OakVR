@@ -1,5 +1,7 @@
 #pragma once
+
 #include <cstdint>
+#include <chrono>
 
 namespace ro3d
 {
@@ -9,12 +11,14 @@ namespace ro3d
 		class Timer
 		{
 		public:
+			typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
+
 			Timer();
 			~Timer();
 
-			float GetElapsedTime() const;  // [s]
+			double GetElapsedTime() const;  // [s]
 			
-			virtual float GetDeltaTime() const; // [s]
+			virtual double GetDeltaTime() const; // [s]
 			virtual bool IsPaused() const; // true if timer is paused
 
 			virtual void Tick();  
@@ -24,16 +28,16 @@ namespace ro3d
 
 
 		protected:
-			double m_secondsPerCount;
 			double m_dt;
+			static const double s_nanosecond;
 
-			int64_t m_baseTime;	
-			int64_t m_pauseTime;
+			TimePoint m_baseTimePoint;	
+			TimePoint m_pauseTimePoint;
 
-			int64_t m_pausedTime;
+			TimePoint::duration m_pausedTimeDuration;
 	
-			int64_t m_currTime;
-			int64_t m_prevTime;
+			TimePoint m_currTimePoint;
+			TimePoint m_prevTimePoint;
 	
 			bool m_bPaused;
 		};

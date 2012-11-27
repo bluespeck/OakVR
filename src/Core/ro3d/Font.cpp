@@ -69,8 +69,9 @@ namespace ro3d
 		{						
 			uint32_t numLetters = text.length();	// length of the text
 			numVertices = numLetters * 6;
-			float invWidth = 2.0f / ro3d::Engine::GetRenderWindow()->GetWidth();
-			float invHeight = 2.0f / ro3d::Engine::GetRenderWindow()->GetHeight();
+			WindowSize ws = ro3d::Engine::GetWindowSize();
+			float invWidth = 2.0f / ws.width;
+			float invHeight = 2.0f / ws.height;
 
 			drawX = drawX * invWidth - 1.f; 
 			drawY = -drawY * invHeight + 1.f;

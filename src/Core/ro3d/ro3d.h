@@ -24,17 +24,21 @@ namespace ro3d
 	class ro3d : public Singleton<ro3d>
 	{
 	public:
-		//friend class Core::Singleton<ro3d>;
-		void Update();
 		OperatingSystem os;
 		RenderingAPI renderAPI;
-	
+		
+		friend bool ro3dUpdate();
+		friend bool ro3dInit( std::vector<std::string> cmdLine );
+		friend void ro3dExit();
+		friend class Singleton<ro3d>;
 	protected:
 		ro3d();
 		~ro3d();
 
 	private:
-		Engine *m_pEngine;
+		std::shared_ptr<Engine> m_pEngine;
+		
+		void Update();
 	};
 	
 }	// namespace ro3d

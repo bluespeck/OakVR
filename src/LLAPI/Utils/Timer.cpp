@@ -1,17 +1,17 @@
-
+#include <ctime>
+#include <chrono>
 
 #include "Timer.h"
-#include <ctime>
 
 namespace ro3d
 {
 	namespace Core
 	{
+		const double Timer::s_nanosecond = 1.0 / std::chrono::nanoseconds::period::den;
+
 		Timer::Timer(void)
-			: m_secondsPerCount(0.0), m_dt(-1.0), m_baseTime(0), 
-			m_pausedTime(0), m_currTime(0), m_bPaused(false)
-		{
-			m_secondsPerCount = 1.0 / CLOCKS_PER_SEC;
+			: m_dt(-1.0), m_bPaused(false)
+		{			
 			Reset();
 		}
 
@@ -27,12 +27,12 @@ namespace ro3d
 				return;
 			}
 
-			m_currTime = clock();
-
+			m_currTimePoint = TimePoint::clock::now();
+			
 			// Time difference between current call and last call of Tick
-			m_dt = (m_currTime - m_prevTime) * m_secondsPerCount;
+			m_dt = std::chrono::duration_cast<std::chrono::nanoseconds>(m_currTimePoint - m_prevTimePoint).count() * s_nanosecond;
 
-			m_prevTime = m_currTime;
+			m_prevTimePoint = m_currTimePoint;
 
 			if(m_dt < 0.0)
 			{
@@ -41,21 +41,21 @@ namespace ro3d
 		}
 
 		// Time elapsed since the timer was started (excluding the time it was paused)
-		float Timer::GetElapsedTime()const
+		double Timer::GetElapsedTime()const
 		{	
 			if( m_bPaused )
 			{
-				return (float)((m_pauseTime - m_baseTime) * m_secondsPerCount);
+				return std::chrono::duration_cast<std::chrono::nanoseconds>(m_pauseTimePoint - m_baseTimePoint).count() * s_nanosecond;
 			}
 			else
 			{
-				return (float)(((m_currTime - m_pausedTime) - m_baseTime) * m_secondsPerCount);
+				return (std::chrono::duration_cast<std::chrono::nanoseconds>(m_currTimePoint - m_baseTimePoint).count() - std::chrono::duration_cast<std::chrono::nanoseconds>(m_pausedTimeDuration).count())* s_nanosecond;
 			}
 		}
 
-		float Timer::GetDeltaTime()const
+		double Timer::GetDeltaTime()const
 		{
-			return (float)m_dt;
+			return m_dt;
 		}
 
 		bool Timer::IsPaused()const
@@ -65,9 +65,9 @@ namespace ro3d
 
 		void Timer::Reset()
 		{			
-			m_baseTime = clock();
-			m_prevTime = m_baseTime;
-			m_pauseTime = 0;
+			m_baseTimePoint = TimePoint::clock::now();
+			m_prevTimePoint = m_baseTimePoint;
+			m_pauseTimePoint = m_baseTimePoint;
 			m_bPaused  = false;
 		}
 
@@ -75,11 +75,10 @@ namespace ro3d
 		{			
 			if( m_bPaused )
 			{
-				int64_t startTime = clock();
-				m_pausedTime += (startTime - m_pauseTime);	
+				TimePoint unpauseTimePoint(TimePoint::clock::now());
+				m_pausedTimeDuration += unpauseTimePoint - m_pauseTimePoint;	
 
-				m_prevTime = startTime;
-				m_pauseTime = 0;
+				m_prevTimePoint = unpauseTimePoint;
 				m_bPaused  = false;
 			}
 		}
@@ -88,7 +87,7 @@ namespace ro3d
 		{
 			if( !m_bPaused )
 			{
-				m_pauseTime = clock();
+				m_pauseTimePoint = TimePoint::clock::now();
 				m_bPaused  = true;
 			}
 		}

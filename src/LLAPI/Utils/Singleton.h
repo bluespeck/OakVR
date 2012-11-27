@@ -1,34 +1,29 @@
 #pragma once
 
+#include <memory>
+#include <mutex>
+
 namespace ro3d
 {
 	template<typename T>
 	class Singleton
 	{
 	public:
-		static T* GetInstance()
+		static std::shared_ptr<T> GetInstance()
 		{
-			if(m_pInstance)
-				return m_pInstance;
-			else
-				return m_pInstance = new T;
+			static std::once_flag m_InstanceInitOnceFlag;
+			static std::shared_ptr<T> m_pInstance;
+
+			std::call_once(m_InstanceInitOnceFlag, [&]{ m_pInstance.reset(new T); });
+			return std::shared_ptr(m_pInstance);
 		}
 			
-		static void Release()
-		{
-			if(m_pInstance)
-				delete m_pInstance;
-			m_pInstance = nullptr;
-		}
-
 	protected:
 		Singleton(){}
 		virtual ~Singleton(){}
 
 	protected:
-		static T* m_pInstance;
+
 	};
 
-	template<typename T>
-	T *Singleton<T>::m_pInstance = nullptr;
 }	// namespace ro3d

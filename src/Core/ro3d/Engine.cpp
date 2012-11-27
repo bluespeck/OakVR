@@ -39,15 +39,15 @@
 namespace ro3d
 {
 		// --------------------------------------------------------------------------------
-	void Engine::Update(float dt)
+	void Engine::Update(double dt)
 	{
-		ro3d::Input::MouseInput::GetInstance()->Update();
+		//ro3d::Input::MouseInput::GetInstance()->Update();
 //		ro3d::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
-		TriggerInputEvents();
+		//TriggerInputEvents();
 //		ro3d::Leaf3D::EventManager::GetInstance()->Update();
 
-		ro3d::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
-
+		//ro3d::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
+		/*
 		if(m_pGE)
 		{
 			int32_t wd = ro3d::Input::MouseInput::GetInstance()->GetWheelDelta();
@@ -59,7 +59,7 @@ namespace ro3d
 							
 				if(ro3d::Input::MouseInput::GetInstance()->IsLeftButtonDown())
 				{
-						pCurrentCamera->Rotate(delta.second * dt, delta.first * dt, 0.0f);
+						pCurrentCamera->Rotate(static_cast<float>(delta.second * dt), static_cast<float>(delta.first * dt), 0.0f);
 				}
 
 				if(ro3d::Input::MouseInput::GetInstance()->IsRightButtonDown())
@@ -86,9 +86,10 @@ namespace ro3d
 	
 			m_pGE->EndDraw();
 			m_pGE->SwapBuffers();
-
+			
 			
 		}
+		*/
 	}
 
 	// --------------------------------------------------------------------------------
@@ -97,7 +98,6 @@ namespace ro3d
 		m_pGE = nullptr;
 		m_pRW = nullptr;
 		m_pCM = nullptr;
-		m_pTimer = nullptr;
 		m_pRM = nullptr;
 		m_bIsInitialized = false;
 	}
@@ -105,29 +105,13 @@ namespace ro3d
 	// --------------------------------------------------------------------------------
 	Engine::~Engine()
 	{
-		delete m_pGE->GetDebugTextRenderer();
-		ro3d::Core::ResourceManager::Release();
+		//delete m_pGE->GetDebugTextRenderer();
+		//ro3d::Core::ResourceManager::Release();
 		if(m_pGE)
 		{				
 			m_pGE->Cleanup();
-			delete m_pGE;
-			m_pGE = nullptr;
 		}
-		if(m_pRW)
-		{
-			delete m_pRW;
-			m_pRW = nullptr;
-		}
-		if(m_pCM)
-		{
-			delete m_pCM;
-			m_pCM = nullptr;
-		}
-		if(m_pTimer)
-		{
-			delete m_pTimer;
-			m_pTimer = nullptr;
-		}
+		
 //		ro3d::Leaf3D::Widget::ReleaseWidgetList();
 //		ro3d::Core::IUpdatable::ReleaseUpdatableList();
 //		ro3d::Leaf3D::EventManager::Release();
@@ -141,7 +125,7 @@ namespace ro3d
 		if(m_pGE && m_pRW)
 		{
 			m_pRW->Initialize();
-			m_pGE->SetRenderWindow(m_pRW);
+			//m_pGE->SetRenderWindow(m_pRW);
 			ro3d::Render::DebugTextRenderer *pDebugTextRenderer = nullptr;			
 #if defined(_WIN32)
 			pDebugTextRenderer = new ro3d::Render::DirectX9DebugTextRenderer();
@@ -154,7 +138,7 @@ namespace ro3d
 			m_pGE->Initialize();
 			pDebugTextRenderer->Init();
 			
-			m_pCM = new ro3d::Render::CameraManager();
+			m_pCM.reset(new ro3d::Render::CameraManager());
 			m_pCM->SetAsCurrentCamera(new ro3d::Render::Camera(Vector3(0.f, 0.f, -50.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)));
 
 #ifdef OAK3D_EDITOR
@@ -162,10 +146,7 @@ namespace ro3d
 #endif
 		}
 
-		if(m_pTimer)
-		{
-			m_pTimer->Reset();
-		}
+		m_timer.Reset();
 		m_bIsInitialized = true;
 
 //		pm1 = m_pRM->GetResource<ro3d::Render::Mesh>("../resources/Models/hammer.obj");
@@ -174,8 +155,8 @@ namespace ro3d
 	// --------------------------------------------------------------------------------
 	void Engine::Update()
 	{
-		m_pTimer->Tick();
-		Update(m_pTimer->GetDeltaTime());
+		m_timer.Tick();
+		Update(m_timer.GetDeltaTime());
 	}
 
 	// --------------------------------------------------------------------------------
@@ -837,62 +818,31 @@ namespace ro3d
 	}
 
 	// --------------------------------------------------------------------------------
-	void Engine::SetRenderer(Render::IRenderer *pGE)
-	{
-		if(m_pInstance->m_pGE)
-			delete m_pInstance->m_pGE;
-		m_pInstance->m_pGE = pGE;
-	}
-
-	// --------------------------------------------------------------------------------
-	void Engine::SetResourceManager(Core::ResourceManager *pRM)
-	{
-		m_pInstance->m_pRM = Core::ResourceManager::GetInstance();
-	}
-
-	// --------------------------------------------------------------------------------
-	Core::ResourceManager *Engine::GetResourceManager()
-	{
-		return m_pInstance->m_pRM;
-	}
-
-	// --------------------------------------------------------------------------------
-	void Engine::SetRenderWindow(Render::RenderWindow *pRW)
-	{
-		if(m_pInstance->m_pRW)
-			delete m_pInstance->m_pRW;
-		m_pInstance->m_pRW = pRW;
-	}
-
-	// --------------------------------------------------------------------------------
-	Render::RenderWindow *Engine::GetRenderWindow()
-	{
-		return m_pInstance->m_pRW;
-	}
-
-	// --------------------------------------------------------------------------------
-	void Engine::SetTimer(Core::Timer *pTimer)
-	{
-		if(m_pInstance->m_pTimer)
-			delete m_pInstance->m_pTimer;
-		m_pInstance->m_pTimer = pTimer;
-	}
-
-	Core::Timer *Engine::GetTimer()
-	{
-		// --------------------------------------------------------------------------------
-		return m_pInstance->m_pTimer;
-	}
-
-	// --------------------------------------------------------------------------------
-	Render::IRenderer *Engine::GetRenderer()
-	{
-		return m_pInstance->m_pGE;
-	}
-
-	// --------------------------------------------------------------------------------
 	bool Engine::IsInitialized()
 	{
 		return m_pInstance->m_bIsInitialized;
 	}
+
+	// --------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------
+	// render interface
+	// --------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------
+
+	// --------------------------------------------------------------------------------
+	ScreenSize Engine::GetScreenSize()
+	{
+		// TODO: implement GetScreenSize
+		ScreenSize temp = {1280, 1024};
+		return std::move(temp);
+	}
+
+	// --------------------------------------------------------------------------------
+	WindowSize Engine::GetWindowSize()
+	{
+		// TODO: implement using renderwindow
+		ScreenSize temp = {1280, 1024};
+		return std::move(temp);
+	}
+
 }	// namespace ro3d

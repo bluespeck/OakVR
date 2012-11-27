@@ -9,15 +9,19 @@
 
 
 namespace ro3d
-{	
+{		
 	bool ro3dInit( std::vector<std::string> cmdLine )
 	{
 		std::cout << "Init!" << std::endl;
+		std::shared_ptr<ro3d> pro3d(ro3d::GetInstance());
 		return true;
 	}
 
 	bool ro3dUpdate()
 	{
+		std::shared_ptr<ro3d> pro3d(ro3d::GetInstance());
+		pro3d->Update();
+		
 		static uint8_t count = 0;
 		std::cout << "This is stuff" << std::endl;
 		if(count++ == 5)
@@ -28,13 +32,15 @@ namespace ro3d
 	void ro3dExit()
 	{
 		std::cout << "Going out!" << std::endl;
+		std::shared_ptr<ro3d> pro3d(ro3d::GetInstance());
 	}
 
 
 	// --------------------------------------------------------------------------------
 	ro3d::ro3d()
+	:	m_pEngine (Engine::GetInstance())
 	{
-		m_pEngine = Engine::GetInstance();
+		
 
 	/*	m_pEngine->SetRenderWindow(CreateRenderWindow());		
 		m_pEngine->SetTimer(new Core::Timer());
@@ -48,12 +54,13 @@ namespace ro3d
 	void ro3d::Update()
 	{
 		m_pEngine->Update();
+		std::cout << "Current time: " << m_pEngine->GetTimer().GetElapsedTime() << std::endl;
 	}
 
 	// --------------------------------------------------------------------------------
 	ro3d::~ro3d()
 	{
-		m_pEngine->Release();
+		//m_pEngine->Release();
 	}
 	
 	
