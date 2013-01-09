@@ -2,4 +2,6 @@
 ro3dRoot = os.getcwd()
 
 dofile "premake-config/p4-config.lua"
+dofile "src/p4-meta.lua"
 dofile "src/p4-src.lua"
+
