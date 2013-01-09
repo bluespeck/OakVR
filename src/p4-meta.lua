@@ -12,8 +12,18 @@ solution("RO3DBuild")
 	project("RO3DBuild")
 		kind "StaticLib"
 		language "C++"	--from lack of lua
-		location(ro3dRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.getobject("solution").name.. "/" .. "RO3DBuild")
+
+		prjLocation = ro3dRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.getobject("solution").name.. "/" .. "RO3DBuild"
+		location(prjLocation)
 		
-		files{ro3dRoot .. "/premake4.lua", "**p4*.lua", ro3dRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.getobject("solution").name.. "/RO3DBuild/buildLog.txt"}
-		prebuildcommands {"cd " .. ro3dRoot .. "&& premake4 vs2012 >" .. ro3dRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.getobject("solution").name.. "/RO3DBuild/buildLog.txt"}
+		logLocation = prjLocation .. "/buildLog.txt"
+		files
+		{
+			ro3dRoot .. "/premake4.lua", 
+			ro3dRoot .. "/premake-config/**p4*.lua", 
+			"**p4*.lua", 
+			logLocation
+		}
+		
+		postbuildcommands {"cd " .. ro3dRoot .. "&& premake4 vs2012 > " .. logLocation .."&& date /T >>" .. logLocation .." && time /T >> " .. logLocation }
 		configuration {}
