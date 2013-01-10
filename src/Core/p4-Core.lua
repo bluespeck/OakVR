@@ -7,5 +7,6 @@ ro3dSolution "Core"
 	configuration "linux64"
 		buildoptions {"-m64"}
 
+	startproject "ro3d"
 	dofile("ResourceManager/p4-ResourceManager.lua")
 	dofile("ro3d/p4-ro3d.lua")
