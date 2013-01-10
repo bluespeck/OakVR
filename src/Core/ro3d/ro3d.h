@@ -30,13 +30,13 @@ namespace ro3d
 		friend bool ro3dUpdate();
 		friend bool ro3dInit( std::vector<std::string> cmdLine );
 		friend void ro3dExit();
-		friend class Singleton<ro3d>;
-	protected:
+		
 		ro3d();
-		~ro3d();
-
-	private:
-		std::shared_ptr<Engine> m_pEngine;
+		virtual ~ro3d();
+	protected:
+		
+		ro3d(const ro3d &);
+		Engine &m_sEngine;
 		
 		void Update();
 	};

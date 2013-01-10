@@ -25,7 +25,7 @@ namespace ro3d
 		
 		static Render::IRenderer *GetRenderer();
 		static Core::ResourceManager *GetResourceManager();
-		static const Core::Timer &GetTimer() { return GetInstance()->m_timer; }
+		static const Timer &GetTimer() { return GetInstance().m_timer; }
 		static bool IsInitialized();
 
 		// render related interface
@@ -43,7 +43,7 @@ namespace ro3d
 		void DrawMeshBoundingBoxes();
 
 	private:
-		ro3d::Core::Timer m_timer;
+		Timer m_timer;
 
 		std::shared_ptr<ro3d::Render::IRenderer> m_pGE;
 		std::shared_ptr<ro3d::Render::RenderWindow> m_pRW;

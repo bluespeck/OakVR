@@ -13,7 +13,7 @@ function ro3dPlatformSpecificFiles(prefix, suffix)
 	-- try to get current project
 	local container = premake.getobject("container")
 	if container.platforms == nil then
-		-- project doesn't have any specified platforms
+		-- project does not have any specified platforms
 		-- try with the solution
 		container = container.solution
 		if container.platforms == nil then

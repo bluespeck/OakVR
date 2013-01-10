@@ -820,7 +820,7 @@ namespace ro3d
 	// --------------------------------------------------------------------------------
 	bool Engine::IsInitialized()
 	{
-		return m_pInstance->m_bIsInitialized;
+		return GetInstance().m_bIsInitialized;
 	}
 
 	// --------------------------------------------------------------------------------

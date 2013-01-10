@@ -9,36 +9,41 @@
 
 
 namespace ro3d
-{		
+{
+	// --------------------------------------------------------------------------------
 	bool ro3dInit( std::vector<std::string> cmdLine )
 	{
 		std::cout << "Init!" << std::endl;
-		std::shared_ptr<ro3d> pro3d(ro3d::GetInstance());
+		ro3d::GetInstance();
 		return true;
 	}
 
+	// --------------------------------------------------------------------------------
 	bool ro3dUpdate()
 	{
-		std::shared_ptr<ro3d> pro3d(ro3d::GetInstance());
-		pro3d->Update();
+		ro3d &ro3dRef(ro3d::GetInstance());
+		ro3dRef.Update();
 		
-		static uint8_t count = 0;
-		std::cout << "This is stuff" << std::endl;
-		if(count++ == 5)
+		static uint32_t count = 0;
+		// Run this update routine 5 times
+		if(++count == 5)
+		{
 			return false;
+		}
+
 		return true;
 	}
 
+	// --------------------------------------------------------------------------------
 	void ro3dExit()
 	{
 		std::cout << "Going out!" << std::endl;
-		std::shared_ptr<ro3d> pro3d(ro3d::GetInstance());
 	}
 
 
 	// --------------------------------------------------------------------------------
 	ro3d::ro3d()
-	:	m_pEngine (Engine::GetInstance())
+	:	m_sEngine (Engine::GetInstance())
 	{
 		
 
@@ -47,14 +52,17 @@ namespace ro3d
 		m_pEngine->SetRenderer(CreateRenderer());
 		m_pEngine->SetResourceManager(Core::ResourceManager::GetInstance());
 */
-		m_pEngine->Initialize();
+		m_sEngine.Initialize();
 	}
+
+	
 
 	// --------------------------------------------------------------------------------
 	void ro3d::Update()
 	{
-		m_pEngine->Update();
-		std::cout << "Current time: " << m_pEngine->GetTimer().GetElapsedTime() << std::endl;
+		m_sEngine.Update();
+		
+		std::cout << "Current time: " << m_sEngine.GetTimer().GetElapsedTime() << std::endl;
 	}
 
 	// --------------------------------------------------------------------------------

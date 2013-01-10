@@ -9,21 +9,18 @@ namespace ro3d
 	class Singleton
 	{
 	public:
-		static std::shared_ptr<T> GetInstance()
+		static T& GetInstance()
 		{
-			static std::once_flag m_InstanceInitOnceFlag;
-			static std::shared_ptr<T> m_pInstance;
-
-			std::call_once(m_InstanceInitOnceFlag, [&]{ m_pInstance.reset(new T); });
-			return std::shared_ptr(m_pInstance);
+			static T instance;
+			return instance;
 		}
-			
+		
 	protected:
 		Singleton(){}
 		virtual ~Singleton(){}
-
-	protected:
-
+		Singleton(const Singleton &);
+		Singleton(Singleton &&);
+		void operator=(const Singleton &);
 	};
 
 }	// namespace ro3d
