@@ -16,6 +16,8 @@ namespace ro3d
 		ResourceManager::ResourceManager()
 		: m_bRMThreadsShouldStop(false)
 		{
+			// ------------------------------------------
+			// Defining the resource loding worker thread
 			m_pRMLoadThread.reset(new std::thread([this]
 			{
 				while(true)
@@ -46,6 +48,9 @@ namespace ro3d
 					}
 				}
 			}));
+
+			// --------------------------------------------
+			// Defining the resource unloding worker thread
 			m_pRMUnloadThread.reset(new std::thread([this]
 			{
 				while(true)
@@ -53,11 +58,12 @@ namespace ro3d
 					{
 						std::unique_lock<std::mutex> ul(m_unloadMutex);
 						m_unloadCondVar.wait_for(ul, std::chrono::milliseconds(50), [=]()->bool{ return m_toBeUnloaded.size() > 0; } );
+						
 						while(m_toBeUnloaded.size())
 						{
 							auto e = m_toBeUnloaded.back();
-							e->SetState(ResourceState::unloading);
 							m_toBeUnloaded.pop_back();
+							e->SetState(ResourceState::unloading);
 						}
 					}
 
@@ -94,7 +100,7 @@ namespace ro3d
 		void ResourceManager::ReleaseResource(std::shared_ptr<IResource> pRes)
 		{
 			assert(pRes->IsReady());
-			std::lock_guard<std::mutex> lg(m_inMemoryMutex);
+			std::lock_guard<std::mutex> mlg(m_inMemoryMutex);
 
 			typedef decltype(*m_inMemory.begin()) ElemType;
 			auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](ElemType &rpRes)
@@ -103,6 +109,11 @@ namespace ro3d
 			});
 			if(it != m_inMemory.end())
 			{
+				{
+					std::lock_guard<std::mutex> ulg(m_unloadMutex);
+					m_toBeUnloaded.push_back(*it);
+					m_unloadCondVar.notify_all();
+				}
 				m_inMemory.erase(it);
 			}
 		}
@@ -110,7 +121,7 @@ namespace ro3d
 		// --------------------------------------------------------------------------------
 		void ResourceManager::ReleaseResource(const StringId &id)
 		{
-			std::lock_guard<std::mutex> lg(m_inMemoryMutex);
+			std::lock_guard<std::mutex> mlg(m_inMemoryMutex);
 
 			typedef decltype(*m_inMemory.begin()) ElemType;
 			auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](ElemType &pRes)
@@ -119,6 +130,10 @@ namespace ro3d
 			});
 			if(it != m_inMemory.end())
 			{
+				{
+					std::lock_guard<std::mutex> ulg(m_unloadMutex);
+					m_toBeUnloaded.push_back(*it);
+				}
 				m_inMemory.erase(it);
 			}
 		}
@@ -147,9 +162,9 @@ namespace ro3d
 
 				// if we get to this point, we need to load the resource
 				auto it = std::lower_bound(startIt, endIt, std::make_shared<EmptyResource>(id), compareFct);
-				m_toBeLoaded.insert(it,std::make_shared<EmptyResource>(id));
+				m_toBeLoaded.insert(it, std::make_shared<EmptyResource>(id));
 			}
-			return nullptr;
+			return std::make_shared<EmptyResource>(id);
 		}
 	} // namespace Core
 } // namespace ro3d

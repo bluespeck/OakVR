@@ -1,11 +1,14 @@
 #pragma once
 
+#include <mutex>
+
 #include "Utils/StringId.h"
+
 
 namespace ro3d
 {
 	namespace Core{class ResourceManager; }
-	enum class ResourceState
+	enum class ResourceState : uint8_t
 		{
 			uninitialized,
 			loading,
@@ -23,11 +26,12 @@ namespace ro3d
 		virtual ~IResource() {}
 			
 		inline void SetState(ResourceState resourceState);
-		inline ResourceState GetState();
-		inline StringId GetId();
-		ResourceType GetType() { return m_type; }
-
-		inline bool IsReady();
+		inline ResourceState GetState() const;
+		inline StringId GetId() const;
+		inline ResourceType GetType() const;
+		
+		inline bool operator==(const IResource& res) const;
+		inline bool IsReady() const;
 		
 	private:
 		friend class ro3d::Core::ResourceManager;
@@ -40,6 +44,7 @@ namespace ro3d
 		StringId m_id;
 		ResourceState m_state;
 		ResourceType m_type;
+		
 
 		virtual void Init() = 0;
 		virtual void Load() = 0;
@@ -48,24 +53,38 @@ namespace ro3d
 			
 	};
 
-	inline bool IResource::IsReady()
+	// --------------------------------------------------------------------------------
+	inline bool IResource::IsReady() const
 	{
 		return m_state == ResourceState::ready;
 	}
 
-	inline StringId IResource::GetId()
+	// --------------------------------------------------------------------------------
+	inline StringId IResource::GetId() const
 	{
 		return m_id;
 	}
 
 	// --------------------------------------------------------------------------------
-	inline ResourceState IResource::GetState()
+	inline ResourceState IResource::GetState() const
 	{
 		return m_state;
 	}
 
+	// --------------------------------------------------------------------------------
 	inline void IResource::SetState(ResourceState resourceState)
 	{
 		m_state = resourceState;
+	}
+
+	inline IResource::ResourceType IResource::GetType() const
+	{
+		return m_type;
+	}
+
+	// --------------------------------------------------------------------------------
+	inline bool IResource::operator==(const IResource& res) const
+	{
+		return GetId() == res.GetId();
 	}
 }	// namespace ro3d

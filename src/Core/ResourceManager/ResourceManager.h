@@ -33,21 +33,21 @@ namespace ro3d
 		private:
 			static uint32_t ResourceLoaderThread(void *pRM);
 						
-			std::mutex m_rmThreadsShouldStopMutex;
-			std::condition_variable m_rmThreadsShouldStopCondVar;
-			bool m_bRMThreadsShouldStop;
+			mutable std::mutex m_rmThreadsShouldStopMutex;
+			mutable std::condition_variable m_rmThreadsShouldStopCondVar;
+			mutable bool m_bRMThreadsShouldStop;
 			
 			std::vector<std::shared_ptr<IResource>> m_toBeLoaded;
 			std::vector<std::shared_ptr<IResource>> m_inMemory;
 			std::vector<std::shared_ptr<IResource>> m_toBeUnloaded;	// to be released
 			
-			std::mutex m_inMemoryMutex;
+			mutable std::mutex m_inMemoryMutex;
 
-			std::mutex m_toBeLoadedMutex;
-			std::condition_variable m_toBeLoadedCondVar;
+			mutable std::mutex m_toBeLoadedMutex;
+			mutable std::condition_variable m_toBeLoadedCondVar;
 
-			std::mutex m_unloadMutex;
-			std::condition_variable m_unloadCondVar;
+			mutable std::mutex m_unloadMutex;
+			mutable std::condition_variable m_unloadCondVar;
 
 
 			std::unique_ptr<std::thread> m_pRMLoadThread;

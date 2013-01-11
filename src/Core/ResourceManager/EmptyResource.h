@@ -11,7 +11,7 @@ namespace ro3d
 	class EmptyResource : public IResource
 	{
 	public:
-		EmptyResource(const ro3d::StringId &id): IResource(id) {}
+		EmptyResource(const ro3d::StringId &id): IResource(id) { m_type = "EmptyResource"; }
 		~EmptyResource() {}
 	protected:
 		virtual void Init() {};
