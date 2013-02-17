@@ -11,11 +11,11 @@ end
 
 function ro3dPlatformSpecificFiles(prefix, suffix)
 	-- try to get current project
-	local container = premake.getobject("container")
+	local container = premake.api.scope.project
 	if container.platforms == nil then
 		-- project does not have any specified platforms
 		-- try with the solution
-		container = container.solution
+		container = premake.api.scope.project.solution
 		if container.platforms == nil then
 			return
 		end
@@ -30,7 +30,7 @@ function ro3dPlatformSpecificFiles(prefix, suffix)
 end
 
 function ro3dAddBinDirAsLinkDir(prjName)
-	prj = premake.getobject("container")
+	prj = premake.api.scope.project
 	for _, cfgname in ipairs(prj.configurations) do
 		for _, plfname in ipairs(prj.platforms) do
 			configuration { cfgname, plfname }
@@ -96,6 +96,6 @@ end
 
 function ro3dProject(projectName)
 	project(projectName)
-		location(ro3dRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.getobject("solution").name .. "/" .. projectName)
+		location(ro3dRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.api.scope.solution.name .. "/" .. projectName)
 end
 

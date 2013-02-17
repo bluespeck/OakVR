@@ -13,7 +13,7 @@ solution("RO3DBuild")
 		kind "StaticLib"
 		language "C++"	--from lack of lua
 
-		prjLocation = ro3dRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.getobject("solution").name.. "/" .. "RO3DBuild"
+		prjLocation = ro3dRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.api.scope.solution.name.. "/" .. "RO3DBuild"
 		location(prjLocation)
 		
 		logLocation = prjLocation .. "/buildLog.txt"
