@@ -3,7 +3,7 @@
 #include <list>
 #include "Camera.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{

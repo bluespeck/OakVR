@@ -3,7 +3,7 @@
 #include <cstdint>
 #include "IResource.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{

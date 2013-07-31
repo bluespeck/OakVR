@@ -6,12 +6,12 @@
 
 #include "ResourceManager/IResource.h"
 
-namespace ro3d
+namespace oakvr
 {
 	class EmptyResource : public IResource
 	{
 	public:
-		EmptyResource(const ro3d::StringId &id): IResource(id) { m_type = "EmptyResource"; }
+		EmptyResource(const oakvr::StringId &id): IResource(id) { m_type = "EmptyResource"; }
 		~EmptyResource() {}
 	protected:
 		virtual void Init() {};

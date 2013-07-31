@@ -13,11 +13,11 @@
 #include "Utils/StringId.h"
 #include "Utils/Singleton.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{
-		class ResourceManager: public ro3d::Singleton<ResourceManager>
+		class ResourceManager: public oakvr::Singleton<ResourceManager>
 		{
 		public:
 			void Initialize();

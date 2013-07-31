@@ -1,6 +1,6 @@
 #include "Color.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{

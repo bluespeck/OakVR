@@ -2,7 +2,7 @@
 
 #include "Buffer.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{

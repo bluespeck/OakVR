@@ -3,7 +3,7 @@
 
 #include "RendererUtils.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -40,6 +40,6 @@ namespace ro3d
 			return m_shaderType;
 		}
 	}	// namespace Render
-}	// namespace ro3d
+}	// namespace oakvr
 
 

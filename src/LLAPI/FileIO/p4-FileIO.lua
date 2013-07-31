@@ -1,4 +1,4 @@
-ro3dProject "FileIO"
+Project "FileIO"
 	kind "StaticLib"
 	language "C++"
 	
@@ -12,4 +12,4 @@ ro3dProject "FileIO"
 		"*.h",
 	}
 
-	ro3dPlatformSpecificFiles("*_", ".cpp")
+	PlatformSpecificFiles("*_", ".cpp")

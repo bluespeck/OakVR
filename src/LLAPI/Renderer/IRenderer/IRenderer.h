@@ -8,7 +8,7 @@
 
 
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Math
 	{
@@ -66,7 +66,7 @@ namespace ro3d
 			virtual void UseShader( Shader *pShader ) = 0;
 
 			// misc
-			virtual ro3d::Math::Matrix CreateViewMatrix(ro3d::Math::Vector3 eye, ro3d::Math::Vector3 lookAt, ro3d::Math::Vector3 up) = 0; 
+			virtual oakvr::Math::Matrix CreateViewMatrix(oakvr::Math::Vector3 eye, oakvr::Math::Vector3 lookAt, oakvr::Math::Vector3 up) = 0;
 
 			virtual void OutputText( const std::string &text, uint32_t x, uint32_t y);
 
@@ -128,4 +128,4 @@ namespace ro3d
 		}
 
 	}	// namespace Render
-}	// namespace ro3d
+}	// namespace oakvr

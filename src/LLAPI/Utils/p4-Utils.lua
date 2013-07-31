@@ -1,4 +1,4 @@
-	ro3dProject "Utils"
+	Project "Utils"
 		kind "StaticLib"
 		language "C++"
 

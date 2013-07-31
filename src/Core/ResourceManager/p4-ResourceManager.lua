@@ -1,4 +1,4 @@
-	ro3dProject "ResourceManager"
+	Project "ResourceManager"
 		kind "StaticLib"
 		language "C++"
 

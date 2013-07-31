@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ro3d/Engine.h"
+#include "OakVR/Engine.h"
 #include "Utils/Singleton.h"
 
-namespace ro3d
+namespace oakvr
 {
 	enum OperatingSystem
 	{
@@ -21,25 +21,25 @@ namespace ro3d
 		eRAPI_DIRECTX_11 = eRAPI_DirectX + 3
 	};
 
-	class ro3d : public Singleton<ro3d>
+	class oakvr : public Singleton<oakvr>
 	{
 	public:
 		OperatingSystem os;
 		RenderingAPI renderAPI;
 		
-		friend bool ro3dUpdate();
-		friend bool ro3dInit( std::vector<std::string> cmdLine );
-		friend void ro3dExit();
+		friend bool oakvrUpdate();
+		friend bool oakvrInit( std::vector<std::string> cmdLine );
+		friend void oakvrExit();
 		
-		ro3d();
-		virtual ~ro3d();
+		oakvr();
+		virtual ~oakvr();
 	protected:
 		
-		ro3d(const ro3d &);
+		oakvr(const oakvr &);
 		Engine &m_sEngine;
 		
 		void Update();
 	};
 	
-}	// namespace ro3d
+}	// namespace oakvr
 

@@ -7,14 +7,14 @@
 int main(int argc, char **argv)
 {
 
-	//ro3d::ro3d *oak3D = ro3d::ro3d::GetInstance();
-	if(!ro3d::ro3dInit(ro3d::ParseCommandLine(argc, argv)))//std::string(lpCmdLine))))
+	//oakvr::oakvr *oak3D = oakvr::oakvr::GetInstance();
+	if(!oakvr::oakvrInit(oakvr::ParseCommandLine(argc, argv)))//std::string(lpCmdLine))))
 	{
-		printf("Failed to initialize ro3d!!!\n");
+		printf("Failed to initialize oakvr!!!\n");
 	}
 	else
 	{
-		printf("ro3d successfully initialized.\n");
+		printf("OakVR successfully initialized.\n");
 		// Enter the main loop
 		MSG msg = {0};
 		while(true)
@@ -31,12 +31,12 @@ int main(int argc, char **argv)
 			else
 			{
 				// engine update
-				if(!ro3d::ro3dUpdate())
+				if(!oakvr::oakvrUpdate())
 					break;
 			}
 		}
 
-		ro3d::ro3dExit();
+		oakvr::oakvrExit();
 	}
 	return 0;
 }

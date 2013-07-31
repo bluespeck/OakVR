@@ -36,33 +36,33 @@
 #endif
 
 
-namespace ro3d
+namespace oakvr
 {
 		// --------------------------------------------------------------------------------
 	void Engine::Update(double dt)
 	{
-		//ro3d::Input::MouseInput::GetInstance()->Update();
-//		ro3d::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
+		//oakvr::Input::MouseInput::GetInstance()->Update();
+//		oakvr::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
 		//TriggerInputEvents();
-//		ro3d::Leaf3D::EventManager::GetInstance()->Update();
+//		oakvr::Leaf3D::EventManager::GetInstance()->Update();
 
-		//ro3d::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
+		//oakvr::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
 		/*
 		if(m_pGE)
 		{
-			int32_t wd = ro3d::Input::MouseInput::GetInstance()->GetWheelDelta();
-			if(wd != 0 || ((ro3d::Input::MouseInput::GetInstance()->IsLeftButtonDown() || ro3d::Input::MouseInput::GetInstance()->IsRightButtonDown()) && ro3d::Input::MouseInput::GetInstance()->HasMouseMoved()))
+			int32_t wd = oakvr::Input::MouseInput::GetInstance()->GetWheelDelta();
+			if(wd != 0 || ((oakvr::Input::MouseInput::GetInstance()->IsLeftButtonDown() || oakvr::Input::MouseInput::GetInstance()->IsRightButtonDown()) && oakvr::Input::MouseInput::GetInstance()->HasMouseMoved()))
 			{
-				auto delta = ro3d::Input::MouseInput::GetInstance()->GetPositionDelta();
+				auto delta = oakvr::Input::MouseInput::GetInstance()->GetPositionDelta();
 
 
 							
-				if(ro3d::Input::MouseInput::GetInstance()->IsLeftButtonDown())
+				if(oakvr::Input::MouseInput::GetInstance()->IsLeftButtonDown())
 				{
 						pCurrentCamera->Rotate(static_cast<float>(delta.second * dt), static_cast<float>(delta.first * dt), 0.0f);
 				}
 
-				if(ro3d::Input::MouseInput::GetInstance()->IsRightButtonDown())
+				if(oakvr::Input::MouseInput::GetInstance()->IsRightButtonDown())
 				{
 					pCurrentCamera->Translate((float)delta.first, (float)delta.second, 0.0f);
 				}
@@ -70,10 +70,10 @@ namespace ro3d
 				pCurrentCamera->Translate(0.f, 0.f, wd / 20.f);
 			}
 
-			ro3d::Math::Matrix *pMatrixView = m_pGE->GetViewMatrix();
+			oakvr::Math::Matrix *pMatrixView = m_pGE->GetViewMatrix();
 			*pMatrixView = m_pGE->CreateViewMatrix(pCurrentCamera->GetPosition(), pCurrentCamera->GetLook(), pCurrentCamera->GetUp());
 
-			m_pGE->ClearBackground(ro3d::Render::Color::Black);
+			m_pGE->ClearBackground(oakvr::Render::Color::Black);
 
 			m_pGE->BeginDraw();
 			// update rendered stuff
@@ -106,16 +106,16 @@ namespace ro3d
 	Engine::~Engine()
 	{
 		//delete m_pGE->GetDebugTextRenderer();
-		//ro3d::Core::ResourceManager::Release();
+		//oakvr::Core::ResourceManager::Release();
 		if(m_pGE)
 		{				
 			m_pGE->Cleanup();
 		}
 		
-//		ro3d::Leaf3D::Widget::ReleaseWidgetList();
-//		ro3d::Core::IUpdatable::ReleaseUpdatableList();
-//		ro3d::Leaf3D::EventManager::Release();
-//		ro3d::Leaf3D::InterfaceFocusManager::Release();
+//		oakvr::Leaf3D::Widget::ReleaseWidgetList();
+//		oakvr::Core::IUpdatable::ReleaseUpdatableList();
+//		oakvr::Leaf3D::EventManager::Release();
+//		oakvr::Leaf3D::InterfaceFocusManager::Release();
 		
 	}
 
@@ -126,30 +126,30 @@ namespace ro3d
 		{
 			m_pRW->Initialize();
 			//m_pGE->SetRenderWindow(m_pRW);
-			ro3d::Render::DebugTextRenderer *pDebugTextRenderer = nullptr;			
+			oakvr::Render::DebugTextRenderer *pDebugTextRenderer = nullptr;
 #if defined(_WIN32)
-			pDebugTextRenderer = new ro3d::Render::DirectX9DebugTextRenderer();
+			pDebugTextRenderer = new oakvr::Render::DirectX9DebugTextRenderer();
 
-			pDebugTextRenderer = new ro3d::Render::DirectX11DebugTextRenderer();
+			pDebugTextRenderer = new oakvr::Render::DirectX11DebugTextRenderer();
 #endif
-			pDebugTextRenderer = new ro3d::Render::OpenGLDebugTextRenderer();
+			pDebugTextRenderer = new oakvr::Render::OpenGLDebugTextRenderer();
 
 			m_pGE->SetDebugTextRenderer(pDebugTextRenderer);
 			m_pGE->Initialize();
 			pDebugTextRenderer->Init();
 			
-			m_pCM.reset(new ro3d::Render::CameraManager());
-			m_pCM->SetAsCurrentCamera(new ro3d::Render::Camera(Vector3(0.f, 0.f, -50.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)));
+			m_pCM.reset(new oakvr::Render::CameraManager());
+			m_pCM->SetAsCurrentCamera(new oakvr::Render::Camera(Vector3(0.f, 0.f, -50.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)));
 
 #ifdef OAK3D_EDITOR
-			ro3d::Editor::EntryPoint();
+			oakvr::Editor::EntryPoint();
 #endif
 		}
 
 		m_timer.Reset();
 		m_bIsInitialized = true;
 
-//		pm1 = m_pRM->GetResource<ro3d::Render::Mesh>("../resources/Models/hammer.obj");
+//		pm1 = m_pRM->GetResource<oakvr::Render::Mesh>("../resources/Models/hammer.obj");
 	}
 
 	// --------------------------------------------------------------------------------
@@ -162,31 +162,31 @@ namespace ro3d
 	// --------------------------------------------------------------------------------
 	void Engine::DrawAxes()
 	{
-/*		ro3d::Render::Shader *pVertexShader = nullptr;
-		ro3d::Render::Shader *pPixelShader = nullptr;
+/*		oakvr::Render::Shader *pVertexShader = nullptr;
+		oakvr::Render::Shader *pPixelShader = nullptr;
 
 #if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
-		ro3d::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
-		params1.shaderType = ro3d::Render::eST_VertexShader;
-		params1.vertexFormat = ro3d::Render::VertexBuffer::eVF_XYZ;
-		params2.shaderType = ro3d::Render::eST_PixelShader;
+		oakvr::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
+		params1.shaderType = oakvr::Render::eST_VertexShader;
+		params1.vertexFormat = oakvr::Render::VertexBuffer::eVF_XYZ;
+		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/LinesVS.hlsl", &params1);
-		pPixelShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/LinesPS.hlsl", &params2);
+		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/LinesVS.hlsl", &params1);
+		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/LinesPS.hlsl", &params2);
 #elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
-		ro3d::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = ro3d::Render::eST_VertexShader;
-		params2.shaderType = ro3d::Render::eST_PixelShader;
+		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
+		params1.shaderType = oakvr::Render::eST_VertexShader;
+		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/LinesVS.hlsl", &params1);
-		pPixelShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/LinesPS.hlsl", &params2);
+		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/LinesVS.hlsl", &params1);
+		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/LinesPS.hlsl", &params2);
 #elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
-		ro3d::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = ro3d::Render::eST_VertexShader;
-		params2.shaderType = ro3d::Render::eST_PixelShader;
+		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
+		params1.shaderType = oakvr::Render::eST_VertexShader;
+		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::OpenGLShader>( "../resources/shaders/glsl/LinesVS.glsl", &params1);
-		pPixelShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::OpenGLShader>( "../resources/shaders/glsl/LinesPS.glsl", &params2);
+		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/LinesVS.glsl", &params1);
+		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/LinesPS.glsl", &params2);
 #endif
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
 			return;
@@ -196,8 +196,8 @@ namespace ro3d
 		m_pGE->EnableFillWireframe();
 		//m_pGE->EnableFillSolid();
 
-		ro3d::Render::VertexBuffer vb;
-		vb.Create(6, ro3d::Render::VertexBuffer::eVF_XYZ | ro3d::Render::VertexBuffer::eVF_Diffuse);
+		oakvr::Render::VertexBuffer vb;
+		vb.Create(6, oakvr::Render::VertexBuffer::eVF_XYZ | oakvr::Render::VertexBuffer::eVF_Diffuse);
 		float *pBuff = nullptr;
 		vb.Lock((void **)&pBuff);
 		*(pBuff++) = 0.0f;
@@ -261,7 +261,7 @@ namespace ro3d
 		m_pGE->UseTexture(nullptr);
 		m_pGE->UseShader(pVertexShader);
 		m_pGE->UseShader(pPixelShader);
-		m_pGE->UsePrimitiveTopology(ro3d::Render::ePT_LineList);
+		m_pGE->UsePrimitiveTopology(oakvr::Render::ePT_LineList);
 		m_pGE->DrawPrimitives(3);
 		m_pGE->ReleaseVertexBuffer(&vb);
 		*/
@@ -271,31 +271,31 @@ namespace ro3d
 	void Engine::DrawMeshBoundingBoxes()
 	{
 		/*
-		ro3d::Render::Shader *pVertexShader = nullptr;
-		ro3d::Render::Shader *pPixelShader = nullptr;
+		oakvr::Render::Shader *pVertexShader = nullptr;
+		oakvr::Render::Shader *pPixelShader = nullptr;
 
 #if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
-		ro3d::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
-		params1.shaderType = ro3d::Render::eST_VertexShader;
-		params1.vertexFormat = ro3d::Render::VertexBuffer::eVF_XYZ;
-		params2.shaderType = ro3d::Render::eST_PixelShader;
+		oakvr::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
+		params1.shaderType = oakvr::Render::eST_VertexShader;
+		params1.vertexFormat = oakvr::Render::VertexBuffer::eVF_XYZ;
+		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/BBVS.hlsl", &params1);
-		pPixelShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/BBPS.hlsl", &params2);
+		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/BBVS.hlsl", &params1);
+		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/BBPS.hlsl", &params2);
 #elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
-		ro3d::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = ro3d::Render::eST_VertexShader;
-		params2.shaderType = ro3d::Render::eST_PixelShader;
+		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
+		params1.shaderType = oakvr::Render::eST_VertexShader;
+		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/BBVS.hlsl", &params1);
-		pPixelShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/BBPS.hlsl", &params2);
+		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/BBVS.hlsl", &params1);
+		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/BBPS.hlsl", &params2);
 #elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
-		ro3d::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = ro3d::Render::eST_VertexShader;
-		params2.shaderType = ro3d::Render::eST_PixelShader;
+		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
+		params1.shaderType = oakvr::Render::eST_VertexShader;
+		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::OpenGLShader>( "../resources/shaders/glsl/BBVS.glsl", &params1);
-		pPixelShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::OpenGLShader>( "../resources/shaders/glsl/BBPS.glsl", &params2);
+		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/BBVS.glsl", &params1);
+		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/BBPS.glsl", &params2);
 #endif
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
 			return;
@@ -305,21 +305,21 @@ namespace ro3d
 		m_pGE->EnableFillWireframe();
 		//m_pGE->EnableFillSolid();
 
-		auto pMeshes = ro3d::Render::Mesh::GetMeshList();
+		auto pMeshes = oakvr::Render::Mesh::GetMeshList();
 		for(auto it = pMeshes->begin(); it != pMeshes->end(); ++it)
 		{
-			ro3d::Render::Mesh *pMesh = *it;
+			oakvr::Render::Mesh *pMesh = *it;
 			if(pMesh->IsReady())
 			{
-				ro3d::Render::AABB aabb = pMesh->GetBoundingBox();
+				oakvr::Render::AABB aabb = pMesh->GetBoundingBox();
 
-				ro3d::Render::VertexBuffer vb;
-				ro3d::Render::IndexBuffer ib;
+				oakvr::Render::VertexBuffer vb;
+				oakvr::Render::IndexBuffer ib;
 
-				vb.Create(8, ro3d::Render::VertexBuffer::eVF_XYZ);
+				vb.Create(8, oakvr::Render::VertexBuffer::eVF_XYZ);
 				ib.Create(36);
 
-				using ro3d::Math::Vector3;
+				using oakvr::Math::Vector3;
 				Vector3 v1 = aabb.m_vecLeftBottomFront;
 				Vector3 v2 = aabb.m_vecRightTopBack;
 				v1 = Vector3(25.f, 25.f, 1.0f) ;
@@ -397,7 +397,7 @@ namespace ro3d
 				m_pGE->UseTexture(nullptr);
 				m_pGE->UseShader(pVertexShader);
 				m_pGE->UseShader(pPixelShader);
-				m_pGE->UsePrimitiveTopology(ro3d::Render::ePT_TriangleList);
+				m_pGE->UsePrimitiveTopology(oakvr::Render::ePT_TriangleList);
 				m_pGE->DrawIndexedPrimitives(12, 8);
 				vb.Release();
 				ib.Release();
@@ -419,7 +419,7 @@ namespace ro3d
 		sprintf_s(str, "FPS: %.0f", (1.0f / GetTimer()->GetDeltaTime()));
 		m_pGE->OutputText(str, 10, 10);
 
-		auto coords = ro3d::Input::MouseInput::GetInstance()->GetPosition();
+		auto coords = oakvr::Input::MouseInput::GetInstance()->GetPosition();
 		sprintf_s(str, "Mouse Coords: %2d,%2d", coords.first, coords.second);
 		m_pGE->OutputText(str, 10, 30);
 		*/
@@ -429,31 +429,31 @@ namespace ro3d
 	void Engine::DrawMeshes()
 	{
 		/*
-		ro3d::Render::Shader *pVertexShader = nullptr;
-		ro3d::Render::Shader *pPixelShader = nullptr;
+		oakvr::Render::Shader *pVertexShader = nullptr;
+		oakvr::Render::Shader *pPixelShader = nullptr;
 
 #if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
-		ro3d::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
-		params1.shaderType = ro3d::Render::eST_VertexShader;
-		params1.vertexFormat = ro3d::Render::VertexBuffer::eVF_XYZ | ro3d::Render::VertexBuffer::eVF_Normal;
-		params2.shaderType = ro3d::Render::eST_PixelShader;
+		oakvr::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
+		params1.shaderType = oakvr::Render::eST_VertexShader;
+		params1.vertexFormat = oakvr::Render::VertexBuffer::eVF_XYZ | oakvr::Render::VertexBuffer::eVF_Normal;
+		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/PosNormalVS.hlsl", &params1);
-		pPixelShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/PosNormalPS.hlsl", &params2);
+		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/PosNormalVS.hlsl", &params1);
+		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/PosNormalPS.hlsl", &params2);
 #elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
-		ro3d::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = ro3d::Render::eST_VertexShader;
-		params2.shaderType = ro3d::Render::eST_PixelShader;
+		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
+		params1.shaderType = oakvr::Render::eST_VertexShader;
+		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/PosNormalVS.hlsl", &params1);
-		pPixelShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/PosNormalPS.hlsl", &params2);
+		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/PosNormalVS.hlsl", &params1);
+		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/PosNormalPS.hlsl", &params2);
 #elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
-		ro3d::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = ro3d::Render::eST_VertexShader;
-		params2.shaderType = ro3d::Render::eST_PixelShader;
+		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
+		params1.shaderType = oakvr::Render::eST_VertexShader;
+		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::OpenGLShader>( "../resources/shaders/glsl/PosNormalVS.glsl", &params1);
-		pPixelShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::OpenGLShader>( "../resources/shaders/glsl/PosNormalPS.glsl", &params2);
+		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/PosNormalVS.glsl", &params1);
+		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/PosNormalPS.glsl", &params2);
 #endif
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
 			return;
@@ -461,14 +461,14 @@ namespace ro3d
 		m_pGE->EnablePerspectiveProjection();
 		m_pGE->EnableFillWireframe();
 
-		auto pMeshes = ro3d::Render::Mesh::GetMeshList();
+		auto pMeshes = oakvr::Render::Mesh::GetMeshList();
 		for(auto it = pMeshes->begin(); it != pMeshes->end(); ++it)
 		{
-			ro3d::Render::Mesh *pMesh = *it;
+			oakvr::Render::Mesh *pMesh = *it;
 			if(pMesh->IsReady())
 			{
-				ro3d::Render::VertexBuffer vb;
-				ro3d::Render::IndexBuffer ib;
+				oakvr::Render::VertexBuffer vb;
+				oakvr::Render::IndexBuffer ib;
 
 				vb.Create(pMesh->m_vertexCount, pMesh->m_vertexFormat);
 				ib.Create(pMesh->m_indexCount);
@@ -487,7 +487,7 @@ namespace ro3d
 				m_pGE->UseTexture(nullptr);
 				m_pGE->UseShader(pVertexShader);
 				m_pGE->UseShader(pPixelShader);
-				m_pGE->UsePrimitiveTopology(ro3d::Render::ePT_TriangleList);
+				m_pGE->UsePrimitiveTopology(oakvr::Render::ePT_TriangleList);
 				for(uint32_t i = 0; i < pMesh->m_vMeshElements.size(); ++i)
 				{
 					// TODO add materials
@@ -510,7 +510,7 @@ namespace ro3d
 		/*
 		using Leaf3D::MouseEvent;
 		// trigger mouse events
-		auto pMouseInput = ro3d::Input::MouseInput::GetInstance();
+		auto pMouseInput = oakvr::Input::MouseInput::GetInstance();
 		MouseEvent ev;
 		ev.m_mouseData.m_bLButtonDown = pMouseInput->IsLeftButtonDown();
 		ev.m_mouseData.m_bLButtonDown = pMouseInput->IsMiddleButtonDown();
@@ -655,40 +655,40 @@ namespace ro3d
 	void Engine::DrawInterface()
 	{
 		/*
-		using ro3d::Leaf3D::Widget;
+		using oakvr::Leaf3D::Widget;
 		
 		if(Widget::GetWidgetList()->size() == 0)
 			return;
 
-		ro3d::Render::Texture *pTexture = GetResourceManager()->GetResource<ro3d::Render::Texture>("../resources/Skins/Button.dds");
+		oakvr::Render::Texture *pTexture = GetResourceManager()->GetResource<oakvr::Render::Texture>("../resources/Skins/Button.dds");
 		if(!pTexture->IsReady())
 			return;
 
-		using ro3d::Render::VertexBuffer;
-		ro3d::Render::Shader *pVertexShader = nullptr;
-		ro3d::Render::Shader *pPixelShader = nullptr;
+		using oakvr::Render::VertexBuffer;
+		oakvr::Render::Shader *pVertexShader = nullptr;
+		oakvr::Render::Shader *pPixelShader = nullptr;
 #if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
-		ro3d::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
-		params1.shaderType = ro3d::Render::eST_VertexShader;
+		oakvr::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
+		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params1.vertexFormat = VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0;
-		params2.shaderType = ro3d::Render::eST_PixelShader;
+		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/InterfaceVS.hlsl", &params1);
-		pPixelShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/InterfacePS.hlsl", &params2);
+		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/InterfaceVS.hlsl", &params1);
+		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/InterfacePS.hlsl", &params2);
 #elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
-		ro3d::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = ro3d::Render::eST_VertexShader;
-		params2.shaderType = ro3d::Render::eST_PixelShader;
+		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
+		params1.shaderType = oakvr::Render::eST_VertexShader;
+		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/InterfaceVS.hlsl", &params1);
-		pPixelShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/InterfacePS.hlsl", &params2);
+		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/InterfaceVS.hlsl", &params1);
+		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/InterfacePS.hlsl", &params2);
 #elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
-		ro3d::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = ro3d::Render::eST_VertexShader;
-		params2.shaderType = ro3d::Render::eST_PixelShader;
+		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
+		params1.shaderType = oakvr::Render::eST_VertexShader;
+		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::OpenGLShader>( "../resources/shaders/glsl/InterfaceVS.glsl", &params1);
-		pPixelShader	= ro3d::Engine::GetResourceManager()->GetResource<ro3d::Render::OpenGLShader>( "../resources/shaders/glsl/InterfacePS.glsl", &params2);
+		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/InterfaceVS.glsl", &params1);
+		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/InterfacePS.glsl", &params2);
 #endif
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
 			return;
@@ -736,8 +736,8 @@ namespace ro3d
 		auto it = widgets->begin();
 		while(it != widgets->end())
 		{
-			using ro3d::Leaf3D::ScreenPosition2D;
-			using ro3d::Leaf3D::ScreenSize2D;
+			using oakvr::Leaf3D::ScreenPosition2D;
+			using oakvr::Leaf3D::ScreenSize2D;
 
 			ScreenPosition2D pos = (*it)->GetPosition();
 			ScreenSize2D size = (*it)->GetSize();
@@ -781,7 +781,7 @@ namespace ro3d
 
 		/////
 		// Create associated index buffer
-		ro3d::Render::IndexBuffer ib;
+		oakvr::Render::IndexBuffer ib;
 		ib.Create(numVertices * 6 / 4);
 
 		buff = new uint8_t[6 * numVertices];	// 6 indices for every 4 vertices, each having 4 bytes
@@ -808,7 +808,7 @@ namespace ro3d
 		m_pGE->UseTexture(pTexture);
 		m_pGE->UseShader(pVertexShader);
 		m_pGE->UseShader(pPixelShader);
-		m_pGE->UsePrimitiveTopology(ro3d::Render::ePT_TriangleList);
+		m_pGE->UsePrimitiveTopology(oakvr::Render::ePT_TriangleList);
 		m_pGE->DrawIndexedPrimitives(numVertices / 2, numVertices);
 		vb.Release();
 		ib.Release();
@@ -845,4 +845,4 @@ namespace ro3d
 		return std::move(temp);
 	}
 
-}	// namespace ro3d
+}	// namespace oakvr

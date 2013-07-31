@@ -6,7 +6,7 @@
 #include "Math/Vector3.h"
 #include "Math/Vector2.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -24,8 +24,8 @@ namespace ro3d
 
 			struct TextVertex
 			{
-				ro3d::Math::Vector3 position;
-				ro3d::Math::Vector2 texCoords;
+				oakvr::Math::Vector3 position;
+				oakvr::Math::Vector2 texCoords;
 			};
 
 			Font();
@@ -48,5 +48,5 @@ namespace ro3d
 			return m_pTexture;
 		}
 	} // namespace Render
-} // namespace ro3d
+} // namespace oakvr
 

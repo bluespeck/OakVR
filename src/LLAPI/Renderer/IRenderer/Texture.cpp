@@ -1,7 +1,7 @@
 #include "Texture.h"
 #include "IRenderer.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -15,7 +15,7 @@ namespace ro3d
 		{
 		}
 
-		//void Texture::Init(const ro3d::Core::StringId &id, AdditionalInitParams *)
+		//void Texture::Init(const oakvr::Core::StringId &id, AdditionalInitParams *)
 		//{ 
 		//	m_id = id;
 		//}
@@ -24,7 +24,7 @@ namespace ro3d
 		//{
 		//	m_state = eRS_Loading;
 		//	// Create GE texture
-		//	ro3d::Engine::GetInstance()->GetRenderer()->CreateTexture(this);
+		//	oakvr::Engine::GetInstance()->GetRenderer()->CreateTexture(this);
 		//	m_state = eRS_Ready;
 		//}
 
@@ -34,8 +34,8 @@ namespace ro3d
 
 		//void Texture::Release()
 		//{
-		//	ro3d::Engine::GetInstance()->GetRenderer()->ReleaseTexture(this);
+		//	oakvr::Engine::GetInstance()->GetRenderer()->ReleaseTexture(this);
 		//	m_state = eRS_Released;
 		//}
 	} // namespace Render
-}	// namespace ro3d
+}	// namespace oakvr

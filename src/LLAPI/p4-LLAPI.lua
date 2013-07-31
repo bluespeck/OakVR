@@ -1,4 +1,4 @@
-ro3dSolution "LLAPI"
+Solution "LLAPI"
 	configuration "linux*"
 		buildoptions { "-std=c++11" }
 	configuration "linux32"

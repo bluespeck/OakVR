@@ -1,10 +1,10 @@
-ro3dProject "Startup"
+Project "Startup"
 	kind "StaticLib"
 	language "C++"
 
 	includedirs{ ".." }
 	
 	files {"*.h"}
-	ro3dPlatformSpecificFiles("**", ".cpp")
+	PlatformSpecificFiles("**", ".cpp")
 
 	files {"Startup.cpp"}

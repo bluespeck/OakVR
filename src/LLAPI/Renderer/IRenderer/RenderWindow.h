@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -113,4 +113,4 @@ namespace ro3d
 			return m_height;
 		}
 	} // namespace Render
-} // namespace ro3d
+} // namespace oakvr

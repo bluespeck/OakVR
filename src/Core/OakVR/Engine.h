@@ -8,11 +8,11 @@
 //#include "Leaf3D/Button.h"
 #include "Renderer/IRenderer/Mesh.h"
 #include "CameraManager.h"
-#include "ro3d/UtilityTypes.h"
+#include "OakVR/UtilityTypes.h"
 
-namespace ro3d
+namespace oakvr
 {
-	class Engine : public ro3d::Singleton<Engine>
+	class Engine : public oakvr::Singleton<Engine>
 	{
 	public:
 		Engine();
@@ -45,12 +45,12 @@ namespace ro3d
 	private:
 		Timer m_timer;
 
-		std::shared_ptr<ro3d::Render::IRenderer> m_pGE;
-		std::shared_ptr<ro3d::Render::RenderWindow> m_pRW;
-		std::shared_ptr<ro3d::Render::CameraManager> m_pCM;
-		std::shared_ptr<ro3d::Core::ResourceManager> m_pRM;
+		std::shared_ptr<oakvr::Render::IRenderer> m_pGE;
+		std::shared_ptr<oakvr::Render::RenderWindow> m_pRW;
+		std::shared_ptr<oakvr::Render::CameraManager> m_pCM;
+		std::shared_ptr<oakvr::Core::ResourceManager> m_pRM;
 
 		bool m_bIsInitialized;
 	};
-}	// namespace ro3d
+}	// namespace oakvr
 

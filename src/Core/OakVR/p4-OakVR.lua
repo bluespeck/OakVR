@@ -1,4 +1,4 @@
-ro3dProject "ro3d"
+Project "OakVR"
 	kind "ConsoleApp"
 	language "C++"
 
@@ -11,7 +11,7 @@ ro3dProject "ro3d"
 	files { "**.h", "**.cpp" }
 
 	configuration {"linux*"}
-		excludes {"WindowsRenderWindow.*", "ro3dInitWindows.cpp"}	
+		excludes {"WindowsRenderWindow.*", "InitWindows.cpp"}	
 	configuration {}
 
 	links
@@ -31,5 +31,5 @@ ro3dProject "ro3d"
 		links {	"OpenGLRenderer" }
 	configuration {}
 	
-	ro3dAddBinDirAsLinkDir(ro3d)
+	AddBinDirAsLinkDir(OakVR)
 	

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Math
 	{

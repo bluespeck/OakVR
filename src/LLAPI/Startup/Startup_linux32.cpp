@@ -6,21 +6,21 @@
 
 int main(int argc, char **argv)
 {
-	if(!ro3d::ro3dInit(ro3d::ParseCommandLine(argc, argv)))
+	if(!oakvr::oakvrInit(oakvr::ParseCommandLine(argc, argv)))
 	{
-		printf("Failed to initialize ro3d!!!\n");
+		printf("Failed to initialize oakvr!!!\n");
 	}
 	else
 	{
-		printf("ro3d successfully initialized.\n");
+		printf("oakvr successfully initialized.\n");
 
 		while(true)
 		{
-			if(!ro3d::ro3dUpdate())
+			if(!oakvr::oakvrUpdate())
 				break;
 		}
 
-		ro3d::ro3dExit();
+		oakvr::oakvrExit();
 	}
 	
 	return 0;

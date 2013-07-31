@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{
@@ -16,4 +16,4 @@ namespace ro3d
 			class CObject *m_pObj;	// Points to the object on which this controller is placed
 		};
 	} // namespace Core
-}	// namespace ro3d
+}	// namespace oakvr

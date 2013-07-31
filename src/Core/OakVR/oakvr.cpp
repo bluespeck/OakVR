@@ -1,28 +1,28 @@
 
 #include <iostream>
 
-#include "ro3d.h"
-#include "ro3d/Engine.h"
+#include "oakvr.h"
+#include "OakVR/Engine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
 #include "Renderer/IRenderer/IRenderer.h"
 #include "Utils/Timer.h"
 
 
-namespace ro3d
+namespace oakvr
 {
 	// --------------------------------------------------------------------------------
-	bool ro3dInit( std::vector<std::string> cmdLine )
+	bool oakvrInit( std::vector<std::string> cmdLine )
 	{
 		std::cout << "Init!" << std::endl;
-		ro3d::GetInstance();
+		oakvr::GetInstance();
 		return true;
 	}
 
 	// --------------------------------------------------------------------------------
-	bool ro3dUpdate()
+	bool oakvrUpdate()
 	{
-		ro3d &ro3dRef(ro3d::GetInstance());
-		ro3dRef.Update();
+		oakvr &oakvrRef = oakvr::GetInstance();
+		oakvrRef.Update();
 		
 		static uint32_t count = 0;
 		// Run this update routine 5 times
@@ -35,14 +35,14 @@ namespace ro3d
 	}
 
 	// --------------------------------------------------------------------------------
-	void ro3dExit()
+	void oakvrExit()
 	{
 		std::cout << "Going out!" << std::endl;
 	}
 
 
 	// --------------------------------------------------------------------------------
-	ro3d::ro3d()
+	oakvr::oakvr()
 	:	m_sEngine (Engine::GetInstance())
 	{
 		
@@ -58,7 +58,7 @@ namespace ro3d
 	
 
 	// --------------------------------------------------------------------------------
-	void ro3d::Update()
+	void oakvr::Update()
 	{
 		m_sEngine.Update();
 		
@@ -66,10 +66,10 @@ namespace ro3d
 	}
 
 	// --------------------------------------------------------------------------------
-	ro3d::~ro3d()
+	oakvr::~oakvr()
 	{
 		//m_pEngine->Release();
 	}
 	
 	
-}	// namespace ro3d
+}	// namespace oakvr

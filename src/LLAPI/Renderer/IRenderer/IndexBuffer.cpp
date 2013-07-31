@@ -7,7 +7,7 @@
 #include "IndexBuffer.h"
 
 using namespace std;
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -51,4 +51,4 @@ namespace ro3d
 			m_indexCount = 0;
 		}
 	}	// namespace Render
-}	// namespace ro3d
+}	// namespace oakvr

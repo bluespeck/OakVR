@@ -1,6 +1,6 @@
 #include "Object.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -71,4 +71,4 @@ namespace ro3d
 			pObj->m_pParent = this;
 		}
 	} // namespace Render
-}	// namespace ro3d
+}	// namespace oakvr

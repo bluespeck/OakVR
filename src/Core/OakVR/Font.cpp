@@ -4,9 +4,9 @@
 
 #include "Font.h"
 #include "Renderer/IRenderer/Texture.h"
-#include "ro3d/Engine.h"
+#include "OakVR/Engine.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -23,7 +23,7 @@ namespace ro3d
 		{
 			if(m_pTexture)
 			{
-				//ro3d::Engine::GetResourceManager()->ReleaseResource(m_pTexture);
+				//oakvr::Engine::GetResourceManager()->ReleaseResource(m_pTexture);
 			}
 			if(m_pGlyphData)
 				delete m_pGlyphData;
@@ -61,7 +61,7 @@ namespace ro3d
 			}
 			indexFile.close();
 
-			//m_pTexture = ro3d::Engine::GetResourceManager()->GetResource(fontTextureFilename);
+			//m_pTexture = oakvr::Engine::GetResourceManager()->GetResource(fontTextureFilename);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -69,7 +69,7 @@ namespace ro3d
 		{						
 			uint32_t numLetters = text.length();	// length of the text
 			numVertices = numLetters * 6;
-			WindowSize ws = ro3d::Engine::GetWindowSize();
+			WindowSize ws = oakvr::Engine::GetWindowSize();
 			float invWidth = 2.0f / ws.width;
 			float invHeight = 2.0f / ws.height;
 
@@ -93,29 +93,29 @@ namespace ro3d
 				}
 				
 				// first triangle in quad.
-				pVertex->position = ro3d::Math::Vector3(drawX, drawY, 0.0f);  // Top left.
-				pVertex->texCoords = ro3d::Math::Vector2(m_pGlyphData[letter].left, 0.0f);
+				pVertex->position = oakvr::Math::Vector3(drawX, drawY, 0.0f);  // Top left.
+				pVertex->texCoords = oakvr::Math::Vector2(m_pGlyphData[letter].left, 0.0f);
 				pVertex++;
 
-				pVertex->position = ro3d::Math::Vector3((drawX + m_pGlyphData[letter].width * invWidth), (drawY - 16 * invHeight), 0.0f);  // Bottom right.
-				pVertex->texCoords = ro3d::Math::Vector2(m_pGlyphData[letter].right, 1.0f);
+				pVertex->position = oakvr::Math::Vector3((drawX + m_pGlyphData[letter].width * invWidth), (drawY - 16 * invHeight), 0.0f);  // Bottom right.
+				pVertex->texCoords = oakvr::Math::Vector2(m_pGlyphData[letter].right, 1.0f);
 				pVertex++;
 
-				pVertex->position = ro3d::Math::Vector3(drawX, (drawY - 16 * invHeight), 0.0f);  // Bottom left.
-				pVertex->texCoords = ro3d::Math::Vector2(m_pGlyphData[letter].left, 1.0f);
+				pVertex->position = oakvr::Math::Vector3(drawX, (drawY - 16 * invHeight), 0.0f);  // Bottom left.
+				pVertex->texCoords = oakvr::Math::Vector2(m_pGlyphData[letter].left, 1.0f);
 				pVertex++;
 
 				// second triangle in quad.
-				pVertex->position = ro3d::Math::Vector3(drawX, drawY, 0.0f);  // Top left.
-				pVertex->texCoords = ro3d::Math::Vector2(m_pGlyphData[letter].left, 0.0f);
+				pVertex->position = oakvr::Math::Vector3(drawX, drawY, 0.0f);  // Top left.
+				pVertex->texCoords = oakvr::Math::Vector2(m_pGlyphData[letter].left, 0.0f);
 				pVertex++;
 
-				pVertex->position = ro3d::Math::Vector3(drawX + m_pGlyphData[letter].width * invWidth, drawY, 0.0f);  // Top right.
-				pVertex->texCoords = ro3d::Math::Vector2(m_pGlyphData[letter].right, 0.0f);
+				pVertex->position = oakvr::Math::Vector3(drawX + m_pGlyphData[letter].width * invWidth, drawY, 0.0f);  // Top right.
+				pVertex->texCoords = oakvr::Math::Vector2(m_pGlyphData[letter].right, 0.0f);
 				pVertex++;
 
-				pVertex->position = ro3d::Math::Vector3((drawX + m_pGlyphData[letter].width * invWidth), (drawY - 16 *invHeight), 0.0f);  // Bottom right.
-				pVertex->texCoords = ro3d::Math::Vector2(m_pGlyphData[letter].right, 1.0f);
+				pVertex->position = oakvr::Math::Vector3((drawX + m_pGlyphData[letter].width * invWidth), (drawY - 16 *invHeight), 0.0f);  // Bottom right.
+				pVertex->texCoords = oakvr::Math::Vector2(m_pGlyphData[letter].right, 1.0f);
 				pVertex++;
 
 				// prepare left position for next glyph
@@ -124,4 +124,4 @@ namespace ro3d
 		}
 
 	} // namespace Render
-} // namespace ro3d
+} // namespace oakvr

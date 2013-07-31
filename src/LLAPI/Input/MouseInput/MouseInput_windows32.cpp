@@ -2,7 +2,7 @@
 
 #include "MouseInput.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Input
 	{

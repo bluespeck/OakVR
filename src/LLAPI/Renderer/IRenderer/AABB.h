@@ -2,7 +2,7 @@
 
 #include "Math/Vector3.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -13,9 +13,9 @@ namespace ro3d
 			AABB(void);
 			~AABB(void);
 
-			ro3d::Math::Vector3 m_vecLeftBottomFront;
-			ro3d::Math::Vector3 m_vecRightTopBack;
+			oakvr::Math::Vector3 m_vecLeftBottomFront;
+			oakvr::Math::Vector3 m_vecRightTopBack;
 		};
 
 	} // namespace Render
-} // namespace ro3d
+} // namespace oakvr

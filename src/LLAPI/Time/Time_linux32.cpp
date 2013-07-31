@@ -3,7 +3,7 @@
 
 #include "Time.h"
 
-namespace ro3d
+namespace oakvr
 {
 	// --------------------------------------------------------------------------------
 	uint64_t GetTimeInMicroSeconds()

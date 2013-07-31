@@ -4,7 +4,7 @@
 #include <cstdint>
 
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{

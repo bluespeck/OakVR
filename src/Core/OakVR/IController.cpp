@@ -1,6 +1,6 @@
 #include "IController.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{	

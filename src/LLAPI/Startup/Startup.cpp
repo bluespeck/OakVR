@@ -4,7 +4,7 @@
 
 #include "Startup.h"
 
-namespace ro3d
+namespace oakvr
 {
 	std::vector<std::string> ParseCommandLine(int argc, char **argv)
 	{

@@ -8,7 +8,7 @@
 
 using std::shared_ptr;
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{
@@ -167,4 +167,4 @@ namespace ro3d
 			return std::make_shared<EmptyResource>(id);
 		}
 	} // namespace Core
-} // namespace ro3d
+} // namespace oakvr

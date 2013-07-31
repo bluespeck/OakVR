@@ -1,4 +1,4 @@
-function ro3dFindSolutionWithProject(projectName)
+function FindSolutionWithProject(projectName)
 	for sln in premake.solution.each() do
 		prj = premake.solution.findproject(sln, projectName)
 		if prj ~= nil then
@@ -9,7 +9,7 @@ function ro3dFindSolutionWithProject(projectName)
 	return nil
 end
 
-function ro3dPlatformSpecificFiles(prefix, suffix)
+function PlatformSpecificFiles(prefix, suffix)
 	-- try to get current project
 	local container = premake.api.scope.project
 	if container.platforms == nil then
@@ -29,19 +29,19 @@ function ro3dPlatformSpecificFiles(prefix, suffix)
 	configuration {}
 end
 
-function ro3dAddBinDirAsLinkDir(prjName)
+function AddBinDirAsLinkDir(prjName)
 	prj = premake.api.scope.project
 	for _, cfgname in ipairs(prj.configurations) do
 		for _, plfname in ipairs(prj.platforms) do
 			configuration { cfgname, plfname }
-				libdirs { ro3dRoot .. "/bin/" .. cfgname .. "/" .. plfname }
+				libdirs { oakvrRoot .. "/bin/" .. cfgname .. "/" .. plfname }
 		end
 	end
 	configuration {}
 end
 				
 CurrentSln = nil
-function ro3dSolution(solutionName)
+function Solution(solutionName)
 	print("### Configuring solution(" .. solutionName .. ") ###")
 
 	CurrentSln = solution (solutionName)
@@ -85,17 +85,17 @@ function ro3dSolution(solutionName)
 		for _, cfg in ipairs(cfgs) do
 			for _, plf in ipairs(plfs) do
 				configuration { cfg, plf }
-					targetdir (ro3dRoot .. "/bin/" .. cfg .."/".. plf)
+					targetdir (oakvrRoot .. "/bin/" .. cfg .."/".. plf)
 			end
 		end
 		
 		configuration {}
 		
-		location(ro3dRoot .. "/workspace/" .. (_ACTION or "").. "/" .. solutionName)
+		location(oakvrRoot .. "/workspace/" .. (_ACTION or "").. "/" .. solutionName)
 end
 
-function ro3dProject(projectName)
+function Project(projectName)
 	project(projectName)
-		location(ro3dRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.api.scope.solution.name .. "/" .. projectName)
+		location(oakvrRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.api.scope.solution.name .. "/" .. projectName)
 end
 

@@ -9,7 +9,7 @@
 
 #include "Renderer/IRenderer/DebugTextRenderer.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -32,6 +32,6 @@ namespace ro3d
 			Shader *m_pFragmentShader;
 		};
 	}	// namespace Render
-}	// namespace ro3d
+}	// namespace oakvr
 
 #endif

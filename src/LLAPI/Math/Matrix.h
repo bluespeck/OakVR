@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Math
 	{
@@ -52,5 +52,5 @@ namespace ro3d
 		{
 			return (const float *) &_11;
 		}
-	} // namespace ro3d
-} // namespace ro3d
+	} // namespace oakvr
+} // namespace oakvr

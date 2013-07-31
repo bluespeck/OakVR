@@ -2,13 +2,13 @@
 
 #include <windows.h>
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
 		// --------------------------------------------------------------------------------
 		WindowsRenderWindow::WindowsRenderWindow()
-		: ro3d::Render::RenderWindow()
+		: oakvr::Render::RenderWindow()
 		{
 		}
 
@@ -119,4 +119,4 @@ namespace ro3d
 		}
 
 	} // namespace Render
-} // namespace ro3d
+} // namespace oakvr

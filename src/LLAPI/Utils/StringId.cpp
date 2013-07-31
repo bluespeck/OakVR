@@ -2,7 +2,7 @@
 
 #include "StringId.h"
 
-namespace ro3d
+namespace oakvr
 {
 	uint32_t HashId(const uint8_t *data, int len);
 
@@ -147,4 +147,4 @@ namespace ro3d
 	}
 
 
-}	// namespace ro3d
+}	// namespace oakvr

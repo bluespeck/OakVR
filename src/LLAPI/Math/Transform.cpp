@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Math
 	{
@@ -147,4 +147,4 @@ namespace ro3d
 			return transform;
 		}
 	} // namespace Math
-} // namespace ro3d
+} // namespace oakvr

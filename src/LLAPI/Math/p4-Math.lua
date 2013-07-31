@@ -1,4 +1,4 @@
-	ro3dProject "Math"
+	Project "Math"
 		kind "StaticLib"
 		language "C++"
 

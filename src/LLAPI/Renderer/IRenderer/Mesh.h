@@ -9,7 +9,7 @@
 #include "AABB.h"
 
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -43,7 +43,7 @@ namespace ro3d
 			// Allocates memory for all the buffers inside this mesh
 			void InitMesh();
 
-			const ro3d::Render::AABB &GetBoundingBox();
+			const oakvr::Render::AABB &GetBoundingBox();
 
 		public:
 			static std::list<Mesh *> *GetMeshList();
@@ -66,9 +66,9 @@ namespace ro3d
 			uint32_t m_numFaces;
 			uint32_t m_numMaterials;
 
-			ro3d::Render::AABB m_aabb;
+			oakvr::Render::AABB m_aabb;
 		};
 
 	} // namespace Render
-} // namespace ro3d
+} // namespace oakvr
 

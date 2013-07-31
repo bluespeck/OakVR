@@ -3,7 +3,7 @@
 #include "ResourceManager/BMPLoader.h"
 #include "FileIO/File.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{

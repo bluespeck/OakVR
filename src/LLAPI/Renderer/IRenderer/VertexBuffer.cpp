@@ -6,7 +6,7 @@
 #include "Math/Vector3.h"
 
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -42,47 +42,47 @@ namespace ro3d
 			uint32_t vertexSize = 0;
 			if(vertexFormat & (uint32_t)VertexFormat::xyz)
 			{
-				vertexSize += sizeof(ro3d::Math::Vector3);
+				vertexSize += sizeof(oakvr::Math::Vector3);
 			}
 			if(vertexFormat & (uint32_t)VertexFormat::normal)
 			{
-				vertexSize += sizeof(ro3d::Math::Vector3);
+				vertexSize += sizeof(oakvr::Math::Vector3);
 			}
 			if(vertexFormat & (uint32_t)VertexFormat::diffuse)
 			{
-				vertexSize += sizeof(ro3d::Render::Color);
+				vertexSize += sizeof(oakvr::Render::Color);
 			}
 			if(vertexFormat & (uint32_t)VertexFormat::tex0)
 			{
-				vertexSize += sizeof(ro3d::Math::Vector2);
+				vertexSize += sizeof(oakvr::Math::Vector2);
 			}
 			if(vertexFormat & (uint32_t)VertexFormat::tex1)
 			{
-				vertexSize += sizeof(ro3d::Math::Vector2);
+				vertexSize += sizeof(oakvr::Math::Vector2);
 			}
 			if(vertexFormat & (uint32_t)VertexFormat::tex2)
 			{
-				vertexSize += sizeof(ro3d::Math::Vector2);
+				vertexSize += sizeof(oakvr::Math::Vector2);
 			}
 			if(vertexFormat & (uint32_t)VertexFormat::tex3)
 			{
-				vertexSize += sizeof(ro3d::Math::Vector2);
+				vertexSize += sizeof(oakvr::Math::Vector2);
 			}
 			if(vertexFormat & (uint32_t)VertexFormat::tex4)
 			{
-				vertexSize += sizeof(ro3d::Math::Vector2);
+				vertexSize += sizeof(oakvr::Math::Vector2);
 			}
 			if(vertexFormat & (uint32_t)VertexFormat::tex5)
 			{
-				vertexSize += sizeof(ro3d::Math::Vector2);
+				vertexSize += sizeof(oakvr::Math::Vector2);
 			}
 			if(vertexFormat & (uint32_t)VertexFormat::tex6)
 			{
-				vertexSize += sizeof(ro3d::Math::Vector2);
+				vertexSize += sizeof(oakvr::Math::Vector2);
 			}
 			if(vertexFormat & (uint32_t)VertexFormat::tex7)
 			{
-				vertexSize += sizeof(ro3d::Math::Vector2);
+				vertexSize += sizeof(oakvr::Math::Vector2);
 			}
 
 			return vertexSize;
@@ -107,4 +107,4 @@ namespace ro3d
 			m_pData = nullptr;
 		}
 	}	// namespace Render
-}	// namespace ro3d
+}	// namespace oakvr

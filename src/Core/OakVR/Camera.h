@@ -5,9 +5,9 @@
 #include "Math/Vector3.h"
 #include "Math/MathUtils.h"
 
-using ro3d::Math::Vector3;
+using oakvr::Math::Vector3;
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{

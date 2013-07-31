@@ -5,7 +5,7 @@
 
 #include "RawImageData.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{

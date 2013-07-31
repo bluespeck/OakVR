@@ -5,11 +5,11 @@
 
 #include "Utils/Singleton.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Input
 	{
-		class MouseInput : public ro3d::Singleton<MouseInput>
+		class MouseInput : public oakvr::Singleton<MouseInput>
 		{
 		public:
 			class MouseInputImpl;

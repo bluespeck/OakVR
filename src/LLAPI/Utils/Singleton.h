@@ -3,7 +3,7 @@
 #include <memory>
 #include <mutex>
 
-namespace ro3d
+namespace oakvr
 {
 	template<typename T>
 	class Singleton

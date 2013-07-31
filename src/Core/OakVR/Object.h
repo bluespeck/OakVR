@@ -4,7 +4,7 @@
 
 #include "Utils/StringId.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -28,7 +28,7 @@ namespace ro3d
 			Object *m_pChild;
 			Object *m_pBrother;
 
-			ro3d::StringId m_objID;
+			oakvr::StringId m_objID;
 
 			// Controllers running on this object
 			std::list<IController *> m_lstControllers;
@@ -38,4 +38,4 @@ namespace ro3d
 
 		};
 	} // namespace Render
-} // namespace ro3d
+} // namespace oakvr

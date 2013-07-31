@@ -5,7 +5,7 @@
 #include "Utils/StringId.h"
 
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core{class ResourceManager; }
 	enum class ResourceState : uint8_t
@@ -34,7 +34,7 @@ namespace ro3d
 		inline bool IsReady() const;
 		
 	private:
-		friend class ro3d::Core::ResourceManager;
+		friend class oakvr::Core::ResourceManager;
 		void _Init() { this->Init(); }
 		void _Load() { this->Load(); }
 		void _Reload() { this->Reload(); }

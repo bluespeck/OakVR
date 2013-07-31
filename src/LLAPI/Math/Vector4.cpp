@@ -2,7 +2,7 @@
 #include "Vector4.h"
 #include <cmath>
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Math
 	{

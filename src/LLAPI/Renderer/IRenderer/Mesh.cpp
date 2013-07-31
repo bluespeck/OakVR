@@ -9,9 +9,9 @@
 #include "VertexBuffer.h"
 
 using namespace std;
-using namespace ro3d::Math;
+using namespace oakvr::Math;
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -36,7 +36,7 @@ namespace ro3d
 			std::string  path  = pMesh->GetId().GetStrId();
 
 			// Start the loading process
-			pMesh->SetState(ro3d::Core::IResource::eRS_Loading);
+			pMesh->SetState(oakvr::Core::IResource::eRS_Loading);
 	
 			aiScene *pScene = (aiScene*)importer.ReadFile(path.c_str(),
 				aiProcess_GenSmoothNormals			| // generate smooth normal vectors if not existing
@@ -106,8 +106,8 @@ namespace ro3d
 
 			uint32_t nFaceCount = 0;	
 
-			ro3d::Math::Vector3 vecLBF = ro3d::Math::Vector3(0, 0, 0);
-			Vector3 vecRTB = ro3d::Math::Vector3(0, 0, 0);
+			oakvr::Math::Vector3 vecLBF = oakvr::Math::Vector3(0, 0, 0);
+			Vector3 vecRTB = oakvr::Math::Vector3(0, 0, 0);
 
 			for(uint32_t i = 0; i < pScene->mNumMeshes; ++i)
 			{
@@ -231,7 +231,7 @@ namespace ro3d
 			
 
 			// Mesh loading has finished
-			pMesh->SetState(ro3d::Core::IResource::eRS_Ready);
+			pMesh->SetState(oakvr::Core::IResource::eRS_Ready);
 			*/
 			return 0;
 		}
@@ -269,7 +269,7 @@ namespace ro3d
 		//void Mesh::Load()
 		//{	
 		//	LoadMeshThreadProc(this);
-		//	//ro3d::Core::Thread(LoadMeshThreadProc, this);
+		//	//oakvr::Core::Thread(LoadMeshThreadProc, this);
 		//}
 
 		//// --------------------------------------------------------------------------------
@@ -469,4 +469,4 @@ namespace ro3d
 			}
 		}
 	} // namespace Render
-}// namespace ro3d
+}// namespace oakvr

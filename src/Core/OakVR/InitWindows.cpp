@@ -1,14 +1,14 @@
 
-#include "ro3d/WindowsRenderWindow.h"
+#include "OakVR/WindowsRenderWindow.h"
 //#include "Time/WindowsTimer.h"
 
 
-namespace ro3d
+namespace oakvr
 {
 	// --------------------------------------------------------------------------------
 	Render::RenderWindow *CreateRenderWindow()
 	{
-		return new ro3d::Render::WindowsRenderWindow();
+		return new oakvr::Render::WindowsRenderWindow();
 	}
 
-} // namespace ro3d
+} // namespace oakvr

@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <chrono>
 
-namespace ro3d
+namespace oakvr
 {
 	class Timer
 	{
@@ -33,4 +33,4 @@ namespace ro3d
 	
 		bool m_bPaused;
 		};
-}	// namespace ro3d
+}	// namespace oakvr

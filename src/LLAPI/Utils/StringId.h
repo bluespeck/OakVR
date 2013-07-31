@@ -5,7 +5,7 @@
 #include <map>
 #include <set>
 
-namespace ro3d
+namespace oakvr
 {
 	class StringId
 	{
@@ -35,4 +35,4 @@ namespace ro3d
 		static std::map<uint32_t, std::set<std::string>> s_idsToStrings; // for duplicates checking
 #endif
 	};
-}	// namespace ro3d
+}	// namespace oakvr

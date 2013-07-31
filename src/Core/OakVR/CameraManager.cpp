@@ -1,6 +1,6 @@
 #include "CameraManager.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{

@@ -3,7 +3,7 @@
 
 #include "Timer.h"
 
-namespace ro3d
+namespace oakvr
 {
 	static const double s_nanosecond = 1e-9;
 
@@ -90,4 +90,4 @@ namespace ro3d
 		}
 	}
 
-}	//namespace ro3d
+}	//namespace oakvr

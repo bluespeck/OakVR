@@ -5,7 +5,7 @@
 #include "Renderer/IRenderer/IRenderer.h"
 
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -56,7 +56,7 @@ namespace ro3d
 			virtual void EnableDepthBuffer();
 			virtual void DisableDepthBuffer();
 
-			virtual ro3d::Math::Matrix CreateViewMatrix(ro3d::Math::Vector3 eye, ro3d::Math::Vector3 lookAt, ro3d::Math::Vector3 up);
+			virtual oakvr::Math::Matrix CreateViewMatrix(oakvr::Math::Vector3 eye, oakvr::Math::Vector3 lookAt, oakvr::Math::Vector3 up);
 
 			virtual void EnableOrtographicProjection();
 			virtual void EnablePerspectiveProjection();
@@ -85,5 +85,5 @@ namespace ro3d
 			bool m_bPerspectiveProjection;
 		};
 	}	// namespace Render
-}	// namespace ro3d
+}	// namespace oakvr
 

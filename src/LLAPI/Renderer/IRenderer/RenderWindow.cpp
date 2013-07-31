@@ -1,7 +1,7 @@
 
 #include "RenderWindow.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -14,7 +14,7 @@ namespace ro3d
 			m_posX = m_posY = 0;
 			m_width = 1280;
 			m_height = 960;
-			m_title = L"ro3d";
+			m_title = L"oakvr";
 		}
 
 		// --------------------------------------------------------------------------------
@@ -24,4 +24,4 @@ namespace ro3d
 		}
 
 	}	// namespace Render
-}	// namespace ro3d
+}	// namespace oakvr
