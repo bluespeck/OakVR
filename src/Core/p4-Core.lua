@@ -6,7 +6,9 @@ Solution "Core"
 		buildoptions {"-m32"}
 	configuration "linux64"
 		buildoptions {"-m64"}
+	configuration {}
 
 	startproject "OakVR"
+
 	dofile("ResourceManager/p4-ResourceManager.lua")
 	dofile("OakVR/p4-OakVR.lua")
