@@ -18,7 +18,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		RenderWindow::RenderWindow( const std::wstring &title, int posX, int posY, unsigned int width, unsigned int height)
+		RenderWindow::RenderWindow( const std::string &title, int posX, int posY, unsigned int width, unsigned int height)
 			: m_title(title), m_posX(posX), m_posY(posY), m_width(width), m_height(height)
 		{
 		}

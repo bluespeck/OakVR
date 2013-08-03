@@ -13,7 +13,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		WindowsRenderWindow::WindowsRenderWindow(const std::wstring &name, int posX, int posY, unsigned int width, unsigned int height)
+		WindowsRenderWindow::WindowsRenderWindow(const std::string &name, int posX, int posY, unsigned int width, unsigned int height)
 		: RenderWindow( name, posX, posY, width, height)
 		{
 		}

@@ -20,7 +20,7 @@ namespace ro3d
 			virtual void OnMouseLeftButtonHeld(MouseEvent *mev);
 
 		private:
-			std::wstring m_text;	// TODO ?
+			std::string m_text;	// TODO ?
 
 		};
 	}

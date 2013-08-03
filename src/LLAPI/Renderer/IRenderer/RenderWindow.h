@@ -9,7 +9,7 @@ namespace oakvr
 		{
 		public:
 			RenderWindow();
-			RenderWindow( const std::wstring &title, int posX, int posY, unsigned int width, unsigned int height);
+			RenderWindow( const std::string &title, int posX, int posY, unsigned int width, unsigned int height);
 			
 			virtual void Initialize() = 0;
 			virtual void Minimize() = 0;
@@ -32,8 +32,8 @@ namespace oakvr
 			inline void SetHeight( unsigned int height );
 			inline unsigned int GetHeight();
 
-			virtual const std::wstring &GetTitle(){ return m_title; }
-			virtual void SetTitle(const std::wstring &title) { m_title = title; }
+			virtual const std::string &GetTitle(){ return m_title; }
+			virtual void SetTitle(const std::string &title) { m_title = title; }
 						
 		protected:
 
@@ -44,7 +44,7 @@ namespace oakvr
 				eWS_Maximized
 			};
 
-			std::wstring m_title;
+			std::string m_title;
 			int m_posX, m_posY;
 			unsigned int m_width, m_height;
 			bool m_bFullScreen;

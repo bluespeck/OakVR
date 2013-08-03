@@ -12,7 +12,7 @@ namespace oakvr
 		class Material
 		{
 		public:
-			std::wstring m_name;
+			std::string m_name;
 
 			oakvr::Render::Color m_vAmbient;
 			oakvr::Render::Color m_vDiffuse;

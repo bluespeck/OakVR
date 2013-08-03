@@ -12,11 +12,11 @@ namespace ro3d
 		public:
 			IToolTipped();
 
-			void SetToolTip(std::wstring text);
-			std::wstring GetToolTip();
+			void SetToolTip(std::string text);
+			std::string GetToolTip();
 
 		protected:
-			std::wstring m_toolTipText;
+			std::string m_toolTipText;
 
 		};
 	}

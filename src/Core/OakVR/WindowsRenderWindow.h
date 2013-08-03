@@ -14,7 +14,7 @@ namespace oakvr
 		{
 		public:
 			WindowsRenderWindow();
-			WindowsRenderWindow( const std::wstring &title, int posX, int posY, unsigned int width, unsigned int height );
+			WindowsRenderWindow( const std::string &title, int posX, int posY, unsigned int width, unsigned int height );
 
 			// Overrides
 			virtual void Initialize();

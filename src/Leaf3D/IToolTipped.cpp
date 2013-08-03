@@ -11,12 +11,12 @@ namespace ro3d
 			
 		}
 
-		void IToolTipped::SetToolTip(std::wstring text)
+		void IToolTipped::SetToolTip(std::string text)
 		{
 			m_toolTipText = text;
 		}
 
-		std::wstring IToolTipped::GetToolTip()
+		std::string IToolTipped::GetToolTip()
 		{
 			return m_toolTipText;
 		}

@@ -15,11 +15,11 @@ namespace ro3d
 		class Label : public Widget, public IToolTipped
 		{
 		public:
-			Label(std::wstring text = L"");
-			void SetLabel(std::wstring text);
-			std::wstring GetLabel();
+			Label(std::string text = L"");
+			void SetLabel(std::string text);
+			std::string GetLabel();
 		protected:
-			std::wstring m_labelText;
+			std::string m_labelText;
 		};
 	}
 }
