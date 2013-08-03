@@ -1,13 +1,13 @@
 /*
 #include "Effect.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
 		Effect::Effect()
 		{
-			for(uint8_t shaderType = ro3d::Render::eST_First; shaderType < ro3d::Render::eST_Count; ++shaderType)
+			for(uint8_t shaderType = oakvr::Render::eST_First; shaderType < oakvr::Render::eST_Count; ++shaderType)
 				m_pShaders[shaderType] = nullptr;
 		}
 	}

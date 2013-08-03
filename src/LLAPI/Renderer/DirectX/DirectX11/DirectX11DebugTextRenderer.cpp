@@ -9,7 +9,7 @@
 //#include <d3dx10.h>
 
 
-//#include "ro3d/Engine.h"
+//#include "oakvr/Engine.h"
 
 #include "DirectX11DebugTextRenderer.h"
 #include "DirectX11Shader.h"
@@ -23,7 +23,7 @@
 #include "Math/Matrix.h"
 #include "Math/Vector3.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -42,12 +42,12 @@ namespace ro3d
 //				delete m_pFont;
 			if(m_pPixelShader)
 			{
-//				ro3d::Engine::GetResourceManager()->ReleaseResource(m_pPixelShader);
+//				oakvr::Engine::GetResourceManager()->ReleaseResource(m_pPixelShader);
 				m_pPixelShader = nullptr;
 			}
 			if(m_pVertexShader)
 			{
-//				ro3d::Engine::GetResourceManager()->ReleaseResource(m_pVertexShader);
+//				oakvr::Engine::GetResourceManager()->ReleaseResource(m_pVertexShader);
 				m_pVertexShader = nullptr;
 			}
 		}
@@ -60,9 +60,9 @@ namespace ro3d
 
 			DirectX11Shader::ShaderAdditionalInitParams params;
 			params.shaderType = eST_VertexShader;
-			m_pVertexShader = ro3d::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/hlsl_4_0/DebugFontVS.hlsl", &params);
+			m_pVertexShader = oakvr::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/hlsl_4_0/DebugFontVS.hlsl", &params);
 			params.shaderType = eST_PixelShader;
-			m_pPixelShader = ro3d::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/hlsl_4_0/DebugFontPS.hlsl", &params);
+			m_pPixelShader = oakvr::Engine::GetResourceManager()->GetResource<DirectX11Shader>( "../resources/shaders/hlsl_4_0/DebugFontPS.hlsl", &params);
 */
 		}
 
@@ -107,4 +107,4 @@ namespace ro3d
 		}
 
 	} // namespace Render
-} // namespace ro3d
+} // namespace oakvr

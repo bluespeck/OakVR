@@ -1,21 +1,31 @@
 #pragma once
 
-// ro3d logging support
-// Define OAK3D_LOG_LEVEL with one of the values bellow to control logging
+#include <string>
+#include <cstdint>
 
-#define OAK3D_LOG_DISABLED 0
-#define OAK3D_LOG_ERROR 1
-#define OAK3D_LOG_WARNING 2
-#define OAK3D_LOG_INFO 3
+// oakvr logging support
+// Define OAKVR_LOG_LEVEL with one of the values bellow to control logging
 
-#ifndef OAK3D_LOG_LEVEL
-#	define OAK3D_LOG_LEVEL OAK3D_LOG_INFO
-#endif
-
-
-namespace ro3d
+namespace oakvr
 {
-	void LogWarning(const char * logMsg, ...);
-	void LogInfo(const char * logMsg, ...);
-	void LogError(const char * logMsg, ...);
+	class Log
+	{
+	public:
+		enum class LogLevel : int8_t
+		{
+			disabled = 0,
+			error,
+			warning,
+			info
+		};
+
+		static void SetMaxLevel(LogLevel level);
+		static LogLevel GetMaxLevel();
+		static void SetFilename(std::string filename);
+		static std::string GetFilename();
+		static void Print(LogLevel level, const char * logMsg, ...);
+	private:
+		static std::string s_filename;
+		static LogLevel s_maxLevel;
+	};
 }

@@ -1,11 +1,11 @@
 
-#ifndef __OAK3D_INCLUDE_LEAF3D_CLICKEVENT_H__
-#define __OAK3D_INCLUDE_LEAF3D_CLICKEVENT_H__
+#ifndef __OAKVR_INCLUDE_LEAF3D_CLICKEVENT_H__
+#define __OAKVR_INCLUDE_LEAF3D_CLICKEVENT_H__
 
 #include "Event.h"
 #include "ScreenPosition.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Leaf3D
 	{

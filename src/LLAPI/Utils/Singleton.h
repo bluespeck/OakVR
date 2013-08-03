@@ -23,4 +23,4 @@ namespace oakvr
 		void operator=(const Singleton &);
 	};
 
-}	// namespace ro3d
+}	// namespace oakvr

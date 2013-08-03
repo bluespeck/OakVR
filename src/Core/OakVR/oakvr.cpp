@@ -5,7 +5,8 @@
 #include "OakVR/Engine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
 #include "Renderer/IRenderer/IRenderer.h"
-#include "Utils/Timer.h"
+#include "Time/Timer.h"
+#include "Log/Log.h"
 
 
 namespace oakvr
@@ -13,7 +14,8 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	bool oakvrInit( std::vector<std::string> cmdLine )
 	{
-		std::cout << "Init!" << std::endl;
+		Log::SetMaxLevel(Log::LogLevel::info);
+		Log::Print(Log::LogLevel::info, " OakVR Init\n");
 		oakvr::GetInstance();
 		return true;
 	}
@@ -37,7 +39,8 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	void oakvrExit()
 	{
-		std::cout << "Going out!" << std::endl;
+		Log::Print(Log::LogLevel::info, " OakVR closing!\n");
+
 	}
 
 

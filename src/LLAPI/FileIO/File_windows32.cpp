@@ -102,7 +102,7 @@ namespace oakvr
 		{
 			if(offset + bytesToRead > bufferSize) 
 			{
-				fprintf(stderr, "[RO3D_ERROR] ro3d::Core::File::Read  Attempt to write past buffer limit!\n");
+				fprintf(stderr, "[RO3D_ERROR] oakvr::Core::File::Read  Attempt to write past buffer limit!\n");
 				return 0;
 			}
 			
@@ -113,7 +113,7 @@ namespace oakvr
 				
 			if(bytesToRead > fileSize)
 			{
-				fprintf(stderr, "[RO3D_ERROR] ro3d::Core::File::Read  Attempt to read more than file size!\n");
+				fprintf(stderr, "[RO3D_ERROR] oakvr::Core::File::Read  Attempt to read more than file size!\n");
 				return 0;
 			}
 			
@@ -125,7 +125,7 @@ namespace oakvr
 		{
 			if(offset + bytesToWrite > bufferSize)
 			{
-				fprintf(stderr, "[RO3D_ERROR] ro3d::Core::File::Write  Attempt to read past buffer limit!\n");
+				fprintf(stderr, "[RO3D_ERROR] oakvr::Core::File::Write  Attempt to read past buffer limit!\n");
 				exit(1);
 			}
 			

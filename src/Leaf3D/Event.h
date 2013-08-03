@@ -1,10 +1,10 @@
 
-#ifndef __OAK3D_INCLUDE_LEAF3D_EVENT_H__
-#define __OAK3D_INCLUDE_LEAF3D_EVENT_H__
+#ifndef __OAKVR_INCLUDE_LEAF3D_EVENT_H__
+#define __OAKVR_INCLUDE_LEAF3D_EVENT_H__
 
 #include "Core/Utils/StringId.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Leaf3D
 	{
@@ -13,8 +13,8 @@ namespace ro3d
 		class Event
 		{
 		public:
-			typedef ro3d::Core::StringId EventType;
-			typedef ro3d::Core::StringId EventSubtype;
+			typedef oakvr::Core::StringId EventType;
+			typedef oakvr::Core::StringId EventSubtype;
 
 			Event(): m_eventType("BaseEvent"), m_eventSubtype("None") {}
 			virtual ~Event() {}

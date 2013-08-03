@@ -1,6 +1,6 @@
 
-#ifndef __OAK3D_INCLUDE_LEAF3D_BUTTON_H__
-#define __OAK3D_INCLUDE_LEAF3D_BUTTON_H__
+#ifndef __OAKVR_INCLUDE_LEAF3D_BUTTON_H__
+#define __OAKVR_INCLUDE_LEAF3D_BUTTON_H__
 
 #include <string>
 #include <functional>
@@ -8,7 +8,7 @@
 #include "Widget.h"
 #include "IListenForMouseEvents.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Leaf3D
 	{

@@ -7,7 +7,7 @@
 struct IDirect3DDevice9;
 struct IDirect3DSurface9;
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -52,7 +52,7 @@ namespace ro3d
 			virtual void CreateShader( Shader *pShader );
 			virtual void ReleaseShader( Shader *pShader );
 			virtual void UseShader( Shader *pShader );			
-			virtual ro3d::Math::Matrix CreateViewMatrix(ro3d::Math::Vector3 eye, ro3d::Math::Vector3 lookAt, ro3d::Math::Vector3 up);
+			virtual oakvr::Math::Matrix CreateViewMatrix(oakvr::Math::Vector3 eye, oakvr::Math::Vector3 lookAt, oakvr::Math::Vector3 up);
 
 			virtual void OutputText( const std::string &text, uint32_t x, uint32_t y);
 
@@ -76,5 +76,5 @@ namespace ro3d
 			IDirect3DSurface9 *m_pRenderTarget;
 		};
 	}	// namespace Render
-}	// namespace ro3d
+}	// namespace oakvr
 

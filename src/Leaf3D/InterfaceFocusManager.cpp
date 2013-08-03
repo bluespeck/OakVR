@@ -5,7 +5,7 @@
 #include "InterfaceFocusManager.h"
 #include "Input/MouseInput.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Leaf3D
 	{
@@ -36,7 +36,7 @@ namespace ro3d
 		// --------------------------------------------------------------------------------
 		void InterfaceFocusManager::Update()
 		{
-			auto mousePosition = ro3d::Input::MouseInput::GetInstance()->GetPosition();
+			auto mousePosition = oakvr::Input::MouseInput::GetInstance()->GetPosition();
 			IFocusable *pToGiveFocus = nullptr;
 			uint32_t minDepth = (uint32_t) -1;
 
@@ -67,7 +67,7 @@ namespace ro3d
 		// --------------------------------------------------------------------------------
 		IFocusable *InterfaceFocusManager::GetMouseOwner()
 		{
-			IFocusable * pFocusable = (IFocusable *)ro3d::Input::MouseInput::GetInstance()->GetMouseOwner();
+			IFocusable * pFocusable = (IFocusable *)oakvr::Input::MouseInput::GetInstance()->GetMouseOwner();
 			if(m_focusables.size() > 0 && std::find(m_focusables.begin(), m_focusables.end(), pFocusable) != m_focusables.end())
 				return pFocusable;
 
@@ -77,7 +77,7 @@ namespace ro3d
 		// --------------------------------------------------------------------------------
 		IFocusable *InterfaceFocusManager::SetMouseOwner(IFocusable *pFocusable)
 		{
-			IFocusable *pOldFocusable = (IFocusable *)ro3d::Input::MouseInput::GetInstance()->SetMouseOwner(pFocusable);
+			IFocusable *pOldFocusable = (IFocusable *)oakvr::Input::MouseInput::GetInstance()->SetMouseOwner(pFocusable);
 			if(m_focusables.size() > 0 && std::find(m_focusables.begin(), m_focusables.end(), pOldFocusable) != m_focusables.end())
 				return pOldFocusable;
 			return nullptr;

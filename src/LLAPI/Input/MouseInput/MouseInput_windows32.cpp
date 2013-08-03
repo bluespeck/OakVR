@@ -187,7 +187,7 @@ namespace oakvr
 			switch(wParam)
 			{
 			case WM_MOUSEMOVE:
-				//::ScreenToClient((HWND)ro3d::Engine::GetRenderWindow()->GetOSHandle(), &msllhs.pt);
+				//::ScreenToClient((HWND)oakvr::Engine::GetRenderWindow()->GetOSHandle(), &msllhs.pt);
 				m_pInstance->m_volatileState.m_x = msllhs.pt.x;
 				m_pInstance->m_volatileState.m_y = msllhs.pt.y;
 				break;

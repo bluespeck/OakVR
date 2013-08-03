@@ -1,13 +1,13 @@
 
-#ifndef __OAK3D_INCLUDE_LEAF3D_PANEL_H__
-#define __OAK3D_INCLUDE_LEAF3D_PANEL_H__
+#ifndef __OAKVR_INCLUDE_LEAF3D_PANEL_H__
+#define __OAKVR_INCLUDE_LEAF3D_PANEL_H__
 
 #include <functional>
 
 #include "Clickable.h"
 #include "Focusable.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Leaf3D
 	{

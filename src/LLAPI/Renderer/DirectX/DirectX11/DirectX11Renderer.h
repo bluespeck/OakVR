@@ -12,7 +12,7 @@ struct ID3D11Buffer;
 struct ID3D11SamplerState;
 struct ID3D11DepthStencilView;
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -84,7 +84,7 @@ namespace ro3d
 			virtual void EnableFillWireframe();
 			virtual void EnableFillSolid();
 
-			virtual ro3d::Math::Matrix CreateViewMatrix(ro3d::Math::Vector3 eye, ro3d::Math::Vector3 lookAt, ro3d::Math::Vector3 up);
+			virtual oakvr::Math::Matrix CreateViewMatrix(oakvr::Math::Vector3 eye, oakvr::Math::Vector3 lookAt, oakvr::Math::Vector3 up);
 
 
 			// misc
@@ -120,4 +120,4 @@ namespace ro3d
 			
 		};
 	}	// namespace Render
-}	// namespace ro3d
+}	// namespace oakvr

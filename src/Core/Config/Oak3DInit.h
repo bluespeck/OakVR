@@ -3,10 +3,10 @@
 
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_CORE_INITOAK3D_H__
-#define __OAK3D_INCLUDE_CORE_INITOAK3D_H__
+#ifndef __OAKVR_INCLUDE_CORE_INITOAKVR_H__
+#define __OAKVR_INCLUDE_CORE_INITOAKVR_H__
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -22,6 +22,6 @@ namespace ro3d
 	Render::RenderWindow *CreateRenderWindow();
 	Render::IRenderer *CreateRenderer();
 	Core::Timer *CreateTimer();
-}	// namespace ro3d
+}	// namespace oakvr
 
 #endif

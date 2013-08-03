@@ -2,8 +2,8 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_RENDER_OPENGLDEBUGTEXT_H__
-#define __OAK3D_INCLUDE_RENDER_OPENGLDEBUGTEXT_H__
+#ifndef __OAKVR_INCLUDE_RENDER_OPENGLDEBUGTEXT_H__
+#define __OAKVR_INCLUDE_RENDER_OPENGLDEBUGTEXT_H__
 
 #include <string>
 

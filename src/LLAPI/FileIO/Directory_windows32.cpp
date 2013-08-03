@@ -1,11 +1,11 @@
 #include "Directory.h"
 
-#if OAK3D_OS == OAK3D_OS_WINDOWS
+#if OAKVR_OS == OAKVR_OS_WINDOWS
 #include <cstdio>
 #include <cassert>
 #include <windows.h>
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{

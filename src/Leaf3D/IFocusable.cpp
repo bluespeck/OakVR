@@ -2,7 +2,7 @@
 #include "IFocusable.h"
 #include "InterfaceFocusManager.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Leaf3D
 	{

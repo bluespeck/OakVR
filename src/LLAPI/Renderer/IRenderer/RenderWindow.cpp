@@ -14,7 +14,7 @@ namespace oakvr
 			m_posX = m_posY = 0;
 			m_width = 1280;
 			m_height = 960;
-			m_title = L"oakvr";
+			m_title = "oakvr";
 		}
 
 		// --------------------------------------------------------------------------------

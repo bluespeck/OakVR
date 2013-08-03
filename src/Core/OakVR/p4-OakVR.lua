@@ -16,13 +16,18 @@ Project "OakVR"
 
 	links
 	{
-		"ResourceManager",
+		--"ResourceManager",
 		"Startup",
-		"FileIO",
+		--"FileIO",
 		"Math",
-		"IRenderer",
 		"Utils",
-		"Input",
+		"Log",
+		"IRenderer",
+		
+		"Time",
+		--"Input",
+		
+		
 	}
 	
 	configuration {"windows*"}

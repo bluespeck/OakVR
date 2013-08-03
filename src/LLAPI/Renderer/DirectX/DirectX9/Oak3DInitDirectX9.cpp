@@ -2,11 +2,11 @@
 
 #include "Renderer/DirectX/DirectX9/DirectX9Renderer.h"
 
-namespace ro3d
+namespace oakvr
 {
 	// --------------------------------------------------------------------------------
 	Render::IRenderer *CreateRenderer()
 	{
 		return new Render::DirectX9Renderer();
 	}
-} // namespace ro3d
+} // namespace oakvr

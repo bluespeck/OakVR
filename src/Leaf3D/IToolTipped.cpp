@@ -1,7 +1,7 @@
 
 #include "IToolTipped.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Leaf3D
 	{

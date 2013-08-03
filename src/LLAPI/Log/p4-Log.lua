@@ -4,5 +4,5 @@ Project "Log"
 
 	includedirs{ ".." }
 	
-	files {"**.h"}
+	files {"**.h", "Log.cpp"}
 	PlatformSpecificFiles("**_", ".cpp")

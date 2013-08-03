@@ -8,7 +8,7 @@ namespace oakvr
 	static const double s_nanosecond = 1e-9;
 
 	Timer::Timer(void)
-		: m_dt(-1.0), m_bPaused(false)
+		: m_dt{-1.0}, m_bPaused{false}
 	{			
 		Reset();
 	}

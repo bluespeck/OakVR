@@ -1,10 +1,10 @@
 
-#ifndef __OAK3D_INCLUDE_CORE_IUPDATABLE_H__
-#define __OAK3D_INCLUDE_CORE_IUPDATABLE_H__
+#ifndef __OAKVR_INCLUDE_CORE_IUPDATABLE_H__
+#define __OAKVR_INCLUDE_CORE_IUPDATABLE_H__
 
 #include <list>
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{

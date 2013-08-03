@@ -1,5 +1,5 @@
-#ifndef __OAK3D_INCLUDE_EDITOR_TESTWIDGETS_H__
-#define __OAK3D_INCLUDE_EDITOR_TESTWIDGETS_H__
+#ifndef __OAKVR_INCLUDE_EDITOR_TESTWIDGETS_H__
+#define __OAKVR_INCLUDE_EDITOR_TESTWIDGETS_H__
 
 #include <Leaf3D/Button.h>
 
@@ -8,11 +8,11 @@ struct TestButton
 	TestButton()
 	{
 
-		ro3d::Leaf3D::Button b1;
-		ro3d::Leaf3D::Button b2;
-		ro3d::Leaf3D::Button b3;
-		ro3d::Leaf3D::Button b4;
-		ro3d::Leaf3D::Button b5;
+		oakvr::Leaf3D::Button b1;
+		oakvr::Leaf3D::Button b2;
+		oakvr::Leaf3D::Button b3;
+		oakvr::Leaf3D::Button b4;
+		oakvr::Leaf3D::Button b5;
 
 		b1.SetPosition(100, 100);
 		b1.SetDepth(0);
@@ -36,7 +36,7 @@ struct TestButton
 
 	}
 
-		ro3d::Leaf3D::Button b;	
+		oakvr::Leaf3D::Button b;	
 	
 
 

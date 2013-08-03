@@ -1,13 +1,13 @@
 
-#ifndef __OAK3D_INCLUDE_LEAF3D_WIDGETCONTAINER_H__
-#define __OAK3D_INCLUDE_LEAF3D_WIDGETCONTAINER_H__
+#ifndef __OAKVR_INCLUDE_LEAF3D_WIDGETCONTAINER_H__
+#define __OAKVR_INCLUDE_LEAF3D_WIDGETCONTAINER_H__
 
 #include <memory>
 #include <list>
 
 #include "Widget.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Leaf3D
 	{

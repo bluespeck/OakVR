@@ -2,7 +2,7 @@
 
 #include "IUpdatable.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{
@@ -27,4 +27,4 @@ namespace ro3d
 
 		}
 	} // namespace Core
-} // namespace ro3d
+} // namespace oakvr

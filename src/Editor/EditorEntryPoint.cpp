@@ -1,7 +1,7 @@
 
 #include "EditorEntryPoint.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Editor
 	{

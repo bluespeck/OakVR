@@ -87,4 +87,4 @@ namespace oakvr
 	{
 		return GetId() == res.GetId();
 	}
-}	// namespace ro3d
+}	// namespace oakvr

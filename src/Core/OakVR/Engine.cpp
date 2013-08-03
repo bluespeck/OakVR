@@ -1,11 +1,7 @@
-#include <algorithm>
-#include <memory>
-#include <cassert>
-
 #include "Engine.h"
 #include "Renderer/IRenderer/RenderWindow.h"
 #include "Renderer/IRenderer/IRenderer.h"
-#include "Utils/Timer.h"
+#include "Time/Timer.h"
 #include "ResourceManager/ResourceManager.h"
 //#include "Leaf3D/Widget.h"
 #include "Renderer/IRenderer/VertexBuffer.h"
@@ -31,10 +27,13 @@
 #include "Renderer/OpenGL/OpenGLShader.h"
 #include "Renderer/OpenGL/OpenGLDebugTextRenderer.h"
 
-#ifdef OAK3D_EDITOR
+#ifdef OAKVR_EDITOR
 #include "Editor/EditorEntryPoint.h"
 #endif
 
+#include <algorithm>
+#include <memory>
+#include <cassert>
 
 namespace oakvr
 {
@@ -141,7 +140,7 @@ namespace oakvr
 			m_pCM.reset(new oakvr::Render::CameraManager());
 			m_pCM->SetAsCurrentCamera(new oakvr::Render::Camera(Vector3(0.f, 0.f, -50.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)));
 
-#ifdef OAK3D_EDITOR
+#ifdef OAKVR_EDITOR
 			oakvr::Editor::EntryPoint();
 #endif
 		}
@@ -165,7 +164,7 @@ namespace oakvr
 /*		oakvr::Render::Shader *pVertexShader = nullptr;
 		oakvr::Render::Shader *pPixelShader = nullptr;
 
-#if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
+#if (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_9)
 		oakvr::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params1.vertexFormat = oakvr::Render::VertexBuffer::eVF_XYZ;
@@ -173,14 +172,14 @@ namespace oakvr
 
 		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/LinesVS.hlsl", &params1);
 		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/LinesPS.hlsl", &params2);
-#elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
+#elif (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_11)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
 
 		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/LinesVS.hlsl", &params1);
 		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/LinesPS.hlsl", &params2);
-#elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
+#elif (OAKVR_RENDERER == OAKVR_RENDERER_OPENGL)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
@@ -274,7 +273,7 @@ namespace oakvr
 		oakvr::Render::Shader *pVertexShader = nullptr;
 		oakvr::Render::Shader *pPixelShader = nullptr;
 
-#if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
+#if (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_9)
 		oakvr::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params1.vertexFormat = oakvr::Render::VertexBuffer::eVF_XYZ;
@@ -282,14 +281,14 @@ namespace oakvr
 
 		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/BBVS.hlsl", &params1);
 		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/BBPS.hlsl", &params2);
-#elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
+#elif (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_11)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
 
 		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/BBVS.hlsl", &params1);
 		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/BBPS.hlsl", &params2);
-#elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
+#elif (OAKVR_RENDERER == OAKVR_RENDERER_OPENGL)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
@@ -432,7 +431,7 @@ namespace oakvr
 		oakvr::Render::Shader *pVertexShader = nullptr;
 		oakvr::Render::Shader *pPixelShader = nullptr;
 
-#if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
+#if (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_9)
 		oakvr::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params1.vertexFormat = oakvr::Render::VertexBuffer::eVF_XYZ | oakvr::Render::VertexBuffer::eVF_Normal;
@@ -440,14 +439,14 @@ namespace oakvr
 
 		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/PosNormalVS.hlsl", &params1);
 		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/PosNormalPS.hlsl", &params2);
-#elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
+#elif (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_11)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
 
 		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/PosNormalVS.hlsl", &params1);
 		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/PosNormalPS.hlsl", &params2);
-#elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
+#elif (OAKVR_RENDERER == OAKVR_RENDERER_OPENGL)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
@@ -667,7 +666,7 @@ namespace oakvr
 		using oakvr::Render::VertexBuffer;
 		oakvr::Render::Shader *pVertexShader = nullptr;
 		oakvr::Render::Shader *pPixelShader = nullptr;
-#if (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_9)
+#if (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_9)
 		oakvr::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params1.vertexFormat = VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0;
@@ -675,14 +674,14 @@ namespace oakvr
 
 		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/InterfaceVS.hlsl", &params1);
 		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/InterfacePS.hlsl", &params2);
-#elif (OAK3D_RENDERER == OAK3D_RENDERER_DIRECTX_11)
+#elif (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_11)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
 
 		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/InterfaceVS.hlsl", &params1);
 		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/InterfacePS.hlsl", &params2);
-#elif (OAK3D_RENDERER == OAK3D_RENDERER_OPENGL)
+#elif (OAKVR_RENDERER == OAKVR_RENDERER_OPENGL)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;

@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Core
 	{

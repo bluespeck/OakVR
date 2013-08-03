@@ -19,4 +19,4 @@ namespace oakvr
 		virtual void Reload() {};
 		virtual void Release() {};
 	};
-} // end namespace ro3d
+} // end namespace oakvr

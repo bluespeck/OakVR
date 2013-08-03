@@ -110,4 +110,4 @@ namespace oakvr
 		}
 
 	}	// namespace Core
-}	//namespace ro3d
+}	//namespace oakvr

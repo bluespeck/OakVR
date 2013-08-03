@@ -4,7 +4,7 @@
 #include "Shader.h"
 #include "RendererUtils.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Render
 	{
@@ -13,9 +13,9 @@ namespace ro3d
 		public:
 			Effect();
 			inline void SetShader(Shader *pShader) { m_pShaders[pShader->GetType()] = pShader; }
-			inline Shader *GetShader(ro3d::Render::ShaderType shaderType) { return m_pShaders[shaderType]; }
+			inline Shader *GetShader(oakvr::Render::ShaderType shaderType) { return m_pShaders[shaderType]; }
 		private:
-			Shader *m_pShaders[ro3d::Render::eST_Count];
+			Shader *m_pShaders[oakvr::Render::eST_Count];
 
 		};
 	}

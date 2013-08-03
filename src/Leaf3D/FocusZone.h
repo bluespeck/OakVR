@@ -1,10 +1,10 @@
 
-#ifndef __OAK3D_INCLUDE_LEAF3D_FOCUSZONE_H__
-#define __OAK3D_INCLUDE_LEAF3D_FOCUSZONE_H__
+#ifndef __OAKVR_INCLUDE_LEAF3D_FOCUSZONE_H__
+#define __OAKVR_INCLUDE_LEAF3D_FOCUSZONE_H__
 
 #include "ScreenRectangle.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Leaf3D
 	{

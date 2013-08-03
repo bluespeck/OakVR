@@ -1,6 +1,6 @@
 
-#ifndef __OAK3D_INCLUDE_LEAF3D_EVENTMANAGER_H__
-#define __OAK3D_INCLUDE_LEAF3D_EVENTMANAGER_H__
+#ifndef __OAKVR_INCLUDE_LEAF3D_EVENTMANAGER_H__
+#define __OAKVR_INCLUDE_LEAF3D_EVENTMANAGER_H__
 
 #include <map>
 #include <set>
@@ -11,11 +11,11 @@
 #include "Core/Utils/Singleton.h"
 
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Leaf3D
 	{
-		class EventManager : public ro3d::Core::Singleton<EventManager>
+		class EventManager : public oakvr::Core::Singleton<EventManager>
 		{
 		public:
 			void RegisterListener(Event::EventType evType, IListenForEvents *pListener);

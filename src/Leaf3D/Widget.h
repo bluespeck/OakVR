@@ -1,6 +1,6 @@
 
-#ifndef __OAK3D_INCLUDE_LEAF3D_WIDGET_H__
-#define __OAK3D_INCLUDE_LEAF3D_WIDGET_H__
+#ifndef __OAKVR_INCLUDE_LEAF3D_WIDGET_H__
+#define __OAKVR_INCLUDE_LEAF3D_WIDGET_H__
 
 #include <cstdint>
 #include <list>
@@ -12,7 +12,7 @@
 #include "IListenForMouseEvents.h"
 #include "IFocusable.h"
 
-namespace ro3d
+namespace oakvr
 {
 	namespace Leaf3D
 	{

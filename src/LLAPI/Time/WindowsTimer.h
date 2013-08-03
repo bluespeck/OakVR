@@ -2,8 +2,8 @@
 // --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 
-#ifndef __OAK3D_INCLUDE_WINDOWSTIMER_H__
-#define __OAK3D_INCLUDE_WINDOWSTIMER_H__
+#ifndef __OAKVR_INCLUDE_WINDOWSTIMER_H__
+#define __OAKVR_INCLUDE_WINDOWSTIMER_H__
 
 #include "Timer.h"
 
@@ -28,6 +28,6 @@ namespace oakvr
 			virtual void Reset(); 
 		};
 	}	// namespace Core
-}	// namespace ro3d
+}	// namespace oakvr
 
 #endif
