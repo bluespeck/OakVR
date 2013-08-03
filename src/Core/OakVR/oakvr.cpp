@@ -15,7 +15,6 @@ namespace oakvr
 	bool oakvrInit( std::vector<std::string> cmdLine )
 	{
 		Log::SetMaxLevel(Log::LogLevel::info);
-		Log::Print(Log::LogLevel::info, " OakVR Init\n");
 		oakvr::GetInstance();
 		return true;
 	}
@@ -39,7 +38,7 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	void oakvrExit()
 	{
-		Log::Print(Log::LogLevel::info, " OakVR closing!\n");
+		Log::PrintInfo(" OakVR shutting down!\n");
 
 	}
 

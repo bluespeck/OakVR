@@ -8,18 +8,30 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	void Log::Print(Log::LogLevel level, const char * logMsg, ...)
 	{
-		if(level != LogLevel::disabled && level > s_maxLevel)
+		if(level == LogLevel::disabled || level > s_maxLevel)
 			return;
 
 		FILE * f = nullptr;
+		if(level == LogLevel::error)
+		{
 
-		if(s_filename == "stderr")
-			f = stderr;
-		else if(s_filename == "stdout")
-			f = stdout;
+			if(s_outFilename == "stderr")
+				f = stderr;
+			else
+				f = fopen(s_errFilename.c_str(), "at");
+			if(!f)
+				f = stderr;
+		}
 		else
 		{
-			f = fopen(s_filename.c_str(), "at");
+
+			if(s_outFilename == "stdout")
+			{
+
+				f = stdout;
+			}
+			else
+				f = fopen(s_outFilename.c_str(), "at");
 			if(!f)
 				f = stdout;
 		}

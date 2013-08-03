@@ -1,8 +1,10 @@
+#include "File.h"
+#include "Log/Log.h"
 #include <cstdio>
-#include <sys/stat.h> 
 #include <cstring>
 
-#include "File.h"
+
+
 
 namespace oakvr
 {
@@ -36,7 +38,7 @@ namespace oakvr
 			struct stat st;
 			if(stat(filepath.c_str(), &st ))
 			{
-				fprintf(stderr, "stat(%s, %p) error code(errno) %d",filepath.c_str(), &st, errno);
+				Log::PrintError("stat(%s, %p) error code(errno) %d",filepath.c_str(), &st, errno);
 				return false;
 			}
 			return st.st_size != 0;
@@ -48,10 +50,10 @@ namespace oakvr
 			struct stat st; 
 			if(stat(filepath.c_str(), &st ))
 			{
-				fprintf(stderr, "[RO3D_ERROR] stat(%s, %p) error code(errno) %d.\n",filepath.c_str(), &st, errno);
+				Log::PrintError("stat(%s, %p) error code(errno) %d.\n",filepath.c_str(), &st, errno);
 				return false;
 			}
-			
+
 			return st.st_size;
 		}
 
@@ -85,13 +87,17 @@ namespace oakvr
 			}
 
 			m_pImpl->pFileHandle = fopen(m_filePath.c_str(), mode);
+			if(!m_pImpl->pFileHandle)
+				Log::PrintError("File could not be opened (%s). Errno is %d.", m_filePath.c_str(), errno);
 			m_bFileOpened = m_pImpl->pFileHandle != nullptr;
 		}
 
 		// --------------------------------------------------------------------------------
 		void File::Close()
 		{
-			fclose(m_pImpl->pFileHandle);
+			if(fclose(m_pImpl->pFileHandle))
+				Log::PrintError("File could not be closed (%s). Errno is %d.", m_filePath.c_str(), errno );
+
 			m_eFileOpenMode = FileOpenMode::unknown;
 			m_pImpl->pFileHandle = nullptr;
 			m_bFileOpened = false;
@@ -102,7 +108,7 @@ namespace oakvr
 		{
 			if(offset + bytesToRead > bufferSize) 
 			{
-				fprintf(stderr, "[RO3D_ERROR] oakvr::Core::File::Read  Attempt to write past buffer limit!\n");
+				Log::PrintError("Reading from %s; attempt to read past buffer limit!\n", m_filePath.c_str());
 				return 0;
 			}
 			
@@ -113,7 +119,7 @@ namespace oakvr
 				
 			if(bytesToRead > fileSize)
 			{
-				fprintf(stderr, "[RO3D_ERROR] oakvr::Core::File::Read  Attempt to read more than file size!\n");
+				Log::PrintError("Reading from %s; attempt to read more than the file size!\n", m_filePath.c_str());
 				return 0;
 			}
 			
@@ -121,15 +127,15 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void File::Write(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToWrite, uint32_t offset)
+		uint32_t File::Write(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToWrite, uint32_t offset)
 		{
 			if(offset + bytesToWrite > bufferSize)
 			{
-				fprintf(stderr, "[RO3D_ERROR] oakvr::Core::File::Write  Attempt to read past buffer limit!\n");
+				Log::PrintError("Writing to %s; attempt to write past buffer limit!\n", m_filePath.c_str());
 				exit(1);
 			}
 			
-			fwrite(buffer + offset, bytesToWrite, 1, m_pImpl->pFileHandle);
+			return fwrite(buffer + offset, bytesToWrite, 1, m_pImpl->pFileHandle);
 		}
 	}
 }

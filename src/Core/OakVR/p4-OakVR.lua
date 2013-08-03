@@ -1,6 +1,7 @@
 Project "OakVR"
 	kind "ConsoleApp"
 	language "C++"
+	
 
 	includedirs
 	{
@@ -18,15 +19,12 @@ Project "OakVR"
 	{
 		--"ResourceManager",
 		"Startup",
-		--"FileIO",
+		"FileIO",
 		"Math",
 		"Utils",
-		"Log",
 		"IRenderer",
-		
 		"Time",
-		--"Input",
-		
+		"Log",
 		
 	}
 	

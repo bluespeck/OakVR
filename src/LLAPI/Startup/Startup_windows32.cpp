@@ -1,6 +1,9 @@
+#include "Startup.h"
+#include "Log/Log.h"
+
 #include <Windows.h>
 
-#include "Startup.h"
+
 
 // --------------------------------------------------------------------------------
 //int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
@@ -10,11 +13,11 @@ int main(int argc, char **argv)
 	//oakvr::oakvr *oak3D = oakvr::oakvr::GetInstance();
 	if(!oakvr::oakvrInit(oakvr::ParseCommandLine(argc, argv)))//std::string(lpCmdLine))))
 	{
-		printf("Failed to initialize oakvr!!!\n");
+		oakvr::Log::PrintError("Failed to initialize OakVR!!!\n");
 	}
 	else
 	{
-		printf("OakVR successfully initialized.\n");
+		oakvr::Log::PrintInfo("OakVR successfully initialized.\n");
 		// Enter the main loop
 		MSG msg = {0};
 		while(true)

@@ -33,7 +33,7 @@ namespace oakvr
 			void Close();
 
 			uint32_t Read(unsigned char *buffer, uint32_t bufferSize, uint32_t bytesToRead, uint32_t offset = 0);
-			void Write(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToWrite, uint32_t offset = 0);
+			uint32_t Write(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToWrite, uint32_t offset = 0);
 			
 			std::string GetFilePathWithoutFileName();
 			std::string GetFilePath() { return m_filePath; } // also includes file name

@@ -21,11 +21,19 @@ namespace oakvr
 
 		static void SetMaxLevel(LogLevel level);
 		static LogLevel GetMaxLevel();
-		static void SetFilename(std::string filename);
-		static std::string GetFilename();
+		static void SetOutFilename(std::string filename);
+		static std::string GetOutFilename();
+		static void SetErrFilename(std::string filename);
+		static std::string GetErrFilename();
+
+		static void PrintError(const char * logMsg, ...);
+		static void PrintWarning(const char * logMsg, ...);
+		static void PrintInfo(const char * logMsg, ...);
+
 		static void Print(LogLevel level, const char * logMsg, ...);
 	private:
-		static std::string s_filename;
+		static std::string s_errFilename;
+		static std::string s_outFilename;
 		static LogLevel s_maxLevel;
 	};
 }

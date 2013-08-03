@@ -1,18 +1,21 @@
+#include "Startup.h"
+#include "Log/Log.h"
+
 #include <cstdio>
 #include <vector>
 #include <string>
 
-#include "Startup.h"
+
 
 int main(int argc, char **argv)
 {
 	if(!oakvr::oakvrInit(oakvr::ParseCommandLine(argc, argv)))
 	{
-		printf("Failed to initialize oakvr!!!\n");
+		oakvr::Log::PrintError("Failed to initialize OakVR!!!\n");
 	}
 	else
 	{
-		printf("oakvr successfully initialized.\n");
+		oakvr::Log::PrintInfo("OakVR successfully initialized.\n");
 
 		while(true)
 		{
