@@ -2,7 +2,7 @@
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		const Color	Color::Black(0xff000000);
 		const Color Color::Red(0xff0000ff);

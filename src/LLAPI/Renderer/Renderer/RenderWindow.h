@@ -1,33 +1,39 @@
 #pragma once
 
 #include <string>
+#include <memory>
+
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		class RenderWindow
 		{
 		public:
 			RenderWindow();
 			RenderWindow( const std::string &title, int posX, int posY, unsigned int width, unsigned int height);
+			RenderWindow(const RenderWindow &rw) = delete;
+			RenderWindow(RenderWindow &&rw) = default;
+			RenderWindow& operator=(const RenderWindow &rw) = delete;
+			~RenderWindow();
 			
-			virtual void Initialize() = 0;
-			virtual void Minimize() = 0;
-			virtual void Maximize() = 0;
-			virtual void RestoreSize() = 0;
-			virtual void Refresh() = 0;
+			void Initialize();
+			void Minimize();
+			void Maximize();
+			void RestoreSize();
+			void Refresh();
 
-			virtual void SetOSHandle( long int handle );
-			virtual long int GetOSHandle();
+			void SetOSHandle( long int handle );
+			long int GetOSHandle();
 			
-			virtual void SetPositionX( int posX );
-			virtual int GetPositionX();
+			void SetPositionX( int posX );
+			int GetPositionX();
 
-			virtual void SetPositionY( int posY );
-			virtual int GetPositionY();
+			void SetPositionY( int posY );
+			int GetPositionY();
 
-			virtual void SetWidth( unsigned int width );
-			virtual unsigned int GetWidth();
+			void SetWidth( unsigned int width );
+			unsigned int GetWidth();
 			
 			inline void SetHeight( unsigned int height );
 			inline unsigned int GetHeight();
@@ -35,7 +41,7 @@ namespace oakvr
 			virtual const std::string &GetTitle(){ return m_title; }
 			virtual void SetTitle(const std::string &title) { m_title = title; }
 						
-		protected:
+		private:
 
 			enum WindowState
 			{
@@ -50,7 +56,9 @@ namespace oakvr
 			bool m_bFullScreen;
 			WindowState m_windowState;
 			
-			long int m_osHandle;			
+			long int m_osHandle;
+			class RenderWindowImpl;
+			std::unique_ptr<RenderWindowImpl> m_pImpl;
 		};
 
 		// --------------------------------------------------------------------------------

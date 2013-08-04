@@ -2,11 +2,11 @@
 #include "Camera.h"
 
 #include "Math/Matrix.h"
-#include "Renderer/IRenderer/AABB.h"
+#include "Renderer/Renderer/AABB.h"
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		using oakvr::Math::Vector3;
 

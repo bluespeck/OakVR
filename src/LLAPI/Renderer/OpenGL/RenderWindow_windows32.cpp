@@ -4,11 +4,11 @@
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		// --------------------------------------------------------------------------------
 		WindowsRenderWindow::WindowsRenderWindow()
-		: oakvr::Render::RenderWindow()
+		: oakvr::render::RenderWindow()
 		{
 		}
 

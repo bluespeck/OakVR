@@ -18,11 +18,11 @@ Project "OakVR"
 	links
 	{
 		--"ResourceManager",
+		"Renderer",
 		"Startup",
 		"FileIO",
 		"Math",
-		"Utils",
-		"IRenderer",
+		"Utils",		
 		"Time",
 		"Log",
 		
@@ -30,8 +30,8 @@ Project "OakVR"
 	
 	configuration {"windows*"}
 		links {	"DirectX9Renderer",	"DirectX11Renderer" }
-	configuration {"windows* or linux*"}
-		links {	"OpenGLRenderer" }
+	configuration {"linux*"}
+		links {	"OpenGLRenderer", "glfw", "GL" }
 	configuration {}
 	
 	AddBinDirAsLinkDir(OakVR)

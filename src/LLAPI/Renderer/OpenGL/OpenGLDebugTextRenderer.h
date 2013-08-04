@@ -7,11 +7,11 @@
 
 #include <string>
 
-#include "Renderer/IRenderer/DebugTextRenderer.h"
+#include "Renderer/Renderer/DebugTextRenderer.h"
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		class Font;
 		class Shader;

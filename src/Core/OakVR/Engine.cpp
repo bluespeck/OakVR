@@ -1,20 +1,11 @@
 #include "Engine.h"
-#include "Renderer/IRenderer/RenderWindow.h"
-#include "Renderer/IRenderer/IRenderer.h"
+#include "Renderer/Renderer/RendererCommon.h"
 #include "Time/Timer.h"
 #include "ResourceManager/ResourceManager.h"
-//#include "Leaf3D/Widget.h"
-#include "Renderer/IRenderer/VertexBuffer.h"
-#include "Renderer/IRenderer/IndexBuffer.h"
-#include "Renderer/IRenderer/Color.h"
-#include "Renderer/IRenderer/Texture.h"
-#include "Renderer/IRenderer/Shader.h"
-//#include "Leaf3D/EventManager.h"
-//#include "Leaf3D/MouseEvent.h"
-//#include "Leaf3D/InterfaceFocusManager.h"
 #include "Input/MouseInput/MouseInput.h"
 #include "Math/Matrix.h"
 #include "Math/Vector3.h"
+#include "Log/Log.h"
 
 #if defined(_WIN32)
 #	include "Renderer/DirectX/DirectX9/DirectX9Shader.h"
@@ -22,13 +13,14 @@
 
 #	include "Renderer/DirectX/DirectX11/DirectX11DebugTextRenderer.h"
 #	include "Renderer/DirectX/DirectX11/DirectX11Shader.h"
+#else
+#	include "Renderer/OpenGL/OpenGLShader.h"
+#	include "Renderer/OpenGL/OpenGLDebugTextRenderer.h"
 #endif
 
-#include "Renderer/OpenGL/OpenGLShader.h"
-#include "Renderer/OpenGL/OpenGLDebugTextRenderer.h"
 
 #ifdef OAKVR_EDITOR
-#include "Editor/EditorEntryPoint.h"
+#	include "Editor/EditorEntryPoint.h"
 #endif
 
 #include <algorithm>
@@ -94,10 +86,12 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	Engine::Engine()
 	{
-		m_pGE = nullptr;
-		m_pRW = nullptr;
+		m_timer = oakvr::Timer();
+
+		m_pRW = std::make_shared<oakvr::render::RenderWindow>();
+		m_pRenderer = std::make_shared<oakvr::render::Renderer>();
+
 		m_pCM = nullptr;
-		m_pRM = nullptr;
 		m_bIsInitialized = false;
 	}
 
@@ -106,9 +100,9 @@ namespace oakvr
 	{
 		//delete m_pGE->GetDebugTextRenderer();
 		//oakvr::Core::ResourceManager::Release();
-		if(m_pGE)
+		if(m_pRenderer)
 		{				
-			m_pGE->Cleanup();
+			m_pRenderer->Cleanup();
 		}
 		
 //		oakvr::Leaf3D::Widget::ReleaseWidgetList();
@@ -121,28 +115,30 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	void Engine::Initialize()
 	{
-		if(m_pGE && m_pRW)
-		{
+		if(m_pRW)
 			m_pRW->Initialize();
-			//m_pGE->SetRenderWindow(m_pRW);
-			oakvr::Render::DebugTextRenderer *pDebugTextRenderer = nullptr;
+		if(m_pRenderer)
+		{
+			/*m_pGE->SetRenderWindow(m_pRW);
+			oakvr::render::DebugTextRenderer *pDebugTextRenderer = nullptr;
 #if defined(_WIN32)
-			pDebugTextRenderer = new oakvr::Render::DirectX9DebugTextRenderer();
+			pDebugTextRenderer = new oakvr::render::DirectX9DebugTextRenderer();
 
-			pDebugTextRenderer = new oakvr::Render::DirectX11DebugTextRenderer();
+			pDebugTextRenderer = new oakvr::render::DirectX11DebugTextRenderer();
+#else
+			pDebugTextRenderer = new oakvr::render::OpenGLDebugTextRenderer();
 #endif
-			pDebugTextRenderer = new oakvr::Render::OpenGLDebugTextRenderer();
-
-			m_pGE->SetDebugTextRenderer(pDebugTextRenderer);
-			m_pGE->Initialize();
+		//	m_pRenderer->SetDebugTextRenderer(pDebugTextRenderer);
+			m_pRenderer->Initialize();
 			pDebugTextRenderer->Init();
 			
-			m_pCM.reset(new oakvr::Render::CameraManager());
-			m_pCM->SetAsCurrentCamera(new oakvr::Render::Camera(Vector3(0.f, 0.f, -50.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)));
+			m_pCM.reset(new oakvr::render::CameraManager());
+			m_pCM->SetAsCurrentCamera(new oakvr::render::Camera(Vector3(0.f, 0.f, -50.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)));
 
 #ifdef OAKVR_EDITOR
 			oakvr::Editor::EntryPoint();
 #endif
+*/
 		}
 
 		m_timer.Reset();

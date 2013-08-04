@@ -13,7 +13,7 @@ using namespace oakvr::Math;
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		std::list<Mesh *> *Mesh::s_meshes;
 		bool Mesh::s_bDeleteListIfEmpty;
@@ -374,7 +374,7 @@ namespace oakvr
 		*/
 
 		// --------------------------------------------------------------------------------
-		const Render::AABB &Mesh::GetBoundingBox()
+		const render::AABB &Mesh::GetBoundingBox()
 		{
 			return m_aabb;
 		}

@@ -1,6 +1,6 @@
 
 #include "VertexBuffer.h"
-#include "IRenderer.h"
+#include "Renderer.h"
 #include "Color.h"
 #include "Math/Vector2.h"
 #include "Math/Vector3.h"
@@ -8,7 +8,7 @@
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		// --------------------------------------------------------------------------------
 		VertexBuffer::VertexBuffer()
@@ -50,7 +50,7 @@ namespace oakvr
 			}
 			if(vertexFormat & (uint32_t)VertexFormat::diffuse)
 			{
-				vertexSize += sizeof(oakvr::Render::Color);
+				vertexSize += sizeof(oakvr::render::Color);
 			}
 			if(vertexFormat & (uint32_t)VertexFormat::tex0)
 			{

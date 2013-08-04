@@ -1,9 +1,9 @@
 #include "Texture.h"
-#include "IRenderer.h"
+#include "Renderer.h"
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 
 		Texture::Texture(void)

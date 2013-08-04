@@ -2,7 +2,7 @@
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		class Scene
 		{

@@ -2,14 +2,14 @@
 #include <cstdint>
 
 
-#include "IRenderer.h"
+#include "Renderer.h"
 
 #include "IndexBuffer.h"
 
 using namespace std;
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		// --------------------------------------------------------------------------------
 		IndexBuffer::IndexBuffer() :m_indexCount(0), m_pData(nullptr), m_indexSize(4)

@@ -2,11 +2,11 @@
 
 #include <cstdint>
 
-#include "Renderer/IRenderer/Shader.h"
+#include "Renderer/Renderer/Shader.h"
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		class OpenGLShader : public Shader
 		{

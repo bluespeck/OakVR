@@ -2,11 +2,11 @@
 
 #include "Utils/Singleton.h"
 #include "ResourceManager/ResourceManager.h"
-#include "Renderer/IRenderer/IRenderer.h"
-#include "Renderer/IRenderer/RenderWindow.h"
+#include "Renderer/Renderer/Renderer.h"
+#include "Renderer/Renderer/RenderWindow.h"
 #include "Time/Timer.h"
 //#include "Leaf3D/Button.h"
-#include "Renderer/IRenderer/Mesh.h"
+#include "Renderer/Renderer/Mesh.h"
 #include "CameraManager.h"
 #include "OakVR/UtilityTypes.h"
 
@@ -21,9 +21,7 @@ namespace oakvr
 		void Initialize();
 		void Update();
 			
-		static void SetRenderer(Render::IRenderer *pGE);
-		
-		static Render::IRenderer *GetRenderer();
+		static render::Renderer *GetRenderer();
 		static Core::ResourceManager *GetResourceManager();
 		static const Timer &GetTimer() { return GetInstance().m_timer; }
 		static bool IsInitialized();
@@ -45,10 +43,9 @@ namespace oakvr
 	private:
 		Timer m_timer;
 
-		std::shared_ptr<oakvr::Render::IRenderer> m_pGE;
-		std::shared_ptr<oakvr::Render::RenderWindow> m_pRW;
-		std::shared_ptr<oakvr::Render::CameraManager> m_pCM;
-		std::shared_ptr<oakvr::Core::ResourceManager> m_pRM;
+		std::shared_ptr<oakvr::render::Renderer> m_pRenderer;
+		std::shared_ptr<oakvr::render::RenderWindow> m_pRW;
+		std::shared_ptr<oakvr::render::CameraManager> m_pCM;
 
 		bool m_bIsInitialized;
 	};

@@ -1,4 +1,18 @@
 
+//#include "oakvr/Engine.h"
+
+#include "OpenGLDebugTextRenderer.h"
+#include "Renderer/Renderer/Renderer.h"
+#include "OpenGLShader.h"
+
+//#include "Renderer/IRenderer/Font.h"
+#include "Renderer/Renderer/VertexBuffer.h"
+#include "Renderer/Renderer/Texture.h"
+
+
+#include "Math/Matrix.h"
+#include "Math/Vector3.h"
+
 #if defined _WIN32
 #	include <windows.h>
 #	include <wingdi.h>
@@ -13,23 +27,9 @@
 #include <GL/glu.h>
 //#include <gl/wglext.h>
 
-//#include "oakvr/Engine.h"
-
-#include "OpenGLDebugTextRenderer.h"
-#include "OpenGLRenderer.h"
-#include "OpenGLShader.h"
-
-//#include "Renderer/IRenderer/Font.h"
-#include "Renderer/IRenderer/VertexBuffer.h"
-#include "Renderer/IRenderer/Texture.h"
-
-
-#include "Math/Matrix.h"
-#include "Math/Vector3.h"
-
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		// --------------------------------------------------------------------------------
 		OpenGLDebugTextRenderer::OpenGLDebugTextRenderer()

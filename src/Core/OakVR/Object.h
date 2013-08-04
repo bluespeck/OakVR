@@ -6,7 +6,7 @@
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 
 		class IController;

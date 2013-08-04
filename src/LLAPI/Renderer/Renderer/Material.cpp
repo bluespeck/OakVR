@@ -3,7 +3,7 @@
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		// --------------------------------------------------------------------------------
 		Material::Material(void)

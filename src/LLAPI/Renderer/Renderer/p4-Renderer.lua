@@ -1,4 +1,4 @@
-Project "IRenderer"
+Project "Renderer"
 		kind "StaticLib"
 		language "C++"
 		

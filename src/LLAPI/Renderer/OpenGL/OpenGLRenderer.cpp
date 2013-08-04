@@ -1,56 +1,64 @@
 
-// include the OpenGL library file
-//#pragma comment (lib, "Opengl32.lib")
+#include "Renderer/Renderer/Renderer.h"
+#include "OpenGLDebugTextRenderer.h"
+
+#include "Renderer/Renderer/RendererCommon.h"
+#include "Renderer/Renderer/RendererUtils.h"
+#include "Renderer/Renderer/VertexBuffer.h"
+#include "Renderer/Renderer/IndexBuffer.h"
+#include "Renderer/Renderer/Texture.h"
+#include "Renderer/Renderer/Color.h"
+
+#include "Math/Matrix.h"
+#include "Math/Transform.h"
+#include "Renderer/Renderer/Shader.h"
+
+#include "FileIO/File.h"
+#include "Log/Log.h"
+//#include "ResourceManager/Image.h"
 
 #include <cassert>
-
 
 #if defined (_WIN32)
 #	include <windows.h>
 #	include <wingdi.h>
-//#include <GLEW/include/GL/glew.h>
-//#include <gl/wglext.h>
+#else
+#	include <GL/glew.h>
+#	include <GL/glfw.h>
 #endif
+#	include <GL/gl.h>
+#	include <GL/glu.h>
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-//#include <SOIL/include/SOIL.h>
-
-//#include "oakvr/Engine.h"
-
-#include "OpenGLRenderer.h"
-#include "OpenGLDebugTextRenderer.h"
-
-#include "Renderer/IRenderer/RenderWindow.h"
-#include "Renderer/IRenderer/RendererUtils.h"
-#include "Renderer/IRenderer/VertexBuffer.h"
-#include "Renderer/IRenderer/IndexBuffer.h"
-#include "Renderer/IRenderer/Texture.h"
-#include "Renderer/IRenderer/Color.h"
-
-#include "Math/Matrix.h"
-#include "Math/Transform.h"
-#include "Renderer/IRenderer/Shader.h"
-
-#include "FileIO/File.h"
-//#include "ResourceManager/Image.h"
 
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
+		class Renderer::RendererImpl
+		{
+		public:
+			void InitializeStateObjects();
+
+			void *m_pDevice;                    // OpenGL device interface (context)
+			void *m_pWorkerThreadDevice;		// worker thread context
+			long m_mainThreadId;
+			long m_shaderProgramId;
+		};
+
 		// --------------------------------------------------------------------------------
-		OpenGLRenderer::OpenGLRenderer()
-			: m_pDevice(nullptr)
-			, m_pCurrentVertexBuffer(nullptr)
-			, m_pCurrentIndexBuffer(nullptr)
-			, m_bPerspectiveProjection(true)
+		Renderer::Renderer()
+			: m_pImpl{new RendererImpl()}
 		{			
 		}
 
+		Renderer::~Renderer()
+		{
+
+		}
+
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::Initialize()
+		void Renderer::Initialize()
 		{
 #	if defined(_WIN32)
 			m_mainThreadId = GetCurrentThreadId();
@@ -83,12 +91,22 @@ namespace oakvr
 			wglShareLists((HGLRC)m_pDevice, (HGLRC)m_pWorkerThreadDevice);
 
 			wglMakeCurrent (hdc, (HGLRC)m_pDevice);
+#	else
+			if(!glfwInit())
+			{
+				Log::PrintError("Failed to initialize GLFW!\n");
+				exit(1);
+			}
+			glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
+			glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
+			glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
+			glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #	endif
 
 //			assert(glewInit() == GLEW_OK);
 						
-			InitializeStateObjects();
+			m_pImpl->InitializeStateObjects();
 
 //			m_shaderProgramId = glCreateProgram();
 
@@ -96,15 +114,10 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::InitializeStateObjects()
+		void Renderer::RendererImpl::InitializeStateObjects()
 		{
 			/////
 			// create projection matrices
-			m_pPerspectiveProjectionMatrix = new Math::Matrix();
-			m_pOrthographicProjectionMatrix = new Math::Matrix();
-			glMatrixMode(GL_PROJECTION);
-			*m_pPerspectiveProjectionMatrix = Math::Transform::CreatePerspectiveProjectionTransform(3.141592f * 0.25f, 1.25f, 1.0f, 1000.0f);
-			*m_pOrthographicProjectionMatrix = Math::Transform::CreateOthographicProjectionTransform(0.0f, (float)m_pRenderWindow->GetWidth(), 0.0f, (float)m_pRenderWindow->GetHeight(), 1.0f, 1000.0f);
 			
 
 			glCullFace(GL_BACK);
@@ -113,35 +126,32 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::ClearBackground(const Color &color)
+		void Renderer::ClearBackground(const Color &color)
 		{
 			glClearColor(color.r, color.g, color.b, color.a);
 			glClear(GL_COLOR_BUFFER_BIT);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::BeginDraw()
+		void Renderer::BeginDraw()
 		{
-			m_pCurrentIndexBuffer = nullptr;
-			m_pCurrentVertexBuffer = nullptr;
-			m_pCurrentVertexShader = nullptr;
-			m_pCurrentPixelShader = nullptr;
+
 		}
 		
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::EndDraw()
+		void Renderer::EndDraw()
 		{
 
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::SwapBuffers()
+		void Renderer::SwapBuffers()
 		{
 			//::SwapBuffers(wglGetCurrentDC());
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::Cleanup()
+		void Renderer::Cleanup()
 		{	
 #	if defined(_WIN32)
 			wglMakeCurrent (NULL, NULL) ; 
@@ -151,13 +161,13 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::Update(float dt)
+		void Renderer::Update(float dt)
 		{
 
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::CreateShader(Shader *pShader)
+		void Renderer::CreateShader(Shader *pShader)
 		{
 #	if defined(_WIN32)
 			if(GetCurrentThreadId() != m_mainThreadId)
@@ -216,7 +226,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::ReleaseShader(Shader *pShader)
+		void Renderer::ReleaseShader(Shader *pShader)
 		{
 			if(pShader == nullptr)
 				return;
@@ -224,7 +234,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::CreateTexture( Texture *pTexture )
+		void Renderer::CreateTexture( Texture *pTexture )
 		{
 #			if defined(_WIN32)
 			if(GetCurrentThreadId() != m_mainThreadId)
@@ -246,19 +256,19 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::ReleaseTexture( Texture *pTexture )
+		void Renderer::ReleaseTexture( Texture *pTexture )
 		{
 			GLuint tex = (GLuint)pTexture->GetData();
 			glDeleteTextures(1, &tex);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::UseTexture ( Texture *texture )
+		void Renderer::UseTexture ( Texture *texture )
 		{
 			if(texture != nullptr)
 			{
 				glEnable( GL_TEXTURE_2D );
-				glBindTexture(GL_TEXTURE_2D, (GLuint) texture->GetData());
+				glBindTexture(GL_TEXTURE_2D, reinterpret_cast<GLuint>(texture->GetData()));
 			}
 			else
 			{
@@ -268,43 +278,22 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
+		void Renderer::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
 		{
-			GLenum pt;
-			switch( m_currentPrimitiveTopology )
-			{
-			case ePT_PointList:
-				pt = GL_POINTS;
-				break;
-			case ePT_LineList:
-				pt = GL_LINES;
-				break;
-			case ePT_LineStrip:
-				pt = GL_LINE_STRIP;
-				break;
-			case ePT_TriangleList:
-				pt = GL_TRIANGLES;
-				break;
-			case ePT_TriangleStrip:
-				pt = GL_TRIANGLE_STRIP;
-				break;
-			default:
-				assert("Unknown primitive topology" && 0);
-				break;
-			}
+			//GLenum pt;
 
-			SetMatrices();
+			//SetMatrices();
 			
-			UseShaderProgram();
+			//UseShaderProgram();
 
-			glDrawArrays(pt, startVertex, numPrimitives * m_numVerticesPerPrimitive);
+			//glDrawArrays(pt, startVertex, numPrimitives * m_numVerticesPerPrimitive);
 			
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::UseShaderProgram()
+/*		void Renderer::UseShaderProgram()
 		{
-/*			if(!m_pCurrentVertexShader || !m_pCurrentVertexShader->IsReady() || !m_pCurrentPixelShader || !m_pCurrentPixelShader->IsReady())
+			if(!m_pCurrentVertexShader || !m_pCurrentVertexShader->IsReady() || !m_pCurrentPixelShader || !m_pCurrentPixelShader->IsReady())
 			{
 				glUseProgramObjectARB(0);
 				return;
@@ -327,13 +316,13 @@ namespace oakvr
 			}
 			
 			glUseProgramObjectARB(m_shaderProgramId);
-*/
-		}
 
+		}
+*/
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t /*numVertices*/ , uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
+		void Renderer::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t /*numVertices*/ , uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
-			uint8_t numIndicesPerPrimitive = 0;
+		/*	uint8_t numIndicesPerPrimitive = 0;
 			GLenum pt;
 			switch( m_currentPrimitiveTopology )
 			{
@@ -372,19 +361,11 @@ namespace oakvr
 			{
 				printf("glDrawElements error!");
 			}
-			
-		}
-
-		void OpenGLRenderer::SetMatrices()
-		{
-			glMatrixMode(GL_PROJECTION);
-			glLoadMatrixf(m_bPerspectiveProjection ? (GLfloat *)m_pPerspectiveProjectionMatrix : (GLfloat *)m_pOrthographicProjectionMatrix);
-			glMatrixMode(GL_MODELVIEW);
-			glLoadMatrixf((GLfloat *)m_pViewMatrix);
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
+		void Renderer::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 /*			GLuint vbId; 
 			glGenBuffersARB(1, &vbId);
@@ -395,7 +376,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t /*offsetToLock*/, uint32_t /*sizeToLock*/, uint32_t flags )
+		void Renderer::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t /*offsetToLock*/, uint32_t /*sizeToLock*/, uint32_t flags )
 		{	
 /*			int oldId = 0;
 			glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldId);
@@ -406,7 +387,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
+		void Renderer::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
 		{	
 /*			int oldId = 0;
 			glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldId);
@@ -417,7 +398,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
+		void Renderer::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
 /*			GLuint id = (GLuint)pVertexBuffer->GetData();
 			glDeleteBuffersARB(1, &id);
@@ -425,7 +406,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
+		void Renderer::CreateIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			/*GLuint ibId; 
 			glGenBuffersARB(1, &ibId);
@@ -437,7 +418,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::LockIndexBuffer( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
+		void Renderer::LockIndexBuffer( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags )
 		{	/*
 			int oldId = 0;
 			glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &oldId);
@@ -448,7 +429,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::UnlockIndexBuffer( IndexBuffer *pIndexBuffer )
+		void Renderer::UnlockIndexBuffer( IndexBuffer *pIndexBuffer )
 		{	
 			/*
 			int oldId = 0;
@@ -460,7 +441,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::ReleaseIndexBuffer( IndexBuffer *pIndexBuffer )
+		void Renderer::ReleaseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 			/*
 			GLuint id = (GLuint)pIndexBuffer->GetData();
@@ -468,14 +449,8 @@ namespace oakvr
 			*/
 		}
 
-		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::OutputText( const std::string &text, uint32_t x, uint32_t y)
-		{
-			m_pDebugTextRenderer->OutputText(text, x, y);
-		}
-
-		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
+/*		// --------------------------------------------------------------------------------
+		void Renderer::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
 		{
 			/*
 			D3DVERTEXELEMENT9 layout[12];
@@ -529,14 +504,14 @@ namespace oakvr
 
 			pLayoutDesc = new D3DVERTEXELEMENT9[numElems];
 			memcpy(pLayoutDesc, layout, numElems * sizeof(D3DVERTEXELEMENT9));
-			*/
-		}
 
+		}
+*/
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::UseVertexBuffer( VertexBuffer *pVertexBuffer )
+		void Renderer::UseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
-			if(!pVertexBuffer)
+/*			if(!pVertexBuffer)
 			{
 //				glBindBufferARB(GL_ARRAY_BUFFER, 0);
 				return;
@@ -572,20 +547,21 @@ namespace oakvr
 				glTexCoordPointer(2, GL_FLOAT, vertexSize, offset);
 				offset += 2 * sizeof(float);
 			}
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::UseIndexBuffer( IndexBuffer *pIndexBuffer )
+		void Renderer::UseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
 /*			if(!pIndexBuffer)
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 			else
 				glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, (GLuint)pIndexBuffer->GetData());
-*/			m_pCurrentIndexBuffer = pIndexBuffer;
-		}
+			m_pCurrentIndexBuffer = pIndexBuffer;
+*/		}
 
-		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
+/*		// --------------------------------------------------------------------------------
+		void Renderer::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
 		{
 			m_currentPrimitiveTopology = primitiveTopology;
 			switch(primitiveTopology)
@@ -609,11 +585,11 @@ namespace oakvr
 				break;
 			}
 		}
-
+*/
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::UseShader( Shader *pShader )
+		void Renderer::UseShader( Shader *pShader )
 		{
-			
+	/*
 			if(pShader->GetType() == eST_VertexShader)
 			{
 				m_pCurrentVertexShader = pShader;
@@ -622,22 +598,23 @@ namespace oakvr
 			{
 				m_pCurrentPixelShader = pShader;
 			}
+			*/
 		}
 
-		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::EnableDepthBuffer()
+/*		// --------------------------------------------------------------------------------
+		void Renderer::EnableDepthBuffer()
 		{
 			glEnable(GL_DEPTH_TEST);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::DisableDepthBuffer()
+		void Renderer::DisableDepthBuffer()
 		{
 			glDisable(GL_DEPTH_TEST);
 		}
 
 		// --------------------------------------------------------------------------------
-		oakvr::Math::Matrix OpenGLRenderer::CreateViewMatrix(oakvr::Math::Vector3 eye, oakvr::Math::Vector3 lookAt, oakvr::Math::Vector3 up)
+		oakvr::Math::Matrix Renderer::CreateViewMatrix(oakvr::Math::Vector3 eye, oakvr::Math::Vector3 lookAt, oakvr::Math::Vector3 up)
 		{
 			oakvr::Math::Vector3 look = (lookAt - eye).GetNormalized();
 			oakvr::Math::Vector3 right = look.Cross(up).GetNormalized();
@@ -666,29 +643,29 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::EnableOrtographicProjection()
+		void Renderer::EnableOrtographicProjection()
 		{
 			m_bPerspectiveProjection = false;
 		}
 		
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::EnablePerspectiveProjection()
+		void Renderer::EnablePerspectiveProjection()
 		{
 			m_bPerspectiveProjection = true;
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::EnableFillWireframe()
+		void Renderer::EnableFillWireframe()
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
 		// --------------------------------------------------------------------------------
-		void OpenGLRenderer::EnableFillSolid()
+		void Renderer::EnableFillSolid()
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
-
+*/
 	} // namespace Render
 } // namespace oakvr
 

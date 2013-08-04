@@ -89,6 +89,25 @@ function PlatformSpecificFiles(prefix, suffix)
 	configuration {}
 end
 
+function ExcludePlatformSpecificFiles(prefix, suffix)
+	-- try to get current project
+	local container = premake.api.scope.project
+	if container.platforms == nil then
+		-- project does not have any specified platforms
+		-- try with the solution
+		container = premake.api.scope.project.solution
+		if container.platforms == nil then
+			return
+		end
+	end
+	configuration {}	
+	for _, plf in ipairs(container.platforms) do
+		removefiles( prefix .. plf .. suffix) 
+	end
+
+	configuration {}
+end
+
 function AddBinDirAsLinkDir(prjName)
 	prj = premake.api.scope.project
 	for _, cfgname in ipairs(prj.configurations) do

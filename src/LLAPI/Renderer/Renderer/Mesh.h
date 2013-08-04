@@ -11,7 +11,7 @@
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		class Material;
 		class IndexBuffer;
@@ -43,7 +43,7 @@ namespace oakvr
 			// Allocates memory for all the buffers inside this mesh
 			void InitMesh();
 
-			const oakvr::Render::AABB &GetBoundingBox();
+			const oakvr::render::AABB &GetBoundingBox();
 
 		public:
 			static std::list<Mesh *> *GetMeshList();
@@ -66,7 +66,7 @@ namespace oakvr
 			uint32_t m_numFaces;
 			uint32_t m_numMaterials;
 
-			oakvr::Render::AABB m_aabb;
+			oakvr::render::AABB m_aabb;
 		};
 
 	} // namespace Render

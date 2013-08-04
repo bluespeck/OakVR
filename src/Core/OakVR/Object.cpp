@@ -2,7 +2,7 @@
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 
 		unsigned long Object::m_objCount = 0;

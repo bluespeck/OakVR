@@ -3,12 +3,12 @@
 #include <cctype>
 
 #include "Font.h"
-#include "Renderer/IRenderer/Texture.h"
+#include "Renderer/Renderer/Texture.h"
 #include "OakVR/Engine.h"
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		// --------------------------------------------------------------------------------
 		Font::Font()

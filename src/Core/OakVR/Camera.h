@@ -9,7 +9,7 @@ using oakvr::Math::Vector3;
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		class Camera: public Object
 		{

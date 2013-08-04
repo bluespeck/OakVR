@@ -8,6 +8,10 @@
 		
 		files { "**.h", "**.cpp" }
 		
+		ExcludePlatformSpecificFiles("*_", ".cpp")
+		PlatformSpecificFiles("*_", ".cpp")
+		
 		configuration {"linux64"}
 			buildoptions {"-fpermissive"}
+			links { "opengl", "glfw", "GL" }
 

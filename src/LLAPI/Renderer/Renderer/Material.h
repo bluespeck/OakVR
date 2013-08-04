@@ -6,7 +6,7 @@
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 
 		class Material
@@ -14,9 +14,9 @@ namespace oakvr
 		public:
 			std::string m_name;
 
-			oakvr::Render::Color m_vAmbient;
-			oakvr::Render::Color m_vDiffuse;
-			oakvr::Render::Color m_vSpecular;
+			oakvr::render::Color m_vAmbient;
+			oakvr::render::Color m_vDiffuse;
+			oakvr::render::Color m_vSpecular;
 
 			int m_nShininess;
 			float m_fAlpha;
