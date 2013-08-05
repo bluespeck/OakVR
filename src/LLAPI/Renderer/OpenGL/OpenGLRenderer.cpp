@@ -92,15 +92,7 @@ namespace oakvr
 
 			wglMakeCurrent (hdc, (HGLRC)m_pDevice);
 #	else
-			if(!glfwInit())
-			{
-				Log::PrintError("Failed to initialize GLFW!\n");
-				exit(1);
-			}
-			glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
-			glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-			glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
-			glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 
 #	endif
 
@@ -125,6 +117,11 @@ namespace oakvr
 			glEnable(GL_CULL_FACE);
 		}
 
+		void Renderer::SetRenderWindow( std::shared_ptr<RenderWindow> pRenderWindow )
+		{
+			m_pRenderWindow = pRenderWindow;
+		}
+
 		// --------------------------------------------------------------------------------
 		void Renderer::ClearBackground(const Color &color)
 		{
@@ -145,12 +142,6 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::SwapBuffers()
-		{
-			//::SwapBuffers(wglGetCurrentDC());
-		}
-
-		// --------------------------------------------------------------------------------
 		void Renderer::Cleanup()
 		{	
 #	if defined(_WIN32)
@@ -164,6 +155,7 @@ namespace oakvr
 		void Renderer::Update(float dt)
 		{
 
+			m_pRenderWindow->SwapBuffers();
 		}
 
 		// --------------------------------------------------------------------------------

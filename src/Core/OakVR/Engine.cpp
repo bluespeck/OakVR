@@ -32,6 +32,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 	void Engine::Update(double dt)
 	{
+		m_pRenderer->Update(dt);
 		//oakvr::Input::MouseInput::GetInstance()->Update();
 //		oakvr::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
 		//TriggerInputEvents();
@@ -119,7 +120,8 @@ namespace oakvr
 			m_pRW->Initialize();
 		if(m_pRenderer)
 		{
-			/*m_pGE->SetRenderWindow(m_pRW);
+			m_pRenderer->SetRenderWindow(m_pRW);
+			/*
 			oakvr::render::DebugTextRenderer *pDebugTextRenderer = nullptr;
 #if defined(_WIN32)
 			pDebugTextRenderer = new oakvr::render::DirectX9DebugTextRenderer();

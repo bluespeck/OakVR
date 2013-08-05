@@ -1,6 +1,8 @@
 #include "Renderer/Renderer/RenderWindow.h"
 #include "Log/Log.h"
 
+#include <GL/glfw.h>
+
 namespace oakvr
 {
 	namespace render
@@ -18,9 +20,10 @@ namespace oakvr
 			m_bFullScreen = false;
 			m_osHandle = 0;
 			m_posX = m_posY = 0;
-			m_width = 1280;
-			m_height = 960;
+			m_width = 640;
+			m_height = 480;
 			m_title = "oakvr";
+
 		}
 
 		// --------------------------------------------------------------------------------
@@ -33,13 +36,39 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		RenderWindow::~RenderWindow()
 		{
-
+			glfwCloseWindow();
 		}
 
 		// --------------------------------------------------------------------------------
-		void RenderWindow::Initialize()
+		bool RenderWindow::Initialize()
 		{
-			Log::PrintInfo("RW Initialized!\n");
+			if(!glfwInit())
+			{
+				Log::PrintError("Failed to initialize GLFW!\n");
+				return false;
+			}
+			glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
+			glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
+			glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
+			glfwOpenWindowHint(GLFW_OPENGL_PROFILE, 0);
+
+
+			if(!glfwOpenWindow(m_width, m_height, 8, 8, 8, 8, 24, 0, GLFW_WINDOW))
+			{
+				glfwTerminate();
+				Log::PrintError("Failed to open a window!\n");
+				return false;
+			}
+			else
+			{
+				Log::PrintInfo("RW Initialized!\n");
+				return true;
+			}
+		}
+
+		void RenderWindow::SwapBuffers()
+		{
+			glfwSwapBuffers();
 		}
 
 		// --------------------------------------------------------------------------------

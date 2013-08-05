@@ -11,7 +11,6 @@ namespace oakvr
 	bool oakvrInit( std::vector<std::string> cmdLine )
 	{
 		Log::SetMaxLevel(Log::LogLevel::info);
-		oakvr::GetInstance().m_sEngine.Initialize();
 		return true;
 	}
 
@@ -20,12 +19,12 @@ namespace oakvr
 	{
 		oakvr::GetInstance().Update();
 
-		static uint32_t count = 0;
-		// Run this update routine 5 times
-		if(++count == 5)
-		{
-			return false;
-		}
+//		static uint32_t count = 0;
+//		// Run this update routine 5 times
+//		if(++count == 5)
+//		{
+//			return false;
+//		}
 
 		return true;
 	}
@@ -52,7 +51,7 @@ namespace oakvr
 	{
 		m_sEngine.Update();
 		
-		std::cout << "Current time: " << m_sEngine.GetTimer().GetElapsedTime() << std::endl;
+		//std::cout << "Current time: " << m_sEngine.GetTimer().GetElapsedTime() << std::endl;
 	}
 
 	// --------------------------------------------------------------------------------

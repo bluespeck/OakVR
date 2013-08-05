@@ -15,7 +15,7 @@ namespace oakvr
 		if(level == LogLevel::error)
 		{
 
-			if(s_outFilename == "stderr")
+			if(s_errFilename == "stderr")
 				f = stderr;
 			else
 				f = fopen(s_errFilename.c_str(), "at");

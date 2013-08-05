@@ -34,7 +34,6 @@ namespace oakvr
 			void Cleanup();
 
 			void ClearBackground(const Color &color);
-			void SwapBuffers();
 			void BeginDraw();
 			void EndDraw();
 
@@ -65,7 +64,7 @@ namespace oakvr
 			void ReleaseShader( Shader *pShader );
 			void UseShader( Shader *pShader );
 
-			//void SetRenderWindow( RenderWindow *pRenderWindow );
+			void SetRenderWindow( std::shared_ptr<RenderWindow> pRenderWindow );
 			//void SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer);
 			//DebugTextRenderer * GetDebugTextRenderer() { return m_pDebugTextRenderer; }
 

@@ -1,4 +1,7 @@
+if [ "$1" == "clean" ]; then
+	rm -r ./workspace
+	rm -r ./bin
+fi
+
 ./premake4 gmake
-# triggering a relink
-rm ./workspace/gmake/Core/OakVR/obj/linux64/fastdebug/oakvr.o
-./premake4 --buildplf=linux64 --buildcfg=fastdebug build
+./premake4 --buildplf=linux64 --buildcfg=debug build
