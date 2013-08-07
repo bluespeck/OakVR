@@ -145,7 +145,7 @@ namespace oakvr
 
 		m_timer.Reset();
 		m_bIsInitialized = true;
-
+		return true;
 //		pm1 = m_pRM->GetResource<oakvr::Render::Mesh>("../resources/Models/hammer.obj");
 	}
 
