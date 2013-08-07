@@ -11,7 +11,7 @@
 		ExcludePlatformSpecificFiles("*_", ".cpp")
 		PlatformSpecificFiles("*_", ".cpp")
 		
-		configuration {"linux64"}
+		configuration {"linux*"}
 			buildoptions {"-fpermissive"}
-			links { "opengl", "glfw", "GL" }
+			links { "opengl", "glfw", "GLEW", "GL" }
 

@@ -32,7 +32,7 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	void oakvrExit()
 	{
-		Log::PrintInfo(" OakVR shutting down!\n");
+		Log::PrintInfo("OakVR shutting down!\n");
 
 	}
 
@@ -41,7 +41,11 @@ namespace oakvr
 	oakvr::oakvr()
 	:	m_sEngine (Engine::GetInstance())
 	{
-		m_sEngine.Initialize();
+		if(!m_sEngine.Initialize())
+		{
+			Log::PrintError("Failed to initialize OakVR!\n");
+			exit(1);
+		}
 	}
 
 	

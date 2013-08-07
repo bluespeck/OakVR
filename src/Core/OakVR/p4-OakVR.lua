@@ -31,7 +31,7 @@ Project "OakVR"
 	configuration {"windows*"}
 		links {	"DirectX9Renderer",	"DirectX11Renderer" }
 	configuration {"linux*"}
-		links {	"OpenGLRenderer", "glfw", "GL" }
+		links {	"OpenGLRenderer", "glfw", "GLEW", "GL" }
 	configuration {}
 	
 	AddBinDirAsLinkDir(OakVR)

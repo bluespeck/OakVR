@@ -18,7 +18,7 @@ namespace oakvr
 		Engine();
 		~Engine();
 
-		void Initialize();
+		bool Initialize();
 		void Update();
 			
 		static render::Renderer *GetRenderer();

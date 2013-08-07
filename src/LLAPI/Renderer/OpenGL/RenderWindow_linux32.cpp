@@ -1,7 +1,9 @@
 #include "Renderer/Renderer/RenderWindow.h"
 #include "Log/Log.h"
 
+#include <GL/glew.h>
 #include <GL/glfw.h>
+
 
 namespace oakvr
 {
@@ -42,21 +44,22 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		bool RenderWindow::Initialize()
 		{
-			if(!glfwInit())
+			if(glfwInit() == GL_FALSE)
 			{
 				Log::PrintError("Failed to initialize GLFW!\n");
 				return false;
 			}
-			glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
-			glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-			glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
-			glfwOpenWindowHint(GLFW_OPENGL_PROFILE, 0);
+			//glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
+			//glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
+			//glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
+			//glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+			//glfwOpenWindowHint(GLFW_OPENGL_PROFILE, 0);
 
 
-			if(!glfwOpenWindow(m_width, m_height, 8, 8, 8, 8, 24, 0, GLFW_WINDOW))
+			if(glfwOpenWindow(0, 0, 0, 0, 0, 0, 0, 0, GLFW_WINDOW) == GL_FALSE)
 			{
+				Log::PrintError("Failed to open a window !\n");
 				glfwTerminate();
-				Log::PrintError("Failed to open a window!\n");
 				return false;
 			}
 			else

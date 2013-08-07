@@ -114,10 +114,10 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	void Engine::Initialize()
+	bool Engine::Initialize()
 	{
-		if(m_pRW)
-			m_pRW->Initialize();
+		if(!m_pRW || !m_pRW->Initialize())
+			return false;
 		if(m_pRenderer)
 		{
 			m_pRenderer->SetRenderWindow(m_pRW);
