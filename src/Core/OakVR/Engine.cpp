@@ -30,9 +30,15 @@
 namespace oakvr
 {
 		// --------------------------------------------------------------------------------
-	void Engine::Update(double dt)
+	bool Engine::Update(double dt)
 	{
-		m_pRenderer->Update(dt);
+		if(m_pRW->IsOpen())
+		{
+			m_pRenderer->Update(dt);
+			return true;
+		}
+		else
+			return false;
 		//oakvr::Input::MouseInput::GetInstance()->Update();
 //		oakvr::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
 		//TriggerInputEvents();
@@ -150,10 +156,10 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	void Engine::Update()
+	bool Engine::Update()
 	{
 		m_timer.Tick();
-		Update(m_timer.GetDeltaTime());
+		return Update(m_timer.GetDeltaTime());
 	}
 
 	// --------------------------------------------------------------------------------

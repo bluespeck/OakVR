@@ -38,7 +38,7 @@ namespace oakvr
 		oakvr(const oakvr &);
 		Engine &m_sEngine;
 		
-		void Update();
+		bool Update();
 	};
 	
 }	// namespace oakvr

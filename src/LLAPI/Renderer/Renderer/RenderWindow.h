@@ -18,6 +18,7 @@ namespace oakvr
 			~RenderWindow();
 			
 			bool Initialize();
+			bool IsOpen();
 			void Minimize();
 			void Maximize();
 			void RestoreSize();

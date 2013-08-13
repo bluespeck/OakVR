@@ -9,6 +9,11 @@ namespace oakvr
 {
 	namespace render
 	{
+		int GLFWCALL OnCloseWindow(void)
+		{
+			return GL_TRUE;
+		}
+
 		class RenderWindow::RenderWindowImpl
 		{
 			uint32_t osHandler;
@@ -22,8 +27,8 @@ namespace oakvr
 			m_bFullScreen = false;
 			m_osHandle = 0;
 			m_posX = m_posY = 0;
-			m_width = 640;
-			m_height = 480;
+			m_width = 1024;
+			m_height = 768;
 			m_title = "oakvr";
 
 		}
@@ -53,10 +58,9 @@ namespace oakvr
 			//glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
 			//glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 3);
 			//glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-			//glfwOpenWindowHint(GLFW_OPENGL_PROFILE, 0);
+			glfwOpenWindowHint(GLFW_OPENGL_PROFILE, 0);
 
-
-			if(glfwOpenWindow(0, 0, 0, 0, 0, 0, 0, 0, GLFW_WINDOW) == GL_FALSE)
+			if(glfwOpenWindow(m_width, m_height, 8, 8, 8, 8, 24, 8, GLFW_WINDOW) == GL_FALSE)
 			{
 				Log::PrintError("Failed to open a window !\n");
 				glfwTerminate();
@@ -64,14 +68,21 @@ namespace oakvr
 			}
 			else
 			{
+				glfwSetWindowCloseCallback(OnCloseWindow);
 				Log::PrintInfo("RW Initialized!\n");
 				return true;
 			}
 		}
 
+		bool RenderWindow::IsOpen()
+		{
+			return glfwGetWindowParam(GLFW_OPENED) == GL_TRUE;
+		}
+
 		void RenderWindow::SwapBuffers()
 		{
-			glfwSwapBuffers();
+			if(IsOpen())
+				glfwSwapBuffers();
 		}
 
 		// --------------------------------------------------------------------------------

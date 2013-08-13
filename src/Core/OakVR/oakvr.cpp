@@ -17,7 +17,7 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	bool oakvrUpdate()
 	{
-		oakvr::GetInstance().Update();
+		return oakvr::GetInstance().Update();
 
 //		static uint32_t count = 0;
 //		// Run this update routine 5 times
@@ -51,9 +51,9 @@ namespace oakvr
 	
 
 	// --------------------------------------------------------------------------------
-	void oakvr::Update()
+	bool oakvr::Update()
 	{
-		m_sEngine.Update();
+		return m_sEngine.Update();
 		
 		//std::cout << "Current time: " << m_sEngine.GetTimer().GetElapsedTime() << std::endl;
 	}

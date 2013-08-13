@@ -19,7 +19,7 @@ namespace oakvr
 		~Engine();
 
 		bool Initialize();
-		void Update();
+		bool Update();
 			
 		static render::Renderer *GetRenderer();
 		static Core::ResourceManager *GetResourceManager();
@@ -31,7 +31,7 @@ namespace oakvr
 		static WindowSize GetWindowSize();
 
 	private:			
-		void Update(double dt);
+		bool Update(double dt);
 
 		void TriggerInputEvents();
 		void DrawInterface();
