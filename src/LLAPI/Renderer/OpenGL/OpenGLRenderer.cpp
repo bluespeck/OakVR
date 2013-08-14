@@ -49,7 +49,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		Renderer::Renderer()
 			: m_pImpl{new RendererImpl()}
-		{			
+		{
 		}
 
 		Renderer::~Renderer()
@@ -58,7 +58,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::Initialize()
+		bool Renderer::Initialize()
 		{
 #	if defined(_WIN32)
 			m_mainThreadId = GetCurrentThreadId();
@@ -92,7 +92,16 @@ namespace oakvr
 
 			wglMakeCurrent (hdc, (HGLRC)m_pDevice);
 #	else
-
+			glewExperimental = GL_TRUE;
+			if(glewInit() != GLEW_OK)
+			{
+				Log::PrintError("Failed to initialize GLEW.\n");
+				return false;
+			}
+			else
+			{
+				Log::PrintInfo("GLEW initialized!\n");
+			}
 
 #	endif
 
@@ -103,6 +112,7 @@ namespace oakvr
 //			m_shaderProgramId = glCreateProgram();
 
 			m_bInitialized = true;
+			return true;
 		}
 
 		// --------------------------------------------------------------------------------
@@ -145,9 +155,12 @@ namespace oakvr
 		void Renderer::Cleanup()
 		{	
 #	if defined(_WIN32)
-			wglMakeCurrent (NULL, NULL) ; 
+			wglMakeCurrent (NULL, NULL);
 			wglDeleteContext ((HGLRC)m_pDevice);
 			wglDeleteContext( (HGLRC)m_pWorkerThreadDevice);
+#	else
+
+
 #	endif
 		}
 
@@ -166,6 +179,8 @@ namespace oakvr
 			{
 				wglMakeCurrent(GetDC(reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle())), (HGLRC)m_pWorkerThreadDevice);
 			}
+#	else
+
 #	endif
 //			GLenum shaderType;
 			switch(pShader->GetType())

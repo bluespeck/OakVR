@@ -12,6 +12,7 @@
 		PlatformSpecificFiles("*_", ".cpp")
 		
 		configuration {"linux*"}
+			defines { "GL_GLEXT_PROTOTYPES" }
 			buildoptions {"-fpermissive"}
 			links { "opengl", "glfw", "GLEW", "GL" }
 

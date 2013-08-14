@@ -69,6 +69,7 @@ namespace oakvr
 			else
 			{
 				glfwSetWindowCloseCallback(OnCloseWindow);
+				glfwSetWindowTitle( m_title.c_str());
 				Log::PrintInfo("RW Initialized!\n");
 				return true;
 			}

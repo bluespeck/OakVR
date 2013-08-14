@@ -127,6 +127,7 @@ namespace oakvr
 		if(m_pRenderer)
 		{
 			m_pRenderer->SetRenderWindow(m_pRW);
+			m_pRenderer->Initialize();
 			/*
 			oakvr::render::DebugTextRenderer *pDebugTextRenderer = nullptr;
 #if defined(_WIN32)
