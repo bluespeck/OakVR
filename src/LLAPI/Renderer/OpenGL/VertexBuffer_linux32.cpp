@@ -32,6 +32,12 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
+		VertexBuffer::VertexBuffer()
+		: m_pImpl{new VertexBufferImpl()}
+		{
+
+		}
+		// --------------------------------------------------------------------------------
 		VertexBuffer::~VertexBuffer()
 		{
 		}
@@ -114,7 +120,6 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::Release()
 		{
-			glBindVertexArray(m_pImpl->m_vbId);
 			glDeleteVertexArrays(1, &m_pImpl->m_vbId);
 		}
 
@@ -128,12 +133,6 @@ namespace oakvr
 		void VertexBuffer::SetVertexCount(uint32_t vertexCount)
 		{
 			m_pImpl->m_vertexCount = vertexCount;
-		}
-
-		// --------------------------------------------------------------------------------
-		void *VertexBuffer::GetData()
-		{
-			return nullptr;
 		}
 
 		// --------------------------------------------------------------------------------
@@ -160,11 +159,6 @@ namespace oakvr
 			m_pImpl->m_vertexSize = vertexSize;
 		}
 
-		// --------------------------------------------------------------------------------
-		void VertexBuffer::SetData(void *pData)
-		{
-			;
-		}
 
 	}	// namespace Render
 }	// namespace oakvr

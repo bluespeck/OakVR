@@ -29,7 +29,7 @@ namespace oakvr
 			Renderer(Renderer&&) = default;
 			~Renderer();
 
-			void Initialize();
+			bool Initialize();
 			void Update( float dt );
 			void Cleanup();
 
@@ -45,12 +45,7 @@ namespace oakvr
 			void CreateTexture	( Texture *texture );
 			void ReleaseTexture	( Texture *texture );
 			void UseTexture ( Texture *texture );
-			// vertex buffer
-			void CreateVertexBuffer	( VertexBuffer *pVertexBuffer );
-			void LockVertexBuffer	( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 );
-			void UnlockVertexBuffer	( VertexBuffer *pVertexBuffer );
-			void ReleaseVertexBuffer( VertexBuffer *pVertexBuffer );
-			void UseVertexBuffer( VertexBuffer *pVertexBuffer );
+
 			// index buffer
 			void CreateIndexBuffer	( IndexBuffer *ibuff );
 			void LockIndexBuffer	( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 );

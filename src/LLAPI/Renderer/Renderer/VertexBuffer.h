@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 
 namespace oakvr
 {
@@ -31,9 +32,6 @@ namespace oakvr
 			inline uint32_t GetVertexCount();
 			inline void SetVertexCount( uint32_t vertexCount );			
 
-			inline void * GetData();
-			inline void SetData(void *pData);
-
 			inline uint32_t GetVertexSize();
 			inline void SetVertexSize( uint32_t vertexSize );
 
@@ -48,59 +46,11 @@ namespace oakvr
 			uint32_t ComputeVertexSizeFromFormat( uint32_t vertexFormat );
 
 		private:
-			uint32_t m_vertexFormat;
-			uint32_t m_vertexSize;	// [bytes]
-			uint32_t m_vertexCount;
-			void *m_pData;	// holds the address of a vertex buffer in the graphics API (DirectX or OpenGL)
+			class VertexBufferImpl;
+			std::unique_ptr<VertexBufferImpl> m_pImpl;
+
+			friend class Renderer;
 		};
-
-		// --------------------------------------------------------------------------------
-		inline uint32_t VertexBuffer::GetVertexCount()
-		{
-			return m_vertexCount;
-		}
-
-		// --------------------------------------------------------------------------------
-		inline void VertexBuffer::SetVertexCount(uint32_t vertexCount)
-		{
-			m_vertexCount = vertexCount;
-		}
-
-		// --------------------------------------------------------------------------------
-		inline void *VertexBuffer::GetData()
-		{
-			return m_pData;
-		}
-
-		// --------------------------------------------------------------------------------
-		inline uint32_t VertexBuffer::GetVertexSize()
-		{
-			return m_vertexSize;
-		}
-
-		// --------------------------------------------------------------------------------
-		inline uint32_t VertexBuffer::GetVertexFormat()
-		{
-			return m_vertexFormat;
-		}
-
-		// --------------------------------------------------------------------------------		
-		inline void VertexBuffer::SetVertexFormat(uint32_t vertexFormat)
-		{
-			m_vertexFormat = vertexFormat;
-		}
-
-		// --------------------------------------------------------------------------------
-		inline void VertexBuffer::SetVertexSize(uint32_t vertexSize)
-		{
-			m_vertexSize = vertexSize;
-		}
-
-		// --------------------------------------------------------------------------------		
-		inline void VertexBuffer::SetData(void *pData)
-		{
-			m_pData = pData;
-		}
 
 
 	}	// namespace Render

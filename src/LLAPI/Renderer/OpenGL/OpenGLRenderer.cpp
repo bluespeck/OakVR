@@ -18,6 +18,7 @@
 //#include "ResourceManager/Image.h"
 
 #include <cassert>
+#include <memory>
 
 #if defined (_WIN32)
 #	include <windows.h>
@@ -294,7 +295,7 @@ namespace oakvr
 			//UseShaderProgram();
 
 			//glDrawArrays(pt, startVertex, numPrimitives * m_numVerticesPerPrimitive);
-			
+			glDrawArrays(GL_TRIANGLES, startVertex, numPrimitives * 3 );
 		}
 
 		// --------------------------------------------------------------------------------
@@ -369,47 +370,8 @@ namespace oakvr
 				printf("glDrawElements error!");
 			}
 			*/
-		}
 
-		// --------------------------------------------------------------------------------
-		void Renderer::CreateVertexBuffer( VertexBuffer *pVertexBuffer )
-		{
-/*			GLuint vbId; 
-			glGenBuffersARB(1, &vbId);
-			glBindBufferARB(GL_ARRAY_BUFFER, vbId);
-			glBufferDataARB(GL_ARRAY_BUFFER, pVertexBuffer->GetVertexSize() * pVertexBuffer->GetVertexCount(), nullptr, GL_DYNAMIC_DRAW);
-			pVertexBuffer->SetData((void *)vbId);
-*/
-		}
-
-		// --------------------------------------------------------------------------------
-		void Renderer::LockVertexBuffer( VertexBuffer *pVertexBuffer, void **ppBuff, uint32_t /*offsetToLock*/, uint32_t /*sizeToLock*/, uint32_t flags )
-		{	
-/*			int oldId = 0;
-			glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldId);
-			glBindBufferARB(GL_ARRAY_BUFFER, (int)pVertexBuffer->GetData());
-			*ppBuff = glMapBufferARB(GL_ARRAY_BUFFER, GL_READ_WRITE);
-			glBindBufferARB(GL_ARRAY_BUFFER, oldId);
-*/
-		}
-
-		// --------------------------------------------------------------------------------
-		void Renderer::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
-		{	
-/*			int oldId = 0;
-			glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldId);
-			glBindBufferARB(GL_ARRAY_BUFFER, (int)pVertexBuffer->GetData());
-			glUnmapBufferARB(GL_ARRAY_BUFFER);
-			glBindBufferARB(GL_ARRAY_BUFFER, oldId);
-			*/
-		}
-
-		// --------------------------------------------------------------------------------
-		void Renderer::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
-		{
-/*			GLuint id = (GLuint)pVertexBuffer->GetData();
-			glDeleteBuffersARB(1, &id);
-			*/
+			glDrawArrays(GL_TRIANGLES, startVertex, numPrimitives * 3 );
 		}
 
 		// --------------------------------------------------------------------------------
@@ -514,48 +476,6 @@ namespace oakvr
 
 		}
 */
-
-		// --------------------------------------------------------------------------------
-		void Renderer::UseVertexBuffer( VertexBuffer *pVertexBuffer )
-		{
-/*			if(!pVertexBuffer)
-			{
-//				glBindBufferARB(GL_ARRAY_BUFFER, 0);
-				return;
-			}
-			
-			uint32_t vertexFormat = pVertexBuffer->GetVertexFormat();
-			uint32_t vertexSize = pVertexBuffer->GetVertexSize();
-//			glBindBufferARB(GL_ARRAY_BUFFER, (GLuint)pVertexBuffer->GetData());
-			m_pCurrentVertexBuffer = pVertexBuffer;
-			uint8_t *offset = nullptr;
-			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::xyz)
-			{
-				glEnableClientState(GL_VERTEX_ARRAY);
-				glVertexPointer(3, GL_FLOAT, vertexSize, offset);
-				offset += 3 * sizeof(float);
-			}
-			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::normal)
-			{
-				glEnableClientState(GL_NORMAL_ARRAY);
-				glNormalPointer(GL_FLOAT, vertexSize, offset);
-				offset += 3 * sizeof(float);
-			}
-			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::diffuse)
-			{
-				glEnableClientState(GL_COLOR_ARRAY);
-				glNormalPointer(GL_FLOAT, vertexSize, offset);
-				offset += 4 * sizeof(float);
-			}
-			if(vertexFormat & (uint32_t)VertexBuffer::VertexFormat::tex0)
-			{	
-//				glClientActiveTexture(GL_TEXTURE0);
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-				glTexCoordPointer(2, GL_FLOAT, vertexSize, offset);
-				offset += 2 * sizeof(float);
-			}
-			*/
-		}
 
 		// --------------------------------------------------------------------------------
 		void Renderer::UseIndexBuffer( IndexBuffer *pIndexBuffer )
