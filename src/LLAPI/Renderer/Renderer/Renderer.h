@@ -8,7 +8,7 @@
 
 namespace oakvr
 {
-	namespace Math
+	namespace math
 	{
 		class Matrix;
 	}

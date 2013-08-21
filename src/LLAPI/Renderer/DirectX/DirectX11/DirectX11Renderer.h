@@ -84,7 +84,7 @@ namespace oakvr
 			virtual void EnableFillWireframe();
 			virtual void EnableFillSolid();
 
-			virtual oakvr::Math::Matrix CreateViewMatrix(oakvr::Math::Vector3 eye, oakvr::Math::Vector3 lookAt, oakvr::Math::Vector3 up);
+			virtual oakvr::math::Matrix CreateViewMatrix(oakvr::math::Vector3 eye, oakvr::math::Vector3 lookAt, oakvr::math::Vector3 up);
 
 
 			// misc

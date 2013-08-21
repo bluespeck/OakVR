@@ -4,7 +4,7 @@
 
 namespace oakvr
 {
-	namespace Math
+	namespace math
 	{
 
 		class Transform : public Matrix

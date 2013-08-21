@@ -93,29 +93,29 @@ namespace oakvr
 				}
 				
 				// first triangle in quad.
-				pVertex->position = oakvr::Math::Vector3(drawX, drawY, 0.0f);  // Top left.
-				pVertex->texCoords = oakvr::Math::Vector2(m_pGlyphData[letter].left, 0.0f);
+				pVertex->position = oakvr::math::Vector3(drawX, drawY, 0.0f);  // Top left.
+				pVertex->texCoords = oakvr::math::Vector2(m_pGlyphData[letter].left, 0.0f);
 				pVertex++;
 
-				pVertex->position = oakvr::Math::Vector3((drawX + m_pGlyphData[letter].width * invWidth), (drawY - 16 * invHeight), 0.0f);  // Bottom right.
-				pVertex->texCoords = oakvr::Math::Vector2(m_pGlyphData[letter].right, 1.0f);
+				pVertex->position = oakvr::math::Vector3((drawX + m_pGlyphData[letter].width * invWidth), (drawY - 16 * invHeight), 0.0f);  // Bottom right.
+				pVertex->texCoords = oakvr::math::Vector2(m_pGlyphData[letter].right, 1.0f);
 				pVertex++;
 
-				pVertex->position = oakvr::Math::Vector3(drawX, (drawY - 16 * invHeight), 0.0f);  // Bottom left.
-				pVertex->texCoords = oakvr::Math::Vector2(m_pGlyphData[letter].left, 1.0f);
+				pVertex->position = oakvr::math::Vector3(drawX, (drawY - 16 * invHeight), 0.0f);  // Bottom left.
+				pVertex->texCoords = oakvr::math::Vector2(m_pGlyphData[letter].left, 1.0f);
 				pVertex++;
 
 				// second triangle in quad.
-				pVertex->position = oakvr::Math::Vector3(drawX, drawY, 0.0f);  // Top left.
-				pVertex->texCoords = oakvr::Math::Vector2(m_pGlyphData[letter].left, 0.0f);
+				pVertex->position = oakvr::math::Vector3(drawX, drawY, 0.0f);  // Top left.
+				pVertex->texCoords = oakvr::math::Vector2(m_pGlyphData[letter].left, 0.0f);
 				pVertex++;
 
-				pVertex->position = oakvr::Math::Vector3(drawX + m_pGlyphData[letter].width * invWidth, drawY, 0.0f);  // Top right.
-				pVertex->texCoords = oakvr::Math::Vector2(m_pGlyphData[letter].right, 0.0f);
+				pVertex->position = oakvr::math::Vector3(drawX + m_pGlyphData[letter].width * invWidth, drawY, 0.0f);  // Top right.
+				pVertex->texCoords = oakvr::math::Vector2(m_pGlyphData[letter].right, 0.0f);
 				pVertex++;
 
-				pVertex->position = oakvr::Math::Vector3((drawX + m_pGlyphData[letter].width * invWidth), (drawY - 16 *invHeight), 0.0f);  // Bottom right.
-				pVertex->texCoords = oakvr::Math::Vector2(m_pGlyphData[letter].right, 1.0f);
+				pVertex->position = oakvr::math::Vector3((drawX + m_pGlyphData[letter].width * invWidth), (drawY - 16 *invHeight), 0.0f);  // Bottom right.
+				pVertex->texCoords = oakvr::math::Vector2(m_pGlyphData[letter].right, 1.0f);
 				pVertex++;
 
 				// prepare left position for next glyph

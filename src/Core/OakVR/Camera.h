@@ -5,7 +5,7 @@
 #include "Math/Vector3.h"
 #include "Math/MathUtils.h"
 
-using oakvr::Math::Vector3;
+using oakvr::math::Vector3;
 
 namespace oakvr
 {

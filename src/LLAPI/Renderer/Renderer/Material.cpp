@@ -6,12 +6,12 @@ namespace oakvr
 	namespace render
 	{
 		// --------------------------------------------------------------------------------
-		Material::Material(void)
+		Material::Material()
 		{
 		}
 
 		// --------------------------------------------------------------------------------
-		Material::~Material(void)
+		Material::~Material()
 		{
 		}
 	} // namespace Render

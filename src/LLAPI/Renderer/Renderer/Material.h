@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include "Math/Vector3.h"
 #include "Color.h"
 
 namespace oakvr
@@ -22,6 +21,7 @@ namespace oakvr
 			float m_fAlpha;
 
 			bool m_bSpecular;
+			std::string m_shaderName;
 
 		public:
 			Material();

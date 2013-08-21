@@ -24,8 +24,8 @@ namespace oakvr
 
 			struct TextVertex
 			{
-				oakvr::Math::Vector3 position;
-				oakvr::Math::Vector2 texCoords;
+				oakvr::math::Vector3 position;
+				oakvr::math::Vector2 texCoords;
 			};
 
 			Font();

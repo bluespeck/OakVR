@@ -8,7 +8,7 @@ namespace oakvr
 {
 	namespace render
 	{
-		using oakvr::Math::Vector3;
+		using oakvr::math::Vector3;
 
 		// --------------------------------------------------------------------------------
 		Camera::Camera()
@@ -31,7 +31,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Camera::Rotate( float alpha, float beta, float gamma )
 		{
-			oakvr::Math::Matrix matRotate;
+			oakvr::math::Matrix matRotate;
 			matRotate.SetYawPitchRoll(beta, alpha, gamma);
 			m_look = m_position + (m_look - m_position) * matRotate;
 			m_up = (m_up * matRotate).GetNormalized();
@@ -40,9 +40,9 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Camera::Translate(float x, float y, float z)
 		{
-			oakvr::Math::Vector3 direction = (m_look - m_position).GetNormalized();
-			oakvr::Math::Vector3 right = direction.Cross(m_up).GetNormalized();
-			oakvr::Math::Vector3 displacement = -x * right + -y * m_up + z * direction;
+			oakvr::math::Vector3 direction = (m_look - m_position).GetNormalized();
+			oakvr::math::Vector3 right = direction.Cross(m_up).GetNormalized();
+			oakvr::math::Vector3 displacement = -x * right + -y * m_up + z * direction;
 			m_position += displacement; 
 			m_look += displacement;
 		}

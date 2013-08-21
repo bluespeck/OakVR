@@ -2,7 +2,7 @@ Project "Renderer"
 		kind "StaticLib"
 		language "C++"
 		
-		includedirs { "../.." }
+		includedirs { ".", "../.." }
 
 		files { "**.h", "**.cpp" }
 

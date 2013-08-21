@@ -13,8 +13,8 @@ namespace oakvr
 			AABB(void);
 			~AABB(void);
 
-			oakvr::Math::Vector3 m_vecLeftBottomFront;
-			oakvr::Math::Vector3 m_vecRightTopBack;
+			oakvr::math::Vector3 m_vecLeftBottomFront;
+			oakvr::math::Vector3 m_vecRightTopBack;
 		};
 
 	} // namespace Render

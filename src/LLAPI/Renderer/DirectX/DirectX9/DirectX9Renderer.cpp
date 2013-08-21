@@ -75,8 +75,8 @@ namespace oakvr
 
 			/////
 			// create projection matrices
-			m_pPerspectiveProjectionMatrix = new Math::Matrix();
-			m_pOrthographicProjectionMatrix = new Math::Matrix();
+			m_pPerspectiveProjectionMatrix = new math::Matrix();
+			m_pOrthographicProjectionMatrix = new math::Matrix();
 //			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, 3.141592f * 0.25f, 1.25f, 0.01f, 1000.f);
 //			D3DXMatrixOrthoLH((D3DXMATRIX *)(void *)m_pOrthographicProjectionMatrix, (float)viewport.Width, (float)viewport.Height, 0.01f, 1000.f);
 
@@ -504,9 +504,9 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		oakvr::Math::Matrix DirectX9Renderer::CreateViewMatrix(oakvr::Math::Vector3 eye, oakvr::Math::Vector3 lookAt, oakvr::Math::Vector3 up)
+		oakvr::math::Matrix DirectX9Renderer::CreateViewMatrix(oakvr::math::Vector3 eye, oakvr::math::Vector3 lookAt, oakvr::math::Vector3 up)
 		{
-			oakvr::Math::Matrix mat;
+			oakvr::math::Matrix mat;
 //			D3DXMatrixLookAtLH((D3DXMATRIX *)&mat, (D3DXVECTOR3 *)&eye, (D3DXVECTOR3 *)&lookAt, (D3DXVECTOR3 *)&up);
 			return mat;
 		}

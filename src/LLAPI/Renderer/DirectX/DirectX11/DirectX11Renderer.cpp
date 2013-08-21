@@ -119,9 +119,9 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		oakvr::Math::Matrix DirectX11Renderer::CreateViewMatrix(oakvr::Math::Vector3 eye, oakvr::Math::Vector3 lookAt, oakvr::Math::Vector3 up)
+		oakvr::math::Matrix DirectX11Renderer::CreateViewMatrix(oakvr::math::Vector3 eye, oakvr::math::Vector3 lookAt, oakvr::math::Vector3 up)
 		{
-			oakvr::Math::Matrix mat;
+			oakvr::math::Matrix mat;
 //			D3DXMatrixLookAtLH((D3DXMATRIX *)&mat, (D3DXVECTOR3 *)&eye, (D3DXVECTOR3 *)&lookAt, (D3DXVECTOR3 *)&up);
 			return mat;
 		}
@@ -146,9 +146,9 @@ namespace oakvr
 
 			/////
 			// create projection matrices
-			oakvr::Math::Vector3 eye(10.0f, 10.0f, -1.f);
-			oakvr::Math::Vector3 lookAt(0.0f, 0.0f, 0.0f);
-			oakvr::Math::Vector3 up(0.0f, 1.0f, 0.0f);
+			oakvr::math::Vector3 eye(10.0f, 10.0f, -1.f);
+			oakvr::math::Vector3 lookAt(0.0f, 0.0f, 0.0f);
+			oakvr::math::Vector3 up(0.0f, 1.0f, 0.0f);
 
 //			D3DXMatrixLookAtLH((D3DXMATRIX *)(void *)m_pViewMatrix, (D3DXVECTOR3 *)(void *)&eye, (D3DXVECTOR3 *)(void *)&lookAt, (D3DXVECTOR3 *)(void *)&up);
 //			D3DXMatrixPerspectiveFovLH((D3DXMATRIX *)(void *)m_pPerspectiveProjectionMatrix, (3.141592f / 4.f), (viewport.Width / viewport.Height), 1.f, 1000.0f);
@@ -158,7 +158,7 @@ namespace oakvr
 			// create shader matrix buffer
 			D3D11_BUFFER_DESC mbdesc;
 			memset(&mbdesc, 0, sizeof(D3D11_BUFFER_DESC));
-			mbdesc.ByteWidth = 3 * sizeof(oakvr::Math::Matrix);
+			mbdesc.ByteWidth = 3 * sizeof(oakvr::math::Matrix);
 			mbdesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 			mbdesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 			mbdesc.Usage = D3D11_USAGE_DYNAMIC;
