@@ -39,13 +39,13 @@ namespace oakvr
 		switch(level)
 		{
 		case LogLevel::info:
-			fprintf(f, "[oakvr] Info: ");
+			fprintf(f, (std::string(s_logLabel) + " Info: ").c_str());
 			break;
 		case LogLevel::warning:
-			fprintf(f, "[oakvr] Warning: ");
+			fprintf(f, (std::string(s_logLabel) + " Warning: ").c_str());
 			break;
 		case LogLevel::error:
-			fprintf(f, "[oakvr] Error: ");
+			fprintf(f, (std::string(s_logLabel) + " Error: ").c_str());
 			break;
 		dafault:
 			break;

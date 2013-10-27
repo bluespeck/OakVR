@@ -1,38 +1,72 @@
 #pragma once
 
 #include <string>
-#include <cstdint>
-#include <map>
-#include <set>
 
 namespace oakvr
 {
 	class StringId
 	{
 	public:
-		typedef std::pair<std::uint32_t, std::string> StrIdPair;
-
-		StringId(uint32_t id);
-		StringId(const std::string &strId);
-		StringId(const char *strId);
+		inline StringId(const std::string & str);
 		
-		void SetId(uint32_t id);
-		void SetId(const std::string &strId);
-		void SetId(const char *strId);
+		inline StringId(const StringId & other);
+		inline StringId(StringId && other);
 
-		const StrIdPair &GetId() const { return m_id; }
+		inline operator std::string ();
+		inline StringId & operator = (const StringId & other);
+		inline StringId & operator = (StringId && other);
 
-		bool operator ==(const StringId &id) const ;
-		bool operator <(const StringId &id) const;
+		inline bool operator == (const StringId & other) const;
+		inline bool operator < (const StringId & other) const;
+
 
 		
 
 	private:
-		StrIdPair m_id;
-				
-#if defined (_DEBUG)				
-		void TrackStrIdPair();
-		static std::map<uint32_t, std::set<std::string>> s_idsToStrings; // for duplicates checking
-#endif
+		std::string m_id;
 	};
+
+	// --------------------------------------------------------------------------------
+	inline StringId::StringId(const std::string & str)
+	{
+		m_id = str;
+	}
+
+	// --------------------------------------------------------------------------------
+	inline StringId::StringId(StringId && other)
+	{
+		m_id = std::move(other.m_id);
+	}
+
+	// --------------------------------------------------------------------------------
+	inline StringId & StringId::operator = (const StringId & other)
+	{
+		m_id = other.m_id;
+		return *this;
+	}
+
+	// --------------------------------------------------------------------------------
+	inline StringId & StringId::operator = (StringId && other)
+	{
+		m_id = std::move(other.m_id);
+		return *this;
+	}
+
+	// --------------------------------------------------------------------------------
+	inline StringId::operator std::string ()
+	{
+		return m_id;
+	}
+
+	// --------------------------------------------------------------------------------
+	inline bool StringId::operator == (const StringId & other) const
+	{
+		return m_id == other.m_id;
+	}
+
+	// --------------------------------------------------------------------------------
+	inline bool StringId::operator < (const StringId & other) const
+	{
+		return m_id.compare(other.m_id) < 0;
+	}
 }	// namespace oakvr

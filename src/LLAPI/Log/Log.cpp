@@ -6,6 +6,7 @@ namespace oakvr
 {
 	std::string Log::s_outFilename = "stdout";
 	std::string Log::s_errFilename = "stderr";
+	const char * Log::s_logLabel = "[oakvr]";
 	Log::LogLevel Log::s_maxLevel;
 
 	void Log::SetMaxLevel(Log::LogLevel level)

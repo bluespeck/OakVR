@@ -3,5 +3,5 @@ if [ "$1" == "clean" ]; then
 	rm -r ./bin
 fi
 
-./premake4 gmake
-./premake4 --buildplf=linux64 --buildcfg=debug build
+./premake5 gmake
+./premake5 --buildplf=linux64 --buildcfg=debug build

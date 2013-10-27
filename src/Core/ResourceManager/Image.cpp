@@ -21,7 +21,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Image::Load()
 		{
-			Core::File file(m_id.GetId().second);
+			Core::File file(m_id);
 			Core::Buffer buff(file.Size());
 			file.Read(buff.GetDataPtr(), buff.GetSize(), file.Size());
 			m_pRawImageData = new RawImageData(BMPLoader::GetRawImage(buff));

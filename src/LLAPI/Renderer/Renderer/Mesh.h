@@ -30,7 +30,8 @@ namespace oakvr
 		private:
 			static std::vector<std::shared_ptr<Mesh>> s_meshes;
 			std::vector<std::shared_ptr<MeshElement>> m_vMeshElements;
-			//oakvr::render::AABB m_aabb;
+			std::shared_ptr<Material> m_meshMaterial;	// defaultin case a submesh doesn't have a material, it will use this one
+
 		};
 
 	} // namespace Render

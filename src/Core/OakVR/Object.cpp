@@ -9,7 +9,7 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		Object::Object( void )
-		: m_objID( ++m_objCount )
+		: m_objID( std::to_string(++m_objCount) )
 		, m_pParent( nullptr )
 		, m_pChild( nullptr )
 		, m_pBrother( nullptr )

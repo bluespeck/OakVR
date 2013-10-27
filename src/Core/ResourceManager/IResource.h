@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Utils/StringId.h"
+
 #include <mutex>
 
-#include "Utils/StringId.h"
+
 
 
 namespace oakvr
