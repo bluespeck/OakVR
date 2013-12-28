@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Renderer/IRenderer/Shader.h"
+#include "Renderer/Renderer/Shader.h"
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		class DirectX11Shader : public Shader
 		{
@@ -31,5 +31,5 @@ namespace oakvr
 			m_pInputLayout = pInputLayout;
 		}
 
-	}	// namespace Render
+	}	// namespace render
 }	// namespace oakvr

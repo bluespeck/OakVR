@@ -34,6 +34,6 @@ namespace oakvr
 
 		};
 
-	} // namespace Render
+	} // namespace render
 } // namespace oakvr
 

@@ -1,6 +1,5 @@
-
+#include "Common.h"
 #include "Renderer/Renderer/Renderer.h"
-#include "OpenGLDebugTextRenderer.h"
 
 #include "Renderer/Renderer/RendererCommon.h"
 #include "Renderer/Renderer/RendererUtils.h"
@@ -18,19 +17,6 @@
 //#include "ResourceManager/Image.h"
 
 #include <cassert>
-#include <memory>
-
-#if defined (_WIN32)
-#	include <windows.h>
-#	include <wingdi.h>
-#else
-#	include <GL/glew.h>
-#	include <GL/glfw.h>
-#endif
-#	include <GL/gl.h>
-#	include <GL/glu.h>
-
-
 
 namespace oakvr
 {
@@ -39,8 +25,6 @@ namespace oakvr
 		class Renderer::RendererImpl
 		{
 		public:
-			void InitializeStateObjects();
-
 			void *m_pDevice;                    // OpenGL device interface (context)
 			void *m_pWorkerThreadDevice;		// worker thread context
 			long m_mainThreadId;
@@ -61,38 +45,6 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		bool Renderer::Initialize()
 		{
-#	if defined(_WIN32)
-			m_mainThreadId = GetCurrentThreadId();
-			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
-			HDC hdc = GetDC(hWnd);
-
-			SetWindowTextW(hWnd, L"oakvr [OpenGL]");
-			/////
-			// create OpenGL device
-
-			PIXELFORMATDESCRIPTOR pfd = { 0 };
-			pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-			pfd.nVersion = 1;
-			pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-			pfd.iPixelType = PFD_TYPE_RGBA;
-			pfd.cColorBits = 32;
-			pfd.cDepthBits = 32;
-			pfd.iLayerType = PFD_MAIN_PLANE;
-
-			int  iPixelFormat; 
-
-			// get the device context's best, available pixel format match  
-			iPixelFormat = ChoosePixelFormat(hdc, &pfd); 
-
-			// make that match the device context's current pixel format  
-			SetPixelFormat(hdc, iPixelFormat, &pfd);
-
-			m_pDevice = (HGLRC) wglCreateContext(hdc); 
-			m_pWorkerThreadDevice = (HGLRC) wglCreateContext(hdc); 
-			wglShareLists((HGLRC)m_pDevice, (HGLRC)m_pWorkerThreadDevice);
-
-			wglMakeCurrent (hdc, (HGLRC)m_pDevice);
-#	else
 			glewExperimental = GL_TRUE;
 			if(glewInit() != GLEW_OK)
 			{
@@ -104,28 +56,18 @@ namespace oakvr
 				Log::PrintInfo("GLEW initialized!\n");
 			}
 
-#	endif
 
 //			assert(glewInit() == GLEW_OK);
-						
-			m_pImpl->InitializeStateObjects();
+				
+			glCullFace(GL_BACK);
+			glFrontFace(GL_CW);
+			glEnable(GL_CULL_FACE);
+
 
 //			m_shaderProgramId = glCreateProgram();
 
 			m_bInitialized = true;
 			return true;
-		}
-
-		// --------------------------------------------------------------------------------
-		void Renderer::RendererImpl::InitializeStateObjects()
-		{
-			/////
-			// create projection matrices
-			
-
-			glCullFace(GL_BACK);
-			glFrontFace(GL_CW);
-			glEnable(GL_CULL_FACE);
 		}
 
 		void Renderer::SetRenderWindow( std::shared_ptr<RenderWindow> pRenderWindow )
@@ -155,14 +97,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::Cleanup()
 		{	
-#	if defined(_WIN32)
-			wglMakeCurrent (NULL, NULL);
-			wglDeleteContext ((HGLRC)m_pDevice);
-			wglDeleteContext( (HGLRC)m_pWorkerThreadDevice);
-#	else
 
-
-#	endif
 		}
 
 		// --------------------------------------------------------------------------------
@@ -175,14 +110,6 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::CreateShader(Shader *pShader)
 		{
-#	if defined(_WIN32)
-			if(GetCurrentThreadId() != m_mainThreadId)
-			{
-				wglMakeCurrent(GetDC(reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle())), (HGLRC)m_pWorkerThreadDevice);
-			}
-#	else
-
-#	endif
 //			GLenum shaderType;
 			switch(pShader->GetType())
 			{
@@ -244,10 +171,6 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::CreateTexture( Texture *pTexture )
 		{
-#			if defined(_WIN32)
-			if(GetCurrentThreadId() != m_mainThreadId)
-				wglMakeCurrent(GetDC(reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle())), (HGLRC)m_pWorkerThreadDevice);
-#			endif
 			GLuint texId;
 
 			glGenTextures(1, &texId);
@@ -593,6 +516,6 @@ namespace oakvr
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 */
-	} // namespace Render
+	} // namespace render
 } // namespace oakvr
 

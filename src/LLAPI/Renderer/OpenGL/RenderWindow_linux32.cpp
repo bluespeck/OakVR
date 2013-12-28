@@ -1,9 +1,8 @@
+
+#include "Common.h"
+
 #include "Renderer/Renderer/RenderWindow.h"
 #include "Log/Log.h"
-
-#include <GL/glew.h>
-#include <GL/glfw.h>
-
 
 namespace oakvr
 {
@@ -103,5 +102,5 @@ namespace oakvr
 
 		}
 
-	} // namespace Render
+	} // namespace render
 } // namespace oakvr

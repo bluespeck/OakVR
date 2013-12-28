@@ -37,5 +37,5 @@ namespace oakvr
 		//	oakvr::Engine::GetInstance()->GetRenderer()->ReleaseTexture(this);
 		//	m_state = eRS_Released;
 		//}
-	} // namespace Render
+	} // namespace render
 }	// namespace oakvr

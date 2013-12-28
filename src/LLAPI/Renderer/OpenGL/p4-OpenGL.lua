@@ -15,4 +15,8 @@
 			defines { "GL_GLEXT_PROTOTYPES" }
 			buildoptions {"-fpermissive"}
 			links { "opengl", "glfw", "GLEW", "GL" }
+			
+		configuration { "windows*" }
+			defines { "GL_GLEXT_PROTOTYPES" }
+			linkoptions { "OpenGL32.lib" }
 

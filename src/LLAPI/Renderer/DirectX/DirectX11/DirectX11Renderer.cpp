@@ -21,12 +21,12 @@
 #include "DirectX11DebugTextRenderer.h"
 #include "DirectX11Shader.h"
 
-#include "Renderer/IRenderer/RenderWindow.h"
-#include "Renderer/IRenderer/RendererUtils.h"
-#include "Renderer/IRenderer/VertexBuffer.h"
-#include "Renderer/IRenderer/IndexBuffer.h"
-#include "Renderer/IRenderer/Texture.h"
-#include "Renderer/IRenderer/Color.h"
+#include "Renderer/Renderer/RenderWindow.h"
+#include "Renderer/Renderer/RendererUtils.h"
+#include "Renderer/Renderer/VertexBuffer.h"
+#include "Renderer/Renderer/IndexBuffer.h"
+#include "Renderer/Renderer/Texture.h"
+#include "Renderer/Renderer/Color.h"
 #include "Math/Matrix.h"
 
 
@@ -34,7 +34,7 @@
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		// --------------------------------------------------------------------------------
 		DirectX11Renderer::DirectX11Renderer()
@@ -479,14 +479,14 @@ namespace oakvr
 		void DirectX11Renderer::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
 		{
 			SetMatrices();
-			m_pDeviceContext->Draw(numPrimitives * m_numVerticesPerPrimitive, startVertex);
+			//m_pDeviceContext->Draw(numPrimitives * m_numVerticesPerPrimitive, startVertex);
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX11Renderer::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t /*numVertices*/, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
 			SetMatrices();
-			m_pDeviceContext->DrawIndexed(numPrimitives * m_numVerticesPerPrimitive, startIndex, startVertex);
+			//m_pDeviceContext->DrawIndexed(numPrimitives * m_numVerticesPerPrimitive, startIndex, startVertex);
 		}
 
 
@@ -503,7 +503,7 @@ namespace oakvr
 			desc.Usage = D3D11_USAGE_DYNAMIC;
 
 			HR(m_pDevice->CreateBuffer(&desc, nullptr, &pVB));
-			pVertexBuffer->SetData(pVB);
+			//pVertexBuffer->SetData(pVB);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -511,20 +511,20 @@ namespace oakvr
 		{	
 			// no offset??
 			D3D11_MAPPED_SUBRESOURCE ms;
-			m_pDeviceContext->Map((ID3D11Resource *)pVertexBuffer->GetData(), 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
-			*ppBuff = ms.pData;
+			//m_pDeviceContext->Map((ID3D11Resource *)pVertexBuffer->GetData(), 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
+			//*ppBuff = ms.pData;
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX11Renderer::UnlockVertexBuffer( VertexBuffer *pVertexBuffer )
 		{	
-			m_pDeviceContext->Unmap((ID3D11Resource *)pVertexBuffer->GetData(), NULL);
+			//m_pDeviceContext->Unmap((ID3D11Resource *)pVertexBuffer->GetData(), NULL);
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX11Renderer::ReleaseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
-			((ID3D11Resource *)pVertexBuffer->GetData())->Release();
+			//((ID3D11Resource *)pVertexBuffer->GetData())->Release();
 		}
 
 		// --------------------------------------------------------------------------------
@@ -567,7 +567,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void DirectX11Renderer::OutputText( const std::string &text, uint32_t x, uint32_t y)
 		{
-			m_pDebugTextRenderer->OutputText(text, x, y);
+			//m_pDebugTextRenderer->OutputText(text, x, y);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -628,27 +628,27 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void DirectX11Renderer::UseVertexBuffer( VertexBuffer *pVertexBuffer )
 		{
-			ID3D11Buffer *pBuffer = (ID3D11Buffer *)pVertexBuffer->GetData();
+			/*ID3D11Buffer *pBuffer = (ID3D11Buffer *)pVertexBuffer->GetData();
 			uint32_t stride = pVertexBuffer->GetVertexSize();
 			uint32_t offset = 0;
 			m_pDeviceContext->IASetVertexBuffers(0, 1, &pBuffer, &stride, &offset);
-			m_pCurrentVertexBuffer = pVertexBuffer;
+			m_pCurrentVertexBuffer = pVertexBuffer;*/
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX11Renderer::UseIndexBuffer( IndexBuffer *pIndexBuffer )
 		{
-			m_pCurrentIndexBuffer = pIndexBuffer;
+			/*m_pCurrentIndexBuffer = pIndexBuffer;
 			if(pIndexBuffer == nullptr || pIndexBuffer->GetData() == nullptr)
 				return;
 			ID3D11Buffer *pBuffer = (ID3D11Buffer *)pIndexBuffer->GetData();
-			m_pDeviceContext->IASetIndexBuffer(pBuffer, DXGI_FORMAT_R32_UINT, 0);
+			m_pDeviceContext->IASetIndexBuffer(pBuffer, DXGI_FORMAT_R32_UINT, 0);*/
 		}
 
 		// --------------------------------------------------------------------------------
 		void DirectX11Renderer::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
 		{
-			D3D11_PRIMITIVE_TOPOLOGY pt = D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED;
+			/*D3D11_PRIMITIVE_TOPOLOGY pt = D3D11_PRIMITIVE_TOPOLOGY_UNDEFINED;
 			switch( primitiveTopology )
 			{
 			case ePT_PointList:
@@ -675,7 +675,7 @@ namespace oakvr
 				break;
 			}
 			m_pDeviceContext->IASetPrimitiveTopology(pt);
-			m_currentPrimitiveTopology = primitiveTopology;
+			m_currentPrimitiveTopology = primitiveTopology;*/
 		}
 
 		// --------------------------------------------------------------------------------
@@ -683,7 +683,7 @@ namespace oakvr
 		{
 //			if(!pShader || !pShader->IsReady())
 //				return;
-			if(pShader->GetType() == eST_VertexShader)
+			/*if(pShader->GetType() == eST_VertexShader)
 			{
 				ID3D11VertexShader *pVertexShader = (ID3D11VertexShader *) pShader->GetCompiledShader();
 				m_pDeviceContext->IASetInputLayout( (ID3D11InputLayout *)((DirectX11Shader*)pShader)->GetInputLayout() );
@@ -694,6 +694,7 @@ namespace oakvr
 				ID3D11PixelShader *pPixelShader = (ID3D11PixelShader *) pShader->GetCompiledShader();
 				m_pDeviceContext->PSSetShader(pPixelShader, nullptr, 0);
 			}
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
@@ -761,5 +762,5 @@ namespace oakvr
 */
 		}
 
-	}	// namespace Render
+	}	// namespace render
 }	// namespace oakvr

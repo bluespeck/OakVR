@@ -24,15 +24,15 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		VertexBuffer::VertexBufferImpl::VertexBufferImpl()
-			: m_vertexCount{ 0 }
-		, m_vertexFormat{ 0 }
-		, m_vertexSize{ 0 }
+		: m_vertexCount		{0}
+		, m_vertexFormat	{0}
+		, m_vertexSize		{0}
 		{
 		}
 
 		// --------------------------------------------------------------------------------
 		VertexBuffer::VertexBuffer()
-			: m_pImpl{ new VertexBufferImpl() }
+		: m_pImpl{new VertexBufferImpl()}
 		{
 
 		}
@@ -47,54 +47,54 @@ namespace oakvr
 			m_pImpl->m_vertexCount = vertexCount;
 			m_pImpl->m_vertexFormat = vertexFormat;
 			m_pImpl->m_vertexSize = ComputeVertexSizeFromFormat(m_pImpl->m_vertexFormat);
-			glGenVertexArrays(1, &m_pImpl->m_vbId);
+			glGenVertexArraysARB(1, &m_pImpl->m_vbId);
 		}
 
 		// --------------------------------------------------------------------------------
 		uint32_t VertexBuffer::ComputeVertexSizeFromFormat(uint32_t vertexFormat)
 		{
 			uint32_t vertexSize = 0;
-			if (vertexFormat & (uint32_t)VertexFormat::xyz)
+			if(vertexFormat & (uint32_t)VertexFormat::xyz)
 			{
 				vertexSize += 3 * sizeof(float);
 			}
-			if (vertexFormat & (uint32_t)VertexFormat::normal)
+			if(vertexFormat & (uint32_t)VertexFormat::normal)
 			{
 				vertexSize += 3 * sizeof(float);
 			}
-			if (vertexFormat & (uint32_t)VertexFormat::diffuse)
+			if(vertexFormat & (uint32_t)VertexFormat::diffuse)
 			{
 				vertexSize += 4 * sizeof(float);
 			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex0)
+			if(vertexFormat & (uint32_t)VertexFormat::tex0)
 			{
 				vertexSize += 2 * sizeof(float);
 			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex1)
+			if(vertexFormat & (uint32_t)VertexFormat::tex1)
 			{
 				vertexSize += 2 * sizeof(float);
 			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex2)
+			if(vertexFormat & (uint32_t)VertexFormat::tex2)
 			{
 				vertexSize += 2 * sizeof(float);
 			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex3)
+			if(vertexFormat & (uint32_t)VertexFormat::tex3)
 			{
 				vertexSize += 2 * sizeof(float);
 			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex4)
+			if(vertexFormat & (uint32_t)VertexFormat::tex4)
 			{
 				vertexSize += 2 * sizeof(float);
 			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex5)
+			if(vertexFormat & (uint32_t)VertexFormat::tex5)
 			{
 				vertexSize += 2 * sizeof(float);
 			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex6)
+			if(vertexFormat & (uint32_t)VertexFormat::tex6)
 			{
 				vertexSize += 2 * sizeof(float);
 			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex7)
+			if(vertexFormat & (uint32_t)VertexFormat::tex7)
 			{
 				vertexSize += 2 * sizeof(float);
 			}
@@ -106,14 +106,14 @@ namespace oakvr
 		void VertexBuffer::Lock(void **ppBuff, uint32_t /*offsetToLock*/, uint32_t /*sizeToLock*/, uint32_t flags)
 		{
 			glBindVertexArray(m_pImpl->m_vbId);
-			*ppBuff = glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE);
+			*ppBuff = glMapBufferARB(GL_ARRAY_BUFFER, GL_READ_WRITE);
 		}
 
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::Unlock()
 		{
 			glBindVertexArray(m_pImpl->m_vbId);
-			glUnmapBuffer(GL_ARRAY_BUFFER);
+			glUnmapBufferARB(GL_ARRAY_BUFFER);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -161,4 +161,3 @@ namespace oakvr
 
 	}	// namespace render
 }	// namespace oakvr
-

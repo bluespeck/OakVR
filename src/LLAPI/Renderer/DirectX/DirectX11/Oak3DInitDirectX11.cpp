@@ -4,8 +4,8 @@
 namespace oakvr
 {
 	// --------------------------------------------------------------------------------
-	Render::IRenderer *CreateRenderer()
+	render::Renderer *CreateRenderer()
 	{
-		return new Render::DirectX11Renderer();
+		return new render::DirectX11Renderer();
 	}
 } // namespace oakvr

@@ -11,8 +11,6 @@ Project "OakVR"
 	
 	files { "**.h", "**.cpp" }
 
-	configuration {"linux*"}
-		excludes {"WindowsRenderWindow.*", "InitWindows.cpp"}	
 	configuration {}
 
 	links
@@ -22,14 +20,14 @@ Project "OakVR"
 		"Startup",
 		"FileIO",
 		"Math",
-		"Utils",		
 		"Time",
 		"Log",
 		
 	}
 	
 	configuration {"windows*"}
-		links {	"DirectX9Renderer",	"DirectX11Renderer" }
+		--links {	"DirectX11Renderer" }
+		links {	"OpenGLRenderer" }
 	configuration {"linux*"}
 		links {	"OpenGLRenderer", "glfw", "GLEW", "GL" }
 	configuration {}

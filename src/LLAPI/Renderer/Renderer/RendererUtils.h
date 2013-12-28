@@ -25,5 +25,5 @@ namespace oakvr
 			ePT_TriangleStrip,
 			ePT_Count
 		};
-	}	// namespace Render
+	}	// namespace render
 }	// namespace oakvr

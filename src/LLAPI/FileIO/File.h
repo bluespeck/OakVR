@@ -1,7 +1,6 @@
 #pragma once
 
-#include <string>
-#include <cstdint>
+#include "FileIO.h"
 
 
 namespace oakvr
@@ -21,23 +20,23 @@ namespace oakvr
 				append,
 			};
 
-			File(std::string filepath);
+			File(PathType filepath);
 			~File();
 			
-			static bool Exists(std::string filepath);
-			static unsigned long Size(std::string filepath);
+			static bool Exists(PathType filepath);
+			static OffsetType Size(PathType filepath);
 
-			unsigned long Size();
+			OffsetType Size();
 			
 			void Open(FileOpenMode eFileOpenMode);
 			void Close();
 
-			uint32_t Read(unsigned char *buffer, uint32_t bufferSize, uint32_t bytesToRead, uint32_t offset = 0);
-			uint32_t Write(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToWrite, uint32_t offset = 0);
+			OffsetType Read(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToRead, OffsetType offset = 0);
+			OffsetType Write(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToWrite, OffsetType offset = 0);
 			
-			std::string GetFilePathWithoutFileName();
-			std::string GetFilePath() { return m_filePath; } // also includes file name
-			std::string GetFileName();
+			PathType GetFilePathWithoutFileName();
+			PathType GetFilePath() { return m_filePath; } // also includes file name
+			PathType GetFileName();
 			bool IsOpen() { return m_bFileOpened; }
 			FileOpenMode GetFileOpenMode() { return m_eFileOpenMode; }
 
@@ -45,7 +44,7 @@ namespace oakvr
 			FileImpl *m_pImpl;
 			bool m_bFileOpened;
 			FileOpenMode m_eFileOpenMode;
-			std::string m_filePath;
+			PathType m_filePath;
 		};
 	}
 }

@@ -26,7 +26,7 @@ namespace oakvr
 		{
 		public:
 			Renderer();
-			Renderer(Renderer&&) = default;
+			//Renderer(Renderer&&) = default;
 			~Renderer();
 
 			bool Initialize();
@@ -65,7 +65,7 @@ namespace oakvr
 
 			inline bool IsInitialized() { return m_bInitialized; }
 
-		private:
+		protected:
 			std::shared_ptr<RenderWindow> m_pRenderWindow;
 			class RendererImpl;
 			std::unique_ptr<RendererImpl> m_pImpl;
@@ -81,5 +81,5 @@ namespace oakvr
 
 		};
 		
-	}	// namespace Render
+	}	// namespace render
 }	// namespace oakvr

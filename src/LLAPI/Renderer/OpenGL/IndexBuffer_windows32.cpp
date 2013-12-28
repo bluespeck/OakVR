@@ -24,15 +24,15 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		IndexBuffer::IndexBufferImpl::IndexBufferImpl()
-		:	m_indexFormat	{0}
-		,	m_indexSize		{4}
-		,	m_indexCount	{0}
+			: m_indexFormat{ 0 }
+		, m_indexSize{ 4 }
+		, m_indexCount{ 0 }
 		{
 		}
 
 		// --------------------------------------------------------------------------------
 		IndexBuffer::IndexBuffer()
-		:	m_pImpl	{new IndexBufferImpl()}
+			: m_pImpl{ new IndexBufferImpl() }
 		{
 		}
 
@@ -45,14 +45,14 @@ namespace oakvr
 		void IndexBuffer::Create(uint32_t indexCount)
 		{
 			m_pImpl->m_indexCount = indexCount;
-			glGenBuffers(1, &m_pImpl->m_ibId);
+			glGenBuffersARB(1, &m_pImpl->m_ibId);
 		}
 
 		// --------------------------------------------------------------------------------
 		void IndexBuffer::Lock(void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags)
 		{
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
-			*ppBuff = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_READ_WRITE);
+			*ppBuff = glMapBufferARB(GL_ELEMENT_ARRAY_BUFFER, GL_READ_WRITE);
 		}
 
 		// --------------------------------------------------------------------------------

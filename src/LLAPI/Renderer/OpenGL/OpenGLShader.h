@@ -34,5 +34,5 @@ namespace oakvr
 			m_vertexFormat = vertexFormat;
 		}
 
-	}	// namespace Render
+	}	// namespace render
 }	// namespace oakvr

@@ -14,5 +14,5 @@ namespace oakvr
 		Material::~Material()
 		{
 		}
-	} // namespace Render
+	} // namespace render
 } //oakvr

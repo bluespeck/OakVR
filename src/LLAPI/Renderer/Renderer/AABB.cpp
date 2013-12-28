@@ -12,5 +12,5 @@ namespace oakvr
 		AABB::~AABB(void)
 		{
 		}
-	} // namespace Render
+	} // namespace render
 } // namespace oakvr

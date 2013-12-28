@@ -109,5 +109,5 @@ namespace oakvr
 			m_textureFormat = textureFormat;
 		}
 
-	} // namespace Render
+	} // namespace render
 }	// namespace oakvr

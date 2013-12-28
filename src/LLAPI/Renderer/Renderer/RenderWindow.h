@@ -3,6 +3,10 @@
 #include <string>
 #include <memory>
 
+#if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
+#	include <Windows.h>
+#endif
+
 namespace oakvr
 {
 	namespace render
@@ -13,7 +17,7 @@ namespace oakvr
 			RenderWindow();
 			RenderWindow( const std::string &title, int posX, int posY, unsigned int width, unsigned int height);
 			RenderWindow(const RenderWindow &rw) = delete;
-			RenderWindow(RenderWindow &&rw) = default;
+			//RenderWindow(RenderWindow &&rw) = default;
 			RenderWindow& operator=(const RenderWindow &rw) = delete;
 			~RenderWindow();
 			
@@ -38,6 +42,9 @@ namespace oakvr
 
 			const std::string &GetTitle();
 			void SetTitle(const std::string &title);
+
+			long int GetOSHandle() { return m_osHandle; }
+
 						
 		private:
 
@@ -56,8 +63,11 @@ namespace oakvr
 			
 			long int m_osHandle;
 			class RenderWindowImpl;
+#if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
+			friend LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+#endif
 			std::unique_ptr<RenderWindowImpl> m_pImpl;
 		};
 
-	} // namespace Render
+	} // namespace render
 } // namespace oakvr

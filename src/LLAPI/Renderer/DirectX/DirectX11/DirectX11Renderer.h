@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Renderer/IRenderer/IRenderer.h"
+#include "Renderer/Renderer/Renderer.h"
+#include "Math/Vector3.h"
 
 struct ID3D11Device;
 struct ID3D11DeviceContext;
@@ -14,9 +15,9 @@ struct ID3D11DepthStencilView;
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
-		class DirectX11Renderer : public IRenderer
+		class DirectX11Renderer : public Renderer
 		{
 		public:
 
@@ -119,5 +120,5 @@ namespace oakvr
 
 			
 		};
-	}	// namespace Render
+	}	// namespace render
 }	// namespace oakvr

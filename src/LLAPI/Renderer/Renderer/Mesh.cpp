@@ -112,5 +112,5 @@ namespace oakvr
 		{
 			s_meshes.clear();
 		}
-	} // namespace Render
+	} // namespace render
 }// namespace oakvr

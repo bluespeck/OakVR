@@ -17,5 +17,5 @@ namespace oakvr
 			oakvr::math::Vector3 m_vecRightTopBack;
 		};
 
-	} // namespace Render
+	} // namespace render
 } // namespace oakvr

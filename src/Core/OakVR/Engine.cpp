@@ -7,16 +7,7 @@
 #include "Math/Vector3.h"
 #include "Log/Log.h"
 
-#if defined(_WIN32)
-#	include "Renderer/DirectX/DirectX9/DirectX9Shader.h"
-#	include "Renderer/DirectX/DirectX9/DirectX9DebugTextRenderer.h"
-
-#	include "Renderer/DirectX/DirectX11/DirectX11DebugTextRenderer.h"
-#	include "Renderer/DirectX/DirectX11/DirectX11Shader.h"
-#else
 #	include "Renderer/OpenGL/OpenGLShader.h"
-#	include "Renderer/OpenGL/OpenGLDebugTextRenderer.h"
-#endif
 
 
 #ifdef OAKVR_EDITOR

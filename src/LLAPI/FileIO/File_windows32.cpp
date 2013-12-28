@@ -2,6 +2,8 @@
 #include "Log/Log.h"
 #include <cstdio>
 #include <cstring>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 
 
@@ -17,7 +19,7 @@ namespace oakvr
 		};
 
 		// --------------------------------------------------------------------------------
-		File::File(std::string filepath)
+		File::File(PathType filepath)
 			: m_bFileOpened(false) , m_eFileOpenMode(FileOpenMode::unknown), m_filePath(filepath)
 		{
 			m_pImpl = new FileImpl;
@@ -33,24 +35,24 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		bool File::Exists(std::string filepath)
+		bool File::Exists(PathType filepath)
 		{
 			struct stat st;
 			if(stat(filepath.c_str(), &st ))
 			{
-				Log::PrintError("stat(%s, %p) error code(errno) %d",filepath.c_str(), &st, errno);
+				Log::PrintError("stat(%s, %p) error code(errno) %d", filepath.c_str(), &st, errno);
 				return false;
 			}
 			return st.st_size != 0;
 		}
 
 		// --------------------------------------------------------------------------------
-		unsigned long File::Size(std::string filepath)
+		OffsetType File::Size(PathType filepath)
 		{
 			struct stat st; 
 			if(stat(filepath.c_str(), &st ))
 			{
-				Log::PrintError("stat(%s, %p) error code(errno) %d.\n",filepath.c_str(), &st, errno);
+				Log::PrintError("stat(%s, %p) error code(errno) %d.\n", filepath.c_str(), &st, errno);
 				return false;
 			}
 
@@ -58,7 +60,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		unsigned long File::Size()
+		OffsetType File::Size()
 		{
 			return Size(m_filePath);
 		}
@@ -104,7 +106,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		uint32_t File::Read(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToRead, uint32_t offset)
+		OffsetType File::Read(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToRead, OffsetType offset)
 		{
 			if(offset + bytesToRead > bufferSize) 
 			{
@@ -112,7 +114,7 @@ namespace oakvr
 				return 0;
 			}
 			
-			uint32_t fileSize = Size();
+			OffsetType fileSize = Size();
 			
 			if(bytesToRead == 0)
 				return fread(buffer + offset, 1, fileSize - offset, m_pImpl->pFileHandle);
@@ -127,7 +129,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		uint32_t File::Write(uint8_t *buffer, uint32_t bufferSize, uint32_t bytesToWrite, uint32_t offset)
+		OffsetType File::Write(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToWrite, OffsetType offset)
 		{
 			if(offset + bytesToWrite > bufferSize)
 			{

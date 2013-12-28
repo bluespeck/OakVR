@@ -32,5 +32,5 @@ namespace oakvr
 		TimePoint m_prevTimePoint;
 	
 		bool m_bPaused;
-		};
+	};
 }	// namespace oakvr

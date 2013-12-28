@@ -20,7 +20,7 @@ namespace oakvr
 			virtual void Init() = 0;
 			virtual void OutputText(const std::string &text, uint32_t x, uint32_t y) = 0;
 		};
-	}	// namespace Render
+	}	// namespace render
 }	// namespace oakvr
 
 #endif

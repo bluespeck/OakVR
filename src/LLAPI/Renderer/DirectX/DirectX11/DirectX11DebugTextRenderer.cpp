@@ -16,16 +16,16 @@
 #include "DirectX11Renderer.h"
 #include "Renderer/DirectX/DirectXUtils.h"
 
-//#include "Renderer/IRenderer/Font.h"
-#include "Renderer/IRenderer/VertexBuffer.h"
-#include "Renderer/IRenderer/Texture.h"
+//#include "Renderer/Renderer/Font.h"
+#include "Renderer/Renderer/VertexBuffer.h"
+#include "Renderer/Renderer/Texture.h"
 
 #include "Math/Matrix.h"
 #include "Math/Vector3.h"
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		// --------------------------------------------------------------------------------
 		DirectX11DebugTextRenderer::DirectX11DebugTextRenderer()
@@ -106,5 +106,5 @@ namespace oakvr
 */
 		}
 
-	} // namespace Render
+	} // namespace render
 } // namespace oakvr

@@ -39,7 +39,7 @@ namespace oakvr
 		{
 			return m_shaderType;
 		}
-	}	// namespace Render
+	}	// namespace render
 }	// namespace oakvr
 
 

@@ -133,35 +133,43 @@ function Solution(solutionName)
 	
 		configuration "debug"
 			flags       { "Symbols" }
+			defines		{ "OAKVR_DEBUG" }
 
 		configuration "fastdebug"
 			flags       { "OptimizeSpeed", "Symbols" }
+			defines		{ "OAKVR_FASTDEBUG" }
 
 		configuration "profile"
 			flags       { "OptimizeSpeed" }	
+			defines		{ "OAKVR_PROFILE" }
 
 		configuration "final"
 			flags		{ "OptimizeSpeed" }
+			defines		{ "OAKVR_FINAL" }
 
 		configuration "linux32"
 			system "Linux"
 			architecture "x32"
 			toolset "gcc"
+			defines		{ "OAKVR_LINUX32" }
 		
 		configuration "linux64"
 			system "Linux"
 			architecture "x64"
 			toolset "gcc"
+			defines		{ "OAKVR_LINUX64" }
 
 		configuration "windows32"
 			system "Windows"
 			architecture "x32"
 			--toolset "msc"
+			defines		{ "OAKVR_WINDOWS32" }
 
 		configuration "windows64"
 			system "Windows"
 			architecture "x64"
 			--toolset "msc"	
+			defines		{ "OAKVR_WINDOWS64" }
 		
 		for _, cfg in ipairs(cfgs) do
 			for _, plf in ipairs(plfs) do

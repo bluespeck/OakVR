@@ -27,5 +27,5 @@ namespace oakvr
 			Material();
 			~Material(void);
 		};
-	} // namespace Render
+	} // namespace render
 } // namespace oakvr

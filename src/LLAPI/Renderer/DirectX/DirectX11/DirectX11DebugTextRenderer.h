@@ -2,11 +2,11 @@
 
 #include <string>
 
-#include "Renderer/IRenderer/DebugTextRenderer.h"
+#include "Renderer/Renderer/DebugTextRenderer.h"
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 
 		class DirectX11DebugTextRenderer : public DebugTextRenderer
@@ -25,5 +25,5 @@ namespace oakvr
 			class DirectX11Shader *m_pPixelShader;
 			
 		};
-	}	// namespace Render
+	}	// namespace render
 }	// namespace oakvr

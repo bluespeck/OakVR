@@ -1,13 +1,13 @@
 /*
 #include "Shader.h"
 #include "oakvr/Engine.h"
-#include "IRenderer.h"
+#include "Renderer.h"
 
 
 
 namespace oakvr
 {
-	namespace Render
+	namespace render
 	{
 		// --------------------------------------------------------------------------------
 		void Shader::Init(const Core::StringId &id, AdditionalInitParams *pAdditionalInitParams)
@@ -20,7 +20,7 @@ namespace oakvr
 		void Shader::Load()
 		{
 			m_state = eRS_Loading;
-			IRenderer *pGE = (IRenderer*)Engine::GetInstance()->GetRenderer();
+			Renderer *pGE = (Renderer*)Engine::GetInstance()->GetRenderer();
 			pGE->CreateShader(this);
 			m_state = eRS_Ready;
 		}
@@ -33,7 +33,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Shader::Release()
 		{
-			IRenderer *pGE = (IRenderer*)Engine::GetInstance()->GetRenderer();
+			Renderer *pGE = (Renderer*)Engine::GetInstance()->GetRenderer();
 			pGE->ReleaseShader(this);
 			m_state = eRS_Released;
 		}

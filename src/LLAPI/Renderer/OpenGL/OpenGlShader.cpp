@@ -1,4 +1,4 @@
-
+#include "Common.h"
 #include "OpenGLShader.h"
 #include "Renderer/Renderer/Renderer.h"
 #include "Renderer/Renderer/RendererUtils.h"
@@ -21,5 +21,5 @@ namespace oakvr
 		m_vertexFormat(0)
 		{
 		}
-	}	// namespace Render
+	}	// namespace render
 }	// namespace oakvr
