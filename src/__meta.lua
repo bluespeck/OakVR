@@ -19,11 +19,11 @@ solution("OakVRBuild")
 		logLocation = prjLocation .. "/buildLog.txt"
 		files
 		{
-			oakvrRoot .. "/premake4.lua", 
-			oakvrRoot .. "/premake-config/**p4*.lua", 
-			"**p4*.lua", 
+			oakvrRoot .. "/premake5.lua", 
+			oakvrRoot .. "/premake-config/**__*.lua", 
+			"**__*.lua", 
 			logLocation
 		}
 		
-		postbuildcommands {"cd " .. oakvrRoot .. "&& premake4 vs2012 > " .. logLocation .."&& date /T >>" .. logLocation .." && time /T >> " .. logLocation }
+		postbuildcommands {"cd " .. oakvrRoot .. "&& premake5 vs2012 > " .. logLocation .."&& date /T >>" .. logLocation .." && time /T >> " .. logLocation }
 		configuration {}

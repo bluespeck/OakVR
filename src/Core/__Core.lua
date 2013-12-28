@@ -10,5 +10,5 @@ Solution "Core"
 
 	startproject "OakVR"
 
-	dofile("ResourceManager/p4-ResourceManager.lua")
-	dofile("OakVR/p4-OakVR.lua")
+	dofile("ResourceManager/__ResourceManager.lua")
+	dofile("OakVR/__OakVR.lua")
