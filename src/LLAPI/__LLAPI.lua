@@ -1,11 +1,11 @@
-Solution "LLAPI"
+--[[Solution "LLAPI"
 	configuration "linux*"
 		buildoptions { "-std=c++11" }
 	configuration "linux32"
 		buildoptions {"-m32"}
 	configuration "linux64"
 		buildoptions {"-m64"}
-
+]]
 	dofile("FileIO/__FileIO.lua")
 	dofile("Input/__Input.lua")
 	dofile("Log/__Log.lua")

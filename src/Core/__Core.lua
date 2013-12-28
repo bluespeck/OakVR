@@ -1,4 +1,4 @@
-Solution "Core"
+--[[Solution "Core"
 
 	configuration "linux*"
 		buildoptions { "-std=c++11" }
@@ -7,7 +7,7 @@ Solution "Core"
 	configuration "linux64"
 		buildoptions {"-m64"}
 	configuration {}
-
+]]
 	startproject "OakVR"
 
 	dofile("ResourceManager/__ResourceManager.lua")
