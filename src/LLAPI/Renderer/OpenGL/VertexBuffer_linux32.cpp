@@ -14,9 +14,8 @@ namespace oakvr
 		public:
 			VertexBufferImpl();
 
-			uint32_t m_vertexFormat;
-			uint32_t m_vertexSize;	// [bytes]
 			uint32_t m_vertexCount;
+			uint32_t m_vertexSize;	// [bytes]
 
 			GLuint m_vbId;
 
@@ -25,7 +24,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		VertexBuffer::VertexBufferImpl::VertexBufferImpl()
 			: m_vertexCount{ 0 }
-		, m_vertexFormat{ 0 }
+//		, m_vertexFormat{ 0 }
 		, m_vertexSize{ 0 }
 		{
 		}
@@ -42,14 +41,13 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void VertexBuffer::Create(uint32_t vertexCount, uint32_t vertexFormat)
+		void VertexBuffer::Create(uint32_t vertexCount, uint8_t stride)
 		{
 			m_pImpl->m_vertexCount = vertexCount;
-			m_pImpl->m_vertexFormat = vertexFormat;
-			m_pImpl->m_vertexSize = ComputeVertexSizeFromFormat(m_pImpl->m_vertexFormat);
+			m_pImpl->m_vertexSize = stride;
 			glGenVertexArrays(1, &m_pImpl->m_vbId);
 		}
-
+		/*
 		// --------------------------------------------------------------------------------
 		uint32_t VertexBuffer::ComputeVertexSizeFromFormat(uint32_t vertexFormat)
 		{
@@ -101,9 +99,9 @@ namespace oakvr
 
 			return vertexSize;
 		}
-
+		*/
 		// --------------------------------------------------------------------------------
-		void VertexBuffer::Lock(void **ppBuff, uint32_t /*offsetToLock*/, uint32_t /*sizeToLock*/, uint32_t flags)
+		void VertexBuffer::Lock(void **ppBuff, uint32_t flags)
 		{
 			glBindVertexArray(m_pImpl->m_vbId);
 			*ppBuff = glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE);
@@ -139,7 +137,7 @@ namespace oakvr
 		{
 			return m_pImpl->m_vertexSize;
 		}
-
+		/*
 		// --------------------------------------------------------------------------------
 		uint32_t VertexBuffer::GetVertexFormat()
 		{
@@ -151,7 +149,7 @@ namespace oakvr
 		{
 			m_pImpl->m_vertexFormat = vertexFormat;
 		}
-
+		*/
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::SetVertexSize(uint32_t vertexSize)
 		{

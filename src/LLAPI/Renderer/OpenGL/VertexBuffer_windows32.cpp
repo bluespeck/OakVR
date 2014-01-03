@@ -13,8 +13,7 @@ namespace oakvr
 		{
 		public:
 			VertexBufferImpl();
-
-			uint32_t m_vertexFormat;
+			
 			uint32_t m_vertexSize;	// [bytes]
 			uint32_t m_vertexCount;
 
@@ -24,9 +23,10 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		VertexBuffer::VertexBufferImpl::VertexBufferImpl()
-		: m_vertexCount		{0}
-		, m_vertexFormat	{0}
-		, m_vertexSize		{0}
+		: m_vertexSize { 0 }
+		, m_vertexCount { 0 }
+		
+		
 		{
 		}
 
@@ -42,14 +42,13 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void VertexBuffer::Create(uint32_t vertexCount, uint32_t vertexFormat)
+		void VertexBuffer::Create(uint32_t vertexCount, uint8_t stride)
 		{
 			m_pImpl->m_vertexCount = vertexCount;
-			m_pImpl->m_vertexFormat = vertexFormat;
-			m_pImpl->m_vertexSize = ComputeVertexSizeFromFormat(m_pImpl->m_vertexFormat);
-			glGenVertexArraysARB(1, &m_pImpl->m_vbId);
+			m_pImpl->m_vertexSize = stride;
+			glGenVertexArrays(1, &m_pImpl->m_vbId);
 		}
-
+		/*
 		// --------------------------------------------------------------------------------
 		uint32_t VertexBuffer::ComputeVertexSizeFromFormat(uint32_t vertexFormat)
 		{
@@ -101,9 +100,9 @@ namespace oakvr
 
 			return vertexSize;
 		}
-
+		*/
 		// --------------------------------------------------------------------------------
-		void VertexBuffer::Lock(void **ppBuff, uint32_t /*offsetToLock*/, uint32_t /*sizeToLock*/, uint32_t flags)
+		void VertexBuffer::Lock(void **ppBuff, uint32_t flags)
 		{
 			glBindVertexArray(m_pImpl->m_vbId);
 			*ppBuff = glMapBufferARB(GL_ARRAY_BUFFER, GL_READ_WRITE);
@@ -143,13 +142,13 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		uint32_t VertexBuffer::GetVertexFormat()
 		{
-			return m_pImpl->m_vertexFormat;
+			return 0;// m_pImpl->m_vertexFormat;
 		}
 
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::SetVertexFormat(uint32_t vertexFormat)
 		{
-			m_pImpl->m_vertexFormat = vertexFormat;
+			//m_pImpl->m_vertexFormat = vertexFormat;
 		}
 
 		// --------------------------------------------------------------------------------

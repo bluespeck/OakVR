@@ -29,7 +29,7 @@ namespace oakvr
 		{
 		public:
 
-			HGLRC m_hRenderContext;                    // OpenGL device interface (context)
+			HGLRC m_hRenderContext;             // OpenGL device interface (context)
 			void *m_pWorkerThreadDevice;		// worker thread context
 			long m_mainThreadId;
 			long m_shaderProgramId;
@@ -106,6 +106,7 @@ namespace oakvr
 
 			Log::PrintInfo("OpenGL renderer successfully initialized!");
 			m_bInitialized = true;
+
 			return true;
 		}
 
@@ -148,6 +149,9 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::Update(float dt)
 		{
+			static VertexBuffer vb;
+			vb.Create(3, 3 * sizeof(float));
+
 
 			m_pRenderWindow->SwapBuffers();
 		}

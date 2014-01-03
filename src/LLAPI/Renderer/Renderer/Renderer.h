@@ -1,10 +1,11 @@
 #pragma once
 
-#include "RendererUtils.h"
-
 #include <cstdint>
 #include <string>
 #include <memory>
+
+#include "RendererUtils.h"
+#include "MeshManager.h"
 
 namespace oakvr
 {
@@ -76,7 +77,7 @@ namespace oakvr
 			//Shader *m_pCurrentPixelShader;
 
 			//DebugTextRenderer *m_pDebugTextRenderer;		// object used to draw debug text
-
+			std::unique_ptr<MeshManager> m_pMeshManager;
 			bool m_bInitialized;
 
 		};

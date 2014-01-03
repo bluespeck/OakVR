@@ -1,0 +1,1 @@
+download GLEW and add GLEW_PATH to the environment variables

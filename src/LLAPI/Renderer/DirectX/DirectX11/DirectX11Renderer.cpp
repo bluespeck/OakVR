@@ -380,7 +380,7 @@ namespace oakvr
 					{
 						ID3D11VertexShader *pCompiledShader = nullptr;
 						HR(m_pDevice->CreateVertexShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, &pCompiledShader));
-						pSh->SetCompiledShader(pCompiledShader);
+//						pSh->SetCompiledShader(pCompiledShader);
 
 						// create input layout (from the compiled shader)						
 						ID3D11InputLayout *pInputLayout = nullptr;
@@ -402,7 +402,7 @@ namespace oakvr
 					if(pShaderByteCode)
 					{
 						HR(m_pDevice->CreatePixelShader(pShaderByteCode->GetBufferPointer(), pShaderByteCode->GetBufferSize(), nullptr, &pCompiledShader));
-						pSh->SetCompiledShader(pCompiledShader);
+//						pSh->SetCompiledShader(pCompiledShader);
 
 						pShaderByteCode->Release();
 						return;
@@ -412,7 +412,7 @@ namespace oakvr
 			default:
 				assert("Shader was not correctly initialized!" && 0);
 			}
-			pShader->SetCompiledShader(nullptr);
+//			pShader->SetCompiledShader(nullptr);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -420,8 +420,8 @@ namespace oakvr
 		{
 			if(pShader == nullptr)
 				return;
-			((ID3D11Resource *)pShader->GetCompiledShader())->Release();
-			pShader->SetCompiledShader(nullptr);
+//			((ID3D11Resource *)pShader->GetCompiledShader())->Release();
+//			pShader->SetCompiledShader(nullptr);
 		}
 		
 		// --------------------------------------------------------------------------------

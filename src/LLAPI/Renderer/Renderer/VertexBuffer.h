@@ -29,21 +29,19 @@ namespace oakvr
 			VertexBuffer();
 			~VertexBuffer();
 
-			inline uint32_t GetVertexCount();
-			inline void SetVertexCount( uint32_t vertexCount );			
+			uint32_t GetVertexCount();
+			void SetVertexCount( uint32_t vertexCount );			
 
-			inline uint32_t GetVertexSize();
-			inline void SetVertexSize( uint32_t vertexSize );
+			uint32_t GetVertexSize();
+			void SetVertexSize( uint32_t vertexSize );
 
-			inline uint32_t GetVertexFormat();
-			inline void SetVertexFormat( uint32_t vertexFormat );
+			uint32_t GetVertexFormat();
+			void SetVertexFormat( uint32_t vertexFormat );
 			
-			void Create( uint32_t count, uint32_t vertexFormat );
-			void Lock( void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 );
+			void Create( uint32_t count, uint8_t stride );
+			void Lock( void **ppBuff, uint32_t flags = 0 );
 			void Unlock();
 			void Release();
-
-			uint32_t ComputeVertexSizeFromFormat( uint32_t vertexFormat );
 
 		private:
 			class VertexBufferImpl;
