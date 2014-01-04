@@ -6,7 +6,7 @@
 namespace oakvr
 {
 	// --------------------------------------------------------------------------------
-	void Log::Print(Log::LogLevel level, const char * logMsg, ...)
+	void Log::Print(Log::LogLevel level, const char * logMsg, va_list args)
 	{
 		if(level == LogLevel::disabled || level > s_maxLevel)
 			return;
@@ -26,10 +26,7 @@ namespace oakvr
 		{
 
 			if(s_outFilename == "stdout")
-			{
-
 				f = stdout;
-			}
 			else
 				f = fopen(s_outFilename.c_str(), "at");
 			if(!f)
@@ -51,10 +48,7 @@ namespace oakvr
 			break;
 		}
 
-		va_list vl;
-		va_start(vl, logMsg);
-		fprintf(f, logMsg, vl);
-		va_end(vl);
+		vfprintf(f, logMsg, args);
 		fflush(f);
 		if(f != stderr && f != stdout)
 			fclose(f);

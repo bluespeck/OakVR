@@ -56,6 +56,11 @@ namespace oakvr
 				return false;
 			}
 
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 			if (!(m_pImpl->m_pWindow = glfwCreateWindow(m_width, m_height, m_title.c_str(), nullptr, nullptr)))
 			{
 				Log::PrintError("Failed to open a window !\n");
@@ -63,8 +68,8 @@ namespace oakvr
 				return false;
 			}
 
+			glfwMakeContextCurrent(m_pImpl->m_pWindow);
 			glfwSetWindowCloseCallback(m_pImpl->m_pWindow, OnCloseWindow);
-			Log::PrintInfo("RW Initialized!\n");
 			return true;
 		}
 
@@ -75,8 +80,7 @@ namespace oakvr
 
 		void RenderWindow::SwapBuffers()
 		{
-			if (IsOpen())
-				glfwSwapBuffers(m_pImpl->m_pWindow);
+			glfwSwapBuffers(m_pImpl->m_pWindow);
 		}
 
 		// --------------------------------------------------------------------------------

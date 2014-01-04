@@ -46,22 +46,28 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		bool Renderer::Initialize()
 		{
-			//glewExperimental = GL_TRUE;
-			if (!glewInit())
+			glewExperimental = GL_TRUE;
+			GLenum err = glewInit();
+			if (err != GLEW_OK)
 			{
-				Log::PrintError("Failed to initialize GLEW.\n");
+				Log::PrintError("Failed to initialize GLEW. (%s)\n", glewGetErrorString(err));
 				return false;
 			}
 			else
 			{
 				Log::PrintInfo("GLEW initialized!\n");
 			}
-
-			//			assert(glewInit() == GLEW_OK);
+			
+			int version[] = { 0, 0};
+			glGetIntegerv(GL_MAJOR_VERSION, &version[0]);
+			glGetIntegerv(GL_MINOR_VERSION, &version[1]);
+			Log::PrintInfo("OpenGL version %d.%d", version[0], version[1]);
 
 			glCullFace(GL_BACK);
 			glFrontFace(GL_CW);
 			glEnable(GL_CULL_FACE);
+			glViewport(0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
+			
 
 
 			//			m_shaderProgramId = glCreateProgram();
@@ -85,13 +91,14 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::BeginDraw()
 		{
-
+			glClearColor(0.4f, 0.6f, 0.9f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		}
 
 		// --------------------------------------------------------------------------------
 		void Renderer::EndDraw()
 		{
-
+			m_pRenderWindow->SwapBuffers();
 		}
 
 		// --------------------------------------------------------------------------------
@@ -103,8 +110,8 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::Update(float dt)
 		{
-
-			m_pRenderWindow->SwapBuffers();
+			BeginDraw();
+			EndDraw();
 		}
 
 		// --------------------------------------------------------------------------------

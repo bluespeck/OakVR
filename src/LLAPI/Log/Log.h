@@ -32,7 +32,7 @@ namespace oakvr
 		static std::string GetErrFilename();
 
 
-		static void Print(LogLevel level, const char * logMsg, ...);
+		static void Print(LogLevel level, const char * logMsg, va_list args);
 	private:
 		static std::string s_errFilename;
 		static std::string s_outFilename;

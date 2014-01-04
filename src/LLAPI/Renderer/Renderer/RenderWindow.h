@@ -35,10 +35,10 @@ namespace oakvr
 			int GetPositionY();
 
 			void SetWidth( unsigned int width );
-			unsigned int GetWidth();
+			inline unsigned int GetWidth();
 			
 			void SetHeight( unsigned int height );
-			unsigned int GetHeight();
+			inline unsigned int GetHeight();
 
 			const std::string &GetTitle();
 			void SetTitle(const std::string &title);
@@ -68,6 +68,16 @@ namespace oakvr
 #endif
 			std::unique_ptr<RenderWindowImpl> m_pImpl;
 		};
+
+		inline unsigned int RenderWindow::GetWidth()
+		{
+			return m_width;
+		}
+
+		inline unsigned int RenderWindow::GetHeight()
+		{
+			return m_height;
+		}
 
 	} // namespace render
 } // namespace oakvr
