@@ -10,6 +10,7 @@ Project "FileIO"
 	files
 	{
 		"*.h",
+		"Path.cpp"
 	}
 
 	PlatformSpecificFiles("*_", ".cpp")
