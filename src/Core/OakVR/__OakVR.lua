@@ -15,14 +15,13 @@ Project "OakVR"
 
 	links
 	{
-		--"ResourceManager",
+		"ResourceManager",
 		"Renderer",
 		"Startup",
 		"FileIO",
 		"Math",
 		"Time",
 		"Log",
-		
 	}
 	
 	configuration {"windows*"}

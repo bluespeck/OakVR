@@ -1,46 +1,46 @@
 #pragma once
 
-#include <vector>
-#include <algorithm>
-
 #include <mutex>
 #include <thread>
-#include <memory>
 #include <condition_variable>
+
+#include <memory>
+#include <unordered_map>
+#include <vector>
 
 #include "ResourceManager/IResource.h"
 #include "ResourceManager/EmptyResource.h"
 #include "Utils/StringId.h"
 #include "Utils/Singleton.h"
+#include "Utils/Buffer.h"
 
 namespace oakvr
 {
-	namespace Core
+	namespace core
 	{
 		class ResourceManager: public oakvr::Singleton<ResourceManager>
 		{
 		public:
 			void Initialize();
 
-			std::shared_ptr<IResource> GetResource(const StringId &id);
+			std::shared_ptr<MemoryBuffer> GetResource(const std::string &id);
 			
-			void ReleaseResource(std::shared_ptr<IResource> pRes);
-			void ReleaseResource(const StringId &id);
+			void ReleaseResource(const std::string &id);
 
 			ResourceManager();
 			~ResourceManager();
+		
+			void AddPathsFromFolder(const std::string &path);
 			
 		private:
-			static uint32_t ResourceLoaderThread(void *pRM);
-						
 			mutable std::mutex m_rmThreadsShouldStopMutex;
 			mutable std::condition_variable m_rmThreadsShouldStopCondVar;
 			mutable bool m_bRMThreadsShouldStop;
 			
-			std::vector<std::shared_ptr<IResource>> m_toBeLoaded;
-			std::vector<std::shared_ptr<IResource>> m_inMemory;
-			std::vector<std::shared_ptr<IResource>> m_toBeUnloaded;	// to be released
-			
+			std::vector<std::string> m_toBeLoaded;
+			std::vector<std::string> m_toBeUnloaded;	// to be released
+			std::unordered_map<std::string, std::shared_ptr<MemoryBuffer>> m_mapResources;
+			std::unordered_map<std::string, std::string> m_mapPaths;
 			mutable std::mutex m_inMemoryMutex;
 
 			mutable std::mutex m_toBeLoadedMutex;

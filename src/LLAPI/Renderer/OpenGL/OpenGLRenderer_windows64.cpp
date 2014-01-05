@@ -61,7 +61,7 @@ namespace oakvr
 			int version[] = { 0, 0};
 			glGetIntegerv(GL_MAJOR_VERSION, &version[0]);
 			glGetIntegerv(GL_MINOR_VERSION, &version[1]);
-			Log::PrintInfo("OpenGL version %d.%d", version[0], version[1]);
+			Log::PrintInfo("OpenGL version %d.%d\n", version[0], version[1]);
 
 			glCullFace(GL_BACK);
 			glFrontFace(GL_CW);
@@ -133,11 +133,11 @@ namespace oakvr
 
 			/*			GLuint shaderId = glCreateShaderObjectARB(shaderType);
 
-			Core::File file(pShader->GetId().GetStrId());
+			core::File file(pShader->GetId().GetStrId());
 			const uint32_t buffSize = file.Size();
 			uint8_t *buff = new uint8_t[buffSize];
 
-			file.Open(Core::File::eFOM_OpenRead);
+			file.Open(core::File::eFOM_OpenRead);
 			int charsRead = file.Read(buff, buffSize, 0);
 			buff[charsRead] = 0;
 
@@ -182,7 +182,7 @@ namespace oakvr
 
 			glGenTextures(1, &texId);
 
-			//			oakvr::Core::Image *pImage = oakvr::Engine::GetResourceManager()->GetResource<oakvr::Core::Image>(pTexture->GetId().GetStrId().c_str());
+			//			oakvr::core::Image *pImage = oakvr::Engine::GetResourceManager()->GetResource<oakvr::core::Image>(pTexture->GetId().GetStrId().c_str());
 			// Separate resources on unique threads
 			//			assert("Could not load texture from file!" && texId > 0);
 

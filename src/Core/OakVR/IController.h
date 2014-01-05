@@ -2,7 +2,7 @@
 
 namespace oakvr
 {
-	namespace Core
+	namespace core
 	{
 		class IController
 		{
@@ -15,5 +15,5 @@ namespace oakvr
 
 			class CObject *m_pObj;	// Points to the object on which this controller is placed
 		};
-	} // namespace Core
+	} // namespace core
 }	// namespace oakvr

@@ -22,7 +22,6 @@ namespace oakvr
 		bool Update();
 			
 		static render::Renderer *GetRenderer();
-		static Core::ResourceManager *GetResourceManager();
 		static const Timer &GetTimer() { return GetInstance().m_timer; }
 		static bool IsInitialized();
 

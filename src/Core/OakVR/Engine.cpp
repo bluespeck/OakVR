@@ -88,6 +88,7 @@ namespace oakvr
 
 		m_pRW = std::make_shared<oakvr::render::RenderWindow>();
 		m_pRenderer = std::make_shared<oakvr::render::Renderer>();
+		core::ResourceManager::GetInstance().AddPathsFromFolder("D:\\Projects\\OakVR\\resources");
 
 		m_pCM = nullptr;
 		m_bIsInitialized = false;
@@ -97,14 +98,14 @@ namespace oakvr
 	Engine::~Engine()
 	{
 		//delete m_pGE->GetDebugTextRenderer();
-		//oakvr::Core::ResourceManager::Release();
+		//oakvr::core::ResourceManager::Release();
 		if(m_pRenderer)
 		{				
 			m_pRenderer->Cleanup();
 		}
 		
 //		oakvr::Leaf3D::Widget::ReleaseWidgetList();
-//		oakvr::Core::IUpdatable::ReleaseUpdatableList();
+//		oakvr::core::IUpdatable::ReleaseUpdatableList();
 //		oakvr::Leaf3D::EventManager::Release();
 //		oakvr::Leaf3D::InterfaceFocusManager::Release();
 		

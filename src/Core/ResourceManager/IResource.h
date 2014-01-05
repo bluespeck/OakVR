@@ -9,7 +9,7 @@
 
 namespace oakvr
 {
-	namespace Core{class ResourceManager; }
+	namespace core{class ResourceManager; }
 	enum class ResourceState : uint8_t
 		{
 			uninitialized,
@@ -36,7 +36,7 @@ namespace oakvr
 		inline bool IsReady() const;
 		
 	private:
-		friend class oakvr::Core::ResourceManager;
+		friend class oakvr::core::ResourceManager;
 		void _Init() { this->Init(); }
 		void _Load() { this->Load(); }
 		void _Reload() { this->Reload(); }

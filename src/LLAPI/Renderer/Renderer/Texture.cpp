@@ -15,7 +15,7 @@ namespace oakvr
 		{
 		}
 
-		//void Texture::Init(const oakvr::Core::StringId &id, AdditionalInitParams *)
+		//void Texture::Init(const oakvr::core::StringId &id, AdditionalInitParams *)
 		//{ 
 		//	m_id = id;
 		//}

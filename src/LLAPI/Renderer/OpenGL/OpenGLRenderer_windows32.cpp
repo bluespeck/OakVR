@@ -1,4 +1,3 @@
-
 #include "Common.h"
 #include "Renderer/Renderer/Renderer.h"
 
@@ -18,8 +17,6 @@
 //#include "ResourceManager/Image.h"
 
 #include <cassert>
-#include <memory>
-
 
 namespace oakvr
 {
@@ -28,8 +25,7 @@ namespace oakvr
 		class Renderer::RendererImpl
 		{
 		public:
-
-			HGLRC m_hRenderContext;             // OpenGL device interface (context)
+			void *m_pDevice;                    // OpenGL device interface (context)
 			void *m_pWorkerThreadDevice;		// worker thread context
 			long m_mainThreadId;
 			long m_shaderProgramId;
@@ -43,70 +39,40 @@ namespace oakvr
 
 		Renderer::~Renderer()
 		{
-
+			// Terminate GLFW
+			glfwTerminate();
 		}
 
 		// --------------------------------------------------------------------------------
 		bool Renderer::Initialize()
 		{
-			//m_mainThreadId = GetCurrentThreadId();
-			HWND hWnd = reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle());
-			
-			//SetWindowTextA(hWnd, "oakvr [OpenGL]");
-
-			HDC hdc = GetDC(hWnd);
-
-			/////
-			// create OpenGL device
-
-
-			PIXELFORMATDESCRIPTOR pfd = { 0 };
-			pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-			pfd.nVersion = 1;
-			pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-			pfd.iPixelType = PFD_TYPE_RGBA;
-			pfd.cRedBits = 8;
-			pfd.cGreenBits = 8;
-			pfd.cBlueBits = 8;
-			pfd.cColorBits = 24;
-			pfd.cAlphaBits = 8;
-			pfd.cDepthBits = 24;
-			pfd.cStencilBits = 8;
-			pfd.iLayerType = PFD_MAIN_PLANE;
-
-			int  iPixelFormat;
-
-			// get the device context's best, available pixel format match  
-			iPixelFormat = ChoosePixelFormat(hdc, &pfd);
-
-			// make that match the device context's current pixel format  
-			SetPixelFormat(hdc, iPixelFormat, &pfd);
-
-			m_pImpl->m_hRenderContext = wglCreateContext(hdc);
-
-			if (!m_pImpl->m_hRenderContext)
+			glewExperimental = GL_TRUE;
+			GLenum err = glewInit();
+			if (err != GLEW_OK)
 			{
-				Log::PrintInfo("WGL context creation failed!");
+				Log::PrintError("Failed to initialize GLEW. (%s)\n", glewGetErrorString(err));
 				return false;
 			}
-			
-			if(FALSE == wglMakeCurrent(hdc, (HGLRC)m_pImpl->m_hRenderContext))
+			else
 			{
-				Log::PrintInfo("WGL context could not be made current on the current thread!");
-				return false;
+				Log::PrintInfo("GLEW initialized!\n");
 			}
-			
-			
-			//			m_shaderProgramId = glCreateProgram();
+
+			int version[] = { 0, 0 };
+			glGetIntegerv(GL_MAJOR_VERSION, &version[0]);
+			glGetIntegerv(GL_MINOR_VERSION, &version[1]);
+			Log::PrintInfo("OpenGL version %d.%d", version[0], version[1]);
 
 			glCullFace(GL_BACK);
 			glFrontFace(GL_CW);
 			glEnable(GL_CULL_FACE);
-			ReleaseDC(hWnd, hdc);
+			glViewport(0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
 
-			Log::PrintInfo("OpenGL renderer successfully initialized!");
+
+
+			//			m_shaderProgramId = glCreateProgram();
+
 			m_bInitialized = true;
-
 			return true;
 		}
 
@@ -125,48 +91,32 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::BeginDraw()
 		{
-
+			glClearColor(0.4f, 0.6f, 0.9f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		}
 
 		// --------------------------------------------------------------------------------
 		void Renderer::EndDraw()
 		{
-
+			m_pRenderWindow->SwapBuffers();
 		}
 
 		// --------------------------------------------------------------------------------
 		void Renderer::Cleanup()
 		{
-#	if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
-			wglMakeCurrent(NULL, NULL);
-			wglDeleteContext((HGLRC)m_pImpl->m_hRenderContext);
-#	else
 
-
-#	endif
 		}
 
 		// --------------------------------------------------------------------------------
 		void Renderer::Update(float dt)
 		{
-			static VertexBuffer vb;
-			vb.Create(3, 3 * sizeof(float));
-
-
-			m_pRenderWindow->SwapBuffers();
+			BeginDraw();
+			EndDraw();
 		}
 
 		// --------------------------------------------------------------------------------
 		void Renderer::CreateShader(Shader *pShader)
 		{
-#	if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
-			//if (GetCurrentThreadId() != m_mainThreadId)
-			//{
-			//	wglMakeCurrent(GetDC(reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle())), (HGLRC)m_pWorkerThreadDevice);
-			//}
-#	else
-
-#	endif
 			//			GLenum shaderType;
 			switch (pShader->GetType())
 			{
@@ -183,11 +133,11 @@ namespace oakvr
 
 			/*			GLuint shaderId = glCreateShaderObjectARB(shaderType);
 
-			Core::File file(pShader->GetId().GetStrId());
+			core::File file(pShader->GetId().GetStrId());
 			const uint32_t buffSize = file.Size();
 			uint8_t *buff = new uint8_t[buffSize];
 
-			file.Open(Core::File::eFOM_OpenRead);
+			file.Open(core::File::eFOM_OpenRead);
 			int charsRead = file.Read(buff, buffSize, 0);
 			buff[charsRead] = 0;
 
@@ -228,15 +178,11 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::CreateTexture(Texture *pTexture)
 		{
-#	if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
-//			if (GetCurrentThreadId() != m_mainThreadId)
-//				wglMakeCurrent(GetDC(reinterpret_cast<HWND>(m_pRenderWindow->GetOSHandle())), (HGLRC)m_pWorkerThreadDevice);
-#	endif
 			GLuint texId;
 
 			glGenTextures(1, &texId);
 
-			//			oakvr::Core::Image *pImage = oakvr::Engine::GetResourceManager()->GetResource<oakvr::Core::Image>(pTexture->GetId().GetStrId().c_str());
+			//			oakvr::core::Image *pImage = oakvr::Engine::GetResourceManager()->GetResource<oakvr::core::Image>(pTexture->GetId().GetStrId().c_str());
 			// Separate resources on unique threads
 			//			assert("Could not load texture from file!" && texId > 0);
 

@@ -4,7 +4,7 @@
 
 namespace oakvr
 {
-	namespace Core
+	namespace core
 	{
 		class Buffer
 		{
@@ -13,6 +13,7 @@ namespace oakvr
 			Buffer(uint32_t size);
 			Buffer(const Buffer &buff);
 			Buffer(Buffer &&buff);
+			~Buffer();
 
 			Buffer& operator=(const Buffer &buff);
 			Buffer& operator=(Buffer &&buff);

@@ -2,12 +2,12 @@
 
 namespace oakvr
 {
-	namespace Core
+	namespace core
 	{	
 		// --------------------------------------------------------------------------------
 		void IController::DeleteMe()
 		{
 			delete this;
 		}
-	} // namespace Core
+	} // namespace core
 }

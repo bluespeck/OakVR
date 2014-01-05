@@ -6,7 +6,7 @@
 
 namespace oakvr
 {
-	namespace Core
+	namespace core
 	{
 		struct RawImageData
 		{

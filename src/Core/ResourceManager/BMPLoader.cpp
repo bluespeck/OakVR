@@ -8,7 +8,7 @@
 
 namespace oakvr
 {
-	namespace Core
+	namespace core
 	{
 		// --------------------------------------------------------------------------------
 		RawImageData BMPLoader::GetRawImage(Buffer &fileBuffer)

@@ -1,5 +1,5 @@
 #include "Common.h"
-#include "OpenGLShader.h"
+#include "Renderer/Renderer/Shader.h"
 #include "Renderer/Renderer/Renderer.h"
 #include "Renderer/Renderer/RendererUtils.h"
 
@@ -17,8 +17,7 @@ namespace oakvr
 	namespace render
 	{
 		// --------------------------------------------------------------------------------
-		OpenGLShader::OpenGLShader() :
-		m_vertexFormat(0)
+		Shader::Shader(const std::string &resourceName, const Buffer<uint8_t> &buff)
 		{
 		}
 	}	// namespace render

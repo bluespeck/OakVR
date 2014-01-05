@@ -1,8 +1,11 @@
 #pragma once
 
+#include <string>
 #include <memory>
 
 #include "RendererUtils.h"
+#include "Utils/Buffer.h"
+
 
 namespace oakvr
 {
@@ -12,7 +15,7 @@ namespace oakvr
 		{
 		public:
 			
-			Shader();
+			Shader(const std::string &resourceName, const Buffer<uint8_t> &buff);
 			inline ShaderType GetType();
 			
 		protected:

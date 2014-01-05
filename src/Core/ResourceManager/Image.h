@@ -5,7 +5,7 @@
 
 namespace oakvr
 {
-	namespace Core
+	namespace core
 	{
 		struct RawImageData;
 		class Image : public IResource

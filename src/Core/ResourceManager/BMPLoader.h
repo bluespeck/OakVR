@@ -7,7 +7,7 @@
 
 namespace oakvr
 {
-	namespace Core
+	namespace core
 	{
 		class BMPLoader
 		{

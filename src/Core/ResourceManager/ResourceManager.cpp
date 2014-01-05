@@ -4,13 +4,15 @@
 #include <thread>
 
 #include "ResourceManager.h"
-#include "IResource.h"
+#include "FileIO/Directory.h"
+#include "FileIO/Path.h"
+#include "Log/Log.h"
 
 using std::shared_ptr;
 
 namespace oakvr
 {
-	namespace Core
+	namespace core
 	{
 		// --------------------------------------------------------------------------------
 		ResourceManager::ResourceManager()
@@ -18,8 +20,10 @@ namespace oakvr
 		{
 			// ------------------------------------------
 			// Defining the resource loding worker thread
-			m_pRMLoadThread.reset(new std::thread([this]
+			/*
+			m_pRMLoadThread.reset(new std::thread([this]()
 			{
+				
 				while(true)
 				{
 					{
@@ -29,13 +33,14 @@ namespace oakvr
 						while(m_toBeLoaded.size())
 						{
 							auto e = m_toBeLoaded.back();
-							m_toBeLoaded.pop_back();							
+							m_toBeLoaded.pop_back();
+
 							{
 								std::lock_guard<std::mutex> lg(m_inMemoryMutex);
-								m_inMemory.push_back(e);
+								//m_mapResources[m_inMemory.push_back(e);
 							}
-							e->_Load();
-							e->SetState(ResourceState::loading);
+							//e->_Load();
+							//e->SetState(ResourceState::loading);
 						}
 					}
 
@@ -44,14 +49,14 @@ namespace oakvr
 						std::unique_lock<std::mutex> ul(m_rmThreadsShouldStopMutex);
 						m_rmThreadsShouldStopCondVar.wait_for(ul, std::chrono::milliseconds(50),[=]()->bool{ return !m_bRMThreadsShouldStop; });
 						if(m_bRMThreadsShouldStop)
-							break;
+							return;
 					}
 				}
-			}));
-
+			}));*/
+			/*
 			// --------------------------------------------
 			// Defining the resource unloding worker thread
-			m_pRMUnloadThread.reset(new std::thread([this]
+			m_pRMUnloadThread.reset(new std::thread([this]()
 			{
 				while(true)
 				{
@@ -63,7 +68,7 @@ namespace oakvr
 						{
 							auto e = m_toBeUnloaded.back();
 							m_toBeUnloaded.pop_back();
-							e->SetState(ResourceState::unloading);
+						//	e->SetState(ResourceState::unloading);
 						}
 					}
 
@@ -72,55 +77,52 @@ namespace oakvr
 						std::unique_lock<std::mutex> ul(m_rmThreadsShouldStopMutex);
 						m_rmThreadsShouldStopCondVar.wait_for(ul, std::chrono::milliseconds(50),[=]()->bool{ return !m_bRMThreadsShouldStop; });
 						if(m_bRMThreadsShouldStop)
-							break;
+							return;
 					}
 				}
 			}));
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
 		ResourceManager::~ResourceManager()
-		{
+		{/*
 			{
 				std::lock_guard<std::mutex> lg(m_rmThreadsShouldStopMutex);
 				m_bRMThreadsShouldStop = true;
+				m_rmThreadsShouldStopCondVar.notify_all();
 			}
-			m_rmThreadsShouldStopCondVar.notify_all();
+				
 
-			m_pRMLoadThread->join();
-			m_pRMUnloadThread->join();
+			//m_pRMUnloadThread->join();
+			//m_pRMLoadThread->join();
 			
-			for(auto e:m_inMemory)
-				e->Release();
-			for(auto e:m_toBeUnloaded)
-				e->Release();
-		}
+			//for(auto e:m_inMemory)
+			//	e->Release();
+			//for(auto e:m_toBeUnloaded)
+			//	e->Release();
+			*/
+		} 
 
-		// --------------------------------------------------------------------------------
-		void ResourceManager::ReleaseResource(std::shared_ptr<IResource> pRes)
+		void ResourceManager::AddPathsFromFolder(const std::string &path)
 		{
-			assert(pRes->IsReady());
-			std::lock_guard<std::mutex> mlg(m_inMemoryMutex);
-
-			typedef decltype(*m_inMemory.begin()) ElemType;
-			auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](ElemType &rpRes)
+			core::io::Directory dir(path);
+			auto files = dir.GetFileList(true);
+			// retrieve path id and add to path map
+			for (auto &e : files)
 			{
-				return rpRes->GetId() == pRes->GetId();
-			});
-			if(it != m_inMemory.end())
-			{
+				auto stem = core::io::path::GetStem(e);
+				if (stem.size())
 				{
-					std::lock_guard<std::mutex> ulg(m_unloadMutex);
-					m_toBeUnloaded.push_back(*it);
-					m_unloadCondVar.notify_all();
+					m_mapPaths[stem] = e;
 				}
-				m_inMemory.erase(it);
 			}
 		}
 
 		// --------------------------------------------------------------------------------
-		void ResourceManager::ReleaseResource(const StringId &id)
+		void ResourceManager::ReleaseResource(const std::string &id)
 		{
+			/*
 			std::lock_guard<std::mutex> mlg(m_inMemoryMutex);
 
 			typedef decltype(*m_inMemory.begin()) ElemType;
@@ -136,11 +138,13 @@ namespace oakvr
 				}
 				m_inMemory.erase(it);
 			}
+			*/
 		}
 
 		// --------------------------------------------------------------------------------
-		std::shared_ptr<IResource> ResourceManager::GetResource(const StringId &id)
+		std::shared_ptr<MemoryBuffer> ResourceManager::GetResource(const std::string &id)
 		{
+			/*
 			auto compareFct = [](std::shared_ptr<IResource> e1, std::shared_ptr<IResource> e2)
 				{
 					return e1->GetId() < e2->GetId();
@@ -165,6 +169,9 @@ namespace oakvr
 				m_toBeLoaded.insert(it, std::make_shared<EmptyResource>(id));
 			}
 			return std::make_shared<EmptyResource>(id);
+			*/
+			return std::make_shared<MemoryBuffer>();
 		}
-	} // namespace Core
+		
+	} // namespace core
 } // namespace oakvr

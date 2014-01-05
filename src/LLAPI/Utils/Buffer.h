@@ -8,6 +8,7 @@ namespace oakvr
 	template <typename T>
 	class Buffer
 	{
+	public:
 		Buffer();
 		Buffer(std::size_t size);
 		Buffer(const Buffer & buffer);
@@ -22,6 +23,8 @@ namespace oakvr
 		T * m_buffer = nullptr;
 		size_t m_size = 0;
 	};
+
+	typedef Buffer<uint8_t> MemoryBuffer;
 
 	//------------------------------------------------------
 	template <typename T>
@@ -58,7 +61,7 @@ namespace oakvr
 
 	//------------------------------------------------------
 	template <typename T>
-	Buffer & Buffer<T>::operator=(const Buffer & buffer)
+	Buffer<T> & Buffer<T>::operator=(const Buffer<T> & buffer)
 	{
 		m_size = buffer.size;
 		m_buffer = new T[m_size];
@@ -68,7 +71,7 @@ namespace oakvr
 
 	//------------------------------------------------------
 	template <typename T>
-	Buffer & Buffer<T>::operator=(Buffer && buffer)
+	Buffer<T> & Buffer<T>::operator=(Buffer<T> && buffer)
 	{
 		m_size = std::move(buffer.m_size);
 		m_buffer = std::move(buffer.m_buffer);

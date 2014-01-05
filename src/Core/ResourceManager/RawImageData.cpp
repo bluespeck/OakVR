@@ -2,7 +2,7 @@
 
 namespace oakvr
 {
-	namespace Core
+	namespace core
 	{
 		// --------------------------------------------------------------------------------
 		RawImageData::RawImageData()
