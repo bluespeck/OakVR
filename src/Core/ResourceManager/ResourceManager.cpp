@@ -5,6 +5,7 @@
 
 #include "ResourceManager.h"
 #include "FileIO/Directory.h"
+#include "FileIO/File.h"
 #include "FileIO/Path.h"
 #include "Log/Log.h"
 
@@ -144,33 +145,30 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		std::shared_ptr<MemoryBuffer> ResourceManager::GetResource(const std::string &id)
 		{
-			/*
-			auto compareFct = [](std::shared_ptr<IResource> e1, std::shared_ptr<IResource> e2)
+			auto it = m_mapResources.find(id);
+			if (it != std::end(m_mapResources))
+			{
+				// we have the buffer for this resource id in our cache; just return the buffer
+				return it->second;
+			}
+			else
+			{
+				// see if we there is a file in our index that matches the name of the resource and load that one
+				// this can fail superbly if multiple files have the same name so keep an eye on this
+				auto it = m_mapPaths.find(id);
+				if (it != std::end(m_mapPaths) && oakvr::core::io::File::Exists(it->second))
 				{
-					return e1->GetId() < e2->GetId();
-				};				
-			{
-				std::lock_guard<std::mutex> lg(m_inMemoryMutex);
-				auto endIt = m_inMemory.end();
-				auto range = std::equal_range(m_inMemory.begin(), endIt, std::make_shared<EmptyResource>(id), compareFct);
-				if(range.first != range.second)
-					return *range.first;
+					oakvr::core::io::File f(it->second);
+					f.Open(oakvr::core::io::File::FileOpenMode::read);
+					auto pMemBuff = std::make_shared<MemoryBuffer>(f.Size());
+					f.Read(pMemBuff->GetDataPtr(), pMemBuff->Size(), pMemBuff->Size());
+					f.Close();
+					return pMemBuff;
+				}
 			}
-			{
-				std::unique_lock<std::mutex> ul(m_toBeLoadedMutex);
-				auto startIt = m_toBeLoaded.begin();
-				auto endIt = m_toBeLoaded.end();
-				auto range = std::equal_range(startIt, endIt, std::make_shared<EmptyResource>(id), compareFct);
-				if(range.first != range.second)
-					return *range.first;
 
-				// if we get to this point, we need to load the resource
-				auto it = std::lower_bound(startIt, endIt, std::make_shared<EmptyResource>(id), compareFct);
-				m_toBeLoaded.insert(it, std::make_shared<EmptyResource>(id));
-			}
-			return std::make_shared<EmptyResource>(id);
-			*/
-			return std::make_shared<MemoryBuffer>();
+			Log::PrintWarning("Could not retrieve resource %s", id.c_str());
+			nullptr;
 		}
 		
 	} // namespace core

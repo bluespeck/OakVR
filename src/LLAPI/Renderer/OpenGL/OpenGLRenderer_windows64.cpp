@@ -113,60 +113,7 @@ namespace oakvr
 			BeginDraw();
 			EndDraw();
 		}
-
-		// --------------------------------------------------------------------------------
-		void Renderer::CreateShader(Shader *pShader)
-		{
-			//			GLenum shaderType;
-			switch (pShader->GetType())
-			{
-			case eST_VertexShader:
-				//				shaderType = GL_VERTEX_SHADER;
-				break;
-			case eST_PixelShader:
-				//				shaderType = GL_FRAGMENT_SHADER;
-				break;
-			default:
-				assert("Unknown shader type" && 0);
-				break;
-			}
-
-			/*			GLuint shaderId = glCreateShaderObjectARB(shaderType);
-
-			core::File file(pShader->GetId().GetStrId());
-			const uint32_t buffSize = file.Size();
-			uint8_t *buff = new uint8_t[buffSize];
-
-			file.Open(core::File::eFOM_OpenRead);
-			int charsRead = file.Read(buff, buffSize, 0);
-			buff[charsRead] = 0;
-
-			const GLcharARB * sources[1];
-			const GLint lengths[1] = {charsRead};
-			sources[0] = (GLcharARB *) buff;
-
-			glShaderSourceARB(shaderId, 1, sources, lengths);
-
-			glCompileShaderARB(shaderId);
-			GLint compileSuccessfull;
-			glGetShaderiv(shaderId, GL_COMPILE_STATUS, &compileSuccessfull);
-			if( compileSuccessfull == GL_FALSE)
-			{
-			GLcharARB infoLog[1024];
-			GLsizei charsWritten;
-			glGetInfoLogARB(shaderId, 1024, &charsWritten, infoLog);
-			infoLog[charsWritten] = 0;
-			printf("[oakvr] OpenGL shader compilation has failed: %s\n", infoLog);
-			exit(1);
-			}
-
-			pShader->SetCompiledShader((void *)shaderId);
-
-			delete[] buff;
-			file.Close();
-			*/
-		}
-
+		/*
 		// --------------------------------------------------------------------------------
 		void Renderer::ReleaseShader(Shader *pShader)
 		{
@@ -174,7 +121,7 @@ namespace oakvr
 				return;
 			//			glDeleteShader((GLuint)pShader->GetCompiledShader());
 		}
-
+		*/
 		// --------------------------------------------------------------------------------
 		void Renderer::CreateTexture(Texture *pTexture)
 		{
@@ -443,23 +390,13 @@ namespace oakvr
 		break;
 		}
 		}
-		*/
+		
 		// --------------------------------------------------------------------------------
 		void Renderer::UseShader(Shader *pShader)
 		{
-			/*
-			if(pShader->GetType() == eST_VertexShader)
-			{
-			m_pCurrentVertexShader = pShader;
-			}
-			else if (pShader->GetType() == eST_PixelShader)
-			{
-			m_pCurrentPixelShader = pShader;
-			}
-			*/
 		}
 
-		/*		// --------------------------------------------------------------------------------
+				// --------------------------------------------------------------------------------
 		void Renderer::EnableDepthBuffer()
 		{
 		glEnable(GL_DEPTH_TEST);

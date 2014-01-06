@@ -1,5 +1,8 @@
+#include <algorithm>
+#include <memory>
+#include <cassert>
+
 #include "Engine.h"
-#include "Renderer/Renderer/RendererCommon.h"
 #include "Time/Timer.h"
 #include "ResourceManager/ResourceManager.h"
 #include "Input/MouseInput/MouseInput.h"
@@ -7,16 +10,8 @@
 #include "Math/Vector3.h"
 #include "Log/Log.h"
 
-#	include "Renderer/OpenGL/OpenGLShader.h"
+#include "Renderer/Renderer/Shader.h"
 
-
-#ifdef OAKVR_EDITOR
-#	include "Editor/EditorEntryPoint.h"
-#endif
-
-#include <algorithm>
-#include <memory>
-#include <cassert>
 
 namespace oakvr
 {
@@ -88,7 +83,7 @@ namespace oakvr
 
 		m_pRW = std::make_shared<oakvr::render::RenderWindow>();
 		m_pRenderer = std::make_shared<oakvr::render::Renderer>();
-		core::ResourceManager::GetInstance().AddPathsFromFolder("D:\\Projects\\OakVR\\resources");
+		core::ResourceManager::GetInstance().AddPathsFromFolder("D:\\Projects\\OakVR\\resources\\shaders\\glsl");
 
 		m_pCM = nullptr;
 		m_bIsInitialized = false;
@@ -120,6 +115,8 @@ namespace oakvr
 		{
 			m_pRenderer->SetRenderWindow(m_pRW);
 			m_pRenderer->Initialize();
+			auto pShaderData = core::ResourceManager::GetInstance().GetResource("DefaultShader");
+			oakvr::render::Shader *pShader = new oakvr::render::Shader(oakvr::render::Shader::ShaderType::vertex, *pShaderData);
 			/*
 			oakvr::render::DebugTextRenderer *pDebugTextRenderer = nullptr;
 #if defined(_WIN32)

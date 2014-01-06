@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 
-#include "RendererUtils.h"
+#include "Shader.h"
 #include "MeshManager.h"
 
 namespace oakvr
@@ -54,11 +54,6 @@ namespace oakvr
 			void ReleaseIndexBuffer	( IndexBuffer *pIndexBuffer );
 			void UseIndexBuffer( IndexBuffer *pIndexBuffer );
 			void UsePrimitiveTopology( PrimitiveTopology primitiveTopology );
-
-			// shader
-			void CreateShader( Shader *pShader );
-			void ReleaseShader( Shader *pShader );
-			void UseShader( Shader *pShader );
 
 			void SetRenderWindow( std::shared_ptr<RenderWindow> pRenderWindow );
 			//void SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer);

@@ -14,18 +14,26 @@ namespace oakvr
 		class Shader
 		{
 		public:
-			
-			Shader(const std::string &resourceName, const Buffer<uint8_t> &buff);
+			enum class ShaderType
+			{
+				vertex,
+				pixel,
+				geometry,
+				hull,
+				domain,
+			};
+
+			Shader(ShaderType shaderType, const oakvr::core::MemoryBuffer &buff);
 			inline ShaderType GetType();
 			
 		protected:
 			class ShaderImpl;
-			std::unique_ptr<ShaderImpl> *m_pImpl;
+			std::unique_ptr<ShaderImpl> m_pImpl;
 			ShaderType m_shaderType;
 		};
 
 		// --------------------------------------------------------------------------------		
-		inline ShaderType Shader::GetType()
+		inline Shader::ShaderType Shader::GetType()
 		{
 			return m_shaderType;
 		}

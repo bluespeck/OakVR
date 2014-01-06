@@ -70,7 +70,7 @@ namespace io
 	// --------------------------------------------------------------------------------
 	void File::Open(FileOpenMode eFileOpenMode)
 	{
-
+		m_eFileOpenMode = eFileOpenMode;
 		char mode[4];
 		switch(eFileOpenMode)
 		{
@@ -88,6 +88,8 @@ namespace io
 			break;
 		default:
 			strcpy(mode, "r");
+			m_eFileOpenMode = FileOpenMode::read;
+			break;
 		}
 
 		errno_t err = fopen_s(&m_pImpl->pFileHandle, m_filePath.c_str(), mode);
