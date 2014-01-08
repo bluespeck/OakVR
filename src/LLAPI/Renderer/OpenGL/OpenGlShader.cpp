@@ -68,5 +68,10 @@ namespace oakvr
 				Log::PrintWarning("OpenGL shader compilation has failed: %s\n", infoLog);
 			}
 		}
+
+		Shader::~Shader()
+		{
+
+		}
 	}	// namespace render
 }	// namespace oakvr

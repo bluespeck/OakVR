@@ -3,9 +3,7 @@
 #include <cstdint>
 #include <string>
 #include <memory>
-
-#include "Shader.h"
-#include "MeshManager.h"
+#include <vector>
 
 namespace oakvr
 {
@@ -22,6 +20,8 @@ namespace oakvr
 		class Shader;
 		struct Color;
 		class DebugTextRenderer;
+		class MeshManager;
+		class Mesh;
 
 		class Renderer
 		{
@@ -38,6 +38,8 @@ namespace oakvr
 			void BeginDraw();
 			void EndDraw();
 
+			void RegisterMesh(std::shared_ptr<Mesh> pMesh); 
+
 			// render
 			void DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex = 0);
 			void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t numVertices, uint32_t startIndex = 0, uint32_t startVertex = 0);
@@ -53,7 +55,7 @@ namespace oakvr
 			void UnlockIndexBuffer	( IndexBuffer *pIndexBuffer );
 			void ReleaseIndexBuffer	( IndexBuffer *pIndexBuffer );
 			void UseIndexBuffer( IndexBuffer *pIndexBuffer );
-			void UsePrimitiveTopology( PrimitiveTopology primitiveTopology );
+			
 
 			void SetRenderWindow( std::shared_ptr<RenderWindow> pRenderWindow );
 			//void SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer);
@@ -65,17 +67,14 @@ namespace oakvr
 			std::shared_ptr<RenderWindow> m_pRenderWindow;
 			class RendererImpl;
 			std::unique_ptr<RendererImpl> m_pImpl;
-
-			//VertexBuffer *m_pCurrentVertexBuffer;
-			//IndexBuffer *m_pCurrentIndexBuffer;
-			//Shader *m_pCurrentVertexShader;
-			//Shader *m_pCurrentPixelShader;
-
+			
+			
+			std::vector<std::unique_ptr<Texture>> m_textures;
+			std::vector<std::unique_ptr<Shader>> m_shaders;
 			//DebugTextRenderer *m_pDebugTextRenderer;		// object used to draw debug text
 			std::unique_ptr<MeshManager> m_pMeshManager;
 			bool m_bInitialized;
 
 		};
-		
 	}	// namespace render
 }	// namespace oakvr

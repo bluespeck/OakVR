@@ -17,28 +17,18 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	bool oakvrUpdate()
 	{
-		return oakvr::GetInstance().Update();
-
-//		static uint32_t count = 0;
-//		// Run this update routine 5 times
-//		if(++count == 5)
-//		{
-//			return false;
-//		}
-
-		return true;
+		return OakVR::GetInstance().Update();
 	}
 
 	// --------------------------------------------------------------------------------
 	void oakvrExit()
 	{
 		Log::PrintInfo("OakVR shutting down!\n");
-
 	}
 
 
 	// --------------------------------------------------------------------------------
-	oakvr::oakvr()
+	OakVR::OakVR()
 	:	m_sEngine (Engine::GetInstance())
 	{
 		if(!m_sEngine.Initialize())
@@ -51,7 +41,7 @@ namespace oakvr
 	
 
 	// --------------------------------------------------------------------------------
-	bool oakvr::Update()
+	bool OakVR::Update()
 	{
 		return m_sEngine.Update();
 		
@@ -59,9 +49,8 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	oakvr::~oakvr()
+	OakVR::~OakVR()
 	{
-		//m_pEngine->Release();
 	}
 	
 	

@@ -1,3 +1,5 @@
+/*
+
 #include <fstream>
 #include <cassert>
 #include <cctype>
@@ -125,3 +127,5 @@ namespace oakvr
 
 	} // namespace Render
 } // namespace oakvr
+
+*/

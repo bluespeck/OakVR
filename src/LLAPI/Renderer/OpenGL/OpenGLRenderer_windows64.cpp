@@ -7,6 +7,8 @@
 #include "Renderer/Renderer/IndexBuffer.h"
 #include "Renderer/Renderer/Texture.h"
 #include "Renderer/Renderer/Color.h"
+#include "Renderer/Renderer/MeshManager.h"
+#include "Renderer/Renderer/Mesh.h"
 
 #include "Math/Matrix.h"
 #include "Math/Transform.h"

@@ -21,9 +21,6 @@ namespace oakvr
 		bool Initialize();
 		bool Update();
 			
-		static render::Renderer *GetRenderer();
-		static const Timer &GetTimer() { return GetInstance().m_timer; }
-		static bool IsInitialized();
 
 		// render related interface
 		static ScreenSize GetScreenSize();

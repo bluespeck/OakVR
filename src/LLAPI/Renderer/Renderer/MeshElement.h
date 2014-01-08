@@ -1,27 +1,39 @@
 #pragma once
 
-#include "Material.h"
-
 #include <memory>
+#include <vector>
+
+#include "Utils\Buffer.h"
 
 namespace oakvr
 {
 	namespace render
 	{
+		struct VertexElementDescriptor
+		{			
+			uint8_t size;
+			enum class Semantic
+			{
+				position,
+				tex_coord,
+				normal,
+			} semantic;
+		};
+		
+		class Material;
+
 		class MeshElement
 		{
+			MeshElement(const std::vector<VertexElementDescriptor> &vertexFormat, const oakvr::core::MemoryBuffer &vb
+						, uint8_t indexStride, const oakvr::core::MemoryBuffer ib
+						, std::shared_ptr<Material> pMaterial);
+			~MeshElement();
 
-			MeshElement() = default;
-			MeshElement(std::shared_ptr<Material> pMaterial);
 		private:
-			uint8_t *m_pVertexData;
-			uint8_t *m_pIndexData;
-			uint32_t m_vertexSize;
-			uint32_t m_vertexCount;
-
-
-			uint32_t m_vertexFormat;
-			uint32_t m_indexCount;
+			std::unique_ptr<oakvr::core::MemoryBuffer> m_pVertexData;
+			std::unique_ptr<oakvr::core::MemoryBuffer> m_pIndexData;
+			std::vector<VertexElementDescriptor> m_vertexFormat;
+			uint8_t m_indexStride;
 
 			std::shared_ptr<Material> m_pMaterial;
 		};

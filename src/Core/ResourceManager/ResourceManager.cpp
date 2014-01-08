@@ -168,7 +168,7 @@ namespace oakvr
 			}
 
 			Log::PrintWarning("Could not retrieve resource %s", id.c_str());
-			nullptr;
+			return nullptr;
 		}
 		
 	} // namespace core

@@ -16,22 +16,12 @@ namespace oakvr
 			Mesh();
 			~Mesh();
 
-			// Configuration methods; must be called before InitMesh
-			void SetNumVertices(unsigned int numVertices);
-			void SetHasNormals(bool bHasNormals);
-			void SetNumTexCoordsPerVertex(unsigned int numTexCoordsPerVertex);
-			void SetNumMaterials(unsigned int numMaterials);
-
-			//const oakvr::render::AABB &GetBoundingBox();
-
-			static std::vector<std::shared_ptr<Mesh>> &GetMeshes();
-			static void ReleaseMeshes();
+			//void AddMeshElement()
+			std::vector<std::shared_ptr<MeshElement>> &GetMeshElements() { return m_vMeshElements; }
+			const std::vector<std::shared_ptr<MeshElement>> &GetMeshElements() const { return m_vMeshElements; }
 
 		private:
-			static std::vector<std::shared_ptr<Mesh>> s_meshes;
 			std::vector<std::shared_ptr<MeshElement>> m_vMeshElements;
-			std::shared_ptr<Material> m_meshMaterial;	// defaultin case a submesh doesn't have a material, it will use this one
-
 		};
 
 	} // namespace render

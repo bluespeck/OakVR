@@ -4,13 +4,10 @@ namespace oakvr
 {
 	namespace render
 	{
-		std::vector<std::shared_ptr<Mesh>> Mesh::s_meshes;
 
 		// --------------------------------------------------------------------------------
 		Mesh::Mesh()
 		{
-		//	m_type = Resource::eTypeMeshInfo;
-			s_meshes.emplace_back(this);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -100,17 +97,5 @@ namespace oakvr
 			m_numMaterials = numMaterials;
 		}*/
 
-
-		// --------------------------------------------------------------------------------
-		std::vector<std::shared_ptr<Mesh>> &Mesh::GetMeshes()
-		{
-			return s_meshes;
-		}
-
-		// --------------------------------------------------------------------------------
-		void Mesh::ReleaseMeshes()
-		{
-			s_meshes.clear();
-		}
 	} // namespace render
 }// namespace oakvr

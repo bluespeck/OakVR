@@ -1,4 +1,4 @@
-#pragma once
+#pragma once/*
 
 #include <cstdint>
 #include <string>
@@ -50,3 +50,4 @@ namespace oakvr
 	} // namespace Render
 } // namespace oakvr
 
+*/

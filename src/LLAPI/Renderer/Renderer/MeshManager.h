@@ -3,12 +3,12 @@
 #include <vector>
 #include <memory>
 
-#include "Mesh.h"
-
 namespace oakvr
 {
 	namespace render
 	{
+		class Mesh;
+
 		class MeshManager
 		{
 		public:
