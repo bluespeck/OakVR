@@ -14,18 +14,11 @@ namespace oakvr
 		public:
 			VertexBufferImpl();
 
-			uint32_t m_vertexCount;
-			uint32_t m_vertexSize;	// [bytes]
-
 			GLuint m_vbId;
-
 		};
 
 		// --------------------------------------------------------------------------------
 		VertexBuffer::VertexBufferImpl::VertexBufferImpl()
-			: m_vertexCount{ 0 }
-//		, m_vertexFormat{ 0 }
-		, m_vertexSize{ 0 }
 		{
 		}
 
@@ -43,9 +36,9 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::Create(uint32_t vertexCount, uint8_t stride)
 		{
-			m_pImpl->m_vertexCount = vertexCount;
-			m_pImpl->m_vertexSize = stride;
-			glGenVertexArrays(1, &m_pImpl->m_vbId);
+			m_count = vertexCount;
+			m_stride = stride;
+			glGenBuffers(1, &m_pImpl->m_vbId);
 		}
 		/*
 		// --------------------------------------------------------------------------------
@@ -103,14 +96,14 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::Lock(void **ppBuff, uint32_t flags)
 		{
-			glBindVertexArray(m_pImpl->m_vbId);
+			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
 			*ppBuff = glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE);
 		}
 
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::Unlock()
 		{
-			glBindVertexArray(m_pImpl->m_vbId);
+			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
 			glUnmapBuffer(GL_ARRAY_BUFFER);
 		}
 
@@ -120,42 +113,10 @@ namespace oakvr
 			glDeleteVertexArrays(1, &m_pImpl->m_vbId);
 		}
 
-		// --------------------------------------------------------------------------------
-		uint32_t VertexBuffer::GetVertexCount()
+		void VertexBuffer::Use()
 		{
-			return m_pImpl->m_vertexCount;
+			glBindVertexArray(m_pImpl->m_vbId);
 		}
-
-		// --------------------------------------------------------------------------------
-		void VertexBuffer::SetVertexCount(uint32_t vertexCount)
-		{
-			m_pImpl->m_vertexCount = vertexCount;
-		}
-
-		// --------------------------------------------------------------------------------
-		uint32_t VertexBuffer::GetVertexSize()
-		{
-			return m_pImpl->m_vertexSize;
-		}
-		/*
-		// --------------------------------------------------------------------------------
-		uint32_t VertexBuffer::GetVertexFormat()
-		{
-			return m_pImpl->m_vertexFormat;
-		}
-
-		// --------------------------------------------------------------------------------
-		void VertexBuffer::SetVertexFormat(uint32_t vertexFormat)
-		{
-			m_pImpl->m_vertexFormat = vertexFormat;
-		}
-		*/
-		// --------------------------------------------------------------------------------
-		void VertexBuffer::SetVertexSize(uint32_t vertexSize)
-		{
-			m_pImpl->m_vertexSize = vertexSize;
-		}
-
 
 	}	// namespace render
 }	// namespace oakvr

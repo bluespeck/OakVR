@@ -16,9 +16,10 @@ namespace oakvr
 			Mesh();
 			~Mesh();
 
-			//void AddMeshElement()
+			void AddMeshElement(std::shared_ptr<MeshElement> &meshElem);
 			std::vector<std::shared_ptr<MeshElement>> &GetMeshElements() { return m_vMeshElements; }
 			const std::vector<std::shared_ptr<MeshElement>> &GetMeshElements() const { return m_vMeshElements; }
+
 
 		private:
 			std::vector<std::shared_ptr<MeshElement>> m_vMeshElements;

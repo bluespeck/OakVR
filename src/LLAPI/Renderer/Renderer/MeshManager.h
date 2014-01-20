@@ -12,13 +12,17 @@ namespace oakvr
 		class MeshManager
 		{
 		public:
+			typedef std::vector<std::shared_ptr<Mesh>> MeshVector;
+
 			MeshManager();
 			~MeshManager();
 
 			void AddMesh(std::shared_ptr<Mesh> pMesh);
 			void Clear();
+
+			MeshVector & GetMeshes() { return m_meshes; }
 		private:
-			std::vector<std::shared_ptr<Mesh>> m_meshes;
+			MeshVector m_meshes;
 		};
 	}
 }

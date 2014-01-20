@@ -13,9 +13,11 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		Mesh::~Mesh()
 		{	
-			//s_meshes->erase(std::find(s_meshes->begin(), s_meshes->end(), this));
-			//if(s_bDeleteListIfEmpty && s_meshes->size() == 0)
-			//	delete s_meshes;
+		}
+
+		void Mesh::AddMeshElement(std::shared_ptr<MeshElement> &meshElem)
+		{
+			m_vMeshElements.push_back(meshElem);
 		}
 
 		//// --------------------------------------------------------------------------------

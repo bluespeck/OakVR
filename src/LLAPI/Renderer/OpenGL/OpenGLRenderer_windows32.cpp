@@ -35,6 +35,7 @@ namespace oakvr
 		Renderer::Renderer()
 			: m_pImpl{ new RendererImpl() }
 		{
+			InitCommon();
 		}
 
 		Renderer::~Renderer()
@@ -105,13 +106,6 @@ namespace oakvr
 		void Renderer::Cleanup()
 		{
 
-		}
-
-		// --------------------------------------------------------------------------------
-		void Renderer::Update(float dt)
-		{
-			BeginDraw();
-			EndDraw();
 		}
 
 		// --------------------------------------------------------------------------------
@@ -258,7 +252,7 @@ namespace oakvr
 		}
 		*/
 		// --------------------------------------------------------------------------------
-		void Renderer::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t /*numVertices*/, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
+		void Renderer::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
 			/*	uint8_t numIndicesPerPrimitive = 0;
 			GLenum pt;
@@ -301,7 +295,7 @@ namespace oakvr
 			}
 			*/
 
-			glDrawArrays(GL_TRIANGLES, startVertex, numPrimitives * 3);
+			glDrawArrays(GL_TRIANGLES, startIndex, numPrimitives * 3);
 		}
 
 		// --------------------------------------------------------------------------------

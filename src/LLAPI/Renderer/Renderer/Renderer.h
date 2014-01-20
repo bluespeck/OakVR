@@ -31,7 +31,7 @@ namespace oakvr
 			~Renderer();
 
 			bool Initialize();
-			void Update( float dt );
+			void Update( double dt );
 			void Cleanup();
 
 			void ClearBackground(const Color &color);
@@ -42,20 +42,12 @@ namespace oakvr
 
 			// render
 			void DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex = 0);
-			void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t numVertices, uint32_t startIndex = 0, uint32_t startVertex = 0);
+			void DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex = 0, uint32_t startVertex = 0);
 
 			// texture
 			void CreateTexture	( Texture *texture );
 			void ReleaseTexture	( Texture *texture );
 			void UseTexture ( Texture *texture );
-
-			// index buffer
-			void CreateIndexBuffer	( IndexBuffer *ibuff );
-			void LockIndexBuffer	( IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock = 0, uint32_t sizeToLock = 0, uint32_t flags = 0 );
-			void UnlockIndexBuffer	( IndexBuffer *pIndexBuffer );
-			void ReleaseIndexBuffer	( IndexBuffer *pIndexBuffer );
-			void UseIndexBuffer( IndexBuffer *pIndexBuffer );
-			
 
 			void SetRenderWindow( std::shared_ptr<RenderWindow> pRenderWindow );
 			//void SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer);
@@ -63,7 +55,9 @@ namespace oakvr
 
 			inline bool IsInitialized() { return m_bInitialized; }
 
-		protected:
+		private:
+			void InitCommon();
+
 			std::shared_ptr<RenderWindow> m_pRenderWindow;
 			class RendererImpl;
 			std::unique_ptr<RendererImpl> m_pImpl;

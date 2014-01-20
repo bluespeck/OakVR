@@ -11,6 +11,9 @@
 #include "Log/Log.h"
 
 #include "Renderer/Renderer/Shader.h"
+#include "Renderer/Renderer/Mesh.h"
+#include "Renderer/Renderer/MeshElement.h"
+#include "Renderer/Renderer/Material.h"
 
 
 namespace oakvr
@@ -19,7 +22,7 @@ namespace oakvr
 	bool Engine::Update(double dt)
 	{
 		if(m_pRW->IsOpen())
-		{
+		{	
 			m_pRenderer->Update(dt);
 			return true;
 		}
@@ -76,6 +79,47 @@ namespace oakvr
 		*/
 	}
 
+	void CreateTestMesh(std::shared_ptr<oakvr::render::Renderer> &pRenderer)
+	{
+		auto pMesh = std::make_shared<oakvr::render::Mesh>();
+
+		oakvr::render::VertexElementDescriptor ved{ 12, oakvr::render::VertexElementDescriptor::Semantic::position };
+		oakvr::core::MemoryBuffer vb{ 8 * 3 * 4 }, ib{ 6 * 2 * 3 * 4 };
+		float pVertices[] = {
+			0.f, 0.f, 0.f,
+			1.f, 0.f, 0.f,
+			1.f, 0.f, 1.f,
+			0.f, 0.f, 1.f,
+			0.f, 1.f, 0.f,
+			1.f, 1.f, 0.f,
+			1.f, 1.f, 1.f,
+			0.f, 1.f, 1.f
+		};
+
+		uint32_t pIndices[] = {
+			0, 1, 2,
+			0, 2, 3,
+			1, 2, 6,
+			1, 6, 5,
+			0, 1, 5,
+			0, 5, 4,
+			4, 5, 6,
+			4, 6, 7,
+			2, 3, 7,
+			2, 7, 6,
+			3, 0, 4,
+			3, 4, 7
+		};
+
+		memcpy(vb.GetDataPtr(), pVertices, vb.Size());
+		memcpy(ib.GetDataPtr(), pIndices, ib.Size());
+
+		auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, 4, ib, std::make_shared<oakvr::render::Material>(std::string("DefaultShader")));
+
+		pMesh->AddMeshElement(pMeshElem);
+		pRenderer->RegisterMesh(pMesh);
+	}
+
 	// --------------------------------------------------------------------------------
 	Engine::Engine()
 	{
@@ -83,8 +127,11 @@ namespace oakvr
 
 		m_pRW = std::make_shared<oakvr::render::RenderWindow>();
 		m_pRenderer = std::make_shared<oakvr::render::Renderer>();
+		
 		core::ResourceManager::GetInstance().AddPathsFromFolder("D:\\Projects\\OakVR\\resources\\shaders\\glsl");
-
+		
+		//CreateTestMesh(m_pRenderer);
+		
 		m_pCM = nullptr;
 		m_bIsInitialized = false;
 	}

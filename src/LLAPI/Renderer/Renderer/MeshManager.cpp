@@ -1,4 +1,5 @@
 #include "MeshManager.h"
+#include "Mesh.h"
 
 namespace oakvr
 {
@@ -23,5 +24,6 @@ namespace oakvr
 		{
 			m_meshes.clear();
 		}
+
 	}
 }

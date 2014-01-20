@@ -37,6 +37,7 @@ namespace oakvr
 		Renderer::Renderer()
 			: m_pImpl{ new RendererImpl() }
 		{
+			InitCommon();
 		}
 
 		Renderer::~Renderer()
@@ -48,7 +49,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		bool Renderer::Initialize()
 		{
-			glewExperimental = GL_TRUE;
+			//glewExperimental = GL_TRUE;
 			GLenum err = glewInit();
 			if (err != GLEW_OK)
 			{
@@ -58,19 +59,19 @@ namespace oakvr
 			else
 			{
 				Log::PrintInfo("GLEW initialized!\n");
+				glGetError();
 			}
 			
 			int version[] = { 0, 0};
+			
 			glGetIntegerv(GL_MAJOR_VERSION, &version[0]);
 			glGetIntegerv(GL_MINOR_VERSION, &version[1]);
 			Log::PrintInfo("OpenGL version %d.%d\n", version[0], version[1]);
-
+			
 			glCullFace(GL_BACK);
 			glFrontFace(GL_CW);
 			glEnable(GL_CULL_FACE);
 			glViewport(0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
-			
-
 
 			//			m_shaderProgramId = glCreateProgram();
 
@@ -109,12 +110,6 @@ namespace oakvr
 
 		}
 
-		// --------------------------------------------------------------------------------
-		void Renderer::Update(float dt)
-		{
-			BeginDraw();
-			EndDraw();
-		}
 		/*
 		// --------------------------------------------------------------------------------
 		void Renderer::ReleaseShader(Shader *pShader)
@@ -207,7 +202,7 @@ namespace oakvr
 		}
 		*/
 		// --------------------------------------------------------------------------------
-		void Renderer::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t /*numVertices*/, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
+		void Renderer::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
 			/*	uint8_t numIndicesPerPrimitive = 0;
 			GLenum pt;
@@ -249,54 +244,10 @@ namespace oakvr
 			printf("glDrawElements error!");
 			}
 			*/
-
-			glDrawArrays(GL_TRIANGLES, startVertex, numPrimitives * 3);
+			// numPrimitives * 3 (subject to change)
+			glDrawArrays(GL_TRIANGLES, startIndex, numPrimitives * 3);
 		}
-
-		// --------------------------------------------------------------------------------
-		void Renderer::CreateIndexBuffer(IndexBuffer *pIndexBuffer)
-		{
-			/*GLuint ibId;
-			glGenBuffersARB(1, &ibId);
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, ibId);
-			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetIndexSize() * pIndexBuffer->GetIndexCount(), NULL, GL_DYNAMIC_DRAW);
-
-			pIndexBuffer->SetData((void *)ibId);
-			*/
-		}
-
-		// --------------------------------------------------------------------------------
-		void Renderer::LockIndexBuffer(IndexBuffer *pIndexBuffer, void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags)
-		{	/*
-			int oldId = 0;
-			glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &oldId);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (int)pIndexBuffer->GetData());
-			*ppBuff = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_READ_WRITE);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, oldId);
-			*/
-		}
-
-		// --------------------------------------------------------------------------------
-		void Renderer::UnlockIndexBuffer(IndexBuffer *pIndexBuffer)
-		{
-			/*
-			int oldId = 0;
-			glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &oldId);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (int)pIndexBuffer->GetData());
-			glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, oldId);
-			*/
-		}
-
-		// --------------------------------------------------------------------------------
-		void Renderer::ReleaseIndexBuffer(IndexBuffer *pIndexBuffer)
-		{
-			/*
-			GLuint id = (GLuint)pIndexBuffer->GetData();
-			glDeleteBuffers(1, &id);
-			*/
-		}
-
+		
 		/*		// --------------------------------------------------------------------------------
 		void Renderer::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
 		{
@@ -355,18 +306,7 @@ namespace oakvr
 
 		}
 		*/
-
-		// --------------------------------------------------------------------------------
-		void Renderer::UseIndexBuffer(IndexBuffer *pIndexBuffer)
-		{
-			/*			if(!pIndexBuffer)
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
-			else
-			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, (GLuint)pIndexBuffer->GetData());
-			m_pCurrentIndexBuffer = pIndexBuffer;
-			*/
-		}
-
+		
 		/*		// --------------------------------------------------------------------------------
 		void Renderer::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
 		{

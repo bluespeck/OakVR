@@ -13,3 +13,5 @@
 #	include <GL/glew.h>
 #	include <GL/glfw.h>
 #endif
+
+#include "Log/Log.h"

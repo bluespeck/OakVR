@@ -24,15 +24,19 @@ namespace oakvr
 
 		class MeshElement
 		{
+		public:
+			MeshElement(const VertexElementDescriptor &vertexFormat, const oakvr::core::MemoryBuffer &vb
+				, uint8_t indexStride, const oakvr::core::MemoryBuffer ib
+				, std::shared_ptr<Material> &pMaterial);
 			MeshElement(const std::vector<VertexElementDescriptor> &vertexFormat, const oakvr::core::MemoryBuffer &vb
 						, uint8_t indexStride, const oakvr::core::MemoryBuffer ib
-						, std::shared_ptr<Material> pMaterial);
+						, std::shared_ptr<Material> &pMaterial);
 			~MeshElement();
 
-		private:
-			std::unique_ptr<oakvr::core::MemoryBuffer> m_pVertexData;
-			std::unique_ptr<oakvr::core::MemoryBuffer> m_pIndexData;
+			oakvr::core::MemoryBuffer m_vertexData;
+			oakvr::core::MemoryBuffer m_indexData;
 			std::vector<VertexElementDescriptor> m_vertexFormat;
+			uint8_t m_vertexStride;
 			uint8_t m_indexStride;
 
 			std::shared_ptr<Material> m_pMaterial;

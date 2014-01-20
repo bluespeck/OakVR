@@ -6,7 +6,8 @@ namespace oakvr
 	namespace render
 	{
 		// --------------------------------------------------------------------------------
-		Material::Material()
+		Material::Material(std::string &name)
+			: m_shaderName(name)
 		{
 		}
 
