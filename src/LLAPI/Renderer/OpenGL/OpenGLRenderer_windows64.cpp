@@ -79,11 +79,6 @@ namespace oakvr
 			return true;
 		}
 
-		void Renderer::SetRenderWindow(std::shared_ptr<RenderWindow> pRenderWindow)
-		{
-			m_pRenderWindow = pRenderWindow;
-		}
-
 		// --------------------------------------------------------------------------------
 		void Renderer::ClearBackground(const Color &color)
 		{
@@ -246,6 +241,12 @@ namespace oakvr
 			*/
 			// numPrimitives * 3 (subject to change)
 			glDrawArrays(GL_TRIANGLES, startIndex, numPrimitives * 3);
+			GLenum err = glGetError();
+			if (err)
+			{
+				oakvr::Log::PrintError("glDrawArrays %x\n", err);
+			}
+			
 		}
 		
 		/*		// --------------------------------------------------------------------------------

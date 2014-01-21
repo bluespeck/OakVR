@@ -67,7 +67,7 @@ namespace oakvr
 				glfwTerminate();
 				return false;
 			}
-
+			glfwSetWindowPos(m_pImpl->m_pWindow, m_posX, m_posY);
 			glfwMakeContextCurrent(m_pImpl->m_pWindow);
 			glfwSetWindowCloseCallback(m_pImpl->m_pWindow, OnCloseWindow);
 			return true;

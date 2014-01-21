@@ -18,7 +18,7 @@ namespace oakvr
 {
 	namespace core
 	{
-		class ResourceManager: public oakvr::Singleton<ResourceManager>
+		class ResourceManager
 		{
 		public:
 			void Initialize();

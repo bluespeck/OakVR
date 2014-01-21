@@ -4,6 +4,9 @@
 #include "MeshElement.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "Shader.h"
+#include "Material.h"
+
 
 namespace oakvr
 {
@@ -32,6 +35,7 @@ namespace oakvr
 					vb.Create(vertexCount, pMeshElem->m_vertexStride);
 					// and populate it with vertex data
 					vb.Lock(&pBuff);
+					
 					memcpy(pBuff, pMeshElem->m_vertexData.GetDataPtr(), pMeshElem->m_vertexData.Size());
 					vb.Unlock();
 
@@ -45,7 +49,19 @@ namespace oakvr
 					memcpy(pBuff, pMeshElem->m_indexData.GetDataPtr(), pMeshElem->m_indexData.Size());
 					ib.Unlock();
 
+					vb.Use();
+					ib.Use();
+
+					auto it = m_shaders.find(pMeshElem->m_pMaterial->m_shaderName);
+					if (it != std::end(m_shaders))
+					{
+						it->second->Use();
+					}
+
 					DrawIndexedPrimitives(indexCount, 0);
+
+					ib.Release();
+					vb.Release();
 					
 				}
 			}
@@ -56,6 +72,29 @@ namespace oakvr
 		void Renderer::InitCommon()
 		{	
 			m_pMeshManager.reset(new MeshManager);
+		}
+
+		void Renderer::SetRenderWindow(std::shared_ptr<RenderWindow> &pRenderWindow)
+		{
+			m_pRenderWindow = pRenderWindow;
+		}
+
+		void Renderer::RegisterVertexShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff)
+		{
+			auto it = m_shaders.find(shaderName);
+			if (it == std::end(m_shaders))
+			{
+				m_shaders.emplace(shaderName, std::unique_ptr<Shader>(new Shader(Shader::ShaderType::vertex, *buff)));
+			}
+		}
+
+		void Renderer::RegisterPixelShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff)
+		{
+			auto it = m_shaders.find(shaderName);
+			if (it == std::end(m_shaders))
+			{
+				m_shaders.emplace(shaderName, std::unique_ptr<Shader>(new Shader(Shader::ShaderType::pixel, *buff)));
+			}
 		}
 
 	}	// namespace render

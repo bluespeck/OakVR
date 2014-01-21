@@ -77,11 +77,6 @@ namespace oakvr
 			return true;
 		}
 
-		void Renderer::SetRenderWindow(std::shared_ptr<RenderWindow> pRenderWindow)
-		{
-			m_pRenderWindow = pRenderWindow;
-		}
-
 		// --------------------------------------------------------------------------------
 		void Renderer::ClearBackground(const Color &color)
 		{

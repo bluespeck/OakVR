@@ -4,6 +4,9 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <unordered_map>
+
+#include "Utils\Buffer.h"
 
 namespace oakvr
 {
@@ -38,7 +41,9 @@ namespace oakvr
 			void BeginDraw();
 			void EndDraw();
 
-			void RegisterMesh(std::shared_ptr<Mesh> pMesh); 
+			void RegisterMesh(std::shared_ptr<Mesh> pMesh);
+			void RegisterVertexShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
+			void RegisterPixelShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
 
 			// render
 			void DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex = 0);
@@ -49,7 +54,7 @@ namespace oakvr
 			void ReleaseTexture	( Texture *texture );
 			void UseTexture ( Texture *texture );
 
-			void SetRenderWindow( std::shared_ptr<RenderWindow> pRenderWindow );
+			void SetRenderWindow( std::shared_ptr<RenderWindow> &pRenderWindow );
 			//void SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer);
 			//DebugTextRenderer * GetDebugTextRenderer() { return m_pDebugTextRenderer; }
 
@@ -63,8 +68,8 @@ namespace oakvr
 			std::unique_ptr<RendererImpl> m_pImpl;
 			
 			
-			std::vector<std::unique_ptr<Texture>> m_textures;
-			std::vector<std::unique_ptr<Shader>> m_shaders;
+			std::unordered_map<std::string, std::unique_ptr<Texture>> m_textures;
+			std::unordered_map<std::string, std::unique_ptr<Shader>> m_shaders;
 			//DebugTextRenderer *m_pDebugTextRenderer;		// object used to draw debug text
 			std::unique_ptr<MeshManager> m_pMeshManager;
 			bool m_bInitialized;

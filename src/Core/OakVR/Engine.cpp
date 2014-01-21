@@ -4,11 +4,15 @@
 
 #include "Engine.h"
 #include "Time/Timer.h"
-#include "ResourceManager/ResourceManager.h"
 #include "Input/MouseInput/MouseInput.h"
 #include "Math/Matrix.h"
 #include "Math/Vector3.h"
 #include "Log/Log.h"
+
+#include "ResourceManager/ResourceManager.h"
+#include "Renderer/Renderer/Renderer.h"
+#include "Renderer/Renderer/RenderWindow.h"
+#include "CameraManager.h"
 
 #include "Renderer/Renderer/Shader.h"
 #include "Renderer/Renderer/Mesh.h"
@@ -79,7 +83,7 @@ namespace oakvr
 		*/
 	}
 
-	void CreateTestMesh(std::shared_ptr<oakvr::render::Renderer> &pRenderer)
+	void CreateTestMesh(std::unique_ptr<oakvr::render::Renderer> &pRenderer, std::unique_ptr<oakvr::core::ResourceManager> &pRM)
 	{
 		auto pMesh = std::make_shared<oakvr::render::Mesh>();
 
@@ -118,20 +122,18 @@ namespace oakvr
 
 		pMesh->AddMeshElement(pMeshElem);
 		pRenderer->RegisterMesh(pMesh);
+		pRenderer->RegisterVertexShader("DefaultShader", pRM->GetResource("DefaultShader"));
 	}
 
 	// --------------------------------------------------------------------------------
 	Engine::Engine()
+		: m_pRM{ new oakvr::core::ResourceManager }
+		, m_pRW{ std::make_shared<oakvr::render::RenderWindow>("oakvr", 2000, 100, 1024, 768) }
+		, m_pRenderer{ new oakvr::render::Renderer }
+		, m_pCM{ new oakvr::render::CameraManager }
 	{
 		m_timer = oakvr::Timer();
 
-		m_pRW = std::make_shared<oakvr::render::RenderWindow>();
-		m_pRenderer = std::make_shared<oakvr::render::Renderer>();
-		
-		core::ResourceManager::GetInstance().AddPathsFromFolder("D:\\Projects\\OakVR\\resources\\shaders\\glsl");
-		
-		//CreateTestMesh(m_pRenderer);
-		
 		m_pCM = nullptr;
 		m_bIsInitialized = false;
 	}
@@ -162,8 +164,11 @@ namespace oakvr
 		{
 			m_pRenderer->SetRenderWindow(m_pRW);
 			m_pRenderer->Initialize();
-			auto pShaderData = core::ResourceManager::GetInstance().GetResource("DefaultShader");
-			oakvr::render::Shader *pShader = new oakvr::render::Shader(oakvr::render::Shader::ShaderType::vertex, *pShaderData);
+
+			m_pRM->AddPathsFromFolder("D:\\Projects\\OakVR\\resources\\shaders\\glsl");
+
+			CreateTestMesh(m_pRenderer, m_pRM);
+			
 			/*
 			oakvr::render::DebugTextRenderer *pDebugTextRenderer = nullptr;
 #if defined(_WIN32)

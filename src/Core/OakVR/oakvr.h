@@ -14,9 +14,9 @@ namespace oakvr
 		
 		OakVR();
 		virtual ~OakVR();
-	protected:
+	private:
 		
-		Engine &m_sEngine;
+		Engine m_engine;
 		
 		bool Update();
 	};

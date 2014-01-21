@@ -25,7 +25,10 @@ namespace oakvr
 
 			Shader(ShaderType shaderType, const oakvr::core::MemoryBuffer &buff);
 			~Shader();
+
 			inline ShaderType GetType();
+
+			void Use();
 			
 		protected:
 			class ShaderImpl;

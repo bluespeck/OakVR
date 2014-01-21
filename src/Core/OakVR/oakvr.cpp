@@ -29,9 +29,8 @@ namespace oakvr
 
 	// --------------------------------------------------------------------------------
 	OakVR::OakVR()
-	:	m_sEngine (Engine::GetInstance())
 	{
-		if(!m_sEngine.Initialize())
+		if(!m_engine.Initialize())
 		{
 			Log::PrintError("Failed to initialize OakVR!\n");
 			exit(1);
@@ -43,7 +42,7 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	bool OakVR::Update()
 	{
-		return m_sEngine.Update();
+		return m_engine.Update();
 		
 		//std::cout << "Current time: " << m_sEngine.GetTimer().GetElapsedTime() << std::endl;
 	}

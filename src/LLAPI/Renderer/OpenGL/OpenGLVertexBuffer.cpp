@@ -3,6 +3,7 @@
 
 #include "Renderer/Renderer/VertexBuffer.h"
 #include "Renderer/Renderer/Renderer.h"
+#include "Log/Log.h"
 
 
 namespace oakvr
@@ -34,11 +35,13 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void VertexBuffer::Create(uint32_t vertexCount, uint8_t stride)
+		void VertexBuffer::Create(uint32_t vertexCount, uint8_t vertexStride)
 		{
 			m_count = vertexCount;
-			m_stride = stride;
+			m_stride = vertexStride;
 			glGenBuffers(1, &m_pImpl->m_vbId);
+			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+			glBufferData(GL_ARRAY_BUFFER, vertexCount * vertexStride, nullptr, GL_DYNAMIC_DRAW);
 		}
 		/*
 		// --------------------------------------------------------------------------------
@@ -95,9 +98,9 @@ namespace oakvr
 		*/
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::Lock(void **ppBuff, uint32_t flags)
-		{
+		{	
 			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-			*ppBuff = glMapBuffer(GL_ARRAY_BUFFER, GL_READ_WRITE);
+			*ppBuff = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -109,13 +112,13 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::Release()
-		{
-			glDeleteVertexArrays(1, &m_pImpl->m_vbId);
+		{	
+			glDeleteBuffers(1, &m_pImpl->m_vbId);
 		}
 
 		void VertexBuffer::Use()
 		{
-			glBindVertexArray(m_pImpl->m_vbId);
+			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
 		}
 
 	}	// namespace render

@@ -39,6 +39,8 @@ namespace oakvr
 			m_count = indexCount;
 			m_stride = indexStride;
 			glGenBuffers(1, &m_pImpl->m_ibId);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * indexStride, nullptr, GL_DYNAMIC_DRAW);
 		}
 
 		// --------------------------------------------------------------------------------
