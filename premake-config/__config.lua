@@ -1,4 +1,5 @@
-allowedPlatforms = { "linux32", "linux64", "windows32", "windows64" }
+--allowedPlatforms = { "linux32", "linux64", "windows32", "windows64" }
+allowedPlatforms = { "windows64" } -- temporary for development on win64
 allowedConfigs = { "debug", "fastdebug", "profile", "final"}
 
 function GetTableWithDescriptions(_table)
