@@ -12,3 +12,4 @@
 
 	dofile("ResourceManager/__ResourceManager.lua")
 	dofile("OakVR/__OakVR.lua")
+	dofile("CoreExternals/__CoreExternals.lua")
