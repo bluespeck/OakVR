@@ -1,5 +1,9 @@
+#include <memory>
+
 #include "Common.h"
 #include "Renderer/Renderer/Renderer.h"
+
+#include "Renderer/Renderer/Shader.h"
 
 #include "Renderer/Renderer/RendererCommon.h"
 #include "Renderer/Renderer/RendererUtils.h"
@@ -10,6 +14,7 @@
 #include "Renderer/Renderer/MeshManager.h"
 #include "Renderer/Renderer/Mesh.h"
 
+
 #include "Math/Matrix.h"
 #include "Math/Transform.h"
 #include "Renderer/Renderer/Shader.h"
@@ -17,8 +22,6 @@
 #include "FileIO/File.h"
 #include "Log/Log.h"
 //#include "ResourceManager/Image.h"
-
-#include <cassert>
 
 namespace oakvr
 {
@@ -28,9 +31,8 @@ namespace oakvr
 		{
 		public:
 			void *m_pDevice;                    // OpenGL device interface (context)
-			void *m_pWorkerThreadDevice;		// worker thread context
-			long m_mainThreadId;
 			long m_shaderProgramId;
+			GLint m_programId;
 		};
 
 		// --------------------------------------------------------------------------------
@@ -73,7 +75,14 @@ namespace oakvr
 			glEnable(GL_CULL_FACE);
 			glViewport(0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
 
-			//			m_shaderProgramId = glCreateProgram();
+			err = glGetError();
+			if (err)
+				oakvr::Log::PrintError("Err create1 %x", err);
+
+			m_pImpl->m_shaderProgramId = glCreateProgram();
+			err = glGetError();
+			if (err)
+				oakvr::Log::PrintError("Err create2 %x", err);
 
 			m_bInitialized = true;
 			return true;
@@ -165,6 +174,29 @@ namespace oakvr
 
 			//glDrawArrays(pt, startVertex, numPrimitives * m_numVerticesPerPrimitive);
 			glDrawArrays(GL_TRIANGLES, startVertex, numPrimitives * 3);
+		}
+
+		void Renderer::UseShader(std::shared_ptr<oakvr::render::Shader> &pShader)
+		{
+			GLuint shaderId = reinterpret_cast<GLuint>(pShader->GetNativeHandle());
+			glAttachShader(m_pImpl->m_programId, shaderId);
+			GLenum err = glGetError();
+			if (err)
+				oakvr::Log::PrintError("Err Use %x", err);
+		}
+
+		void Renderer::PrepareShaders()
+		{
+			glLinkProgram(m_pImpl->m_programId);
+			GLenum err = glGetError();
+			if (err)
+				oakvr::Log::PrintError("Err Prepare %x", err);
+
+			//validateProgram(shader_id); // Validate the shader program
+			glUseProgram(m_pImpl->m_programId);
+			err = glGetError();
+			if (err)
+				oakvr::Log::PrintError("Err Use P %x", err);
 		}
 
 		// --------------------------------------------------------------------------------

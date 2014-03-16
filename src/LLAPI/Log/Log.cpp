@@ -1,6 +1,7 @@
 #include "Log.h"
 
 #include <cstdarg>
+#include <iostream>
 
 namespace oakvr
 {
@@ -45,6 +46,7 @@ namespace oakvr
 		va_start(vl, logMsg);
 		Print(LogLevel::error, logMsg, vl);
 		va_end(vl);
+		std::cin.get();
 	}
 
 	void Log::PrintWarning(const char * logMsg, ...)

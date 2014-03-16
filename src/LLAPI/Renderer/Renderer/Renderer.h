@@ -53,6 +53,8 @@ namespace oakvr
 			void CreateTexture	( Texture *texture );
 			void ReleaseTexture	( Texture *texture );
 			void UseTexture ( Texture *texture );
+			void UseShader(std::shared_ptr<Shader> &pShader);
+			void PrepareShaders();
 
 			void SetRenderWindow( std::shared_ptr<RenderWindow> &pRenderWindow );
 			//void SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer);
@@ -69,7 +71,7 @@ namespace oakvr
 			
 			
 			std::unordered_map<std::string, std::unique_ptr<Texture>> m_textures;
-			std::unordered_map<std::string, std::unique_ptr<Shader>> m_shaders;
+			std::unordered_map<std::string, std::shared_ptr<Shader>> m_shaders;
 			//DebugTextRenderer *m_pDebugTextRenderer;		// object used to draw debug text
 			std::unique_ptr<MeshManager> m_pMeshManager;
 			bool m_bInitialized;

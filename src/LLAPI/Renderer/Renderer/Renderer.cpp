@@ -55,8 +55,9 @@ namespace oakvr
 					auto it = m_shaders.find(pMeshElem->m_pMaterial->m_shaderName);
 					if (it != std::end(m_shaders))
 					{
-						it->second->Use();
+						UseShader(it->second);
 					}
+					PrepareShaders();
 
 					DrawIndexedPrimitives(indexCount, 0);
 
@@ -81,6 +82,8 @@ namespace oakvr
 
 		void Renderer::RegisterVertexShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff)
 		{
+			if (buff.get() == nullptr)
+				return;
 			auto it = m_shaders.find(shaderName);
 			if (it == std::end(m_shaders))
 			{

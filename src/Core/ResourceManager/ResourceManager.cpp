@@ -153,7 +153,7 @@ namespace oakvr
 			}
 			else
 			{
-				// see if we there is a file in our index that matches the name of the resource and load that one
+				// see if there is a file in our index that matches the name of the resource and load that one
 				// this can fail superbly if multiple files have the same name so keep an eye on this
 				auto it = m_mapPaths.find(id);
 				if (it != std::end(m_mapPaths) && oakvr::core::io::File::Exists(it->second))

@@ -35,8 +35,15 @@ namespace oakvr
 		static ScreenSize GetScreenSize();
 		static WindowSize GetWindowSize();
 
+		void RegisterShaders(const std::string &shaderName);
+
 	private:			
 		bool Update(double dt);
+
+		
+
+
+
 
 		void TriggerInputEvents();
 		void DrawInterface();
@@ -44,6 +51,8 @@ namespace oakvr
 		void DrawDebugText();
 		void DrawAxes();
 		void DrawMeshBoundingBoxes();
+
+
 
 	private:
 		Timer m_timer;

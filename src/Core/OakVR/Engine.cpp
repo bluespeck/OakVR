@@ -83,7 +83,7 @@ namespace oakvr
 		*/
 	}
 
-	void CreateTestMesh(std::unique_ptr<oakvr::render::Renderer> &pRenderer, std::unique_ptr<oakvr::core::ResourceManager> &pRM)
+	void CreateTestMesh(std::unique_ptr<oakvr::render::Renderer> &pRenderer, oakvr::Engine *pEngine)
 	{
 		auto pMesh = std::make_shared<oakvr::render::Mesh>();
 
@@ -118,13 +118,22 @@ namespace oakvr
 		memcpy(vb.GetDataPtr(), pVertices, vb.Size());
 		memcpy(ib.GetDataPtr(), pIndices, ib.Size());
 
-		auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, 4, ib, std::make_shared<oakvr::render::Material>(std::string("DefaultShader")));
+		auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, 4, ib, std::make_shared<oakvr::render::Material>(std::string("Default")));
 
 		pMesh->AddMeshElement(pMeshElem);
 		pRenderer->RegisterMesh(pMesh);
-		pRenderer->RegisterVertexShader("DefaultShader", pRM->GetResource("DefaultShader"));
+		//pRenderer->RegisterVertexShader("DefaultShader", pRM->GetResource("DefaultShader"));
+		pEngine->RegisterShaders("Default");
 	}
 
+	void Engine::RegisterShaders(const std::string &shaderName)
+	{
+		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_vs"));
+		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_ps"));
+		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_gs"));
+		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_hs"));
+		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_ds"));
+	}
 	// --------------------------------------------------------------------------------
 	Engine::Engine()
 		: m_pRM{ new oakvr::core::ResourceManager }
@@ -167,7 +176,7 @@ namespace oakvr
 
 			m_pRM->AddPathsFromFolder("D:\\Projects\\OakVR\\resources\\shaders\\glsl");
 
-			CreateTestMesh(m_pRenderer, m_pRM);
+			CreateTestMesh(m_pRenderer, this);
 			
 			/*
 			oakvr::render::DebugTextRenderer *pDebugTextRenderer = nullptr;

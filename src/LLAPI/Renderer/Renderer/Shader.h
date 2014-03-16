@@ -28,12 +28,13 @@ namespace oakvr
 
 			inline ShaderType GetType();
 
-			void Use();
-			
-		protected:
+			void *GetNativeHandle();
+		private:
 			class ShaderImpl;
 			std::unique_ptr<ShaderImpl> m_pImpl;
 			ShaderType m_shaderType;
+
+			friend class Renderer;
 		};
 
 		// --------------------------------------------------------------------------------		
