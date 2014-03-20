@@ -1,7 +1,12 @@
 #pragma once
 
+#include "MeshElement.h"
+
 #include <cstdint>
 #include <memory>
+#include <vector>
+
+
 
 namespace oakvr
 {
@@ -12,6 +17,7 @@ namespace oakvr
 		public:
 
 			VertexBuffer();
+			VertexBuffer(uint32_t count, uint8_t stride);
 			~VertexBuffer();
 
 			uint32_t GetVertexCount() { return m_count; }
@@ -23,6 +29,7 @@ namespace oakvr
 			void Release();
 
 			void Use();
+			void Use(const std::vector<oakvr::render::VertexElementDescriptor> &vertexElementDescriptors);
 
 		private:
 			class VertexBufferImpl;

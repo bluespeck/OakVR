@@ -87,28 +87,31 @@ namespace oakvr
 	{
 		auto pMesh = std::make_shared<oakvr::render::Mesh>();
 
-		oakvr::render::VertexElementDescriptor ved{ 12, oakvr::render::VertexElementDescriptor::Semantic::position };
-		oakvr::core::MemoryBuffer vb{ 8 * 3 * 4 }, ib{ 6 * 2 * 3 * 4 };
+		std::vector<oakvr::render::VertexElementDescriptor> ved{ { 12, oakvr::render::VertexElementDescriptor::Semantic::position }  //, { 8, oakvr::render::VertexElementDescriptor::Semantic::tex_coord }
+	};
+		oakvr::core::MemoryBuffer vb{ 8 * (3) * sizeof(float) }, ib{ 6 * 2 * 3 * sizeof(uint32_t) };
 		float pVertices[] = {
-			0.f, 0.f, 0.f,
-			1.f, 0.f, 0.f,
-			1.f, 0.f, 1.f,
-			0.f, 0.f, 1.f,
-			0.f, 1.f, 0.f,
-			1.f, 1.f, 0.f,
-			1.f, 1.f, 1.f,
-			0.f, 1.f, 1.f
+			0.0f, 0.0f, 0.0f,// 0.f, 0.f,
+			1.0f, 0.0f, 0.0f,// 0.f, 0.f,
+			1.0f, 0.0f, 1.0f,// 0.f, 0.f,
+			0.0f, 0.0f, 1.0f,// 0.f, 0.f,
+			0.0f, 1.0f, 0.0f,// 0.f, 0.f,
+			1.0f, 1.0f, 0.0f,// 0.f, 0.f,
+			1.0f, 1.0f, 1.0f,// 0.f, 0.f,
+			0.0f, 1.0f, 1.0f// 0.f, 0.f
 		};
 
 		uint32_t pIndices[] = {
-			0, 1, 2,
-			0, 2, 3,
+			0, 2, 1,
+			0, 3, 2,
 			1, 2, 6,
 			1, 6, 5,
+
 			0, 1, 5,
 			0, 5, 4,
 			4, 5, 6,
 			4, 6, 7,
+
 			2, 3, 7,
 			2, 7, 6,
 			3, 0, 4,
@@ -118,18 +121,17 @@ namespace oakvr
 		memcpy(vb.GetDataPtr(), pVertices, vb.Size());
 		memcpy(ib.GetDataPtr(), pIndices, ib.Size());
 
-		auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, 4, ib, std::make_shared<oakvr::render::Material>(std::string("Default")));
+		auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, sizeof(uint32_t), ib, std::make_shared<oakvr::render::Material>(std::string("Default")));
 
 		pMesh->AddMeshElement(pMeshElem);
 		pRenderer->RegisterMesh(pMesh);
-		//pRenderer->RegisterVertexShader("DefaultShader", pRM->GetResource("DefaultShader"));
 		pEngine->RegisterShaders("Default");
 	}
 
 	void Engine::RegisterShaders(const std::string &shaderName)
 	{
 		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_vs"));
-		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_ps"));
+		m_pRenderer->RegisterPixelShader("Default", m_pRM->GetResource("Default_ps"));
 		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_gs"));
 		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_hs"));
 		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_ds"));

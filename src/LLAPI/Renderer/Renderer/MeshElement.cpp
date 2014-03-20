@@ -11,7 +11,8 @@ namespace oakvr
 		{
 			m_vertexFormat.push_back(vertexFormat);
 			m_vertexStride = vertexFormat.size;
-			
+			m_indexCount = m_indexData.Size() / m_indexStride;
+			m_vertexCount = m_vertexData.Size() / m_vertexStride;
 		}
 
 		MeshElement::MeshElement(const std::vector<VertexElementDescriptor> &vertexFormat, const oakvr::core::MemoryBuffer &vb
@@ -24,6 +25,8 @@ namespace oakvr
 			{
 				m_vertexStride += e.size;
 			}
+			m_indexCount = m_indexData.Size() / m_indexStride;
+			m_vertexCount = m_vertexData.Size() / m_vertexStride;
 		}
 
 		MeshElement::~MeshElement()

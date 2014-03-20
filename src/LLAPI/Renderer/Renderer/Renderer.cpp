@@ -13,11 +13,6 @@ namespace oakvr
 	namespace render
 	{
 		
-		void Renderer::RegisterMesh(std::shared_ptr<Mesh> pMesh)
-		{
-			m_pMeshManager->AddMesh(pMesh);
-		}
-
 		// --------------------------------------------------------------------------------
 		void Renderer::Update(double dt)
 		{
@@ -30,9 +25,7 @@ namespace oakvr
 					void *pBuff = nullptr;
 
 					// Create vertex buffer for this mesh element
-					VertexBuffer vb;
-					unsigned long vertexCount = pMeshElem->m_vertexData.Size() / pMeshElem->m_vertexStride;
-					vb.Create(vertexCount, pMeshElem->m_vertexStride);
+					VertexBuffer vb(pMeshElem->m_vertexCount, pMeshElem->m_vertexStride);
 					// and populate it with vertex data
 					vb.Lock(&pBuff);
 					
@@ -41,25 +34,35 @@ namespace oakvr
 
 					
 					// Create index buffer for this mesh element
-					IndexBuffer ib;
-					unsigned long indexCount = pMeshElem->m_indexData.Size() / pMeshElem->m_indexStride;
-					ib.Create(vertexCount, pMeshElem->m_indexStride);
+					IndexBuffer ib(pMeshElem->m_indexCount, pMeshElem->m_indexStride);
 					// and populate it with index data
 					ib.Lock(&pBuff);
 					memcpy(pBuff, pMeshElem->m_indexData.GetDataPtr(), pMeshElem->m_indexData.Size());
 					ib.Unlock();
 
-					vb.Use();
+					vb.Use(pMeshElem->m_vertexFormat);
 					ib.Use();
 
 					auto it = m_shaders.find(pMeshElem->m_pMaterial->m_shaderName);
 					if (it != std::end(m_shaders))
 					{
-						UseShader(it->second);
+						if (it->second.vs)
+							UseShader(it->second.vs);
+						if (it->second.ps)
+							UseShader(it->second.ps);
+						if (it->second.gs)
+							UseShader(it->second.ds);
+						if (it->second.ds)
+							UseShader(it->second.ds);
+						if (it->second.hs)
+							UseShader(it->second.hs);
 					}
 					PrepareShaders();
 
-					DrawIndexedPrimitives(indexCount, 0);
+
+
+					DrawIndexed(pMeshElem->m_indexCount);
+					//Draw(vertexCount);
 
 					ib.Release();
 					vb.Release();
@@ -70,35 +73,62 @@ namespace oakvr
 			EndDraw();
 		}
 
+		// --------------------------------------------------------------------------------
 		void Renderer::InitCommon()
 		{	
 			m_pMeshManager.reset(new MeshManager);
 		}
+		
+		// --------------------------------------------------------------------------------
+		void Renderer::RegisterMesh(std::shared_ptr<Mesh> pMesh)
+		{
+			m_pMeshManager->AddMesh(pMesh);
+		}
 
+		// --------------------------------------------------------------------------------
 		void Renderer::SetRenderWindow(std::shared_ptr<RenderWindow> &pRenderWindow)
 		{
 			m_pRenderWindow = pRenderWindow;
 		}
 
+		// --------------------------------------------------------------------------------
 		void Renderer::RegisterVertexShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff)
 		{
 			if (buff.get() == nullptr)
 				return;
-			auto it = m_shaders.find(shaderName);
-			if (it == std::end(m_shaders))
-			{
-				m_shaders.emplace(shaderName, std::unique_ptr<Shader>(new Shader(Shader::ShaderType::vertex, *buff)));
-			}
+			m_shaders[shaderName].vs = std::make_shared<Shader>(Shader::ShaderType::vertex, *buff);
 		}
 
+		// --------------------------------------------------------------------------------
 		void Renderer::RegisterPixelShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff)
 		{
-			auto it = m_shaders.find(shaderName);
-			if (it == std::end(m_shaders))
-			{
-				m_shaders.emplace(shaderName, std::unique_ptr<Shader>(new Shader(Shader::ShaderType::pixel, *buff)));
-			}
+			if (buff.get() == nullptr)
+				return;
+			m_shaders[shaderName].ps, std::make_shared<Shader>(Shader::ShaderType::pixel, *buff);
 		}
 
+		// --------------------------------------------------------------------------------
+		void Renderer::RegisterGeometryShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff)
+		{
+			if (buff.get() == nullptr)
+				return;
+			m_shaders[shaderName].gs, std::make_shared<Shader>(Shader::ShaderType::geometry, *buff);
+		}
+
+		// --------------------------------------------------------------------------------
+		void Renderer::RegisterDomainShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff)
+		{
+			if (buff.get() == nullptr)
+				return;
+			m_shaders[shaderName].ds, std::make_shared<Shader>(Shader::ShaderType::domain, *buff);
+		}
+
+		// --------------------------------------------------------------------------------
+		void Renderer::RegisterHullShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff)
+		{
+			if (buff.get() == nullptr)
+				return;
+			m_shaders[shaderName].hs, std::make_shared<Shader>(Shader::ShaderType::hull, *buff);
+		}
 	}	// namespace render
 }	// namespace oakvr

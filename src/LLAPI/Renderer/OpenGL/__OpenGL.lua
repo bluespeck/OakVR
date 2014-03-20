@@ -14,12 +14,12 @@
 		configuration {"linux*"}
 			defines { "GL_GLEXT_PROTOTYPES" }
 			buildoptions {"-fpermissive"}
-			links { "opengl", "glfw", "GLEW", "GL" }
+			links { "opengl", "glfw", "GLEW", "GL", "Math" }
 			
 		configuration { "windows*" }
 			-- glfw
 			includedirs { "GLFW/include" }
-		
+			
 			defines { "_GLFW_WIN32", "_GLFW_USE_OPENGL", "_GLFW_WGL" }
 			files {
 				"GLFW/src/clipboard.c",				
@@ -34,6 +34,7 @@
 				"GLFW/src/window.c",
 				"GLFW/src/win32*.c",
 			}
+			
 			-- opengl
 	-- make sure you add GLEW_PATH to the Windows environment variables
 			includedirs { (os.getenv("GLEW_PATH") or "") .."/include" }

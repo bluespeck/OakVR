@@ -49,12 +49,12 @@ namespace oakvr
 			glewExperimental = GL_TRUE;
 			if(glewInit() != GLEW_OK)
 			{
-				Log::PrintError("Failed to initialize GLEW.\n");
+				Log::PrintError("Failed to initialize GLEW.");
 				return false;
 			}
 			else
 			{
-				Log::PrintInfo("GLEW initialized!\n");
+				Log::PrintInfo("GLEW initialized!");
 			}
 
 

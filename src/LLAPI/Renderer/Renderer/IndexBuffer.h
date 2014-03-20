@@ -11,6 +11,7 @@ namespace oakvr
 		{
 		public:
 			IndexBuffer();
+			IndexBuffer(uint32_t count, uint8_t stride);
 			~IndexBuffer();
 
 			uint32_t GetIndexCount() { return m_count; }

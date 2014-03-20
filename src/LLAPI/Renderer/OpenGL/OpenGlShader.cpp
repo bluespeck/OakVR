@@ -65,7 +65,7 @@ namespace oakvr
 				GLsizei charsWritten;
 				glGetInfoLogARB(shaderId, 1024, &charsWritten, infoLog);
 				infoLog[charsWritten] = 0;
-				Log::PrintWarning("OpenGL shader compilation has failed: %s\n", infoLog);
+				Log::PrintWarning("OpenGL shader compilation has failed: %s", infoLog);
 			}
 		}
 

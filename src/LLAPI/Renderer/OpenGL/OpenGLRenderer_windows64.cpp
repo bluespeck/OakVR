@@ -16,7 +16,6 @@
 
 
 #include "Math/Matrix.h"
-#include "Math/Transform.h"
 #include "Renderer/Renderer/Shader.h"
 
 #include "FileIO/File.h"
@@ -31,8 +30,7 @@ namespace oakvr
 		{
 		public:
 			void *m_pDevice;                    // OpenGL device interface (context)
-			long m_shaderProgramId;
-			GLint m_programId;
+			GLuint m_shaderProgramId;
 		};
 
 		// --------------------------------------------------------------------------------
@@ -55,12 +53,12 @@ namespace oakvr
 			GLenum err = glewInit();
 			if (err != GLEW_OK)
 			{
-				Log::PrintError("Failed to initialize GLEW. (%s)\n", glewGetErrorString(err));
+				Log::PrintError("Failed to initialize GLEW. (%s)", glewGetErrorString(err));
 				return false;
 			}
 			else
 			{
-				Log::PrintInfo("GLEW initialized!\n");
+				Log::PrintInfo("GLEW initialized!");
 				glGetError();
 			}
 			
@@ -68,11 +66,11 @@ namespace oakvr
 			
 			glGetIntegerv(GL_MAJOR_VERSION, &version[0]);
 			glGetIntegerv(GL_MINOR_VERSION, &version[1]);
-			Log::PrintInfo("OpenGL version %d.%d\n", version[0], version[1]);
+			Log::PrintInfo("OpenGL version %d.%d", version[0], version[1]);
 			
-			glCullFace(GL_BACK);
-			glFrontFace(GL_CW);
-			glEnable(GL_CULL_FACE);
+			//glCullFace(GL_BACK);
+			glFrontFace(GL_CCW);
+			//glEnable(GL_CULL_FACE);
 			glViewport(0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
 
 			err = glGetError();
@@ -83,6 +81,9 @@ namespace oakvr
 			err = glGetError();
 			if (err)
 				oakvr::Log::PrintError("Err create2 %x", err);
+
+			// Wireframe mode
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 			m_bInitialized = true;
 			return true;
@@ -164,119 +165,58 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::DrawPrimitives(uint32_t numPrimitives, uint32_t startVertex /* = 0 */)
+		void Renderer::DrawPrimitives(uint32_t numVertices, uint32_t startVertex /* = 0 */)
 		{
-			//GLenum pt;
-
-			//SetMatrices();
-
-			//UseShaderProgram();
-
-			//glDrawArrays(pt, startVertex, numPrimitives * m_numVerticesPerPrimitive);
-			glDrawArrays(GL_TRIANGLES, startVertex, numPrimitives * 3);
+			glDrawArrays(GL_TRIANGLES, startVertex, numVertices);
+			GLenum err = glGetError();
+			if (err)
+			{
+				oakvr::Log::PrintError("glDrawArrays 0x%x", err);
+			}
 		}
 
 		void Renderer::UseShader(std::shared_ptr<oakvr::render::Shader> &pShader)
 		{
 			GLuint shaderId = reinterpret_cast<GLuint>(pShader->GetNativeHandle());
-			glAttachShader(m_pImpl->m_programId, shaderId);
+			glAttachShader(m_pImpl->m_shaderProgramId, shaderId);
 			GLenum err = glGetError();
 			if (err)
-				oakvr::Log::PrintError("Err Use %x", err);
+				oakvr::Log::PrintError("glAttachShader error 0x%x", err);
 		}
 
 		void Renderer::PrepareShaders()
 		{
-			glLinkProgram(m_pImpl->m_programId);
+			glLinkProgram(m_pImpl->m_shaderProgramId);
 			GLenum err = glGetError();
 			if (err)
-				oakvr::Log::PrintError("Err Prepare %x", err);
+				oakvr::Log::PrintError("glLinkProgram error 0x%x", err);
 
 			//validateProgram(shader_id); // Validate the shader program
-			glUseProgram(m_pImpl->m_programId);
+			glUseProgram(m_pImpl->m_shaderProgramId);
 			err = glGetError();
 			if (err)
-				oakvr::Log::PrintError("Err Use P %x", err);
+				oakvr::Log::PrintError("glUseProgram error 0x%x", err);
+
+			oakvr::math::Matrix mProj = oakvr::math::Matrix::PerspectiveProjection(1.05f, 4 / 3.0f, .1f, 100.0f);
+			oakvr::math::Matrix mModel = oakvr::math::Matrix::RotationY(3.14 / 4);
+			int projectionMatrixLocation = glGetUniformLocation(m_pImpl->m_shaderProgramId, "projectionMatrix");
+			int modelMatrixLocation = glGetUniformLocation(m_pImpl->m_shaderProgramId, "modelMatrix");
+			glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &mProj.m[0][0]);
+			glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &mModel.m[0][0]);
 		}
 
 		// --------------------------------------------------------------------------------
-		/*		void Renderer::UseShaderProgram()
+		void Renderer::DrawIndexed(uint32_t numIndices, uint8_t stride /* = 4 */, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
-		if(!m_pCurrentVertexShader || !m_pCurrentVertexShader->IsReady() || !m_pCurrentPixelShader || !m_pCurrentPixelShader->IsReady())
-		{
-		glUseProgramObjectARB(0);
-		return;
-		}
+			if (stride == 4)
+				glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, nullptr);
+			else
+				glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, nullptr);
 
-		glAttachObjectARB(m_shaderProgramId, (GLuint)m_pCurrentVertexShader->GetCompiledShader());
-		glAttachObjectARB(m_shaderProgramId, (GLuint)m_pCurrentPixelShader->GetCompiledShader());
-
-		glLinkProgramARB(m_shaderProgramId);
-		GLint linkSuccess;
-		glGetProgramiv(m_shaderProgramId, GL_LINK_STATUS, &linkSuccess);
-		if(!linkSuccess)
-		{
-		GLcharARB infoLog[1024];
-		GLsizei charsWritten;
-		glGetInfoLogARB(m_shaderProgramId, 1024, &charsWritten, infoLog);
-		infoLog[charsWritten] = 0;
-		printf("[oakvr] OpenGL shader program link has failed: %s\n", infoLog);
-		exit(1);
-		}
-
-		glUseProgramObjectARB(m_shaderProgramId);
-
-		}
-		*/
-		// --------------------------------------------------------------------------------
-		void Renderer::DrawIndexedPrimitives(uint32_t numPrimitives, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
-		{
-			/*	uint8_t numIndicesPerPrimitive = 0;
-			GLenum pt;
-			switch( m_currentPrimitiveTopology )
-			{
-			case ePT_PointList:
-			numIndicesPerPrimitive = 1;
-			pt = GL_POINTS;
-			break;
-			case ePT_LineList:
-			pt = GL_LINES;
-			numIndicesPerPrimitive = 2;
-			break;
-			case ePT_LineStrip:
-			pt = GL_LINE_STRIP;
-			numIndicesPerPrimitive = 2;
-			break;
-			case ePT_TriangleList:
-			pt = GL_TRIANGLES;
-			numIndicesPerPrimitive = 3;
-			break;
-			case ePT_TriangleStrip:
-			pt = GL_TRIANGLE_STRIP;
-			numIndicesPerPrimitive = 3;
-			break;
-			default:
-			assert("Unknown primitive topology" && 0);
-			break;
-			}
-
-			SetMatrices();
-
-			UseShaderProgram();
-
-			// TODO figure out how to set first index and first vertex to use from the buffers
-			glDrawElements(pt, numIndicesPerPrimitive * numPrimitives, GL_UNSIGNED_INT, 0);
-			if(glGetError() != GL_NO_ERROR)
-			{
-			printf("glDrawElements error!");
-			}
-			*/
-			// numPrimitives * 3 (subject to change)
-			glDrawArrays(GL_TRIANGLES, startIndex, numPrimitives * 3);
 			GLenum err = glGetError();
 			if (err)
 			{
-				oakvr::Log::PrintError("glDrawArrays %x\n", err);
+				oakvr::Log::PrintError("glDrawArrays 0x%x", err);
 			}
 			
 		}

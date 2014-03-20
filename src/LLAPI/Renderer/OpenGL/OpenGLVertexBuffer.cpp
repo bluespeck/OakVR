@@ -14,7 +14,7 @@ namespace oakvr
 		{
 		public:
 			VertexBufferImpl();
-
+			GLuint m_vaoId;
 			GLuint m_vbId;
 		};
 
@@ -27,8 +27,16 @@ namespace oakvr
 		VertexBuffer::VertexBuffer()
 			: m_pImpl{ new VertexBufferImpl() }
 		{
-
+			
 		}
+
+		// --------------------------------------------------------------------------------
+		VertexBuffer::VertexBuffer(uint32_t vertexCount, uint8_t vertexStride)
+			: m_pImpl{ new VertexBufferImpl() }
+		{
+			Create(vertexCount, vertexStride);
+		}
+
 		// --------------------------------------------------------------------------------
 		VertexBuffer::~VertexBuffer()
 		{
@@ -39,9 +47,11 @@ namespace oakvr
 		{
 			m_count = vertexCount;
 			m_stride = vertexStride;
+			glGenVertexArrays(1, &m_pImpl->m_vaoId);
+			glBindVertexArray(m_pImpl->m_vaoId);
 			glGenBuffers(1, &m_pImpl->m_vbId);
 			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-			glBufferData(GL_ARRAY_BUFFER, vertexCount * vertexStride, nullptr, GL_DYNAMIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, vertexCount * vertexStride, nullptr, GL_STATIC_DRAW);
 		}
 		/*
 		// --------------------------------------------------------------------------------
@@ -119,6 +129,34 @@ namespace oakvr
 		void VertexBuffer::Use()
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+		}
+
+		void VertexBuffer::Use(const std::vector<VertexElementDescriptor> &vertexElementDescriptors)
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+			glBindVertexArray(m_pImpl->m_vaoId);
+			int offset = 0;
+			GLuint index = 0;
+			for (auto &e : vertexElementDescriptors)
+			{
+				switch (e.semantic)
+				{
+				case VertexElementDescriptor::Semantic::position:
+				case VertexElementDescriptor::Semantic::normal:
+					glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, 0, (void *)offset);
+					offset += 3 * sizeof(float);
+					break;
+				case VertexElementDescriptor::Semantic::tex_coord:
+					glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, 0, (void *)offset);
+					offset += 2 * sizeof(float);
+					break;
+				default:
+					Log::PrintError("Unrecognized vertex element semantic");
+					break;
+				}
+				glEnableVertexAttribArray(index++);
+			}
+
 		}
 
 	}	// namespace render

@@ -24,8 +24,15 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		IndexBuffer::IndexBuffer()
-		:	m_pImpl	{ new IndexBufferImpl() }
+			:	m_pImpl	{ new IndexBufferImpl() }
 		{
+		}
+		
+		// --------------------------------------------------------------------------------
+		IndexBuffer::IndexBuffer(uint32_t vertexCount, uint8_t vertexStride)
+			: m_pImpl{ new IndexBufferImpl() }
+		{
+			Create(vertexCount, vertexStride);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -40,7 +47,7 @@ namespace oakvr
 			m_stride = indexStride;
 			glGenBuffers(1, &m_pImpl->m_ibId);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * indexStride, nullptr, GL_DYNAMIC_DRAW);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * indexStride, nullptr, GL_STATIC_DRAW);
 		}
 
 		// --------------------------------------------------------------------------------

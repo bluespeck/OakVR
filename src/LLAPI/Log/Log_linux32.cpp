@@ -49,6 +49,7 @@ namespace oakvr
 		}
 
 		vfprintf(f, logMsg, args);
+		fprintf(f, "\n");
 		fflush(f);
 		if(f != stderr && f != stdout)
 			fclose(f);

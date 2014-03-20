@@ -25,20 +25,30 @@ namespace oakvr
 			inline operator float* ();
 			inline operator const float* () const;
 
-			void SetInverseOfRotoTranslation();
-			void SetInverse();			
-			void SetYawPitchRoll(float yaw, float pitch, float roll);
-			
-			Matrix CreateInverseOfRotoTranslation() const;
-			Matrix CreateInverse() const;
+			Matrix GetTransposed() const;
+			Matrix GetInverse() const;
 			
 			Matrix operator+(const Matrix &mat) const;
 			Matrix operator*(const Matrix &mat) const;
 			
-			static Matrix CreateYawPitchRoll(float yaw, float pitch, float roll);
-			static Matrix CreatePerspectiveProjectionMatrix(float fov, float aspect, float znear, float zfar);
-			static Matrix CreateOthographicProjectionMatrix(float left, float right, float bottom, float top, float near, float far);
-			static Matrix CreateIdentityMatrix();
+			void SetRotationX(float angle);
+			void SetRotationY(float angle);
+			void SetRotationZ(float angle);
+			void SetIdentity();
+
+			void Transpose();
+			void Invert();
+			void SetYawPitchRoll(float yaw, float pitch, float roll);
+
+			static Matrix RotationX(float angle);
+			static Matrix RotationY(float angle);
+			static Matrix RotationZ(float angle);
+
+			static Matrix PerspectiveProjection(float fov, float aspect, float znear, float zfar);
+			static Matrix OthographicProjection(float left, float right, float bottom, float top, float near, float far);
+
+			static Matrix YawPitchRoll(float yaw, float pitch, float roll);
+			static Matrix Identity();
 		};
 
 		// --------------------------------------------------------------------------------

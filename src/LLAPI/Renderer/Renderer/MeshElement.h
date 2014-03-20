@@ -36,10 +36,11 @@ namespace oakvr
 			oakvr::core::MemoryBuffer m_vertexData;
 			oakvr::core::MemoryBuffer m_indexData;
 			std::vector<VertexElementDescriptor> m_vertexFormat;
-			uint8_t m_vertexStride;
-			uint8_t m_indexStride;
-
 			std::shared_ptr<Material> m_pMaterial;
+			uint32_t m_vertexCount;
+			uint32_t m_indexCount;
+			uint8_t m_vertexStride;			
+			uint8_t m_indexStride;
 		};
 	}
 }

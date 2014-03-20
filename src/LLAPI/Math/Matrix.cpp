@@ -21,7 +21,7 @@ namespace oakvr
 		}		
 
 		// --------------------------------------------------------------------------------
-		void Matrix::SetInverseOfRotoTranslation()
+		void Matrix::Transpose()
 		{
 			Matrix mat;
 			mat._11 = _11;
@@ -45,7 +45,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		Matrix Matrix::CreateInverseOfRotoTranslation() const
+		Matrix Matrix::GetTransposed() const
 		{
 			Matrix mat;
 			mat._11 = _11;
@@ -69,7 +69,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Matrix::SetInverse()
+		void Matrix::Invert()
 		{
 			//a11 = n(-h k + g l) + o( h j - f l) + p( - g j + f k)
 			//a12 = n(d k - c l) + o(- d j + b l) + p(c j - b k)
@@ -179,7 +179,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		Matrix Matrix::CreateInverse() const
+		Matrix Matrix::GetInverse() const
 		{
 			const float af = _11 * _22;
 			const float ag = _11 * _23;
@@ -257,7 +257,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		Matrix Matrix::CreateIdentityMatrix()
+		Matrix Matrix::Identity()
 		{
 			Matrix mat;
 			mat._11 = mat._22 = mat._33 = mat._44 = 1.0f;
@@ -298,7 +298,7 @@ namespace oakvr
 
 
 		// --------------------------------------------------------------------------------
-		Matrix Matrix::CreateYawPitchRoll(float yaw, float pitch, float roll)
+		Matrix Matrix::YawPitchRoll(float yaw, float pitch, float roll)
 		{
 			float cx = std::cos(pitch);
 			float cy = std::cos(yaw);
@@ -381,6 +381,142 @@ namespace oakvr
 			return result;
 		}
 
+
+		void Matrix::SetIdentity()
+		{
+			// Init to identity matrix
+			_11 = _22 = _33 = _44 = 1.0f;
+			_12 = _13 = _14 = 0.0f;
+			_21 = _23 = _24 = 0.0f;
+			_31 = _32 = _34 = 0.0f;
+			_41 = _42 = _43 = 0.0f;
+		}
+
+		void Matrix::SetRotationX(float angle)
+		{
+			_11 = 1.0f;	_12 = _13 = _14 = 0.0f;
+			_21 = 0.0f;	_22 = std::cos(angle); _23 = -std::sin(angle);	_24 = 0.0f;
+			_31 = 0.0f;	_32 = -_23;	_33 = _22; _34 = 0.0f;
+			_41 = _42 = _43 = 0.0f; _44 = 1.0f;
+		}
+
+		void Matrix::SetRotationY(float angle)
+		{
+			_11 = std::cos(angle); _12 = 0.0f; _13 = std::sin(angle); _14 = 0.0f;
+			_21 = 0.0f;	_22 = 1.0f; _23 = _24 = 0.0f;
+			_31 = -_13;	_32 = 0.0f;	_33 = _11; _34 = 0.0f;
+			_41 = _42 = _43 = 0.0f; _44 = 1.0f;
+		}
+
+		void Matrix::SetRotationZ(float angle)
+		{
+			_11 = std::cos(angle); _12 = -std::sin(angle); _13 = _14 = 0.0f;
+			_21 = -_12;	_22 = _11; _23 = _24 = 0.0f;
+			_31 = _32 = 0.0f; _33 = 1.0f; _34 = 0.0f;
+			_41 = _42 = _43 = 0.0f; _44 = 1.0f;
+		}
+
+		Matrix Matrix::RotationX(float angle)
+		{
+			Matrix mat;
+			mat._11 = 1.0f;	mat._12 = mat._13 = mat._14 = 0.0f;
+			mat._21 = 0.0f;	mat._22 = std::cos(angle); mat._23 = -std::sin(angle);	mat._24 = 0.0f;
+			mat._31 = 0.0f;	mat._32 = -mat._23;	mat._33 = mat._22; mat._34 = 0.0f;
+			mat._41 = mat._42 = mat._43 = 0.0f; mat._44 = 1.0f;
+
+			return mat;
+		}
+
+		Matrix Matrix::RotationY(float angle)
+		{
+			Matrix mat;
+			mat._11 = std::cos(angle); mat._12 = 0.0f; mat._13 = std::sin(angle); mat._14 = 0.0f;
+			mat._21 = 0.0f;	mat._22 = 1.0f; mat._23 = mat._24 = 0.0f;
+			mat._31 = -mat._13;	mat._32 = 0.0f;	mat._33 = mat._11; mat._34 = 0.0f;
+			mat._41 = mat._42 = mat._43 = 0.0f; mat._44 = 1.0f;
+
+			return mat;
+		}
+
+		Matrix Matrix::RotationZ(float angle)
+		{
+			Matrix mat;
+			mat._11 = std::cos(angle); mat._12 = -std::sin(angle); mat._13 = mat._14 = 0.0f;
+			mat._21 = -mat._12;	mat._22 = mat._11; mat._23 = mat._24 = 0.0f;
+			mat._31 = mat._32 = 0.0f; mat._33 = 1.0f; mat._34 = 0.0f;
+			mat._41 = mat._42 = mat._43 = 0.0f; mat._44 = 1.0f;
+
+			return mat;
+		}
+
+		// --------------------------------------------------------------------------------
+		Matrix Matrix::PerspectiveProjection(float fov, float aspect, float znear, float zfar)
+		{
+			float xymax = znear * tan(fov);
+			float ymin = -xymax;
+			float xmin = -xymax;
+
+			float width = xymax - xmin;
+			float height = xymax - ymin;
+
+			float depth = zfar - znear;
+			float q = -(zfar + znear) / depth;
+			float qn = -2 * (zfar * znear) / depth;
+
+			float w = 2 * znear / width;
+			w = w / aspect;
+			float h = 2 * znear / height;
+
+			Matrix mat;
+			mat._11 = w;
+			mat._12 = 0.0f;
+			mat._13 = 0.0f;
+			mat._14 = 0.0f;
+
+			mat._21 = 0.0f;
+			mat._22 = h;
+			mat._23 = 0.0f;
+			mat._24 = 0.0f;
+
+			mat._31 = 0.0f;
+			mat._32 = 0.0f;
+			mat._33 = q;
+			mat._34 = -1.0f;
+
+			mat._41 = 0.0f;
+			mat._42 = 0.0f;
+			mat._43 = qn;
+			mat._44 = 0.0f;
+
+			return mat;
+		}
+
+		// --------------------------------------------------------------------------------
+		Matrix Matrix::OthographicProjection(float left, float right, float bottom, float top, float near, float far)
+		{
+			Matrix mat;
+			mat._11 = (right - left) * 0.5f;
+			mat._12 = 0.0f;
+			mat._13 = 0.0f;
+			mat._14 = (left + right) * 0.5f;
+
+			mat._21 = 0.0f;
+			mat._22 = (top - left) * 0.5f;
+			mat._23 = 0.0f;
+			mat._24 = (top + bottom) * 0.5f;
+
+			mat._31 = 0.0f;
+			mat._32 = 0.0f;
+			mat._33 = (far - near) * (-0.5f);
+			mat._34 = (far + near) * (-0.5f);
+
+			mat._41 = 0.0f;
+			mat._42 = 0.0f;
+			mat._43 = 0.0f;
+			mat._44 = 1.0f;
+
+			return mat;
+		}
 		
 	} // namespace Math
 } // namespace oakvr

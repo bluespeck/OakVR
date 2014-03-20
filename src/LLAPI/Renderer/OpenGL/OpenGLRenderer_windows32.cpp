@@ -51,12 +51,12 @@ namespace oakvr
 			GLenum err = glewInit();
 			if (err != GLEW_OK)
 			{
-				Log::PrintError("Failed to initialize GLEW. (%s)\n", glewGetErrorString(err));
+				Log::PrintError("Failed to initialize GLEW. (%s)", glewGetErrorString(err));
 				return false;
 			}
 			else
 			{
-				Log::PrintInfo("GLEW initialized!\n");
+				Log::PrintInfo("GLEW initialized!");
 			}
 
 			int version[] = { 0, 0 };
