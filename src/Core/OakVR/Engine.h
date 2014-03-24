@@ -58,9 +58,9 @@ namespace oakvr
 		Timer m_timer;
 
 		std::shared_ptr<oakvr::render::RenderWindow> m_pRW;
-		std::unique_ptr<oakvr::render::Renderer> m_pRenderer;
-		std::unique_ptr<oakvr::render::CameraManager> m_pCM;
-		std::unique_ptr<oakvr::core::ResourceManager > m_pRM;
+		std::shared_ptr<oakvr::render::Renderer> m_pRenderer;
+		std::shared_ptr<oakvr::render::CameraManager> m_pCM;
+		std::shared_ptr<oakvr::core::ResourceManager> m_pRM;
 
 		bool m_bIsInitialized;
 	};

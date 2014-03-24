@@ -75,19 +75,19 @@ namespace io
 		switch(eFileOpenMode)
 		{
 		case FileOpenMode::read:
-			strcpy(mode, "r");
+			strcpy(mode, "rb");
 			break;
 		case FileOpenMode::write:
-			strcpy(mode, "w");
+			strcpy(mode, "wb");
 			break;
 		case FileOpenMode::append:
-			strcpy(mode, "a");
+			strcpy(mode, "ab");
 			break;
 		case FileOpenMode::readAndWrite:
-			strcpy(mode, "r+");
+			strcpy(mode, "r+b");
 			break;
 		default:
-			strcpy(mode, "r");
+			strcpy(mode, "rb");
 			m_eFileOpenMode = FileOpenMode::read;
 			break;
 		}

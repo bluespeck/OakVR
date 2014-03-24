@@ -10,6 +10,7 @@
 #include "Log/Log.h"
 
 #include "ResourceManager/ResourceManager.h"
+#include "ResourceManager/FileLoaders.h"
 #include "Renderer/Renderer/Renderer.h"
 #include "Renderer/Renderer/RenderWindow.h"
 #include "CameraManager.h"
@@ -83,45 +84,54 @@ namespace oakvr
 		*/
 	}
 
-	void CreateTestMesh(std::unique_ptr<oakvr::render::Renderer> &pRenderer, oakvr::Engine *pEngine)
+	void CreateTestMesh(std::shared_ptr<oakvr::render::Renderer> &pRenderer, oakvr::Engine *pEngine)
 	{
 		auto pMesh = std::make_shared<oakvr::render::Mesh>();
 
-		std::vector<oakvr::render::VertexElementDescriptor> ved{ { 12, oakvr::render::VertexElementDescriptor::Semantic::position }  //, { 8, oakvr::render::VertexElementDescriptor::Semantic::tex_coord }
-	};
-		oakvr::core::MemoryBuffer vb{ 8 * (3) * sizeof(float) }, ib{ 6 * 2 * 3 * sizeof(uint32_t) };
+		std::vector<oakvr::render::VertexElementDescriptor> ved{ 
+			{ 12, oakvr::render::VertexElementDescriptor::Semantic::position }, 
+			{ 8, oakvr::render::VertexElementDescriptor::Semantic::tex_coord },
+			//{ 12, oakvr::render::VertexElementDescriptor::Semantic::color }
+		};
+		
+		oakvr::core::MemoryBuffer vb{ 8 * ComputeVertexStride(ved) * sizeof(float) };
+		oakvr::core::MemoryBuffer ib{ 6 * 2 * 3 * sizeof(uint32_t) };
 		float pVertices[] = {
-			0.0f, 0.0f, 0.0f,// 0.f, 0.f,
-			1.0f, 0.0f, 0.0f,// 0.f, 0.f,
-			1.0f, 0.0f, 1.0f,// 0.f, 0.f,
-			0.0f, 0.0f, 1.0f,// 0.f, 0.f,
-			0.0f, 1.0f, 0.0f,// 0.f, 0.f,
-			1.0f, 1.0f, 0.0f,// 0.f, 0.f,
-			1.0f, 1.0f, 1.0f,// 0.f, 0.f,
-			0.0f, 1.0f, 1.0f// 0.f, 0.f
+			-1.f, -1.f, -1.f, 1.f, 0.f,// 0.5, 0.5, 0.5,
+			1.0f, -1.f, -1.f, 1.f, 1.f,// 0.5, 0.5, 0.5,
+			1.0f, -1.f, 1.0f, 1.f, 0.f,// 0.5, 0.5, 0.5,
+			-1.f, -1.f, 1.0f, 1.f, 1.f,// 0.5, 0.5, 0.5,
+
+			-1.f, 1.0f, -1.f, 0.f, 0.f,// 0.5, 0.5, 0.5,
+			1.0f, 1.0f, -1.f, 0.f, 1.f,// 0.5, 0.5, 0.5,
+			1.0f, 1.0f, 1.0f, 1.f, 1.f,// 0.5, 0.5, 0.5,
+			-1.f, 1.0f, 1.0f, 0.f, 1.f // 0.5, 0.5, 0.5
 		};
 
 		uint32_t pIndices[] = {
-			0, 2, 1,
-			0, 3, 2,
-			1, 2, 6,
-			1, 6, 5,
+			0, 1, 2,
+			0, 2, 3,
+			1, 6, 2,
+			1, 5, 6,
 
-			0, 1, 5,
-			0, 5, 4,
-			4, 5, 6,
-			4, 6, 7,
+			0, 5, 1,
+			0, 4, 5,
+			4, 6, 5,
+			4, 7, 6,
 
-			2, 3, 7,
-			2, 7, 6,
-			3, 0, 4,
-			3, 4, 7
+			2, 7, 3,
+			2, 6, 7,
+			3, 4, 0,
+			3, 7, 4
 		};
 
 		memcpy(vb.GetDataPtr(), pVertices, vb.Size());
 		memcpy(ib.GetDataPtr(), pIndices, ib.Size());
 
-		auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, sizeof(uint32_t), ib, std::make_shared<oakvr::render::Material>(std::string("Default")));
+		std::vector<std::string> vecTextures = { "oakvr" };
+		auto pMaterial = std::make_shared<oakvr::render::Material>(std::string("Default"));
+
+		auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, sizeof(uint32_t), ib, pMaterial, vecTextures);
 
 		pMesh->AddMeshElement(pMeshElem);
 		pRenderer->RegisterMesh(pMesh);
@@ -138,10 +148,10 @@ namespace oakvr
 	}
 	// --------------------------------------------------------------------------------
 	Engine::Engine()
-		: m_pRM{ new oakvr::core::ResourceManager }
+		: m_pRM{ std::make_shared<oakvr::core::ResourceManager>() }
 		, m_pRW{ std::make_shared<oakvr::render::RenderWindow>("oakvr", 2000, 100, 1024, 768) }
-		, m_pRenderer{ new oakvr::render::Renderer }
-		, m_pCM{ new oakvr::render::CameraManager }
+		, m_pRenderer{ std::make_shared<oakvr::render::Renderer>() }
+		, m_pCM{ std::make_shared<oakvr::render::CameraManager>() }
 	{
 		m_timer = oakvr::Timer();
 
@@ -169,37 +179,21 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	bool Engine::Initialize()
 	{
+		oakvr::core::InitializeFileLoaders();
+
 		if(!m_pRW || !m_pRW->Initialize())
 			return false;
 		if(m_pRenderer)
 		{
 			m_pRenderer->SetRenderWindow(m_pRW);
+			
+			m_pRM->AddPathsFromFolder("D:\\Projects\\OakVR\\resources");
+			m_pRenderer->SetResourceManager(m_pRM);
 			m_pRenderer->Initialize();
-
-			m_pRM->AddPathsFromFolder("D:\\Projects\\OakVR\\resources\\shaders\\glsl");
-
+			
+			
+			// Simple test for implemented features
 			CreateTestMesh(m_pRenderer, this);
-			
-			/*
-			oakvr::render::DebugTextRenderer *pDebugTextRenderer = nullptr;
-#if defined(_WIN32)
-			pDebugTextRenderer = new oakvr::render::DirectX9DebugTextRenderer();
-
-			pDebugTextRenderer = new oakvr::render::DirectX11DebugTextRenderer();
-#else
-			pDebugTextRenderer = new oakvr::render::OpenGLDebugTextRenderer();
-#endif
-		//	m_pRenderer->SetDebugTextRenderer(pDebugTextRenderer);
-			m_pRenderer->Initialize();
-			pDebugTextRenderer->Init();
-			
-			m_pCM.reset(new oakvr::render::CameraManager());
-			m_pCM->SetAsCurrentCamera(new oakvr::render::Camera(Vector3(0.f, 0.f, -50.f), Vector3(0.f, 0.f, 0.f), Vector3(0.f, 1.f, 0.f)));
-
-#ifdef OAKVR_EDITOR
-			oakvr::Editor::EntryPoint();
-#endif
-*/
 		}
 
 		m_timer.Reset();

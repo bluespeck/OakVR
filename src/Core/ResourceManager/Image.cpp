@@ -22,9 +22,9 @@ namespace oakvr
 		void Image::Load()
 		{
 			core::io::File file(m_id);
-			core::Buffer buff(file.Size());
-			file.Read(buff.GetDataPtr(), buff.GetSize(), file.Size());
-			m_pRawImageData = new RawImageData(BMPLoader::GetRawImage(buff));
+			core::MemoryBuffer buff(file.Size());
+			file.Read(buff.GetDataPtr(), buff.Size(), file.Size());
+			//m_pRawImageData = new RawImageData(BMPLoader::GetRawImage(buff));
 		}
 
 		// --------------------------------------------------------------------------------

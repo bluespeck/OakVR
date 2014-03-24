@@ -5,16 +5,6 @@ namespace oakvr
 {
 	namespace render
 	{
-
-		Texture::Texture(void)
-		{
-		}
-
-
-		Texture::~Texture(void)
-		{
-		}
-
 		//void Texture::Init(const oakvr::core::StringId &id, AdditionalInitParams *)
 		//{ 
 		//	m_id = id;

@@ -11,7 +11,7 @@ namespace oakvr
 	namespace core
 	{
 		// --------------------------------------------------------------------------------
-		RawImageData BMPLoader::GetRawImage(Buffer &fileBuffer)
+		MemoryBuffer BMPLoader::GetRawImage(const MemoryBuffer &fileBuffer)
 		{
 			RawImageData rawImageData;
 
@@ -26,7 +26,7 @@ namespace oakvr
 				uint32_t reserved;
 				uint32_t imageDataOffset;
 			} bmpHeader;
-						
+		/*				
 			fileBuffer.RewindForRead();
 			fileBuffer.Read(&bmpMC, sizeof(BMPMagicChars));
 			fileBuffer.Read(&bmpHeader, sizeof(BMPHeader));
@@ -92,8 +92,8 @@ namespace oakvr
 					break;
 				}
 				
-			}
-			return rawImageData;
+			}*/
+			return MemoryBuffer();
 		}
 	}
 }

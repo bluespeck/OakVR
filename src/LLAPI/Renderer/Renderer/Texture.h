@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Utils/Buffer.h"
+
 #include <cstdint>
 
 namespace oakvr
@@ -10,92 +12,33 @@ namespace oakvr
 		class Texture
 		{
 		public:
-			enum TextureFormat
+			enum class TextureFormat
 			{
-				eTF_UNKNOWN = 0,
-				eTF_A8R8G8B8_UNORM,
-				eTF_X8R8G8B8_UNORM,
-				eTF_A8R8G8B8_UINT,
-				eTF_X8R8G8B8_UINT
+				unknown,
+				argb,
+				rgb,
+				bgra,
 			};
 
 			// ctors & dtors
-			Texture(void);
-			~Texture(void);
-
-			// accessors
-			inline void *GetData();
-			inline void SetData( void *pData );
+			Texture(const oakvr::core::MemoryBuffer &buff);
+			~Texture();
 		
-			inline uint32_t GetWidth();			
-			inline void SetWidth( uint32_t width );
-
-			inline uint32_t GetHeight();
-			inline void SetHeight( uint32_t height );
-
-			inline uint32_t GetPitch();
-			inline void SetPitch( uint32_t pitch );
+			void Use();
 
 			inline TextureFormat GetFormat();
 			inline void SetFormat( TextureFormat textureFormat );
 			
 
 		private:
-			void *m_pData;
+			class TextureImpl;
+			std::unique_ptr<TextureImpl> m_pImpl;
 
 			uint32_t m_width;
 			uint32_t m_height;
 			uint32_t m_pitch;
 			TextureFormat m_textureFormat;
 		};
-
-		// --------------------------------------------------------------------------------
-		inline void *Texture::GetData()
-		{
-			return m_pData;
-		}
-
-		// --------------------------------------------------------------------------------
-		inline void Texture::SetData( void *pData )
-		{
-			m_pData = pData;
-		}
-
-		// --------------------------------------------------------------------------------
-		inline uint32_t Texture::GetWidth()
-		{
-			return m_width;
-		}
-		
-		// --------------------------------------------------------------------------------
-		inline void Texture::SetWidth(uint32_t width)
-		{
-			m_width = width;
-		}
-
-		// --------------------------------------------------------------------------------
-		inline uint32_t Texture::GetHeight()
-		{
-			return m_height;
-		}
-		
-		// --------------------------------------------------------------------------------
-		inline void Texture::SetHeight(uint32_t height)
-		{
-			m_height = height;
-		}
-
-		// --------------------------------------------------------------------------------
-		inline uint32_t Texture::GetPitch()
-		{
-			return m_pitch;
-		}
-
-		// --------------------------------------------------------------------------------
-		inline void Texture::SetPitch(uint32_t pitch)
-		{
-			m_pitch = pitch;
-		}
 
 		// --------------------------------------------------------------------------------
 		inline Texture::TextureFormat Texture::GetFormat()

@@ -53,59 +53,7 @@ namespace oakvr
 			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
 			glBufferData(GL_ARRAY_BUFFER, vertexCount * vertexStride, nullptr, GL_STATIC_DRAW);
 		}
-		/*
-		// --------------------------------------------------------------------------------
-		uint32_t VertexBuffer::ComputeVertexSizeFromFormat(uint32_t vertexFormat)
-		{
-			uint32_t vertexSize = 0;
-			if (vertexFormat & (uint32_t)VertexFormat::xyz)
-			{
-				vertexSize += 3 * sizeof(float);
-			}
-			if (vertexFormat & (uint32_t)VertexFormat::normal)
-			{
-				vertexSize += 3 * sizeof(float);
-			}
-			if (vertexFormat & (uint32_t)VertexFormat::diffuse)
-			{
-				vertexSize += 4 * sizeof(float);
-			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex0)
-			{
-				vertexSize += 2 * sizeof(float);
-			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex1)
-			{
-				vertexSize += 2 * sizeof(float);
-			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex2)
-			{
-				vertexSize += 2 * sizeof(float);
-			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex3)
-			{
-				vertexSize += 2 * sizeof(float);
-			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex4)
-			{
-				vertexSize += 2 * sizeof(float);
-			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex5)
-			{
-				vertexSize += 2 * sizeof(float);
-			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex6)
-			{
-				vertexSize += 2 * sizeof(float);
-			}
-			if (vertexFormat & (uint32_t)VertexFormat::tex7)
-			{
-				vertexSize += 2 * sizeof(float);
-			}
-
-			return vertexSize;
-		}
-		*/
+		
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::Lock(void **ppBuff, uint32_t flags)
 		{	
@@ -126,37 +74,51 @@ namespace oakvr
 			glDeleteBuffers(1, &m_pImpl->m_vbId);
 		}
 
-		void VertexBuffer::Use()
-		{
-			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-		}
-
 		void VertexBuffer::Use(const std::vector<VertexElementDescriptor> &vertexElementDescriptors)
 		{
-			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
 			glBindVertexArray(m_pImpl->m_vaoId);
 			int offset = 0;
-			GLuint index = 0;
 			for (auto &e : vertexElementDescriptors)
 			{
 				switch (e.semantic)
 				{
 				case VertexElementDescriptor::Semantic::position:
-				case VertexElementDescriptor::Semantic::normal:
-					glVertexAttribPointer(index, 3, GL_FLOAT, GL_FALSE, 0, (void *)offset);
+				{
+					glEnableVertexAttribArray(0);
+					glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+					glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
 					offset += 3 * sizeof(float);
+				}
+					break;
+				case VertexElementDescriptor::Semantic::normal:
+				{
+					glEnableVertexAttribArray(1);
+					glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+					glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
+					offset += 3 * sizeof(float);
+				}
 					break;
 				case VertexElementDescriptor::Semantic::tex_coord:
-					glVertexAttribPointer(index, 2, GL_FLOAT, GL_FALSE, 0, (void *)offset);
+				{
+					glEnableVertexAttribArray(2);
+					glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+					glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
 					offset += 2 * sizeof(float);
+				}
+					break;
+				case VertexElementDescriptor::Semantic::color:
+				{
+					glEnableVertexAttribArray(3);
+					glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+					glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
+					offset += 3 * sizeof(float);
+				}
 					break;
 				default:
 					Log::PrintError("Unrecognized vertex element semantic");
 					break;
 				}
-				glEnableVertexAttribArray(index++);
 			}
-
 		}
 
 	}	// namespace render

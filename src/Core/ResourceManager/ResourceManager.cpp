@@ -4,6 +4,7 @@
 #include <thread>
 
 #include "ResourceManager.h"
+#include "FileLoaderManager.h"
 #include "FileIO/Directory.h"
 #include "FileIO/File.h"
 #include "FileIO/Path.h"
@@ -163,6 +164,17 @@ namespace oakvr
 					auto pMemBuff = std::make_shared<MemoryBuffer>(f.Size());
 					f.Read(pMemBuff->GetDataPtr(), pMemBuff->Size(), pMemBuff->Size());
 					f.Close();
+
+					for (std::shared_ptr<FileLoader> &pLoader : FileLoaderManager::s_fileLoaders)
+					{
+						if (pLoader->CanLoad(*pMemBuff))
+						{
+							auto pResMemBuf = std::make_shared<MemoryBuffer>(pLoader->GetResourceData(*pMemBuff));
+							m_mapResources[id] = pResMemBuf;
+							return pResMemBuf;
+						}
+					}
+					m_mapResources[id] = pMemBuff;
 					return pMemBuff;
 				}
 			}

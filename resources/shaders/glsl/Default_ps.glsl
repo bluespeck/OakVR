@@ -1,10 +1,13 @@
-#version 420
+#version 330 core
 
-in vec3 pass_Color;
+in vec2 TexCoord0;
+//in vec3 Color;
+
+uniform sampler2D texDiffuse0;
 
 void main(void)
-{
-	gl_FragColor = vec4(pass_Color, 1.0);
+{	
+	vec4 diffuseColor = texture(texDiffuse0, TexCoord0);
+	 
+	gl_FragColor = diffuseColor;
 }
-
-

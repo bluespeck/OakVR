@@ -1,5 +1,9 @@
 #pragma once
 
+#include "RendererUtils.h"
+#include "Utils\Buffer.h"
+
+
 #include <cstdint>
 #include <string>
 #include <memory>
@@ -7,14 +11,18 @@
 #include <tuple>
 #include <unordered_map>
 
-#include "Utils\Buffer.h"
-
 namespace oakvr
 {
 	namespace math
 	{
 		class Matrix;
 	}
+
+	namespace core
+	{
+		class ResourceManager;
+	}
+
 	namespace render
 	{
 		class RenderWindow;
@@ -31,7 +39,6 @@ namespace oakvr
 		{
 		public:
 			Renderer();
-			//Renderer(Renderer&&) = default;
 			~Renderer();
 
 			bool Initialize();
@@ -43,6 +50,7 @@ namespace oakvr
 			void EndDraw();
 
 			void RegisterMesh(std::shared_ptr<Mesh> pMesh);
+			void RegisterTexture(const std::string &textureName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
 			void RegisterVertexShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
 			void RegisterPixelShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
 			void RegisterGeometryShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
@@ -61,27 +69,36 @@ namespace oakvr
 			
 			void UseShader(std::shared_ptr<Shader> &pShader);
 			void PrepareShaders();
+			void SetVertexLayout(uint32_t vertexStride, const std::vector<VertexElementDescriptor> &vertexElementDescriptors);
+			void BindAdditionalShaderParams();
 
-			void SetRenderWindow( std::shared_ptr<RenderWindow> &pRenderWindow );
+			void SetRenderWindow( std::shared_ptr<RenderWindow> pRenderWindow );
+			void SetResourceManager(std::shared_ptr<oakvr::core::ResourceManager> pRM);
+
 			//void SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer);
 			//DebugTextRenderer * GetDebugTextRenderer() { return m_pDebugTextRenderer; }
 
 			inline bool IsInitialized() { return m_bInitialized; }
 
+			
 		private:
 			void InitCommon();
+			
 
 			std::shared_ptr<RenderWindow> m_pRenderWindow;
+			std::shared_ptr<oakvr::core::ResourceManager> m_pResourceManager;
+
 			class RendererImpl;
 			std::unique_ptr<RendererImpl> m_pImpl;
 			
 			
-			std::unordered_map<std::string, std::unique_ptr<Texture>> m_textures;
+			std::unordered_map<std::string, std::shared_ptr<Texture>> m_textures;
 
 			typedef struct { std::shared_ptr<Shader> vs, ps, gs, ds, hs; }_Shaders;
 			std::unordered_map<std::string, _Shaders> m_shaders;
 			//DebugTextRenderer *m_pDebugTextRenderer;		// object used to draw debug text
 			std::unique_ptr<MeshManager> m_pMeshManager;
+			
 			bool m_bInitialized;
 
 		};

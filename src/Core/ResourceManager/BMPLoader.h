@@ -12,7 +12,7 @@ namespace oakvr
 		class BMPLoader
 		{
 		public:
-			static RawImageData GetRawImage(Buffer &fileBuffer);
+			static MemoryBuffer GetRawImage(const MemoryBuffer &fileBuffer);
 		};
 	}
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MeshElement.h"
+#include "RendererUtils.h"
 
 #include <cstdint>
 #include <memory>
@@ -28,8 +28,7 @@ namespace oakvr
 			void Unlock();
 			void Release();
 
-			void Use();
-			void Use(const std::vector<oakvr::render::VertexElementDescriptor> &vertexElementDescriptors);
+			void VertexBuffer::Use(const std::vector<VertexElementDescriptor> &vertexElementDescriptors);
 
 		private:
 			class VertexBufferImpl;

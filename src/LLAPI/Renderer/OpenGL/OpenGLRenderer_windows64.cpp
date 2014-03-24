@@ -35,7 +35,7 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		Renderer::Renderer()
-			: m_pImpl{ new RendererImpl() }
+			: m_pImpl{ std::make_unique<RendererImpl>() }
 		{
 			InitCommon();
 		}
@@ -45,8 +45,7 @@ namespace oakvr
 			// Terminate GLFW
 			glfwTerminate();
 		}
-
-		// --------------------------------------------------------------------------------
+				
 		bool Renderer::Initialize()
 		{
 			//glewExperimental = GL_TRUE;
@@ -68,32 +67,29 @@ namespace oakvr
 			glGetIntegerv(GL_MINOR_VERSION, &version[1]);
 			Log::PrintInfo("OpenGL version %d.%d", version[0], version[1]);
 			
-			//glCullFace(GL_BACK);
-			glFrontFace(GL_CCW);
-			//glEnable(GL_CULL_FACE);
 			glViewport(0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
 
-			err = glGetError();
-			if (err)
-				oakvr::Log::PrintError("Err create1 %x", err);
-
 			m_pImpl->m_shaderProgramId = glCreateProgram();
-			err = glGetError();
-			if (err)
-				oakvr::Log::PrintError("Err create2 %x", err);
+
+			glCullFace(GL_BACK);
+			glEnable(GL_CULL_FACE);
+			glEnable(GL_DEPTH_TEST);
+			glDepthFunc(GL_LESS);
+			glEnable(GL_BLEND);
 
 			// Wireframe mode
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 			m_bInitialized = true;
 			return true;
 		}
 
+
 		// --------------------------------------------------------------------------------
 		void Renderer::ClearBackground(const Color &color)
 		{
 			glClearColor(color.r, color.g, color.b, color.a);
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -127,26 +123,14 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::CreateTexture(Texture *pTexture)
 		{
-			GLuint texId;
-
-			glGenTextures(1, &texId);
-
-			//			oakvr::core::Image *pImage = oakvr::Engine::GetResourceManager()->GetResource<oakvr::core::Image>(pTexture->GetId().GetStrId().c_str());
-			// Separate resources on unique threads
-			//			assert("Could not load texture from file!" && texId > 0);
-
-			pTexture->SetData((void *)texId);
-
-			glBindTexture(GL_TEXTURE_2D, texId);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			
 		}
 
 		// --------------------------------------------------------------------------------
 		void Renderer::ReleaseTexture(Texture *pTexture)
 		{
-			GLuint tex = (GLuint)pTexture->GetData();
-			glDeleteTextures(1, &tex);
+			
+			
 		}
 
 		// --------------------------------------------------------------------------------
@@ -155,7 +139,7 @@ namespace oakvr
 			if (texture != nullptr)
 			{
 				glEnable(GL_TEXTURE_2D);
-				glBindTexture(GL_TEXTURE_2D, reinterpret_cast<GLuint>(texture->GetData()));
+				//glBindTexture(GL_TEXTURE_2D, reinterpret_cast<GLuint>(texture->GetData()));
 			}
 			else
 			{
@@ -196,13 +180,32 @@ namespace oakvr
 			err = glGetError();
 			if (err)
 				oakvr::Log::PrintError("glUseProgram error 0x%x", err);
+		}
 
-			oakvr::math::Matrix mProj = oakvr::math::Matrix::PerspectiveProjection(1.05f, 4 / 3.0f, .1f, 100.0f);
-			oakvr::math::Matrix mModel = oakvr::math::Matrix::RotationY(3.14 / 4);
+		void Renderer::BindAdditionalShaderParams()
+		{
+			oakvr::math::Matrix mProj = oakvr::math::Matrix::PerspectiveProjection(3.14158592f / 3.f, 4.f / 3.f, .1f, 100.0f);
+			oakvr::math::Matrix mView = oakvr::math::Matrix::Identity();
+			mView._42 = -1.3;
+			mView._43 = -4;
+			static float angle = 0;
+			if (angle >= 2 * 3.14f)
+				angle = 0;
+			oakvr::math::Matrix mModel = oakvr::math::Matrix::RotationY(angle);
+			angle += 0.05f;
 			int projectionMatrixLocation = glGetUniformLocation(m_pImpl->m_shaderProgramId, "projectionMatrix");
+			int viewMatrixLocation = glGetUniformLocation(m_pImpl->m_shaderProgramId, "viewMatrix");
 			int modelMatrixLocation = glGetUniformLocation(m_pImpl->m_shaderProgramId, "modelMatrix");
 			glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &mProj.m[0][0]);
+			glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &mView.m[0][0]);
 			glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &mModel.m[0][0]);
+
+			GLint textureLocation = glGetUniformLocation(m_pImpl->m_shaderProgramId, "texDiffuse0");
+			glActiveTexture(GL_TEXTURE0);
+			glUniform1i(textureLocation, 0);
+			GLenum err = glGetError();
+			if (err)
+				oakvr::Log::PrintError("glUseProgram error 0x%x", err);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -221,97 +224,9 @@ namespace oakvr
 			
 		}
 		
-		/*		// --------------------------------------------------------------------------------
-		void Renderer::CreateInputLayoutDesc(uint32_t vertexFormat, void *&pLayoutDesc, uint32_t &numElems)
-		{
 		/*
-		D3DVERTEXELEMENT9 layout[12];
-		numElems = 0;
-		int offset = 0;
-		if(vertexFormat & VertexBuffer::eVF_XYZ)
-		{
-		layout[numElems].Usage = D3DDECLUSAGE_POSITION;
-		layout[numElems].UsageIndex = 0;
-		layout[numElems].Type = D3DDECLTYPE_FLOAT3;
-		layout[numElems].Stream = 0;
-		layout[numElems].Offset = offset;
-		layout[numElems].Method = D3DDECLMETHOD_DEFAULT;
-		offset += 12;
-		++numElems;
-		}
-		if(vertexFormat & VertexBuffer::eVF_Normal)
-		{
-		layout[numElems].Usage = D3DDECLUSAGE_NORMAL;
-		layout[numElems].UsageIndex = 0;
-		layout[numElems].Type = D3DDECLTYPE_FLOAT3;
-		layout[numElems].Stream = 0;
-		layout[numElems].Offset = offset;
-		layout[numElems].Method = D3DDECLMETHOD_DEFAULT;
-		offset += 12;
-		++numElems;
-		}
-		if(vertexFormat & VertexBuffer::eVF_Diffuse)
-		{
-		layout[numElems].Usage = D3DDECLUSAGE_COLOR;
-		layout[numElems].UsageIndex = 0;
-		layout[numElems].Type= D3DDECLTYPE_D3DCOLOR;
-		layout[numElems].Stream = 0;
-		layout[numElems].Offset = offset;
-		layout[numElems].Method = D3DDECLMETHOD_DEFAULT;
-		offset += 16;
-		++numElems;
-		}
 
-		if(vertexFormat & VertexBuffer::eVF_Tex0)
-		{
-		layout[numElems].Usage = D3DDECLUSAGE_TEXCOORD;
-		layout[numElems].UsageIndex = 0;
-		layout[numElems].Type = D3DDECLTYPE_FLOAT2;
-		layout[numElems].Stream = 0;
-		layout[numElems].Offset = offset;
-		layout[numElems].Method = D3DDECLMETHOD_DEFAULT;
-		offset += 8;
-		++numElems;
-		}
-
-		pLayoutDesc = new D3DVERTEXELEMENT9[numElems];
-		memcpy(pLayoutDesc, layout, numElems * sizeof(D3DVERTEXELEMENT9));
-
-		}
-		*/
-		
-		/*		// --------------------------------------------------------------------------------
-		void Renderer::UsePrimitiveTopology( PrimitiveTopology primitiveTopology )
-		{
-		m_currentPrimitiveTopology = primitiveTopology;
-		switch(primitiveTopology)
-		{
-		case ePT_PointList:
-		m_numVerticesPerPrimitive = 1;
-		break;
-		case ePT_LineList:
-		m_numVerticesPerPrimitive = 2;
-		break;
-		case ePT_LineStrip:
-		m_numVerticesPerPrimitive = 2;
-		break;
-		case ePT_TriangleList:
-		m_numVerticesPerPrimitive = 3;
-		break;
-		case ePT_TriangleStrip:
-		m_numVerticesPerPrimitive = 3;
-		break;
-		default:
-		break;
-		}
-		}
-		
 		// --------------------------------------------------------------------------------
-		void Renderer::UseShader(Shader *pShader)
-		{
-		}
-
-				// --------------------------------------------------------------------------------
 		void Renderer::EnableDepthBuffer()
 		{
 		glEnable(GL_DEPTH_TEST);
@@ -321,35 +236,6 @@ namespace oakvr
 		void Renderer::DisableDepthBuffer()
 		{
 		glDisable(GL_DEPTH_TEST);
-		}
-
-		// --------------------------------------------------------------------------------
-		oakvr::Math::Matrix Renderer::CreateViewMatrix(oakvr::Math::Vector3 eye, oakvr::Math::Vector3 lookAt, oakvr::Math::Vector3 up)
-		{
-		oakvr::Math::Vector3 look = (lookAt - eye).GetNormalized();
-		oakvr::Math::Vector3 right = look.Cross(up).GetNormalized();
-		oakvr::Math::Matrix mat;
-		mat._11 = right.x;
-		mat._12 = right.y;
-		mat._13 = right.z;
-		mat._14 = 0.0f;
-
-		mat._21 = up.x;
-		mat._22 = up.y;
-		mat._23 = up.z;
-		mat._24 = 0.0f;
-
-		mat._31 = look.x;
-		mat._32 = look.y;
-		mat._33 = look.z;
-		mat._34 = 0.0f;
-
-		mat._41 = eye.Dot(right);
-		mat._42 = eye.Dot(up);
-		mat._43 = eye.Dot(look);
-		mat._44 = 1.0f;
-
-		return mat;
 		}
 
 		// --------------------------------------------------------------------------------

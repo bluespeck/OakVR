@@ -1,26 +1,17 @@
 #pragma once
 
+#include "RendererUtils.h"
+#include "Utils/Buffer.h"
+
 #include <memory>
 #include <vector>
-
-#include "Utils\Buffer.h"
 
 namespace oakvr
 {
 	namespace render
 	{
-		struct VertexElementDescriptor
-		{			
-			uint8_t size;
-			enum class Semantic
-			{
-				position,
-				tex_coord,
-				normal,
-			} semantic;
-		};
-		
 		class Material;
+		class Texture;
 
 		class MeshElement
 		{
@@ -30,13 +21,14 @@ namespace oakvr
 				, std::shared_ptr<Material> &pMaterial);
 			MeshElement(const std::vector<VertexElementDescriptor> &vertexFormat, const oakvr::core::MemoryBuffer &vb
 						, uint8_t indexStride, const oakvr::core::MemoryBuffer ib
-						, std::shared_ptr<Material> &pMaterial);
+						, std::shared_ptr<Material> &pMaterial, const std::vector<std::string> &vecTextures);	// vecTextures elements coorespond to texcoord 0, 1, etc.
 			~MeshElement();
 
 			oakvr::core::MemoryBuffer m_vertexData;
 			oakvr::core::MemoryBuffer m_indexData;
 			std::vector<VertexElementDescriptor> m_vertexFormat;
 			std::shared_ptr<Material> m_pMaterial;
+			std::vector<std::string> m_vecTextures;
 			uint32_t m_vertexCount;
 			uint32_t m_indexCount;
 			uint8_t m_vertexStride;			

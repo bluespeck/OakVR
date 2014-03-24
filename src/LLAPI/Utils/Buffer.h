@@ -11,6 +11,7 @@ namespace oakvr
 		class Buffer
 		{
 		public:
+			typedef T value_type;
 			Buffer();
 			Buffer(std::size_t size);
 			Buffer(const Buffer & buffer);
@@ -21,11 +22,11 @@ namespace oakvr
 
 			size_t Size() const { return m_size; }
 
-			const T *GetDataPtr() const { return m_buffer; }
-			T *GetDataPtr() { return m_buffer; }
+			const value_type *GetDataPtr() const { return m_buffer; }
+			value_type *GetDataPtr() { return m_buffer; }
 
 		private:
-			T * m_buffer = nullptr;
+			value_type * m_buffer = nullptr;
 			size_t m_size = 0;
 		};
 
@@ -80,6 +81,8 @@ namespace oakvr
 		{
 			m_size = std::move(buffer.m_size);
 			m_buffer = std::move(buffer.m_buffer);
+			buffer.m_size = 0;
+			buffer.m_buffer = nullptr;
 			return *this;
 		}
 
@@ -87,7 +90,8 @@ namespace oakvr
 		template <typename T>
 		Buffer<T>::~Buffer()
 		{
-			delete m_buffer;
+			if (m_size)
+				delete m_buffer;
 		}
 	}	// namespace core
 }	// namespace oakvr

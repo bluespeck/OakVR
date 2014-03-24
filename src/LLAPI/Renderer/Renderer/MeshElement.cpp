@@ -17,8 +17,8 @@ namespace oakvr
 
 		MeshElement::MeshElement(const std::vector<VertexElementDescriptor> &vertexFormat, const oakvr::core::MemoryBuffer &vb
 			, uint8_t indexStride, const oakvr::core::MemoryBuffer ib
-			, std::shared_ptr<Material> &pMaterial)
-			: m_vertexFormat{ vertexFormat }, m_vertexData{ vb }, m_indexStride{ indexStride }, m_indexData{ ib }, m_pMaterial{ pMaterial }
+			, std::shared_ptr<Material> &pMaterial, const std::vector<std::string> &vecTextures)
+			: m_vertexFormat{ vertexFormat }, m_vertexData{ vb }, m_indexStride{ indexStride }, m_indexData{ ib }, m_pMaterial{ pMaterial }, m_vecTextures(vecTextures)
 		{
 			m_vertexStride = 0;
 			for (auto &e : m_vertexFormat)

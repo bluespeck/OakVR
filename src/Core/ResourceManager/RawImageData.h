@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "Buffer.h"
+#include "Utils/Buffer.h"
 
 namespace oakvr
 {
@@ -10,17 +10,16 @@ namespace oakvr
 	{
 		struct RawImageData
 		{
-			RawImageData();
-			RawImageData(uint32_t sizeInBytes);
-			RawImageData(uint32_t widthInPixels, uint32_t heightInPixels, uint8_t bitsPerPixel);
-			~RawImageData();
-
-			uint32_t GetSizeInBytes() { return m_imageData.GetSize(); }
-
-			Buffer m_imageData;
 			uint32_t width;
 			uint32_t height;
-			uint8_t bitsPerPixel;
+			uint32_t bitsPerPixel;
+			enum class PixelFormat
+			{
+				unknown,
+				rgba,
+				rgb,
+			}pixelFormat;
+			MemoryBuffer pixelBuffer;
 		};
 	}
 }
