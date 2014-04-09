@@ -2,7 +2,7 @@ Project "Png"
 	kind "StaticLib"
 	language "C++"
 
-	-- current version 1.6.10 (06.Mar.2014)
+	-- Png version 1.6.10 (06.Mar.2014)
 	includedirs
 	{
 		".",
