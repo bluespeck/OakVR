@@ -22,6 +22,7 @@ Project "OakVR"
 		"Math",
 		"Time",
 		"Log",
+		"Profiler",
 	}
 	
 	configuration {"windows*"}

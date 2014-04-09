@@ -41,10 +41,11 @@ namespace oakvr
 			reader.Read(pixelData.GetDataPtr(), pixelData.Size());
 			
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixelData.GetDataPtr());
-
+#ifdef OAKVR_RENDER_DEBUG
 			GLenum err = glGetError();
 			if(err)
 				Log::PrintWarning("OpenGL texture creation has failed : 0x%x", err);
+#endif
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

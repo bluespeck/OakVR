@@ -22,6 +22,8 @@
 #include "Log/Log.h"
 //#include "ResourceManager/Image.h"
 
+#include "Profiler\Profiler.h"
+
 namespace oakvr
 {
 	namespace render
@@ -48,6 +50,7 @@ namespace oakvr
 				
 		bool Renderer::Initialize()
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			//glewExperimental = GL_TRUE;
 			GLenum err = glewInit();
 			if (err != GLEW_OK)
@@ -88,6 +91,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::ClearBackground(const Color &color)
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			glClearColor(color.r, color.g, color.b, color.a);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
@@ -102,6 +106,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::EndDraw()
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			m_pRenderWindow->SwapBuffers();
 		}
 
@@ -136,6 +141,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::UseTexture(Texture *texture)
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			if (texture != nullptr)
 			{
 				glEnable(GL_TEXTURE_2D);
@@ -151,43 +157,54 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::DrawPrimitives(uint32_t numVertices, uint32_t startVertex /* = 0 */)
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			glDrawArrays(GL_TRIANGLES, startVertex, numVertices);
+#ifdef OAKVR_RENDER_DEBUG
 			GLenum err = glGetError();
 			if (err)
-			{
 				oakvr::Log::PrintError("glDrawArrays 0x%x", err);
-			}
+#endif
+			
 		}
 
 		void Renderer::UseShader(std::shared_ptr<oakvr::render::Shader> &pShader)
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			GLuint shaderId = reinterpret_cast<GLuint>(pShader->GetNativeHandle());
 			glAttachShader(m_pImpl->m_shaderProgramId, shaderId);
+#ifdef OAKVR_RENDER_DEBUG
 			GLenum err = glGetError();
 			if (err)
 				oakvr::Log::PrintError("glAttachShader error 0x%x", err);
+#endif
 		}
 
 		void Renderer::PrepareShaders()
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			glLinkProgram(m_pImpl->m_shaderProgramId);
+#ifdef OAKVR_RENDER_DEBUG
 			GLenum err = glGetError();
 			if (err)
 				oakvr::Log::PrintError("glLinkProgram error 0x%x", err);
+#endif
 
 			//validateProgram(shader_id); // Validate the shader program
 			glUseProgram(m_pImpl->m_shaderProgramId);
+#ifdef OAKVR_RENDER_DEBUG
 			err = glGetError();
 			if (err)
 				oakvr::Log::PrintError("glUseProgram error 0x%x", err);
+#endif
 		}
 
 		void Renderer::BindAdditionalShaderParams()
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			oakvr::math::Matrix mProj = oakvr::math::Matrix::PerspectiveProjection(3.14158592f / 3.f, 4.f / 3.f, .1f, 100.0f);
 			oakvr::math::Matrix mView = oakvr::math::Matrix::Identity();
-			mView._42 = -1.3;
-			mView._43 = -4;
+			mView._42 = -1.3f;
+			mView._43 = -4.f;
 			static float angle = 0;
 			if (angle >= 2 * 3.14f)
 				angle = 0;
@@ -203,24 +220,29 @@ namespace oakvr
 			GLint textureLocation = glGetUniformLocation(m_pImpl->m_shaderProgramId, "texDiffuse0");
 			glActiveTexture(GL_TEXTURE0);
 			glUniform1i(textureLocation, 0);
+#ifdef OAKVR_RENDER_DEBUG
 			GLenum err = glGetError();
 			if (err)
 				oakvr::Log::PrintError("glUseProgram error 0x%x", err);
+#endif
 		}
 
 		// --------------------------------------------------------------------------------
 		void Renderer::DrawIndexed(uint32_t numIndices, uint8_t stride /* = 4 */, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
+			//oakvr::profiler::ScopedTimer oakvrScopedTimername("drawIndexed", "", __FUNCTION__, __FILE__ + std::to_string(__LINE__));
 			if (stride == 4)
 				glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, nullptr);
 			else
 				glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, nullptr);
-
+#ifdef OAKVR_RENDER_DEBUG
 			GLenum err = glGetError();
 			if (err)
 			{
 				oakvr::Log::PrintError("glDrawArrays 0x%x", err);
 			}
+#endif
 			
 		}
 		

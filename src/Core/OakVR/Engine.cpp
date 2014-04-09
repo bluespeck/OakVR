@@ -20,6 +20,7 @@
 #include "Renderer/Renderer/MeshElement.h"
 #include "Renderer/Renderer/Material.h"
 
+#include "Profiler/Profiler.h"
 
 namespace oakvr
 {
@@ -27,8 +28,9 @@ namespace oakvr
 	bool Engine::Update(double dt)
 	{
 		if(m_pRW->IsOpen())
-		{	
+		{
 			m_pRenderer->Update(dt);
+			profiler::Profiler::GetInstance().PrintSortedData();
 			return true;
 		}
 		else

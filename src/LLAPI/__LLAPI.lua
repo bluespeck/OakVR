@@ -14,5 +14,6 @@
 	dofile("Startup/__Startup.lua")
 	dofile("Time/__Time.lua")
 	dofile("Utils/__Utils.lua")
+	dofile("Profiler/__Profiler.lua")
 
 	configuration {}

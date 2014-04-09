@@ -8,6 +8,8 @@
 		
 		files { "*.h", "*.cpp" }
 		
+		links { "Profiler" }
+		
 		ExcludePlatformSpecificFiles("*_", ".cpp")
 		PlatformSpecificFiles("*_", ".cpp")
 		
