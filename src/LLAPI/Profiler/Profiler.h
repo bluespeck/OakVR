@@ -8,7 +8,7 @@
 #include <string>
 
 // enable this macro to have profiling data
-#define OAKVR_PROFILER_ENABLED
+//#define OAKVR_PROFILER_ENABLED
 
 namespace oakvr
 {
@@ -32,10 +32,14 @@ namespace oakvr
 #define __FUNCTION__ __func__
 #endif
 
-#define PROFILER_SCOPED_TIMER(name, groupname) oakvr::profiler::ScopedTimer oakvrScopedTimer ## __LINE__(name, groupname, __FUNCTION__, __FILE__ + std::string(":") +std::to_string(__LINE__))
-
 #if defined(OAKVR_PROFILER_ENABLED)
-#	define PROFILER_FUNC_SCOPED_TIMER oakvr::profiler::ScopedTimer oakvrScopedTimer ## __LINE__(__FUNCTION__, "FunctionsAuto", __FUNCTION__, __FILE__ + std::string(":") +std::to_string(__LINE__))
+
+#	define INTERNAL_PROFILER_CONCAT_(a, b) a ## b
+#	define INTERNAL_PROFILER_CONCAT(a, b) INTERNAL_PROFILER_CONCAT_(a, b)
+
+#	define PROFILER_SCOPED_TIMER(name, groupname) oakvr::profiler::ScopedTimer INTERNAL_PROFILER_CONCAT(oakvrScopedTimer, __LINE__)(name, groupname, __FUNCTION__, __FILE__ + std::string(":") + std::to_string(__LINE__))
+#	define PROFILER_FUNC_SCOPED_TIMER oakvr::profiler::ScopedTimer INTERNAL_PROFILER_CONCAT(oakvrScopedTimer, __LINE__)(__FUNCTION__, "FunctionsAuto", __FUNCTION__, __FILE__ + std::string(":") + std::to_string(__LINE__))
 #else
+#	define PROFILER_SCOPED_TIMER
 #	define PROFILER_FUNC_SCOPED_TIMER
 #endif

@@ -25,14 +25,14 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		VertexBuffer::VertexBuffer()
-			: m_pImpl{ new VertexBufferImpl() }
+			: m_pImpl{ std::make_unique<VertexBufferImpl>() }
 		{
 			
 		}
 
 		// --------------------------------------------------------------------------------
 		VertexBuffer::VertexBuffer(uint32_t vertexCount, uint8_t vertexStride)
-			: m_pImpl{ new VertexBufferImpl() }
+			: m_pImpl{ std::make_unique<VertexBufferImpl>() }
 		{
 			Create(vertexCount, vertexStride);
 		}

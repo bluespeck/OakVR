@@ -120,40 +120,6 @@ namespace oakvr
 				break;
 			}
 
-			/*			GLuint shaderId = glCreateShaderObjectARB(shaderType);
-
-			core::File file(pShader->GetId().GetStrId());
-			const uint32_t buffSize = file.Size();
-			uint8_t *buff = new uint8_t[buffSize];
-
-			file.Open(core::File::eFOM_OpenRead);
-			int charsRead = file.Read(buff, buffSize, 0);
-			buff[charsRead] = 0;
-
-			const GLcharARB * sources[1];
-			const GLint lengths[1] = {charsRead};
-			sources[0] = (GLcharARB *) buff;
-
-			glShaderSourceARB(shaderId, 1, sources, lengths);
-
-			glCompileShaderARB(shaderId);
-			GLint compileSuccessfull;
-			glGetShaderiv(shaderId, GL_COMPILE_STATUS, &compileSuccessfull);
-			if( compileSuccessfull == GL_FALSE)
-			{
-			GLcharARB infoLog[1024];
-			GLsizei charsWritten;
-			glGetInfoLogARB(shaderId, 1024, &charsWritten, infoLog);
-			infoLog[charsWritten] = 0;
-			printf("[oakvr] OpenGL shader compilation has failed: %s\n", infoLog);
-			exit(1);
-			}
-
-			pShader->SetCompiledShader((void *)shaderId);
-
-			delete[] buff;
-			file.Close();
-			*/
 		}
 
 		// --------------------------------------------------------------------------------
@@ -170,10 +136,6 @@ namespace oakvr
 			GLuint texId;
 
 			glGenTextures(1, &texId);
-
-			//			oakvr::core::Image *pImage = oakvr::Engine::GetResourceManager()->GetResource<oakvr::core::Image>(pTexture->GetId().GetStrId().c_str());
-			// Separate resources on unique threads
-			//			assert("Could not load texture from file!" && texId > 0);
 
 			pTexture->SetData((void *)texId);
 

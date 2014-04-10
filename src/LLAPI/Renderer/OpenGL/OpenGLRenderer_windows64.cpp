@@ -50,8 +50,8 @@ namespace oakvr
 				
 		bool Renderer::Initialize()
 		{
-			PROFILER_FUNC_SCOPED_TIMER;
-			//glewExperimental = GL_TRUE;
+			//PROFILER_FUNC_SCOPED_TIMER;
+			glewExperimental = GL_TRUE;
 			GLenum err = glewInit();
 			if (err != GLEW_OK)
 			{
@@ -64,7 +64,7 @@ namespace oakvr
 				glGetError();
 			}
 			
-			int version[] = { 0, 0};
+			int version[] = {0, 0};
 			
 			glGetIntegerv(GL_MAJOR_VERSION, &version[0]);
 			glGetIntegerv(GL_MINOR_VERSION, &version[1]);
@@ -99,8 +99,10 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::BeginDraw()
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			glClearColor(0.4f, 0.6f, 0.9f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+			glUseProgram(0);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -188,8 +190,7 @@ namespace oakvr
 			if (err)
 				oakvr::Log::PrintError("glLinkProgram error 0x%x", err);
 #endif
-
-			//validateProgram(shader_id); // Validate the shader program
+			
 			glUseProgram(m_pImpl->m_shaderProgramId);
 #ifdef OAKVR_RENDER_DEBUG
 			err = glGetError();

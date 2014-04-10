@@ -24,13 +24,13 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		IndexBuffer::IndexBuffer()
-			:	m_pImpl	{ new IndexBufferImpl() }
+			: m_pImpl{ std::make_unique<IndexBufferImpl>() }
 		{
 		}
 		
 		// --------------------------------------------------------------------------------
 		IndexBuffer::IndexBuffer(uint32_t vertexCount, uint8_t vertexStride)
-			: m_pImpl{ new IndexBufferImpl() }
+			: m_pImpl{ std::make_unique<IndexBufferImpl>() }
 		{
 			Create(vertexCount, vertexStride);
 		}

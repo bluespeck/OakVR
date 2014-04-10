@@ -20,7 +20,7 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		RenderWindow::RenderWindow() :
-		m_pImpl{new RenderWindowImpl()}
+		m_pImpl{ std::make_unique<RenderWindowImpl>()}
 		{
 			m_windowState = eWS_Normal;
 			m_bFullScreen = false;
@@ -34,7 +34,7 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		RenderWindow::RenderWindow( const std::string &title, int posX, int posY, unsigned int width, unsigned int height)
-			: m_title {title}, m_posX{posX}, m_posY{posY}, m_width{width}, m_height{height}, m_pImpl{new RenderWindowImpl()}
+			: m_title {title}, m_posX{posX}, m_posY{posY}, m_width{width}, m_height{height}, m_pImpl{std::make_unique<RenderWindowImpl>()}
 		{
 
 		}

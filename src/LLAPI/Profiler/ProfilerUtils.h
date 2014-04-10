@@ -25,6 +25,7 @@ namespace oakvr
 			uint64_t minTime = -1; //[탎]
 			uint64_t maxTime = 0; //[탎]
 			uint64_t avgTime = 0; //[탎]
+			uint64_t currTime = 0; //[탎]
 			uint64_t totalTime = 0; //[탎]
 		};
 	}
