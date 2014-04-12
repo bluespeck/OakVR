@@ -41,15 +41,18 @@ namespace oakvr
 				coord, &count);
 			SetConsoleCursorPosition(hStdOut, coord);
 #endif
+			std::string oldOutFileName = Log::GetOutFilename();
+			Log::SetOutFilename("stdout");
 			for (auto &mapElem : m_profilingData)
 			{
 				Log::PrintInfo("[%s]", mapElem.first.c_str());
 				for (auto &elem : mapElem.second)
 				{
 					auto &pd = elem.second;
-					Log::PrintInfo("\t%80s -- h=%-6lu crt[\u00b5s]=%-9llu avg[\u00b5s]=%-9llu -- %s", pd.id.name.c_str(), pd.hits, pd.currTime, pd.avgTime, pd.id.funcName.c_str());
+					Log::PrintInfo("\t%80s -- h=%-6lu crt[\346s]=%-9llu avg[\346s]=%-9llu -- %s", pd.id.name.c_str(), pd.hits, pd.currTime, pd.avgTime, pd.id.funcName.c_str());
 				}
 			}
+			Log::SetOutFilename(oldOutFileName);
 #endif
 		}
 	}

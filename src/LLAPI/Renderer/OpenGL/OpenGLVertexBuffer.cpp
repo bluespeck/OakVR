@@ -40,6 +40,8 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		VertexBuffer::~VertexBuffer()
 		{
+			glDeleteBuffers(1, &m_pImpl->m_vbId);
+			glDeleteVertexArrays(1, &m_pImpl->m_vaoId);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -72,6 +74,7 @@ namespace oakvr
 		void VertexBuffer::Release()
 		{	
 			glDeleteBuffers(1, &m_pImpl->m_vbId);
+			glDeleteVertexArrays(1, &m_pImpl->m_vaoId);
 		}
 
 		void VertexBuffer::Use(const std::vector<VertexElementDescriptor> &vertexElementDescriptors)

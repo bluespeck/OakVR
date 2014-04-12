@@ -34,7 +34,10 @@ namespace oakvr
 			return true;
 		}
 		else
+		{
+			m_pRenderer->Cleanup();
 			return false;
+		}
 		//oakvr::Input::MouseInput::GetInstance()->Update();
 //		oakvr::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
 		//TriggerInputEvents();
@@ -137,17 +140,9 @@ namespace oakvr
 
 		pMesh->AddMeshElement(pMeshElem);
 		pRenderer->RegisterMesh(pMesh);
-		pEngine->RegisterShaders("Default");
+		pRenderer->RegisterShaderProgram("Default");
 	}
 
-	void Engine::RegisterShaders(const std::string &shaderName)
-	{
-		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_vs"));
-		m_pRenderer->RegisterPixelShader("Default", m_pRM->GetResource("Default_ps"));
-		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_gs"));
-		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_hs"));
-		m_pRenderer->RegisterVertexShader("Default", m_pRM->GetResource("Default_ds"));
-	}
 	// --------------------------------------------------------------------------------
 	Engine::Engine()
 		: m_pRM{ std::make_shared<oakvr::core::ResourceManager>() }
@@ -163,14 +158,9 @@ namespace oakvr
 
 	// --------------------------------------------------------------------------------
 	Engine::~Engine()
-	{
+	{		
 		//delete m_pGE->GetDebugTextRenderer();
 		//oakvr::core::ResourceManager::Release();
-		if(m_pRenderer)
-		{				
-			m_pRenderer->Cleanup();
-		}
-		
 //		oakvr::Leaf3D::Widget::ReleaseWidgetList();
 //		oakvr::core::IUpdatable::ReleaseUpdatableList();
 //		oakvr::Leaf3D::EventManager::Release();
@@ -202,6 +192,11 @@ namespace oakvr
 		m_bIsInitialized = true;
 		return true;
 //		pm1 = m_pRM->GetResource<oakvr::Render::Mesh>("../resources/Models/hammer.obj");
+	}
+
+	void Engine::CleanUp()
+	{
+		m_pRenderer->Cleanup();
 	}
 
 	// --------------------------------------------------------------------------------

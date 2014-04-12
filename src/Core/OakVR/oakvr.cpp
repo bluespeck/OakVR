@@ -23,7 +23,9 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	void oakvrExit()
 	{
+		OakVR::GetInstance().CleanupEngine();
 		Log::PrintInfo("OakVR shutting down!\n");
+		
 	}
 
 
@@ -45,6 +47,11 @@ namespace oakvr
 		return m_engine.Update();
 		
 		//std::cout << "Current time: " << m_sEngine.GetTimer().GetElapsedTime() << std::endl;
+	}
+
+	void OakVR::CleanupEngine()
+	{
+		m_engine.CleanUp();
 	}
 
 	// --------------------------------------------------------------------------------

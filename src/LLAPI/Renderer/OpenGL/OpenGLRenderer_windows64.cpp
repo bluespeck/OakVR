@@ -1,5 +1,3 @@
-#include <memory>
-
 #include "Common.h"
 #include "Renderer/Renderer/Renderer.h"
 
@@ -17,12 +15,15 @@
 
 #include "Math/Matrix.h"
 #include "Renderer/Renderer/Shader.h"
+#include "Renderer/Renderer/ShaderProgram.h"
 
 #include "FileIO/File.h"
 #include "Log/Log.h"
 //#include "ResourceManager/Image.h"
 
 #include "Profiler\Profiler.h"
+
+#include <memory>
 
 namespace oakvr
 {
@@ -31,8 +32,6 @@ namespace oakvr
 		class Renderer::RendererImpl
 		{
 		public:
-			void *m_pDevice;                    // OpenGL device interface (context)
-			GLuint m_shaderProgramId;
 		};
 
 		// --------------------------------------------------------------------------------
@@ -44,14 +43,12 @@ namespace oakvr
 
 		Renderer::~Renderer()
 		{
-			// Terminate GLFW
-			glfwTerminate();
 		}
 				
 		bool Renderer::Initialize()
 		{
 			//PROFILER_FUNC_SCOPED_TIMER;
-			glewExperimental = GL_TRUE;
+			//glewExperimental = GL_TRUE;
 			GLenum err = glewInit();
 			if (err != GLEW_OK)
 			{
@@ -61,7 +58,6 @@ namespace oakvr
 			else
 			{
 				Log::PrintInfo("GLEW initialized!");
-				glGetError();
 			}
 			
 			int version[] = {0, 0};
@@ -71,8 +67,6 @@ namespace oakvr
 			Log::PrintInfo("OpenGL version %d.%d", version[0], version[1]);
 			
 			glViewport(0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
-
-			m_pImpl->m_shaderProgramId = glCreateProgram();
 
 			glCullFace(GL_BACK);
 			glEnable(GL_CULL_FACE);
@@ -102,7 +96,6 @@ namespace oakvr
 			PROFILER_FUNC_SCOPED_TIMER;
 			glClearColor(0.4f, 0.6f, 0.9f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-			glUseProgram(0);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -115,7 +108,11 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::Cleanup()
 		{
+			// force release of shader programs
+			m_shaderPrograms.clear();
 
+			// force release of textures
+			m_textures.clear();
 		}
 
 		/*
@@ -169,11 +166,10 @@ namespace oakvr
 			
 		}
 
-		void Renderer::UseShader(std::shared_ptr<oakvr::render::Shader> &pShader)
+		void Renderer::UseShaderProgram(std::shared_ptr<oakvr::render::ShaderProgram> pShaderProgram)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
-			GLuint shaderId = reinterpret_cast<GLuint>(pShader->GetNativeHandle());
-			glAttachShader(m_pImpl->m_shaderProgramId, shaderId);
+			glUseProgram(reinterpret_cast<GLuint>(pShaderProgram.get()->GetNativeHandle()));
 #ifdef OAKVR_RENDER_DEBUG
 			GLenum err = glGetError();
 			if (err)
@@ -181,25 +177,7 @@ namespace oakvr
 #endif
 		}
 
-		void Renderer::PrepareShaders()
-		{
-			PROFILER_FUNC_SCOPED_TIMER;
-			glLinkProgram(m_pImpl->m_shaderProgramId);
-#ifdef OAKVR_RENDER_DEBUG
-			GLenum err = glGetError();
-			if (err)
-				oakvr::Log::PrintError("glLinkProgram error 0x%x", err);
-#endif
-			
-			glUseProgram(m_pImpl->m_shaderProgramId);
-#ifdef OAKVR_RENDER_DEBUG
-			err = glGetError();
-			if (err)
-				oakvr::Log::PrintError("glUseProgram error 0x%x", err);
-#endif
-		}
-
-		void Renderer::BindAdditionalShaderParams()
+		void Renderer::UpdateShaderParams(std::shared_ptr<oakvr::render::ShaderProgram> pShaderProgram)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			oakvr::math::Matrix mProj = oakvr::math::Matrix::PerspectiveProjection(3.14158592f / 3.f, 4.f / 3.f, .1f, 100.0f);
@@ -211,14 +189,16 @@ namespace oakvr
 				angle = 0;
 			oakvr::math::Matrix mModel = oakvr::math::Matrix::RotationY(angle);
 			angle += 0.05f;
-			int projectionMatrixLocation = glGetUniformLocation(m_pImpl->m_shaderProgramId, "projectionMatrix");
-			int viewMatrixLocation = glGetUniformLocation(m_pImpl->m_shaderProgramId, "viewMatrix");
-			int modelMatrixLocation = glGetUniformLocation(m_pImpl->m_shaderProgramId, "modelMatrix");
+
+			GLuint programId = reinterpret_cast<GLuint>(pShaderProgram->GetNativeHandle());
+			int projectionMatrixLocation = glGetUniformLocation(programId, "projectionMatrix");
+			int viewMatrixLocation = glGetUniformLocation(programId, "viewMatrix");
+			int modelMatrixLocation = glGetUniformLocation(programId, "modelMatrix");
 			glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &mProj.m[0][0]);
 			glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &mView.m[0][0]);
 			glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &mModel.m[0][0]);
 
-			GLint textureLocation = glGetUniformLocation(m_pImpl->m_shaderProgramId, "texDiffuse0");
+			GLint textureLocation = glGetUniformLocation(programId, "texDiffuse0");
 			glActiveTexture(GL_TEXTURE0);
 			glUniform1i(textureLocation, 0);
 #ifdef OAKVR_RENDER_DEBUG

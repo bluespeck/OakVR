@@ -34,16 +34,11 @@ namespace oakvr
 		// render related interface
 		static ScreenSize GetScreenSize();
 		static WindowSize GetWindowSize();
-
-		void RegisterShaders(const std::string &shaderName);
+				
+		void CleanUp();
 
 	private:			
 		bool Update(double dt);
-
-		
-
-
-
 
 		void TriggerInputEvents();
 		void DrawInterface();
@@ -57,10 +52,11 @@ namespace oakvr
 	private:
 		Timer m_timer;
 
+		std::shared_ptr<oakvr::core::ResourceManager> m_pRM;
 		std::shared_ptr<oakvr::render::RenderWindow> m_pRW;
 		std::shared_ptr<oakvr::render::Renderer> m_pRenderer;
 		std::shared_ptr<oakvr::render::CameraManager> m_pCM;
-		std::shared_ptr<oakvr::core::ResourceManager> m_pRM;
+		
 
 		bool m_bIsInitialized;
 	};

@@ -29,7 +29,7 @@ namespace oakvr
 		class Texture;
 		class VertexBuffer;
 		class IndexBuffer;
-		class Shader;
+		class ShaderProgram;
 		struct Color;
 		class DebugTextRenderer;
 		class MeshManager;
@@ -51,13 +51,9 @@ namespace oakvr
 
 			void RegisterMesh(std::shared_ptr<Mesh> pMesh);
 			void RegisterTexture(const std::string &textureName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
-			void RegisterVertexShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
-			void RegisterPixelShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
-			void RegisterGeometryShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
-			void RegisterDomainShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
-			void RegisterHullShader(const std::string &shaderName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
 			
-
+			void RegisterShaderProgram(const std::string &shaderProgramName);
+			
 			// render
 			void DrawPrimitives(uint32_t numVertices, uint32_t startVertex = 0);
 			void DrawIndexed(uint32_t numIndices, uint8_t indexStride = 4, uint32_t startIndex = 0, uint32_t startVertex = 0);
@@ -67,11 +63,9 @@ namespace oakvr
 			void ReleaseTexture	( Texture *texture );
 			void UseTexture ( Texture *texture );
 			
-			void UseShader(std::shared_ptr<Shader> &pShader);
-			void PrepareShaders();
+			void UseShaderProgram(std::shared_ptr<ShaderProgram> pShader);
 			void SetVertexLayout(uint32_t vertexStride, const std::vector<VertexElementDescriptor> &vertexElementDescriptors);
-			void BindAdditionalShaderParams();
-
+			
 			void SetRenderWindow( std::shared_ptr<RenderWindow> pRenderWindow );
 			void SetResourceManager(std::shared_ptr<oakvr::core::ResourceManager> pRM);
 
@@ -80,10 +74,9 @@ namespace oakvr
 
 			inline bool IsInitialized() { return m_bInitialized; }
 
-			
 		private:
 			void InitCommon();
-			
+			void UpdateShaderParams(std::shared_ptr<ShaderProgram> pShader);
 
 			std::shared_ptr<RenderWindow> m_pRenderWindow;
 			std::shared_ptr<oakvr::core::ResourceManager> m_pResourceManager;
@@ -94,8 +87,7 @@ namespace oakvr
 			
 			std::unordered_map<std::string, std::shared_ptr<Texture>> m_textures;
 
-			typedef struct { std::shared_ptr<Shader> vs, ps, gs, ds, hs; }_Shaders;
-			std::unordered_map<std::string, _Shaders> m_shaders;
+			std::unordered_map<std::string, std::shared_ptr<ShaderProgram>> m_shaderPrograms;
 			//DebugTextRenderer *m_pDebugTextRenderer;		// object used to draw debug text
 			std::unique_ptr<MeshManager> m_pMeshManager;
 			

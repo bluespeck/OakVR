@@ -71,7 +71,7 @@ namespace oakvr
 
 		Shader::~Shader()
 		{
-
+			glDeleteShader(m_pImpl->shaderId);
 		}
 
 		void *Shader::GetNativeHandle()

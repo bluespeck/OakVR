@@ -14,6 +14,8 @@ namespace oakvr
 		
 		OakVR();
 		virtual ~OakVR();
+
+		void CleanupEngine();
 	private:
 		
 		Engine m_engine;
