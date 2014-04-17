@@ -22,6 +22,16 @@ Project "FreeType"
 	
 	files
 	{
+		"include/*.h",
+		"include/config/*.h",
+		"src/truetype/*.h",
+		"src/sfnt/*.h",
+		"src/autofit/*.h",
+		"src/smooth/*.h",
+		"src/raster/*.h",
+		"src/psaux/*.h",
+		"src/psnames/*.h",
+		"src/winfonts/*.h",
 		"src/autofit/autofit.c",
 		"src/base/ftadvanc.c",
 		"src/base/ftbbox.c",

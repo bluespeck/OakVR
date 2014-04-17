@@ -18,6 +18,7 @@ namespace oakvr
 				argb,
 				rgb,
 				bgra,
+				alpha
 			};
 
 			// ctors & dtors
@@ -26,9 +27,7 @@ namespace oakvr
 		
 			void Use();
 
-			inline TextureFormat GetFormat();
-			inline void SetFormat( TextureFormat textureFormat );
-			
+			TextureFormat GetFormat() const { return m_textureFormat; }
 
 		private:
 			class TextureImpl;
@@ -36,21 +35,8 @@ namespace oakvr
 
 			uint32_t m_width;
 			uint32_t m_height;
-			uint32_t m_pitch;
 			TextureFormat m_textureFormat;
 		};
-
-		// --------------------------------------------------------------------------------
-		inline Texture::TextureFormat Texture::GetFormat()
-		{
-			return m_textureFormat;
-		}
-
-		// --------------------------------------------------------------------------------
-		inline void Texture::SetFormat( Texture::TextureFormat textureFormat )
-		{
-			m_textureFormat = textureFormat;
-		}
 
 	} // namespace render
 }	// namespace oakvr

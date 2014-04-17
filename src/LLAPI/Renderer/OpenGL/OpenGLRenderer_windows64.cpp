@@ -48,7 +48,7 @@ namespace oakvr
 		bool Renderer::Initialize()
 		{
 			//PROFILER_FUNC_SCOPED_TIMER;
-			//glewExperimental = GL_TRUE;
+			glewExperimental = GL_TRUE;
 			GLenum err = glewInit();
 			if (err != GLEW_OK)
 			{
@@ -59,23 +59,30 @@ namespace oakvr
 			{
 				Log::PrintInfo("GLEW initialized!");
 			}
-			
-			int version[] = {0, 0};
-			
+			CHECK_OPENGL_ERROR;
+
+			int version[] = { 0, 0 };
 			glGetIntegerv(GL_MAJOR_VERSION, &version[0]);
 			glGetIntegerv(GL_MINOR_VERSION, &version[1]);
 			Log::PrintInfo("OpenGL version %d.%d", version[0], version[1]);
 			
 			glViewport(0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
-
+			CHECK_OPENGL_ERROR;
 			glCullFace(GL_BACK);
+			CHECK_OPENGL_ERROR;
 			glEnable(GL_CULL_FACE);
+			CHECK_OPENGL_ERROR;
 			glEnable(GL_DEPTH_TEST);
+			CHECK_OPENGL_ERROR;
 			glDepthFunc(GL_LESS);
+			CHECK_OPENGL_ERROR;
 			glEnable(GL_BLEND);
+			CHECK_OPENGL_ERROR;
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			// Wireframe mode
 			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			CHECK_OPENGL_ERROR;
 
 			m_bInitialized = true;
 			return true;
@@ -113,28 +120,6 @@ namespace oakvr
 
 			// force release of textures
 			m_textures.clear();
-		}
-
-		/*
-		// --------------------------------------------------------------------------------
-		void Renderer::ReleaseShader(Shader *pShader)
-		{
-			if (pShader == nullptr)
-				return;
-			//			glDeleteShader((GLuint)pShader->GetCompiledShader());
-		}
-		*/
-		// --------------------------------------------------------------------------------
-		void Renderer::CreateTexture(Texture *pTexture)
-		{
-			
-		}
-
-		// --------------------------------------------------------------------------------
-		void Renderer::ReleaseTexture(Texture *pTexture)
-		{
-			
-			
 		}
 
 		// --------------------------------------------------------------------------------
@@ -188,7 +173,7 @@ namespace oakvr
 			if (angle >= 2 * 3.14f)
 				angle = 0;
 			oakvr::math::Matrix mModel = oakvr::math::Matrix::RotationY(angle);
-			angle += 0.05f;
+			//angle += 0.003f;
 
 			GLuint programId = reinterpret_cast<GLuint>(pShaderProgram->GetNativeHandle());
 			int projectionMatrixLocation = glGetUniformLocation(programId, "projectionMatrix");
@@ -199,7 +184,7 @@ namespace oakvr
 			glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &mModel.m[0][0]);
 
 			GLint textureLocation = glGetUniformLocation(programId, "texDiffuse0");
-			glActiveTexture(GL_TEXTURE0);
+			//glActiveTexture(GL_TEXTURE0);
 			glUniform1i(textureLocation, 0);
 #ifdef OAKVR_RENDER_DEBUG
 			GLenum err = glGetError();

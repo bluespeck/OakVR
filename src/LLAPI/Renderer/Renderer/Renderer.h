@@ -50,7 +50,8 @@ namespace oakvr
 			void EndDraw();
 
 			void RegisterMesh(std::shared_ptr<Mesh> pMesh);
-			void RegisterTexture(const std::string &textureName, const std::shared_ptr<oakvr::core::MemoryBuffer> &buff);
+			void RegisterOneFrameMesh(std::shared_ptr<Mesh> pMesh);
+			void RegisterTexture(const std::string &textureName, std::shared_ptr<oakvr::core::MemoryBuffer> pBuff);
 			
 			void RegisterShaderProgram(const std::string &shaderProgramName);
 			
@@ -69,13 +70,12 @@ namespace oakvr
 			void SetRenderWindow( std::shared_ptr<RenderWindow> pRenderWindow );
 			void SetResourceManager(std::shared_ptr<oakvr::core::ResourceManager> pRM);
 
-			//void SetDebugTextRenderer( DebugTextRenderer *pDebugTextRenderer);
-			//DebugTextRenderer * GetDebugTextRenderer() { return m_pDebugTextRenderer; }
-
 			inline bool IsInitialized() { return m_bInitialized; }
 
 		private:
 			void InitCommon();
+
+			void RenderMeshes(const std::vector<std::shared_ptr<Mesh>> &meshes);
 			void UpdateShaderParams(std::shared_ptr<ShaderProgram> pShader);
 
 			std::shared_ptr<RenderWindow> m_pRenderWindow;

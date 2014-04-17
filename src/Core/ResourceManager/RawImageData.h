@@ -18,6 +18,8 @@ namespace oakvr
 				unknown,
 				rgba,
 				rgb,
+				argb,
+				alpha
 			}pixelFormat;
 			MemoryBuffer pixelBuffer;
 		};

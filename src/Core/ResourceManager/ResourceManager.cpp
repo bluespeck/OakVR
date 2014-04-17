@@ -18,7 +18,7 @@ namespace oakvr
 	{
 		// --------------------------------------------------------------------------------
 		ResourceManager::ResourceManager()
-		: m_bRMThreadsShouldStop(false)
+		//: m_bRMThreadsShouldStop(false)
 		{
 			// ------------------------------------------
 			// Defining the resource loding worker thread
@@ -141,6 +141,19 @@ namespace oakvr
 				m_inMemory.erase(it);
 			}
 			*/
+		}
+
+		// --------------------------------------------------------------------------------
+		void ResourceManager::CreateResourceFromMemory(const std::string &id, const MemoryBuffer &buffer)
+		{
+			auto it = m_mapResources.find(id);
+			if (it != std::end(m_mapResources))
+			{
+				Log::PrintWarning("Trying to create a resource with an id that already exists! (Resource id = %s)", id.c_str());
+				return;
+			}
+
+			m_mapResources.emplace(id, std::make_shared<MemoryBuffer>(buffer));
 		}
 
 		// --------------------------------------------------------------------------------

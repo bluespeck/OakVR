@@ -13,6 +13,7 @@ namespace oakvr
 {
 	namespace core
 	{
+		// --------------------------------------------------------------------------------
 		MemoryBuffer PngLoader::GetResourceData(const MemoryBuffer &fileBuffer)
 		{
 			png_structp pPng = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
@@ -70,6 +71,7 @@ namespace oakvr
 			return rawImageData;
 		}
 
+		// --------------------------------------------------------------------------------
 		bool PngLoader::CanLoad(const MemoryBuffer &fileBuffer)
 		{
 			auto p = fileBuffer.GetDataPtr();

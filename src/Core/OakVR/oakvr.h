@@ -7,16 +7,15 @@ namespace oakvr
 {
 	class OakVR : public Singleton<OakVR>
 	{
-	public:
+		friend class Singleton < OakVR > ;
 		friend bool oakvrUpdate();
-		friend bool oakvrInit( std::vector<std::string> cmdLine );
+		friend bool oakvrInit(std::vector<std::string> cmdLine);
 		friend void oakvrExit();
-		
-		OakVR();
-		virtual ~OakVR();
-
+	public:
 		void CleanupEngine();
 	private:
+		OakVR();
+		~OakVR();
 		
 		Engine m_engine;
 		

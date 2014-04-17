@@ -25,5 +25,16 @@ namespace oakvr
 			m_meshes.clear();
 		}
 
+		void MeshManager::AddOneFrameMesh(std::shared_ptr<Mesh> pMesh)
+		{
+			m_oneFrameMeshes.push_back(pMesh);
+		}
+
+		void MeshManager::ClearOneFrameMeshes()
+		{
+			m_oneFrameMeshes.clear();
+		}
+
+		
 	}
 }

@@ -77,7 +77,6 @@ namespace oakvr
 		ShaderProgram::~ShaderProgram()
 		{
 			glUseProgram(0);
-			Log::PrintInfo("~ShaderProgram");
 			glDeleteProgram(m_pImpl->m_shaderProgramId);
 		}
 

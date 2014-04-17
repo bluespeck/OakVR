@@ -12,7 +12,7 @@ BOOL WINAPI HandlerRoutine(_In_ DWORD dwCtrlType);
 //int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 int main(int argc, char **argv)
 {
-	oakvr::Log::SetOutFilename("output.log");
+	//oakvr::Log::SetOutFilename("output.log");
 	//oakvr::oakvr *oak3D = oakvr::oakvr::GetInstance();
 	if(!oakvr::oakvrInit(oakvr::ParseCommandLine(argc, argv)))//std::string(lpCmdLine))))
 	{

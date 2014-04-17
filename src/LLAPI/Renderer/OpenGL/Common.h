@@ -9,9 +9,37 @@
 #	include <GLFW/glfw3.h>
 
 #elif defined(OAKVR_LINUX32) || defined(OAKVR_LINUX64)
-#	include <GL/glext.h>
 #	include <GL/glew.h>
+#	include <GL/glext.h>
 #	include <GL/glfw.h>
 #endif
 
 #include "Log/Log.h"
+
+#ifdef OAKVR_RENDER_DEBUG
+
+inline void CheckOpenGLError(const char *file, int line)
+{
+	GLenum err = glGetError();
+	while (err)
+	{
+		std::string error;
+		switch (err)
+		{
+			case GL_INVALID_VALUE:          error = "GL_INVALID_VALUE";			break;
+			case GL_INVALID_ENUM:           error = "GL_INVALID_ENUM";			break;
+			case GL_INVALID_OPERATION:      error = "GL_INVALID_OPERATION";		break;
+			case GL_STACK_OVERFLOW:			error = "GL_STACK_OVERFLOW";		break;
+			case GL_STACK_UNDERFLOW:		error = "GL_STACK_UNDERFLOW";		break;
+			case GL_OUT_OF_MEMORY:          error = "GL_OUT_OF_MEMORY";			break;
+			case GL_INVALID_FRAMEBUFFER_OPERATION:	error = "GL_INVALID_FRAMEBUFFER_OPERATION";	break;
+		}
+		oakvr::Log::PrintWarning("%s:%d : OpenGL error \"%s\"", file, line, error.c_str());
+		err = glGetError();
+	}
+}
+
+#	define CHECK_OPENGL_ERROR CheckOpenGLError(__FILE__, __LINE__);
+#else
+#	define CHECK_OPENGL_ERROR
+#endif

@@ -1,7 +1,3 @@
-#include <algorithm>
-#include <memory>
-#include <cassert>
-
 #include "Engine.h"
 #include "Time/Timer.h"
 #include "Input/MouseInput/MouseInput.h"
@@ -20,7 +16,14 @@
 #include "Renderer/Renderer/MeshElement.h"
 #include "Renderer/Renderer/Material.h"
 
+#include "Text/Text.h"
+
 #include "Profiler/Profiler.h"
+
+
+#include <algorithm>
+#include <memory>
+
 
 namespace oakvr
 {
@@ -29,6 +32,7 @@ namespace oakvr
 	{
 		if(m_pRW->IsOpen())
 		{
+			core::Text::GetInstance().RenderText("This is a test!", math::Vector3(-52.f, -.5f, -25.5f), "Tinos Regular");
 			m_pRenderer->Update(dt);
 			profiler::Profiler::GetInstance().PrintSortedData();
 			return true;
@@ -173,17 +177,24 @@ namespace oakvr
 	{
 		oakvr::core::InitializeFileLoaders();
 
+		// Register the files in this path with RM for quick loading into the engine
+		m_pRM->AddPathsFromFolder("D:\\Projects\\OakVR\\resources");
+
 		if(!m_pRW || !m_pRW->Initialize())
 			return false;
+
 		if(m_pRenderer)
 		{
 			m_pRenderer->SetRenderWindow(m_pRW);
-			
-			m_pRM->AddPathsFromFolder("D:\\Projects\\OakVR\\resources");
 			m_pRenderer->SetResourceManager(m_pRM);
 			m_pRenderer->Initialize();
 			
-			
+			// Initialize Text manager
+			oakvr::core::Text::GetInstance().SetResourceManagerPtr(m_pRM);
+			oakvr::core::Text::GetInstance().SetRendererPtr(m_pRenderer);
+			oakvr::core::Text::GetInstance().AddFontFace(m_pRM->GetResource("Tinos-Regular"));
+
+
 			// Simple test for implemented features
 			CreateTestMesh(m_pRenderer, this);
 		}

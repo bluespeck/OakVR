@@ -6,7 +6,7 @@ Project "OakVR"
 	includedirs
 	{
 		"../../LLAPI",
-		".."
+		"../../Core"
 	}
 	
 	files { "**.h", "**.cpp" }
@@ -15,8 +15,9 @@ Project "OakVR"
 
 	links
 	{
-		"ResourceManager",
+		"Text",
 		"Renderer",
+		"ResourceManager",
 		"Startup",
 		"FileIO",
 		"Math",
