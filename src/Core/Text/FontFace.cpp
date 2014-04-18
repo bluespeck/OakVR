@@ -90,7 +90,7 @@ namespace oakvr
 					
 					m_characterMap[k].first.x = (float)(accumulatedWidth) / m_textureWidth;
 					m_characterMap[k].first.y = 0.f;
-					accumulatedWidth += slot->bitmap.width ? slot->bitmap.width : scale;
+					accumulatedWidth += slot->bitmap.width ? slot->bitmap.width + 0.25f * scale : scale;
 					m_characterMap[k].second.x = (float)(accumulatedWidth) / m_textureWidth;
 					m_characterMap[k].second.y = (float)slot->bitmap.rows / m_textureHeight;
 				}

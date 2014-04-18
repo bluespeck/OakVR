@@ -4,6 +4,7 @@
 #include "Utils/Buffer.h"
 #include "FontFace.h"
 #include "Math/Vector3.h"
+#include "Renderer/Renderer/Color.h"
 
 #include <vector>
 #include <memory>
@@ -30,7 +31,7 @@ namespace oakvr
 		public:
 			void AddFontFace(std::shared_ptr<oakvr::core::MemoryBuffer> fontFileBuff);
 			
-			void RenderText(std::string text, oakvr::math::Vector3 position, std::string fontName) const;
+			void RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName) const;
 
 			void SetResourceManagerPtr(std::shared_ptr<oakvr::core::ResourceManager> pRM) { m_pRM = pRM; }
 			void SetRendererPtr(std::shared_ptr<oakvr::render::Renderer> pRenderer) { m_pRenderer = pRenderer; }

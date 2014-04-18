@@ -32,7 +32,7 @@ namespace oakvr
 	{
 		if(m_pRW->IsOpen())
 		{
-			core::Text::GetInstance().RenderText("This is a test!", math::Vector3(-52.f, -.5f, -25.5f), "Tinos Regular");
+			core::Text::GetInstance().RenderText("This is a test!", math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
 			m_pRenderer->Update(dt);
 			profiler::Profiler::GetInstance().PrintSortedData();
 			return true;

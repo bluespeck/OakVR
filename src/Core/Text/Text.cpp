@@ -45,7 +45,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Text::RenderText(std::string text, oakvr::math::Vector3 position, std::string fontName) const
+		void Text::RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName) const
 		{
 			auto it = FindFontFace(fontName);
 
@@ -56,7 +56,7 @@ namespace oakvr
 				std::vector<oakvr::render::VertexElementDescriptor> ved{
 						{ 12, oakvr::render::VertexElementDescriptor::Semantic::position },
 						{ 8, oakvr::render::VertexElementDescriptor::Semantic::tex_coord },
-						//{ 12, oakvr::render::VertexElementDescriptor::Semantic::color }
+						{ 12, oakvr::render::VertexElementDescriptor::Semantic::color }
 				};
 
 				oakvr::core::MemoryBuffer vb{ text.length() * 4 * ComputeVertexStride(ved) * sizeof(float) };
@@ -80,35 +80,47 @@ namespace oakvr
 					const auto &charProps = cm[text[i] - ' '];
 					float charWidth = charProps.second.x - charProps.first.x;
 					float charHeight = charProps.second.y - charProps.first.y;
-					float cwPixels = charWidth * it->GetTextureWidth() / 3;
-					float chPixels = charHeight * it->GetTextureHeight() / 3;
+					float cwPixels = charWidth * it->GetTextureWidth()/4.f;
+					float chPixels = charHeight * it->GetTextureHeight()/4.f;
 					// Vertex #1
-					pVertices[i * 4 * 5 + 0] = position.x + posX;				// x
-					pVertices[i * 4 * 5 + 1] = position.y + posY;				// y
-					pVertices[i * 4 * 5 + 2] = position.z + 0.0f;				// z
-					pVertices[i * 4 * 5 + 3] = charProps.first.x;				// u
-					pVertices[i * 4 * 5 + 4] = charProps.second.y;				// v
+					pVertices[i * 4 * 8 + 0 * 8 + 0] = position.x + posX;				// x
+					pVertices[i * 4 * 8 + 0 * 8 + 1] = position.y + posY;				// y
+					pVertices[i * 4 * 8 + 0 * 8 + 2] = position.z + 0.0f;				// z
+					pVertices[i * 4 * 8 + 0 * 8 + 3] = charProps.first.x;				// u
+					pVertices[i * 4 * 8 + 0 * 8 + 4] = charProps.second.y;				// v
+					pVertices[i * 4 * 8 + 0 * 8 + 5] = color.r;
+					pVertices[i * 4 * 8 + 0 * 8 + 6] = color.g;
+					pVertices[i * 4 * 8 + 0 * 8 + 7] = color.b;
 
 					// Vertex #2
-					pVertices[i * 4 * 5 + 5] = position.x + posX + cwPixels;	// x
-					pVertices[i * 4 * 5 + 6] = position.y + posY;				// y
-					pVertices[i * 4 * 5 + 7] = position.z + 0.0f;				// z
-					pVertices[i * 4 * 5 + 8] = charProps.second.x;				// u
-					pVertices[i * 4 * 5 + 9] = charProps.second.y;				// v
+					pVertices[i * 4 * 8 + 1 * 8 + 0] = position.x + posX + cwPixels;	// x
+					pVertices[i * 4 * 8 + 1 * 8 + 1] = position.y + posY;				// y
+					pVertices[i * 4 * 8 + 1 * 8 + 2] = position.z + 0.0f;				// z
+					pVertices[i * 4 * 8 + 1 * 8 + 3] = charProps.second.x;				// u
+					pVertices[i * 4 * 8 + 1 * 8 + 4] = charProps.second.y;				// v
+					pVertices[i * 4 * 8 + 1 * 8 + 5] = color.r;
+					pVertices[i * 4 * 8 + 1 * 8 + 6] = color.g;
+					pVertices[i * 4 * 8 + 1 * 8 + 7] = color.b;
 
 					// Vertex #3
-					pVertices[i * 4 * 5 + 10] = position.x + posX + cwPixels;			// x
-					pVertices[i * 4 * 5 + 11] = position.y + posY + chPixels;			// y
-					pVertices[i * 4 * 5 + 12] = position.z + 0.0f;						// z
-					pVertices[i * 4 * 5 + 13] = charProps.second.x;				// u
-					pVertices[i * 4 * 5 + 14] = charProps.first.y;				// v
+					pVertices[i * 4 * 8 + 2 * 8 + 0] = position.x + posX + cwPixels;			// x
+					pVertices[i * 4 * 8 + 2 * 8 + 1] = position.y + posY + chPixels;			// y
+					pVertices[i * 4 * 8 + 2 * 8 + 2] = position.z + 0.0f;						// z
+					pVertices[i * 4 * 8 + 2 * 8 + 3] = charProps.second.x;				// u
+					pVertices[i * 4 * 8 + 2 * 8 + 4] = charProps.first.y;				// v
+					pVertices[i * 4 * 8 + 2 * 8 + 5] = color.r;
+					pVertices[i * 4 * 8 + 2 * 8 + 6] = color.g;
+					pVertices[i * 4 * 8 + 2 * 8 + 7] = color.b;
 
 					// Vertex #4
-					pVertices[i * 4 * 5 + 15] = position.x + posX;					// x
-					pVertices[i * 4 * 5 + 16] = position.y + posY + chPixels;		// y
-					pVertices[i * 4 * 5 + 17] = position.z + 0.0f;					// z
-					pVertices[i * 4 * 5 + 18] = charProps.first.x;				// u
-					pVertices[i * 4 * 5 + 19] = charProps.first.y;				// v
+					pVertices[i * 4 * 8 + 3 * 8 + 0] = position.x + posX;					// x
+					pVertices[i * 4 * 8 + 3 * 8 + 1] = position.y + posY + chPixels;		// y
+					pVertices[i * 4 * 8 + 3 * 8 + 2] = position.z + 0.0f;					// z
+					pVertices[i * 4 * 8 + 3 * 8 + 3] = charProps.first.x;				// u
+					pVertices[i * 4 * 8 + 3 * 8 + 4] = charProps.first.y;				// v
+					pVertices[i * 4 * 8 + 3 * 8 + 5] = color.r;
+					pVertices[i * 4 * 8 + 3 * 8 + 6] = color.g;
+					pVertices[i * 4 * 8 + 3 * 8 + 7] = color.b;
 
 					
 					// Index #1
