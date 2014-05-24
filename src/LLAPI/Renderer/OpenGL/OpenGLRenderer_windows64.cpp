@@ -164,6 +164,7 @@ namespace oakvr
 
 		void Renderer::UpdateShaderParams(std::shared_ptr<oakvr::render::ShaderProgram> pShaderProgram)
 		{
+			//TODO: Add set shader param function
 			PROFILER_FUNC_SCOPED_TIMER;
 			oakvr::math::Matrix mProj = oakvr::math::Matrix::PerspectiveProjection(3.14158592f / 3.f, 4.f / 3.f, .1f, 100.0f);
 			oakvr::math::Matrix mView = oakvr::math::Matrix::Identity();

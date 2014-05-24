@@ -19,8 +19,7 @@ namespace oakvr
 		};
 
 		struct VertexElementDescriptor
-		{
-			uint8_t size;
+		{			
 			enum class Semantic
 			{
 				position,
@@ -28,6 +27,20 @@ namespace oakvr
 				normal,
 				color
 			} semantic;
+			uint8_t size;
+
+			VertexElementDescriptor(Semantic _semantic)
+				: semantic{_semantic}
+			{
+				switch (semantic)
+				{
+				case Semantic::position:	size = 12;	break;
+				case Semantic::tex_coord:	size = 8;	break;
+				case Semantic::normal:		size = 12;	break;
+				case Semantic::color:		size = 12;	break;
+				default: break;
+				}
+			}
 		};
 
 		inline uint32_t ComputeVertexStride(const std::vector<VertexElementDescriptor> &vertexElementDescriptors)

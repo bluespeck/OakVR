@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Time/Timer.h"
-#include "Input/MouseInput/MouseInput.h"
+#include "input/MouseInput/MouseInput.h"
+#include "input/KeyboardInput/KeyboardInput.h"
 #include "Math/Matrix.h"
 #include "Math/Vector3.h"
 #include "Log/Log.h"
@@ -30,9 +31,25 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 	bool Engine::Update(double dt)
 	{
+		oakvr::input::MouseInput::GetInstance().Update();
+		oakvr::input::keyboard::Update();
+
 		if(m_pRW->IsOpen())
 		{
-			core::Text::GetInstance().RenderText("This is a test!", math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+			if ((oakvr::input::keyboard::IsDown(oakvr::input::Key::lShift) ||
+				oakvr::input::keyboard::IsDown(oakvr::input::Key::rShift))
+				&& oakvr::input::keyboard::IsDown(oakvr::input::Key::f5)
+				)
+				return false;
+
+			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::a))
+				core::Text::GetInstance().RenderText("AAAAAAAAAAAAAAA!", math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+			else if (oakvr::input::keyboard::IsDown(oakvr::input::Key::b))
+				core::Text::GetInstance().RenderText("BBBBBBBBBBBBBBB!", math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+			else if (oakvr::input::MouseInput::GetInstance().IsLeftButtonDown())
+				core::Text::GetInstance().RenderText("MouseMouse!", math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+			else
+				core::Text::GetInstance().RenderText("This is a test!", math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
 			m_pRenderer->Update(dt);
 			profiler::Profiler::GetInstance().PrintSortedData();
 			return true;
@@ -42,7 +59,7 @@ namespace oakvr
 			m_pRenderer->Cleanup();
 			return false;
 		}
-		//oakvr::Input::MouseInput::GetInstance()->Update();
+		
 //		oakvr::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
 		//TriggerInputEvents();
 //		oakvr::Leaf3D::EventManager::GetInstance()->Update();
@@ -51,19 +68,19 @@ namespace oakvr
 		/*
 		if(m_pGE)
 		{
-			int32_t wd = oakvr::Input::MouseInput::GetInstance()->GetWheelDelta();
-			if(wd != 0 || ((oakvr::Input::MouseInput::GetInstance()->IsLeftButtonDown() || oakvr::Input::MouseInput::GetInstance()->IsRightButtonDown()) && oakvr::Input::MouseInput::GetInstance()->HasMouseMoved()))
+			int32_t wd = oakvr::input::MouseInput::GetInstance()->GetWheelDelta();
+			if(wd != 0 || ((oakvr::input::MouseInput::GetInstance()->IsLeftButtonDown() || oakvr::input::MouseInput::GetInstance()->IsRightButtonDown()) && oakvr::input::MouseInput::GetInstance()->HasMouseMoved()))
 			{
-				auto delta = oakvr::Input::MouseInput::GetInstance()->GetPositionDelta();
+				auto delta = oakvr::input::MouseInput::GetInstance()->GetPositionDelta();
 
 
 							
-				if(oakvr::Input::MouseInput::GetInstance()->IsLeftButtonDown())
+				if(oakvr::input::MouseInput::GetInstance()->IsLeftButtonDown())
 				{
 						pCurrentCamera->Rotate(static_cast<float>(delta.second * dt), static_cast<float>(delta.first * dt), 0.0f);
 				}
 
-				if(oakvr::Input::MouseInput::GetInstance()->IsRightButtonDown())
+				if(oakvr::input::MouseInput::GetInstance()->IsRightButtonDown())
 				{
 					pCurrentCamera->Translate((float)delta.first, (float)delta.second, 0.0f);
 				}
@@ -98,8 +115,8 @@ namespace oakvr
 		auto pMesh = std::make_shared<oakvr::render::Mesh>();
 
 		std::vector<oakvr::render::VertexElementDescriptor> ved{ 
-			{ 12, oakvr::render::VertexElementDescriptor::Semantic::position }, 
-			{ 8, oakvr::render::VertexElementDescriptor::Semantic::tex_coord },
+			oakvr::render::VertexElementDescriptor::Semantic::position, 
+			oakvr::render::VertexElementDescriptor::Semantic::tex_coord,
 			//{ 12, oakvr::render::VertexElementDescriptor::Semantic::color }
 		};
 		
@@ -477,7 +494,7 @@ namespace oakvr
 		sprintf_s(str, "FPS: %.0f", (1.0f / GetTimer()->GetDeltaTime()));
 		m_pGE->OutputText(str, 10, 10);
 
-		auto coords = oakvr::Input::MouseInput::GetInstance()->GetPosition();
+		auto coords = oakvr::input::MouseInput::GetInstance()->GetPosition();
 		sprintf_s(str, "Mouse Coords: %2d,%2d", coords.first, coords.second);
 		m_pGE->OutputText(str, 10, 30);
 		*/
@@ -568,7 +585,7 @@ namespace oakvr
 		/*
 		using Leaf3D::MouseEvent;
 		// trigger mouse events
-		auto pMouseInput = oakvr::Input::MouseInput::GetInstance();
+		auto pMouseInput = oakvr::input::MouseInput::GetInstance();
 		MouseEvent ev;
 		ev.m_mouseData.m_bLButtonDown = pMouseInput->IsLeftButtonDown();
 		ev.m_mouseData.m_bLButtonDown = pMouseInput->IsMiddleButtonDown();

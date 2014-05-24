@@ -16,6 +16,8 @@ Project "OakVR"
 	links
 	{
 		"Text",
+		"MouseInput",
+		"KeyboardInput",
 		"Renderer",
 		"ResourceManager",
 		"Startup",

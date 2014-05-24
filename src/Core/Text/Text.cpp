@@ -54,9 +54,9 @@ namespace oakvr
 				auto pMesh = std::make_shared<oakvr::render::Mesh>();
 
 				std::vector<oakvr::render::VertexElementDescriptor> ved{
-						{ 12, oakvr::render::VertexElementDescriptor::Semantic::position },
-						{ 8, oakvr::render::VertexElementDescriptor::Semantic::tex_coord },
-						{ 12, oakvr::render::VertexElementDescriptor::Semantic::color }
+					oakvr::render::VertexElementDescriptor::Semantic::position,
+					oakvr::render::VertexElementDescriptor::Semantic::tex_coord,
+					oakvr::render::VertexElementDescriptor::Semantic::color
 				};
 
 				oakvr::core::MemoryBuffer vb{ text.length() * 4 * ComputeVertexStride(ved) * sizeof(float) };
