@@ -7,7 +7,7 @@
 
 namespace oakvr
 {
-	namespace Input
+	namespace input
 	{
 		class MouseInput : public oakvr::Singleton<MouseInput>
 		{
@@ -18,26 +18,26 @@ namespace oakvr
 			~MouseInput();
 			void Update();
 
-			bool IsLeftButtonDown();
-			bool IsMiddleButtonDown();
-			bool IsRightButtonDown();
-			bool IsLeftButtonUp();
-			bool IsMiddleButtonUp();
-			bool IsRightButtonUp();
-			bool IsLeftButtonHeld();
-			bool IsMiddleButtonHeld();
-			bool IsRightButtonHeld();
-			bool IsLeftButtonPressed();
-			bool IsMiddleButtonPressed();
-			bool IsRightButtonPressed();
-			bool IsLeftButtonReleased();
-			bool IsMiddleButtonReleased();
-			bool IsRightButtonReleased();
-			bool HasMouseMoved();
+			bool IsLeftButtonDown() const;
+			bool IsMiddleButtonDown() const;
+			bool IsRightButtonDown() const;
+			bool IsLeftButtonUp() const;
+			bool IsMiddleButtonUp() const;
+			bool IsRightButtonUp() const;
+			bool IsLeftButtonHeld() const;
+			bool IsMiddleButtonHeld() const;
+			bool IsRightButtonHeld() const;
+			bool IsLeftButtonPressed() const;
+			bool IsMiddleButtonPressed() const;
+			bool IsRightButtonPressed() const;
+			bool IsLeftButtonReleased() const;
+			bool IsMiddleButtonReleased() const;
+			bool IsRightButtonReleased() const;
+			bool HasMouseMoved() const;
 
-			std::pair<int32_t, int32_t> GetPosition();
-			std::pair<int32_t, int32_t> GetPositionDelta();
-			int32_t GetWheelDelta();
+			std::pair<int32_t, int32_t> GetPosition() const;
+			std::pair<int32_t, int32_t> GetPositionDelta() const;
+			int32_t GetWheelDelta() const;
 
 			void *GetMouseOwner();
 			void *SetMouseOwner(void *newOwner);

@@ -1,8 +1,2 @@
-Project "Input"
-	kind "StaticLib"
-	language "C++"
-	
-	includedirs{ ".." }
-	
-	files {"**.h"}
-	PlatformSpecificFiles("**_", ".cpp")
+include "MouseInput/__MouseInput.lua"
+include "KeyboardInput/__KeyboardInput.lua"
