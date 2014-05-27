@@ -31,8 +31,9 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 	bool Engine::Update(double dt)
 	{
-		oakvr::input::MouseInput::GetInstance().Update();
 		oakvr::input::keyboard::Update();
+		oakvr::input::mouse::Update();
+
 
 		if(m_pRW->IsOpen())
 		{
@@ -42,17 +43,15 @@ namespace oakvr
 				)
 				return false;
 
-			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::a))
-				core::Text::GetInstance().RenderText("AAAAAAAAAAAAAAA!", math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
-			else if (oakvr::input::keyboard::IsDown(oakvr::input::Key::b))
-				core::Text::GetInstance().RenderText("BBBBBBBBBBBBBBB!", math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
-			else if (oakvr::input::MouseInput::GetInstance().IsLeftButtonDown())
-				core::Text::GetInstance().RenderText("MouseMouse!", math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
-			else
-				core::Text::GetInstance().RenderText("This is a test!", math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+			// Keep updateables from interfering with the updateables vector while they are updated
+			// there is a problem with deleting updateables while the loop is under way in that deleted objects might
+			// have Update called for them
+			auto pUpdateables = m_pUpdateables;
+			for (auto &e : pUpdateables)
+				e->Update(dt);
+
 			m_pRenderer->Update(dt);
 			profiler::Profiler::GetInstance().PrintSortedData();
-			return true;
 		}
 		else
 		{
@@ -110,60 +109,6 @@ namespace oakvr
 		*/
 	}
 
-	void CreateTestMesh(std::shared_ptr<oakvr::render::Renderer> &pRenderer, oakvr::Engine *pEngine)
-	{
-		auto pMesh = std::make_shared<oakvr::render::Mesh>();
-
-		std::vector<oakvr::render::VertexElementDescriptor> ved{ 
-			oakvr::render::VertexElementDescriptor::Semantic::position, 
-			oakvr::render::VertexElementDescriptor::Semantic::tex_coord,
-			//{ 12, oakvr::render::VertexElementDescriptor::Semantic::color }
-		};
-		
-		oakvr::core::MemoryBuffer vb{ 8 * ComputeVertexStride(ved) * sizeof(float) };
-		oakvr::core::MemoryBuffer ib{ 6 * 2 * 3 * sizeof(uint32_t) };
-		float pVertices[] = {
-			-1.f, -1.f, -1.f, 1.f, 0.f,// 0.5, 0.5, 0.5,
-			1.0f, -1.f, -1.f, 1.f, 1.f,// 0.5, 0.5, 0.5,
-			1.0f, -1.f, 1.0f, 1.f, 0.f,// 0.5, 0.5, 0.5,
-			-1.f, -1.f, 1.0f, 1.f, 1.f,// 0.5, 0.5, 0.5,
-
-			-1.f, 1.0f, -1.f, 0.f, 0.f,// 0.5, 0.5, 0.5,
-			1.0f, 1.0f, -1.f, 0.f, 1.f,// 0.5, 0.5, 0.5,
-			1.0f, 1.0f, 1.0f, 1.f, 1.f,// 0.5, 0.5, 0.5,
-			-1.f, 1.0f, 1.0f, 0.f, 1.f // 0.5, 0.5, 0.5
-		};
-
-		uint32_t pIndices[] = {
-			0, 1, 2,
-			0, 2, 3,
-			1, 6, 2,
-			1, 5, 6,
-
-			0, 5, 1,
-			0, 4, 5,
-			4, 6, 5,
-			4, 7, 6,
-
-			2, 7, 3,
-			2, 6, 7,
-			3, 4, 0,
-			3, 7, 4
-		};
-
-		memcpy(vb.GetDataPtr(), pVertices, vb.Size());
-		memcpy(ib.GetDataPtr(), pIndices, ib.Size());
-
-		std::vector<std::string> vecTextures = { "oakvr" };
-		auto pMaterial = std::make_shared<oakvr::render::Material>(std::string("Default"));
-
-		auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, sizeof(uint32_t), ib, pMaterial, vecTextures);
-
-		pMesh->AddMeshElement(pMeshElem);
-		pRenderer->RegisterMesh(pMesh);
-		pRenderer->RegisterShaderProgram("Default");
-	}
-
 	// --------------------------------------------------------------------------------
 	Engine::Engine()
 		: m_pRM{ std::make_shared<oakvr::core::ResourceManager>() }
@@ -210,10 +155,6 @@ namespace oakvr
 			oakvr::core::Text::GetInstance().SetResourceManagerPtr(m_pRM);
 			oakvr::core::Text::GetInstance().SetRendererPtr(m_pRenderer);
 			oakvr::core::Text::GetInstance().AddFontFace(m_pRM->GetResource("Tinos-Regular"));
-
-
-			// Simple test for implemented features
-			CreateTestMesh(m_pRenderer, this);
 		}
 
 		m_timer.Reset();
@@ -345,238 +286,7 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	void Engine::DrawMeshBoundingBoxes()
 	{
-		/*
-		oakvr::Render::Shader *pVertexShader = nullptr;
-		oakvr::Render::Shader *pPixelShader = nullptr;
-
-#if (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_9)
-		oakvr::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
-		params1.shaderType = oakvr::Render::eST_VertexShader;
-		params1.vertexFormat = oakvr::Render::VertexBuffer::eVF_XYZ;
-		params2.shaderType = oakvr::Render::eST_PixelShader;
-
-		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/BBVS.hlsl", &params1);
-		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/BBPS.hlsl", &params2);
-#elif (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_11)
-		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = oakvr::Render::eST_VertexShader;
-		params2.shaderType = oakvr::Render::eST_PixelShader;
-
-		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/BBVS.hlsl", &params1);
-		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/BBPS.hlsl", &params2);
-#elif (OAKVR_RENDERER == OAKVR_RENDERER_OPENGL)
-		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = oakvr::Render::eST_VertexShader;
-		params2.shaderType = oakvr::Render::eST_PixelShader;
-
-		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/BBVS.glsl", &params1);
-		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/BBPS.glsl", &params2);
-#endif
-		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
-			return;
-
-		m_pGE->EnablePerspectiveProjection();
-		//m_pGE->EnableOrtographicProjection();
-		m_pGE->EnableFillWireframe();
-		//m_pGE->EnableFillSolid();
-
-		auto pMeshes = oakvr::Render::Mesh::GetMeshList();
-		for(auto it = pMeshes->begin(); it != pMeshes->end(); ++it)
-		{
-			oakvr::Render::Mesh *pMesh = *it;
-			if(pMesh->IsReady())
-			{
-				oakvr::Render::AABB aabb = pMesh->GetBoundingBox();
-
-				oakvr::Render::VertexBuffer vb;
-				oakvr::Render::IndexBuffer ib;
-
-				vb.Create(8, oakvr::Render::VertexBuffer::eVF_XYZ);
-				ib.Create(36);
-
-				using oakvr::Math::Vector3;
-				Vector3 v1 = aabb.m_vecLeftBottomFront;
-				Vector3 v2 = aabb.m_vecRightTopBack;
-				v1 = Vector3(25.f, 25.f, 1.0f) ;
-				v2 = Vector3(50.0f, 50.f, 26.f);
-				//v1 = Vector3(-0.5f, -0.5f, 0.4f) ;
-				//v2 = Vector3(0.5f, 0.5f, 0.5f);
-
-				Vector3 *pBuff = nullptr;
-				vb.Lock((void**)&pBuff);
-				Vector3 *pVBData = pBuff;
-				*(pVBData++) = v1;
-				*(pVBData++) = Vector3(v2.x, v1.y, v1.z);
-				*(pVBData++) = Vector3(v2.x, v1.y, v2.z);
-				*(pVBData++) = Vector3(v1.x, v1.y, v2.z);
-				*(pVBData++) = Vector3(v1.x, v2.y, v1.z);
-				*(pVBData++) = Vector3(v2.x, v2.y, v1.z);
-				*(pVBData++) = v2;
-				*(pVBData++) = Vector3(v1.x, v2.y, v2.z);
-				vb.Unlock();
-
-				uint32_t *pIBData = nullptr;
-				ib.Lock((void **)&pIBData);
-				*(pIBData++) = 0;
-				*(pIBData++) = 5;
-				*(pIBData++) = 1;
-
-				*(pIBData++) = 0;
-				*(pIBData++) = 4;
-				*(pIBData++) = 5;
-
-				*(pIBData++) = 7;
-				*(pIBData++) = 2;
-				*(pIBData++) = 6;
-
-				*(pIBData++) = 7;
-				*(pIBData++) = 3;
-				*(pIBData++) = 2;
-				
-				*(pIBData++) = 4;
-				*(pIBData++) = 6;
-				*(pIBData++) = 5;
-
-				*(pIBData++) = 4;
-				*(pIBData++) = 7;
-				*(pIBData++) = 6;
-
-				*(pIBData++) = 3;
-				*(pIBData++) = 1;
-				*(pIBData++) = 2;
-				
-				*(pIBData++) = 3;
-				*(pIBData++) = 0;
-				*(pIBData++) = 1;
-				
-				*(pIBData++) = 1;
-				*(pIBData++) = 6;
-				*(pIBData++) = 2;
-
-				*(pIBData++) = 1;
-				*(pIBData++) = 5;
-				*(pIBData++) = 6;
-
-				*(pIBData++) = 3;
-				*(pIBData++) = 4;
-				*(pIBData++) = 0;
-
-				*(pIBData++) = 3;
-				*(pIBData++) = 7;
-				*(pIBData++) = 4;
-
-				ib.Unlock();
-
-				m_pGE->UseVertexBuffer(&vb);
-				m_pGE->UseIndexBuffer(&ib);
-				m_pGE->UseTexture(nullptr);
-				m_pGE->UseShader(pVertexShader);
-				m_pGE->UseShader(pPixelShader);
-				m_pGE->UsePrimitiveTopology(oakvr::Render::ePT_TriangleList);
-				m_pGE->DrawIndexedPrimitives(12, 8);
-				vb.Release();
-				ib.Release();
-			}
-		}
-		//m_pRM->GetInstance()->ReleaseResource(pVertexShader);
-		//m_pRM->GetInstance()->ReleaseResource(pPixelShader);
-
-		*/
-	}
-
-	// --------------------------------------------------------------------------------
-	void Engine::DrawDebugText()
-	{
-		/*
-		m_pGE->EnableFillSolid();
-
-		char str[128];
-		sprintf_s(str, "FPS: %.0f", (1.0f / GetTimer()->GetDeltaTime()));
-		m_pGE->OutputText(str, 10, 10);
-
-		auto coords = oakvr::input::MouseInput::GetInstance()->GetPosition();
-		sprintf_s(str, "Mouse Coords: %2d,%2d", coords.first, coords.second);
-		m_pGE->OutputText(str, 10, 30);
-		*/
-	}
-
-	// --------------------------------------------------------------------------------
-	void Engine::DrawMeshes()
-	{
-		/*
-		oakvr::Render::Shader *pVertexShader = nullptr;
-		oakvr::Render::Shader *pPixelShader = nullptr;
-
-#if (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_9)
-		oakvr::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
-		params1.shaderType = oakvr::Render::eST_VertexShader;
-		params1.vertexFormat = oakvr::Render::VertexBuffer::eVF_XYZ | oakvr::Render::VertexBuffer::eVF_Normal;
-		params2.shaderType = oakvr::Render::eST_PixelShader;
-
-		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/PosNormalVS.hlsl", &params1);
-		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/PosNormalPS.hlsl", &params2);
-#elif (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_11)
-		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = oakvr::Render::eST_VertexShader;
-		params2.shaderType = oakvr::Render::eST_PixelShader;
-
-		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/PosNormalVS.hlsl", &params1);
-		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/PosNormalPS.hlsl", &params2);
-#elif (OAKVR_RENDERER == OAKVR_RENDERER_OPENGL)
-		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = oakvr::Render::eST_VertexShader;
-		params2.shaderType = oakvr::Render::eST_PixelShader;
-
-		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/PosNormalVS.glsl", &params1);
-		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/PosNormalPS.glsl", &params2);
-#endif
-		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
-			return;
-
-		m_pGE->EnablePerspectiveProjection();
-		m_pGE->EnableFillWireframe();
-
-		auto pMeshes = oakvr::Render::Mesh::GetMeshList();
-		for(auto it = pMeshes->begin(); it != pMeshes->end(); ++it)
-		{
-			oakvr::Render::Mesh *pMesh = *it;
-			if(pMesh->IsReady())
-			{
-				oakvr::Render::VertexBuffer vb;
-				oakvr::Render::IndexBuffer ib;
-
-				vb.Create(pMesh->m_vertexCount, pMesh->m_vertexFormat);
-				ib.Create(pMesh->m_indexCount);
-
-				void *pVB = nullptr;
-				void *pIB = nullptr;
-				vb.Lock(&pVB);
-				memcpy(pVB, pMesh->m_pVertexData, pMesh->m_vertexCount * pMesh->m_vertexSize);
-				vb.Unlock();
-				ib.Lock(&pIB);
-				memcpy(pIB, pMesh->m_pIndexData, pMesh->m_indexCount * sizeof(uint32_t));
-				ib.Unlock();
-
-				m_pGE->UseVertexBuffer(&vb);
-				m_pGE->UseIndexBuffer(&ib);
-				m_pGE->UseTexture(nullptr);
-				m_pGE->UseShader(pVertexShader);
-				m_pGE->UseShader(pPixelShader);
-				m_pGE->UsePrimitiveTopology(oakvr::Render::ePT_TriangleList);
-				for(uint32_t i = 0; i < pMesh->m_vMeshElements.size(); ++i)
-				{
-					// TODO add materials
-					//m_pGE->UseTexture(pMesh->m_vMaterials[pMesh->m_vMeshElements[i].m_materialIndex]].)
-					m_pGE->DrawIndexedPrimitives(pMesh->m_vMeshElements[i].m_indexCount / 3, pMesh->m_vMeshElements[i].m_startIndex);
-					//m_pGE->DrawPrimitives(pMesh->m_vMeshElements[i].m_indexCount / 3);
-				}
-				vb.Release();
-				ib.Release();
-			}
-		}
-		m_pRM->GetInstance()->ReleaseResource(pVertexShader);
-		m_pRM->GetInstance()->ReleaseResource(pPixelShader);
-		*/
+		
 	}
 
 	// --------------------------------------------------------------------------------
@@ -892,10 +602,39 @@ namespace oakvr
 		*/
 	}
 
+
+	void Engine::RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
+	{
+		m_pUpdateables.push_back(pUpdateable);
+	}
+
+	void Engine::UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
+	{
+		auto it = std::find(m_pUpdateables.begin(), m_pUpdateables.end(), pUpdateable);
+		if (it == m_pUpdateables.end())
+		{
+			Log::PrintError("Trying to unregister an updateable that was not registered! But how can this be?!... ");
+		}
+		else
+		{
+			m_pUpdateables.erase(it);
+		}
+	}
+
 	// --------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------
 	// render interface
 	// --------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------
+
+	void Engine::RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh)
+	{
+		m_pRenderer->RegisterMesh(pMesh);
+	}
+
+	void Engine::RegisterShader(std::string shaderName)
+	{
+		m_pRenderer->RegisterShaderProgram(shaderName);
+	}
 
 }	// namespace oakvr

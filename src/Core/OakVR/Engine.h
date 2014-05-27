@@ -2,9 +2,12 @@
 #include <memory>
 
 #include "Time/Timer.h"
-//#include "Leaf3D/Button.h"
 #include "Renderer/Renderer/Mesh.h"
+#include "Updateable.h"
+
 #include "OakVR/UtilityTypes.h"
+
+
 
 namespace oakvr
 {
@@ -34,6 +37,12 @@ namespace oakvr
 		// render related interface
 		static ScreenSize GetScreenSize();
 		static WindowSize GetWindowSize();
+
+		void RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
+		void UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
+
+		void RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh);
+		void RegisterShader(std::string shaderName);
 				
 		void CleanUp();
 
@@ -57,6 +66,7 @@ namespace oakvr
 		std::shared_ptr<oakvr::render::Renderer> m_pRenderer;
 		std::shared_ptr<oakvr::render::CameraManager> m_pCM;
 		
+		std::vector<std::shared_ptr<oakvr::Updateable>> m_pUpdateables;
 
 		bool m_bIsInitialized;
 	};

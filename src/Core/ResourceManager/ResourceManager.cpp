@@ -178,7 +178,7 @@ namespace oakvr
 					f.Read(pMemBuff->GetDataPtr(), pMemBuff->Size(), pMemBuff->Size());
 					f.Close();
 
-					for (std::shared_ptr<FileLoader> &pLoader : FileLoaderManager::s_fileLoaders)
+					for (std::shared_ptr<FileLoader> &pLoader : FileLoaderManager::GetFileLoaders())
 					{
 						if (pLoader->CanLoad(*pMemBuff))
 						{

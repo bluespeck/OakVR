@@ -14,8 +14,11 @@ namespace oakvr
 
 				inline PathType GetPathSeparator()
 				{
-					extern PathType g_pathSeparator;
-					return g_pathSeparator;
+#if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
+					return "\\";
+#else
+					return "/";
+#endif
 				}
 
 				PathType GetParentPath(const PathType &path);

@@ -46,5 +46,34 @@ namespace oakvr
 			MouseInputImpl *m_pImpl;
 			void *m_pMouseOwner;
 		};
+
+		namespace mouse
+		{
+			inline void Update()			{ MouseInput::GetInstance().Update(); }
+			inline bool IsLeftButtonDown()	{ return MouseInput::GetInstance().IsLeftButtonDown(); }
+			inline bool IsMiddleButtonDown() { return MouseInput::GetInstance().IsMiddleButtonDown(); }
+			inline bool IsRightButtonDown()		{ return MouseInput::GetInstance().IsRightButtonDown(); }
+			inline bool IsLeftButtonUp()		{ return MouseInput::GetInstance().IsLeftButtonUp(); }
+			inline bool IsMiddleButtonUp()		{ return MouseInput::GetInstance().IsMiddleButtonUp(); }
+			inline bool IsRightButtonUp()		{ return MouseInput::GetInstance().IsRightButtonUp(); }
+			inline bool IsLeftButtonHeld()		{ return MouseInput::GetInstance().IsLeftButtonHeld(); }
+			inline bool IsMiddleButtonHeld()	{ return MouseInput::GetInstance().IsMiddleButtonHeld(); }
+			inline bool IsRightButtonHeld()		{ return MouseInput::GetInstance().IsRightButtonHeld(); }
+			inline bool IsLeftButtonPressed()	{ return MouseInput::GetInstance().IsLeftButtonPressed(); }
+			inline bool IsMiddleButtonPressed() { return MouseInput::GetInstance().IsMiddleButtonPressed(); }
+			inline bool IsRightButtonPressed()	{ return MouseInput::GetInstance().IsRightButtonPressed(); }
+			inline bool IsLeftButtonReleased()	{ return MouseInput::GetInstance().IsLeftButtonReleased(); }
+			inline bool IsMiddleButtonReleased(){ return MouseInput::GetInstance().IsMiddleButtonReleased(); }
+			inline bool IsRightButtonReleased() { return MouseInput::GetInstance().IsRightButtonReleased(); }
+			inline bool HasMouseMoved()			{ return MouseInput::GetInstance().HasMouseMoved(); }
+
+			inline std::pair<int32_t, int32_t> GetPosition() { return MouseInput::GetInstance().GetPosition(); }
+			inline std::pair<int32_t, int32_t> GetPositionDelta() { return MouseInput::GetInstance().GetPositionDelta(); }
+
+			inline int32_t GetWheelDelta() { return MouseInput::GetInstance().GetWheelDelta(); }
+
+			inline void *GetMouseOwner() { return MouseInput::GetInstance().GetMouseOwner(); }
+			inline void *SetMouseOwner(void *newOwner) { MouseInput::GetInstance().SetMouseOwner(newOwner); }
+		}
 	}
 }

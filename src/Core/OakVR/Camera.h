@@ -11,7 +11,7 @@ namespace oakvr
 {
 	namespace render
 	{
-		class Camera: public Object
+		class Camera
 		{
 		public:	
 			Camera();

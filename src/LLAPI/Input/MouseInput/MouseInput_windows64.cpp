@@ -17,11 +17,11 @@ namespace oakvr
 			static MouseInputImpl *m_pInstance;
 			struct MouseState
 			{
+				int32_t m_wheelDelta;
+				uint32_t m_x, m_y;
 				bool m_bLButtonDown;
 				bool m_bMButtonDown;
 				bool m_bRButtonDown;
-				int32_t m_wheelDelta;
-				uint32_t m_x, m_y;
 			} m_previousState, m_currentState;
 
 			volatile MouseState m_volatileState;
@@ -34,7 +34,7 @@ namespace oakvr
 		MouseInput::MouseInput()
 		{
 			m_pImpl = new MouseInputImpl();
-			::SetWindowsHookEx(WH_MOUSE_LL, LowLevelMouseProc, nullptr, 0);
+			//::SetWindowsHookEx(WH_MOUSE_LL, LowLevelMouseProc, nullptr, 0);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -47,8 +47,19 @@ namespace oakvr
 		void MouseInput::Update()
 		{
 			memcpy(&m_pImpl->m_previousState, &m_pImpl->m_currentState, sizeof(MouseInputImpl::MouseState));
-			memcpy(&m_pImpl->m_currentState, (const void *)&m_pImpl->m_volatileState, sizeof(MouseInputImpl::MouseState));
-			m_pImpl->m_volatileState.m_wheelDelta = 0;
+
+			// retrieve current cursor position
+			POINT cursorPos;
+			GetCursorPos(&cursorPos);
+			m_pImpl->m_currentState.m_x = cursorPos.x;
+			m_pImpl->m_currentState.m_y = cursorPos.y;
+
+			m_pImpl->m_currentState.m_bLButtonDown = (GetKeyState(VK_LBUTTON) & 0x100) != 0;
+			m_pImpl->m_currentState.m_bMButtonDown = (GetKeyState(VK_MBUTTON) & 0x100) != 0;
+			m_pImpl->m_currentState.m_bRButtonDown = (GetKeyState(VK_RBUTTON) & 0x100) != 0;
+			
+			//memcpy(&m_pImpl->m_currentState, (const void *)&m_pImpl->m_volatileState, sizeof(MouseInputImpl::MouseState));
+			//m_pImpl->m_volatileState.m_wheelDelta = 0;
 		}
 
 		// --------------------------------------------------------------------------------

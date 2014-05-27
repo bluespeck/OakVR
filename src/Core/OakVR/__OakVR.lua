@@ -1,5 +1,5 @@
 Project "OakVR"
-	kind "ConsoleApp"
+	kind "StaticLib"
 	language "C++"
 	
 

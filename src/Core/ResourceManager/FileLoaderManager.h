@@ -14,7 +14,7 @@ namespace oakvr
 		public:
 			static void RegisterFileLoader(std::shared_ptr<FileLoader> pFileLoader);
 			static void UnregisterFileLoader(std::shared_ptr<FileLoader> pFileLoader);
-			static std::vector<std::shared_ptr<FileLoader>> s_fileLoaders;
+			static std::vector<std::shared_ptr<FileLoader>> &GetFileLoaders();
 		};
 	}
 }

@@ -3,6 +3,8 @@
 #include "Time/Timer.h"
 #include "Log/Log.h"
 
+#include "Renderer/Renderer/Mesh.h"
+
 #include <iostream>
 
 namespace oakvr
@@ -11,6 +13,8 @@ namespace oakvr
 	bool oakvrInit( std::vector<std::string> cmdLine )
 	{
 		Log::SetMaxLevel(Log::LogLevel::info);
+		for (auto e : OakVR::GetInstance().m_initializers)
+			e();
 		return true;
 	}
 
@@ -59,5 +63,25 @@ namespace oakvr
 	{
 	}
 	
-	
+	void OakVR::RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
+	{
+		m_engine.RegisterUpdateable(pUpdateable);
+	}
+
+	void OakVR::UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
+	{
+		m_engine.UnregisterUpdateable(pUpdateable);
+	}
+
+	// interface relay
+	void OakVR::RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh)
+	{
+		m_engine.RegisterMesh(pMesh);
+	}
+
+	void OakVR::RegisterShader(std::string shaderName)
+	{
+		m_engine.RegisterShader(shaderName);
+	}
+
 }	// namespace oakvr
