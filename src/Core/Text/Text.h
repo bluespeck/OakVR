@@ -52,4 +52,9 @@ namespace oakvr
 			std::shared_ptr<oakvr::render::Renderer> m_pRenderer;
 		};
 	}
+
+	namespace render
+	{
+		inline void DrawText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName) { oakvr::core::Text::GetInstance().RenderText(text, position, color, fontName); }
+	}
 }

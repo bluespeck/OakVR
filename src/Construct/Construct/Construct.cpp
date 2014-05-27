@@ -59,13 +59,13 @@ namespace construct
 	void Construct::Update(double dt)
 	{
 		if (oakvr::input::keyboard::IsDown(oakvr::input::Key::a))
-			oakvr::core::Text::GetInstance().RenderText("AAAAAAAAAAAAAAA!", oakvr::math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
-		else if (oakvr::input::keyboard::IsDown(oakvr::input::Key::b))
-			oakvr::core::Text::GetInstance().RenderText("BBBBBBBBBBBBBBB!", oakvr::math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
-		else if (oakvr::input::mouse::IsLeftButtonDown())
-			oakvr::core::Text::GetInstance().RenderText("MouseMouse!", oakvr::math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
-		else
-			oakvr::core::Text::GetInstance().RenderText("This is a test!", oakvr::math::Vector3(0.f, 0.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+			oakvr::render::DrawText("A key is down", oakvr::math::Vector3(-0.9f, 15.9f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+		if (oakvr::input::keyboard::IsDown(oakvr::input::Key::b))
+			oakvr::render::DrawText("B key is down again", oakvr::math::Vector3(-30.1f, 10.9f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+		if (oakvr::input::mouse::IsLeftButtonDown())
+			oakvr::render::DrawText("Left mouse button down", oakvr::math::Vector3(-30.9f, 5.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+		
+		oakvr::render::DrawText("Text test (@<_~')", oakvr::math::Vector3(-10.f, -35.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
 	}
 
 	void InitializeConstruct()
