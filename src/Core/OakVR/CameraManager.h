@@ -1,7 +1,11 @@
 #pragma once
 
-#include <list>
 #include "Camera.h"
+
+#include <vector>
+#include <memory>
+
+
 
 namespace oakvr
 {
@@ -12,12 +16,14 @@ namespace oakvr
 		public:
 			CameraManager();
 
-			Camera *GetCurrentCamera() { return m_pCurrentCamera; }
-			void SetAsCurrentCamera(Camera *pCamera) { m_pCurrentCamera = pCamera; }
+			void RegisterCamera(std::shared_ptr<Camera>);
+			void UnregisterCamera(std::shared_ptr<Camera>);
 
+			std::shared_ptr<Camera> GetCurrentCamera() { return m_currentCameraIndex < m_cameras.size() ? m_cameras[m_currentCameraIndex] : nullptr; }
+			void SetCurrentCamera(std::shared_ptr<Camera>);
 		private:
-			Camera *m_pCurrentCamera;
-			std::list<Camera *> m_cameras;
+			int m_currentCameraIndex;
+			std::vector<std::shared_ptr<Camera>> m_cameras;
 		};
 	}
 }

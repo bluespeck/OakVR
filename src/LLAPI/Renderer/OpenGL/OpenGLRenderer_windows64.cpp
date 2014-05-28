@@ -12,14 +12,12 @@
 #include "Renderer/Renderer/MeshManager.h"
 #include "Renderer/Renderer/Mesh.h"
 
-
 #include "Math/Matrix.h"
 #include "Renderer/Renderer/Shader.h"
 #include "Renderer/Renderer/ShaderProgram.h"
 
 #include "FileIO/File.h"
 #include "Log/Log.h"
-//#include "ResourceManager/Image.h"
 
 #include "Profiler\Profiler.h"
 
@@ -83,8 +81,6 @@ namespace oakvr
 			// Wireframe mode
 			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			CHECK_OPENGL_ERROR;
-
-			m_bInitialized = true;
 			return true;
 		}
 
@@ -167,9 +163,9 @@ namespace oakvr
 			//TODO: Add set shader param function
 			PROFILER_FUNC_SCOPED_TIMER;
 			oakvr::math::Matrix mProj = oakvr::math::Matrix::PerspectiveProjection(3.14158592f / 3.f, 4.f / 3.f, .1f, 100.0f);
-			oakvr::math::Matrix mView = oakvr::math::Matrix::Identity();
-			mView._42 = -1.3f;
-			mView._43 = -4.f;
+
+			oakvr::math::Matrix mView = m_viewMatrix;
+			
 			static float angle = 0;
 			if (angle >= 2 * 3.14f)
 				angle = 0;

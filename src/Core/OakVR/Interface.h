@@ -2,6 +2,7 @@
 
 #include "Renderer/Renderer/RendererUtils.h"
 #include "Renderer/Renderer/Material.h"
+#include "OakVR/Camera.h"
 
 #include "Updateable.h"
 
@@ -27,6 +28,11 @@ namespace oakvr
 			);
 
 		void RegisterShader(const std::string &shaderName);
+
+		void RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
+		void UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
+		std::shared_ptr<oakvr::render::Camera> GetCurrentCamera();
+		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
 	}
 
 	void RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);

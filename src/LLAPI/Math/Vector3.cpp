@@ -15,6 +15,13 @@ namespace oakvr
 		{
 		}
 
+		Vector3::Vector3(std::initializer_list<float> initList)
+		{
+			float *p = &x;
+			for (auto e : initList)
+				*(p++) = e;
+		}
+
 		// --------------------------------------------------------------------------------
 		Vector3::Vector3(const Vector4 &vec)
 		{ 

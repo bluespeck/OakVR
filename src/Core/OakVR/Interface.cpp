@@ -22,6 +22,26 @@ namespace oakvr
 		{
 			oakvr::OakVR::GetInstance().RegisterShader(shaderName);
 		}
+
+		void RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+		{
+			oakvr::OakVR::GetInstance().RegisterCamera(pCamera);
+		}
+
+		void UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+		{
+			oakvr::OakVR::GetInstance().UnregisterCamera(pCamera);
+		}
+
+		std::shared_ptr<oakvr::render::Camera> GetCurrentCamera()
+		{
+			return oakvr::OakVR::GetInstance().GetCurrentCamera();
+		}
+
+		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+		{
+			oakvr::OakVR::GetInstance().SetCurrentCamera(pCamera);
+		}
 	}
 
 	namespace core

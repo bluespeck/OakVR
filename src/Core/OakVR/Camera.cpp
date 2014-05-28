@@ -13,6 +13,9 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		Camera::Camera()
 		{	
+			m_position = oakvr::math::Vector3(0.f, 0.f, -1.f);
+			m_look = oakvr::math::Vector3(0.f, 0.f, 0.f);
+			m_up = oakvr::math::Vector3(0.f, 1.f, 0.f);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -47,9 +50,23 @@ namespace oakvr
 			m_look += displacement;
 		}
 
-		// --------------------------------------------------------------------------------
-		void Camera::Update(float dt)
-		{		
+		oakvr::math::Matrix Camera::ComputeViewMatrix() const
+		{
+			auto target = GetLook();
+			auto up = GetUp();
+			auto eye = GetPosition();
+			
+			auto zaxis = (eye - target).GetNormalized();
+			auto xaxis = up.Cross(zaxis).GetNormalized();
+			auto yaxis = zaxis.Cross(xaxis);
+
+			oakvr::math::Matrix mat;
+			mat._11 = xaxis.x;			mat._12 = yaxis.x;			mat._13 = zaxis.x;			mat._14 = 0.f;
+			mat._21 = xaxis.y;			mat._22 = yaxis.y;			mat._23 = zaxis.y;			mat._24 = 0.f;
+			mat._31 = xaxis.z;			mat._32 = yaxis.z;			mat._33 = zaxis.z;			mat._34 = 0.f;
+			mat._41 = -xaxis.Dot(eye);	mat._42 = -yaxis.Dot(eye);	mat._43 = zaxis.Dot(eye);	mat._44 = 1.f;
+		
+			return mat;
 		}
 
 	}	// namespace Render

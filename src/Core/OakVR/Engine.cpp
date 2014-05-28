@@ -50,6 +50,7 @@ namespace oakvr
 			for (auto &e : pUpdateables)
 				e->Update(dt);
 
+			m_pRenderer->SetViewMatrix(GetCurrentCamera()->ComputeViewMatrix());
 			m_pRenderer->Update(dt);
 			profiler::Profiler::GetInstance().PrintSortedData();
 		}
@@ -118,8 +119,6 @@ namespace oakvr
 	{
 		m_timer = oakvr::Timer();
 
-		m_pCM = nullptr;
-		m_bIsInitialized = false;
 	}
 
 	// --------------------------------------------------------------------------------
@@ -153,7 +152,6 @@ namespace oakvr
 		}
 
 		m_timer.Reset();
-		m_bIsInitialized = true;
 		return true;
 	}
 
@@ -629,6 +627,25 @@ namespace oakvr
 	void Engine::RegisterShader(std::string shaderName)
 	{
 		m_pRenderer->RegisterShaderProgram(shaderName);
+	}
+
+	void Engine::RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+	{
+		m_pCM->RegisterCamera(pCamera);
+	}
+
+	void Engine::UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+	{
+		m_pCM->UnregisterCamera(pCamera);
+	}
+
+	std::shared_ptr<oakvr::render::Camera> Engine::GetCurrentCamera()
+	{
+		return m_pCM->GetCurrentCamera();}
+
+	void Engine::SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+	{
+		m_pCM->SetCurrentCamera(pCamera);
 	}
 
 	// --------------------------------------------------------------------------------

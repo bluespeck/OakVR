@@ -1,8 +1,8 @@
 #pragma once
 
 #include "RendererUtils.h"
-#include "Utils\Buffer.h"
-
+#include "Utils/Buffer.h"
+#include "Math/Matrix.h"
 
 #include <cstdint>
 #include <string>
@@ -13,11 +13,6 @@
 
 namespace oakvr
 {
-	namespace math
-	{
-		class Matrix;
-	}
-
 	namespace core
 	{
 		class ResourceManager;
@@ -70,7 +65,8 @@ namespace oakvr
 			void SetRenderWindow( std::shared_ptr<RenderWindow> pRenderWindow );
 			void SetResourceManager(std::shared_ptr<oakvr::core::ResourceManager> pRM);
 
-			inline bool IsInitialized() { return m_bInitialized; }
+			void SetViewMatrix(const oakvr::math::Matrix &mat) { m_viewMatrix = mat; }
+			const oakvr::math::Matrix &GetViewMatrix() const { return m_viewMatrix; }
 
 		private:
 			void InitCommon();
@@ -88,10 +84,10 @@ namespace oakvr
 			std::unordered_map<std::string, std::shared_ptr<Texture>> m_textures;
 
 			std::unordered_map<std::string, std::shared_ptr<ShaderProgram>> m_shaderPrograms;
-			//DebugTextRenderer *m_pDebugTextRenderer;		// object used to draw debug text
-			std::unique_ptr<MeshManager> m_pMeshManager;
 			
-			bool m_bInitialized;
+			std::unique_ptr<MeshManager> m_pMeshManager;
+
+			oakvr::math::Matrix m_viewMatrix;
 
 		};
 	}	// namespace render

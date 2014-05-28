@@ -1,5 +1,7 @@
 #pragma once
 
+#include <initializer_list>
+
 namespace oakvr
 {
 	namespace math
@@ -12,6 +14,7 @@ namespace oakvr
 			// constructors
 			Vector3() {};			
 			Vector3( float x, float y, float z );
+			Vector3(std::initializer_list<float>);
 			Vector3( const class Vector4 &vec );
 			Vector3( const float *arr );
 			

@@ -9,5 +9,7 @@ namespace construct
 	public:
 		Construct();
 		void Update(double dt) override;
+	private:
+		void CreateTestMesh();
 	};
 }

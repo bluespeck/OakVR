@@ -3,6 +3,7 @@
 
 #include "Time/Timer.h"
 #include "Renderer/Renderer/Mesh.h"
+#include "OakVR/Camera.h"
 #include "Updateable.h"
 
 #include "OakVR/UtilityTypes.h"
@@ -43,6 +44,11 @@ namespace oakvr
 
 		void RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh);
 		void RegisterShader(std::string shaderName);
+
+		void RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
+		void UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
+		std::shared_ptr<oakvr::render::Camera> GetCurrentCamera();
+		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
 
 		void RegisterSubFolderPaths(const std::string &path);
 		std::shared_ptr<oakvr::core::MemoryBuffer> GetResource(const std::string &id);
