@@ -31,6 +31,9 @@ namespace oakvr
 		void RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh);
 		void RegisterShader(std::string shaderName);
 
+		void RegisterSubFolderPaths(const std::string &path);
+		std::shared_ptr<oakvr::core::MemoryBuffer> GetResource(const std::string &id);
+
 	private:
 		OakVR();
 		~OakVR();

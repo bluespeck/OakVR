@@ -10,6 +10,13 @@ namespace construct
 {
 	Construct::Construct()
 	{
+		oakvr::core::RegisterSubFolderPaths("D:/Projects/OakVR/resources");
+		// load up some fonts
+		oakvr::core::AddFontFace("Tinos-Regular");
+		oakvr::core::AddFontFace("FiraSans-Light");
+		oakvr::core::AddFontFace("FiraMono-Regular");
+
+		// build a test mesh
 		std::vector<oakvr::render::VertexElementDescriptor> ved{
 			oakvr::render::VertexElementDescriptor::Semantic::position,
 			oakvr::render::VertexElementDescriptor::Semantic::tex_coord,
@@ -61,11 +68,11 @@ namespace construct
 		if (oakvr::input::keyboard::IsDown(oakvr::input::Key::a))
 			oakvr::render::DrawText("A key is down", oakvr::math::Vector3(-0.9f, 15.9f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
 		if (oakvr::input::keyboard::IsDown(oakvr::input::Key::b))
-			oakvr::render::DrawText("B key is down again", oakvr::math::Vector3(-30.1f, 10.9f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+			oakvr::render::DrawText("B key is down again", oakvr::math::Vector3(-30.1f, 10.9f, -20.f), oakvr::render::Color::Yellow, "Fira Sans Light");
 		if (oakvr::input::mouse::IsLeftButtonDown())
 			oakvr::render::DrawText("Left mouse button down", oakvr::math::Vector3(-30.9f, 5.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
 		
-		oakvr::render::DrawText("Text test (@<_~')", oakvr::math::Vector3(-10.f, -35.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+		oakvr::render::DrawText("~'_abcdef01259`!", oakvr::math::Vector3(-10.f, -25.f, -20.f), oakvr::render::Color::Yellow, "Fira Mono Regular");
 	}
 
 	void InitializeConstruct()

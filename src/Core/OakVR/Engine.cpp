@@ -124,9 +124,7 @@ namespace oakvr
 
 	// --------------------------------------------------------------------------------
 	Engine::~Engine()
-	{		
-		//delete m_pGE->GetDebugTextRenderer();
-		//oakvr::core::ResourceManager::Release();
+	{
 //		oakvr::Leaf3D::Widget::ReleaseWidgetList();
 //		oakvr::core::IUpdatable::ReleaseUpdatableList();
 //		oakvr::Leaf3D::EventManager::Release();
@@ -138,10 +136,7 @@ namespace oakvr
 	bool Engine::Initialize()
 	{
 		oakvr::core::InitializeFileLoaders();
-
-		// Register the files in this path with RM for quick loading into the engine
-		m_pRM->AddPathsFromFolder("D:\\Projects\\OakVR\\resources");
-
+		
 		if(!m_pRW || !m_pRW->Initialize())
 			return false;
 
@@ -154,13 +149,12 @@ namespace oakvr
 			// Initialize Text manager
 			oakvr::core::Text::GetInstance().SetResourceManagerPtr(m_pRM);
 			oakvr::core::Text::GetInstance().SetRendererPtr(m_pRenderer);
-			oakvr::core::Text::GetInstance().AddFontFace(m_pRM->GetResource("Tinos-Regular"));
+			
 		}
 
 		m_timer.Reset();
 		m_bIsInitialized = true;
 		return true;
-//		pm1 = m_pRM->GetResource<oakvr::Render::Mesh>("../resources/Models/hammer.obj");
 	}
 
 	void Engine::CleanUp()
@@ -635,6 +629,22 @@ namespace oakvr
 	void Engine::RegisterShader(std::string shaderName)
 	{
 		m_pRenderer->RegisterShaderProgram(shaderName);
+	}
+
+	// --------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------
+	// core interface
+	// --------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------
+
+	void Engine::RegisterSubFolderPaths(const std::string &path)
+	{
+		return m_pRM->AddPathsFromFolder(path);
+	}
+
+	std::shared_ptr<oakvr::core::MemoryBuffer> Engine::GetResource(const std::string &id)
+	{
+		return m_pRM->GetResource(id);
 	}
 
 }	// namespace oakvr

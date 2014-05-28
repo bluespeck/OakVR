@@ -8,7 +8,16 @@ namespace oakvr
 	std::string Log::s_outFilename = "stdout";
 	std::string Log::s_errFilename = "stderr";
 	const char * Log::s_logLabel = "[oakvr]";
-	Log::LogLevel Log::s_maxLevel;
+	// default values for the maximum loglevel allowed to print messages
+#ifdef OAKVR_DEBUG
+	Log::LogLevel Log::s_maxLevel = Log::LogLevel::info;
+#elif defined(OAKVR_FASTDEBUG)
+	Log::LogLevel Log::s_maxLevel = Log::LogLevel::error;
+#elif defined(OAKVR_PROFILE)
+	Log::LogLevel Log::s_maxLevel = Log::LogLevel::warning;
+#elif defined(OAKVR_FINAL)
+	Log::LogLevel Log::s_maxLevel = Log::LogLevel::disabled;
+#endif
 
 	void Log::SetMaxLevel(Log::LogLevel level)
 	{
@@ -46,7 +55,6 @@ namespace oakvr
 		va_start(vl, logMsg);
 		Print(LogLevel::error, logMsg, vl);
 		va_end(vl);
-		std::cin.get();
 	}
 
 	void Log::PrintWarning(const char * logMsg, ...)

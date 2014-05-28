@@ -23,18 +23,28 @@ namespace oakvr
 			public:
 				FontFace(FT_LibraryRec_ *pFTLib, std::shared_ptr<MemoryBuffer> pFontFileBuffer, std::string fontFaceName = "");
 				
+				struct CharInfo
+				{
+					oakvr::math::Vector2 texCoords1;
+					oakvr::math::Vector2 texCoords2;
+					oakvr::math::Vector2 leftTopFromBaseline;
+				};
+
 				const std::string &GetName() const { return m_name; }
 				const MemoryBuffer &GetMemoryBuffer() const { return m_buff; }
-				const std::array<std::pair<oakvr::math::Vector2, oakvr::math::Vector2>, 127 - 32> &GetCharacterMap() const { return m_characterMap; }
+				const std::array<CharInfo, 127 - 32> &GetCharacterMap() const { return m_characterMap; }
 				uint32_t GetTextureWidth() const { return m_textureWidth; }
 				uint32_t GetTextureHeight() const { return m_textureHeight; }
+
+				
 			private:
 				MemoryBuffer RenderGlyphs();
 
 			private:
 				std::string m_name;
 				MemoryBuffer m_buff;
-				std::array<std::pair<oakvr::math::Vector2, oakvr::math::Vector2>, 127 - 32> m_characterMap;
+
+				std::array<CharInfo, 127 - 32> m_characterMap;
 				uint32_t m_textureWidth, m_textureHeight;	// pixels
 
 				FT_FaceRec_ *m_pFTFace = nullptr;

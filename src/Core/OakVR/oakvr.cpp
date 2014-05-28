@@ -84,4 +84,14 @@ namespace oakvr
 		m_engine.RegisterShader(shaderName);
 	}
 
+	std::shared_ptr<oakvr::core::MemoryBuffer> OakVR::GetResource(const std::string &id)
+	{
+		return m_engine.GetResource(id);
+	}
+
+	void OakVR::RegisterSubFolderPaths(const std::string &path)
+	{
+		return m_engine.RegisterSubFolderPaths(path);
+	}
+
 }	// namespace oakvr

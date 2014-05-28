@@ -24,6 +24,19 @@ namespace oakvr
 		}
 	}
 
+	namespace core
+	{
+		void RegisterSubFolderPaths(const std::string &path)
+		{
+			oakvr::OakVR::GetInstance().RegisterSubFolderPaths(path);
+		}
+
+		std::shared_ptr<oakvr::core::MemoryBuffer> GetResource(const std::string &id)
+		{
+			return oakvr::OakVR::GetInstance().GetResource(id);
+		}
+	}
+
 	void RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
 	{
 		oakvr::OakVR::GetInstance().RegisterUpdateable(pUpdateable);

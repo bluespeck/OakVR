@@ -1,10 +1,12 @@
 #pragma once
 
+#include "Oakvr/Interface.h"
 #include "Utils/Singleton.h"
 #include "Utils/Buffer.h"
 #include "FontFace.h"
 #include "Math/Vector3.h"
 #include "Renderer/Renderer/Color.h"
+
 
 #include <vector>
 #include <memory>
@@ -53,6 +55,10 @@ namespace oakvr
 		};
 	}
 
+	namespace core
+	{
+		inline void AddFontFace(std::string fileName) { oakvr::core::Text::GetInstance().AddFontFace(oakvr::core::GetResource(fileName)); }
+	}
 	namespace render
 	{
 		inline void DrawText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName) { oakvr::core::Text::GetInstance().RenderText(text, position, color, fontName); }

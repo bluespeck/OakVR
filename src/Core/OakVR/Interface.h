@@ -32,4 +32,9 @@ namespace oakvr
 	void RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
 	void UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
 
+	namespace core
+	{
+		void RegisterSubFolderPaths(const std::string &path);
+		std::shared_ptr<oakvr::core::MemoryBuffer> GetResource(const std::string &id);
+	}
 } // namespace oakvr

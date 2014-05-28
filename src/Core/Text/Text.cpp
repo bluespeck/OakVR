@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <memory>
+#include <cmath>
 
 namespace oakvr
 {
@@ -47,6 +48,8 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Text::RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName) const
 		{
+			float scaleFactor = 0.05f;
+
 			auto it = FindFontFace(fontName);
 
 			if (it != m_fontFaces.end())
@@ -77,57 +80,72 @@ namespace oakvr
 						oakvr::Log::PrintWarning("Trying to output a character that is not in the range 32-127! [%c]", text[i]);
 						continue;
 					}
+
 					const auto &charProps = cm[text[i] - ' '];
-					float charWidth = charProps.second.x - charProps.first.x;
-					float charHeight = charProps.second.y - charProps.first.y;
-					float cwPixels = charWidth * it->GetTextureWidth()/4.f;
-					float chPixels = charHeight * it->GetTextureHeight()/4.f;
+					
+					float horizontalNormalizationFactor = 1.f / it->GetTextureWidth();
+					float verticalNormalizationFactor = 1.f / it->GetTextureHeight();
+					float cwPixels = fabs(charProps.texCoords2.x - charProps.texCoords1.x) * scaleFactor;
+					float chPixels = fabs(charProps.texCoords2.y - charProps.texCoords1.y) * scaleFactor;
+					float clPixels = charProps.leftTopFromBaseline.x * scaleFactor;
+					float ctPixels = charProps.leftTopFromBaseline.y * scaleFactor;
+					
+					// Vertex # layout
+					//	position.x
+					//	position.y
+					//	position.z
+					//	texcoord.u
+					//	texcoord.v
+					//	color.r
+					//	color.g
+					//	color.b
+					
 					// Vertex #1
-					pVertices[i * 4 * 8 + 0 * 8 + 0] = position.x + posX;				// x
-					pVertices[i * 4 * 8 + 0 * 8 + 1] = position.y + posY;				// y
-					pVertices[i * 4 * 8 + 0 * 8 + 2] = position.z + 0.0f;				// z
-					pVertices[i * 4 * 8 + 0 * 8 + 3] = charProps.first.x;				// u
-					pVertices[i * 4 * 8 + 0 * 8 + 4] = charProps.second.y;				// v
+					pVertices[i * 4 * 8 + 0 * 8 + 0] = position.x + posX + clPixels;				
+					pVertices[i * 4 * 8 + 0 * 8 + 1] = position.y + posY - chPixels + ctPixels;				
+					pVertices[i * 4 * 8 + 0 * 8 + 2] = position.z + 0.0f;				
+					pVertices[i * 4 * 8 + 0 * 8 + 3] = charProps.texCoords1.x * horizontalNormalizationFactor;
+					pVertices[i * 4 * 8 + 0 * 8 + 4] = charProps.texCoords2.y * verticalNormalizationFactor;
 					pVertices[i * 4 * 8 + 0 * 8 + 5] = color.r;
 					pVertices[i * 4 * 8 + 0 * 8 + 6] = color.g;
 					pVertices[i * 4 * 8 + 0 * 8 + 7] = color.b;
 
 					// Vertex #2
-					pVertices[i * 4 * 8 + 1 * 8 + 0] = position.x + posX + cwPixels;	// x
-					pVertices[i * 4 * 8 + 1 * 8 + 1] = position.y + posY;				// y
-					pVertices[i * 4 * 8 + 1 * 8 + 2] = position.z + 0.0f;				// z
-					pVertices[i * 4 * 8 + 1 * 8 + 3] = charProps.second.x;				// u
-					pVertices[i * 4 * 8 + 1 * 8 + 4] = charProps.second.y;				// v
+					pVertices[i * 4 * 8 + 1 * 8 + 0] = position.x + posX + cwPixels + clPixels;	
+					pVertices[i * 4 * 8 + 1 * 8 + 1] = position.y + posY - chPixels + ctPixels;				
+					pVertices[i * 4 * 8 + 1 * 8 + 2] = position.z + 0.0f;				
+					pVertices[i * 4 * 8 + 1 * 8 + 3] = charProps.texCoords2.x * horizontalNormalizationFactor;
+					pVertices[i * 4 * 8 + 1 * 8 + 4] = charProps.texCoords2.y * verticalNormalizationFactor;
 					pVertices[i * 4 * 8 + 1 * 8 + 5] = color.r;
 					pVertices[i * 4 * 8 + 1 * 8 + 6] = color.g;
 					pVertices[i * 4 * 8 + 1 * 8 + 7] = color.b;
 
 					// Vertex #3
-					pVertices[i * 4 * 8 + 2 * 8 + 0] = position.x + posX + cwPixels;			// x
-					pVertices[i * 4 * 8 + 2 * 8 + 1] = position.y + posY + chPixels;			// y
-					pVertices[i * 4 * 8 + 2 * 8 + 2] = position.z + 0.0f;						// z
-					pVertices[i * 4 * 8 + 2 * 8 + 3] = charProps.second.x;				// u
-					pVertices[i * 4 * 8 + 2 * 8 + 4] = charProps.first.y;				// v
+					pVertices[i * 4 * 8 + 2 * 8 + 0] = position.x + posX + cwPixels + clPixels;
+					pVertices[i * 4 * 8 + 2 * 8 + 1] = position.y + posY + ctPixels;
+					pVertices[i * 4 * 8 + 2 * 8 + 2] = position.z + 0.0f;
+					pVertices[i * 4 * 8 + 2 * 8 + 3] = charProps.texCoords2.x * horizontalNormalizationFactor;
+					pVertices[i * 4 * 8 + 2 * 8 + 4] = charProps.texCoords1.y * verticalNormalizationFactor;
 					pVertices[i * 4 * 8 + 2 * 8 + 5] = color.r;
 					pVertices[i * 4 * 8 + 2 * 8 + 6] = color.g;
 					pVertices[i * 4 * 8 + 2 * 8 + 7] = color.b;
 
 					// Vertex #4
-					pVertices[i * 4 * 8 + 3 * 8 + 0] = position.x + posX;					// x
-					pVertices[i * 4 * 8 + 3 * 8 + 1] = position.y + posY + chPixels;		// y
-					pVertices[i * 4 * 8 + 3 * 8 + 2] = position.z + 0.0f;					// z
-					pVertices[i * 4 * 8 + 3 * 8 + 3] = charProps.first.x;				// u
-					pVertices[i * 4 * 8 + 3 * 8 + 4] = charProps.first.y;				// v
+					pVertices[i * 4 * 8 + 3 * 8 + 0] = position.x + posX + clPixels;
+					pVertices[i * 4 * 8 + 3 * 8 + 1] = position.y + posY + ctPixels;
+					pVertices[i * 4 * 8 + 3 * 8 + 2] = position.z + 0.0f;
+					pVertices[i * 4 * 8 + 3 * 8 + 3] = charProps.texCoords1.x * horizontalNormalizationFactor;
+					pVertices[i * 4 * 8 + 3 * 8 + 4] = charProps.texCoords1.y * verticalNormalizationFactor;
 					pVertices[i * 4 * 8 + 3 * 8 + 5] = color.r;
 					pVertices[i * 4 * 8 + 3 * 8 + 6] = color.g;
 					pVertices[i * 4 * 8 + 3 * 8 + 7] = color.b;
 
-					
+
 					// Index #1
-					pIndices[i * 6 + 0] = i * 4 ;
+					pIndices[i * 6 + 0] = i * 4;
 					pIndices[i * 6 + 1] = i * 4 + 1;
 					pIndices[i * 6 + 2] = i * 4 + 2;
-					pIndices[i * 6 + 3] = i * 4 ;
+					pIndices[i * 6 + 3] = i * 4;
 					pIndices[i * 6 + 4] = i * 4 + 2;
 					pIndices[i * 6 + 5] = i * 4 + 3;
 

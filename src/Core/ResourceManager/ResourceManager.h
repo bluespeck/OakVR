@@ -56,6 +56,5 @@ namespace oakvr
 			//std::unique_ptr<std::thread> m_pRMLoadThread;
 			//std::unique_ptr<std::thread> m_pRMUnloadThread;
 		};
-
 	}
 }
