@@ -4,6 +4,8 @@
 #include "Math/Matrix.h"
 #include "Renderer/Renderer/AABB.h"
 
+#include "Log/Log.h"
+
 namespace oakvr
 {
 	namespace render
@@ -11,19 +13,27 @@ namespace oakvr
 		using oakvr::math::Vector3;
 
 		// --------------------------------------------------------------------------------
-		Camera::Camera()
-		{	
-			m_position = oakvr::math::Vector3(0.f, 0.f, -1.f);
-			m_look = oakvr::math::Vector3(0.f, 0.f, 0.f);
-			m_up = oakvr::math::Vector3(0.f, 1.f, 0.f);
+		Camera::Camera(const std::string& cameraId, const Vector3 &pos, const Vector3 &look, const Vector3 &up)
+			: m_id { cameraId }
+			, m_position{ pos }
+			, m_look{look}
+			, m_up{up}
+		{
 		}
 
-		// --------------------------------------------------------------------------------
-		Camera::Camera(const Vector3 &pos, const Vector3 &look, const Vector3 &up)
+		Camera::Camera(const std::string &cameraId, const std::initializer_list<Vector3> &initList)
+			: m_id{ cameraId }
 		{
-			m_position = pos;
-			m_look = look;
-			m_up = up;
+			if (initList.size() >= 3)
+			{
+				m_position = *(initList.begin());
+				m_look = *(initList.begin() + 1);
+				m_up = *(initList.begin() + 2);
+			}
+			else
+			{
+				Log::PrintError("Trying to initialize camera with incomplete initializer list!");
+			}
 		}
 
 		// --------------------------------------------------------------------------------

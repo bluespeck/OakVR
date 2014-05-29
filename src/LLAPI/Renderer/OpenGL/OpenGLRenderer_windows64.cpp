@@ -162,16 +162,12 @@ namespace oakvr
 		{
 			//TODO: Add set shader param function
 			PROFILER_FUNC_SCOPED_TIMER;
-			oakvr::math::Matrix mProj = oakvr::math::Matrix::PerspectiveProjection(3.14158592f / 3.f, 4.f / 3.f, .1f, 100.0f);
+			oakvr::math::Matrix mProj = oakvr::math::Matrix::PerspectiveProjection(2*3.14158592f / 3.f, 4.f / 3.f, .1f, 100.0f);
 
 			oakvr::math::Matrix mView = m_viewMatrix;
 			
-			static float angle = 0;
-			if (angle >= 2 * 3.14f)
-				angle = 0;
-			oakvr::math::Matrix mModel = oakvr::math::Matrix::RotationY(angle);
-			//angle += 0.003f;
-
+			oakvr::math::Matrix mModel = oakvr::math::Matrix::Identity();
+			
 			GLuint programId = reinterpret_cast<GLuint>(pShaderProgram->GetNativeHandle());
 			int projectionMatrixLocation = glGetUniformLocation(programId, "projectionMatrix");
 			int viewMatrixLocation = glGetUniformLocation(programId, "viewMatrix");

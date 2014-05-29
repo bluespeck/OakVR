@@ -639,6 +639,11 @@ namespace oakvr
 		m_pCM->UnregisterCamera(pCamera);
 	}
 
+	std::shared_ptr<oakvr::render::Camera> Engine::GetCamera(const std::string &cameraId)
+	{
+		return m_pCM->GetCamera(cameraId);
+	}
+
 	std::shared_ptr<oakvr::render::Camera> Engine::GetCurrentCamera()
 	{
 		return m_pCM->GetCurrentCamera();}
@@ -646,6 +651,11 @@ namespace oakvr
 	void Engine::SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
 	{
 		m_pCM->SetCurrentCamera(pCamera);
+	}
+
+	void Engine::SetCurrentCamera(const std::string &cameraId)
+	{
+		m_pCM->SetCurrentCamera(cameraId);
 	}
 
 	// --------------------------------------------------------------------------------

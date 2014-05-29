@@ -11,7 +11,10 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		Matrix::Matrix()
 		{
-
+			_11 = _12 = _13 = _14 = 0.f;
+			_21 = _22 = _23 = _24 = 0.f;
+			_31 = _32 = _33 = _34 = 0.f;
+			_41 = _42 = _43 = _44 = 0.f;
 		}
 
 		// --------------------------------------------------------------------------------
@@ -393,7 +396,7 @@ namespace oakvr
 		}
 
 		void Matrix::SetRotationX(float angle)
-		{
+		{	
 			_11 = 1.0f;	_12 = _13 = _14 = 0.0f;
 			_21 = 0.0f;	_22 = std::cos(angle); _23 = -std::sin(angle);	_24 = 0.0f;
 			_31 = 0.0f;	_32 = -_23;	_33 = _22; _34 = 0.0f;
@@ -419,10 +422,11 @@ namespace oakvr
 		Matrix Matrix::RotationX(float angle)
 		{
 			Matrix mat;
-			mat._11 = 1.0f;	mat._12 = mat._13 = mat._14 = 0.0f;
-			mat._21 = 0.0f;	mat._22 = std::cos(angle); mat._23 = -std::sin(angle);	mat._24 = 0.0f;
-			mat._31 = 0.0f;	mat._32 = -mat._23;	mat._33 = mat._22; mat._34 = 0.0f;
-			mat._41 = mat._42 = mat._43 = 0.0f; mat._44 = 1.0f;
+			mat.SetIdentity();
+			mat._22 = std::cos(angle); 
+			mat._23 = -std::sin(angle);
+			mat._32 = -mat._23;	
+			mat._33 = mat._22;
 
 			return mat;
 		}
@@ -430,10 +434,11 @@ namespace oakvr
 		Matrix Matrix::RotationY(float angle)
 		{
 			Matrix mat;
-			mat._11 = std::cos(angle); mat._12 = 0.0f; mat._13 = std::sin(angle); mat._14 = 0.0f;
-			mat._21 = 0.0f;	mat._22 = 1.0f; mat._23 = mat._24 = 0.0f;
-			mat._31 = -mat._13;	mat._32 = 0.0f;	mat._33 = mat._11; mat._34 = 0.0f;
-			mat._41 = mat._42 = mat._43 = 0.0f; mat._44 = 1.0f;
+			mat.SetIdentity();
+			mat._11 = std::cos(angle);
+			mat._13 = std::sin(angle);
+			mat._31 = -mat._13;
+			mat._33 = mat._11;
 
 			return mat;
 		}
@@ -441,53 +446,29 @@ namespace oakvr
 		Matrix Matrix::RotationZ(float angle)
 		{
 			Matrix mat;
-			mat._11 = std::cos(angle); mat._12 = -std::sin(angle); mat._13 = mat._14 = 0.0f;
-			mat._21 = -mat._12;	mat._22 = mat._11; mat._23 = mat._24 = 0.0f;
-			mat._31 = mat._32 = 0.0f; mat._33 = 1.0f; mat._34 = 0.0f;
-			mat._41 = mat._42 = mat._43 = 0.0f; mat._44 = 1.0f;
-
+			mat.SetIdentity();
+			mat._11 = std::cos(angle);
+			mat._12 = -std::sin(angle);
+			mat._21 = -mat._12;
+			mat._22 = mat._11;
+			
 			return mat;
 		}
 
 		// --------------------------------------------------------------------------------
 		Matrix Matrix::PerspectiveProjection(float fov, float aspect, float znear, float zfar)
 		{
-			float xymax = znear * tan(fov);
-			float ymin = -xymax;
-			float xmin = -xymax;
-
-			float width = xymax - xmin;
-			float height = xymax - ymin;
-
-			float depth = zfar - znear;
-			float q = -(zfar + znear) / depth;
-			float qn = -2 * (zfar * znear) / depth;
-
-			float w = 2 * znear / width;
-			w = w / aspect;
-			float h = 2 * znear / height;
-
 			Matrix mat;
-			mat._11 = w;
-			mat._12 = 0.0f;
-			mat._13 = 0.0f;
-			mat._14 = 0.0f;
+			float frustumDepth = zfar - znear;
+			float oneOverDepth = 1 / frustumDepth;
+			bool leftHanded = false;
 
-			mat._21 = 0.0f;
-			mat._22 = h;
-			mat._23 = 0.0f;
-			mat._24 = 0.0f;
-
-			mat._31 = 0.0f;
-			mat._32 = 0.0f;
-			mat._33 = q;
-			mat._34 = -1.0f;
-
-			mat._41 = 0.0f;
-			mat._42 = 0.0f;
-			mat._43 = qn;
-			mat._44 = 0.0f;
-
+			mat._22 = 1 / tan(0.5f * fov);
+			mat._11 = (leftHanded ? 1 : -1) * mat._22 / aspect;
+			mat._33 = zfar * oneOverDepth;
+			mat._43 = (-zfar * znear) * oneOverDepth;
+			mat._34 = 1;
+			mat._44 = 0;
 			return mat;
 		}
 
@@ -496,23 +477,11 @@ namespace oakvr
 		{
 			Matrix mat;
 			mat._11 = (right - left) * 0.5f;
-			mat._12 = 0.0f;
-			mat._13 = 0.0f;
 			mat._14 = (left + right) * 0.5f;
-
-			mat._21 = 0.0f;
 			mat._22 = (top - left) * 0.5f;
-			mat._23 = 0.0f;
 			mat._24 = (top + bottom) * 0.5f;
-
-			mat._31 = 0.0f;
-			mat._32 = 0.0f;
 			mat._33 = (far - near) * (-0.5f);
 			mat._34 = (far + near) * (-0.5f);
-
-			mat._41 = 0.0f;
-			mat._42 = 0.0f;
-			mat._43 = 0.0f;
 			mat._44 = 1.0f;
 
 			return mat;

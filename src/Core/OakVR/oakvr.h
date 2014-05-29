@@ -34,8 +34,10 @@ namespace oakvr
 
 		void RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
 		void UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
+		std::shared_ptr<oakvr::render::Camera> GetCamera(const std::string &cameraId);
 		std::shared_ptr<oakvr::render::Camera> GetCurrentCamera();
 		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
+		void SetCurrentCamera(const std::string &cameraId);
 
 		void RegisterSubFolderPaths(const std::string &path);
 		std::shared_ptr<oakvr::core::MemoryBuffer> GetResource(const std::string &id);

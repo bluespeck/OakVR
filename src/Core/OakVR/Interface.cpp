@@ -33,6 +33,11 @@ namespace oakvr
 			oakvr::OakVR::GetInstance().UnregisterCamera(pCamera);
 		}
 
+		std::shared_ptr<oakvr::render::Camera> GetCamera(const std::string &cameraId)
+		{
+			return oakvr::OakVR::GetInstance().GetCamera(cameraId);
+		}
+
 		std::shared_ptr<oakvr::render::Camera> GetCurrentCamera()
 		{
 			return oakvr::OakVR::GetInstance().GetCurrentCamera();
@@ -41,6 +46,11 @@ namespace oakvr
 		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
 		{
 			oakvr::OakVR::GetInstance().SetCurrentCamera(pCamera);
+		}
+
+		void SetCurrentCamera(const std::string &cameraId)
+		{
+			oakvr::OakVR::GetInstance().SetCurrentCamera(cameraId);
 		}
 	}
 

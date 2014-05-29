@@ -17,9 +17,15 @@ namespace construct
 		oakvr::core::AddFontFace("FiraSans-Light");
 		oakvr::core::AddFontFace("FiraMono-Regular");
 
-		auto pCamera = std::make_shared<oakvr::render::Camera>(oakvr::math::Vector3{ 0.f, 0.f, 1.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
+		auto pCamera = std::make_shared<oakvr::render::Camera>("rotating_camera", oakvr::math::Vector3{ 0.f, 0.f, -5.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
 		oakvr::render::RegisterCamera(pCamera);
 		oakvr::render::SetCurrentCamera(pCamera);
+
+		pCamera = std::make_shared<oakvr::render::Camera>("panning_camera", oakvr::math::Vector3{ 0.f, 0.f, -2.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
+		oakvr::render::RegisterCamera(pCamera);
+
+		pCamera = std::make_shared<oakvr::render::Camera>("static_camera", oakvr::math::Vector3{ 0.f, 0.f, -2.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
+		oakvr::render::RegisterCamera(pCamera);
 
 		CreateTestMesh();
 
@@ -37,8 +43,22 @@ namespace construct
 		
 		oakvr::render::DrawText("~'_abcdef01259`!", oakvr::math::Vector3(-10.f, -25.f, -20.f), oakvr::render::Color::Yellow, "Fira Mono Regular");
 
-		auto pCamera = oakvr::render::GetCurrentCamera();
-		pCamera->Rotate(0, dt, 0);
+		if (oakvr::input::keyboard::IsPressed(oakvr::input::Key::_1))
+			oakvr::render::SetCurrentCamera("static_camera");
+		else if (oakvr::input::keyboard::IsDown(oakvr::input::Key::_2))
+			oakvr::render::SetCurrentCamera("rotating_camera");
+		else if (oakvr::input::keyboard::IsDown(oakvr::input::Key::_3))
+			oakvr::render::SetCurrentCamera("panning_camera");
+
+		auto pCamera = oakvr::render::GetCamera("rotating_camera");
+		if (pCamera)
+			pCamera->Rotate(0, -dt, 0);
+		pCamera = oakvr::render::GetCamera("panning_camera");
+		if (pCamera)
+		{
+			pCamera->Translate(0, dt * 0.2f, 0);
+		}
+
 	}
 
 	void Construct::CreateTestMesh()
