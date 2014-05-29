@@ -37,7 +37,7 @@ namespace oakvr
 		bool Initialize();
 		bool Update();
 			
-
+		///////////////////////////////////////////////////////////////////////////////////
 		// render related interface
 		static ScreenSize GetScreenSize();
 		static WindowSize GetWindowSize();
@@ -55,7 +55,13 @@ namespace oakvr
 		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
 		void SetCurrentCamera(const std::string &cameraId);
 
+		void SetRenderWindowSize(unsigned int width, unsigned int height);
+		void SetRenderWindowPosition(unsigned int x, unsigned int y);
 
+		void OnWindowResize(int width, int height);
+
+		///////////////////////////////////////////////////////////////////////////////////
+		// resource related interface
 		void RegisterSubFolderPaths(const std::string &path);
 		std::shared_ptr<oakvr::core::MemoryBuffer> GetResource(const std::string &id);
 				

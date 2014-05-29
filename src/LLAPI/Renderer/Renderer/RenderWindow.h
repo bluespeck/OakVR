@@ -2,6 +2,7 @@
 
 #include <string>
 #include <memory>
+#include <functional>
 
 #if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
 #	include <Windows.h>
@@ -28,17 +29,16 @@ namespace oakvr
 			void RestoreSize();
 			void SwapBuffers();
 
-			void SetPositionX( int posX );
-			int GetPositionX();
-
-			void SetPositionY( int posY );
-			int GetPositionY();
-
-			void SetWidth( unsigned int width );
-			inline unsigned int GetWidth();
 			
-			void SetHeight( unsigned int height );
+			inline int GetPositionX() const { return m_posX; }
+			inline int GetPositionY() const { return m_posY; }
+			void SetPosition(int x, int y);
+
+			inline unsigned int GetWidth();
 			inline unsigned int GetHeight();
+			void SetSize(unsigned int width, unsigned int height);
+
+			void SetWindowSizeCallback(void(*f)(void *, int, int));
 
 			const std::string &GetTitle();
 			void SetTitle(const std::string &title);

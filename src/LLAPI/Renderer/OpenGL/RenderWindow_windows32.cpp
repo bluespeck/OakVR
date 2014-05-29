@@ -86,11 +86,13 @@ namespace oakvr
 			return true;
 		}
 		
+		// --------------------------------------------------------------------------------
 		bool RenderWindow::IsOpen()
 		{
 			return true;
 		}
 
+		// --------------------------------------------------------------------------------
 		void RenderWindow::SwapBuffers()
 		{
 			if (IsOpen())
@@ -113,8 +115,7 @@ namespace oakvr
 		{
 
 		}
-
-
+		
 		// --------------------------------------------------------------------------------
 		LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{

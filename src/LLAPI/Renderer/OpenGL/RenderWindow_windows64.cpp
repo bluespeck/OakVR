@@ -78,11 +78,13 @@ namespace oakvr
 			return true;
 		}
 
+		// --------------------------------------------------------------------------------
 		bool RenderWindow::IsOpen()
 		{
 			return glfwGetWindowAttrib(m_pImpl->m_pWindow, GLFW_VISIBLE);
 		}
 
+		// --------------------------------------------------------------------------------
 		void RenderWindow::SwapBuffers()
 		{
 			glfwSwapBuffers(m_pImpl->m_pWindow);
@@ -104,6 +106,28 @@ namespace oakvr
 		void RenderWindow::RestoreSize()
 		{
 			glfwRestoreWindow(m_pImpl->m_pWindow);
+		}
+
+		// --------------------------------------------------------------------------------
+		void RenderWindow::SetSize(unsigned int width, unsigned int height)
+		{
+			m_width = width;
+			m_height = height;
+			glfwSetWindowSize(m_pImpl->m_pWindow, m_width, m_height);
+		}
+
+		// --------------------------------------------------------------------------------
+		void RenderWindow::SetWindowSizeCallback(void (*pCallback)(void *, int, int))
+		{
+			glfwSetWindowSizeCallback(m_pImpl->m_pWindow, (void(*)(struct GLFWwindow *, int, int))pCallback);
+		}
+
+		// --------------------------------------------------------------------------------
+		void RenderWindow::SetPosition(int x, int y)
+		{
+			m_posX = x;
+			m_posY = y;
+			glfwSetWindowPos(m_pImpl->m_pWindow, m_posX, m_posY);
 		}
 
 	} // namespace render

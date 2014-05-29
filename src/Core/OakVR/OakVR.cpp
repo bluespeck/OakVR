@@ -133,6 +133,11 @@ namespace oakvr
 		
 	}
 
+	void WindowSizeCallback(void *pNativeHandler, int w, int h)
+	{
+		oakvr::OakVR::GetInstance().OnWindowResize(w, h);
+	}
+
 	// --------------------------------------------------------------------------------
 	bool OakVR::Initialize()
 	{
@@ -140,6 +145,8 @@ namespace oakvr
 		
 		if(!m_pRW || !m_pRW->Initialize())
 			return false;
+
+		m_pRW->SetWindowSizeCallback(WindowSizeCallback);
 
 		if(m_pRenderer)
 		{
@@ -658,6 +665,22 @@ namespace oakvr
 	void OakVR::SetCurrentCamera(const std::string &cameraId)
 	{
 		m_pCM->SetCurrentCamera(cameraId);
+	}
+
+	void OakVR::SetRenderWindowSize(unsigned int width, unsigned int height)
+	{
+		m_pRW->SetSize(width, height);
+	}
+
+	void OakVR::SetRenderWindowPosition(unsigned int x, unsigned int y)
+	{
+		m_pRW->SetPosition(x, y);
+	}
+
+	void OakVR::OnWindowResize(int width, int height)
+	{	
+		m_pRW->SetSize(width, height);
+		m_pRenderer->OnResize(m_pRW->GetWidth(), m_pRW->GetHeight());
 	}
 
 	// --------------------------------------------------------------------------------

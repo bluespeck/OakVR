@@ -35,6 +35,9 @@ namespace oakvr
 		std::shared_ptr<oakvr::render::Camera> GetCurrentCamera();
 		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
 		void SetCurrentCamera(const std::string &cameraId);
+
+		void SetRenderWindowSize(unsigned int width, unsigned int height);
+		void SetRenderWindowPosition(unsigned int x, unsigned int y);
 	}
 
 	void RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);

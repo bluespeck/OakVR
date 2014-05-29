@@ -68,6 +68,7 @@ namespace oakvr
 			void SetViewMatrix(const oakvr::math::Matrix &mat) { m_viewMatrix = mat; }
 			const oakvr::math::Matrix &GetViewMatrix() const { return m_viewMatrix; }
 
+			void OnResize(unsigned int newWidth, unsigned int newHeight);
 		private:
 			void InitCommon();
 

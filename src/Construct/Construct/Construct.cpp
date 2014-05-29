@@ -12,6 +12,8 @@ namespace construct
 	Construct::Construct()
 	{
 		oakvr::Log::SetMaxLevel(oakvr::Log::LogLevel::info);
+		oakvr::render::SetRenderWindowPosition(2000, 10);
+		oakvr::render::SetRenderWindowSize(1024, 768);
 
 		oakvr::core::RegisterSubFolderPaths("D:/Projects/OakVR/resources");
 		

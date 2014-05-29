@@ -52,6 +52,16 @@ namespace oakvr
 		{
 			oakvr::OakVR::GetInstance().SetCurrentCamera(cameraId);
 		}
+
+		void SetRenderWindowSize(unsigned int width, unsigned int height)
+		{
+			oakvr::OakVR::GetInstance().SetRenderWindowSize(width, height);
+		}
+
+		void SetRenderWindowPosition(unsigned int x, unsigned int y)
+		{
+			oakvr::OakVR::GetInstance().SetRenderWindowPosition(x, y);
+		}
 	}
 
 	namespace core
