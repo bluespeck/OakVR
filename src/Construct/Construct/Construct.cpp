@@ -5,11 +5,14 @@
 #include "Input/KeyboardInput/KeyboardInput.h"
 #include "Input/MouseInput/MouseInput.h"
 #include "Text/Text.h"
+#include "Log/Log.h"
 
 namespace construct
 {
 	Construct::Construct()
 	{
+		oakvr::Log::SetMaxLevel(oakvr::Log::LogLevel::info);
+
 		oakvr::core::RegisterSubFolderPaths("D:/Projects/OakVR/resources");
 		
 		// load up some fonts

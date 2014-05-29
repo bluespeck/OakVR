@@ -1,30 +1,46 @@
 #pragma once
 
-#include "OakVR/Engine.h"
 #include "Utils/Singleton.h"
 #include "Interface.h"
+#include "Time/Timer.h"
+#include "Renderer/Renderer/Mesh.h"
+#include "OakVR/Camera.h"
 #include "Updateable.h"
 
-#include <functional>
-#include <vector>
+#include "OakVR/UtilityTypes.h"
+
 #include <memory>
 
 namespace oakvr
 {
+	// forward declarations
 	namespace render
 	{
-		class Mesh;
-		class Camera;
+		class Renderer;
+		class RenderWindow;
+		class CameraManager;
 	}
+	namespace core
+	{
+		class ResourceManager;
+	}
+
+	// Engine class
 	class OakVR : public Singleton<OakVR>
 	{
-		friend class Singleton < OakVR > ;
+		friend class Singleton < OakVR >;
 		friend bool oakvrUpdate();
 		friend bool oakvrInit(std::vector<std::string> cmdLine);
 		friend void oakvrExit();
 	public:
-		void CleanupEngine();
-		void RegisterInitializer(std::function<void()> fct) { m_initializers.push_back(fct); }
+
+		bool Initialize();
+		bool Update();
+			
+
+		// render related interface
+		static ScreenSize GetScreenSize();
+		static WindowSize GetWindowSize();
 
 		void RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
 		void UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
@@ -39,21 +55,39 @@ namespace oakvr
 		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
 		void SetCurrentCamera(const std::string &cameraId);
 
+
 		void RegisterSubFolderPaths(const std::string &path);
 		std::shared_ptr<oakvr::core::MemoryBuffer> GetResource(const std::string &id);
+				
+		void Cleanup();
+		void RegisterInitializer(std::function<void()> fct) { m_initializers.push_back(fct); }
+		
+	private:			
+		bool Update(double dt);
+
+		void TriggerInputEvents();
+		void DrawInterface();
+		void DrawMeshes();
+		void DrawDebugText();
+		void DrawAxes();
+		void DrawMeshBoundingBoxes();
 
 	private:
 		OakVR();
 		~OakVR();
-		
-		bool Update();
 
 	private:
-		Engine m_engine;
+		Timer m_timer;
+
+		std::shared_ptr<oakvr::core::ResourceManager> m_pRM;
+		std::shared_ptr<oakvr::render::RenderWindow> m_pRW;
+		std::shared_ptr<oakvr::render::Renderer> m_pRenderer;
+		std::shared_ptr<oakvr::render::CameraManager> m_pCM;
+		
+		std::vector<std::shared_ptr<oakvr::Updateable>> m_pUpdateables;
 
 		std::vector<std::function<void()>> m_initializers;
 	};
-
 }	// namespace oakvr
 
 #define _OAKVR_REGISTER_INITIALIZER(myInitializer, file, line) \

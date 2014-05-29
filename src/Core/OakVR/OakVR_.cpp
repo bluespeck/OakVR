@@ -1,4 +1,4 @@
-#include "Engine.h"
+#include "OakVR.h"
 #include "Time/Timer.h"
 #include "input/MouseInput/MouseInput.h"
 #include "input/KeyboardInput/KeyboardInput.h"
@@ -28,8 +28,8 @@
 
 namespace oakvr
 {
-		// --------------------------------------------------------------------------------
-	bool Engine::Update(double dt)
+	// --------------------------------------------------------------------------------
+	bool OakVR::Update(double dt)
 	{
 		oakvr::input::keyboard::Update();
 		oakvr::input::mouse::Update();
@@ -111,7 +111,7 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	Engine::Engine()
+	OakVR::OakVR()
 		: m_pRM{ std::make_shared<oakvr::core::ResourceManager>() }
 		, m_pRW{ std::make_shared<oakvr::render::RenderWindow>("oakvr", 2000, 100, 1024, 768) }
 		, m_pRenderer{ std::make_shared<oakvr::render::Renderer>() }
@@ -119,11 +119,13 @@ namespace oakvr
 	{
 		m_timer = oakvr::Timer();
 
+		Initialize();
 	}
 
 	// --------------------------------------------------------------------------------
-	Engine::~Engine()
+	OakVR::~OakVR()
 	{
+		Cleanup();
 //		oakvr::Leaf3D::Widget::ReleaseWidgetList();
 //		oakvr::core::IUpdatable::ReleaseUpdatableList();
 //		oakvr::Leaf3D::EventManager::Release();
@@ -132,7 +134,7 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	bool Engine::Initialize()
+	bool OakVR::Initialize()
 	{
 		oakvr::core::InitializeFileLoaders();
 		
@@ -155,20 +157,20 @@ namespace oakvr
 		return true;
 	}
 
-	void Engine::CleanUp()
+	void OakVR::Cleanup()
 	{
 		m_pRenderer->Cleanup();
 	}
 
 	// --------------------------------------------------------------------------------
-	bool Engine::Update()
+	bool OakVR::Update()
 	{
 		m_timer.Tick();
 		return Update(m_timer.GetDeltaTime());
 	}
 
 	// --------------------------------------------------------------------------------
-	void Engine::DrawAxes()
+	void OakVR::DrawAxes()
 	{
 /*		oakvr::Render::Shader *pVertexShader = nullptr;
 		oakvr::Render::Shader *pPixelShader = nullptr;
@@ -179,22 +181,22 @@ namespace oakvr
 		params1.vertexFormat = oakvr::Render::VertexBuffer::eVF_XYZ;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/LinesVS.hlsl", &params1);
-		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/LinesPS.hlsl", &params2);
+		pVertexShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/LinesVS.hlsl", &params1);
+		pPixelShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/LinesPS.hlsl", &params2);
 #elif (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_11)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/LinesVS.hlsl", &params1);
-		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/LinesPS.hlsl", &params2);
+		pVertexShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/LinesVS.hlsl", &params1);
+		pPixelShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/LinesPS.hlsl", &params2);
 #elif (OAKVR_RENDERER == OAKVR_RENDERER_OPENGL)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/LinesVS.glsl", &params1);
-		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/LinesPS.glsl", &params2);
+		pVertexShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/LinesVS.glsl", &params1);
+		pPixelShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/LinesPS.glsl", &params2);
 #endif
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
 			return;
@@ -276,13 +278,13 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	void Engine::DrawMeshBoundingBoxes()
+	void OakVR::DrawMeshBoundingBoxes()
 	{
 		
 	}
 
 	// --------------------------------------------------------------------------------
-	void Engine::TriggerInputEvents()
+	void OakVR::TriggerInputEvents()
 	{
 		/*
 		using Leaf3D::MouseEvent;
@@ -429,7 +431,7 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	void Engine::DrawInterface()
+	void OakVR::DrawInterface()
 	{
 		/*
 		using oakvr::Leaf3D::Widget;
@@ -450,22 +452,22 @@ namespace oakvr
 		params1.vertexFormat = VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/InterfaceVS.hlsl", &params1);
-		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/InterfacePS.hlsl", &params2);
+		pVertexShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/InterfaceVS.hlsl", &params1);
+		pPixelShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/InterfacePS.hlsl", &params2);
 #elif (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_11)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/InterfaceVS.hlsl", &params1);
-		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/InterfacePS.hlsl", &params2);
+		pVertexShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/InterfaceVS.hlsl", &params1);
+		pPixelShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/InterfacePS.hlsl", &params2);
 #elif (OAKVR_RENDERER == OAKVR_RENDERER_OPENGL)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
 
-		pVertexShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/InterfaceVS.glsl", &params1);
-		pPixelShader	= oakvr::Engine::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/InterfacePS.glsl", &params2);
+		pVertexShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/InterfaceVS.glsl", &params1);
+		pPixelShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/InterfacePS.glsl", &params2);
 #endif
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
 			return;
@@ -595,12 +597,12 @@ namespace oakvr
 	}
 
 
-	void Engine::RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
+	void OakVR::RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
 	{
 		m_pUpdateables.push_back(pUpdateable);
 	}
 
-	void Engine::UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
+	void OakVR::UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
 	{
 		auto it = std::find(m_pUpdateables.begin(), m_pUpdateables.end(), pUpdateable);
 		if (it == m_pUpdateables.end())
@@ -619,41 +621,41 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------
 
-	void Engine::RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh)
+	void OakVR::RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh)
 	{
 		m_pRenderer->RegisterMesh(pMesh);
 	}
 
-	void Engine::RegisterShader(std::string shaderName)
+	void OakVR::RegisterShader(std::string shaderName)
 	{
 		m_pRenderer->RegisterShaderProgram(shaderName);
 	}
 
-	void Engine::RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+	void OakVR::RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
 	{
 		m_pCM->RegisterCamera(pCamera);
 	}
 
-	void Engine::UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+	void OakVR::UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
 	{
 		m_pCM->UnregisterCamera(pCamera);
 	}
 
-	std::shared_ptr<oakvr::render::Camera> Engine::GetCamera(const std::string &cameraId)
+	std::shared_ptr<oakvr::render::Camera> OakVR::GetCamera(const std::string &cameraId)
 	{
 		return m_pCM->GetCamera(cameraId);
 	}
 
-	std::shared_ptr<oakvr::render::Camera> Engine::GetCurrentCamera()
+	std::shared_ptr<oakvr::render::Camera> OakVR::GetCurrentCamera()
 	{
 		return m_pCM->GetCurrentCamera();}
 
-	void Engine::SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+	void OakVR::SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
 	{
 		m_pCM->SetCurrentCamera(pCamera);
 	}
 
-	void Engine::SetCurrentCamera(const std::string &cameraId)
+	void OakVR::SetCurrentCamera(const std::string &cameraId)
 	{
 		m_pCM->SetCurrentCamera(cameraId);
 	}
@@ -664,14 +666,42 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------
 
-	void Engine::RegisterSubFolderPaths(const std::string &path)
+	void OakVR::RegisterSubFolderPaths(const std::string &path)
 	{
 		return m_pRM->AddPathsFromFolder(path);
 	}
 
-	std::shared_ptr<oakvr::core::MemoryBuffer> Engine::GetResource(const std::string &id)
+	std::shared_ptr<oakvr::core::MemoryBuffer> OakVR::GetResource(const std::string &id)
 	{
 		return m_pRM->GetResource(id);
 	}
 
+	// --------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------
+	// lifecycle
+	// --------------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------
+
+
+	// --------------------------------------------------------------------------------
+	bool oakvrInit(std::vector<std::string> cmdLine)
+	{
+		for (auto e : OakVR::GetInstance().m_initializers)
+			e();
+		return true;
+	}
+
+	// --------------------------------------------------------------------------------
+	bool oakvrUpdate()
+	{
+		return OakVR::GetInstance().Update();
+	}
+
+	// --------------------------------------------------------------------------------
+	void oakvrExit()
+	{
+		OakVR::GetInstance().Cleanup();
+		Log::PrintInfo("OakVR shutting down!\n");
+
+	}
 }	// namespace oakvr
