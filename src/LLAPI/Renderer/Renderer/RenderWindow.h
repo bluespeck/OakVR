@@ -40,10 +40,10 @@ namespace oakvr
 
 			void SetWindowSizeCallback(void(*f)(void *, int, int));
 
-			const std::string &GetTitle();
+			const std::string &GetTitle() { return m_title; }
 			void SetTitle(const std::string &title);
 
-			long int GetOSHandle() { return m_osHandle; }
+			long int GetNativeHandle() { return m_nativeHandle; }
 
 						
 		private:
@@ -61,12 +61,15 @@ namespace oakvr
 			bool m_bFullScreen;
 			WindowState m_windowState;
 			
-			long int m_osHandle;
+			long int m_nativeHandle;
+
 			class RenderWindowImpl;
+			std::unique_ptr<RenderWindowImpl> m_pImpl;
+
 #if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
 			friend LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 #endif
-			std::unique_ptr<RenderWindowImpl> m_pImpl;
+
 		};
 
 		inline unsigned int RenderWindow::GetWidth()

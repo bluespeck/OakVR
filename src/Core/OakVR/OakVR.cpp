@@ -113,7 +113,7 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	OakVR::OakVR()
 		: m_pRM{ std::make_shared<oakvr::core::ResourceManager>() }
-		, m_pRW{ std::make_shared<oakvr::render::RenderWindow>("oakvr", 2000, 100, 1024, 768) }
+		, m_pRW{ std::make_shared<oakvr::render::RenderWindow>("oakvr", 100, 100, 1024, 768) }
 		, m_pRenderer{ std::make_shared<oakvr::render::Renderer>() }
 		, m_pCM{ std::make_shared<oakvr::render::CameraManager>() }
 	{
@@ -133,10 +133,19 @@ namespace oakvr
 		
 	}
 
-	void WindowSizeCallback(void *pNativeHandler, int w, int h)
+	// --------------------------------------------------------------------------------
+	// callback functions begin
+	// --------------------------------------------------------------------------------
+
+	void WindowSizeChangedCallback(void *pNativeHandler, int width, int height)
 	{
-		oakvr::OakVR::GetInstance().OnWindowResize(w, h);
+		oakvr::OakVR::GetInstance().OnWindowSizeChanged(pNativeHandler, width, height);
 	}
+
+	// --------------------------------------------------------------------------------
+	// callback functions end
+	// --------------------------------------------------------------------------------
+
 
 	// --------------------------------------------------------------------------------
 	bool OakVR::Initialize()
@@ -146,7 +155,7 @@ namespace oakvr
 		if(!m_pRW || !m_pRW->Initialize())
 			return false;
 
-		m_pRW->SetWindowSizeCallback(WindowSizeCallback);
+		m_pRW->SetWindowSizeCallback(WindowSizeChangedCallback);
 
 		if(m_pRenderer)
 		{
@@ -666,21 +675,29 @@ namespace oakvr
 	{
 		m_pCM->SetCurrentCamera(cameraId);
 	}
-
-	void OakVR::SetRenderWindowSize(unsigned int width, unsigned int height)
-	{
-		m_pRW->SetSize(width, height);
-	}
-
+	
 	void OakVR::SetRenderWindowPosition(unsigned int x, unsigned int y)
 	{
 		m_pRW->SetPosition(x, y);
 	}
 
-	void OakVR::OnWindowResize(int width, int height)
-	{	
+	void OakVR::SetRenderWindowSize(unsigned int width, unsigned int height)
+	{
 		m_pRW->SetSize(width, height);
-		m_pRenderer->OnResize(m_pRW->GetWidth(), m_pRW->GetHeight());
+	}
+	
+	void OakVR::SetRenderWindowTitle(const std::string &title)
+	{
+		m_pRW->SetTitle(title);
+	}
+
+	void OakVR::OnWindowSizeChanged(void *pNativeWindowHandler, int width, int height)
+	{
+		if (m_pRW->GetNativeHandle() == (long)pNativeWindowHandler)
+		{
+			m_pRW->SetSize(width, height);
+			m_pRenderer->OnResize(m_pRW->GetWidth(), m_pRW->GetHeight());
+		}
 	}
 
 	// --------------------------------------------------------------------------------

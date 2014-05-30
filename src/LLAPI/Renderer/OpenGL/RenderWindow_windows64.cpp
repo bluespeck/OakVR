@@ -26,7 +26,7 @@ namespace oakvr
 		{
 			m_windowState = eWS_Normal;
 			m_bFullScreen = false;
-			m_osHandle = 0;
+			m_nativeHandle = 0;
 			m_posX = m_posY = 0;
 			m_width = 1024;
 			m_height = 768;
@@ -70,7 +70,8 @@ namespace oakvr
 				glfwTerminate();
 				return false;
 			}
-
+			
+			m_nativeHandle = reinterpret_cast<long>(m_pImpl->m_pWindow);
 			glfwSetWindowPos(m_pImpl->m_pWindow, m_posX, m_posY);
 			glfwMakeContextCurrent(m_pImpl->m_pWindow);
 			glfwSetWindowCloseCallback(m_pImpl->m_pWindow, OnCloseWindow);
@@ -128,6 +129,13 @@ namespace oakvr
 			m_posX = x;
 			m_posY = y;
 			glfwSetWindowPos(m_pImpl->m_pWindow, m_posX, m_posY);
+		}
+
+		// --------------------------------------------------------------------------------
+		void RenderWindow::SetTitle(const std::string &title)
+		{
+			m_title = title;
+			glfwSetWindowTitle(m_pImpl->m_pWindow, m_title.c_str());
 		}
 
 	} // namespace render

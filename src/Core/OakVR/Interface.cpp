@@ -52,15 +52,20 @@ namespace oakvr
 		{
 			oakvr::OakVR::GetInstance().SetCurrentCamera(cameraId);
 		}
+		
+		void SetRenderWindowPosition(unsigned int x, unsigned int y)
+		{
+			oakvr::OakVR::GetInstance().SetRenderWindowPosition(x, y);
+		}
 
 		void SetRenderWindowSize(unsigned int width, unsigned int height)
 		{
 			oakvr::OakVR::GetInstance().SetRenderWindowSize(width, height);
 		}
 
-		void SetRenderWindowPosition(unsigned int x, unsigned int y)
+		void SetRenderWindowTitle(const std::string &title)
 		{
-			oakvr::OakVR::GetInstance().SetRenderWindowPosition(x, y);
+			oakvr::OakVR::GetInstance().SetRenderWindowTitle(title);
 		}
 	}
 

@@ -57,8 +57,7 @@ namespace oakvr
 
 		void SetRenderWindowSize(unsigned int width, unsigned int height);
 		void SetRenderWindowPosition(unsigned int x, unsigned int y);
-
-		void OnWindowResize(int width, int height);
+		void SetRenderWindowTitle(const std::string &title);
 
 		///////////////////////////////////////////////////////////////////////////////////
 		// resource related interface
@@ -77,6 +76,9 @@ namespace oakvr
 		void DrawDebugText();
 		void DrawAxes();
 		void DrawMeshBoundingBoxes();
+
+		friend void WindowSizeChangedCallback(void *pNativeHandler, int w, int h);
+		void OnWindowSizeChanged(void *pNativeHandler, int width, int height);
 
 	private:
 		OakVR();
