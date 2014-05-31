@@ -142,6 +142,11 @@ namespace oakvr
 		oakvr::OakVR::GetInstance().OnWindowSizeChanged(pNativeHandler, width, height);
 	}
 
+	void WindowFocusChangedCallback(void *pNativeHandler, int focused)
+	{
+		oakvr::OakVR::GetInstance().OnWindowFocusChanged(pNativeHandler, focused);
+	}
+
 	// --------------------------------------------------------------------------------
 	// callback functions end
 	// --------------------------------------------------------------------------------
@@ -154,8 +159,10 @@ namespace oakvr
 		
 		if(!m_pRW || !m_pRW->Initialize())
 			return false;
-
+		
+		// Configure callbacks for necessary render window events
 		m_pRW->SetWindowSizeCallback(WindowSizeChangedCallback);
+		m_pRW->SetWindowFocusCallback(WindowFocusChangedCallback);
 
 		if(m_pRenderer)
 		{
@@ -698,6 +705,21 @@ namespace oakvr
 			m_pRW->SetSize(width, height);
 			m_pRenderer->OnResize(m_pRW->GetWidth(), m_pRW->GetHeight());
 		}
+	}
+
+	void OakVR::OnWindowFocusChanged(void *pNativeWindowHandler, int focused)
+	{
+		if (m_pRW->GetNativeHandle() == (long)pNativeWindowHandler)
+		{
+			m_pRW->OnFocusChanged(!!focused);
+
+			// do other stuff related to fucus
+		}
+	}
+
+	bool OakVR::HasFocus()
+	{
+		return m_pRW->HasFocus();
 	}
 
 	// --------------------------------------------------------------------------------

@@ -7,11 +7,14 @@
 #include "Text/Text.h"
 #include "Log/Log.h"
 
+#include "FreeCamera.h"
+
 namespace construct
 {
 	Construct::Construct()
 	{
 		oakvr::Log::SetMaxLevel(oakvr::Log::LogLevel::info);
+
 		oakvr::render::SetRenderWindowPosition(2000, 100);
 		oakvr::render::SetRenderWindowSize(1024, 768);
 		oakvr::render::SetRenderWindowTitle("Construct with Oak VR");
@@ -25,7 +28,6 @@ namespace construct
 
 		auto pCamera = std::make_shared<oakvr::render::Camera>("rotating_camera", oakvr::math::Vector3{ 0.f, 0.f, -5.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
 		oakvr::render::RegisterCamera(pCamera);
-		oakvr::render::SetCurrentCamera(pCamera);
 
 		pCamera = std::make_shared<oakvr::render::Camera>("panning_camera", oakvr::math::Vector3{ 0.f, 0.f, -2.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
 		oakvr::render::RegisterCamera(pCamera);
@@ -33,37 +35,46 @@ namespace construct
 		pCamera = std::make_shared<oakvr::render::Camera>("static_camera", oakvr::math::Vector3{ 0.f, 0.f, -2.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
 		oakvr::render::RegisterCamera(pCamera);
 
+		pCamera = std::make_shared<FreeCamera>("free_camera", oakvr::math::Vector3{ 0.f, 0.f, 25.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 10, 2);
+		oakvr::render::RegisterCamera(pCamera);
+		oakvr::render::SetCurrentCamera(pCamera);
+
+
 		CreateTestMesh();
-
-
 	}
 
-	void Construct::Update(double dt)
+	void Construct::Update(float dt)
 	{
-		if (oakvr::input::keyboard::IsDown(oakvr::input::Key::a))
-			oakvr::render::DrawText("A key is down", oakvr::math::Vector3(-0.9f, 15.9f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
-		if (oakvr::input::keyboard::IsDown(oakvr::input::Key::b))
-			oakvr::render::DrawText("B key is down again", oakvr::math::Vector3(-30.1f, 10.9f, -20.f), oakvr::render::Color::Yellow, "Fira Sans Light");
-		if (oakvr::input::mouse::IsLeftButtonDown())
-			oakvr::render::DrawText("Left mouse button down", oakvr::math::Vector3(-30.9f, 5.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
-		
-		oakvr::render::DrawText("~'_abcdef01259`!", oakvr::math::Vector3(-10.f, -25.f, -20.f), oakvr::render::Color::Yellow, "Fira Mono Regular");
-
-		if (oakvr::input::keyboard::IsPressed(oakvr::input::Key::_1))
-			oakvr::render::SetCurrentCamera("static_camera");
-		else if (oakvr::input::keyboard::IsDown(oakvr::input::Key::_2))
-			oakvr::render::SetCurrentCamera("rotating_camera");
-		else if (oakvr::input::keyboard::IsDown(oakvr::input::Key::_3))
-			oakvr::render::SetCurrentCamera("panning_camera");
-
-		auto pCamera = oakvr::render::GetCamera("rotating_camera");
-		if (pCamera)
-			pCamera->Rotate(0, -dt, 0);
-		pCamera = oakvr::render::GetCamera("panning_camera");
-		if (pCamera)
+		if (oakvr::render::RenderWindowHasFocus())
 		{
-			pCamera->Translate(0, dt * 0.2f, 0);
+			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::y))
+				oakvr::render::DrawText("Y key is down", oakvr::math::Vector3(-0.9f, 15.9f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::b))
+				oakvr::render::DrawText("B key is down again", oakvr::math::Vector3(-30.1f, 10.9f, -20.f), oakvr::render::Color::Yellow, "Fira Sans Light");
+			if (oakvr::input::mouse::IsLeftButtonDown())
+				oakvr::render::DrawText("Left mouse button down", oakvr::math::Vector3(-30.9f, 5.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+
+			if (oakvr::input::keyboard::IsPressed(oakvr::input::Key::_1))
+				oakvr::render::SetCurrentCamera("static_camera");
+			else if (oakvr::input::keyboard::IsDown(oakvr::input::Key::_2))
+				oakvr::render::SetCurrentCamera("rotating_camera");
+			else if (oakvr::input::keyboard::IsDown(oakvr::input::Key::_3))
+				oakvr::render::SetCurrentCamera("panning_camera");
+			else if (oakvr::input::keyboard::IsDown(oakvr::input::Key::_4))
+				oakvr::render::SetCurrentCamera("free_camera");
 		}
+
+		oakvr::render::DrawText("~'_abcdef01259`!", oakvr::math::Vector3(-10.f, -25.f, -20.f), oakvr::render::Color::Yellow, "Fira Mono Regular");
+		
+		//auto pCamera = oakvr::render::GetCamera("rotating_camera");
+		//if (pCamera)
+		//	pCamera->Rotate(0, -dt, 0);
+		//pCamera = oakvr::render::GetCamera("panning_camera");
+	//	if(pCamera)
+		//	pCamera->Translate(0, dt * 0.2f, 0);
+		auto pCamera = oakvr::render::GetCamera("free_camera");
+		if (pCamera)
+			pCamera->Update(dt);
 
 	}
 

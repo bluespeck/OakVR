@@ -23,6 +23,19 @@ namespace oakvr
 			y = arr[1];
 		}
 
+		Vector2::Vector2(const std::pair<float, float> &coords)
+		{
+			x = coords.first;
+			y = coords.second;
+		}
+
+		Vector2::Vector2(const std::initializer_list<float> &coords)
+		{
+			float *p = &x;
+			for (auto e : coords)
+				*(p++) = e;
+		}
+
 		//------------------------------------------------------
 		// cast operators
 

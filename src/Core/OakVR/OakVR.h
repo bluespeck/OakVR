@@ -59,8 +59,10 @@ namespace oakvr
 		void SetRenderWindowPosition(unsigned int x, unsigned int y);
 		void SetRenderWindowTitle(const std::string &title);
 
+		bool HasFocus();
+
 		///////////////////////////////////////////////////////////////////////////////////
-		// resource related interface
+		// resources related interface
 		void RegisterSubFolderPaths(const std::string &path);
 		std::shared_ptr<oakvr::core::MemoryBuffer> GetResource(const std::string &id);
 				
@@ -77,8 +79,12 @@ namespace oakvr
 		void DrawAxes();
 		void DrawMeshBoundingBoxes();
 
+		// window related
 		friend void WindowSizeChangedCallback(void *pNativeHandler, int w, int h);
-		void OnWindowSizeChanged(void *pNativeHandler, int width, int height);
+		friend void WindowFocusChangedCallback(void *pNativeHandler, int focused);
+
+		void OnWindowSizeChanged(void *pNativeHandler, int width, int height);		
+		void OnWindowFocusChanged(void *pNativeHandler, int focused);
 
 	private:
 		OakVR();

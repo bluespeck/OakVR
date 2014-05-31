@@ -67,6 +67,11 @@ namespace oakvr
 		{
 			oakvr::OakVR::GetInstance().SetRenderWindowTitle(title);
 		}
+
+		bool RenderWindowHasFocus()
+		{
+			return oakvr::OakVR::GetInstance().HasFocus();
+		}
 	}
 
 	namespace core

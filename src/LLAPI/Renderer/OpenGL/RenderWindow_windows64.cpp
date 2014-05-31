@@ -71,6 +71,8 @@ namespace oakvr
 				return false;
 			}
 			
+			m_bHasFocus = true;
+
 			m_nativeHandle = reinterpret_cast<long>(m_pImpl->m_pWindow);
 			glfwSetWindowPos(m_pImpl->m_pWindow, m_posX, m_posY);
 			glfwMakeContextCurrent(m_pImpl->m_pWindow);
@@ -121,6 +123,12 @@ namespace oakvr
 		void RenderWindow::SetWindowSizeCallback(void (*pCallback)(void *, int, int))
 		{
 			glfwSetWindowSizeCallback(m_pImpl->m_pWindow, (void(*)(struct GLFWwindow *, int, int))pCallback);
+		}
+
+		// --------------------------------------------------------------------------------
+		void RenderWindow::SetWindowFocusCallback(void(*pCallback)(void *, int))
+		{
+			glfwSetWindowFocusCallback(m_pImpl->m_pWindow, (void(*)(struct GLFWwindow *, int))pCallback);
 		}
 
 		// --------------------------------------------------------------------------------

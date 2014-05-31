@@ -35,8 +35,8 @@ namespace oakvr
 			bool IsRightButtonReleased() const;
 			bool HasMouseMoved() const;
 
-			std::pair<int32_t, int32_t> GetPosition() const;
-			std::pair<int32_t, int32_t> GetPositionDelta() const;
+			std::pair<float, float> GetPosition() const;
+			std::pair<float, float> GetPositionDelta() const;
 			int32_t GetWheelDelta() const;
 
 			void *GetMouseOwner();

@@ -39,6 +39,7 @@ namespace oakvr
 		void SetRenderWindowPosition(unsigned int x, unsigned int y);
 		void SetRenderWindowSize(unsigned int width, unsigned int height);
 		void SetRenderWindowTitle(const std::string &title);
+		bool RenderWindowHasFocus();
 		
 	}
 

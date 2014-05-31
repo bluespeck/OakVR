@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector3.h"
+
 namespace oakvr
 {
 	namespace math
@@ -43,6 +45,7 @@ namespace oakvr
 			static Matrix RotationX(float angle);
 			static Matrix RotationY(float angle);
 			static Matrix RotationZ(float angle);
+			static Matrix RotationAxisRightHanded(float angle, const Vector3& axis); // note that axis has to be normalized beforehand
 
 			static Matrix PerspectiveProjection(float fov, float aspect, float znear, float zfar);
 			static Matrix OthographicProjection(float left, float right, float bottom, float top, float near, float far);

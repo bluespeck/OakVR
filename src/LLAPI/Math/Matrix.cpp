@@ -455,6 +455,32 @@ namespace oakvr
 			return mat;
 		}
 
+		Matrix Matrix::RotationAxisRightHanded(float angle, const Vector3& axis)
+		{
+			Matrix mat;
+			mat.SetIdentity();
+			float c = std::cos(angle);
+			float s = std::sin(angle);
+			float t = 1 - c;
+			float x = axis.x;
+			float y = axis.y;
+			float z = axis.z;
+
+			mat._11 = t * x * x + c;
+			mat._12 = t * x * y + s * z;
+			mat._13 = t * x * z - s * y;
+
+			mat._21 = t * x * y - s * z;
+			mat._22 = t * y * y + c;
+			mat._23 = t * y * z + s * x;
+			
+			mat._31 = t * x * z + s * y;
+			mat._32 = t * y * z - s * x;
+			mat._33 = t * z * z + c;
+
+			return mat;
+		}
+
 		// --------------------------------------------------------------------------------
 		Matrix Matrix::PerspectiveProjection(float fov, float aspect, float znear, float zfar)
 		{

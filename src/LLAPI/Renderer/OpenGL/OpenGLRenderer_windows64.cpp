@@ -163,7 +163,7 @@ namespace oakvr
 			//TODO: Add set shader param function
 			PROFILER_FUNC_SCOPED_TIMER;
 			float aspect = (float)m_pRenderWindow->GetWidth() / m_pRenderWindow->GetHeight();
-			oakvr::math::Matrix mProj = oakvr::math::Matrix::PerspectiveProjection(3.14158592f / 2.f, aspect, .1f, 100.0f);
+			oakvr::math::Matrix mProj = oakvr::math::Matrix::PerspectiveProjection(3.14158592f / 2.f, aspect, 1.f, 1000.0f);
 
 			oakvr::math::Matrix mView = m_viewMatrix;
 			

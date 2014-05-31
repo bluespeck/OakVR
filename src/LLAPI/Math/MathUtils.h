@@ -2,14 +2,21 @@
 
 #include <cstdint>
 
-#define PI 3.14159265358979f
-#define DEG2RAD(deg) ((180 / PI) * (deg))
-#define RAD2DEG(rad) ((PI / 180) * (rad))
-
 namespace oakvr
 {
 	namespace math
 	{
+		const float Pi = 3.14159265358979f;
+		const float PiOverTwo = Pi / 2.f;
+		const float PiOverThree = Pi / 3.f;
+		const float PiOverFour = Pi / 4.f;
+		const float PiOverSix = Pi / 6.f;
+		const float PiOverTwelve = Pi / 12.f;
+
+		inline float DegreesToRadians(float degrees) { return 180.f / 3.14159265358979f * degrees; }
+		inline float RadiansToDegrees(float radians) { return 3.14159265358979f / 180.f * radians; }
+
+
 		inline uint32_t NextPowerOfTwo(uint32_t n)
 		{
 			--n;

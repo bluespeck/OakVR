@@ -39,13 +39,16 @@ namespace oakvr
 			void SetSize(unsigned int width, unsigned int height);
 
 			void SetWindowSizeCallback(void(*f)(void *, int, int));
+			void SetWindowFocusCallback(void(*f)(void *, int));
 
 			const std::string &GetTitle() { return m_title; }
 			void SetTitle(const std::string &title);
 
 			long int GetNativeHandle() { return m_nativeHandle; }
 
-						
+			inline bool HasFocus() const { return m_bHasFocus; }
+			void OnFocusChanged(bool focused) { m_bHasFocus = focused; }
+
 		private:
 
 			enum WindowState
@@ -58,13 +61,15 @@ namespace oakvr
 			std::string m_title;
 			int m_posX, m_posY;
 			unsigned int m_width, m_height;
-			bool m_bFullScreen;
 			WindowState m_windowState;
 			
 			long int m_nativeHandle;
 
 			class RenderWindowImpl;
 			std::unique_ptr<RenderWindowImpl> m_pImpl;
+
+			bool m_bFullScreen = false;
+			bool m_bHasFocus = false;
 
 #if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
 			friend LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

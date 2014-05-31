@@ -18,7 +18,7 @@ namespace oakvr
 			struct MouseState
 			{
 				int32_t m_wheelDelta;
-				uint32_t m_x, m_y;
+				int32_t m_x, m_y;
 				bool m_bLButtonDown;
 				bool m_bMButtonDown;
 				bool m_bRButtonDown;
@@ -159,13 +159,13 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		std::pair<int32_t, int32_t> MouseInput::GetPosition() const
+		std::pair<float, float> MouseInput::GetPosition() const
 		{
 			return std::make_pair(m_pImpl->m_currentState.m_x, m_pImpl->m_currentState.m_y);
 		}
 
 		// --------------------------------------------------------------------------------
-		std::pair<int32_t, int32_t> MouseInput::GetPositionDelta() const 
+		std::pair<float, float> MouseInput::GetPositionDelta() const
 		{
 			return std::make_pair(m_pImpl->m_currentState.m_x - m_pImpl->m_previousState.m_x, m_pImpl->m_currentState.m_y - m_pImpl->m_previousState.m_y);
 		}
