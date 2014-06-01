@@ -29,31 +29,31 @@ namespace oakvr
 		bool KeyboardInput::IsPressed(Key key) const
 		{
 			int keyCode = m_pImpl->keyMap.at(key);
-			return (m_pImpl->keyStatesCurrent[keyCode] & 0x80) && !(m_pImpl->keyStatesPrevious[keyCode] & 0x80);
+			return ((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0) && !((m_pImpl->keyStatesPrevious[keyCode] & 0x80) != 0);
 		}
 
 		bool KeyboardInput::IsHeld(Key key) const
 		{
 			int keyCode = m_pImpl->keyMap.at(key);
-			return (m_pImpl->keyStatesCurrent[keyCode] & 0x80) && (m_pImpl->keyStatesPrevious[keyCode] & 0x80);
+			return ((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0) && ((m_pImpl->keyStatesPrevious[keyCode] & 0x80) != 0);
 		}
 
 		bool KeyboardInput::IsReleased(Key key) const
 		{
 			int keyCode = m_pImpl->keyMap.at(key);
-			return !(m_pImpl->keyStatesCurrent[keyCode] & 0x80) && (m_pImpl->keyStatesPrevious[keyCode] & 0x80);
+			return !((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0) && ((m_pImpl->keyStatesPrevious[keyCode] & 0x80) != 0);
 		}
 
 		bool KeyboardInput::IsDown(Key key) const
 		{
 			int keyCode = m_pImpl->keyMap.at(key);
-			return (m_pImpl->keyStatesCurrent[keyCode] & 0x80);
+			return ((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0);
 		}
 
 		bool KeyboardInput::IsUp(Key key) const
 		{
 			int keyCode = m_pImpl->keyMap.at(key);
-			return !(m_pImpl->keyStatesCurrent[keyCode] & 0x80);
+			return !((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0);
 		}
 
 		KeyboardInput::KeyboardInputImpl::KeyboardInputImpl()

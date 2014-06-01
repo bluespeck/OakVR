@@ -161,13 +161,13 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		std::pair<float, float> MouseInput::GetPosition() const
 		{
-			return std::make_pair(m_pImpl->m_currentState.m_x, m_pImpl->m_currentState.m_y);
+			return std::make_pair(static_cast<float>(m_pImpl->m_currentState.m_x), static_cast<float>(m_pImpl->m_currentState.m_y));
 		}
 
 		// --------------------------------------------------------------------------------
 		std::pair<float, float> MouseInput::GetPositionDelta() const
 		{
-			return std::make_pair(m_pImpl->m_currentState.m_x - m_pImpl->m_previousState.m_x, m_pImpl->m_currentState.m_y - m_pImpl->m_previousState.m_y);
+			return std::make_pair(static_cast<float>(m_pImpl->m_currentState.m_x - m_pImpl->m_previousState.m_x), static_cast<float>(m_pImpl->m_currentState.m_y - m_pImpl->m_previousState.m_y));
 		}
 
 		// --------------------------------------------------------------------------------

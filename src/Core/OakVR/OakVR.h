@@ -70,7 +70,7 @@ namespace oakvr
 		void RegisterInitializer(std::function<void()> fct) { m_initializers.push_back(fct); }
 		
 	private:			
-		bool Update(double dt);
+		bool Update(float dt);
 
 		void TriggerInputEvents();
 		void DrawInterface();

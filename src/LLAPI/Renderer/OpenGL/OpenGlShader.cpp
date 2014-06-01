@@ -52,7 +52,7 @@ namespace oakvr
 			m_pImpl->shaderId = shaderId;
 			
 			const char *shaderSource = reinterpret_cast<const char *>(buff.GetDataPtr());
-			GLint length = buff.Size();
+			GLint length = static_cast<GLint>(buff.Size());
 
 			glShaderSource(shaderId, 1, &shaderSource, &length);
 			glCompileShader(shaderId);

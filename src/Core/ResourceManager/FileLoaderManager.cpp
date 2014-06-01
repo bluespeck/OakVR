@@ -19,11 +19,7 @@ namespace oakvr
 		void FileLoaderManager::UnregisterFileLoader(std::shared_ptr<FileLoader> pFileLoader)
 		{
 			auto &s_fileLoaders = GetFileLoaders();
-			auto it = std::find(std::begin(s_fileLoaders), std::end(s_fileLoaders), pFileLoader);
-			if (it != s_fileLoaders.end())
-			{
-				s_fileLoaders.erase(it);
-			}
+			std::remove_if(std::begin(s_fileLoaders), std::end(s_fileLoaders), [&](const std::shared_ptr<FileLoader> &pFL)->bool{ return pFL == pFileLoader; });
 		}
 	}
 }

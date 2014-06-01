@@ -5,7 +5,7 @@
 
 namespace oakvr
 {
-	static const double s_nanosecond = 1e-9;
+	static const float s_nanosecond = 1e-9f;
 
 	Timer::Timer(void)
 		: m_dt{-1.0}, m_bPaused{false}
@@ -39,7 +39,7 @@ namespace oakvr
 	}
 
 	// Time elapsed since the timer was started (excluding the time it was paused)
-	double Timer::GetElapsedTime()const
+	float Timer::GetElapsedTime()const
 	{	
 		if( m_bPaused )
 		{
@@ -51,7 +51,7 @@ namespace oakvr
 		}
 	}
 
-	double Timer::GetDeltaTime()const
+	float Timer::GetDeltaTime()const
 	{
 		return m_dt;
 	}

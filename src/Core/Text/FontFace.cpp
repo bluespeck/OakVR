@@ -24,7 +24,7 @@ namespace oakvr
 			FontFace::FontFace(FT_LibraryRec_ *pFTLib, std::shared_ptr<MemoryBuffer> pFontFileBuffer, std::string fontFaceName /* = "" */)
 			{
 				FT_Face fontFace;
-				FT_Error err = FT_New_Memory_Face(pFTLib, pFontFileBuffer->GetDataPtr(), pFontFileBuffer->Size(), 0, &fontFace);
+				FT_Error err = FT_New_Memory_Face(pFTLib, pFontFileBuffer->GetDataPtr(), static_cast<FT_Long>(pFontFileBuffer->Size()), 0, &fontFace);
 				if (!err)
 				{
 					m_pFTFace = fontFace;
@@ -53,8 +53,8 @@ namespace oakvr
 
 				// upper left corner of the texture?
 				int penX = 0;
-				uint32_t maxRows = 0;
-				uint32_t maxSlotAdvanceX = 0;
+				int32_t maxRows = 0;
+				int32_t maxSlotAdvanceX = 0;
 				for (char i = 33, k = 0; i < 127; ++i, ++k)
 				{
 					FT_Error err = FT_Load_Char(m_pFTFace, i, FT_LOAD_RENDER);
@@ -66,7 +66,7 @@ namespace oakvr
 					
 					if (maxRows < slot->bitmap.rows)
 						maxRows = slot->bitmap.rows;
-					uint32_t advanceX = slot->advance.x >> 6; // 1/64s of a pixel
+					int32_t advanceX = slot->advance.x >> 6; // 1/64s of a pixel
 					if (maxSlotAdvanceX < advanceX)
 						maxSlotAdvanceX = advanceX;
 					penX += advanceX + 2; 
@@ -80,16 +80,16 @@ namespace oakvr
 				memset(pBuff, 0, buff.Size());
 
 
-				uint32_t accumulatedWidth = 0;
+				int32_t accumulatedWidth = 0;
 
 				// add space
 				m_characterMap[0].texCoords1.x = 0.f;
 				m_characterMap[0].texCoords1.y = 0.f;
 				accumulatedWidth += maxSlotAdvanceX / 2;
-				m_characterMap[0].texCoords2.x = accumulatedWidth;
-				m_characterMap[0].texCoords2.y = maxRows;
+				m_characterMap[0].texCoords2.x = static_cast<float>(accumulatedWidth);
+				m_characterMap[0].texCoords2.y = static_cast<float>(maxRows);
 				m_characterMap[0].leftTopFromBaseline.x = 0.;
-				m_characterMap[0].leftTopFromBaseline.y = maxRows;
+				m_characterMap[0].leftTopFromBaseline.y = static_cast<float>(maxRows);
 
 				for (char i = 33, k = 1; i < 127; ++i, ++k)
 				{
@@ -99,20 +99,20 @@ namespace oakvr
 						Log::PrintWarning("Could not load glyph for character code %d ('%c').", i, i);
 						continue;
 					}
-					uint32_t slotAdvanceX = slot->advance.x >> 6;
+					int32_t slotAdvanceX = slot->advance.x >> 6;
 
-					for (uint32_t j = 0, indexBitmap = 0, indexBuffer =  0; j < slot->bitmap.rows; ++j, indexBitmap += slot->bitmap.width, indexBuffer += m_textureWidth)
+					for (int32_t j = 0, indexBitmap = 0, indexBuffer =  0; j < slot->bitmap.rows; ++j, indexBitmap += slot->bitmap.width, indexBuffer += m_textureWidth)
 					{
 						memcpy(pBuff + indexBuffer + accumulatedWidth, slot->bitmap.buffer + indexBitmap, slot->bitmap.width);
 					}
 					
-					m_characterMap[k].texCoords1.x = (float)(accumulatedWidth);
-					m_characterMap[k].texCoords1.y = (float)(0.f);
+					m_characterMap[k].texCoords1.x = static_cast<float>(accumulatedWidth);
+					m_characterMap[k].texCoords1.y = static_cast<float>(0.f);
 					accumulatedWidth += slotAdvanceX;
-					m_characterMap[k].texCoords2.x = (float)(accumulatedWidth);
-					m_characterMap[k].texCoords2.y = (float)(slot->bitmap.rows);
-					m_characterMap[k].leftTopFromBaseline.x = (float)(slot->bitmap_left);
-					m_characterMap[k].leftTopFromBaseline.y = (float)(slot->bitmap_top);
+					m_characterMap[k].texCoords2.x = static_cast<float>(accumulatedWidth);
+					m_characterMap[k].texCoords2.y = static_cast<float>(slot->bitmap.rows);
+					m_characterMap[k].leftTopFromBaseline.x = static_cast<float>(slot->bitmap_left);
+					m_characterMap[k].leftTopFromBaseline.y = static_cast<float>(slot->bitmap_top);
 					accumulatedWidth += 2;
 				}
 
@@ -127,7 +127,7 @@ namespace oakvr
 				// serialize image data
 				MemoryBuffer rawImageData(sizeof(imageData.width) + sizeof(imageData.height) + sizeof(imageData.bitsPerPixel) + sizeof(imageData.pixelFormat) + imageData.pixelBuffer.Size());
 
-				BufferWriter<MemoryBuffer::value_type, uint32_t> bufferWriter(rawImageData);
+				BufferWriter<MemoryBuffer::value_type, size_t> bufferWriter(rawImageData);
 				bufferWriter.Write(imageData.width);
 				bufferWriter.Write(imageData.height);
 				bufferWriter.Write(imageData.bitsPerPixel);

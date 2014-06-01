@@ -39,7 +39,7 @@ namespace oakvr
 			uint32_t width, height;
 			uint32_t bitsPerPixel;
 			TextureFormat textureFormat;
-			oakvr::core::BufferReader<oakvr::core::MemoryBuffer::value_type, uint32_t>reader(buff);
+			oakvr::core::BufferReader<oakvr::core::MemoryBuffer::value_type, size_t>reader(buff);
 			reader.Read(width);
 			reader.Read(height);
 			reader.Read(bitsPerPixel);

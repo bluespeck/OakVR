@@ -20,7 +20,7 @@ namespace oakvr
 			
 			png_infop pInfo = png_create_info_struct(pPng);
 
-			BufferReader<std::common_type<decltype(fileBuffer)>::type::value_type, uint32_t> fileBufferReader(fileBuffer);
+			BufferReader<std::common_type<decltype(fileBuffer)>::type::value_type, size_t> fileBufferReader(fileBuffer);
 			png_set_read_fn(pPng, (void *)&fileBufferReader, PngReadFn);
 
 			png_read_info(pPng, pInfo);
@@ -51,7 +51,7 @@ namespace oakvr
 				break;
 			}
 			
-			const png_uint_32 bytesPerRow = png_get_rowbytes(pPng, pInfo);
+			const png_uint_32 bytesPerRow = static_cast<png_uint_32>(png_get_rowbytes(pPng, pInfo));
 			imageData.pixelBuffer = MemoryBuffer(bytesPerRow * imageData.height);
 			png_bytep pRow = imageData.pixelBuffer.GetDataPtr();
 			for (uint32_t rowIndex = 0; rowIndex < height; ++rowIndex, pRow += bytesPerRow)
@@ -61,7 +61,7 @@ namespace oakvr
 			// serialize image data
 			MemoryBuffer rawImageData(sizeof(imageData.width) + sizeof(imageData.height) + sizeof(imageData.bitsPerPixel) + sizeof(imageData.pixelFormat) + imageData.pixelBuffer.Size());
 
-			BufferWriter<MemoryBuffer::value_type, uint32_t> bufferWriter(rawImageData);
+			BufferWriter<MemoryBuffer::value_type, size_t> bufferWriter(rawImageData);
 			bufferWriter.Write(imageData.width);
 			bufferWriter.Write(imageData.height);
 			bufferWriter.Write(imageData.bitsPerPixel);
@@ -85,6 +85,6 @@ namespace oakvr
 // --------------------------------------------------------------------------------
 void PngReadFn(png_structp pPng, png_bytep outBytes, png_size_t bytecountToRead)
 {
-	oakvr::core::BufferReader<uint8_t, uint32_t> *pReader = static_cast<oakvr::core::BufferReader<uint8_t, uint32_t>*>(pPng->io_ptr);
+	oakvr::core::BufferReader<uint8_t, size_t> *pReader = static_cast<oakvr::core::BufferReader<uint8_t, size_t>*>(pPng->io_ptr);
 	pReader->Read(outBytes, bytecountToRead);
 }

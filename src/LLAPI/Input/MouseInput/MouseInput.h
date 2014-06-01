@@ -67,8 +67,8 @@ namespace oakvr
 			inline bool IsRightButtonReleased() { return MouseInput::GetInstance().IsRightButtonReleased(); }
 			inline bool HasMouseMoved()			{ return MouseInput::GetInstance().HasMouseMoved(); }
 
-			inline std::pair<int32_t, int32_t> GetPosition() { return MouseInput::GetInstance().GetPosition(); }
-			inline std::pair<int32_t, int32_t> GetPositionDelta() { return MouseInput::GetInstance().GetPositionDelta(); }
+			inline std::pair<float, float> GetPosition() { return MouseInput::GetInstance().GetPosition(); }
+			inline std::pair<float, float> GetPositionDelta() { return MouseInput::GetInstance().GetPositionDelta(); }
 
 			inline int32_t GetWheelDelta() { return MouseInput::GetInstance().GetWheelDelta(); }
 

@@ -19,12 +19,9 @@ namespace oakvr
 
 		void CameraManager::UnregisterCamera(std::shared_ptr<Camera> pCamera)
 		{
-			auto it = std::find(m_cameras.begin(), m_cameras.end(), pCamera);
-			if (it != m_cameras.end())
-			{
-				m_cameras.erase(it);
-			}
-			else
+			auto size = m_cameras.size();
+			std::remove_if(std::begin(m_cameras), std::end(m_cameras), [&](const std::shared_ptr<Camera> &pRegisteredCamera)->bool{ return pRegisteredCamera == pCamera; });
+			if (size == m_cameras.size())
 			{
 				Log::PrintWarning("Trying to unregister a camera that was not registered before.");
 			}
@@ -32,13 +29,10 @@ namespace oakvr
 
 		std::shared_ptr<Camera> CameraManager::GetCamera(const std::string &cameraId)
 		{
-			for (int i = 0; i < m_cameras.size(); ++i)
-			{
-				if (m_cameras[i]->GetId() == cameraId)
-				{
-					return m_cameras[i];
-				}
-			}
+			auto it = std::find_if(m_cameras.begin(), m_cameras.end(), [&](std::shared_ptr<Camera> &e) { return e->GetId() == cameraId; });
+			if (it != m_cameras.end())
+				return *it;
+			
 			Log::PrintWarning("Could not find camera with id = %s !", cameraId.c_str());
 			return nullptr;
 		}

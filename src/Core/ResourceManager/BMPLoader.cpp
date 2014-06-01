@@ -13,6 +13,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		MemoryBuffer BMPLoader::GetRawImage(const MemoryBuffer &fileBuffer)
 		{
+			/*
 			RawImageData rawImageData;
 
 			struct BMPMagicChars
@@ -26,7 +27,7 @@ namespace oakvr
 				uint32_t reserved;
 				uint32_t imageDataOffset;
 			} bmpHeader;
-		/*				
+						
 			fileBuffer.RewindForRead();
 			fileBuffer.Read(&bmpMC, sizeof(BMPMagicChars));
 			fileBuffer.Read(&bmpHeader, sizeof(BMPHeader));

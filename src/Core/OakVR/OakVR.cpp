@@ -29,7 +29,7 @@
 namespace oakvr
 {
 	// --------------------------------------------------------------------------------
-	bool OakVR::Update(double dt)
+	bool OakVR::Update(float dt)
 	{
 		oakvr::input::keyboard::Update();
 		oakvr::input::mouse::Update();
@@ -60,6 +60,7 @@ namespace oakvr
 			return false;
 		}
 		
+		return true;
 //		oakvr::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
 		//TriggerInputEvents();
 //		oakvr::Leaf3D::EventManager::GetInstance()->Update();
@@ -627,14 +628,11 @@ namespace oakvr
 
 	void OakVR::UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
 	{
-		auto it = std::find(m_pUpdateables.begin(), m_pUpdateables.end(), pUpdateable);
-		if (it == m_pUpdateables.end())
+		auto size = m_pUpdateables.size();
+		std::remove_if(std::begin(m_pUpdateables), std::end(m_pUpdateables), [&](const std::shared_ptr<Updateable> &pRegisteredUpdateable)->bool{ return pRegisteredUpdateable == pUpdateable; });
+		if (size == m_pUpdateables.size())
 		{
 			Log::PrintError("Trying to unregister an updateable that was not registered! But how can this be?!... ");
-		}
-		else
-		{
-			m_pUpdateables.erase(it);
 		}
 	}
 

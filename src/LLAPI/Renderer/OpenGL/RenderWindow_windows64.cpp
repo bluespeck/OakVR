@@ -84,7 +84,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		bool RenderWindow::IsOpen()
 		{
-			return glfwGetWindowAttrib(m_pImpl->m_pWindow, GLFW_VISIBLE);
+			return !!glfwGetWindowAttrib(m_pImpl->m_pWindow, GLFW_VISIBLE);
 		}
 
 		// --------------------------------------------------------------------------------
