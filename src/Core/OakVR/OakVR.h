@@ -39,14 +39,19 @@ namespace oakvr
 			
 		///////////////////////////////////////////////////////////////////////////////////
 		// render related interface
-		static ScreenSize GetScreenSize();
-		static WindowSize GetWindowSize();
+		ScreenSize GetScreenSize();
+		WindowSize GetRenderWindowSize();
+		float GetRenderWindowWidth();
+		float GetRenderWindowHeight();
 
 		void RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
 		void UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
 
 		void RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh);
 		void RegisterShader(std::string shaderName);
+
+		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const  oakvr::render::Color &color);
+		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const  oakvr::render::Color &color, const oakvr::render::Color &startColor);
 
 		void RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
 		void UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
@@ -76,7 +81,7 @@ namespace oakvr
 		void DrawInterface();
 		void DrawMeshes();
 		void DrawDebugText();
-		void DrawAxes();
+		
 		void DrawMeshBoundingBoxes();
 
 		// window related

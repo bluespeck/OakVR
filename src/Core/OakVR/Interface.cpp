@@ -63,6 +63,16 @@ namespace oakvr
 			oakvr::OakVR::GetInstance().SetRenderWindowSize(width, height);
 		}
 
+		float GetRenderWindowWidth()
+		{
+			return oakvr::OakVR::GetInstance().GetRenderWindowWidth();
+		}
+
+		float GetRenderWindowHeight()
+		{
+			return oakvr::OakVR::GetInstance().GetRenderWindowHeight();
+		}
+
 		void SetRenderWindowTitle(const std::string &title)
 		{
 			oakvr::OakVR::GetInstance().SetRenderWindowTitle(title);
@@ -71,6 +81,16 @@ namespace oakvr
 		bool RenderWindowHasFocus()
 		{
 			return oakvr::OakVR::GetInstance().HasFocus();
+		}
+
+		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const  oakvr::render::Color &color)
+		{
+			oakvr::OakVR::GetInstance().DrawLine(start, end, color);
+		}
+
+		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const  oakvr::render::Color &color, const oakvr::render::Color &startColor)
+		{
+			oakvr::OakVR::GetInstance().DrawLine(start, end, color, startColor);
 		}
 	}
 

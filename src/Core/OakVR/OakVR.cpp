@@ -16,6 +16,7 @@
 #include "Renderer/Renderer/Mesh.h"
 #include "Renderer/Renderer/MeshElement.h"
 #include "Renderer/Renderer/Material.h"
+#include "Renderer/Renderer/Color.h"
 
 #include "Text/Text.h"
 
@@ -51,6 +52,7 @@ namespace oakvr
 				e->Update(dt);
 
 			m_pRenderer->SetViewMatrix(GetCurrentCamera()->ComputeViewMatrix());
+			m_pRenderer->SetProjMatrix(GetCurrentCamera()->GetProjMatrix());
 			m_pRenderer->Update(dt);
 			profiler::Profiler::GetInstance().PrintSortedData();
 		}
@@ -61,54 +63,6 @@ namespace oakvr
 		}
 		
 		return true;
-//		oakvr::Leaf3D::InterfaceFocusManager::GetInstance()->Update();
-		//TriggerInputEvents();
-//		oakvr::Leaf3D::EventManager::GetInstance()->Update();
-
-		//oakvr::Render::Camera *pCurrentCamera = m_pCM->GetCurrentCamera();
-		/*
-		if(m_pGE)
-		{
-			int32_t wd = oakvr::input::MouseInput::GetInstance()->GetWheelDelta();
-			if(wd != 0 || ((oakvr::input::MouseInput::GetInstance()->IsLeftButtonDown() || oakvr::input::MouseInput::GetInstance()->IsRightButtonDown()) && oakvr::input::MouseInput::GetInstance()->HasMouseMoved()))
-			{
-				auto delta = oakvr::input::MouseInput::GetInstance()->GetPositionDelta();
-
-
-							
-				if(oakvr::input::MouseInput::GetInstance()->IsLeftButtonDown())
-				{
-						pCurrentCamera->Rotate(static_cast<float>(delta.second * dt), static_cast<float>(delta.first * dt), 0.0f);
-				}
-
-				if(oakvr::input::MouseInput::GetInstance()->IsRightButtonDown())
-				{
-					pCurrentCamera->Translate((float)delta.first, (float)delta.second, 0.0f);
-				}
-
-				pCurrentCamera->Translate(0.f, 0.f, wd / 20.f);
-			}
-
-			oakvr::Math::Matrix *pMatrixView = m_pGE->GetViewMatrix();
-			*pMatrixView = m_pGE->CreateViewMatrix(pCurrentCamera->GetPosition(), pCurrentCamera->GetLook(), pCurrentCamera->GetUp());
-
-			m_pGE->ClearBackground(oakvr::Render::Color::Black);
-
-			m_pGE->BeginDraw();
-			// update rendered stuff
-
-			DrawAxes();
-			//DrawMeshes();
-			DrawMeshBoundingBoxes();
-			DrawDebugText();
-			DrawInterface();
-	
-			m_pGE->EndDraw();
-			m_pGE->SwapBuffers();
-			
-			
-		}
-		*/
 	}
 
 	// --------------------------------------------------------------------------------
@@ -127,11 +81,6 @@ namespace oakvr
 	OakVR::~OakVR()
 	{
 		Cleanup();
-//		oakvr::Leaf3D::Widget::ReleaseWidgetList();
-//		oakvr::core::IUpdatable::ReleaseUpdatableList();
-//		oakvr::Leaf3D::EventManager::Release();
-//		oakvr::Leaf3D::InterfaceFocusManager::Release();
-		
 	}
 
 	// --------------------------------------------------------------------------------
@@ -193,112 +142,62 @@ namespace oakvr
 		return Update(m_timer.GetDeltaTime());
 	}
 
-	// --------------------------------------------------------------------------------
-	void OakVR::DrawAxes()
+	void OakVR::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const oakvr::render::Color &color)
 	{
-/*		oakvr::Render::Shader *pVertexShader = nullptr;
-		oakvr::Render::Shader *pPixelShader = nullptr;
+		DrawLine(start, end, color, color);
+	}
 
-#if (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_9)
-		oakvr::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
-		params1.shaderType = oakvr::Render::eST_VertexShader;
-		params1.vertexFormat = oakvr::Render::VertexBuffer::eVF_XYZ;
-		params2.shaderType = oakvr::Render::eST_PixelShader;
+	void OakVR::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const  oakvr::render::Color &color, const oakvr::render::Color &startColor)
+	{
+		std::vector<oakvr::render::VertexElementDescriptor> ved{
+			oakvr::render::VertexElementDescriptor::Semantic::position,
+			oakvr::render::VertexElementDescriptor::Semantic::color
+		};
 
-		pVertexShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/LinesVS.hlsl", &params1);
-		pPixelShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/LinesPS.hlsl", &params2);
-#elif (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_11)
-		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = oakvr::Render::eST_VertexShader;
-		params2.shaderType = oakvr::Render::eST_PixelShader;
+		oakvr::core::MemoryBuffer vb{ 8 * ComputeVertexStride(ved) * sizeof(float) };
+		oakvr::core::MemoryBuffer ib{ 6 * 2 * 3 * sizeof(uint32_t) };
+		float pVertices[] = {
+			start.x,	start.y,	start.z,	startColor.r,	startColor.g,	startColor.b,
+			start.x,	start.y,	end.z,		startColor.r,	startColor.g,	color.b,
+			end.x,		start.y,	end.z,		color.r,		startColor.g,	color.b,
+			end.x,		start.y,	start.z,	color.r,		startColor.g,	startColor.b,
 
-		pVertexShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/LinesVS.hlsl", &params1);
-		pPixelShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/LinesPS.hlsl", &params2);
-#elif (OAKVR_RENDERER == OAKVR_RENDERER_OPENGL)
-		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
-		params1.shaderType = oakvr::Render::eST_VertexShader;
-		params2.shaderType = oakvr::Render::eST_PixelShader;
+			start.x,	end.y,		start.z,	startColor.r,	color.g,		startColor.b,
+			start.x,	end.y,		end.z,		startColor.r,	color.g,		color.b,
+			end.x,		end.y,		end.z,		color.r,		color.g,		color.b,
+			end.x,		end.y,		start.z,	color.r,		color.g,		startColor.b,
+		};
 
-		pVertexShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/LinesVS.glsl", &params1);
-		pPixelShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/LinesPS.glsl", &params2);
-#endif
-		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
-			return;
+		uint32_t pIndices[] = {
+			0, 1, 2,
+			0, 2, 3,
+			1, 6, 2,
+			1, 5, 6,
 
-		m_pGE->EnablePerspectiveProjection();
-		//m_pGE->EnableOrtographicProjection();
-		m_pGE->EnableFillWireframe();
-		//m_pGE->EnableFillSolid();
+			0, 5, 1,
+			0, 4, 5,
+			4, 6, 5,
+			4, 7, 6,
 
-		oakvr::Render::VertexBuffer vb;
-		vb.Create(6, oakvr::Render::VertexBuffer::eVF_XYZ | oakvr::Render::VertexBuffer::eVF_Diffuse);
-		float *pBuff = nullptr;
-		vb.Lock((void **)&pBuff);
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
+			2, 7, 3,
+			2, 6, 7,
+			3, 4, 0,
+			3, 7, 4
+		};
 
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 1.0f;
-		*(pBuff++) = 1.0f;
-		*(pBuff++) = 1.0f;
+		memcpy(vb.GetDataPtr(), pVertices, vb.Size());
+		memcpy(ib.GetDataPtr(), pIndices, ib.Size());
 
-		*(pBuff++) = 20.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
+		auto pMaterial = std::make_shared<oakvr::render::Material>(std::string("DefaultColor"));
 
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 1.0f;
-		*(pBuff++) = 1.0f;
-		*(pBuff++) = 1.0f;
+		
+		auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, sizeof(uint32_t), ib, pMaterial, std::vector<std::string>());
+		
+		auto pMesh = std::make_shared<oakvr::render::Mesh>();
+		pMesh->AddMeshElement(pMeshElem);
 
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
-
-		*(pBuff++) = 1.0f;
-		*(pBuff++) = 1.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 1.0f;
-
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 20.0f;
-		*(pBuff++) = 0.0f;
-
-		*(pBuff++) = 1.0f;
-		*(pBuff++) = 1.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 1.0f;
-
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
-
-		*(pBuff++) = 1.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 1.0f;
-		*(pBuff++) = 1.0f;
-
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 20.0f;
-
-		*(pBuff++) = 1.0f;
-		*(pBuff++) = 0.0f;
-		*(pBuff++) = 1.0f;
-		*(pBuff++) = 1.0f;
-
-		vb.Unlock();
-
-		m_pGE->UseVertexBuffer(&vb);
-		m_pGE->UseIndexBuffer(nullptr);
-		m_pGE->UseTexture(nullptr);
-		m_pGE->UseShader(pVertexShader);
-		m_pGE->UseShader(pPixelShader);
-		m_pGE->UsePrimitiveTopology(oakvr::Render::ePT_LineList);
-		m_pGE->DrawPrimitives(3);
-		m_pGE->ReleaseVertexBuffer(&vb);
-		*/
+		m_pRenderer->RegisterOneFrameMesh(pMesh);
+		oakvr::render::RegisterShader("DefaultColor");
 	}
 
 	// --------------------------------------------------------------------------------
@@ -691,6 +590,21 @@ namespace oakvr
 		m_pRW->SetSize(width, height);
 	}
 	
+	WindowSize OakVR::GetRenderWindowSize()
+	{
+		return{ m_pRW->GetWidth(), m_pRW->GetHeight() };
+	}
+
+	float OakVR::GetRenderWindowWidth()
+	{
+		return static_cast<float>(m_pRW->GetWidth());
+	}
+
+	float OakVR::GetRenderWindowHeight()
+	{
+		return static_cast<float>(m_pRW->GetHeight());
+	}
+
 	void OakVR::SetRenderWindowTitle(const std::string &title)
 	{
 		m_pRW->SetTitle(title);

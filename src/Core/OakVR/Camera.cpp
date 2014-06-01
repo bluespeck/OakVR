@@ -53,7 +53,7 @@ namespace oakvr
 		oakvr::math::Matrix Camera::ComputeViewMatrix() const
 		{
 			auto zaxis = m_forward.GetNormalized();
-			auto xaxis = m_up.Cross(zaxis).GetNormalized();
+			auto xaxis = GetRight().GetNormalized();
 			auto yaxis = zaxis.Cross(xaxis).GetNormalized();
 
 			oakvr::math::Matrix mat;

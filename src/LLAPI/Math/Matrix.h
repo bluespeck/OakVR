@@ -48,7 +48,7 @@ namespace oakvr
 			static Matrix RotationAxisRightHanded(float angle, const Vector3& axis); // note that axis has to be normalized beforehand
 
 			static Matrix PerspectiveProjection(float fov, float aspect, float znear, float zfar);
-			static Matrix OthographicProjection(float left, float right, float bottom, float top, float near, float far);
+			static Matrix OrthographicProjection(float left, float right, float bottom, float top, float near, float far);
 
 			static Matrix YawPitchRoll(float yaw, float pitch, float roll);
 			static Matrix Identity();

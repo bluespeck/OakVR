@@ -15,7 +15,7 @@ namespace construct
 	{
 		oakvr::Log::SetMaxLevel(oakvr::Log::LogLevel::info);
 
-		oakvr::render::SetRenderWindowPosition(2000, 100);
+		oakvr::render::SetRenderWindowPosition(200, 100);
 		oakvr::render::SetRenderWindowSize(1024, 768);
 		oakvr::render::SetRenderWindowTitle("Construct with Oak VR");
 
@@ -35,7 +35,9 @@ namespace construct
 		pCamera = std::make_shared<oakvr::render::Camera>("static_camera", oakvr::math::Vector3{ 0.f, 0.f, -2.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
 		oakvr::render::RegisterCamera(pCamera);
 
-		pCamera = std::make_shared<FreeCamera>("free_camera", oakvr::math::Vector3{ 0.f, 0.f, 25.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 10, 0.5f);
+		pCamera = std::make_shared<FreeCamera>("free_camera", oakvr::math::Vector3{ 0.f, 0.f, 25.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 10, 1.);
+		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(90), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1, 1000);
+		//pCamera->SetOrthographicProjection(-oakvr::render::GetRenderWindowWidth() / 2, oakvr::render::GetRenderWindowWidth() / 2, -oakvr::render::GetRenderWindowHeight(), oakvr::render::GetRenderWindowHeight(), 1, 1000);
 		oakvr::render::RegisterCamera(pCamera);
 		oakvr::render::SetCurrentCamera(pCamera);
 
@@ -65,6 +67,10 @@ namespace construct
 		}
 
 		oakvr::render::DrawText("~'_abcdef01259`!", oakvr::math::Vector3(-10.f, -25.f, -20.f), oakvr::render::Color::Yellow, "Fira Mono Regular");
+
+		oakvr::render::DrawLine({ -5.0f, -0.1f, -0.1f }, { 5.0f, 0.1f, 0.1f }, oakvr::render::Color::Red, oakvr::render::Color::Black);
+		oakvr::render::DrawLine({ -0.1f, -0.1f, -5.0f }, { 0.1f, 0.1f, 5.0f }, oakvr::render::Color::Blue, oakvr::render::Color::Black);
+		oakvr::render::DrawLine({ -0.1f, -5.0f, -0.1f }, { 0.1f, 5.0f, 0.1f }, oakvr::render::Color::Green, oakvr::render::Color::Black);
 		
 		//auto pCamera = oakvr::render::GetCamera("rotating_camera");
 		//if (pCamera)

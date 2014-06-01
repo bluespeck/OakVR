@@ -10,14 +10,14 @@ namespace construct
 	{
 		if (oakvr::render::RenderWindowHasFocus())
 		{
-			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::w))
-			{
-				m_position += m_strafeSpeed * dt * m_forward;
-			}
 			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::s))
 			{
 				m_position -= m_strafeSpeed * dt * m_forward;
 			}
+			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::w))
+			{
+				m_position += m_strafeSpeed * dt * m_forward;
+			}			
 			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::a))
 			{
 				m_position -= m_strafeSpeed * dt * GetRight();
@@ -42,7 +42,7 @@ namespace construct
 			delta.Normalize();
 
 			auto mRotationAroundRightDir = oakvr::math::Matrix::RotationAxisRightHanded(-delta.y * m_rotationSpeed * dt, GetRight());
-			auto mRotationAroundUpDir = oakvr::math::Matrix::RotationAxisRightHanded(-delta.x * m_rotationSpeed * dt, m_up);
+			auto mRotationAroundUpDir = oakvr::math::Matrix::RotationAxisRightHanded(delta.x * m_rotationSpeed * dt, m_up);
 			m_forward = (m_forward * mRotationAroundUpDir * mRotationAroundRightDir).GetNormalized();
 			m_up = (m_up * mRotationAroundRightDir).GetNormalized();
 		}

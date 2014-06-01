@@ -66,6 +66,7 @@ namespace oakvr
 			void SetResourceManager(std::shared_ptr<oakvr::core::ResourceManager> pRM);
 
 			void SetViewMatrix(const oakvr::math::Matrix &mat) { m_viewMatrix = mat; }
+			void SetProjMatrix(const oakvr::math::Matrix &mat) { m_projMatrix = mat; }
 			const oakvr::math::Matrix &GetViewMatrix() const { return m_viewMatrix; }
 
 			void OnResize(unsigned int newWidth, unsigned int newHeight);
@@ -89,6 +90,7 @@ namespace oakvr
 			std::unique_ptr<MeshManager> m_pMeshManager;
 
 			oakvr::math::Matrix m_viewMatrix;
+			oakvr::math::Matrix m_projMatrix;
 
 		};
 	}	// namespace render

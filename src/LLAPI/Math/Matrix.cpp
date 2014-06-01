@@ -499,7 +499,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		Matrix Matrix::OthographicProjection(float left, float right, float bottom, float top, float near, float far)
+		Matrix Matrix::OrthographicProjection(float left, float right, float bottom, float top, float near, float far)
 		{
 			Matrix mat;
 			mat._11 = (right - left) * 0.5f;
