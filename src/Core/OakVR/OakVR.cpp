@@ -147,7 +147,7 @@ namespace oakvr
 		DrawLine(start, end, color, color);
 	}
 
-	void OakVR::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const  oakvr::render::Color &color, const oakvr::render::Color &startColor)
+	void OakVR::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const  oakvr::render::Color &endColor, const oakvr::render::Color &startColor)
 	{
 		std::vector<oakvr::render::VertexElementDescriptor> ved{
 			oakvr::render::VertexElementDescriptor::Semantic::position,
@@ -158,31 +158,31 @@ namespace oakvr
 		oakvr::core::MemoryBuffer ib{ 6 * 2 * 3 * sizeof(uint32_t) };
 		float pVertices[] = {
 			start.x,	start.y,	start.z,	startColor.r,	startColor.g,	startColor.b,
-			start.x,	start.y,	end.z,		startColor.r,	startColor.g,	color.b,
-			end.x,		start.y,	end.z,		color.r,		startColor.g,	color.b,
-			end.x,		start.y,	start.z,	color.r,		startColor.g,	startColor.b,
+			start.x,	start.y,	end.z,		startColor.r,	startColor.g,	endColor.b,
+			end.x,		start.y,	end.z,		endColor.r,		startColor.g,	endColor.b,
+			end.x,		start.y,	start.z,	endColor.r,		startColor.g,	startColor.b,
 
-			start.x,	end.y,		start.z,	startColor.r,	color.g,		startColor.b,
-			start.x,	end.y,		end.z,		startColor.r,	color.g,		color.b,
-			end.x,		end.y,		end.z,		color.r,		color.g,		color.b,
-			end.x,		end.y,		start.z,	color.r,		color.g,		startColor.b,
+			start.x,	end.y,		start.z,	startColor.r,	endColor.g,		startColor.b,
+			start.x,	end.y,		end.z,		startColor.r,	endColor.g,		endColor.b,
+			end.x,		end.y,		end.z,		endColor.r,		endColor.g,		endColor.b,
+			end.x,		end.y,		start.z,	endColor.r,		endColor.g,		startColor.b,
 		};
 
 		uint32_t pIndices[] = {
-			0, 1, 2,
-			0, 2, 3,
-			1, 6, 2,
-			1, 5, 6,
+			0, 3, 1,
+			1, 3, 2,
+			1, 6, 5,
+			1, 2, 6,
 
-			0, 5, 1,
-			0, 4, 5,
-			4, 6, 5,
-			4, 7, 6,
+			1, 4, 0,
+			1, 5, 4,
+			5, 6, 7,
+			5, 7, 4,
 
-			2, 7, 3,
-			2, 6, 7,
-			3, 4, 0,
-			3, 7, 4
+			2, 3, 7,
+			2, 7, 6,
+			0, 7, 3,
+			0, 4, 7,
 		};
 
 		memcpy(vb.GetDataPtr(), pVertices, vb.Size());
