@@ -36,8 +36,8 @@ namespace oakvr
 		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
 		void SetCurrentCamera(const std::string &cameraId);
 
-		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const  oakvr::render::Color &color);
-		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const  oakvr::render::Color &color, const oakvr::render::Color &startColor);
+		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color);
+		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color, const oakvr::render::Color &startColor);
 
 		void SetRenderWindowPosition(unsigned int x, unsigned int y);
 		void SetRenderWindowSize(unsigned int width, unsigned int height);

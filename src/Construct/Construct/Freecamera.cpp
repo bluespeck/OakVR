@@ -38,13 +38,16 @@ namespace construct
 				}
 			}
 
-			oakvr::math::Vector2 delta = oakvr::input::mouse::GetPositionDelta();
-			delta.Normalize();
+			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::lShift) || oakvr::input::keyboard::IsDown(oakvr::input::Key::rShift))
+			{
+				oakvr::math::Vector2 delta = oakvr::input::mouse::GetPositionDelta();
+				delta.Normalize();
 
-			auto mRotationAroundRightDir = oakvr::math::Matrix::RotationAxisRightHanded(-delta.y * m_rotationSpeed * dt, GetRight());
-			auto mRotationAroundUpDir = oakvr::math::Matrix::RotationAxisRightHanded(delta.x * m_rotationSpeed * dt, m_up);
-			m_forward = (m_forward * mRotationAroundUpDir * mRotationAroundRightDir).GetNormalized();
-			m_up = (m_up * mRotationAroundRightDir).GetNormalized();
+				auto mRotationAroundRightDir = oakvr::math::Matrix::RotationAxisRightHanded(-delta.y * m_rotationSpeed * dt, GetRight());
+				auto mRotationAroundUpDir = oakvr::math::Matrix::RotationAxisRightHanded(-delta.x * m_rotationSpeed * dt, m_up);
+				m_forward = (m_forward * mRotationAroundUpDir * mRotationAroundRightDir).GetNormalized();
+				m_up = (m_up * mRotationAroundRightDir).GetNormalized();
+			}
 		}
 
 	}

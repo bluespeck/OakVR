@@ -169,5 +169,23 @@ namespace oakvr
 			return *this;
 		}
 
+		// --------------------------------------------------------------------------------
+		Vector3& Vector3::operator *= (float scalar)
+		{
+			x *= scalar;
+			y *= scalar;
+			z *= scalar;
+			return *this;
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector3& Vector3::operator /= (float scalar)
+		{
+			x /= scalar;
+			y /= scalar;
+			z /= scalar;
+			return *this;
+		}
+
 	}	// namespace Math
 }	// namespace oakvr

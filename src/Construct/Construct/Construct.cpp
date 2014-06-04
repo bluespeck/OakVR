@@ -68,9 +68,9 @@ namespace construct
 
 		oakvr::render::DrawText("~'_abcdef01259`!", oakvr::math::Vector3(-10.f, -25.f, -20.f), oakvr::render::Color::Yellow, "Fira Mono Regular");
 
-		oakvr::render::DrawLine({ -5.0f, -0.1f, -0.1f }, { 5.0f, 0.1f, 0.1f }, oakvr::render::Color::Red, oakvr::render::Color::Black);
-		oakvr::render::DrawLine({ -0.1f, -0.1f, -5.0f }, { 0.1f, 0.1f, 5.0f }, oakvr::render::Color::Blue, oakvr::render::Color::Black);
-		oakvr::render::DrawLine({ -0.1f, -5.0f, -0.1f }, { 0.1f, 5.0f, 0.1f }, oakvr::render::Color::Green, oakvr::render::Color::Black);
+		oakvr::render::DrawLine({ -5.f, 0.f, 0.f }, { 5.f, 0.f, 0.f }, 0.1f, oakvr::render::Color::Red, oakvr::render::Color::White);
+		oakvr::render::DrawLine({ 0.f, 0.f, -5.f }, { 0.f, 0.f, 5.f }, 0.1f, oakvr::render::Color::Blue, oakvr::render::Color::White);
+		oakvr::render::DrawLine({ 0.f, -5.f, 0.f }, { 0.f, 5.f, 0.f }, 0.1f, oakvr::render::Color::Green, oakvr::render::Color::White);
 		
 		//auto pCamera = oakvr::render::GetCamera("rotating_camera");
 		//if (pCamera)

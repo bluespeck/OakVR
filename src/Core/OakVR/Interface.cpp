@@ -83,14 +83,14 @@ namespace oakvr
 			return oakvr::OakVR::GetInstance().HasFocus();
 		}
 
-		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const  oakvr::render::Color &color)
+		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color)
 		{
-			oakvr::OakVR::GetInstance().DrawLine(start, end, color);
+			oakvr::OakVR::GetInstance().DrawLine(start, end, thickness, color);
 		}
 
-		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const  oakvr::render::Color &color, const oakvr::render::Color &startColor)
+		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color, const oakvr::render::Color &startColor)
 		{
-			oakvr::OakVR::GetInstance().DrawLine(start, end, color, startColor);
+			oakvr::OakVR::GetInstance().DrawLine(start, end, thickness, color, startColor);
 		}
 	}
 

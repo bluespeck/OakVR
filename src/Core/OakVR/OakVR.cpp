@@ -142,13 +142,30 @@ namespace oakvr
 		return Update(m_timer.GetDeltaTime());
 	}
 
-	void OakVR::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const oakvr::render::Color &color)
+	void OakVR::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const oakvr::render::Color &color)
 	{
-		DrawLine(start, end, color, color);
+		DrawLine(start, end, thickness, color, color);
 	}
 
-	void OakVR::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, const  oakvr::render::Color &endColor, const oakvr::render::Color &startColor)
+	void OakVR::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &endColor, const oakvr::render::Color &startColor)
 	{
+		oakvr::math::Vector3 up{ 0, 1, 0 };
+		oakvr::math::Vector3 lineDir = end - start;
+		oakvr::math::Vector3 p1;
+		oakvr::math::Vector3 p2;
+		if ((lineDir.GetNormalized() - up).GetLength() > 1e-6f)
+		{
+			p1 = up.Cross(lineDir).GetNormalized();
+		}
+		else
+		{
+			oakvr::math::Vector3 right{ 1, 0, 0 };
+			p1 = right.Cross(lineDir).GetNormalized();
+		}
+		p2 = p1.Cross(lineDir).GetNormalized();
+		p1 *= thickness;
+		p2 *= thickness;
+
 		std::vector<oakvr::render::VertexElementDescriptor> ved{
 			oakvr::render::VertexElementDescriptor::Semantic::position,
 			oakvr::render::VertexElementDescriptor::Semantic::color
@@ -156,16 +173,19 @@ namespace oakvr
 
 		oakvr::core::MemoryBuffer vb{ 8 * ComputeVertexStride(ved) * sizeof(float) };
 		oakvr::core::MemoryBuffer ib{ 6 * 2 * 3 * sizeof(uint32_t) };
-		float pVertices[] = {
-			start.x,	start.y,	start.z,	startColor.r,	startColor.g,	startColor.b,
-			start.x,	start.y,	end.z,		startColor.r,	startColor.g,	endColor.b,
-			end.x,		start.y,	end.z,		endColor.r,		startColor.g,	endColor.b,
-			end.x,		start.y,	start.z,	endColor.r,		startColor.g,	startColor.b,
-
-			start.x,	end.y,		start.z,	startColor.r,	endColor.g,		startColor.b,
-			start.x,	end.y,		end.z,		startColor.r,	endColor.g,		endColor.b,
-			end.x,		end.y,		end.z,		endColor.r,		endColor.g,		endColor.b,
-			end.x,		end.y,		start.z,	endColor.r,		endColor.g,		startColor.b,
+		struct Vertex
+		{
+			oakvr::math::Vector3 pos;
+			oakvr::math::Vector3 color;
+		} pVertices[] = {
+				{ start - p1 + p2, startColor },
+				{ start - p1 - p2, startColor },
+				{ end - p1 - p2, endColor },
+				{ end - p1 + p2, endColor },
+				{ start + p1 + p2, startColor },
+				{ start + p1 - p2, startColor },
+				{ end + p1 - p2, endColor },
+				{ end + p1 + p2, endColor },
 		};
 
 		uint32_t pIndices[] = {
