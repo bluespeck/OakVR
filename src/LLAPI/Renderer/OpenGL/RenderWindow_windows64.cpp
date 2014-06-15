@@ -63,6 +63,7 @@ namespace oakvr
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+			glfwSwapInterval(0);
 
 			if (!(m_pImpl->m_pWindow = glfwCreateWindow(m_width, m_height, m_title.c_str(), nullptr, nullptr)))
 			{
@@ -77,6 +78,8 @@ namespace oakvr
 			glfwSetWindowPos(m_pImpl->m_pWindow, m_posX, m_posY);
 			glfwMakeContextCurrent(m_pImpl->m_pWindow);
 			glfwSetWindowCloseCallback(m_pImpl->m_pWindow, OnCloseWindow);
+
+			
 			CHECK_OPENGL_ERROR;
 			return true;
 		}

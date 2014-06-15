@@ -566,6 +566,12 @@ namespace oakvr
 		m_pRenderer->RegisterMesh(pMesh);
 	}
 
+	void OakVR::TransformMesh(const std::string &meshName, const oakvr::math::Matrix &mat)
+	{
+		auto pMesh = m_pRenderer->GetRegisteredMesh(meshName);
+		pMesh->SetWorldMatrix(pMesh->GetWorldMatrix() * mat);
+	}
+
 	void OakVR::RegisterShader(std::string shaderName)
 	{
 		m_pRenderer->RegisterShaderProgram(shaderName);

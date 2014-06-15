@@ -4,9 +4,9 @@ namespace oakvr
 {
 	namespace render
 	{
-
 		// --------------------------------------------------------------------------------
-		Mesh::Mesh()
+		Mesh::Mesh(const std::string &name)
+			:m_name{ name }
 		{
 		}
 

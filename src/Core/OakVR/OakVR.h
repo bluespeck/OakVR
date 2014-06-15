@@ -48,6 +48,8 @@ namespace oakvr
 		void UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
 
 		void RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh);
+		void TransformMesh(const std::string &meshName, const oakvr::math::Matrix &mat);
+
 		void RegisterShader(std::string shaderName);
 
 		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color);

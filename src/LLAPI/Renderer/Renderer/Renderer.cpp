@@ -10,6 +10,8 @@
 #include "ResourceManager/ResourceManager.h"
 #include "Profiler/Profiler.h"
 
+#include <algorithm>
+
 namespace oakvr
 {
 	namespace render
@@ -54,7 +56,7 @@ namespace oakvr
 
 					auto it = m_shaderPrograms.find(pMeshElem->m_pMaterial->m_shaderName);
 					if (it != std::end(m_shaderPrograms))
-					{
+					{ 
 						UseShaderProgram(it->second);
 
 						vb.Use(pMeshElem->m_vertexFormat);
@@ -103,6 +105,16 @@ namespace oakvr
 					RegisterTexture(textureName, m_pResourceManager->GetResource(textureName));
 				}
 			}
+		}
+
+		std::shared_ptr<Mesh> Renderer::GetRegisteredMesh(const std::string &name)
+		{
+			auto &meshes = m_pMeshManager->GetMeshes();
+			auto it = std::find_if(meshes.begin(), meshes.end(), [&name](oakvr::render::MeshManager::MeshVector::value_type &e) { return e->GetName() == name; });
+			if (it != meshes.end())
+				return *it;
+			else
+				return nullptr;
 		}
 
 		// --------------------------------------------------------------------------------

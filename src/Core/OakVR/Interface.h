@@ -19,6 +19,7 @@ namespace oakvr
 		typedef std::vector<oakvr::render::VertexElementDescriptor> VertexDescriptor;
 				
 		void CreateMesh(
+			const std::string &name,
 			const oakvr::render::VertexDescriptor &vertexDescriptor,
 			const oakvr::core::MemoryBuffer &vertexBuffer,
 			uint8_t indexStride,
@@ -26,6 +27,7 @@ namespace oakvr
 			std::shared_ptr<Material> pMaterial,
 			std::vector<std::string> textureNames // for each texcoord
 			);
+		void TransformMesh(const std::string &name, const oakvr::math::Matrix &mat);
 
 		void RegisterShader(const std::string &shaderName);
 

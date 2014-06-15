@@ -45,6 +45,7 @@ namespace oakvr
 			void EndDraw();
 
 			void RegisterMesh(std::shared_ptr<Mesh> pMesh);
+			std::shared_ptr<Mesh> GetRegisteredMesh(const std::string &name);
 			void RegisterOneFrameMesh(std::shared_ptr<Mesh> pMesh);
 			void RegisterTexture(const std::string &textureName, std::shared_ptr<oakvr::core::MemoryBuffer> pBuff);
 			

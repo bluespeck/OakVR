@@ -10,6 +10,8 @@
 		
 		links { "Profiler" }
 		
+		defines { "_CRT_SECURE_NO_WARNINGS" }
+		
 		ExcludePlatformSpecificFiles("*_", ".cpp")
 		PlatformSpecificFiles("*_", ".cpp")
 		

@@ -35,8 +35,8 @@ namespace construct
 		pCamera = std::make_shared<oakvr::render::Camera>("static_camera", oakvr::math::Vector3{ 0.f, 0.f, -2.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
 		oakvr::render::RegisterCamera(pCamera);
 
-		pCamera = std::make_shared<FreeCamera>("free_camera", oakvr::math::Vector3{ 0.f, 0.f, 25.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 10, 1.);
-		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(90), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1, 1000);
+		pCamera = std::make_shared<FreeCamera>("free_camera", oakvr::math::Vector3{ 0.f, 0.f, 25.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 10.f, 1.f);
+		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(90.f), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
 		//pCamera->SetOrthographicProjection(-oakvr::render::GetRenderWindowWidth() / 2, oakvr::render::GetRenderWindowWidth() / 2, -oakvr::render::GetRenderWindowHeight(), oakvr::render::GetRenderWindowHeight(), 1, 1000);
 		oakvr::render::RegisterCamera(pCamera);
 		oakvr::render::SetCurrentCamera(pCamera);
@@ -66,7 +66,14 @@ namespace construct
 				oakvr::render::SetCurrentCamera("free_camera");
 		}
 
-		oakvr::render::DrawText("~'_abcdef01259`!", oakvr::math::Vector3(-10.f, -25.f, -20.f), oakvr::render::Color::Yellow, "Fira Mono Regular");
+		static float accumulatedTime = 0.f;
+		static std::string str = "FPS: " + std::to_string(static_cast<int>(dt > 1e-9f ? 1.f / dt : 0.f));
+		if ((accumulatedTime += dt) > 0.3f)
+		{
+			accumulatedTime = 0.f;
+			str = "FPS: " + std::to_string(static_cast<int>(dt > 1e-9f ? 1.f / dt : 0.f));
+		}
+		oakvr::render::DrawText(str, oakvr::math::Vector3(-10.f, -25.f, -20.f), oakvr::render::Color::Yellow, "Fira Mono Regular");
 
 		oakvr::render::DrawLine({ -5.f, 0.f, 0.f }, { 5.f, 0.f, 0.f }, 0.1f, oakvr::render::Color::Red, oakvr::render::Color::White);
 		oakvr::render::DrawLine({ 0.f, 0.f, -5.f }, { 0.f, 0.f, 5.f }, 0.1f, oakvr::render::Color::Blue, oakvr::render::Color::White);
@@ -129,7 +136,7 @@ namespace construct
 
 		auto pMaterial = std::make_shared<oakvr::render::Material>(std::string("Default"));
 
-		oakvr::render::CreateMesh(ved, vb, 4, ib, pMaterial, { "oakvr" });
+		oakvr::render::CreateMesh("TestCube", ved, vb, 4, ib, pMaterial, { "oakvr" });
 		oakvr::render::RegisterShader("Default");
 	}
 
