@@ -4,7 +4,7 @@ Project "FreeType"
 	
 	-- FreeType version 2.5.3
 	
-	defines { "FT2_BUILD_LIBRARY"}
+	defines { "FT2_BUILD_LIBRARY", "_CRT_SECURE_NO_WARNINGS" }
 	
 	includedirs
 	{

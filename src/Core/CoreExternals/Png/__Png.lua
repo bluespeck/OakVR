@@ -34,5 +34,7 @@ Project "Png"
 		"pngwtran.c",
 		"pngwutil.c",
 	}
-			
+	
+	defines { "_CRT_SECURE_NO_WARNINGS" }
+	
 	links { "Zlib" }
