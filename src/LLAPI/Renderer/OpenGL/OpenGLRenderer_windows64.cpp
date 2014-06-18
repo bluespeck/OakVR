@@ -165,7 +165,7 @@ namespace oakvr
 			oakvr::math::Matrix mProj = m_projMatrix;
 			oakvr::math::Matrix mView = m_viewMatrix;
 			oakvr::math::Matrix mModel = oakvr::math::Matrix::Identity();
-			
+			// TODO: Change name of model matrix to world matrix, even in shaders
 			GLuint programId = reinterpret_cast<GLuint>(pShaderProgram->GetNativeHandle());
 			int projectionMatrixLocation = glGetUniformLocation(programId, "projectionMatrix");
 			int viewMatrixLocation = glGetUniformLocation(programId, "viewMatrix");

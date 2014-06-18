@@ -144,6 +144,7 @@ namespace oakvr
 
 	void OakVR::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const oakvr::render::Color &color)
 	{
+		PROFILER_FUNC_SCOPED_TIMER;
 		DrawLine(start, end, thickness, color, color);
 	}
 
@@ -694,6 +695,7 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	bool oakvrUpdate()
 	{
+		PROFILER_FUNC_SCOPED_TIMER;
 		return OakVR::GetInstance().Update();
 	}
 

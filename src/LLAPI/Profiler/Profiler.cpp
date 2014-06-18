@@ -1,5 +1,11 @@
 #include "Profiler.h"
 #include "Log/Log.h"
+#include <chrono>
+#include <ratio>
+#include <vector>
+#include <utility>
+#include <string>
+#include <algorithm>
 
 #ifdef _WIN32
 #	include "Windows.h"
@@ -11,11 +17,11 @@ namespace oakvr
 	{
 		void Profiler::Update(const ProfileId &id, uint64_t microSeconds)
 		{
-			auto &pd = m_profilingData[id.groupName][id.name];
+			auto &pd = m_groupProfilingDataMap[id.groupName][id.name];
 			
 			pd.id = id;
 
-			pd.currTime = microSeconds;
+			pd.latestTime = microSeconds;
 
 			if (microSeconds > pd.maxTime)
 				pd.maxTime = microSeconds;
@@ -30,29 +36,52 @@ namespace oakvr
 		void Profiler::PrintSortedData()
 		{
 #if defined(OAKVR_PROFILER_ENABLED)
-#ifdef _WIN32
-			HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-			COORD coord = { 0, 0 };
-			DWORD count;
-			CONSOLE_SCREEN_BUFFER_INFO csbi;
-			GetConsoleScreenBufferInfo(hStdOut, &csbi);
-			FillConsoleOutputCharacter(hStdOut, ' ',
-				csbi.dwSize.X * csbi.dwSize.Y,
-				coord, &count);
-			SetConsoleCursorPosition(hStdOut, coord);
-#endif
-			std::string oldOutFileName = Log::GetOutFilename();
-			Log::SetOutFilename("stdout");
-			for (auto &mapElem : m_profilingData)
+			static auto prevTimePoint = std::chrono::high_resolution_clock::now();
+			static float accTime = 0.0f;
+			auto currentTimePoint = std::chrono::high_resolution_clock::now();
+			accTime += 1e-9f * std::chrono::nanoseconds(currentTimePoint - prevTimePoint).count();
+			prevTimePoint = currentTimePoint;
+			if (accTime < 1.f)
+				return;
+			else
 			{
-				Log::PrintInfo("[%s]", mapElem.first.c_str());
-				for (auto &elem : mapElem.second)
+				accTime = 0.0f;
+#ifdef _WIN32
+				HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+				COORD coord = { 0, 0 };
+				DWORD count;
+				CONSOLE_SCREEN_BUFFER_INFO csbi;
+				GetConsoleScreenBufferInfo(hStdOut, &csbi);
+				FillConsoleOutputCharacter(hStdOut, ' ',
+					csbi.dwSize.X * csbi.dwSize.Y,
+					coord, &count);
+				SetConsoleCursorPosition(hStdOut, coord);
+#endif
+				std::string oldOutFileName = Log::GetOutFilename();
+				Log::SetOutFilename("stdout");
+
+				std::vector< std::pair<std::string, oakvr::profiler::ProfilingData> > vec;
+				for (auto &mapElem : m_groupProfilingDataMap)
+				{
+					for (auto &elem : mapElem.second)
+					{
+						vec.push_back(std::make_pair(const_cast<const std::string &>(elem.first), elem.second));
+					}
+				}
+				
+				std::sort(vec.begin(), vec.end(), [](std::pair<const std::string, oakvr::profiler::ProfilingData> p1
+					, std::pair<std::string, oakvr::profiler::ProfilingData> p2) 
+						{ return p1.second.totalTime > p2.second.totalTime; }
+				);
+				
+				for (auto &elem : vec)
 				{
 					auto &pd = elem.second;
-					Log::PrintInfo("\t%80s -- h=%-6lu crt[\346s]=%-9llu avg[\346s]=%-9llu -- %s", pd.id.name.c_str(), pd.hits, pd.currTime, pd.avgTime, pd.id.funcName.c_str());
+					auto percentage = static_cast<int>(static_cast<float>(pd.totalTime) / static_cast<float>(vec.front().second.totalTime) * 100.0f);
+					Log::PrintInfo("\t%60s -- [%%]=%3d h=%-6lu total[ms]=%-9llu lst[\346s]=%-9llu avg[\346s]=%-9llu", pd.id.name.c_str(), percentage, pd.hits, pd.totalTime / 1000, pd.latestTime, pd.avgTime);
 				}
+				Log::SetOutFilename(oldOutFileName);
 			}
-			Log::SetOutFilename(oldOutFileName);
 #endif
 		}
 	}

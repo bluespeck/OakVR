@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include <unordered_map>
 
+#include "Profiler/Profiler.h"
+
 namespace oakvr
 {
 	namespace input
@@ -21,6 +23,7 @@ namespace oakvr
 
 		void KeyboardInput::Update()
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			memcpy(m_pImpl->keyStatesPrevious, m_pImpl->keyStatesCurrent, 256 * sizeof(m_pImpl->keyStatesPrevious[0]));
 			//memset(m_pImpl->keyStatesCurrent, 0, 256 * sizeof(m_pImpl->keyStatesPrevious[0]));
 			GetKeyboardState(m_pImpl->keyStatesCurrent);
@@ -28,30 +31,35 @@ namespace oakvr
 
 		bool KeyboardInput::IsPressed(Key key) const
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			int keyCode = m_pImpl->keyMap.at(key);
 			return ((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0) && !((m_pImpl->keyStatesPrevious[keyCode] & 0x80) != 0);
 		}
 
 		bool KeyboardInput::IsHeld(Key key) const
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			int keyCode = m_pImpl->keyMap.at(key);
 			return ((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0) && ((m_pImpl->keyStatesPrevious[keyCode] & 0x80) != 0);
 		}
 
 		bool KeyboardInput::IsReleased(Key key) const
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			int keyCode = m_pImpl->keyMap.at(key);
 			return !((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0) && ((m_pImpl->keyStatesPrevious[keyCode] & 0x80) != 0);
 		}
 
 		bool KeyboardInput::IsDown(Key key) const
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			int keyCode = m_pImpl->keyMap.at(key);
 			return ((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0);
 		}
 
 		bool KeyboardInput::IsUp(Key key) const
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			int keyCode = m_pImpl->keyMap.at(key);
 			return !((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0);
 		}

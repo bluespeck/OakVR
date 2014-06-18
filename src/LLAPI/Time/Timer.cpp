@@ -21,7 +21,7 @@ namespace oakvr
 	{
 		if( m_bPaused )
 		{
-			m_dt = 0.0;
+			m_dt = 0.0f;
 			return;
 		}
 
@@ -32,9 +32,9 @@ namespace oakvr
 
 		m_prevTimePoint = m_currTimePoint;
 
-		if(m_dt < 0.0)
+		if(m_dt < 0.0f)
 		{
-			m_dt = 0.0;
+			m_dt = 0.0f;
 		}
 	}
 

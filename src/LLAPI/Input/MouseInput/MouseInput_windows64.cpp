@@ -2,6 +2,8 @@
 
 #include "MouseInput.h"
 
+#include "Profiler/Profiler.h"
+
 namespace oakvr
 {
 	namespace input
@@ -46,6 +48,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void MouseInput::Update()
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			memcpy(&m_pImpl->m_previousState, &m_pImpl->m_currentState, sizeof(MouseInputImpl::MouseState));
 
 			// retrieve current cursor position
@@ -192,7 +195,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void MouseInput::MouseInputImpl::HandleMessage(WPARAM wParam, LPARAM lParam)
 		{
-
+			PROFILER_FUNC_SCOPED_TIMER;
 			MSLLHOOKSTRUCT msllhs = *(MSLLHOOKSTRUCT *)lParam;
 
 			switch (wParam)
@@ -245,6 +248,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam)
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			if (nCode == 0)
 			{
 				MouseInput::MouseInputImpl::HandleMessage(wParam, lParam);

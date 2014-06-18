@@ -32,6 +32,7 @@ namespace oakvr
 
 		void Renderer::RenderMeshes(const MeshManager::MeshVector &meshes)
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			for (auto &pMesh : meshes)
 			{
 				for (auto &pMeshElem : pMesh->GetMeshElements())
@@ -120,6 +121,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::RegisterOneFrameMesh(std::shared_ptr<Mesh> pMesh)
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			m_pMeshManager->AddOneFrameMesh(pMesh);
 			for (const auto &pMeshElement : pMesh->GetMeshElements())
 			{
@@ -133,6 +135,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Renderer::RegisterTexture(const std::string &textureName, std::shared_ptr<oakvr::core::MemoryBuffer> pBuff)
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			if (pBuff.get() == nullptr)
 				return;
 			if (m_textures.find(textureName) == m_textures.end())
@@ -141,6 +144,7 @@ namespace oakvr
 
 		void Renderer::RegisterShaderProgram(const std::string &shaderName)
 		{
+			PROFILER_FUNC_SCOPED_TIMER;
 			if (m_shaderPrograms.find(shaderName) == m_shaderPrograms.end())
 				m_shaderPrograms[shaderName] = std::make_shared<ShaderProgram>(
 					shaderName,

@@ -8,7 +8,7 @@
 #include <string>
 
 // enable this macro to have profiling data
-//#define OAKVR_PROFILER_ENABLED
+#define OAKVR_PROFILER_ENABLED
 
 namespace oakvr
 {
@@ -23,7 +23,7 @@ namespace oakvr
 			void Update(const ProfileId &id, uint64_t microSeconds);
 			void PrintSortedData();
 		private:
-			GroupProfilingDataMap m_profilingData;
+			GroupProfilingDataMap m_groupProfilingDataMap;
 		};
 	}
 }
