@@ -162,17 +162,17 @@ namespace oakvr
 		{
 			//TODO: Add set shader param function
 			PROFILER_FUNC_SCOPED_TIMER;
-			oakvr::math::Matrix mProj = m_projMatrix;
-			oakvr::math::Matrix mView = m_viewMatrix;
-			oakvr::math::Matrix mModel = oakvr::math::Matrix::Identity();
+			const oakvr::math::Matrix &mProj = m_projMatrix;
+			const oakvr::math::Matrix &mView = m_viewMatrix;
+			const oakvr::math::Matrix &mWorld = m_worldMatrix;
 			// TODO: Change name of model matrix to world matrix, even in shaders
 			GLuint programId = reinterpret_cast<GLuint>(pShaderProgram->GetNativeHandle());
 			int projectionMatrixLocation = glGetUniformLocation(programId, "projectionMatrix");
 			int viewMatrixLocation = glGetUniformLocation(programId, "viewMatrix");
-			int modelMatrixLocation = glGetUniformLocation(programId, "modelMatrix");
+			int worldMatrixLocation = glGetUniformLocation(programId, "worldMatrix");
 			glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &mProj.m[0][0]);
 			glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &mView.m[0][0]);
-			glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &mModel.m[0][0]);
+			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &mWorld.m[0][0]);
 
 			GLint textureLocation = glGetUniformLocation(programId, "texDiffuse0");
 			//glActiveTexture(GL_TEXTURE0);

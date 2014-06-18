@@ -35,6 +35,7 @@ namespace oakvr
 			PROFILER_FUNC_SCOPED_TIMER;
 			for (auto &pMesh : meshes)
 			{
+				m_worldMatrix = pMesh->GetWorldMatrix();
 				for (auto &pMeshElem : pMesh->GetMeshElements())
 				{
 					void *pBuff = nullptr;
@@ -46,7 +47,6 @@ namespace oakvr
 
 					memcpy(pBuff, pMeshElem->m_vertexData.GetDataPtr(), pMeshElem->m_vertexData.Size());
 					vb.Unlock();
-
 
 					// Create index buffer for this mesh element
 					IndexBuffer ib(pMeshElem->m_indexCount, pMeshElem->m_indexStride);

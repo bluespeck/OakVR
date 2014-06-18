@@ -92,6 +92,7 @@ namespace oakvr
 
 			oakvr::math::Matrix m_viewMatrix;
 			oakvr::math::Matrix m_projMatrix;
+			oakvr::math::Matrix m_worldMatrix;
 
 		};
 	}	// namespace render

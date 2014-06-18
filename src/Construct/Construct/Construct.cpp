@@ -6,6 +6,7 @@
 #include "Input/MouseInput/MouseInput.h"
 #include "Text/Text.h"
 #include "Log/Log.h"
+#include "Math/Matrix.h"
 
 #include "FreeCamera.h"
 
@@ -89,6 +90,8 @@ namespace construct
 		if (pCamera)
 			pCamera->Update(dt);
 
+
+		oakvr::render::TransformMesh("TestCube", oakvr::math::Matrix::RotationY(dt * oakvr::math::PiOverTwelve));
 	}
 
 	void Construct::CreateTestMesh()
@@ -103,15 +106,15 @@ namespace construct
 		oakvr::core::MemoryBuffer vb{ 8 * ComputeVertexStride(ved) * sizeof(float) };
 		oakvr::core::MemoryBuffer ib{ 6 * 2 * 3 * sizeof(uint32_t) };
 		float pVertices[] = {
-			-1.f, -1.f, -1.f, 1.f, 0.f,// 0.5, 0.5, 0.5,
-			1.0f, -1.f, -1.f, 1.f, 1.f,// 0.5, 0.5, 0.5,
-			1.0f, -1.f, 1.0f, 1.f, 0.f,// 0.5, 0.5, 0.5,
-			-1.f, -1.f, 1.0f, 1.f, 1.f,// 0.5, 0.5, 0.5,
+			1.f, -1.f, 1.f, 1.f, 0.f,// 0.5, 0.5, 0.5,
+			3.0f, -1.f, 1.f, 1.f, 1.f,// 0.5, 0.5, 0.5,
+			3.0f, -1.f, 3.0f, 1.f, 0.f,// 0.5, 0.5, 0.5,
+			1.f, -1.f, 3.0f, 1.f, 1.f,// 0.5, 0.5, 0.5,
 
-			-1.f, 1.0f, -1.f, 0.f, 0.f,// 0.5, 0.5, 0.5,
-			1.0f, 1.0f, -1.f, 0.f, 1.f,// 0.5, 0.5, 0.5,
-			1.0f, 1.0f, 1.0f, 1.f, 1.f,// 0.5, 0.5, 0.5,
-			-1.f, 1.0f, 1.0f, 0.f, 1.f // 0.5, 0.5, 0.5
+			1.f, 1.0f, 1.f, 0.f, 0.f,// 0.5, 0.5, 0.5,
+			3.0f, 1.0f, 1.f, 0.f, 1.f,// 0.5, 0.5, 0.5,
+			3.0f, 1.0f, 3.0f, 1.f, 1.f,// 0.5, 0.5, 0.5,
+			1.f, 1.0f, 3.0f, 0.f, 1.f // 0.5, 0.5, 0.5
 		};
 
 		uint32_t pIndices[] = {
