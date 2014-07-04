@@ -11,5 +11,6 @@ namespace construct
 		void Update(float dt) override;
 	private:
 		void CreateTestMesh();
+		void CreateTestMesh2();
 	};
 }

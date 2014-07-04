@@ -4,7 +4,6 @@
 #include "Renderer/Renderer/Shader.h"
 
 #include "Renderer/Renderer/RendererCommon.h"
-#include "Renderer/Renderer/RendererUtils.h"
 #include "Renderer/Renderer/VertexBuffer.h"
 #include "Renderer/Renderer/IndexBuffer.h"
 #include "Renderer/Renderer/Texture.h"
@@ -15,6 +14,8 @@
 #include "Math/Matrix.h"
 #include "Renderer/Renderer/Shader.h"
 #include "Renderer/Renderer/ShaderProgram.h"
+
+#include "Utils/RendererUtils.h"
 
 #include "FileIO/File.h"
 #include "Log/Log.h"

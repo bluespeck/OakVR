@@ -158,7 +158,7 @@ namespace oakvr
 				std::vector<std::string> vecTextures = { it->GetName() + "_texture" };
 				auto pMaterial = std::make_shared<oakvr::render::Material>(std::string("DefaultText"));
 
-				auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, sizeof(uint32_t), ib, pMaterial, vecTextures);
+				auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, static_cast<uint8_t>(sizeof(uint32_t)), ib, pMaterial, vecTextures);
 
 				pMesh->AddMeshElement(pMeshElem);
 				m_pRenderer->RegisterOneFrameMesh(pMesh);

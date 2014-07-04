@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Renderer/Renderer/RendererUtils.h"
+#include "Utils/RendererUtils.h"
 #include "Renderer/Renderer/Material.h"
 #include "OakVR/Camera.h"
+#include "Renderer/Renderer/Mesh.h"
 
 #include "Updateable.h"
 
@@ -18,7 +19,7 @@ namespace oakvr
 	{
 		typedef std::vector<oakvr::render::VertexElementDescriptor> VertexDescriptor;
 				
-		void CreateMesh(
+		std::shared_ptr<oakvr::render::Mesh> CreateMesh(
 			const std::string &name,
 			const oakvr::render::VertexDescriptor &vertexDescriptor,
 			const oakvr::core::MemoryBuffer &vertexBuffer,
@@ -27,6 +28,7 @@ namespace oakvr
 			std::shared_ptr<Material> pMaterial,
 			std::vector<std::string> textureNames // for each texcoord
 			);
+		std::shared_ptr<oakvr::render::Mesh> GetMesh(const std::string &name);
 		void TransformMesh(const std::string &name, const oakvr::math::Matrix &mat);
 
 		void RegisterShader(const std::string &shaderName);

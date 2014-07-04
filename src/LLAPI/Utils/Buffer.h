@@ -12,7 +12,7 @@ namespace oakvr
 		{
 		public:
 			typedef T value_type;
-			Buffer();
+			Buffer() = default;
 			Buffer(std::size_t size);
 			Buffer(const Buffer & buffer);
 			Buffer(Buffer && buffer);
@@ -21,6 +21,7 @@ namespace oakvr
 			~Buffer();
 
 			size_t Size() const { return m_size; }
+			void Resize(std::size_t size);
 
 			const value_type *GetDataPtr() const { return m_buffer; }
 			value_type *GetDataPtr() { return m_buffer; }
@@ -31,12 +32,6 @@ namespace oakvr
 		};
 
 		typedef Buffer<uint8_t> MemoryBuffer;
-
-		//------------------------------------------------------
-		template <typename T>
-		Buffer<T>::Buffer()
-		{
-		}
 
 		//------------------------------------------------------
 		template <typename T>
@@ -84,6 +79,19 @@ namespace oakvr
 			buffer.m_size = 0;
 			buffer.m_buffer = nullptr;
 			return *this;
+		}
+		//------------------------------------------------------
+		template <typename T>
+		void Buffer<T>::Resize(std::size_t size)
+		{
+			auto pNewBuffer = new T[size];
+			if (m_size)
+			{
+				memcpy(pNewBuffer, m_buffer, m_size);
+				delete[] m_buffer;
+			}
+			m_buffer = pNewBuffer;
+			m_size = size;
 		}
 
 		//------------------------------------------------------

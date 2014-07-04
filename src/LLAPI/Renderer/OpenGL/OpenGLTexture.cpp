@@ -1,7 +1,7 @@
 #include "Common.h"
 #include "Renderer/Renderer/Texture.h"
 #include "Renderer/Renderer/Renderer.h"
-#include "Renderer/Renderer/RendererUtils.h"
+#include "Utils/RendererUtils.h"
 #include "Log/Log.h"
 #include "Utils/BufferReader.h"
 
@@ -39,7 +39,7 @@ namespace oakvr
 			uint32_t width, height;
 			uint32_t bitsPerPixel;
 			TextureFormat textureFormat;
-			oakvr::core::BufferReader<oakvr::core::MemoryBuffer::value_type, size_t>reader(buff);
+			auto reader = oakvr::core::MakeBufferReader(buff);
 			reader.Read(width);
 			reader.Read(height);
 			reader.Read(bitsPerPixel);

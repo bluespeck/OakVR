@@ -9,7 +9,7 @@ namespace oakvr
 {
 	namespace core
 	{
-		template <typename BufferUnderlyingType, typename IndexSizeType>
+		template <typename BufferUnderlyingType, typename IndexSizeType = size_t>
 		class BufferReader
 		{
 		public:
@@ -57,5 +57,11 @@ namespace oakvr
 			const Buffer<BufferUnderlyingType> &m_rBuffer;
 			IndexSizeType m_readPos;
 		};
+
+		template<typename BufferType, typename IndexSizeType = size_t>
+		BufferReader<typename BufferType::value_type, IndexSizeType> MakeBufferReader(const BufferType &buffer)
+		{
+			return BufferReader<typename BufferType::value_type, IndexSizeType>(buffer);
+		}
 	}
 }

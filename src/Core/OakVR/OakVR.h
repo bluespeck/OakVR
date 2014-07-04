@@ -34,9 +34,6 @@ namespace oakvr
 		friend void oakvrExit();
 	public:
 
-		bool Initialize();
-		bool Update();
-			
 		///////////////////////////////////////////////////////////////////////////////////
 		// render related interface
 		ScreenSize GetScreenSize();
@@ -48,6 +45,7 @@ namespace oakvr
 		void UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
 
 		void RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh);
+		std::shared_ptr<oakvr::render::Mesh> GetRegisteredMesh(const std::string &name);
 		void TransformMesh(const std::string &meshName, const oakvr::math::Matrix &mat);
 
 		void RegisterShader(std::string shaderName);
@@ -76,7 +74,10 @@ namespace oakvr
 		void Cleanup();
 		void RegisterInitializer(std::function<void()> fct) { m_initializers.push_back(fct); }
 		
-	private:			
+	private:
+		bool Initialize();
+		bool Update();
+
 		bool Update(float dt);
 
 		void TriggerInputEvents();

@@ -123,7 +123,6 @@ namespace oakvr
 			// Initialize Text manager
 			oakvr::core::Text::GetInstance().SetResourceManagerPtr(m_pRM);
 			oakvr::core::Text::GetInstance().SetRendererPtr(m_pRenderer);
-			
 		}
 
 		m_timer.Reset();
@@ -212,7 +211,7 @@ namespace oakvr
 		auto pMaterial = std::make_shared<oakvr::render::Material>(std::string("DefaultColor"));
 
 		
-		auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, sizeof(uint32_t), ib, pMaterial, std::vector<std::string>());
+		auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, static_cast<uint8_t>(sizeof(uint32_t)), ib, pMaterial, std::vector<std::string>());
 		
 		auto pMesh = std::make_shared<oakvr::render::Mesh>();
 		pMesh->AddMeshElement(pMeshElem);
@@ -565,6 +564,11 @@ namespace oakvr
 	void OakVR::RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh)
 	{
 		m_pRenderer->RegisterMesh(pMesh);
+	}
+
+	std::shared_ptr<oakvr::render::Mesh> OakVR::GetRegisteredMesh(const std::string &name)
+	{
+		return m_pRenderer->GetRegisteredMesh(name);
 	}
 
 	void OakVR::TransformMesh(const std::string &meshName, const oakvr::math::Matrix &mat)

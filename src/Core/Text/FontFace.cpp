@@ -127,7 +127,7 @@ namespace oakvr
 				// serialize image data
 				MemoryBuffer rawImageData(sizeof(imageData.width) + sizeof(imageData.height) + sizeof(imageData.bitsPerPixel) + sizeof(imageData.pixelFormat) + imageData.pixelBuffer.Size());
 
-				BufferWriter<MemoryBuffer::value_type, size_t> bufferWriter(rawImageData);
+				BufferWriter<MemoryBuffer::value_type> bufferWriter(rawImageData);
 				bufferWriter.Write(imageData.width);
 				bufferWriter.Write(imageData.height);
 				bufferWriter.Write(imageData.bitsPerPixel);

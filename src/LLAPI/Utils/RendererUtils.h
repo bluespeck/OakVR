@@ -7,7 +7,7 @@ namespace oakvr
 {
 	namespace render
 	{
-		enum PrimitiveTopology
+		enum class PrimitiveTopology : uint8_t
 		{
 			ePT_First = 0,
 			ePT_PointList = ePT_First,
@@ -20,7 +20,7 @@ namespace oakvr
 
 		struct VertexElementDescriptor
 		{			
-			enum class Semantic
+			enum class Semantic : uint8_t
 			{
 				position,
 				tex_coord,

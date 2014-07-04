@@ -20,7 +20,7 @@ namespace oakvr
 			
 			png_infop pInfo = png_create_info_struct(pPng);
 
-			BufferReader<std::common_type<decltype(fileBuffer)>::type::value_type, size_t> fileBufferReader(fileBuffer);
+			auto fileBufferReader = MakeBufferReader(fileBuffer);
 			png_set_read_fn(pPng, (void *)&fileBufferReader, PngReadFn);
 
 			png_read_info(pPng, pInfo);
@@ -61,7 +61,7 @@ namespace oakvr
 			// serialize image data
 			MemoryBuffer rawImageData(sizeof(imageData.width) + sizeof(imageData.height) + sizeof(imageData.bitsPerPixel) + sizeof(imageData.pixelFormat) + imageData.pixelBuffer.Size());
 
-			BufferWriter<MemoryBuffer::value_type, size_t> bufferWriter(rawImageData);
+			auto bufferWriter = MakeBufferWriter(rawImageData);
 			bufferWriter.Write(imageData.width);
 			bufferWriter.Write(imageData.height);
 			bufferWriter.Write(imageData.bitsPerPixel);
@@ -85,6 +85,6 @@ namespace oakvr
 // --------------------------------------------------------------------------------
 void PngReadFn(png_structp pPng, png_bytep outBytes, png_size_t bytecountToRead)
 {
-	oakvr::core::BufferReader<uint8_t, size_t> *pReader = static_cast<oakvr::core::BufferReader<uint8_t, size_t>*>(pPng->io_ptr);
+	auto pReader = static_cast<oakvr::core::BufferReader<uint8_t, size_t>*>(pPng->io_ptr);
 	pReader->Read(outBytes, bytecountToRead);
 }

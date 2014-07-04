@@ -11,7 +11,7 @@ namespace oakvr
 	{
 
 		// 
-		template <typename BufferUnderlyingType, typename IndexSizeType>
+		template <typename BufferUnderlyingType, typename IndexSizeType = size_t>
 		class BufferWriter
 		{
 		public:
@@ -27,6 +27,18 @@ namespace oakvr
 					return 0;
 				
 				memcpy(((uint8_t*)m_rBuffer.GetDataPtr()) + m_writePos, &data, bytesToWrite);
+				m_writePos += bytesToWrite;
+				return bytesToWrite;
+			}
+
+			template <>
+			IndexSizeType Write(const Buffer<BufferUnderlyingType> &buffer)
+			{
+				IndexSizeType bytesToWrite = buffer.Size();
+				if (bytesToWrite + m_writePos > m_rBuffer.Size())
+					return 0;
+				
+				memcpy(((uint8_t*)m_rBuffer.GetDataPtr()) + m_writePos, buffer.GetDataPtr(), bytesToWrite);
 				m_writePos += bytesToWrite;
 				return bytesToWrite;
 			}
@@ -58,5 +70,11 @@ namespace oakvr
 			Buffer<BufferUnderlyingType> &m_rBuffer;
 			IndexSizeType m_writePos;
 		};
+
+		template<typename BufferType, typename IndexSizeType = size_t>
+		BufferWriter<typename BufferType::value_type, IndexSizeType> MakeBufferWriter(BufferType &buffer)
+		{
+			return BufferWriter<typename BufferType::value_type, IndexSizeType>(buffer);
+		}
 	}
 }

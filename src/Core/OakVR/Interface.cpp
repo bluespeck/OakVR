@@ -9,13 +9,20 @@ namespace oakvr
 {
 	namespace render
 	{	
-		void CreateMesh(const std::string &name, const oakvr::render::VertexDescriptor &vertexDescriptor, const oakvr::core::MemoryBuffer &vertexBuffer, uint8_t indexStride, const oakvr::core::MemoryBuffer &indexBuffer, std::shared_ptr<Material> pMaterial, std::vector<std::string> textureNames)
+		std::shared_ptr<oakvr::render::Mesh> CreateMesh(const std::string &name, const oakvr::render::VertexDescriptor &vertexDescriptor, const oakvr::core::MemoryBuffer &vertexBuffer, uint8_t indexStride, const oakvr::core::MemoryBuffer &indexBuffer, std::shared_ptr<Material> pMaterial, std::vector<std::string> textureNames)
 		{
 			auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(vertexDescriptor, vertexBuffer, indexStride, indexBuffer, pMaterial, textureNames);
 			
 			auto pMesh = std::make_shared<oakvr::render::Mesh>(name);
 			pMesh->AddMeshElement(pMeshElem);
 			oakvr::OakVR::GetInstance().RegisterMesh(pMesh);
+
+			return pMesh;
+		}
+
+		std::shared_ptr<oakvr::render::Mesh> GetMesh(const std::string &name)
+		{
+			return oakvr::OakVR::GetInstance().GetRegisteredMesh(name);
 		}
 
 		void TransformMesh(const std::string &name, const oakvr::math::Matrix &mat)
