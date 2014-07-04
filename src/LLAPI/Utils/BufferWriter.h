@@ -31,8 +31,8 @@ namespace oakvr
 				return bytesToWrite;
 			}
 
-			template <>
-			IndexSizeType Write(const Buffer<BufferUnderlyingType> &buffer)
+			template <typename OtherBufferUnderlyingType>
+			IndexSizeType Write(const Buffer<OtherBufferUnderlyingType> &buffer)
 			{
 				IndexSizeType bytesToWrite = buffer.Size();
 				if (bytesToWrite + m_writePos > m_rBuffer.Size())
@@ -44,7 +44,8 @@ namespace oakvr
 			}
 
 			// --------------------------------------------------------------------------------
-			IndexSizeType Write(void *pSrc, IndexSizeType bytesToWrite)
+			template <typename T>
+			IndexSizeType Write(T *pSrc, IndexSizeType bytesToWrite)
 			{
 				IndexSizeType cappedBytesToWrite;
 				if (bytesToWrite + m_writePos > m_rBuffer.Size())

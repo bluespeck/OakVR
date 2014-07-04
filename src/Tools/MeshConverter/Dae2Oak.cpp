@@ -59,11 +59,6 @@ namespace oakvr
 		auto SourcesAsVertexBuffer(std::vector<std::pair<oakvr::render::VertexElementDescriptor::Semantic, std::vector<float>>> &&sources)
 			-> oakvr::core::MemoryBuffer
 		{
-			oakvr::core::MemoryBuffer mb;
-			auto buffWriter = oakvr::core::MakeBufferWriter(mb);
-
-			size_t numVertices = 0;
-
 			//------submesh 0
 			//	numberOfVertices: 4 bytes
 			//	numberOfChannels : 4 bytes
@@ -74,9 +69,25 @@ namespace oakvr
 			);
 			if (it != sources.end())
 			{
+				std::vector<uint32_t> strides;
+				uint32_t vertexStride = 0;
+				std::vector<size_t> sourcePositions;
+				// Create vertex description
+				for (const auto &e : sources)
+				{
+					uint32_t channelStride = oakvr::render::VertexElementDescriptor(e.first).size;
+					vertexStride += channelStride;
+					strides.emplace_back(channelStride);
+					sourcePositions.emplace_back(0);
+				}
+
 				// numberOfVertices
-				buffWriter.Write(static_cast<uint32_t>(it->second.size()));
-				numVertices = it->second.size();
+				size_t numVertices = it->second.size() / 3;
+				
+				oakvr::core::MemoryBuffer mb(sizeof(uint32_t) + sizeof(uint32_t) + sources.size() * sizeof(uint32_t) + numVertices * vertexStride);
+				auto buffWriter = oakvr::core::MakeBufferWriter(mb);
+
+				buffWriter.Write(static_cast<uint32_t>(numVertices));
 				// numberOfChannels
 				buffWriter.Write(static_cast<uint32_t>(sources.size()));
 				// channel types
@@ -84,12 +95,23 @@ namespace oakvr
 				{
 					buffWriter.Write(e.first);
 				}
+
+				for (size_t i = 0; i < numVertices; ++i)
+				{
+					for (size_t j = 0; j < sources.size(); ++j)
+					{
+						buffWriter.Write(&(sources[j].second[sourcePositions[j]]), strides[j]);
+						sourcePositions[j] += strides[j] / 4;
+					}
+				}
+				return mb;
 			}
-			for (size_t i = 0; i < numVertices; ++i)
-			{
-				for (size_t j = 0; j < sources.size(); ++j)
-					buffWriter.Write(sources[j].second[i]);
-			}
+			
+			oakvr::core::MemoryBuffer mb(sizeof(uint32_t) + sizeof(uint32_t));
+			auto buffWriter = oakvr::core::MakeBufferWriter(mb);
+
+			buffWriter.Write(static_cast<uint32_t>(0));
+			buffWriter.Write(static_cast<uint32_t>(0));
 			return mb;
 		}
 
@@ -212,6 +234,34 @@ namespace oakvr
 			return mb;
 		}
 
+		auto ReadTextureNames(tinyxml2::XMLElement *colladaElem) -> oakvr::core::MemoryBuffer
+		{
+			// reading the whole image library for every mesh (normally this should be done differently)
+			oakvr::core::MemoryBuffer mb;
+			auto imagesElem = colladaElem->FirstChildElement("library_images");
+			if (imagesElem)
+			{
+				std::vector<std::string> textureNames;
+				size_t bufferSize = sizeof(uint32_t);	// number of textures
+				for (auto it = imagesElem->FirstChildElement("image"); it; it = it->NextSiblingElement("image"))
+				{
+					textureNames.emplace_back(it->FirstChildElement("init_from")->GetText());
+					bufferSize += sizeof(uint32_t) + textureNames.back().size();
+				}
+				
+				mb.Resize(static_cast<uint32_t>(bufferSize));
+				auto buffWriter = oakvr::core::MakeBufferWriter(mb);
+
+				buffWriter.Write(static_cast<uint32_t>(textureNames.size()));
+				for (int i = 0; i < textureNames.size(); ++i)
+				{
+					buffWriter.Write(static_cast<uint32_t>(textureNames[i].size()));
+					buffWriter.Write(textureNames[i].c_str(), textureNames[i].size());
+				}
+			}
+			return mb;
+		}
+
 		/* oakvr mesh format:
 		numberOfSubmeshes: 4 bytes
 		submeshOffset: 4 bytes	| repeat numberOfSubmeshes times
@@ -232,8 +282,8 @@ namespace oakvr
 		textureNameLength: 4 bytes				| repeat numberOfTextures times
 		textureName: textureNameLength bytes	|
 
-		materialNameLength: 4 bytes
-		materialName: materialNameLength
+		?? materialNameLength: 4 bytes
+		?? materialName: materialNameLength
 
 		------ end submesh 0
 		------ submesh 1
@@ -247,14 +297,16 @@ namespace oakvr
 		{
 			tinyxml2::XMLDocument doc;
 			doc.LoadFile(in.c_str());
-			auto libGeomElem = doc.FirstChildElement("COLLADA")->FirstChildElement("library_geometries");
+			auto colladaElem = doc.FirstChildElement("COLLADA");
+			auto libGeomElem = colladaElem->FirstChildElement("library_geometries");
 			if (libGeomElem)
 			{
-				unsigned int numSubMeshes = CountChildElems(libGeomElem, "geometry");
+				uint32_t numSubMeshes = CountChildElems(libGeomElem, "geometry");
 
 				// create a vector of memory bufferes, one for each submesh
 				// create the output memory buffer at the end, based on these ; memory shouldn't be a problem since this is a a separate tool
-				std::vector<oakvr::core::MemoryBuffer> meshBuffers(numSubMeshes);
+				std::vector<oakvr::core::MemoryBuffer> meshBuffers;
+				uint32_t bufferSize = (numSubMeshes * 2 + 1) * sizeof(uint32_t);
 				
 				for (auto submeshElem = libGeomElem->FirstChildElement("geometry"); submeshElem; submeshElem = submeshElem->NextSiblingElement("geometry"))
 				{
@@ -266,14 +318,41 @@ namespace oakvr
 						auto sources = ReadDaeSources(submeshEl, std::move(inputChannels));
 						auto buffVertices = SourcesAsVertexBuffer(std::move(sources));
 						auto buffIndices = ReadIndices(submeshEl);
-						oakvr::core::MemoryBuffer mb(buffVertices.Size() + buffIndices.Size());
-						auto buff = oakvr::core::MakeBufferWriter(mb);
-
-
+						auto buffTextureNames = ReadTextureNames(colladaElem);
+						oakvr::core::MemoryBuffer mb(buffVertices.Size() + buffIndices.Size() + buffTextureNames.Size());
+						auto bufferWriter = oakvr::core::MakeBufferWriter(mb);
+						bufferWriter.Write(buffVertices);
+						bufferWriter.Write(buffIndices);
+						bufferWriter.Write(buffTextureNames);
+						bufferSize += static_cast<uint32_t>(mb.Size());
+						meshBuffers.push_back(std::move(mb));
 					}
 				}
+
+				auto mb = oakvr::core::MemoryBuffer(bufferSize);
+				{
+					auto bufferWriter = oakvr::core::MakeBufferWriter(mb);
+					bufferWriter.Write(numSubMeshes);
+					size_t offset = (numSubMeshes * 2 + 1) * sizeof(uint32_t);	// offset of first submesh
+					for (const auto &e : meshBuffers)
+					{
+						bufferWriter.Write(static_cast<uint32_t>(offset));
+						bufferWriter.Write(static_cast<uint32_t>(e.Size()));
+						offset += e.Size();
+					}
+					for (const auto &e : meshBuffers)
+					{
+						bufferWriter.Write(e);
+					}
+				}
+
+				auto output = std::ofstream(out, std::ios::binary);
+				output.write(reinterpret_cast<char *>(mb.GetDataPtr()), mb.Size());
+				output.close();
+				return;
 			}
 
+			std::cout << "Failed to convert " << in << " to " << out << "!" << std::endl;
 		}
 
 		
