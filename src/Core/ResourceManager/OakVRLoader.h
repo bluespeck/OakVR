@@ -7,7 +7,7 @@ namespace oakvr
 {
 	namespace core
 	{
-		class PngLoader : public FileLoader
+		class OakVRLoader : public FileLoader
 		{
 		public:
 			MemoryBuffer GetResourceData(const MemoryBuffer &fileBuffer);

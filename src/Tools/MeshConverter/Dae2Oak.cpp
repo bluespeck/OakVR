@@ -16,7 +16,8 @@ namespace oakvr
 {
 	namespace tools
 	{
-		/* oakvr mesh format: 
+		/* oakvr mesh format:
+				signature: 4 bytes (OKVR)
 				numberOfSubmeshes: 4 bytes
 				submeshOffset: 4 bytes	| repeat numberOfSubmeshes times
 				submeshSize: 4 bytes	|
@@ -84,7 +85,7 @@ namespace oakvr
 				// numberOfVertices
 				size_t numVertices = it->second.size() / 3;
 				
-				oakvr::core::MemoryBuffer mb(sizeof(uint32_t) + sizeof(uint32_t) + sources.size() * sizeof(uint32_t) + numVertices * vertexStride);
+				oakvr::core::MemoryBuffer mb(sizeof(uint32_t) + sizeof(uint32_t) + sources.size() * sizeof(oakvr::render::VertexElementDescriptor::Semantic) + numVertices * vertexStride);
 				auto buffWriter = oakvr::core::MakeBufferWriter(mb);
 
 				buffWriter.Write(static_cast<uint32_t>(numVertices));
@@ -130,7 +131,7 @@ namespace oakvr
 					{
 						std::vector<float> source;
 						auto floatArray = sourceElem->FirstChildElement("float_array");
-						source.resize(floatArray->IntAttribute("count"));
+						source.reserve(floatArray->IntAttribute("count"));
 						std::stringstream sourceStream(floatArray->GetText());
 						while (sourceStream)
 						{
@@ -209,24 +210,32 @@ namespace oakvr
 			auto polylistElem = submeshElement->FirstChildElement("polylist");
 			if (polylistElem)
 			{
+				int numInputs = 0;
+				for (auto it = polylistElem->FirstChildElement("input"); it; it = it->NextSiblingElement("input"))
+					++numInputs;
+
 				auto indicesElem = polylistElem->FirstChildElement("p");
 				auto count = polylistElem->IntAttribute("count");
 				if (indicesElem)
 				{
 					uint32_t numIndices = count * 3;
 					uint32_t indexStride = sizeof(uint32_t);
-					mb.Resize(numIndices * indexStride);
+					mb.Resize(sizeof(uint32_t) + sizeof(uint32_t) + sizeof(oakvr::render::PrimitiveTopology) + numIndices * indexStride);
 					auto buffWriter = oakvr::core::MakeBufferWriter(mb);
 					
 					buffWriter.Write(numIndices);
 					buffWriter.Write(indexStride);
-					buffWriter.Write(static_cast<uint32_t>(oakvr::render::PrimitiveTopology::ePT_TriangleList));
+					buffWriter.Write(oakvr::render::PrimitiveTopology::ePT_TriangleList);
 					
+					
+
 					std::stringstream indexStream(indicesElem->GetText());
 					while (indexStream)
 					{
-						uint32_t index;
+						uint32_t index, skip;
 						indexStream >> index;
+						for (int i = 0; i < numInputs - 1; ++i)
+							indexStream >> skip;
 						buffWriter.Write(index);
 					}
 				}
@@ -347,6 +356,7 @@ namespace oakvr
 				}
 
 				auto output = std::ofstream(out, std::ios::binary);
+				output.write("OKVR", 4);
 				output.write(reinterpret_cast<char *>(mb.GetDataPtr()), mb.Size());
 				output.close();
 				return;

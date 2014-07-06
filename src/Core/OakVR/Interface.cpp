@@ -9,7 +9,8 @@ namespace oakvr
 {
 	namespace render
 	{	
-		std::shared_ptr<oakvr::render::Mesh> CreateMesh(const std::string &name, const oakvr::render::VertexDescriptor &vertexDescriptor, const oakvr::core::MemoryBuffer &vertexBuffer, uint8_t indexStride, const oakvr::core::MemoryBuffer &indexBuffer, std::shared_ptr<Material> pMaterial, std::vector<std::string> textureNames)
+		auto CreateMesh(const std::string &name, const oakvr::render::VertexDescriptor &vertexDescriptor, const oakvr::core::MemoryBuffer &vertexBuffer, uint8_t indexStride, const oakvr::core::MemoryBuffer &indexBuffer, std::shared_ptr<Material> pMaterial, std::vector<std::string> textureNames)
+			-> std::shared_ptr<oakvr::render::Mesh>
 		{
 			auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(vertexDescriptor, vertexBuffer, indexStride, indexBuffer, pMaterial, textureNames);
 			
@@ -20,7 +21,15 @@ namespace oakvr
 			return pMesh;
 		}
 
-		std::shared_ptr<oakvr::render::Mesh> GetMesh(const std::string &name)
+		auto CreateMesh(const std::string &name, const std::string &resourceId, std::shared_ptr<oakvr::render::Material> pMaterial) -> std::shared_ptr<oakvr::render::Mesh>
+		{
+			auto pMeshBuffer = oakvr::core::GetResource(resourceId);
+			auto pMesh = oakvr::OakVR::GetInstance().CreateMesh(name, pMeshBuffer, pMaterial);
+			oakvr::OakVR::GetInstance().RegisterMesh(pMesh);
+			return pMesh;
+		}
+
+		auto GetMesh(const std::string &name)->std::shared_ptr<oakvr::render::Mesh>
 		{
 			return oakvr::OakVR::GetInstance().GetRegisteredMesh(name);
 		}
@@ -45,12 +54,12 @@ namespace oakvr
 			oakvr::OakVR::GetInstance().UnregisterCamera(pCamera);
 		}
 
-		std::shared_ptr<oakvr::render::Camera> GetCamera(const std::string &cameraId)
+		auto GetCamera(const std::string &cameraId)->std::shared_ptr<oakvr::render::Camera>
 		{
 			return oakvr::OakVR::GetInstance().GetCamera(cameraId);
 		}
 
-		std::shared_ptr<oakvr::render::Camera> GetCurrentCamera()
+		auto GetCurrentCamera()->std::shared_ptr<oakvr::render::Camera>
 		{
 			return oakvr::OakVR::GetInstance().GetCurrentCamera();
 		}
@@ -75,12 +84,12 @@ namespace oakvr
 			oakvr::OakVR::GetInstance().SetRenderWindowSize(width, height);
 		}
 
-		float GetRenderWindowWidth()
+		auto GetRenderWindowWidth()->float
 		{
 			return oakvr::OakVR::GetInstance().GetRenderWindowWidth();
 		}
 
-		float GetRenderWindowHeight()
+		auto GetRenderWindowHeight()->float
 		{
 			return oakvr::OakVR::GetInstance().GetRenderWindowHeight();
 		}
@@ -90,7 +99,7 @@ namespace oakvr
 			oakvr::OakVR::GetInstance().SetRenderWindowTitle(title);
 		}
 
-		bool RenderWindowHasFocus()
+		auto RenderWindowHasFocus()->bool
 		{
 			return oakvr::OakVR::GetInstance().HasFocus();
 		}
@@ -113,7 +122,7 @@ namespace oakvr
 			oakvr::OakVR::GetInstance().RegisterSubFolderPaths(path);
 		}
 
-		std::shared_ptr<oakvr::core::MemoryBuffer> GetResource(const std::string &id)
+		auto GetResource(const std::string &id)->std::shared_ptr<oakvr::core::MemoryBuffer>
 		{
 			return oakvr::OakVR::GetInstance().GetResource(id);
 		}

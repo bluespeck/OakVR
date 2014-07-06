@@ -19,24 +19,20 @@ namespace oakvr
 	{
 		typedef std::vector<oakvr::render::VertexElementDescriptor> VertexDescriptor;
 				
-		std::shared_ptr<oakvr::render::Mesh> CreateMesh(
-			const std::string &name,
-			const oakvr::render::VertexDescriptor &vertexDescriptor,
-			const oakvr::core::MemoryBuffer &vertexBuffer,
-			uint8_t indexStride,
-			const oakvr::core::MemoryBuffer &indexBuffer,
-			std::shared_ptr<Material> pMaterial,
-			std::vector<std::string> textureNames // for each texcoord
-			);
-		std::shared_ptr<oakvr::render::Mesh> GetMesh(const std::string &name);
+		auto CreateMesh(const std::string &name, const oakvr::render::VertexDescriptor &vertexDescriptor, 
+			const oakvr::core::MemoryBuffer &vertexBuffer, uint8_t indexStride, const oakvr::core::MemoryBuffer &indexBuffer,	
+			std::shared_ptr<Material> pMaterial, std::vector<std::string> textureNames // for each texcoord
+			)->std::shared_ptr<oakvr::render::Mesh>;
+		auto CreateMesh(const std::string &name, const std::string &resourceId, std::shared_ptr<oakvr::render::Material> pMaterial)->std::shared_ptr<oakvr::render::Mesh>;
+		auto GetMesh(const std::string &name)->std::shared_ptr<oakvr::render::Mesh>;
 		void TransformMesh(const std::string &name, const oakvr::math::Matrix &mat);
 
 		void RegisterShader(const std::string &shaderName);
 
 		void RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
 		void UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
-		std::shared_ptr<oakvr::render::Camera> GetCamera(const std::string &cameraId);
-		std::shared_ptr<oakvr::render::Camera> GetCurrentCamera();
+		auto GetCamera(const std::string &cameraId)->std::shared_ptr<oakvr::render::Camera>;
+		auto GetCurrentCamera()->std::shared_ptr<oakvr::render::Camera>;
 		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
 		void SetCurrentCamera(const std::string &cameraId);
 
@@ -45,10 +41,10 @@ namespace oakvr
 
 		void SetRenderWindowPosition(unsigned int x, unsigned int y);
 		void SetRenderWindowSize(unsigned int width, unsigned int height);
-		float GetRenderWindowWidth();
-		float GetRenderWindowHeight();
+		auto GetRenderWindowWidth()->float;
+		auto GetRenderWindowHeight()->float;
 		void SetRenderWindowTitle(const std::string &title);
-		bool RenderWindowHasFocus();
+		auto RenderWindowHasFocus()->bool;
 		
 	}
 
@@ -58,6 +54,6 @@ namespace oakvr
 	namespace core
 	{
 		void RegisterSubFolderPaths(const std::string &path);
-		std::shared_ptr<oakvr::core::MemoryBuffer> GetResource(const std::string &id);
+		auto GetResource(const std::string &id)->std::shared_ptr<oakvr::core::MemoryBuffer>;
 	}
 } // namespace oakvr

@@ -18,7 +18,7 @@ namespace oakvr
 
 			// --------------------------------------------------------------------------------
 			template <typename T>
-			IndexSizeType Read(T &data)
+			auto Read(T &data)->IndexSizeType
 			{
 				IndexSizeType bytesToRead = sizeof(T);
 				if (bytesToRead + m_readPos > m_rBuffer.Size())
@@ -31,7 +31,7 @@ namespace oakvr
 			}
 
 			// --------------------------------------------------------------------------------
-			IndexSizeType Read(void *pDest, IndexSizeType bytesToRead)
+			auto Read(void *pDest, IndexSizeType bytesToRead)->IndexSizeType
 			{
 				IndexSizeType cappedBytesToRead;
 				if (bytesToRead + m_readPos > m_rBuffer.Size())
@@ -53,13 +53,22 @@ namespace oakvr
 				m_readPos = 0;
 			}
 
+			// --------------------------------------------------------------------------------
+			void Skip(IndexSizeType count) { m_readPos += count; }
+
+			// --------------------------------------------------------------------------------
+			void SetOffset(IndexSizeType readOffset) { m_readPos = readOffset; }
+
+			// --------------------------------------------------------------------------------
+			auto GetOffset() -> IndexSizeType { return m_readPos; }
+
 		private:
 			const Buffer<BufferUnderlyingType> &m_rBuffer;
 			IndexSizeType m_readPos;
 		};
 
 		template<typename BufferType, typename IndexSizeType = size_t>
-		BufferReader<typename BufferType::value_type, IndexSizeType> MakeBufferReader(const BufferType &buffer)
+		auto MakeBufferReader(const BufferType &buffer)->BufferReader<typename BufferType::value_type, IndexSizeType>
 		{
 			return BufferReader<typename BufferType::value_type, IndexSizeType>(buffer);
 		}

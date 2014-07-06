@@ -24,7 +24,8 @@ namespace oakvr
 			std::string m_shaderName;
 
 		public:
-			Material(std::string &);
+			explicit Material(std::string &);
+			explicit Material(const char *);
 			~Material(void);
 		};
 	} // namespace render

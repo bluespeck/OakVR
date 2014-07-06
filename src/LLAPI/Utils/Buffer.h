@@ -20,11 +20,11 @@ namespace oakvr
 			Buffer & operator=(Buffer && buffer);
 			~Buffer();
 
-			size_t Size() const { return m_size; }
+			auto Size() const -> size_t { return m_size; }
 			void Resize(std::size_t size);
 
-			const value_type *GetDataPtr() const { return m_buffer; }
-			value_type *GetDataPtr() { return m_buffer; }
+			auto GetDataPtr() const -> value_type const * { return m_buffer; }
+			auto GetDataPtr() -> value_type *{ return m_buffer; }
 
 		private:
 			value_type * m_buffer = nullptr;

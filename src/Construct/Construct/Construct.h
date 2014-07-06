@@ -10,7 +10,7 @@ namespace construct
 		Construct();
 		void Update(float dt) override;
 	private:
-		void CreateTestMesh();
+		void CreateTestMesh1();
 		void CreateTestMesh2();
 	};
 }

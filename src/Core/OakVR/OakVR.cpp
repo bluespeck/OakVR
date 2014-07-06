@@ -21,7 +21,7 @@
 #include "Text/Text.h"
 
 #include "Profiler/Profiler.h"
-
+#include "Utils/BufferReader.h"
 
 #include <algorithm>
 #include <memory>
@@ -561,12 +561,111 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------
 
+	/* oakvr mesh format:
+	numberOfSubmeshes: 4 bytes
+	submeshOffset: 4 bytes	| repeat numberOfSubmeshes times
+	submeshSize: 4 bytes	|
+
+	------ submesh 0
+	numberOfVertices: 4 bytes
+	numberOfChannels: 4 byte
+	channeltypes: numberOfChannels bytes
+	vertices: numberOfVertices * (numberOfChannels  * channelsize[channel])
+
+	numberOfIndices: 4 bytes
+	indexStride: 4 bytes
+	primitiveTopology: 4 bytes
+	indices: numberOfIndices * indexStride
+
+	numberOfTextures: 4 bytes
+	textureNameLength: 4 bytes				| repeat numberOfTextures times
+	textureName: textureNameLength bytes	|
+
+	?? materialNameLength: 4 bytes
+	?? materialName: materialNameLength
+
+	------ end submesh 0
+	------ submesh 1
+	...
+	------ end submesh 1
+	...
+
+
+	*/
+
+	auto OakVR::CreateMesh(const std::string &name, std::shared_ptr<oakvr::core::MemoryBuffer> pMeshBuffer, std::shared_ptr<oakvr::render::Material> pMaterial)->std::shared_ptr < oakvr::render::Mesh >
+	{
+		auto pMesh = std::make_shared<oakvr::render::Mesh>(name);
+		auto meshBufferReader = oakvr::core::MakeBufferReader(*pMeshBuffer);
+		uint32_t numMeshElements = 0;
+		meshBufferReader.Read(numMeshElements);
+
+		// read mesh element offsets in the buffer and sizes in bytes
+		std::vector<std::pair<uint32_t, uint32_t>> offsetsAndSizes;
+		for (size_t i = 0; i < numMeshElements; ++i)
+		{
+			uint32_t meshElementOffset = 0, meshElementSize = 0;
+			meshBufferReader.Read(meshElementOffset);
+			meshBufferReader.Read(meshElementSize);
+			offsetsAndSizes.emplace_back(meshElementOffset, meshElementSize);
+		}
+
+		for (size_t i = 0; i < offsetsAndSizes.size(); ++i)
+		{
+			meshBufferReader.SetOffset(offsetsAndSizes[i].first);
+			uint32_t numVertices, numChannels;
+			meshBufferReader.Read(numVertices);
+			meshBufferReader.Read(numChannels);
+			
+			oakvr::render::VertexDescriptor vertexDescriptor;
+			for (size_t j = 0; j < numChannels; ++j)
+			{
+				oakvr::render::VertexElementDescriptor::Semantic semantic;
+				meshBufferReader.Read(semantic);
+				vertexDescriptor.emplace_back(semantic);
+			}
+
+			oakvr::core::MemoryBuffer vertexBuffer(numVertices * oakvr::render::ComputeVertexStride(vertexDescriptor));
+			meshBufferReader.Read(vertexBuffer.GetDataPtr(), vertexBuffer.Size());
+
+			uint32_t numIndices = 0;
+			uint32_t indexStride = 0;
+			oakvr::render::PrimitiveTopology primitiveTopology = oakvr::render::PrimitiveTopology::ePT_TriangleList;
+			meshBufferReader.Read(numIndices);
+			meshBufferReader.Read(indexStride);
+			meshBufferReader.Read(primitiveTopology);
+
+			oakvr::core::MemoryBuffer indexBuffer(numIndices * indexStride);
+			meshBufferReader.Read(indexBuffer.GetDataPtr(), indexBuffer.Size());
+
+			uint32_t numTextures = 0;
+			meshBufferReader.Read(numTextures);
+
+			std::vector<std::string> textureNames;
+			for (size_t i = 0; i < numTextures; ++i)
+			{
+				uint32_t nameSize = 0;
+				meshBufferReader.Read(nameSize);
+				auto pName = std::make_unique<char[]>(nameSize + 1);
+				meshBufferReader.Read(pName.get(), nameSize);
+				pName.get()[nameSize] = 0;
+				auto texName = std::string(pName.get());
+				textureNames.push_back(texName.substr(0, texName.length() - 4) );
+			}
+
+			auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(vertexDescriptor, vertexBuffer, indexStride, indexBuffer, pMaterial, textureNames);
+			pMesh->AddMeshElement(pMeshElem);
+		}
+
+		return pMesh;
+	}
+
 	void OakVR::RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh)
 	{
 		m_pRenderer->RegisterMesh(pMesh);
 	}
 
-	std::shared_ptr<oakvr::render::Mesh> OakVR::GetRegisteredMesh(const std::string &name)
+	auto OakVR::GetRegisteredMesh(const std::string &name)->std::shared_ptr<oakvr::render::Mesh>
 	{
 		return m_pRenderer->GetRegisteredMesh(name);
 	}
@@ -621,7 +720,7 @@ namespace oakvr
 		m_pRW->SetSize(width, height);
 	}
 	
-	WindowSize OakVR::GetRenderWindowSize()
+	auto OakVR::GetRenderWindowSize()->WindowSize
 	{
 		return{ m_pRW->GetWidth(), m_pRW->GetHeight() };
 	}
