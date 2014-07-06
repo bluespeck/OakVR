@@ -27,21 +27,28 @@ namespace construct
 		oakvr::core::AddFontFace("FiraSans-Light");
 		oakvr::core::AddFontFace("FiraMono-Regular");
 
-		auto pCamera = std::make_shared<oakvr::render::Camera>("rotating_camera", oakvr::math::Vector3{ 0.f, 0.f, -5.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
+		auto pCamera = std::make_shared<oakvr::render::Camera>("rotating_camera", oakvr::math::Vector3{ 0.f, 1.f, 25.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
+		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(90.f), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
 		oakvr::render::RegisterCamera(pCamera);
 
-		pCamera = std::make_shared<oakvr::render::Camera>("panning_camera", oakvr::math::Vector3{ 0.f, 0.f, -2.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
+		pCamera = std::make_shared<oakvr::render::Camera>("panning_camera", oakvr::math::Vector3{ 0.f, 1.f, 25.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
+		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(90.f), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
 		oakvr::render::RegisterCamera(pCamera);
 
-		pCamera = std::make_shared<oakvr::render::Camera>("static_camera", oakvr::math::Vector3{ 0.f, 0.f, -2.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
+		pCamera = std::make_shared<oakvr::render::Camera>("static_camera", oakvr::math::Vector3{ 0.f, 1.f, 25.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
+		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(90.f), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
 		oakvr::render::RegisterCamera(pCamera);
 
 		pCamera = std::make_shared<FreeCamera>("free_camera", oakvr::math::Vector3{ 0.f, 1.f, 25.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 10.f, 1.f);
 		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(90.f), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
-		//pCamera->SetOrthographicProjection(-oakvr::render::GetRenderWindowWidth() / 2, oakvr::render::GetRenderWindowWidth() / 2, -oakvr::render::GetRenderWindowHeight(), oakvr::render::GetRenderWindowHeight(), 1, 1000);
 		oakvr::render::RegisterCamera(pCamera);
 		oakvr::render::SetCurrentCamera(pCamera);
 
+
+		pCamera = std::make_shared<FreeCamera>("orthographic_camera", oakvr::math::Vector3{ 0.f, 1.f, 25.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 10.f, 1.f);
+		float aspect = oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight();
+		pCamera->SetOrthographicProjection(aspect * 10, 10, 1, 1000);
+		oakvr::render::RegisterCamera(pCamera);
 
 		CreateTestMesh1();
 		CreateTestMesh2();
@@ -66,6 +73,8 @@ namespace construct
 				oakvr::render::SetCurrentCamera("panning_camera");
 			else if (oakvr::input::keyboard::IsDown(oakvr::input::Key::_4))
 				oakvr::render::SetCurrentCamera("free_camera");
+			else if (oakvr::input::keyboard::IsDown(oakvr::input::Key::_5))
+				oakvr::render::SetCurrentCamera("orthographic_camera");
 		}
 
 		static float accumulatedTime = 0.f;
@@ -95,7 +104,11 @@ namespace construct
 		auto pMesh = oakvr::render::GetMesh("TestCube");
 		auto matWorld = pMesh->GetWorldMatrix();
 		pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationY(dt * oakvr::math::PiOverTwelve));
-		//oakvr::render::TransformMesh("TestCube", oakvr::math::Matrix::RotationY(dt * oakvr::math::PiOverTwelve));
+
+		pMesh = oakvr::render::GetMesh("monkey");
+		matWorld = pMesh->GetWorldMatrix();
+		pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationY(dt * oakvr::math::PiOverSix));
+		
 	}
 
 	void Construct::CreateTestMesh1()
@@ -151,9 +164,9 @@ namespace construct
 
 	void Construct::CreateTestMesh2()
 	{
-		auto pMaterial = std::make_shared<oakvr::render::Material>("Default");
+		auto pMaterial = std::make_shared<oakvr::render::Material>("DefaultColor");
 		auto pMesh = oakvr::render::CreateMesh("monkey", "monkeymesh", pMaterial);
-		pMesh->SetWorldMatrix(oakvr::math::Matrix::RotationZ(oakvr::math::PiOverTwo));
+		pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(1,2,3));
 	}
 
 	void InitializeConstruct()

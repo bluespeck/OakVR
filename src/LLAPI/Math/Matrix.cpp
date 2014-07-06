@@ -483,6 +483,17 @@ namespace oakvr
 			return mat;
 		}
 
+		Matrix Matrix::Translation(float x, float y, float z)
+		{
+			Matrix mat;
+			mat.SetIdentity();
+			mat._41 = x;
+			mat._42 = y;
+			mat._43 = z;
+
+			return mat;
+		}
+
 		// --------------------------------------------------------------------------------
 		Matrix Matrix::PerspectiveProjection(float fov, float aspect, float znear, float zfar)
 		{
@@ -503,13 +514,16 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		Matrix Matrix::OrthographicProjection(float left, float right, float bottom, float top, float near, float far)
 		{
+			float oneOverRightMinusLeft = 1 / (right - left);
+			float oneOverTopMinusButtom = 1 / (top - bottom);
+			float oneOverFarMinusNear = 1 / (far - near);
 			Matrix mat;
-			mat._11 = (right - left) * 0.5f;
-			mat._14 = (left + right) * 0.5f;
-			mat._22 = (top - left) * 0.5f;
-			mat._24 = (top + bottom) * 0.5f;
-			mat._33 = (far - near) * (-0.5f);
-			mat._34 = (far + near) * (-0.5f);
+			mat._11 = 2 * oneOverRightMinusLeft;
+			mat._41 = -(right + left) * oneOverRightMinusLeft;
+			mat._22 = 2 * oneOverTopMinusButtom;
+			mat._42 = -(top + bottom) * oneOverTopMinusButtom;
+			mat._33 = -2 * oneOverFarMinusNear;
+			mat._43 = (far + near) * oneOverFarMinusNear;
 			mat._44 = 1.0f;
 
 			return mat;
