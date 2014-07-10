@@ -4,12 +4,13 @@
 #include <algorithm>
 #include <sstream>
 #include <type_traits>
+#include <tuple>
 
 #include "Utils/Buffer.h"
 #include "Utils/BufferReader.h"
 #include "Utils/BufferWriter.h"
 #include "Utils/RendererUtils.h"
-
+#include "Windows.h"
 #include <TinyXML2/tinyxml2.h>
 
 namespace oakvr
@@ -57,9 +58,45 @@ namespace oakvr
 			return count;
 		}
 
-		auto SourcesAsVertexBuffer(std::vector<std::pair<oakvr::render::VertexElementDescriptor::Semantic, std::vector<float>>> &&sources)
+		auto SourcesAsVertexBuffer(std::vector<std::pair<oakvr::render::VertexElementDescriptor::Semantic, std::vector<float>>> &&sources, std::vector< uint32_t > &indices)
 			-> oakvr::core::MemoryBuffer
 		{
+			std::vector<uint32_t> strides;	// in floats
+			uint32_t vertexStride = 0; // in bytes
+
+			// Create vertex description
+			for (const auto &e : sources)
+			{
+				uint32_t channelStride = oakvr::render::VertexElementDescriptor(e.first).size;
+				vertexStride += channelStride;
+				strides.emplace_back(channelStride / sizeof(float));
+			}
+
+			oakvr::core::MemoryBuffer mb(sizeof(uint32_t) + sizeof(uint32_t) + sources.size() * sizeof(oakvr::render::VertexElementDescriptor::Semantic) + indices.size() / sources.size() * vertexStride);
+			auto buffWriter = oakvr::core::MakeBufferWriter(mb);
+			
+			// numberOfVertices
+			buffWriter.Write(static_cast<uint32_t>(mb.Size() / vertexStride));
+
+			// numberOfChannels
+			buffWriter.Write(static_cast<uint32_t>(sources.size()));
+
+			// channel types
+			for (auto &e : sources)
+			{
+				buffWriter.Write(e.first);
+			}
+
+			// vertex data
+			for (size_t i = 0; i < indices.size(); i += sources.size())
+			{
+				for (size_t sourceIndex = 0; sourceIndex < sources.size(); ++sourceIndex)
+					for (size_t floatIndex = 0; floatIndex < strides[sourceIndex]; ++floatIndex)
+						buffWriter.Write(sources[sourceIndex].second[indices[i + sourceIndex] * strides[sourceIndex] + floatIndex]);
+			}
+			
+			return mb;
+			/*
 			//------submesh 0
 			//	numberOfVertices: 4 bytes
 			//	numberOfChannels : 4 bytes
@@ -79,7 +116,7 @@ namespace oakvr
 					uint32_t channelStride = oakvr::render::VertexElementDescriptor(e.first).size;
 					vertexStride += channelStride;
 					strides.emplace_back(channelStride);
-					sourcePositions.emplace_back(0);
+					sourcePositions.emplace_back(0);	// initialize all to 0 here and adjust later
 				}
 
 				// numberOfVertices
@@ -99,10 +136,15 @@ namespace oakvr
 
 				for (size_t i = 0; i < numVertices; ++i)
 				{
+					int index = i * sources.size();
 					for (size_t j = 0; j < sources.size(); ++j)
 					{
-						buffWriter.Write(&(sources[j].second[sourcePositions[j]]), strides[j]);
-						sourcePositions[j] += strides[j] / 4;
+						std::string outputStr = std::string("\n") + std::to_string(index) + std::string(" --- ") + std::to_string(sources[j].second[indices[index + j] * strides[j] / 4]);
+						OutputDebugString(outputStr.c_str());
+						buffWriter.Write(&(sources[j].second[indices[index + j] * strides[j] / 4]), strides[j]);
+						// here the number of vertices used by the mesh is different from the initial source provided...
+						// so use another buffer to write these into and count them; iterate over indices instead of vertices
+						// actually no... use vertices, and if you find doubles, just add those also... the whole function should change
 					}
 				}
 				return mb;
@@ -113,13 +155,15 @@ namespace oakvr
 
 			buffWriter.Write(static_cast<uint32_t>(0));
 			buffWriter.Write(static_cast<uint32_t>(0));
+			
 			return mb;
+			*/
 		}
 
 		auto ReadDaeSources(tinyxml2::XMLElement *submeshElement, std::vector<std::pair<std::string, oakvr::render::VertexElementDescriptor::Semantic>> &&inputChannels)
 			-> std::vector<std::pair<oakvr::render::VertexElementDescriptor::Semantic, std::vector<float>>>
 		{
-			std::vector<std::pair<oakvr::render::VertexElementDescriptor::Semantic, std::vector<float>>> sources;
+			decltype(ReadDaeSources(submeshElement, std::move(inputChannels))) sources;
 
 			for (auto sourceElem = submeshElement->FirstChildElement("source"); sourceElem; sourceElem = sourceElem->NextSiblingElement("source"))
 			{
@@ -150,7 +194,7 @@ namespace oakvr
 
 		auto ReadInputChannels(tinyxml2::XMLElement *submeshElement) -> std::vector<std::pair<std::string, oakvr::render::VertexElementDescriptor::Semantic>>
 		{
-			std::vector<std::pair<std::string, oakvr::render::VertexElementDescriptor::Semantic>> inputChannels;
+			decltype(ReadInputChannels(submeshElement)) inputChannels;
 			// --- read vertices input elems
 			auto vertsElem = submeshElement->FirstChildElement("vertices");
 			if (vertsElem)
@@ -184,11 +228,13 @@ namespace oakvr
 					{
 						bool found = false;
 						for (auto &e : inputChannels)
+						{
 							if (e.second == oakvr::render::VertexElementDescriptor::Semantic::position)
 							{
-							found = true;
-							break;
+								found = true;
+								break;
 							}
+						}
 						if (!found)
 							inputChannels[offset] = std::make_pair(inputElem->Attribute("source"), oakvr::render::VertexElementDescriptor::Semantic::position);
 					}
@@ -204,7 +250,28 @@ namespace oakvr
 			return inputChannels;
 		}
 
-		auto ReadIndices(tinyxml2::XMLElement *submeshElement) -> oakvr::core::MemoryBuffer
+		auto ReadAllIndices(tinyxml2::XMLElement *submeshElement) -> std::vector < uint32_t >
+		{
+			decltype(ReadAllIndices(submeshElement)) indices;
+			oakvr::core::MemoryBuffer mb;
+			auto polylistElem = submeshElement->FirstChildElement("polylist");
+			if (polylistElem)
+			{
+				auto indicesElem = polylistElem->FirstChildElement("p");
+				auto count = polylistElem->IntAttribute("count");
+				if (indicesElem)
+				{
+					std::stringstream indexStream(indicesElem->GetText());
+
+					uint32_t index;
+					while (indexStream >> index)
+						indices.push_back(index);
+				}
+			}
+			return indices;
+		}
+
+		auto ReadIndices(tinyxml2::XMLElement *submeshElement, std::vector<uint32_t> &indices) -> oakvr::core::MemoryBuffer
 		{
 			oakvr::core::MemoryBuffer mb;
 			auto polylistElem = submeshElement->FirstChildElement("polylist");
@@ -227,17 +294,9 @@ namespace oakvr
 					buffWriter.Write(indexStride);
 					buffWriter.Write(oakvr::render::PrimitiveTopology::ePT_TriangleList);
 					
-					
-
-					std::stringstream indexStream(indicesElem->GetText());
-					while (indexStream)
-					{
-						uint32_t index, skip;
-						indexStream >> index;
-						for (int i = 0; i < numInputs - 1; ++i)
-							indexStream >> skip;
-						buffWriter.Write(index);
-					}
+					int numInd = count * numInputs * 3;
+					for (uint32_t i = 0; i < numIndices; ++i)
+						buffWriter.Write(i);
 				}
 			}
 			return mb;
@@ -325,8 +384,9 @@ namespace oakvr
 						
 						auto inputChannels = ReadInputChannels(submeshEl);
 						auto sources = ReadDaeSources(submeshEl, std::move(inputChannels));
-						auto buffVertices = SourcesAsVertexBuffer(std::move(sources));
-						auto buffIndices = ReadIndices(submeshEl);
+						auto indices = ReadAllIndices(submeshEl);
+						auto buffVertices = SourcesAsVertexBuffer(std::move(sources), indices);
+						auto buffIndices = ReadIndices(submeshEl, indices);
 						auto buffTextureNames = ReadTextureNames(colladaElem);
 						oakvr::core::MemoryBuffer mb(buffVertices.Size() + buffIndices.Size() + buffTextureNames.Size());
 						auto bufferWriter = oakvr::core::MakeBufferWriter(mb);

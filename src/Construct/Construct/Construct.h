@@ -12,5 +12,7 @@ namespace construct
 	private:
 		void CreateTestMesh1();
 		void CreateTestMesh2();
+		void CreateTestMesh3();
+		void CreateTestMeshRoom();
 	};
 }
