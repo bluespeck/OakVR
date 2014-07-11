@@ -17,6 +17,7 @@ namespace oakvr
 			auto pMesh = std::make_shared<oakvr::render::Mesh>(name);
 			pMesh->AddMeshElement(pMeshElem);
 			oakvr::OakVR::GetInstance().RegisterMesh(pMesh);
+			oakvr::render::RegisterShader(pMaterial->m_shaderName);
 
 			return pMesh;
 		}
@@ -26,6 +27,7 @@ namespace oakvr
 			auto pMeshBuffer = oakvr::core::GetResource(resourceId);
 			auto pMesh = oakvr::OakVR::GetInstance().CreateMesh(name, pMeshBuffer, pMaterial);
 			oakvr::OakVR::GetInstance().RegisterMesh(pMesh);
+			oakvr::render::RegisterShader(pMaterial->m_shaderName);
 			return pMesh;
 		}
 

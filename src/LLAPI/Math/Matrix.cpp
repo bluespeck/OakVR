@@ -505,6 +505,17 @@ namespace oakvr
 			return mat;
 		}
 
+		Matrix Matrix::Scale(float scale)
+		{
+			Matrix mat;
+			mat.SetIdentity();
+			mat._11 = scale;
+			mat._22 = scale;
+			mat._33 = scale;
+
+			return mat;
+		}
+
 		// --------------------------------------------------------------------------------
 		Matrix Matrix::PerspectiveProjection(float fov, float aspect, float znear, float zfar)
 		{

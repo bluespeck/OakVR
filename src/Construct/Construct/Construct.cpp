@@ -164,8 +164,6 @@ namespace construct
 
 		auto pMesh = oakvr::render::CreateMesh("TestCube", ved, vb, 4, ib, pMaterial, { "oakvr" });
 		pMesh->SetWorldMatrix(oakvr::math::Matrix::RotationZ(oakvr::math::PiOverTwo));
-		
-		oakvr::render::RegisterShader("Default");
 	}
 
 	void Construct::CreateTestMesh2()
@@ -177,16 +175,16 @@ namespace construct
 
 	void Construct::CreateTestMesh3()
 	{
-		auto pMaterial = std::make_shared<oakvr::render::Material>("DefaultTexture");
+		auto pMaterial = std::make_shared<oakvr::render::Material>("Default");
 		auto pMesh = oakvr::render::CreateMesh("monkey2", "monkeymesh", pMaterial);
 		pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(-1, 2, 3));
 	}
 
 	void Construct::CreateTestMeshRoom()
 	{
-		auto pMaterial = std::make_shared<oakvr::render::Material>("DefaultTexture");
+		auto pMaterial = std::make_shared<oakvr::render::Material>("Default");
 		auto pMesh = oakvr::render::CreateMesh("room", "roommesh", pMaterial);
-		pMesh->SetWorldMatrix(oakvr::math::Matrix::Scale(10, 10, 10));
+		pMesh->SetWorldMatrix(oakvr::math::Matrix::Scale(25));
 	}
 
 	void InitializeConstruct()

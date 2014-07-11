@@ -217,7 +217,7 @@ namespace oakvr
 		pMesh->AddMeshElement(pMeshElem);
 
 		m_pRenderer->RegisterOneFrameMesh(pMesh);
-		oakvr::render::RegisterShader("DefaultColor");
+		oakvr::render::RegisterShader(pMaterial->m_shaderName);
 	}
 
 	// --------------------------------------------------------------------------------

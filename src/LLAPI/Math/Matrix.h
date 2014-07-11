@@ -49,6 +49,7 @@ namespace oakvr
 
 			static Matrix Translation(float x, float y, float z);
 			static Matrix Scale(float x, float y, float z);
+			static Matrix Scale(float scale);
 
 			static Matrix PerspectiveProjection(float fov, float aspect, float znear, float zfar);
 			static Matrix OrthographicProjection(float left, float right, float bottom, float top, float near, float far);
