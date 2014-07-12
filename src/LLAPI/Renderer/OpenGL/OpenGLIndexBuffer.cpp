@@ -15,6 +15,7 @@ namespace oakvr
 			IndexBufferImpl();
 			
 			GLuint m_ibId;
+			bool m_bInitialized = false;
 		};
 
 		// --------------------------------------------------------------------------------
@@ -44,11 +45,17 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void IndexBuffer::Create(uint32_t indexCount, uint8_t indexStride)
 		{
+			if (m_pImpl->m_bInitialized)
+			{
+				glDeleteBuffers(1, &m_pImpl->m_ibId);
+				m_pImpl->m_bInitialized = false;
+			}
 			m_count = indexCount;
 			m_stride = indexStride;
 			glGenBuffers(1, &m_pImpl->m_ibId);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * indexStride, nullptr, GL_STATIC_DRAW);
+			m_pImpl->m_bInitialized = true;
 		}
 
 		// --------------------------------------------------------------------------------
@@ -68,13 +75,19 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void IndexBuffer::Release()
 		{
-			glDeleteBuffers(1, &m_pImpl->m_ibId);
-			m_pImpl->m_ibId = -1;
+			if (m_pImpl->m_bInitialized)
+			{
+				glDeleteBuffers(1, &m_pImpl->m_ibId);
+				m_pImpl->m_bInitialized = false;
+			}
 		}
 
 		void IndexBuffer::Use()
 		{
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
+			if (m_pImpl->m_bInitialized)
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
+			else
+				Log::PrintError("Trying to use uninitialized index buffer!");
 		}
 
 	}	// namespace render

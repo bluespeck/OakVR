@@ -33,23 +33,33 @@ namespace oakvr
 		void Renderer::RenderMeshes(const MeshManager::MeshVector &meshes)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
+
+			VertexBuffer vb;
+			IndexBuffer ib;
+
 			for (auto &pMesh : meshes)
 			{
 				m_worldMatrix = pMesh->GetWorldMatrix();
 				for (auto &pMeshElem : pMesh->GetMeshElements())
 				{
 					void *pBuff = nullptr;
-
-					// Create vertex buffer for this mesh element
-					VertexBuffer vb(pMeshElem->m_vertexCount, pMeshElem->m_vertexStride);
+					if (vb.GetVertexCount() * vb.GetVertexStride() < pMeshElem->m_vertexCount * pMeshElem->m_vertexStride)
+					{
+						// Create vertex buffer for this mesh element
+						vb.Create(pMeshElem->m_vertexCount, pMeshElem->m_vertexStride);
+					}
 					// and populate it with vertex data
 					vb.Lock(&pBuff);
 
 					memcpy(pBuff, pMeshElem->m_vertexData.GetDataPtr(), pMeshElem->m_vertexData.Size());
 					vb.Unlock();
 
-					// Create index buffer for this mesh element
-					IndexBuffer ib(pMeshElem->m_indexCount, pMeshElem->m_indexStride);
+					if (ib.GetIndexCount() * ib.GetIndexStride() < pMeshElem->m_indexCount * pMeshElem->m_indexStride)
+					{
+						// Create index buffer for this mesh element
+						ib.Create(pMeshElem->m_indexCount, pMeshElem->m_indexStride);
+					}
+
 					// and populate it with index data
 					ib.Lock(&pBuff);
 					memcpy(pBuff, pMeshElem->m_indexData.GetDataPtr(), pMeshElem->m_indexData.Size());
@@ -57,7 +67,7 @@ namespace oakvr
 
 					auto it = m_shaderPrograms.find(pMeshElem->m_pMaterial->m_shaderName);
 					if (it != std::end(m_shaderPrograms))
-					{ 
+					{
 						UseShaderProgram(it->second);
 
 						vb.Use(pMeshElem->m_vertexFormat);
@@ -69,12 +79,10 @@ namespace oakvr
 
 						DrawIndexed(pMeshElem->m_indexCount);
 					}
-
-					ib.Release();
-					vb.Release();
-
 				}
 			}
+			ib.Release();
+			vb.Release();
 		}
 
 		// --------------------------------------------------------------------------------

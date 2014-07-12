@@ -50,12 +50,13 @@ namespace construct
 		pCamera->SetOrthographicProjection(aspect * 10, 10, 1, 1000);
 		oakvr::render::RegisterCamera(pCamera);
 
-		CreateTestMesh1();
+		//CreateTestMesh1();
 		CreateTestMesh2();
-		CreateTestMesh3();
-		CreateTestMeshRoom();
+		//CreateTestMesh3();
+		//CreateTestMeshRoom();
 	}
 
+#define meshNum 5
 	void Construct::Update(float dt)
 	{
 		if (oakvr::render::RenderWindowHasFocus())
@@ -88,9 +89,9 @@ namespace construct
 		}
 		oakvr::render::DrawText(str, oakvr::math::Vector3(-10.f, -25.f, -20.f), oakvr::render::Color::Yellow, "Fira Mono Regular");
 
-		oakvr::render::DrawLine({ -5.f, 0.f, 0.f }, { 5.f, 0.f, 0.f }, 0.1f, oakvr::render::Color::Red, oakvr::render::Color::White);
-		oakvr::render::DrawLine({ 0.f, 0.f, -5.f }, { 0.f, 0.f, 5.f }, 0.1f, oakvr::render::Color::Blue, oakvr::render::Color::White);
-		oakvr::render::DrawLine({ 0.f, -5.f, 0.f }, { 0.f, 5.f, 0.f }, 0.1f, oakvr::render::Color::Green, oakvr::render::Color::White);
+		//oakvr::render::DrawLine({ -5.f, 0.f, 0.f }, { 5.f, 0.f, 0.f }, 0.1f, oakvr::render::Color::Red, oakvr::render::Color::White);
+		//oakvr::render::DrawLine({ 0.f, 0.f, -5.f }, { 0.f, 0.f, 5.f }, 0.1f, oakvr::render::Color::Blue, oakvr::render::Color::White);
+		//oakvr::render::DrawLine({ 0.f, -5.f, 0.f }, { 0.f, 5.f, 0.f }, 0.1f, oakvr::render::Color::Green, oakvr::render::Color::White);
 		
 		//auto pCamera = oakvr::render::GetCamera("rotating_camera");
 		//if (pCamera)
@@ -102,18 +103,25 @@ namespace construct
 		if (pCamera)
 			pCamera->Update(dt);
 
-
+		/*
 		auto pMesh = oakvr::render::GetMesh("TestCube");
 		auto matWorld = pMesh->GetWorldMatrix();
 		pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationY(dt * oakvr::math::PiOverTwelve));
-
-		pMesh = oakvr::render::GetMesh("monkey1");
-		matWorld = pMesh->GetWorldMatrix();
-		pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationY(dt * oakvr::math::PiOverSix));
-
+		*/
+		for (int i = -meshNum; i < meshNum; ++i)
+		{
+			for (int j = -meshNum; j < meshNum; ++j)
+			{
+				auto pMesh = oakvr::render::GetMesh("monkey" + std::to_string(i) + std::to_string(j));
+				auto matWorld = pMesh->GetWorldMatrix();
+				pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationX(dt * i / meshNum * j / meshNum * oakvr::math::PiOverSix));
+			}
+		}
+		/*
 		pMesh = oakvr::render::GetMesh("monkey2");
 		matWorld = pMesh->GetWorldMatrix();
 		pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationX(dt * oakvr::math::PiOverSix));
+		*/
 		
 	}
 
@@ -169,8 +177,14 @@ namespace construct
 	void Construct::CreateTestMesh2()
 	{
 		auto pMaterial = std::make_shared<oakvr::render::Material>("DefaultColor");
-		auto pMesh = oakvr::render::CreateMesh("monkey1", "monkeymesh", pMaterial);
-		pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(1,2,3));
+		for (int i = -meshNum; i < meshNum; ++i)
+		{
+			for (int j = -meshNum; j < meshNum; ++j)
+			{
+				auto pMesh = oakvr::render::CreateMesh(std::string("monkey") + std::to_string(i) + std::to_string(j), "monkeymesh", pMaterial);
+				pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(i*3, j*3, 3));
+			}
+		}
 	}
 
 	void Construct::CreateTestMesh3()

@@ -27,8 +27,8 @@ namespace oakvr
 			class IndexBufferImpl;
 			std::unique_ptr<IndexBufferImpl> m_pImpl;
 
-			uint32_t m_count;
-			uint8_t m_stride;
+			uint32_t m_count = 0;
+			uint8_t m_stride = 0;
 			
 		};
 

@@ -34,8 +34,8 @@ namespace oakvr
 			class VertexBufferImpl;
 			std::unique_ptr<VertexBufferImpl> m_pImpl;
 
-			uint32_t m_count;
-			uint8_t m_stride;
+			uint32_t m_count = 0;
+			uint8_t m_stride = 0;
 		};
 
 
