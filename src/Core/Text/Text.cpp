@@ -46,7 +46,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Text::RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName) const
+		void Text::RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName, float scale /* = 1.0f */) const
 		{
 			float scaleFactor = 0.05f;
 
@@ -54,8 +54,6 @@ namespace oakvr
 
 			if (it != m_fontFaces.end())
 			{
-				auto pMesh = std::make_shared<oakvr::render::Mesh>();
-
 				std::vector<oakvr::render::VertexElementDescriptor> ved{
 					oakvr::render::VertexElementDescriptor::Semantic::position,
 					oakvr::render::VertexElementDescriptor::Semantic::tex_coord,
@@ -101,9 +99,9 @@ namespace oakvr
 					//	color.b
 					
 					// Vertex #1
-					pVertices[i * 4 * 8 + 0 * 8 + 0] = position.x + posX + clPixels;				
-					pVertices[i * 4 * 8 + 0 * 8 + 1] = position.y + posY - chPixels + ctPixels;				
-					pVertices[i * 4 * 8 + 0 * 8 + 2] = position.z + 0.0f;				
+					pVertices[i * 4 * 8 + 0 * 8 + 0] =  posX + clPixels;				
+					pVertices[i * 4 * 8 + 0 * 8 + 1] = posY - chPixels + ctPixels;				
+					pVertices[i * 4 * 8 + 0 * 8 + 2] = 0.0f;				
 					pVertices[i * 4 * 8 + 0 * 8 + 3] = charProps.texCoords1.x * horizontalNormalizationFactor;
 					pVertices[i * 4 * 8 + 0 * 8 + 4] = charProps.texCoords2.y * verticalNormalizationFactor;
 					pVertices[i * 4 * 8 + 0 * 8 + 5] = color.r;
@@ -111,9 +109,9 @@ namespace oakvr
 					pVertices[i * 4 * 8 + 0 * 8 + 7] = color.b;
 
 					// Vertex #2
-					pVertices[i * 4 * 8 + 1 * 8 + 0] = position.x + posX + cwPixels + clPixels;	
-					pVertices[i * 4 * 8 + 1 * 8 + 1] = position.y + posY - chPixels + ctPixels;				
-					pVertices[i * 4 * 8 + 1 * 8 + 2] = position.z + 0.0f;				
+					pVertices[i * 4 * 8 + 1 * 8 + 0] = posX + cwPixels + clPixels;	
+					pVertices[i * 4 * 8 + 1 * 8 + 1] = posY - chPixels + ctPixels;				
+					pVertices[i * 4 * 8 + 1 * 8 + 2] = 0.0f;				
 					pVertices[i * 4 * 8 + 1 * 8 + 3] = charProps.texCoords2.x * horizontalNormalizationFactor;
 					pVertices[i * 4 * 8 + 1 * 8 + 4] = charProps.texCoords2.y * verticalNormalizationFactor;
 					pVertices[i * 4 * 8 + 1 * 8 + 5] = color.r;
@@ -121,9 +119,9 @@ namespace oakvr
 					pVertices[i * 4 * 8 + 1 * 8 + 7] = color.b;
 
 					// Vertex #3
-					pVertices[i * 4 * 8 + 2 * 8 + 0] = position.x + posX + cwPixels + clPixels;
-					pVertices[i * 4 * 8 + 2 * 8 + 1] = position.y + posY + ctPixels;
-					pVertices[i * 4 * 8 + 2 * 8 + 2] = position.z + 0.0f;
+					pVertices[i * 4 * 8 + 2 * 8 + 0] = posX + cwPixels + clPixels;
+					pVertices[i * 4 * 8 + 2 * 8 + 1] = posY + ctPixels;
+					pVertices[i * 4 * 8 + 2 * 8 + 2] = 0.0f;
 					pVertices[i * 4 * 8 + 2 * 8 + 3] = charProps.texCoords2.x * horizontalNormalizationFactor;
 					pVertices[i * 4 * 8 + 2 * 8 + 4] = charProps.texCoords1.y * verticalNormalizationFactor;
 					pVertices[i * 4 * 8 + 2 * 8 + 5] = color.r;
@@ -131,9 +129,9 @@ namespace oakvr
 					pVertices[i * 4 * 8 + 2 * 8 + 7] = color.b;
 
 					// Vertex #4
-					pVertices[i * 4 * 8 + 3 * 8 + 0] = position.x + posX + clPixels;
-					pVertices[i * 4 * 8 + 3 * 8 + 1] = position.y + posY + ctPixels;
-					pVertices[i * 4 * 8 + 3 * 8 + 2] = position.z + 0.0f;
+					pVertices[i * 4 * 8 + 3 * 8 + 0] = posX + clPixels;
+					pVertices[i * 4 * 8 + 3 * 8 + 1] = posY + ctPixels;
+					pVertices[i * 4 * 8 + 3 * 8 + 2] = 0.0f;
 					pVertices[i * 4 * 8 + 3 * 8 + 3] = charProps.texCoords1.x * horizontalNormalizationFactor;
 					pVertices[i * 4 * 8 + 3 * 8 + 4] = charProps.texCoords1.y * verticalNormalizationFactor;
 					pVertices[i * 4 * 8 + 3 * 8 + 5] = color.r;
@@ -160,7 +158,9 @@ namespace oakvr
 
 				auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, static_cast<uint8_t>(sizeof(uint32_t)), ib, pMaterial, vecTextures);
 
+				auto pMesh = std::make_shared<oakvr::render::Mesh>();
 				pMesh->AddMeshElement(pMeshElem);
+				pMesh->SetWorldMatrix(oakvr::math::Matrix::Scale(scale) * oakvr::math::Matrix::Translation(position));
 				m_pRenderer->RegisterOneFrameMesh(pMesh);
 				m_pRenderer->RegisterShaderProgram("DefaultText");
 

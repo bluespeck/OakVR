@@ -39,10 +39,13 @@
 				"GLFW/src/win32*.c",
 			}
 			
+			-- glew
+			includedirs { "GLEW/include" }
+			defines { "GLEW_STATIC" }
+			files { "GLEW/src/*.c" }
+			
 			-- opengl
-	-- make sure you add GLEW_PATH to the Windows environment variables
-			includedirs { (os.getenv("GLEW_PATH") or "") .."/include" }
-			defines { "GLEW_STATIC", "GL_GLEXT_PROTOTYPES" }
+			defines { "GL_GLEXT_PROTOTYPES" }
 		configuration {}
 		
 

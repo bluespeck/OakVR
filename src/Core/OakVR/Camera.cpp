@@ -16,9 +16,10 @@ namespace oakvr
 		Camera::Camera(const std::string& cameraId, const Vector3 &pos, const Vector3 &target, const Vector3 &up)
 			: m_id{ cameraId }
 			, m_position{ pos }
-			, m_forward{ (target - pos).GetNormalized() }
-			, m_up{ up.GetNormalized() }
 		{
+			m_forward = (target - pos).GetNormalized();
+			auto s = m_forward.Cross(up).GetNormalized();
+			m_up = s.Cross(m_forward);
 		}
 
 		Camera::Camera(const std::string &cameraId, const std::initializer_list<Vector3> &initList)
@@ -28,7 +29,8 @@ namespace oakvr
 			{
 				m_position = *(initList.begin());
 				m_forward = (*(initList.begin() + 1) - m_position).GetNormalized();
-				m_up = *(initList.begin() + 2);
+				auto s = m_forward.Cross(*(initList.begin() + 2)).GetNormalized();
+				m_up = s.Cross(m_forward);
 			}
 			else
 			{
@@ -54,13 +56,14 @@ namespace oakvr
 		{
 			auto zaxis = m_forward.GetNormalized();
 			auto xaxis = GetRight().GetNormalized();
-			auto yaxis = zaxis.Cross(xaxis).GetNormalized();
+			auto yaxis = xaxis.Cross(zaxis).GetNormalized();
 
+			
 			oakvr::math::Matrix mat;
-			mat._11 = xaxis.x;			mat._12 = yaxis.x;			mat._13 = zaxis.x;			mat._14 = 0.f;
-			mat._21 = xaxis.y;			mat._22 = yaxis.y;			mat._23 = zaxis.y;			mat._24 = 0.f;
-			mat._31 = xaxis.z;			mat._32 = yaxis.z;			mat._33 = zaxis.z;			mat._34 = 0.f;
-			mat._41 = -xaxis.Dot(m_position);	mat._42 = -yaxis.Dot(m_position);	mat._43 = -zaxis.Dot(m_position);	mat._44 = 1.f;
+			mat._11 = xaxis.x;			mat._12 = yaxis.x;			mat._13 = -zaxis.x;			mat._14 = 0.f;
+			mat._21 = xaxis.y;			mat._22 = yaxis.y;			mat._23 = -zaxis.y;			mat._24 = 0.f;
+			mat._31 = xaxis.z;			mat._32 = yaxis.z;			mat._33 = -zaxis.z;			mat._34 = 0.f;
+			mat._41 = -(xaxis.Dot(m_position));	mat._42 = -(yaxis.Dot(m_position));	mat._43 = zaxis.Dot(m_position);	mat._44 = 1.f;
 			
 			return mat;
 		}

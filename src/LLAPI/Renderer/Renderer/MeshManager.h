@@ -1,13 +1,15 @@
 #pragma once
 
+#include "Mesh.h"
+
 #include <vector>
 #include <memory>
+
 
 namespace oakvr
 {
 	namespace render
 	{
-		class Mesh;
 
 		class MeshManager
 		{
@@ -22,8 +24,13 @@ namespace oakvr
 			void ClearOneFrameMeshes();
 			void Clear();
 
-			MeshVector & GetMeshes() { return m_meshes; }
-			MeshVector & GetOneFrameMeshes() { return m_oneFrameMeshes; }
+			void RemoveMesh(std::shared_ptr<Mesh> pMesh);
+
+			auto SortMeshesByMaterial()->Mesh::MeshElementVector;
+			auto SortByCameraDistance(const oakvr::math::Vector3 &cameraPos, const oakvr::math::Vector3 &cameraForward)->Mesh::MeshElementVector;
+
+			auto GetMeshes()->MeshVector & { return m_meshes; }
+			auto GetOneFrameMeshes()->MeshVector & { return m_oneFrameMeshes; }
 		private:
 			MeshVector m_meshes;
 			MeshVector m_oneFrameMeshes;

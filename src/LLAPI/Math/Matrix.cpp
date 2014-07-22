@@ -494,6 +494,17 @@ namespace oakvr
 			return mat;
 		}
 
+		Matrix Matrix::Translation(const Vector3 &vec)
+		{
+			Matrix mat;
+			mat.SetIdentity();
+			mat._41 = vec.x;
+			mat._42 = vec.y;
+			mat._43 = vec.z;
+
+			return mat;
+		}
+
 		Matrix Matrix::Scale(float x, float y, float z)
 		{
 			Matrix mat;
@@ -521,13 +532,12 @@ namespace oakvr
 		{
 			Matrix mat;
 			float frustumDepth = zfar - znear;
-			float oneOverDepth = 1 / frustumDepth;
-			bool leftHanded = false;
-
-			mat._22 = 1 / tan(0.5f * fov);
-			mat._11 = (leftHanded ? 1 : -1) * mat._22 / aspect;
-			mat._33 = zfar * oneOverDepth;
-			mat._43 = (-zfar * znear) * oneOverDepth;
+			float oneOverDepth = 1.f / frustumDepth;
+			
+			mat._22 = 1.f / tan(fov / 2.f);
+			mat._11 = mat._22 / aspect;
+			mat._33 = -(zfar+ znear) * oneOverDepth;
+			mat._43 = (-2.f * zfar * znear) * oneOverDepth;
 			mat._34 = 1;
 			mat._44 = 0;
 			return mat;
@@ -541,10 +551,10 @@ namespace oakvr
 			float oneOverFarMinusNear = 1 / (far - near);
 			Matrix mat;
 			mat._11 = 2 * oneOverRightMinusLeft;
-			mat._41 = -(right + left) * oneOverRightMinusLeft;
 			mat._22 = 2 * oneOverTopMinusButtom;
-			mat._42 = -(top + bottom) * oneOverTopMinusButtom;
 			mat._33 = -2 * oneOverFarMinusNear;
+			mat._41 = -(right + left) * oneOverRightMinusLeft;
+			mat._42 = -(top + bottom) * oneOverTopMinusButtom;
 			mat._43 = (far + near) * oneOverFarMinusNear;
 			mat._44 = 1.0f;
 

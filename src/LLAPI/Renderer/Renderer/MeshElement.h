@@ -12,6 +12,7 @@ namespace oakvr
 	{
 		class Material;
 		class Texture;
+		class Mesh;
 
 		class MeshElement
 		{
@@ -20,8 +21,8 @@ namespace oakvr
 				, uint8_t indexStride, const oakvr::core::MemoryBuffer ib
 				, std::shared_ptr<Material> &pMaterial);
 			MeshElement(const std::vector<VertexElementDescriptor> &vertexFormat, const oakvr::core::MemoryBuffer &vb
-						, uint8_t indexStride, const oakvr::core::MemoryBuffer ib
-						, std::shared_ptr<Material> &pMaterial, const std::vector<std::string> &vecTextures);	// vecTextures elements coorespond to texcoord 0, 1, etc.
+				, uint8_t indexStride, const oakvr::core::MemoryBuffer ib
+				, std::shared_ptr<Material> &pMaterial, const std::vector<std::string> &vecTextures);	// vecTextures elements coorespond to texcoord 0, 1, etc.
 			~MeshElement();
 
 			oakvr::core::MemoryBuffer m_vertexData;
@@ -33,6 +34,12 @@ namespace oakvr
 			uint32_t m_indexCount;
 			uint8_t m_vertexStride;			
 			uint8_t m_indexStride;
+			
+		private:
+			friend Mesh;
+			friend class MeshManager;
+			friend class Renderer;
+			Mesh *m_pMesh;
 		};
 	}
 }

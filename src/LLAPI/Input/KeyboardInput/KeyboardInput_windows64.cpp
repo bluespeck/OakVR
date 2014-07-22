@@ -178,6 +178,9 @@ namespace oakvr
 
 					{ Key::printScreen, VK_PRINT }
 			}; // keymap initializer list end
+
+			memset(keyStatesCurrent, 0, sizeof(keyStatesCurrent));
+			memset(keyStatesPrevious, 0, sizeof(keyStatesPrevious));
 		}
 
 		KeyboardInput::KeyboardInput()

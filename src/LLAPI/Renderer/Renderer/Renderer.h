@@ -3,7 +3,7 @@
 #include "Utils/RendererUtils.h"
 #include "Utils/Buffer.h"
 #include "Math/Matrix.h"
-
+#include "Mesh.h"
 #include <cstdint>
 #include <string>
 #include <memory>
@@ -28,8 +28,7 @@ namespace oakvr
 		struct Color;
 		class DebugTextRenderer;
 		class MeshManager;
-		class Mesh;
-
+		class Camera;
 		class Renderer
 		{
 		public:
@@ -47,6 +46,7 @@ namespace oakvr
 			void RegisterMesh(std::shared_ptr<Mesh> pMesh);
 			std::shared_ptr<Mesh> GetRegisteredMesh(const std::string &name);
 			void RegisterOneFrameMesh(std::shared_ptr<Mesh> pMesh);
+			void UnregisterMesh(std::shared_ptr<Mesh> pMesh);
 			void RegisterTexture(const std::string &textureName, std::shared_ptr<oakvr::core::MemoryBuffer> pBuff);
 			
 			void RegisterShaderProgram(const std::string &shaderProgramName);
@@ -66,6 +66,7 @@ namespace oakvr
 			void SetRenderWindow( std::shared_ptr<RenderWindow> pRenderWindow );
 			void SetResourceManager(std::shared_ptr<oakvr::core::ResourceManager> pRM);
 
+			void SetCurrentCamera(const std::shared_ptr<Camera> &pCamera) { m_pCurrentCamera = pCamera; }
 			void SetViewMatrix(const oakvr::math::Matrix &mat) { m_viewMatrix = mat; }
 			void SetProjMatrix(const oakvr::math::Matrix &mat) { m_projMatrix = mat; }
 			const oakvr::math::Matrix &GetViewMatrix() const { return m_viewMatrix; }
@@ -75,6 +76,7 @@ namespace oakvr
 			void InitCommon();
 
 			void RenderMeshes(const std::vector<std::shared_ptr<Mesh>> &meshes);
+			void RenderMeshElems(const Mesh::MeshElementVector &meshElems);
 			void UpdateShaderParams(std::shared_ptr<ShaderProgram> pShader);
 
 			std::shared_ptr<RenderWindow> m_pRenderWindow;
@@ -89,6 +91,8 @@ namespace oakvr
 			std::unordered_map<std::string, std::shared_ptr<ShaderProgram>> m_shaderPrograms;
 			
 			std::unique_ptr<MeshManager> m_pMeshManager;
+
+			std::shared_ptr<Camera> m_pCurrentCamera;
 
 			oakvr::math::Matrix m_viewMatrix;
 			oakvr::math::Matrix m_projMatrix;

@@ -10,6 +10,8 @@
 
 #include "FreeCamera.h"
 
+#include "Profiler/Profiler.h"
+
 namespace construct
 {
 	Construct::Construct()
@@ -26,6 +28,7 @@ namespace construct
 		oakvr::core::AddFontFace("Tinos-Regular");
 		oakvr::core::AddFontFace("FiraSans-Light");
 		oakvr::core::AddFontFace("FiraMono-Regular");
+		oakvr::core::AddFontFace("NotoSans-Bold");
 
 		auto pCamera = std::make_shared<oakvr::render::Camera>("rotating_camera", oakvr::math::Vector3{ 0.f, 1.f, 25.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
 		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(90.f), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
@@ -50,13 +53,13 @@ namespace construct
 		pCamera->SetOrthographicProjection(aspect * 10, 10, 1, 1000);
 		oakvr::render::RegisterCamera(pCamera);
 
-		//CreateTestMesh1();
-		CreateTestMesh2();
+		CreateTestMesh1();
+		//CreateTestMesh2();
 		//CreateTestMesh3();
 		//CreateTestMeshRoom();
 	}
 
-#define meshNum 5
+	const int meshNum = 2;
 	void Construct::Update(float dt)
 	{
 		if (oakvr::render::RenderWindowHasFocus())
@@ -89,6 +92,18 @@ namespace construct
 		}
 		oakvr::render::DrawText(str, oakvr::math::Vector3(-10.f, -25.f, -20.f), oakvr::render::Color::Yellow, "Fira Mono Regular");
 
+		auto vec = oakvr::profiler::Profiler::GetInstance().GetSortedProfilingData();
+		float fIndex = 0.0f;
+		for (auto elem : vec)
+		{
+			auto &pd = elem.second;
+			auto percentage = static_cast<int>(static_cast<float>(pd.totalTime) / static_cast<float>(vec.front().second.totalTime) * 100.0f);
+			char line[512];
+			sprintf(line, "%60s -- [%%]=%3d h=%-6lu total[ms]=%-9llu lst[us]=%-9llu max[us]=%-9llu avg[us]=%-9llu", pd.id.name.c_str(), percentage, pd.hits, pd.totalTime / 1000, pd.latestTime, pd.maxTime, pd.avgTime);
+			oakvr::render::DrawText(std::string(line), oakvr::math::Vector3(-50.f, -fIndex, -20.f), oakvr::render::Color::Yellow, "Noto Sans Bold");
+			fIndex += 3.0f;
+		}
+
 		//oakvr::render::DrawLine({ -5.f, 0.f, 0.f }, { 5.f, 0.f, 0.f }, 0.1f, oakvr::render::Color::Red, oakvr::render::Color::White);
 		//oakvr::render::DrawLine({ 0.f, 0.f, -5.f }, { 0.f, 0.f, 5.f }, 0.1f, oakvr::render::Color::Blue, oakvr::render::Color::White);
 		//oakvr::render::DrawLine({ 0.f, -5.f, 0.f }, { 0.f, 5.f, 0.f }, 0.1f, oakvr::render::Color::Green, oakvr::render::Color::White);
@@ -99,29 +114,37 @@ namespace construct
 		//pCamera = oakvr::render::GetCamera("panning_camera");
 	//	if(pCamera)
 		//	pCamera->Translate(0, dt * 0.2f, 0);
-		auto pCamera = oakvr::render::GetCamera("free_camera");
+		auto pCamera = oakvr::render::GetCurrentCamera();
 		if (pCamera)
 			pCamera->Update(dt);
-
-		/*
+		
 		auto pMesh = oakvr::render::GetMesh("TestCube");
-		auto matWorld = pMesh->GetWorldMatrix();
-		pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationY(dt * oakvr::math::PiOverTwelve));
-		*/
+		if(pMesh)
+		{
+			auto matWorld = pMesh->GetWorldMatrix();
+			pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationY(dt * oakvr::math::PiOverTwelve));
+		}
+
+		// update the marix of spinning monkeys
 		for (int i = -meshNum; i < meshNum; ++i)
 		{
 			for (int j = -meshNum; j < meshNum; ++j)
 			{
 				auto pMesh = oakvr::render::GetMesh("monkey" + std::to_string(i) + std::to_string(j));
-				auto matWorld = pMesh->GetWorldMatrix();
-				pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationX(dt * i / meshNum * j / meshNum * oakvr::math::PiOverSix));
+				if (pMesh)
+				{
+					auto matWorld = pMesh->GetWorldMatrix();
+					pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationX(dt * i / meshNum * j / meshNum * oakvr::math::PiOverSix));
+				}
 			}
 		}
-		/*
+		
 		pMesh = oakvr::render::GetMesh("monkey2");
-		matWorld = pMesh->GetWorldMatrix();
-		pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationX(dt * oakvr::math::PiOverSix));
-		*/
+		if (pMesh)
+		{
+			auto matWorld = pMesh->GetWorldMatrix();
+			pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationX(dt * oakvr::math::PiOverSix));
+		}
 		
 	}
 
@@ -203,7 +226,7 @@ namespace construct
 
 	void InitializeConstruct()
 	{
-		oakvr::RegisterUpdateable(std::make_shared<Construct>());
+		oakvr::RegisterUpdatable(std::make_shared<Construct>());
 	}
 
 	OAKVR_REGISTER_INITIALIZER(InitializeConstruct)

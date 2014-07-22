@@ -24,10 +24,6 @@ namespace oakvr
 		{
 			glGenTextures(1, &m_pImpl->textureId);
 
-			//			oakvr::core::Image *pImage = oakvr::Engine::GetResourceManager()->GetResource<oakvr::core::Image>(pTexture->GetId().GetStrId().c_str());
-			// Separate resources on unique threads
-			//			assert("Could not load texture from file!" && texId > 0);
-
 			glBindTexture(GL_TEXTURE_2D, m_pImpl->textureId);
 #ifdef OAKVR_RENDER_DEBUG
 			{

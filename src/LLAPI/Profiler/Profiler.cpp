@@ -60,19 +60,7 @@ namespace oakvr
 				std::string oldOutFileName = Log::GetOutFilename();
 				Log::SetOutFilename("stdout");
 
-				std::vector< std::pair<std::string, oakvr::profiler::ProfilingData> > vec;
-				for (auto &mapElem : m_groupProfilingDataMap)
-				{
-					for (auto &elem : mapElem.second)
-					{
-						vec.push_back(std::make_pair(const_cast<const std::string &>(elem.first), elem.second));
-					}
-				}
-				
-				std::sort(vec.begin(), vec.end(), [](std::pair<const std::string, oakvr::profiler::ProfilingData> p1
-					, std::pair<std::string, oakvr::profiler::ProfilingData> p2) 
-						{ return p1.second.totalTime > p2.second.totalTime; }
-				);
+				auto vec = GetSortedProfilingData();
 				
 				for (auto &elem : vec)
 				{
@@ -83,6 +71,26 @@ namespace oakvr
 				Log::SetOutFilename(oldOutFileName);
 			}
 #endif
+		}
+
+		auto Profiler::GetSortedProfilingData()->ProfilingDataVector
+		{
+			ProfilingDataVector vec;
+
+			for (auto &mapElem : m_groupProfilingDataMap)
+			{
+				for (auto &elem : mapElem.second)
+				{
+					vec.push_back(std::make_pair(const_cast<const std::string &>(elem.first), elem.second));
+				}
+			}
+
+			std::sort(vec.begin(), vec.end(), [](std::pair<const std::string, oakvr::profiler::ProfilingData> p1
+				, std::pair<std::string, oakvr::profiler::ProfilingData> p2)
+					{ return p1.second.totalTime > p2.second.totalTime; }
+			);
+
+			return vec;
 		}
 	}
 }

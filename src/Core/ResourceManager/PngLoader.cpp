@@ -53,8 +53,9 @@ namespace oakvr
 			
 			const png_uint_32 bytesPerRow = static_cast<png_uint_32>(png_get_rowbytes(pPng, pInfo));
 			imageData.pixelBuffer = MemoryBuffer(bytesPerRow * imageData.height);
-			png_bytep pRow = imageData.pixelBuffer.GetDataPtr();
-			for (uint32_t rowIndex = 0; rowIndex < height; ++rowIndex, pRow += bytesPerRow)
+			// copy each row to our buffer while also flipping the rows vertically
+			png_bytep pRow = imageData.pixelBuffer.GetDataPtr() + imageData.pixelBuffer.Size() - bytesPerRow;
+			for (uint32_t rowIndex = 0; rowIndex < height; ++rowIndex, pRow -= bytesPerRow)
 				png_read_row(pPng, pRow, nullptr);
 
 

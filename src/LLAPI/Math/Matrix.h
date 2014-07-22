@@ -48,6 +48,7 @@ namespace oakvr
 			static Matrix RotationAxisRightHanded(float angle, const Vector3& axis); // note that axis has to be normalized beforehand
 
 			static Matrix Translation(float x, float y, float z);
+			static Matrix Translation(const Vector3 &vec);
 			static Matrix Scale(float x, float y, float z);
 			static Matrix Scale(float scale);
 

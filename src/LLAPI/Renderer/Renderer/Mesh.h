@@ -14,20 +14,22 @@ namespace oakvr
 		class Mesh
 		{
 		public:
+			typedef std::vector<std::shared_ptr<MeshElement>> MeshElementVector;
+
 			Mesh(const std::string &name = "");
 			~Mesh();
 
-			void AddMeshElement(std::shared_ptr<MeshElement> &meshElem);
-			std::vector<std::shared_ptr<MeshElement>> &GetMeshElements() { return m_vMeshElements; }
-			const std::vector<std::shared_ptr<MeshElement>> &GetMeshElements() const { return m_vMeshElements; }
+			void AddMeshElement(const std::shared_ptr<MeshElement> &meshElem);
+			auto GetMeshElements() -> MeshElementVector & { return m_vMeshElements; }
+			auto GetMeshElements() const -> const MeshElementVector &{ return m_vMeshElements; }
 			void SetWorldMatrix(const oakvr::math::Matrix &worldMatrix) { m_worldMatrix = worldMatrix; }
-			const oakvr::math::Matrix & GetWorldMatrix() const { return m_worldMatrix; }
+			auto GetWorldMatrix() const -> const oakvr::math::Matrix & { return m_worldMatrix; }
 
-			const std::string &GetName() const { return m_name; }
+			auto GetName() const -> const std::string & { return m_name; }
 
 		private:
 			std::string m_name;
-			std::vector<std::shared_ptr<MeshElement>> m_vMeshElements;
+			MeshElementVector m_vMeshElements;
 			oakvr::math::Matrix m_worldMatrix;
 
 		};

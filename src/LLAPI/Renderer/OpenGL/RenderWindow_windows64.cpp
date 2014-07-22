@@ -78,7 +78,6 @@ namespace oakvr
 			glfwSetWindowPos(m_pImpl->m_pWindow, m_posX, m_posY);
 			glfwMakeContextCurrent(m_pImpl->m_pWindow);
 			glfwSetWindowCloseCallback(m_pImpl->m_pWindow, OnCloseWindow);
-
 			
 			CHECK_OPENGL_ERROR;
 			return true;

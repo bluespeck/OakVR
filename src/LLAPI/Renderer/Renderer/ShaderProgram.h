@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Shader.h"
-#include "Utils\Buffer.h"
+#include "Utils/Buffer.h"
 
 #include <memory>
 #include <string>

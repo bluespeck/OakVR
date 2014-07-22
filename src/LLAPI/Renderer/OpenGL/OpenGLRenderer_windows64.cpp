@@ -20,7 +20,7 @@
 #include "FileIO/File.h"
 #include "Log/Log.h"
 
-#include "Profiler\Profiler.h"
+#include "Profiler/Profiler.h"
 
 #include <memory>
 
@@ -68,6 +68,8 @@ namespace oakvr
 			glViewport(0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
 			CHECK_OPENGL_ERROR;
 			glCullFace(GL_BACK);
+			CHECK_OPENGL_ERROR;
+			glFrontFace(GL_CCW);
 			CHECK_OPENGL_ERROR;
 			glEnable(GL_CULL_FACE);
 			CHECK_OPENGL_ERROR;

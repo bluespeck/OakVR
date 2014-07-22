@@ -1,8 +1,8 @@
 #include "Common.h"
-#include "Renderer\Renderer\ShaderProgram.h"
-#include "Renderer\Renderer\Shader.h"
+#include "Renderer/Renderer/ShaderProgram.h"
+#include "Renderer/Renderer/Shader.h"
 #include "Log/Log.h"
-#include "Profiler\Profiler.h"
+#include "Profiler/Profiler.h"
 
 
 #include <memory>

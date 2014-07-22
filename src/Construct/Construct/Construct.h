@@ -1,10 +1,10 @@
 #pragma once
 
-#include "OakVR/Updateable.h"
+#include "OakVR/Updatable.h"
 
 namespace construct
 {
-	class Construct : public oakvr::Updateable
+	class Construct : public oakvr::Updatable
 	{
 	public:
 		Construct();

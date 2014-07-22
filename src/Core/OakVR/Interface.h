@@ -5,7 +5,7 @@
 #include "OakVR/Camera.h"
 #include "Renderer/Renderer/Mesh.h"
 
-#include "Updateable.h"
+#include "Updatable.h"
 
 #include "Utils/Buffer.h"
 
@@ -24,6 +24,7 @@ namespace oakvr
 			std::shared_ptr<Material> pMaterial, std::vector<std::string> textureNames // for each texcoord
 			)->std::shared_ptr<oakvr::render::Mesh>;
 		auto CreateMesh(const std::string &name, const std::string &resourceId, std::shared_ptr<oakvr::render::Material> pMaterial)->std::shared_ptr<oakvr::render::Mesh>;
+		void RemoveMesh(const std::string &name);
 		auto GetMesh(const std::string &name)->std::shared_ptr<oakvr::render::Mesh>;
 		void TransformMesh(const std::string &name, const oakvr::math::Matrix &mat);
 
@@ -39,8 +40,10 @@ namespace oakvr
 		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color);
 		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color, const oakvr::render::Color &startColor);
 
-		void SetRenderWindowPosition(unsigned int x, unsigned int y);
+		void SetRenderWindowPosition(int x, int y);
 		void SetRenderWindowSize(unsigned int width, unsigned int height);
+		auto GetRenderWindowPositionX()->int;
+		auto GetRenderWindowPositionY()->int;
 		auto GetRenderWindowWidth()->float;
 		auto GetRenderWindowHeight()->float;
 		void SetRenderWindowTitle(const std::string &title);
@@ -48,8 +51,8 @@ namespace oakvr
 		
 	}
 
-	void RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
-	void UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
+	void RegisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable);
+	void UnregisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable);
 
 	namespace core
 	{

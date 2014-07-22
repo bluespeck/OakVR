@@ -15,9 +15,10 @@ namespace oakvr
 		{	
 		}
 
-		void Mesh::AddMeshElement(std::shared_ptr<MeshElement> &meshElem)
+		void Mesh::AddMeshElement(const std::shared_ptr<MeshElement> &pMeshElem)
 		{
-			m_vMeshElements.push_back(meshElem);
+			pMeshElem->m_pMesh = this;
+			m_vMeshElements.push_back(pMeshElem);
 		}
 
 		//// --------------------------------------------------------------------------------

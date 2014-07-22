@@ -8,7 +8,7 @@
 #include <string>
 
 // enable this macro to have profiling data
-#define OAKVR_PROFILER_ENABLED
+//#define OAKVR_PROFILER_ENABLED
 
 namespace oakvr
 {
@@ -16,12 +16,15 @@ namespace oakvr
 	{
 		typedef std::unordered_map<std::string, ProfilingData> ProfilingDataMap;
 		typedef std::unordered_map<std::string, ProfilingDataMap> GroupProfilingDataMap;
+		typedef std::vector< std::pair<std::string, ProfilingData> > ProfilingDataVector;
 
 		class Profiler : public Singleton<Profiler>
 		{
 		public:
 			void Update(const ProfileId &id, uint64_t microSeconds);
 			void PrintSortedData();
+			auto GetSortedProfilingData()->ProfilingDataVector;
+
 		private:
 			GroupProfilingDataMap m_groupProfilingDataMap;
 		};

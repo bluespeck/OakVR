@@ -7,6 +7,7 @@
 #include "ShaderProgram.h"
 #include "Texture.h"
 #include "Material.h"
+#include "OakVR/Camera.h"
 #include "ResourceManager/ResourceManager.h"
 #include "Profiler/Profiler.h"
 
@@ -22,20 +23,81 @@ namespace oakvr
 			PROFILER_FUNC_SCOPED_TIMER;
 			BeginDraw();
 
-			RenderMeshes(m_pMeshManager->GetMeshes());
-			RenderMeshes(m_pMeshManager->GetOneFrameMeshes());
+			//RenderMeshes(m_pMeshManager->GetMeshes());
+			//RenderMeshes(m_pMeshManager->GetOneFrameMeshes());
+			//auto sortedMeshes = m_pMeshManager->SortMeshesByMaterial();
+			{
+				auto sortedMeshes = m_pMeshManager->SortByCameraDistance(m_pCurrentCamera->GetPosition(), m_pCurrentCamera->GetForward());
+				RenderMeshElems(sortedMeshes);
+			}
+
+			//for ()
 
 			EndDraw();
 
 			m_pMeshManager->ClearOneFrameMeshes();
 		}
 
+		void Renderer::RenderMeshElems(const Mesh::MeshElementVector &meshElems)
+		{
+			PROFILER_FUNC_SCOPED_TIMER;
+
+			VertexBuffer vb;// (5000, 7 * sizeof(float));
+			IndexBuffer ib;
+
+
+			for (auto &pMeshElem : meshElems)
+			{
+				m_worldMatrix = pMeshElem->m_pMesh->GetWorldMatrix();
+				void *pBuff = nullptr;
+				if (vb.GetVertexCount() * vb.GetVertexStride() < pMeshElem->m_vertexCount * pMeshElem->m_vertexStride)
+				{
+					// Create vertex buffer for this mesh element
+					vb.Create(pMeshElem->m_vertexCount, pMeshElem->m_vertexStride);
+				}
+				// and populate it with vertex data
+				vb.Lock(&pBuff);
+
+				memcpy(pBuff, pMeshElem->m_vertexData.GetDataPtr(), pMeshElem->m_vertexData.Size());
+				vb.Unlock();
+
+				if (ib.GetIndexCount() * ib.GetIndexStride() < pMeshElem->m_indexCount * pMeshElem->m_indexStride)
+				{
+					// Create index buffer for this mesh element
+					ib.Create(pMeshElem->m_indexCount, pMeshElem->m_indexStride);
+				}
+
+				// and populate it with index data
+				ib.Lock(&pBuff);
+				memcpy(pBuff, pMeshElem->m_indexData.GetDataPtr(), pMeshElem->m_indexData.Size());
+				ib.Unlock();
+
+				auto it = m_shaderPrograms.find(pMeshElem->m_pMaterial->m_shaderName);
+				if (it != std::end(m_shaderPrograms))
+				{
+					UseShaderProgram(it->second);
+
+					vb.Use(pMeshElem->m_vertexFormat);
+					ib.Use();
+
+					UpdateShaderParams(it->second);
+					if (pMeshElem->m_vecTextures.size())
+						m_textures[pMeshElem->m_vecTextures[0]]->Use();
+
+					DrawIndexed(pMeshElem->m_indexCount);
+				}
+			}
+			ib.Release();
+			vb.Release();
+		}
+
 		void Renderer::RenderMeshes(const MeshManager::MeshVector &meshes)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 
-			VertexBuffer vb;
+			VertexBuffer vb;// (5000, 7 * sizeof(float));
 			IndexBuffer ib;
+
 
 			for (auto &pMesh : meshes)
 			{
@@ -87,10 +149,10 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		void Renderer::InitCommon()
-		{	
+		{
 			m_pMeshManager.reset(new MeshManager);
 		}
-		
+
 		// --------------------------------------------------------------------------------
 		void Renderer::SetRenderWindow(std::shared_ptr<RenderWindow> pRenderWindow)
 		{
@@ -140,6 +202,11 @@ namespace oakvr
 			}
 		}
 
+		void Renderer::UnregisterMesh(std::shared_ptr<Mesh> pMesh)
+		{
+			m_pMeshManager->RemoveMesh(pMesh);
+		}
+
 		// --------------------------------------------------------------------------------
 		void Renderer::RegisterTexture(const std::string &textureName, std::shared_ptr<oakvr::core::MemoryBuffer> pBuff)
 		{
@@ -155,12 +222,12 @@ namespace oakvr
 			PROFILER_FUNC_SCOPED_TIMER;
 			if (m_shaderPrograms.find(shaderName) == m_shaderPrograms.end())
 				m_shaderPrograms[shaderName] = std::make_shared<ShaderProgram>(
-					shaderName,
-					m_pResourceManager->GetResource(shaderName + "_vs"),
-					m_pResourceManager->GetResource(shaderName + "_ps"),
-					m_pResourceManager->GetResource(shaderName + "_gs"),
-					m_pResourceManager->GetResource(shaderName + "_ds"),
-					m_pResourceManager->GetResource(shaderName + "_hs"));
+				shaderName,
+				m_pResourceManager->GetResource(shaderName + "_vs"),
+				m_pResourceManager->GetResource(shaderName + "_ps"),
+				m_pResourceManager->GetResource(shaderName + "_gs"),
+				m_pResourceManager->GetResource(shaderName + "_ds"),
+				m_pResourceManager->GetResource(shaderName + "_hs"));
 		}
 	}	// namespace render
 }	// namespace oakvr

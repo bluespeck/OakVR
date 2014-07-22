@@ -5,7 +5,7 @@
 #include "Time/Timer.h"
 #include "Renderer/Renderer/Mesh.h"
 #include "OakVR/Camera.h"
-#include "Updateable.h"
+#include "Updatable.h"
 
 #include "OakVR/UtilityTypes.h"
 
@@ -36,17 +36,20 @@ namespace oakvr
 
 		///////////////////////////////////////////////////////////////////////////////////
 		// render related interface
-		auto GetScreenSize() -> ScreenSize;
-		auto GetRenderWindowSize() -> WindowSize;
-		auto GetRenderWindowWidth() -> float;
-		auto GetRenderWindowHeight() -> float;
+		auto GetScreenSize() const -> ScreenSize;
+		auto GetRenderWindowSize() const -> WindowSize;
+		auto GetRenderWindowWidth() const -> float;
+		auto GetRenderWindowHeight() const -> float;
+		auto GetRenderWindowPositionX() const -> float;
+		auto GetRenderWindowPositionY() const -> float;
 
-		void RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
-		void UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable);
+		void RegisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable);
+		void UnregisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable);
 
 		auto CreateMesh(const std::string &name, std::shared_ptr<oakvr::core::MemoryBuffer> pMeshBuffer, std::shared_ptr<oakvr::render::Material> pMaterial) -> std::shared_ptr < oakvr::render::Mesh > ;
 		void RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh);
 		auto GetRegisteredMesh(const std::string &name) -> std::shared_ptr<oakvr::render::Mesh>;
+		void UnregisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh);
 		void TransformMesh(const std::string &meshName, const oakvr::math::Matrix &mat);
 
 		void RegisterShader(std::string shaderName);
@@ -62,7 +65,7 @@ namespace oakvr
 		void SetCurrentCamera(const std::string &cameraId);
 
 		void SetRenderWindowSize(unsigned int width, unsigned int height);
-		void SetRenderWindowPosition(unsigned int x, unsigned int y);
+		void SetRenderWindowPosition(int x, int y);
 		void SetRenderWindowTitle(const std::string &title);
 
 		bool HasFocus();
@@ -107,7 +110,7 @@ namespace oakvr
 		std::shared_ptr<oakvr::render::Renderer> m_pRenderer;
 		std::shared_ptr<oakvr::render::CameraManager> m_pCM;
 		
-		std::vector<std::shared_ptr<oakvr::Updateable>> m_pUpdateables;
+		std::vector<std::shared_ptr<oakvr::Updatable>> m_pUpdatables;
 
 		std::vector<std::function<void()>> m_initializers;
 	};

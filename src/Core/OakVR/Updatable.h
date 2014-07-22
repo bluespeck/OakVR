@@ -2,11 +2,11 @@
 
 namespace oakvr
 {
-	class Updateable
+	class Updatable
 	{
 	public:
-		Updateable() {}
-		virtual ~Updateable() {}
+		Updatable() {}
+		virtual ~Updatable() {}
 		virtual void Update(float dt) = 0; /* override in derived class to add custom behavior */
 	};
 }

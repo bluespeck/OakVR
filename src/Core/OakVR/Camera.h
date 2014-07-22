@@ -4,7 +4,7 @@
 #include "Math/Matrix.h"
 #include "Math/Vector3.h"
 #include "Math/MathUtils.h"
-#include "Updateable.h"
+#include "Updatable.h"
 
 #include <initializer_list>
 #include <string>
@@ -16,7 +16,7 @@ namespace oakvr
 {
 	namespace render
 	{
-		class Camera : public Updateable
+		class Camera : public Updatable
 		{
 		public:	
 			Camera() = delete;

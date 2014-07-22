@@ -31,6 +31,11 @@ namespace oakvr
 			return pMesh;
 		}
 
+		void RemoveMesh(const std::string &name)
+		{
+			oakvr::OakVR::GetInstance().UnregisterMesh(GetMesh(name));
+		}
+
 		auto GetMesh(const std::string &name)->std::shared_ptr<oakvr::render::Mesh>
 		{
 			return oakvr::OakVR::GetInstance().GetRegisteredMesh(name);
@@ -76,7 +81,7 @@ namespace oakvr
 			oakvr::OakVR::GetInstance().SetCurrentCamera(cameraId);
 		}
 		
-		void SetRenderWindowPosition(unsigned int x, unsigned int y)
+		void SetRenderWindowPosition(int x, int y)
 		{
 			oakvr::OakVR::GetInstance().SetRenderWindowPosition(x, y);
 		}
@@ -84,6 +89,16 @@ namespace oakvr
 		void SetRenderWindowSize(unsigned int width, unsigned int height)
 		{
 			oakvr::OakVR::GetInstance().SetRenderWindowSize(width, height);
+		}
+
+		auto GetRenderWindowPositionX()->int
+		{
+			return oakvr::OakVR::GetInstance().GetRenderWindowPositionX();
+		}
+
+		auto GetRenderWindowPositionY()->int
+		{
+			return oakvr::OakVR::GetInstance().GetRenderWindowPositionY();
 		}
 
 		auto GetRenderWindowWidth()->float
@@ -130,14 +145,14 @@ namespace oakvr
 		}
 	}
 
-	void RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
+	void RegisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable)
 	{
-		oakvr::OakVR::GetInstance().RegisterUpdateable(pUpdateable);
+		oakvr::OakVR::GetInstance().RegisterUpdatable(pUpdatable);
 	}
 
-	void UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
+	void UnregisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable)
 	{
-		oakvr::OakVR::GetInstance().UnregisterUpdateable(pUpdateable);
+		oakvr::OakVR::GetInstance().UnregisterUpdatable(pUpdatable);
 	}
 
 } // namespace oakvr

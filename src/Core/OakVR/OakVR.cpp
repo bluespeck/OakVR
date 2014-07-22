@@ -36,7 +36,7 @@ namespace oakvr
 		oakvr::input::mouse::Update();
 
 
-		if(m_pRW->IsOpen())
+		if (m_pRW->IsOpen())
 		{
 			if ((oakvr::input::keyboard::IsDown(oakvr::input::Key::lShift) ||
 				oakvr::input::keyboard::IsDown(oakvr::input::Key::rShift))
@@ -44,24 +44,28 @@ namespace oakvr
 				)
 				return false;
 
-			// Keep updateables from interfering with the updateables vector while they are updated
-			// there is a problem with deleting updateables while the loop is under way in that deleted objects might
+			// Keep Updatables from interfering with the Updatables vector while they are updated
+			// there is a problem with deleting Updatables while the loop is under way in that deleted objects might
 			// have Update called for them
-			auto pUpdateables = m_pUpdateables;
-			for (auto &e : pUpdateables)
+			auto pUpdatables = m_pUpdatables;
+			for (auto &e : pUpdatables)
 				e->Update(dt);
-
-			m_pRenderer->SetViewMatrix(GetCurrentCamera()->ComputeViewMatrix());
-			m_pRenderer->SetProjMatrix(GetCurrentCamera()->GetProjMatrix());
+			auto pCamera = GetCurrentCamera();
+			if (pCamera)
+			{
+				m_pRenderer->SetCurrentCamera(pCamera);
+				m_pRenderer->SetViewMatrix(pCamera->ComputeViewMatrix());
+				m_pRenderer->SetProjMatrix(pCamera->GetProjMatrix());
+			}
 			m_pRenderer->Update(dt);
-			profiler::Profiler::GetInstance().PrintSortedData();
 		}
 		else
 		{
 			m_pRenderer->Cleanup();
 			return false;
 		}
-		
+
+		oakvr::profiler::Profiler::GetInstance().PrintSortedData();
 		return true;
 	}
 
@@ -106,20 +110,20 @@ namespace oakvr
 	bool OakVR::Initialize()
 	{
 		oakvr::core::InitializeFileLoaders();
-		
-		if(!m_pRW || !m_pRW->Initialize())
+
+		if (!m_pRW || !m_pRW->Initialize())
 			return false;
-		
+
 		// Configure callbacks for necessary render window events
 		m_pRW->SetWindowSizeCallback(WindowSizeChangedCallback);
 		m_pRW->SetWindowFocusCallback(WindowFocusChangedCallback);
 
-		if(m_pRenderer)
+		if (m_pRenderer)
 		{
 			m_pRenderer->SetRenderWindow(m_pRW);
 			m_pRenderer->SetResourceManager(m_pRM);
 			m_pRenderer->Initialize();
-			
+
 			// Initialize Text manager
 			oakvr::core::Text::GetInstance().SetResourceManagerPtr(m_pRM);
 			oakvr::core::Text::GetInstance().SetRendererPtr(m_pRenderer);
@@ -210,9 +214,9 @@ namespace oakvr
 
 		auto pMaterial = std::make_shared<oakvr::render::Material>(std::string("DefaultColor"));
 
-		
+
 		auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, static_cast<uint8_t>(sizeof(uint32_t)), ib, pMaterial, std::vector<std::string>());
-		
+
 		auto pMesh = std::make_shared<oakvr::render::Mesh>();
 		pMesh->AddMeshElement(pMeshElem);
 
@@ -223,7 +227,7 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	void OakVR::DrawMeshBoundingBoxes()
 	{
-		
+
 	}
 
 	// --------------------------------------------------------------------------------
@@ -242,132 +246,132 @@ namespace oakvr
 		ev.m_mouseData.m_wheelDelta = pMouseInput->GetWheelDelta();
 		if(pMouseInput->IsLeftButtonDown())
 		{
-			MouseEvent *pev = new MouseEvent();
-			pev->m_mouseData = ev.m_mouseData;
-			pev->SetEventSubType(ev.eventSubtypeLButtonDown);
-			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeLButtonDown);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
 
-			if(pMouseInput->IsLeftButtonHeld())
-			{
-				MouseEvent *pev = new MouseEvent();
-				pev->m_mouseData = ev.m_mouseData;
-				pev->SetEventSubType(ev.eventSubtypeLButtonHeld);
-				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
-			}
-			else
-			{
-				MouseEvent *pev = new MouseEvent();
-				pev->m_mouseData = ev.m_mouseData;
-				pev->SetEventSubType(ev.eventSubtypeLButtonPressed);
-				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
-			}
+		if(pMouseInput->IsLeftButtonHeld())
+		{
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeLButtonHeld);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		}
+		else
+		{
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeLButtonPressed);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		}
 		}
 		else if(pMouseInput->IsLeftButtonUp())
 		{
-			MouseEvent *pev = new MouseEvent();
-			pev->m_mouseData = ev.m_mouseData;
-			pev->SetEventSubType(ev.eventSubtypeLButtonUp);
-			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeLButtonUp);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
 
-			if(pMouseInput->IsLeftButtonReleased())
-			{
-				MouseEvent *pev = new MouseEvent();
-				pev->m_mouseData = ev.m_mouseData;
-				pev->SetEventSubType(ev.eventSubtypeLButtonReleased);
-				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
-			}
+		if(pMouseInput->IsLeftButtonReleased())
+		{
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeLButtonReleased);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		}
 		}
 
 		if(pMouseInput->IsMiddleButtonDown())
 		{
-			MouseEvent *pev = new MouseEvent();
-			pev->m_mouseData = ev.m_mouseData;
-			pev->SetEventSubType(ev.eventSubtypeMButtonDown);
-			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeMButtonDown);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
 
-			if(pMouseInput->IsMiddleButtonHeld())
-			{
-				MouseEvent *pev = new MouseEvent();
-				pev->m_mouseData = ev.m_mouseData;
-				pev->SetEventSubType(ev.eventSubtypeMButtonHeld);
-				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
-			}
-			else
-			{
-				MouseEvent *pev = new MouseEvent();
-				pev->m_mouseData = ev.m_mouseData;
-				pev->SetEventSubType(ev.eventSubtypeMButtonPressed);
-				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
-			}
+		if(pMouseInput->IsMiddleButtonHeld())
+		{
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeMButtonHeld);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		}
+		else
+		{
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeMButtonPressed);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		}
 		}
 		else if(pMouseInput->IsMiddleButtonUp())
 		{
-			MouseEvent *pev = new MouseEvent();
-			pev->m_mouseData = ev.m_mouseData;
-			pev->SetEventSubType(ev.eventSubtypeMButtonUp);
-			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeMButtonUp);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
 
-			if(pMouseInput->IsMiddleButtonReleased())
-			{
-				MouseEvent *pev = new MouseEvent();
-				pev->m_mouseData = ev.m_mouseData;
-				pev->SetEventSubType(ev.eventSubtypeMButtonReleased);
-				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
-			}
+		if(pMouseInput->IsMiddleButtonReleased())
+		{
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeMButtonReleased);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		}
 		}
 
 		if(pMouseInput->IsRightButtonDown())
 		{
-			MouseEvent *pev = new MouseEvent();
-			pev->m_mouseData = ev.m_mouseData;
-			pev->SetEventSubType(ev.eventSubtypeRButtonDown);
-			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeRButtonDown);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
 
-			if(pMouseInput->IsRightButtonHeld())
-			{
-				MouseEvent *pev = new MouseEvent();
-				pev->m_mouseData = ev.m_mouseData;
-				pev->SetEventSubType(ev.eventSubtypeRButtonHeld);
-				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
-			}
-			else
-			{
-				MouseEvent *pev = new MouseEvent();
-				pev->m_mouseData = ev.m_mouseData;
-				pev->SetEventSubType(ev.eventSubtypeRButtonPressed);
-				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
-			}
+		if(pMouseInput->IsRightButtonHeld())
+		{
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeRButtonHeld);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		}
+		else
+		{
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeRButtonPressed);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		}
 		}
 		else if(pMouseInput->IsRightButtonUp())
 		{
-			MouseEvent *pev = new MouseEvent();
-			pev->m_mouseData = ev.m_mouseData;
-			pev->SetEventSubType(ev.eventSubtypeRButtonUp);
-			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeRButtonUp);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
 
-			if(pMouseInput->IsRightButtonReleased())
-			{
-				MouseEvent *pev = new MouseEvent();
-				pev->m_mouseData = ev.m_mouseData;
-				pev->SetEventSubType(ev.eventSubtypeRButtonReleased);
-				Leaf3D::EventManager::GetInstance()->AddEvent(pev);
-			}
+		if(pMouseInput->IsRightButtonReleased())
+		{
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeRButtonReleased);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		}
 		}
 
 		if(pMouseInput->HasMouseMoved())
 		{
-			MouseEvent *pev = new MouseEvent();
-			pev->m_mouseData = ev.m_mouseData;
-			pev->SetEventSubType(ev.eventSubtypeMouseMoved);
-			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeMouseMoved);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
 		}
 
 		if(pMouseInput->GetWheelDelta() != 0)
 		{
-			MouseEvent *pev = new MouseEvent();
-			pev->m_mouseData = ev.m_mouseData;
-			pev->SetEventSubType(ev.eventSubtypeMouseWheel);
-			Leaf3D::EventManager::GetInstance()->AddEvent(pev);
+		MouseEvent *pev = new MouseEvent();
+		pev->m_mouseData = ev.m_mouseData;
+		pev->SetEventSubType(ev.eventSubtypeMouseWheel);
+		Leaf3D::EventManager::GetInstance()->AddEvent(pev);
 		}
 
 		*/
@@ -378,18 +382,18 @@ namespace oakvr
 	{
 		/*
 		using oakvr::Leaf3D::Widget;
-		
+
 		if(Widget::GetWidgetList()->size() == 0)
-			return;
+		return;
 
 		oakvr::Render::Texture *pTexture = GetResourceManager()->GetResource<oakvr::Render::Texture>("../resources/Skins/Button.dds");
 		if(!pTexture->IsReady())
-			return;
+		return;
 
 		using oakvr::Render::VertexBuffer;
 		oakvr::Render::Shader *pVertexShader = nullptr;
 		oakvr::Render::Shader *pPixelShader = nullptr;
-#if (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_9)
+		#if (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_9)
 		oakvr::Render::DirectX9Shader::DX9AdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params1.vertexFormat = VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0;
@@ -397,24 +401,24 @@ namespace oakvr
 
 		pVertexShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/InterfaceVS.hlsl", &params1);
 		pPixelShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX9Shader>( "../resources/shaders/hlsl_2_0/InterfacePS.hlsl", &params2);
-#elif (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_11)
+		#elif (OAKVR_RENDERER == OAKVR_RENDERER_DIRECTX_11)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
 
 		pVertexShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/InterfaceVS.hlsl", &params1);
 		pPixelShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::DirectX11Shader>( "../resources/shaders/hlsl_4_0/InterfacePS.hlsl", &params2);
-#elif (OAKVR_RENDERER == OAKVR_RENDERER_OPENGL)
+		#elif (OAKVR_RENDERER == OAKVR_RENDERER_OPENGL)
 		oakvr::Render::Shader::ShaderAdditionalInitParams params1, params2;
 		params1.shaderType = oakvr::Render::eST_VertexShader;
 		params2.shaderType = oakvr::Render::eST_PixelShader;
 
 		pVertexShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/InterfaceVS.glsl", &params1);
 		pPixelShader	= oakvr::OakVR::GetResourceManager()->GetResource<oakvr::Render::OpenGLShader>( "../resources/shaders/glsl/InterfacePS.glsl", &params2);
-#endif
+		#endif
 		if(!pVertexShader->IsReady() || !pPixelShader->IsReady())
-			return;
-		
+		return;
+
 		m_pGE->EnableOrtographicProjection();
 		m_pGE->EnableFillSolid();
 		auto widgets = Widget::GetWidgetList();
@@ -422,22 +426,22 @@ namespace oakvr
 		uint32_t numVertices = 0;
 		for(auto it = widgets->begin(); it != widgets->end(); ++it)
 		{
-			if((*it)->IsVisible())
-			{
-				numVertices += 4;
-			}
+		if((*it)->IsVisible())
+		{
+		numVertices += 4;
+		}
 		}
 
 		assert(numVertices != 0 && "There is nothing for DrawInterface to draw!!!");
 		if(numVertices == 0)
-			return;
+		return;
 
 		/////
 		// Sort widget list in reverse depth order
 		widgets->sort([](Widget * w1, Widget * w2)
-			{
-				return w1->GetDepth() > w2->GetDepth();
-			}
+		{
+		return w1->GetDepth() > w2->GetDepth();
+		}
 		);
 
 
@@ -445,8 +449,8 @@ namespace oakvr
 		// Create and populate vertex buffer
 		VertexBuffer vb;
 		vb.Create(numVertices, VertexBuffer::eVF_XYZ | VertexBuffer::eVF_Tex0);
-		
-		uint8_t *buff = new uint8_t[vb.GetVertexSize() * vb.GetVertexCount() * widgets->size()];			
+
+		uint8_t *buff = new uint8_t[vb.GetVertexSize() * vb.GetVertexCount() * widgets->size()];
 		float *p = (float *) buff;
 
 		float hw = GetRenderWindow()->GetWidth() / 2.f;
@@ -458,41 +462,41 @@ namespace oakvr
 		auto it = widgets->begin();
 		while(it != widgets->end())
 		{
-			using oakvr::Leaf3D::ScreenPosition2D;
-			using oakvr::Leaf3D::ScreenSize2D;
+		using oakvr::Leaf3D::ScreenPosition2D;
+		using oakvr::Leaf3D::ScreenSize2D;
 
-			ScreenPosition2D pos = (*it)->GetPosition();
-			ScreenSize2D size = (*it)->GetSize();
-			float fx = (pos.x - hw) * invWidth;
-			float fy = (hh - pos.y) * invHeight;
-			float fw = size.width * invWidth;
-			float fh = size.height * invHeight;
+		ScreenPosition2D pos = (*it)->GetPosition();
+		ScreenSize2D size = (*it)->GetSize();
+		float fx = (pos.x - hw) * invWidth;
+		float fy = (hh - pos.y) * invHeight;
+		float fw = size.width * invWidth;
+		float fh = size.height * invHeight;
 
-			*(p++)	= fx;
-			*(p++)	= fy;
-			*(p++)	= 0.0f;
-			*(p++)	= 0.0f;
-			*(p++)	= 0.0f;
-			
-			*(p++)	= fx + fw;
-			*(p++)	= fy;
-			*(p++)	= 0.0f;
-			*(p++)	= 1.0f;
-			*(p++)	= 0.0f;
-			
-			*(p++)	= fx + fw;
-			*(p++)	= fy - fh;
-			*(p++)	= 0.0f;
-			*(p++)	= 1.0f;
-			*(p++)	= 1.0f;
-			
-			*(p++)	= fx;
-			*(p++)	= fy - fh;
-			*(p++)	= 0.0f;
-			*(p++)	= 0.0f;
-			*(p++)	= 1.0f;
+		*(p++)	= fx;
+		*(p++)	= fy;
+		*(p++)	= 0.0f;
+		*(p++)	= 0.0f;
+		*(p++)	= 0.0f;
 
-			++it;
+		*(p++)	= fx + fw;
+		*(p++)	= fy;
+		*(p++)	= 0.0f;
+		*(p++)	= 1.0f;
+		*(p++)	= 0.0f;
+
+		*(p++)	= fx + fw;
+		*(p++)	= fy - fh;
+		*(p++)	= 0.0f;
+		*(p++)	= 1.0f;
+		*(p++)	= 1.0f;
+
+		*(p++)	= fx;
+		*(p++)	= fy - fh;
+		*(p++)	= 0.0f;
+		*(p++)	= 0.0f;
+		*(p++)	= 1.0f;
+
+		++it;
 		}
 
 		void *pBuff = nullptr;
@@ -510,12 +514,12 @@ namespace oakvr
 		uint32_t *pp = (uint32_t *)buff;
 		for(uint32_t i = 0; i < numVertices; i += 4)
 		{
-			*(pp++) = i + 0;
-			*(pp++) = i + 1;
-			*(pp++) = i + 3;
-			*(pp++) = i + 1;
-			*(pp++) = i + 2;
-			*(pp++) = i + 3;
+		*(pp++) = i + 0;
+		*(pp++) = i + 1;
+		*(pp++) = i + 3;
+		*(pp++) = i + 1;
+		*(pp++) = i + 2;
+		*(pp++) = i + 3;
 		}
 
 		pBuff = nullptr;
@@ -524,7 +528,7 @@ namespace oakvr
 		ib.Unlock();
 		delete[] buff;
 		buff = nullptr;
-		
+
 		m_pGE->UseVertexBuffer(&vb);
 		m_pGE->UseIndexBuffer(&ib);
 		m_pGE->UseTexture(pTexture);
@@ -540,18 +544,18 @@ namespace oakvr
 	}
 
 
-	void OakVR::RegisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
+	void OakVR::RegisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable)
 	{
-		m_pUpdateables.push_back(pUpdateable);
+		m_pUpdatables.push_back(pUpdatable);
 	}
 
-	void OakVR::UnregisterUpdateable(std::shared_ptr<oakvr::Updateable> pUpdateable)
+	void OakVR::UnregisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable)
 	{
-		auto size = m_pUpdateables.size();
-		std::remove_if(std::begin(m_pUpdateables), std::end(m_pUpdateables), [&](const std::shared_ptr<Updateable> &pRegisteredUpdateable)->bool{ return pRegisteredUpdateable == pUpdateable; });
-		if (size == m_pUpdateables.size())
+		auto size = m_pUpdatables.size();
+		std::remove_if(std::begin(m_pUpdatables), std::end(m_pUpdatables), [&](const std::shared_ptr<Updatable> &pRegisteredUpdatable)->bool{ return pRegisteredUpdatable == pUpdatable; });
+		if (size == m_pUpdatables.size())
 		{
-			Log::PrintError("Trying to unregister an updateable that was not registered! But how can this be?!... ");
+			Log::PrintError("Trying to unregister an Updatable that was not registered! But how can this be?!... ");
 		}
 	}
 
@@ -616,7 +620,7 @@ namespace oakvr
 			uint32_t numVertices, numChannels;
 			meshBufferReader.Read(numVertices);
 			meshBufferReader.Read(numChannels);
-			
+
 			oakvr::render::VertexDescriptor vertexDescriptor;
 			for (size_t j = 0; j < numChannels; ++j)
 			{
@@ -650,7 +654,7 @@ namespace oakvr
 				meshBufferReader.Read(pName.get(), nameSize);
 				pName.get()[nameSize] = 0;
 				auto texName = std::string(pName.get());
-				textureNames.push_back(texName.substr(0, texName.length() - 4) );
+				textureNames.push_back(texName.substr(0, texName.length() - 4));
 			}
 
 			auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(vertexDescriptor, vertexBuffer, indexStride, indexBuffer, pMaterial, textureNames);
@@ -665,10 +669,16 @@ namespace oakvr
 		m_pRenderer->RegisterMesh(pMesh);
 	}
 
-	auto OakVR::GetRegisteredMesh(const std::string &name)->std::shared_ptr<oakvr::render::Mesh>
+	auto OakVR::GetRegisteredMesh(const std::string &name)->std::shared_ptr < oakvr::render::Mesh >
 	{
 		return m_pRenderer->GetRegisteredMesh(name);
 	}
+
+	void OakVR::UnregisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh)
+	{
+		m_pRenderer->UnregisterMesh(pMesh);
+	}
+
 
 	void OakVR::TransformMesh(const std::string &meshName, const oakvr::math::Matrix &mat)
 	{
@@ -696,9 +706,10 @@ namespace oakvr
 		return m_pCM->GetCamera(cameraId);
 	}
 
-	std::shared_ptr<oakvr::render::Camera> OakVR::GetCurrentCamera()
+	auto OakVR::GetCurrentCamera()->std::shared_ptr < oakvr::render::Camera >
 	{
-		return m_pCM->GetCurrentCamera();}
+		return m_pCM->GetCurrentCamera();
+	}
 
 	void OakVR::SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
 	{
@@ -709,8 +720,8 @@ namespace oakvr
 	{
 		m_pCM->SetCurrentCamera(cameraId);
 	}
-	
-	void OakVR::SetRenderWindowPosition(unsigned int x, unsigned int y)
+
+	void OakVR::SetRenderWindowPosition(int x, int y)
 	{
 		m_pRW->SetPosition(x, y);
 	}
@@ -719,20 +730,30 @@ namespace oakvr
 	{
 		m_pRW->SetSize(width, height);
 	}
-	
-	auto OakVR::GetRenderWindowSize()->WindowSize
+
+	auto OakVR::GetRenderWindowSize()const->WindowSize
 	{
 		return{ m_pRW->GetWidth(), m_pRW->GetHeight() };
 	}
 
-	float OakVR::GetRenderWindowWidth()
+	auto OakVR::GetRenderWindowWidth()const -> float
 	{
 		return static_cast<float>(m_pRW->GetWidth());
 	}
 
-	float OakVR::GetRenderWindowHeight()
+	auto OakVR::GetRenderWindowHeight() const -> float
 	{
 		return static_cast<float>(m_pRW->GetHeight());
+	}
+
+	auto OakVR::GetRenderWindowPositionX()const->float
+	{
+		return static_cast<float>(m_pRW->GetPositionX());
+	}
+
+	auto OakVR::GetRenderWindowPositionY()const ->float
+	{
+		return static_cast<float>(m_pRW->GetPositionY());
 	}
 
 	void OakVR::SetRenderWindowTitle(const std::string &title)
