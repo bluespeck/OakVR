@@ -32,8 +32,8 @@ namespace oakvr
 		Vector2::Vector2(const std::initializer_list<float> &coords)
 		{
 			float *p = &x;
-			for (auto e : coords)
-				*(p++) = e;
+			for (size_t i = 0; i < coords.size() && i < 2; ++i)
+				*(p++) = *(coords.begin() + i);
 		}
 
 		//------------------------------------------------------
@@ -49,10 +49,86 @@ namespace oakvr
 			return &x;
 		}
 
+		// arithmetic operators
+		// --------------------------------------------------------------------------------
+		Vector2 Vector2::operator * (float scalar) const
+		{
+			return Vector2(scalar * x, scalar * y);
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector2 operator * (float scalar, const Vector2 &vec)
+		{
+			return Vector2(scalar * vec.x, scalar * vec.y);
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector2 Vector2::operator / (float scalar) const
+		{
+			float invDenom = 1 / scalar;
+			return Vector2(x * invDenom, y * invDenom);
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector2 Vector2::operator + () const
+		{
+			return *this;
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector2 Vector2::operator - () const
+		{
+			return Vector2{-x, -y};
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector2 Vector2::operator + (const Vector2 &vec) const
+		{
+			return Vector2{x + vec.x, y + vec.y};
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector2 Vector2::operator - (const Vector2 &vec) const
+		{
+			return Vector2{x - vec.x, y - vec.y};
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector2& Vector2::operator += (const Vector2 &vec)
+		{
+			x += vec.x;
+			y += vec.y;
+			return *this;
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector2& Vector2::operator -= (const Vector2 &vec)
+		{
+			x -= vec.x;
+			y -= vec.y;
+			return *this;
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector2& Vector2::operator *= (float scalar)
+		{
+			x *= scalar;
+			y *= scalar;
+			return *this;
+		}
+
+		// --------------------------------------------------------------------------------
+		Vector2& Vector2::operator /= (float scalar)
+		{
+			x /= scalar;
+			y /= scalar;
+			return *this;
+		}
+
 		//------------------------------------------------------
 		// other methods
 
-		float Vector2::Length() const
+		float Vector2::GetLength() const
 		{ 
 			return std::pow(x * x + y * y, 0.5f); 
 		}

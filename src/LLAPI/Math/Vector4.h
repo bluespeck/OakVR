@@ -1,5 +1,7 @@
 #pragma once
 
+#include <initializer_list>
+
 namespace oakvr
 {
 	namespace math
@@ -9,7 +11,8 @@ namespace oakvr
 		public:
 			// constructors
 			Vector4() {};			
-			Vector4( float x, float y, float z, float w );			
+			Vector4( float x, float y, float z, float w );
+			Vector4(const std::initializer_list<float> &coords);
 			Vector4( const float *arr );
 
 			// cast operators

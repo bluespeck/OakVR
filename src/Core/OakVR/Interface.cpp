@@ -121,6 +121,14 @@ namespace oakvr
 			return oakvr::OakVR::GetInstance().HasFocus();
 		}
 
+		auto ScreenCoordsToWindowClient(oakvr::math::Vector2 screenPos)->oakvr::math::Vector2
+		{
+			return oakvr::math::Vector2{
+				screenPos.x - oakvr::render::GetRenderWindowPositionX() - oakvr::render::GetRenderWindowWidth() / 2.f
+				, (oakvr::render::GetRenderWindowHeight() - (screenPos.y - oakvr::render::GetRenderWindowPositionY())) - oakvr::render::GetRenderWindowHeight() / 2.f
+			};
+		}
+
 		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color)
 		{
 			oakvr::OakVR::GetInstance().DrawLine(start, end, thickness, color);

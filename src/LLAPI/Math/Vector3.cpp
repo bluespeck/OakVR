@@ -18,8 +18,8 @@ namespace oakvr
 		Vector3::Vector3(const std::initializer_list<float> &initList)
 		{
 			float *p = &x;
-			for (auto e : initList)
-				*(p++) = e;
+			for (size_t i = 0; i < initList.size() && i < 3; ++i)
+				*(p++) = *(initList.begin() + i);
 		}
 
 		// --------------------------------------------------------------------------------

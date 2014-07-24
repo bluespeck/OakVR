@@ -4,6 +4,8 @@
 #include "Renderer/Renderer/Material.h"
 #include "OakVR/Camera.h"
 #include "Renderer/Renderer/Mesh.h"
+#include "Math/Vector2.h"
+#include "Math/Vector3.h"
 
 #include "Updatable.h"
 
@@ -48,6 +50,8 @@ namespace oakvr
 		auto GetRenderWindowHeight()->float;
 		void SetRenderWindowTitle(const std::string &title);
 		auto RenderWindowHasFocus()->bool;
+
+		auto ScreenCoordsToWindowClient(oakvr::math::Vector2)->oakvr::math::Vector2;
 		
 	}
 

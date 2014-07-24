@@ -21,6 +21,13 @@ namespace oakvr
 			w = arr[3];
 		}
 
+		Vector4::Vector4(const std::initializer_list<float> &initList)
+		{
+			float *p = &x;
+			for (size_t i = 0; i < initList.size() && i < 4; ++i)
+				*(p++) = *(initList.begin() + i);
+		}
+
 		// --------------------------------------------------------------------------------
 		// cast operators
 		// --------------------------------------------------------------------------------
@@ -40,13 +47,13 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		float Vector4::Length() const
 		{ 
-			return std::pow(x * x + y * y, 0.5f); 
+			return std::pow(x * x + y * y + z * z + w * w, 0.5f); 
 		}
 
 		// --------------------------------------------------------------------------------
 		Vector4 Vector4::Normalize() const
 		{
-			const float magnitudeSquare = x * x + y * y;
+			const float magnitudeSquare = x * x + y * y + z * z;
 
 			if(magnitudeSquare < 1e-15f)
 				return Vector4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -58,7 +65,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		float Vector4::Dot(const Vector4 &vec) const
 		{
-			return x * vec.x + y * vec.y;
+			return x * vec.x + y * vec.y + z * vec.z + w * vec.w;
 		}
 	}// namespace Math
 }

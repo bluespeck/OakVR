@@ -45,7 +45,8 @@ namespace oakvr
 			bool operator != ( const Vector2 &vec ) const;
 
 			// other methods
-			float Length() const;
+			float GetLength() const;
+			Vector3 GetNormalized() const;
 			Vector2 Normalize() const;
 			float Dot( const Vector2 &vec ) const;
 
