@@ -49,7 +49,8 @@ namespace oakvr
 			// have Update called for them
 			auto pUpdatables = m_pUpdatables;
 			for (auto &e : pUpdatables)
-				e->Update(dt);
+				if (!e->Update(dt))
+					return false;
 			auto pCamera = GetCurrentCamera();
 			if (pCamera)
 			{
@@ -101,6 +102,11 @@ namespace oakvr
 		oakvr::OakVR::GetInstance().OnWindowFocusChanged(pNativeHandler, focused);
 	}
 
+	void WindowPositionChangedCallback(void *pNativeHandler, int x, int y)
+	{
+		oakvr::OakVR::GetInstance().OnWindowPositionChanged(pNativeHandler, x, y);
+	}
+
 	// --------------------------------------------------------------------------------
 	// callback functions end
 	// --------------------------------------------------------------------------------
@@ -117,6 +123,7 @@ namespace oakvr
 		// Configure callbacks for necessary render window events
 		m_pRW->SetWindowSizeCallback(WindowSizeChangedCallback);
 		m_pRW->SetWindowFocusCallback(WindowFocusChangedCallback);
+		m_pRW->SetWindowPositionCallback(WindowPositionChangedCallback);
 
 		if (m_pRenderer)
 		{
@@ -780,6 +787,15 @@ namespace oakvr
 		}
 	}
 
+	void OakVR::OnWindowPositionChanged(void *pNativeWindowHandler, int x, int y)
+	{
+		if (m_pRW->GetNativeHandle() == (long)pNativeWindowHandler)
+		{
+			m_pRW->OnPositionChanged(x, y);
+		}
+	}
+
+
 	bool OakVR::HasFocus()
 	{
 		return m_pRW->HasFocus();
@@ -791,7 +807,7 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------
 
-	void OakVR::RegisterSubFolderPaths(const std::string &path)
+	auto OakVR::RegisterSubFolderPaths(const std::string &path)->bool
 	{
 		return m_pRM->AddPathsFromFolder(path);
 	}

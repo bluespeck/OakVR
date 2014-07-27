@@ -1,7 +1,8 @@
-	Project "Math"
-		kind "StaticLib"
-		language "C++"
+Project "Math"
+	kind "StaticLib"
+	language "C++"
+	ProjectGlobalConfig()
 
 
-		files { "**.h", "**.cpp" }
+	files { "**.h", "**.cpp" }
 

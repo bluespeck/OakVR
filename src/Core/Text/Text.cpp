@@ -46,7 +46,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Text::RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName, float scale /* = 1.0f */) const
+		void Text::RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName, float scale /* = 1.0f */, float angle /*= 0.f*/) const
 		{
 			float scaleFactor = 0.05f;
 
@@ -160,7 +160,8 @@ namespace oakvr
 
 				auto pMesh = std::make_shared<oakvr::render::Mesh>();
 				pMesh->AddMeshElement(pMeshElem);
-				pMesh->SetWorldMatrix(oakvr::math::Matrix::Scale(scale) * oakvr::math::Matrix::Translation(position));
+				pMesh->SetWorldMatrix(oakvr::math::Matrix::RotationZ(angle) * oakvr::math::Matrix::Scale(scale) * oakvr::math::Matrix::Translation(position));
+				//pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(position) * oakvr::math::Matrix::Scale(scale) * oakvr::math::Matrix::RotationZ(angle));
 				m_pRenderer->RegisterOneFrameMesh(pMesh);
 				m_pRenderer->RegisterShaderProgram("DefaultText");
 

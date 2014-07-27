@@ -40,6 +40,7 @@ namespace oakvr
 
 			void SetWindowSizeCallback(void(*f)(void *, int, int));
 			void SetWindowFocusCallback(void(*f)(void *, int));
+			void SetWindowPositionCallback(void(*f)(void *, int, int));
 
 			const std::string &GetTitle() { return m_title; }
 			void SetTitle(const std::string &title);
@@ -48,6 +49,8 @@ namespace oakvr
 
 			inline bool HasFocus() const { return m_bHasFocus; }
 			void OnFocusChanged(bool focused) { m_bHasFocus = focused; }
+
+			void OnPositionChanged(int x, int y) { m_posX = x; m_posY = y; }
 
 		private:
 

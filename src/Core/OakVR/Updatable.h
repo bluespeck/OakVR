@@ -7,6 +7,6 @@ namespace oakvr
 	public:
 		Updatable() {}
 		virtual ~Updatable() {}
-		virtual void Update(float dt) = 0; /* override in derived class to add custom behavior */
+		virtual auto Update(float dt) ->bool = 0; /* override in derived class to add custom behavior */
 	};
 }

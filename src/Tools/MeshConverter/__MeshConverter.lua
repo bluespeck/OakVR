@@ -9,6 +9,8 @@ Solution "OakMeshConverter"
 	Project "OakVRMeshConverter"
 		kind "ConsoleApp"
 		language "C++"
+		ProjectGlobalConfig()
+	
 		
 		files { "**.h", "**.cpp" }
 

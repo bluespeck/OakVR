@@ -1,6 +1,7 @@
 Project "FileIO"
 	kind "StaticLib"
 	language "C++"
+	ProjectGlobalConfig()
 	
 	includedirs
 	{

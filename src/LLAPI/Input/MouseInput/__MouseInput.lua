@@ -1,6 +1,7 @@
 Project "MouseInput"
 	kind "StaticLib"
 	language "C++"
+	ProjectGlobalConfig()
 	
 	includedirs{ ".", "../.." }
 	

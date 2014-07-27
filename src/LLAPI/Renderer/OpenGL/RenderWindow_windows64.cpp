@@ -67,18 +67,17 @@ namespace oakvr
 
 			if (!(m_pImpl->m_pWindow = glfwCreateWindow(m_width, m_height, m_title.c_str(), nullptr, nullptr)))
 			{
-				Log::PrintError("Failed to open a window !\n");
+				Log::PrintError("Failed to open a window ! Most likely cause \"GLFW: Window creation will fail if the Microsoft GDI software OpenGL implementation is the only one available\"\n");
 				glfwTerminate();
 				return false;
 			}
-			
 			m_bHasFocus = true;
 
 			m_nativeHandle = reinterpret_cast<long>(m_pImpl->m_pWindow);
 			glfwSetWindowPos(m_pImpl->m_pWindow, m_posX, m_posY);
 			glfwMakeContextCurrent(m_pImpl->m_pWindow);
 			glfwSetWindowCloseCallback(m_pImpl->m_pWindow, OnCloseWindow);
-			
+
 			CHECK_OPENGL_ERROR;
 			return true;
 		}
@@ -131,6 +130,12 @@ namespace oakvr
 		void RenderWindow::SetWindowFocusCallback(void(*pCallback)(void *, int))
 		{
 			glfwSetWindowFocusCallback(m_pImpl->m_pWindow, (void(*)(struct GLFWwindow *, int))pCallback);
+		}
+
+		// --------------------------------------------------------------------------------
+		void RenderWindow::SetWindowPositionCallback(void(*pCallback)(void *, int, int))
+		{
+			glfwSetWindowPosCallback(m_pImpl->m_pWindow, (void(*)(struct GLFWwindow *, int, int))pCallback);
 		}
 
 		// --------------------------------------------------------------------------------

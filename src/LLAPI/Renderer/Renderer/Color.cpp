@@ -26,5 +26,17 @@ namespace oakvr
 			b = f * (float) (uint8_t) (color >>  0);
 			a = f * (float) (uint8_t) (color >> 24);
 		}
+
+		Color::Color(float r, float g, float b, float a)
+			:r{ r }, g{ g }, b{ b }, a{a}
+		{	
+		}
+
+		Color::Color(std::initializer_list<float> initList)
+		{
+			float *p = &r;
+			for (size_t i = 0; i < initList.size() && i < 4; ++i)
+				*(p++) = *(initList.begin() + i);
+		}
 	}
 }

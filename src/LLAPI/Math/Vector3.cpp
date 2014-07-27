@@ -179,12 +179,22 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3& Vector3::operator /= (float scalar)
+		auto Vector3::operator /= (float scalar) -> Vector3&
 		{
 			x /= scalar;
 			y /= scalar;
 			z /= scalar;
 			return *this;
+		}
+
+		bool Vector3::operator==(const Vector3& vec) const
+		{
+			return (x == vec.x) && (y == vec.y) && (z == vec.z);
+		}
+
+		bool Vector3::operator!=(const Vector3& vec) const
+		{
+			return (x != vec.x) || (y != vec.y) || (z != vec.z);
 		}
 
 	}	// namespace Math

@@ -93,12 +93,12 @@ namespace oakvr
 
 		auto GetRenderWindowPositionX()->int
 		{
-			return oakvr::OakVR::GetInstance().GetRenderWindowPositionX();
+			return static_cast<int>(oakvr::OakVR::GetInstance().GetRenderWindowPositionX());
 		}
 
 		auto GetRenderWindowPositionY()->int
 		{
-			return oakvr::OakVR::GetInstance().GetRenderWindowPositionY();
+			return static_cast<int>(oakvr::OakVR::GetInstance().GetRenderWindowPositionY());
 		}
 
 		auto GetRenderWindowWidth()->float
@@ -142,9 +142,9 @@ namespace oakvr
 
 	namespace core
 	{
-		void RegisterSubFolderPaths(const std::string &path)
+		auto RegisterSubFolderPaths(const std::string &path)->bool
 		{
-			oakvr::OakVR::GetInstance().RegisterSubFolderPaths(path);
+			return oakvr::OakVR::GetInstance().RegisterSubFolderPaths(path);
 		}
 
 		auto GetResource(const std::string &id)->std::shared_ptr<oakvr::core::MemoryBuffer>

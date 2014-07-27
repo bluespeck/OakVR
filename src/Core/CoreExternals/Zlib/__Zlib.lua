@@ -2,6 +2,9 @@ Project "Zlib"
 	kind "StaticLib"
 	language "C++"
 
+	ProjectGlobalConfig()
+	
+	
 	-- current version 1.2.8 (28 Apr 2013)
 	includedirs
 	{

@@ -8,7 +8,7 @@ namespace construct
 	{
 	public:
 		Construct();
-		void Update(float dt) override;
+		auto Update(float dt) ->bool override;
 	private:
 		void CreateTestMesh1();
 		void CreateTestMesh2();

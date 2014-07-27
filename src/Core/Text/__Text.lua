@@ -2,6 +2,9 @@
 		kind "StaticLib"
 		language "C++"
 
+		ProjectGlobalConfig()
+	
+		
 		includedirs
 		{
 			"../../LLAPI",

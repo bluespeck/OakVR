@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <initializer_list>
 
 namespace oakvr
 {
@@ -16,6 +17,7 @@ namespace oakvr
 			Color();
 			Color(uint32_t color);
 			Color(float r, float g, float b, float a);
+			Color(std::initializer_list<float> initList);
 
 			operator uint32_t () const;
 			operator float const * () const;

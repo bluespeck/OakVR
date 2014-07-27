@@ -2,7 +2,8 @@ Project "OakVR"
 	kind "StaticLib"
 	language "C++"
 	
-
+	ProjectGlobalConfig()
+	
 	includedirs
 	{
 		"../../LLAPI",

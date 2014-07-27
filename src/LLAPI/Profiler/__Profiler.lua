@@ -1,6 +1,7 @@
 Project "Profiler"
 	kind "StaticLib"
 	language "C++"
+	ProjectGlobalConfig()
 	
 	includedirs{ ".." }
 	

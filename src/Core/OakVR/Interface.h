@@ -60,7 +60,7 @@ namespace oakvr
 
 	namespace core
 	{
-		void RegisterSubFolderPaths(const std::string &path);
+		auto RegisterSubFolderPaths(const std::string &path)->bool;
 		auto GetResource(const std::string &id)->std::shared_ptr<oakvr::core::MemoryBuffer>;
 	}
 } // namespace oakvr

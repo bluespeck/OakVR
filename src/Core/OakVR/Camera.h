@@ -24,14 +24,14 @@ namespace oakvr
 			Camera(const std::string &, const std::initializer_list<Vector3> &);
 			~Camera();
 
-			void Update(float dt) override {}
+			auto Update(float dt)->bool override { return true; }
 
-			const Vector3 &GetPosition( ) const { return m_position; }
-			const Vector3 &GetForward() const		{ return m_forward; }
-			const Vector3 &GetUp( ) const		{ return m_up; }
-			Vector3 GetRight() const { return m_forward.Cross(m_up); }
-			Matrix ComputeViewMatrix() const;
-			Matrix GetProjMatrix() const { return m_matProj; }
+			auto GetPosition() const -> const Vector3 &{ return m_position; }
+			auto GetForward() const -> const Vector3 &{ return m_forward; }
+			auto GetUp() const -> const Vector3 &{ return m_up; }
+			auto GetRight() const ->Vector3{ return m_forward.Cross(m_up); }
+			auto ComputeViewMatrix() const -> Matrix;
+			auto GetProjMatrix() const -> Matrix { return m_matProj; }
 			
 			void SetPosition( const Vector3 & position )	{ m_position = position; }
 			void SetLook(const Vector3& forward)			{ m_forward = forward; }

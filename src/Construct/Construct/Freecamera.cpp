@@ -6,7 +6,7 @@
 
 namespace construct
 {
-	void FreeCamera::Update(float dt)
+	auto FreeCamera::Update(float dt)->bool
 	{
 		if (oakvr::render::RenderWindowHasFocus())
 		{
@@ -49,6 +49,6 @@ namespace construct
 				m_up = (m_up * mRotationAroundRightDir).GetNormalized();
 			}
 		}
-
+		return true;
 	}
 }

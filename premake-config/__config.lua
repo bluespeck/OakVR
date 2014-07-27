@@ -163,12 +163,14 @@ function Solution(solutionName)
 		configuration "windows32"
 			system "Windows"
 			architecture "x32"
+			flags { "StaticRuntime" }
 			--toolset "msc"
 			defines		{ "OAKVR_WINDOWS32" }
 
 		configuration "windows64"
 			system "Windows"
 			architecture "x64"
+			flags { "StaticRuntime" }
 			--toolset "msc"	
 			defines		{ "OAKVR_WINDOWS64" }
 		
@@ -187,6 +189,9 @@ end
 function Project(projectName)
 	project(projectName)
 		location(oakvrRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.api.scope.solution.name .. "/" .. projectName)
+end
+
+function ProjectGlobalConfig()
 end
 
 function Build(plf, cfg)

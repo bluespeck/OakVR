@@ -16,7 +16,7 @@ namespace oakvr
 #elif defined(OAKVR_PROFILE)
 	Log::LogLevel Log::s_maxLevel = Log::LogLevel::warning;
 #elif defined(OAKVR_FINAL)
-	Log::LogLevel Log::s_maxLevel = Log::LogLevel::disabled;
+	Log::LogLevel Log::s_maxLevel = Log::LogLevel::error;
 #endif
 
 	void Log::SetMaxLevel(Log::LogLevel level)

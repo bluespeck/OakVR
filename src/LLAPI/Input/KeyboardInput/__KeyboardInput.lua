@@ -1,6 +1,7 @@
 Project "KeyboardInput"
 	kind "StaticLib"
 	language "C++"
+	ProjectGlobalConfig()
 	
 	includedirs{ ".", "../.." }
 	

@@ -43,8 +43,8 @@ namespace oakvr
 			friend Vector3 operator * ( float scalar, const Vector3 &vec );
 
 			// equality operators
-			bool operator == ( const Vector3 &vec ) const;
 			bool operator != ( const Vector3 &vec ) const;
+			bool operator ==(const Vector3& vec) const;
 
 			// other methods
 			float GetLength() const;

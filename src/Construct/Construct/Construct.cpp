@@ -60,7 +60,7 @@ namespace construct
 	}
 
 	const int meshNum = 2;
-	void Construct::Update(float dt)
+	auto Construct::Update(float dt)->bool
 	{
 		if (oakvr::render::RenderWindowHasFocus())
 		{
@@ -145,7 +145,7 @@ namespace construct
 			auto matWorld = pMesh->GetWorldMatrix();
 			pMesh->SetWorldMatrix(matWorld * oakvr::math::Matrix::RotationX(dt * oakvr::math::PiOverSix));
 		}
-		
+		return true;
 	}
 
 	void Construct::CreateTestMesh1()
@@ -205,7 +205,7 @@ namespace construct
 			for (int j = -meshNum; j < meshNum; ++j)
 			{
 				auto pMesh = oakvr::render::CreateMesh(std::string("monkey") + std::to_string(i) + std::to_string(j), "monkeymesh", pMaterial);
-				pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(i*3, j*3, 3));
+				pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(static_cast<float>(i * 3), static_cast<float>(j * 3), 3.0f));
 			}
 		}
 	}

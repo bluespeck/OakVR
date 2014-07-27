@@ -72,7 +72,7 @@ namespace oakvr
 
 		///////////////////////////////////////////////////////////////////////////////////
 		// resources related interface
-		void RegisterSubFolderPaths(const std::string &path);
+		auto RegisterSubFolderPaths(const std::string &path)->bool;
 		auto GetResource(const std::string &id) -> std::shared_ptr<oakvr::core::MemoryBuffer>;
 				
 		void Cleanup();
@@ -94,9 +94,11 @@ namespace oakvr
 		// window related
 		friend void WindowSizeChangedCallback(void *pNativeHandler, int w, int h);
 		friend void WindowFocusChangedCallback(void *pNativeHandler, int focused);
+		friend void WindowPositionChangedCallback(void *pNativeHandler, int x, int y);
 
 		void OnWindowSizeChanged(void *pNativeHandler, int width, int height);		
 		void OnWindowFocusChanged(void *pNativeHandler, int focused);
+		void OnWindowPositionChanged(void *pNativeHandler, int x, int y);
 
 	private:
 		OakVR();

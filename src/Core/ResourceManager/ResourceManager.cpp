@@ -106,10 +106,15 @@ namespace oakvr
 			*/
 		} 
 
-		void ResourceManager::AddPathsFromFolder(const std::string &path)
+		auto ResourceManager::AddPathsFromFolder(const std::string &path)->bool
 		{
 			core::io::Directory dir(path);
 			auto files = dir.GetFileList(true);
+			if (files.size() == 0)
+			{
+				oakvr::Log::PrintError("Could not load files from path \"%s\" !", path);
+				return false;
+			}
 			// retrieve path id and add to path map
 			for (auto &e : files)
 			{
@@ -119,6 +124,8 @@ namespace oakvr
 					m_mapPaths[stem] = e;
 				}
 			}
+
+			return true;
 		}
 
 		// --------------------------------------------------------------------------------

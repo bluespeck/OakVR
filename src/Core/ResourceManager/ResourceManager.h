@@ -31,7 +31,7 @@ namespace oakvr
 			ResourceManager();
 			~ResourceManager();
 		
-			void AddPathsFromFolder(const std::string &path);
+			auto AddPathsFromFolder(const std::string &path)->bool;
 			
 		private:
 			std::unordered_map<std::string, std::shared_ptr<MemoryBuffer>> m_mapResources;

@@ -1,8 +1,9 @@
-	Project "Utils"
-		kind "StaticLib"
-		language "C++"
+Project "Utils"
+	kind "StaticLib"
+	language "C++"
+	ProjectGlobalConfig()
 
-		includedirs { ".." }
+	includedirs { ".." }
 
-		files { "**.h", "**.cpp" }
+	files { "**.h", "**.cpp" }
 

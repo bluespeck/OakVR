@@ -1,6 +1,8 @@
 Project "Png"
 	kind "StaticLib"
 	language "C++"
+	
+	ProjectGlobalConfig()
 
 	-- Png version 1.6.10 (06.Mar.2014)
 	includedirs
