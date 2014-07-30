@@ -23,7 +23,6 @@ namespace oakvr
 			inline operator const float * () const;
 
 			// assignment operators
-			//Vector3& operator = ( const Vector3 &vec );
 			Vector3& operator += ( const Vector3 &vec );
 			Vector3& operator -= ( const Vector3 &vec );
 			Vector3& operator *= ( float scalar );

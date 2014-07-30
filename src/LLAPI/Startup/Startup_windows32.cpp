@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-BOOL WINAPI HandlerRoutine(_In_ DWORD dwCtrlType);
+BOOL WINAPI ConsoleHandlerRoutine(_In_ DWORD dwCtrlType);
 
 // --------------------------------------------------------------------------------
 //int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
@@ -20,9 +20,13 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		// Add our handler for the console window
-		SetConsoleCtrlHandler(HandlerRoutine, TRUE);
 
+#if defined(OAKVR_FINAL)
+		ShowWindow(GetConsoleWindow(), SW_HIDE);
+#else
+		// Add our handler for the console window
+		SetConsoleCtrlHandler(ConsoleHandlerRoutine, TRUE);
+#endif
 		oakvr::Log::PrintInfo("OakVR successfully initialized.\n");
 
 		// Enter the main loop
@@ -52,7 +56,7 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-BOOL WINAPI HandlerRoutine(_In_ DWORD dwCtrlType)
+BOOL WINAPI ConsoleHandlerRoutine(_In_ DWORD dwCtrlType)
 {
 	if (dwCtrlType == CTRL_CLOSE_EVENT)
 	{
