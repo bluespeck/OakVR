@@ -55,6 +55,12 @@ namespace oakvr
 					// Create vertex buffer for this mesh element
 					vb.Create(pMeshElem->m_vertexCount, pMeshElem->m_vertexStride);
 				}
+				else if (vb.GetVertexCount() != pMeshElem->m_vertexCount || vb.GetVertexStride() != pMeshElem->m_vertexStride)
+				{
+					vb.SetVertexCount(pMeshElem->m_vertexCount);
+					vb.SetVertexStride(pMeshElem->m_vertexStride);
+				}
+
 				// and populate it with vertex data
 				vb.Lock(&pBuff);
 

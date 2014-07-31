@@ -112,38 +112,35 @@ namespace oakvr
 					{
 						glEnableVertexAttribArray(0);
 						glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-						glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
-						offset += 3 * sizeof(float);
+						glVertexAttribPointer(0, e.size / sizeof(float), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
 					}
 						break;
 					case VertexElementDescriptor::Semantic::normal:
 					{
 						glEnableVertexAttribArray(1);
 						glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-						glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
-						offset += 3 * sizeof(float);
+						glVertexAttribPointer(1, e.size / sizeof(float), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
 					}
 						break;
 					case VertexElementDescriptor::Semantic::tex_coord:
 					{
 						glEnableVertexAttribArray(2);
 						glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-						glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
-						offset += 2 * sizeof(float);
+						glVertexAttribPointer(2, e.size / sizeof(float), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
 					}
 						break;
 					case VertexElementDescriptor::Semantic::color:
 					{
 						glEnableVertexAttribArray(3);
 						glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-						glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
-						offset += 3 * sizeof(float);
+						glVertexAttribPointer(3, e.size / sizeof(float), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
 					}
 						break;
 					default:
 						Log::PrintError("Unrecognized vertex element semantic");
 						break;
 					}
+					offset += e.size;
 				}
 			}
 			else

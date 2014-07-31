@@ -60,7 +60,8 @@ namespace oakvr
 					oakvr::render::VertexElementDescriptor::Semantic::color
 				};
 
-				oakvr::core::MemoryBuffer vb{ text.length() * 4 * ComputeVertexStride(ved) * sizeof(float) };
+				int vertexStride = ComputeVertexStride(ved);
+				oakvr::core::MemoryBuffer vb{ text.length() * 4 * vertexStride };
 				oakvr::core::MemoryBuffer ib{ text.length() * 6 * sizeof(uint32_t) };
 
 
@@ -68,9 +69,11 @@ namespace oakvr
 
 				float posX = 0.0f;
 				float posY = 0.0f;
+				
 				// create the mesh for this text
-				std::unique_ptr<float[]> pVertices = std::make_unique<float[]>(text.length() * 4 * ComputeVertexStride(ved) * sizeof(float));
-				std::unique_ptr<uint32_t[]> pIndices = std::make_unique<uint32_t[]>(text.length() * 6 * sizeof(uint32_t));
+				int vertexStrideInFloats = vertexStride / sizeof(float);
+				std::unique_ptr<float[]> pVertices = std::make_unique<float[]>(text.length() * 4 * vertexStrideInFloats);
+				std::unique_ptr<uint32_t[]> pIndices = std::make_unique<uint32_t[]>(text.length() * 6);
 				for (int i = 0; i < text.length(); ++i)
 				{
 					if (text[i] < ' ' || text[i] > 127)
@@ -98,54 +101,60 @@ namespace oakvr
 					//	color.g
 					//	color.b
 					
+					int offset = i * 4 * vertexStrideInFloats;
+
 					// Vertex #1
-					pVertices[i * 4 * 8 + 0 * 8 + 0] =  posX + clPixels;				
-					pVertices[i * 4 * 8 + 0 * 8 + 1] = posY - chPixels + ctPixels;				
-					pVertices[i * 4 * 8 + 0 * 8 + 2] = 0.0f;				
-					pVertices[i * 4 * 8 + 0 * 8 + 3] = charProps.texCoords1.x * horizontalNormalizationFactor;
-					pVertices[i * 4 * 8 + 0 * 8 + 4] = charProps.texCoords2.y * verticalNormalizationFactor;
-					pVertices[i * 4 * 8 + 0 * 8 + 5] = color.r;
-					pVertices[i * 4 * 8 + 0 * 8 + 6] = color.g;
-					pVertices[i * 4 * 8 + 0 * 8 + 7] = color.b;
+					pVertices[offset + 0 * vertexStrideInFloats + 0] =  posX + clPixels;				
+					pVertices[offset + 0 * vertexStrideInFloats + 1] = posY - chPixels + ctPixels;				
+					pVertices[offset + 0 * vertexStrideInFloats + 2] = 0.0f;				
+					pVertices[offset + 0 * vertexStrideInFloats + 3] = charProps.texCoords1.x * horizontalNormalizationFactor;
+					pVertices[offset + 0 * vertexStrideInFloats + 4] = charProps.texCoords2.y * verticalNormalizationFactor;
+					pVertices[offset + 0 * vertexStrideInFloats + 5] = color.r;
+					pVertices[offset + 0 * vertexStrideInFloats + 6] = color.g;
+					pVertices[offset + 0 * vertexStrideInFloats + 7] = color.b;
+					pVertices[offset + 0 * vertexStrideInFloats + 8] = color.a;
 
 					// Vertex #2
-					pVertices[i * 4 * 8 + 1 * 8 + 0] = posX + cwPixels + clPixels;	
-					pVertices[i * 4 * 8 + 1 * 8 + 1] = posY - chPixels + ctPixels;				
-					pVertices[i * 4 * 8 + 1 * 8 + 2] = 0.0f;				
-					pVertices[i * 4 * 8 + 1 * 8 + 3] = charProps.texCoords2.x * horizontalNormalizationFactor;
-					pVertices[i * 4 * 8 + 1 * 8 + 4] = charProps.texCoords2.y * verticalNormalizationFactor;
-					pVertices[i * 4 * 8 + 1 * 8 + 5] = color.r;
-					pVertices[i * 4 * 8 + 1 * 8 + 6] = color.g;
-					pVertices[i * 4 * 8 + 1 * 8 + 7] = color.b;
+					pVertices[offset + 1 * vertexStrideInFloats + 0] = posX + cwPixels + clPixels;	
+					pVertices[offset + 1 * vertexStrideInFloats + 1] = posY - chPixels + ctPixels;				
+					pVertices[offset + 1 * vertexStrideInFloats + 2] = 0.0f;				
+					pVertices[offset + 1 * vertexStrideInFloats + 3] = charProps.texCoords2.x * horizontalNormalizationFactor;
+					pVertices[offset + 1 * vertexStrideInFloats + 4] = charProps.texCoords2.y * verticalNormalizationFactor;
+					pVertices[offset + 1 * vertexStrideInFloats + 5] = color.r;
+					pVertices[offset + 1 * vertexStrideInFloats + 6] = color.g;
+					pVertices[offset + 1 * vertexStrideInFloats + 7] = color.b;
+					pVertices[offset + 1 * vertexStrideInFloats + 8] = color.a;
 
 					// Vertex #3
-					pVertices[i * 4 * 8 + 2 * 8 + 0] = posX + cwPixels + clPixels;
-					pVertices[i * 4 * 8 + 2 * 8 + 1] = posY + ctPixels;
-					pVertices[i * 4 * 8 + 2 * 8 + 2] = 0.0f;
-					pVertices[i * 4 * 8 + 2 * 8 + 3] = charProps.texCoords2.x * horizontalNormalizationFactor;
-					pVertices[i * 4 * 8 + 2 * 8 + 4] = charProps.texCoords1.y * verticalNormalizationFactor;
-					pVertices[i * 4 * 8 + 2 * 8 + 5] = color.r;
-					pVertices[i * 4 * 8 + 2 * 8 + 6] = color.g;
-					pVertices[i * 4 * 8 + 2 * 8 + 7] = color.b;
+					pVertices[offset + 2 * vertexStrideInFloats + 0] = posX + cwPixels + clPixels;
+					pVertices[offset + 2 * vertexStrideInFloats + 1] = posY + ctPixels;
+					pVertices[offset + 2 * vertexStrideInFloats + 2] = 0.0f;
+					pVertices[offset + 2 * vertexStrideInFloats + 3] = charProps.texCoords2.x * horizontalNormalizationFactor;
+					pVertices[offset + 2 * vertexStrideInFloats + 4] = charProps.texCoords1.y * verticalNormalizationFactor;
+					pVertices[offset + 2 * vertexStrideInFloats + 5] = color.r;
+					pVertices[offset + 2 * vertexStrideInFloats + 6] = color.g;
+					pVertices[offset + 2 * vertexStrideInFloats + 7] = color.b;
+					pVertices[offset + 2 * vertexStrideInFloats + 8] = color.a;
 
 					// Vertex #4
-					pVertices[i * 4 * 8 + 3 * 8 + 0] = posX + clPixels;
-					pVertices[i * 4 * 8 + 3 * 8 + 1] = posY + ctPixels;
-					pVertices[i * 4 * 8 + 3 * 8 + 2] = 0.0f;
-					pVertices[i * 4 * 8 + 3 * 8 + 3] = charProps.texCoords1.x * horizontalNormalizationFactor;
-					pVertices[i * 4 * 8 + 3 * 8 + 4] = charProps.texCoords1.y * verticalNormalizationFactor;
-					pVertices[i * 4 * 8 + 3 * 8 + 5] = color.r;
-					pVertices[i * 4 * 8 + 3 * 8 + 6] = color.g;
-					pVertices[i * 4 * 8 + 3 * 8 + 7] = color.b;
+					pVertices[offset + 3 * vertexStrideInFloats + 0] = posX + clPixels;
+					pVertices[offset + 3 * vertexStrideInFloats + 1] = posY + ctPixels;
+					pVertices[offset + 3 * vertexStrideInFloats + 2] = 0.0f;
+					pVertices[offset + 3 * vertexStrideInFloats + 3] = charProps.texCoords1.x * horizontalNormalizationFactor;
+					pVertices[offset + 3 * vertexStrideInFloats + 4] = charProps.texCoords1.y * verticalNormalizationFactor;
+					pVertices[offset + 3 * vertexStrideInFloats + 5] = color.r;
+					pVertices[offset + 3 * vertexStrideInFloats + 6] = color.g;
+					pVertices[offset + 3 * vertexStrideInFloats + 7] = color.b;
+					pVertices[offset + 3 * vertexStrideInFloats + 8] = color.a;
 
-
+					offset = i * 6;
 					// Index #1
-					pIndices[i * 6 + 0] = i * 4;
-					pIndices[i * 6 + 1] = i * 4 + 1;
-					pIndices[i * 6 + 2] = i * 4 + 2;
-					pIndices[i * 6 + 3] = i * 4;
-					pIndices[i * 6 + 4] = i * 4 + 2;
-					pIndices[i * 6 + 5] = i * 4 + 3;
+					pIndices[offset + 0] = i * 4;
+					pIndices[offset + 1] = i * 4 + 1;
+					pIndices[offset + 2] = i * 4 + 2;
+					pIndices[offset + 3] = i * 4;
+					pIndices[offset + 4] = i * 4 + 2;
+					pIndices[offset + 5] = i * 4 + 3;
 
 					posX += cwPixels;	// advance horrizontally
 				}

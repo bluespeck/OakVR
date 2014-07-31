@@ -37,7 +37,7 @@ namespace oakvr
 				case Semantic::position:	size = 12;	break;
 				case Semantic::tex_coord:	size = 8;	break;
 				case Semantic::normal:		size = 12;	break;
-				case Semantic::color:		size = 12;	break;
+				case Semantic::color:		size = 16;	break;
 				default: break;
 				}
 			}
