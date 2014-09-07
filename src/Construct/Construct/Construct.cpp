@@ -42,7 +42,7 @@ namespace construct
 		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(90.f), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
 		oakvr::render::RegisterCamera(pCamera);
 
-		pCamera = std::make_shared<FreeCamera>("free_camera", oakvr::math::Vector3{ 0.f, 0.f, -1000.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 100.f, 1.f);
+		pCamera = std::make_shared<FreeCamera>("free_camera", oakvr::math::Vector3{ 0.f, 0.f, 1000.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 100.f, 1.f);
 		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(90.f), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1.f, 2000.f);
 		oakvr::render::RegisterCamera(pCamera);
 		oakvr::render::SetCurrentCamera(pCamera);
@@ -53,9 +53,9 @@ namespace construct
 		oakvr::render::RegisterCamera(pCamera);
 
 		CreateTestMesh1();
-		//CreateTestMesh2();
-		//CreateTestMesh3();
-		//CreateTestMeshRoom();
+		CreateTestMesh2();
+		CreateTestMesh3();
+		CreateTestMeshRoom();
 	}
 
 	const int meshNum = 2;
@@ -64,11 +64,11 @@ namespace construct
 		if (oakvr::render::RenderWindowHasFocus())
 		{
 			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::y))
-				oakvr::render::DrawText("Y key is down", oakvr::math::Vector3(-0.9f, 15.9f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+				oakvr::render::DrawText("Y key is down", oakvr::math::Vector3(-0.9f, 215.9f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular", 20);
 			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::b))
-				oakvr::render::DrawText("B key is down again", oakvr::math::Vector3(-30.1f, 10.9f, -20.f), oakvr::render::Color::Yellow, "Fira Sans Light");
+				oakvr::render::DrawText("B key is down again", oakvr::math::Vector3(-30.1f, 100.9f, -20.f), oakvr::render::Color::Yellow, "Fira Sans Light", 20);
 			if (oakvr::input::mouse::IsLeftButtonDown())
-				oakvr::render::DrawText("Left mouse button down", oakvr::math::Vector3(-30.9f, 5.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular");
+				oakvr::render::DrawText("Left mouse button down", oakvr::math::Vector3(-30.9f, 25.f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular", 20);
 
 			if (oakvr::input::keyboard::IsPressed(oakvr::input::Key::_1))
 				oakvr::render::SetCurrentCamera("static_camera");
@@ -89,9 +89,9 @@ namespace construct
 			accumulatedTime = 0.f;
 			str = "FPS: " + std::to_string(static_cast<int>(dt > 1e-9f ? 1.f / dt : 0.f));
 		}
-		oakvr::render::DrawText(str, oakvr::math::Vector3(-10.f, -25.f, -20.f), oakvr::render::Color::Yellow, "Fira Mono Regular");
-
-		auto vec = oakvr::profiler::Profiler::GetInstance().GetSortedProfilingData();
+		oakvr::render::DrawText(str, oakvr::math::Vector3(-10.f, -125.f, -20.f), oakvr::render::Color::Yellow, "Fira Mono Regular", 20);
+		
+		/*auto vec = oakvr::profiler::Profiler::GetInstance().GetSortedProfilingData();
 		float fIndex = 0.0f;
 		for (auto elem : vec)
 		{
@@ -101,11 +101,11 @@ namespace construct
 			sprintf(line, "%60s -- [%%]=%3d h=%-6lu total[ms]=%-9llu lst[us]=%-9llu max[us]=%-9llu avg[us]=%-9llu", pd.id.name.c_str(), percentage, pd.hits, pd.totalTime / 1000, pd.latestTime, pd.maxTime, pd.avgTime);
 			oakvr::render::DrawText(std::string(line), oakvr::math::Vector3(-50.f, -fIndex, -20.f), oakvr::render::Color::Yellow, "Noto Sans Bold");
 			fIndex += 3.0f;
-		}
+		}*/
 
-		oakvr::render::DrawLine({ -50.f, 0.f, 0.f }, { 50.f, 0.f, 0.f }, 2.1f, oakvr::render::Color::Red, oakvr::render::Color::White);
-		oakvr::render::DrawLine({ 0.f, 0.f, -50.f }, { 0.f, 0.f, 50.f }, 2.1f, oakvr::render::Color::Blue, oakvr::render::Color::White);
-		oakvr::render::DrawLine({ 0.f, -50.f, 0.f }, { 0.f, 50.f, 0.f }, 2.1f, oakvr::render::Color::Green, oakvr::render::Color::White);
+		//oakvr::render::DrawLine({ -50.f, 0.f, 0.f }, { 50.f, 0.f, 0.f }, 2.1f, oakvr::render::Color::Red, oakvr::render::Color::White);
+		//oakvr::render::DrawLine({ 0.f, 0.f, -50.f }, { 0.f, 0.f, 50.f }, 2.1f, oakvr::render::Color::Blue, oakvr::render::Color::White);
+		//oakvr::render::DrawLine({ 0.f, -50.f, 0.f }, { 0.f, 50.f, 0.f }, 2.1f, oakvr::render::Color::Green, oakvr::render::Color::White);
 		
 		auto pCamera = oakvr::render::GetCurrentCamera();
 		if (pCamera)
@@ -182,7 +182,7 @@ namespace construct
 			for (int j = -meshNum; j < meshNum; ++j)
 			{
 				auto pMesh = oakvr::render::CreateMesh(std::string("monkey") + std::to_string(i) + std::to_string(j), "monkeymesh", pMaterial);
-				pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(static_cast<float>(i * 3), static_cast<float>(j * 3), 3.0f));
+				pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(static_cast<float>(i * 3), static_cast<float>(j * 3), 3.0f)* oakvr::math::Matrix::Scale(30));
 			}
 		}
 	}

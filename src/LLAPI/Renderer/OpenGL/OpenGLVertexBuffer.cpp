@@ -52,19 +52,16 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void VertexBuffer::Create(uint32_t vertexCount, uint8_t vertexStride)
 		{
-			if (m_pImpl->m_bInitialized)
+			if (!m_pImpl->m_bInitialized)
 			{
-				glDeleteBuffers(1, &m_pImpl->m_vbId);
-				glDeleteVertexArrays(1, &m_pImpl->m_vaoId);
-				m_pImpl->m_bInitialized = false;
+				glGenVertexArrays(1, &m_pImpl->m_vaoId);
+				glBindVertexArray(m_pImpl->m_vaoId);
+				glGenBuffers(1, &m_pImpl->m_vbId);
+				glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
 			}
 
 			m_count = vertexCount;
 			m_stride = vertexStride;
-			glGenVertexArrays(1, &m_pImpl->m_vaoId);
-			glBindVertexArray(m_pImpl->m_vaoId);
-			glGenBuffers(1, &m_pImpl->m_vbId);
-			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
 			glBufferData(GL_ARRAY_BUFFER, vertexCount * vertexStride, nullptr, GL_STATIC_DRAW);
 			m_pImpl->m_bInitialized = true;
 		}

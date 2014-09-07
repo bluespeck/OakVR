@@ -33,6 +33,7 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	bool OakVR::Update(float dt)
 	{
+		PROFILER_FUNC_SCOPED_TIMER;
 		oakvr::input::keyboard::Update();
 		oakvr::input::mouse::Update();
 

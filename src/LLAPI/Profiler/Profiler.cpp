@@ -36,6 +36,7 @@ namespace oakvr
 		void Profiler::PrintSortedData()
 		{
 #if defined(OAKVR_PROFILER_ENABLED)
+			PROFILER_FUNC_SCOPED_TIMER;
 			static auto prevTimePoint = std::chrono::high_resolution_clock::now();
 			static float accTime = 0.0f;
 			auto currentTimePoint = std::chrono::high_resolution_clock::now();
@@ -66,7 +67,7 @@ namespace oakvr
 				{
 					auto &pd = elem.second;
 					auto percentage = static_cast<int>(static_cast<float>(pd.totalTime) / static_cast<float>(vec.front().second.totalTime) * 100.0f);
-					Log::PrintInfo("\t%60s -- [%%]=%3d h=%-6lu total[ms]=%-9llu lst[\346s]=%-9llu max[\346s]=%-9llu avg[\346s]=%-9llu", pd.id.name.c_str(), percentage, pd.hits, pd.totalTime / 1000, pd.latestTime, pd.maxTime, pd.avgTime);
+					Log::PrintInfo("\t%60s -- [%%]=%3d h=%-6lu total[ms]=%-9llu crt[\346s]=%-9llu max[\346s]=%-9llu avg[\346s]=%-9llu", pd.id.name.c_str(), percentage, pd.hits, pd.totalTime / 1000, pd.latestTime, pd.maxTime, pd.avgTime);
 				}
 				Log::SetOutFilename(oldOutFileName);
 			}

@@ -91,8 +91,17 @@ namespace oakvr
 			for (size_t i = 0; i < indices.size(); i += sources.size())
 			{
 				for (size_t sourceIndex = 0; sourceIndex < sources.size(); ++sourceIndex)
-					for (size_t floatIndex = 0; floatIndex < strides[sourceIndex]; ++floatIndex)
-						buffWriter.Write(sources[sourceIndex].second[indices[i + sourceIndex] * strides[sourceIndex] + floatIndex]);
+				{
+					if (sources[sourceIndex].first != oakvr::render::VertexElementDescriptor::Semantic::color)
+						for (size_t floatIndex = 0; floatIndex < strides[sourceIndex]; ++floatIndex)
+							buffWriter.Write(sources[sourceIndex].second[indices[i + sourceIndex] * strides[sourceIndex] + floatIndex]);
+					else
+					{
+						for (size_t floatIndex = 0; floatIndex < 3; ++floatIndex)
+							buffWriter.Write(sources[sourceIndex].second[indices[i + sourceIndex] * 3 + floatIndex]);
+						buffWriter.Write(1.0f);
+					}
+				}
 			}
 			
 			return mb;
