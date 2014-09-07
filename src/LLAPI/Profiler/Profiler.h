@@ -8,7 +8,7 @@
 #include <string>
 
 // enable this macro to have profiling data
-//#define OAKVR_PROFILER_ENABLED
+#define OAKVR_PROFILER_ENABLED
 
 namespace oakvr
 {

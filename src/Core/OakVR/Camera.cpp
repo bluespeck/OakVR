@@ -14,8 +14,8 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		Camera::Camera(const std::string& cameraId, const Vector3 &pos, const Vector3 &target, const Vector3 &up)
-			: m_id{ cameraId }
-			, m_position{ pos }
+			: m_id( cameraId )
+			, m_position( pos )
 		{
 			m_forward = (target - pos).GetNormalized();
 			auto s = m_forward.Cross(up).GetNormalized();
@@ -23,7 +23,7 @@ namespace oakvr
 		}
 
 		Camera::Camera(const std::string &cameraId, const std::initializer_list<Vector3> &initList)
-			: m_id{ cameraId }
+			: m_id( cameraId )
 		{
 			if (initList.size() >= 3)
 			{

@@ -5,7 +5,7 @@ namespace oakvr
 	namespace render
 	{
 		Sprite::Sprite(const std::string &name, const oakvr::math::Vector3 &center, float width, float height, const std::string &textureName)
-			: m_name{ name }, m_center{ center }, m_width{ width }, m_height{ height }, m_textureName{ textureName }
+			: m_name( name ), m_center( center ), m_width{ width }, m_height{ height }, m_textureName( textureName )
 		{
 			std::vector<oakvr::render::VertexElementDescriptor> ved{
 				oakvr::render::VertexElementDescriptor::Semantic::position,

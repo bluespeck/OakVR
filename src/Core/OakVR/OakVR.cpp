@@ -4,6 +4,7 @@
 #include "input/KeyboardInput/KeyboardInput.h"
 #include "Math/Matrix.h"
 #include "Math/Vector3.h"
+#include "Math/Vector4.h"
 #include "Log/Log.h"
 
 #include "ResourceManager/ResourceManager.h"
@@ -182,12 +183,12 @@ namespace oakvr
 			oakvr::render::VertexElementDescriptor::Semantic::color
 		};
 
-		oakvr::core::MemoryBuffer vb{ 8 * ComputeVertexStride(ved) * sizeof(float) };
+		oakvr::core::MemoryBuffer vb{ 8 * ComputeVertexStride(ved) };
 		oakvr::core::MemoryBuffer ib{ 6 * 2 * 3 * sizeof(uint32_t) };
 		struct Vertex
 		{
 			oakvr::math::Vector3 pos;
-			oakvr::math::Vector3 color;
+			oakvr::math::Vector4 color;
 		} pVertices[] = {
 				{ start - p1 + p2, startColor },
 				{ start - p1 - p2, startColor },
@@ -690,7 +691,8 @@ namespace oakvr
 	void OakVR::TransformMesh(const std::string &meshName, const oakvr::math::Matrix &mat)
 	{
 		auto pMesh = m_pRenderer->GetRegisteredMesh(meshName);
-		pMesh->SetWorldMatrix(pMesh->GetWorldMatrix() * mat);
+		if (pMesh)
+			pMesh->Transform(mat);
 	}
 
 	void OakVR::RegisterShader(std::string shaderName)

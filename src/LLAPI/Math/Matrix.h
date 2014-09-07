@@ -23,6 +23,7 @@ namespace oakvr
 			};
 			Matrix();
 			Matrix( float *m );
+			Matrix(float diagValue);
 
 			inline operator float* ();
 			inline operator const float* () const;

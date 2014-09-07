@@ -25,6 +25,15 @@ namespace oakvr
 			std::memcpy(m, a, sizeof(m));
 		}		
 
+		Matrix::Matrix(float diagValue)
+		{
+			_12 = _13 = _14 = 0.0f;
+			_21 = _23 = _24 = 0.0f;
+			_31 = _32 = _34 = 0.0f;
+			_41 = _42 = _43 = 0.0f;
+			_11 = _22 = _33 = _44 = diagValue;
+		}
+
 		// --------------------------------------------------------------------------------
 		void Matrix::Transpose()
 		{
@@ -424,7 +433,6 @@ namespace oakvr
 		Matrix Matrix::RotationX(float angle)
 		{
 			Matrix mat;
-			mat.SetIdentity();
 			mat._22 = std::cos(angle); 
 			mat._23 = -std::sin(angle);
 			mat._32 = -mat._23;	
@@ -436,7 +444,6 @@ namespace oakvr
 		Matrix Matrix::RotationY(float angle)
 		{
 			Matrix mat;
-			mat.SetIdentity();
 			mat._11 = std::cos(angle);
 			mat._13 = std::sin(angle);
 			mat._31 = -mat._13;
@@ -448,7 +455,6 @@ namespace oakvr
 		Matrix Matrix::RotationZ(float angle)
 		{
 			Matrix mat;
-			mat.SetIdentity();
 			mat._11 = std::cos(angle);
 			mat._12 = -std::sin(angle);
 			mat._21 = -mat._12;
@@ -460,7 +466,6 @@ namespace oakvr
 		Matrix Matrix::RotationAxisRightHanded(float angle, const Vector3& axis)
 		{
 			Matrix mat;
-			mat.SetIdentity();
 			float c = std::cos(angle);
 			float s = std::sin(angle);
 			float t = 1 - c;
@@ -486,7 +491,6 @@ namespace oakvr
 		Matrix Matrix::Translation(float x, float y, float z)
 		{
 			Matrix mat;
-			mat.SetIdentity();
 			mat._41 = x;
 			mat._42 = y;
 			mat._43 = z;
@@ -497,7 +501,6 @@ namespace oakvr
 		Matrix Matrix::Translation(const Vector3 &vec)
 		{
 			Matrix mat;
-			mat.SetIdentity();
 			mat._41 = vec.x;
 			mat._42 = vec.y;
 			mat._43 = vec.z;
@@ -508,7 +511,6 @@ namespace oakvr
 		Matrix Matrix::Scale(float x, float y, float z)
 		{
 			Matrix mat;
-			mat.SetIdentity();
 			mat._11 = x;
 			mat._22 = y;
 			mat._33 = z;
@@ -519,7 +521,6 @@ namespace oakvr
 		Matrix Matrix::Scale(float scale)
 		{
 			Matrix mat;
-			mat.SetIdentity();
 			mat._11 = scale;
 			mat._22 = scale;
 			mat._33 = scale;
@@ -536,9 +537,9 @@ namespace oakvr
 			
 			mat._22 = 1.f / tan(fov / 2.f);
 			mat._11 = mat._22 / aspect;
-			mat._33 = -(zfar+ znear) * oneOverDepth;
-			mat._43 = (-2.f * zfar * znear) * oneOverDepth;
-			mat._34 = 1;
+			mat._33 = zfar * oneOverDepth;
+			mat._34 = -(zfar * znear) * oneOverDepth;
+			mat._43 = 1;
 			mat._44 = 0;
 			return mat;
 		}
@@ -556,7 +557,7 @@ namespace oakvr
 			mat._41 = -(right + left) * oneOverRightMinusLeft;
 			mat._42 = -(top + bottom) * oneOverTopMinusButtom;
 			mat._43 = (far + near) * oneOverFarMinusNear;
-			mat._44 = 1.0f;
+			mat._44 = 0.0f;
 
 			return mat;
 		}

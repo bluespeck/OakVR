@@ -24,6 +24,7 @@ namespace oakvr
 			auto GetMeshElements() const -> const MeshElementVector &{ return m_vMeshElements; }
 			void SetWorldMatrix(const oakvr::math::Matrix &worldMatrix) { m_worldMatrix = worldMatrix; }
 			auto GetWorldMatrix() const -> const oakvr::math::Matrix & { return m_worldMatrix; }
+			void Transform(const oakvr::math::Matrix &transform) { m_worldMatrix = transform * m_worldMatrix; }
 
 			auto GetName() const -> const std::string & { return m_name; }
 
