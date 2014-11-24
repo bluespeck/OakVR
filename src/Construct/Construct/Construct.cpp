@@ -43,7 +43,7 @@ namespace construct
 		oakvr::render::RegisterCamera(pCamera);
 
 		pCamera = std::make_shared<FreeCamera>("free_camera", oakvr::math::Vector3{ 0.f, 0.f, 500.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 1000.f, 1.f);
-		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(45.f), oakvr::render::GetRenderWindowHeight() / oakvr::render::GetRenderWindowWidth(), 1.f, 2000.f);
+		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(60.f), oakvr::render::GetRenderWindowHeight() / oakvr::render::GetRenderWindowWidth(), 1.f, 2000.f);
 		oakvr::render::RegisterCamera(pCamera);
 		oakvr::render::SetCurrentCamera(pCamera);
 
@@ -120,7 +120,7 @@ namespace construct
 			+ " C" + std::to_string(oakvr::render::IsCullingEnabled())
 			+ " D" + std::to_string(oakvr::render::IsDepthTestEnabled())
 			+ " B" + std::to_string(oakvr::render::IsBlendingEnabled())
-			, oakvr::math::Vector3(0.f, 100.f, 0.f), oakvr::render::Color::Yellow, "Fira Mono Regular", 20);
+			, oakvr::math::Vector3(0.f, 30.f, 0.f), oakvr::render::Color::Yellow, "Fira Mono Regular", 20);
 		
 		/*auto vec = oakvr::profiler::Profiler::GetInstance().GetSortedProfilingData();
 		float fIndex = 0.0f;
@@ -153,7 +153,7 @@ namespace construct
 			}
 		}
 		
-		oakvr::render::TransformMesh("monkey2", oakvr::math::Matrix::RotationX(dt * oakvr::math::PiOverSix));
+		oakvr::render::TransformMesh("monkey2", oakvr::math::Matrix::RotationX(-dt * oakvr::math::PiOverTwo));
 		return true;
 	}
 
@@ -222,7 +222,7 @@ namespace construct
 	{
 		auto pMaterial = std::make_shared<oakvr::render::Material>("Default");
 		auto pMesh = oakvr::render::CreateMesh("monkey2", "monkeymesh", pMaterial);
-		pMesh->SetWorldMatrix(oakvr::math::Matrix::Scale(250) * oakvr::math::Matrix::Translation(50, 50, 115));
+		pMesh->SetWorldMatrix(oakvr::math::Matrix::Scale(250) * oakvr::math::Matrix::Translation(1, 1, 1));
 	}
 
 	void Construct::CreateTestMeshRoom()

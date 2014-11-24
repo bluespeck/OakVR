@@ -134,13 +134,13 @@ namespace oakvr
 		{
 			//TODO: Add set shader param function
 			PROFILER_FUNC_SCOPED_TIMER;
-			//const oakvr::math::Matrix mProj = m_projMatrix.GetTransposed();
-			//const oakvr::math::Matrix mView = m_viewMatrix.GetTransposed();
-			//const oakvr::math::Matrix mWorld = m_worldMatrix.GetTransposed();
+			const oakvr::math::Matrix mProj = m_projMatrix.GetTransposed();
+			const oakvr::math::Matrix mView = m_viewMatrix.GetTransposed();
+			const oakvr::math::Matrix mWorld = m_worldMatrix.GetTransposed();
 
-			const oakvr::math::Matrix mProj = m_projMatrix;
-			const oakvr::math::Matrix mView = m_viewMatrix;
-			const oakvr::math::Matrix mWorld = m_worldMatrix;
+			//const oakvr::math::Matrix mProj = m_projMatrix;
+			//const oakvr::math::Matrix mView = m_viewMatrix;
+			//const oakvr::math::Matrix mWorld = m_worldMatrix;
 			
 			GLuint programId = reinterpret_cast<GLuint>(pShaderProgram->GetNativeHandle());
 			int projectionMatrixLocation = glCallAndCheck(glGetUniformLocation, programId, "projectionMatrix");

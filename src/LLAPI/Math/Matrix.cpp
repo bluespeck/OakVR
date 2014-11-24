@@ -463,9 +463,9 @@ namespace oakvr
 		Matrix Matrix::Translation(float x, float y, float z)
 		{
 			Matrix mat;
-			mat._41 = x;
-			mat._42 = y;
-			mat._43 = z;
+			mat._14 = x;
+			mat._24 = y;
+			mat._34 = z;
 
 			return mat;
 		}
@@ -473,9 +473,9 @@ namespace oakvr
 		Matrix Matrix::Translation(const Vector3 &vec)
 		{
 			Matrix mat;
-			mat._41 = vec.x;
-			mat._42 = vec.y;
-			mat._43 = vec.z;
+			mat._14 = vec.x;
+			mat._24 = vec.y;
+			mat._34 = vec.z;
 
 			return mat;
 		}
@@ -509,8 +509,8 @@ namespace oakvr
 			mat._22 = 1.f / tan(0.5f * fov);
 			mat._11 = mat._22 / aspect;
 			mat._33 = -(znear + zfar) / frustumDepth;
-			mat._34 = -(2 * zfar * znear) / frustumDepth;
-			mat._43 = -1;
+			mat._43 = -(2 * zfar * znear) / frustumDepth;
+			mat._34 = -1;
 			mat._44 = 0;
 			return mat;
 		}
@@ -525,9 +525,9 @@ namespace oakvr
 			mat._11 = 2 * oneOverRightMinusLeft;
 			mat._22 = 2 * oneOverTopMinusButtom;
 			mat._33 = -2 * oneOverFarMinusNear;
-			mat._14 = -(right + left) * oneOverRightMinusLeft;
-			mat._24 = -(top + bottom) * oneOverTopMinusButtom;
-			mat._34 = -(far + near) * oneOverFarMinusNear;
+			mat._41 = -(right + left) * oneOverRightMinusLeft;
+			mat._42 = -(top + bottom) * oneOverTopMinusButtom;
+			mat._43 = -(far + near) * oneOverFarMinusNear;
 			mat._44 = 1.0f;
 
 			return mat;
