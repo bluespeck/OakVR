@@ -34,12 +34,42 @@ inline void CheckOpenGLError(const char *file, int line)
 			case GL_OUT_OF_MEMORY:          error = "GL_OUT_OF_MEMORY";			break;
 			case GL_INVALID_FRAMEBUFFER_OPERATION:	error = "GL_INVALID_FRAMEBUFFER_OPERATION";	break;
 		}
-		oakvr::Log::PrintWarning("%s:%d : OpenGL error \"%s\"", file, line, error.c_str());
+		oakvr::Log::Warning("%s:%d : OpenGL error \"%s\"", file, line, error.c_str());
 		err = glGetError();
 	}
 }
 
-#	define CHECK_OPENGL_ERROR CheckOpenGLError(__FILE__, __LINE__);
+#	define CHECK_OPENGL_ERROR CheckOpenGLError(__FILE__, __LINE__)
+
 #else
 #	define CHECK_OPENGL_ERROR
+
 #endif
+
+namespace oakvr
+{
+	namespace render
+	{
+		// credit to Mircea for this nice piece of code ^^ http://pushcpp.blogspot.ro/2014/10/simple-opengl-error-checking.html
+		template<typename glFunction, typename... glFunctionParams>
+		auto glCallAndCheck(glFunction glFunc, glFunctionParams... params)->typename std::enable_if <
+			std::is_same<void, decltype(glFunc(params...))>::value,
+			decltype(glFunc(params...))
+		> ::type
+		{
+			glFunc(std::forward<glFunctionParams>(params)...);
+			CHECK_OPENGL_ERROR;
+		}
+
+		template<typename glFunction, typename... glFunctionParams>
+		auto glCallAndCheck(glFunction glFunc, glFunctionParams... params)->typename std::enable_if <
+			!std::is_same<void, decltype(glFunc(params...))>::value,
+			decltype(glFunc(params...))
+		> ::type
+		{
+			auto result = glFunc(std::forward<glFunctionParams>(params)...);
+			CHECK_OPENGL_ERROR;
+			return result;
+		}
+	}
+}

@@ -19,9 +19,9 @@ namespace oakvr
 			info
 		};
 
-		static void PrintError(const char * logMsg, ...);
-		static void PrintWarning(const char * logMsg, ...);
-		static void PrintInfo(const char * logMsg, ...);
+		static void Error(const char * logMsg, ...);
+		static void Warning(const char * logMsg, ...);
+		static void Info(const char * logMsg, ...);
 
 
 		static void SetMaxLevel(LogLevel level);

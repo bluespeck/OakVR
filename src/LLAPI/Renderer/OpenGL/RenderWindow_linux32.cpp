@@ -8,7 +8,7 @@ namespace oakvr
 {
 	namespace render
 	{
-		int GLFWCALL OnCloseWindow(void)
+		int OnCloseWindow(void)
 		{
 			return GL_TRUE;
 		}
@@ -50,7 +50,7 @@ namespace oakvr
 		{
 			if(glfwInit() == GL_FALSE)
 			{
-				Log::PrintError("Failed to initialize GLFW!\n");
+				Log::Error("Failed to initialize GLFW!\n");
 				return false;
 			}
 			//glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
@@ -61,7 +61,7 @@ namespace oakvr
 
 			if(glfwOpenWindow(m_width, m_height, 8, 8, 8, 8, 24, 8, GLFW_WINDOW) == GL_FALSE)
 			{
-				Log::PrintError("Failed to open a window !\n");
+				Log::Error("Failed to open a window !\n");
 				glfwTerminate();
 				return false;
 			}
@@ -69,7 +69,7 @@ namespace oakvr
 			{
 				glfwSetWindowCloseCallback(OnCloseWindow);
 				glfwSetWindowTitle( m_title.c_str());
-				Log::PrintInfo("RW Initialized!\n");
+				Log::Info("RW Initialized!\n");
 				return true;
 			}
 		}

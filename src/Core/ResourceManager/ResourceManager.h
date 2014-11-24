@@ -13,6 +13,7 @@
 #include "Utils/StringId.h"
 #include "Utils/Singleton.h"
 #include "Utils/Buffer.h"
+#include "Utils/Types.h"
 
 namespace oakvr
 {
@@ -24,7 +25,7 @@ namespace oakvr
 			void Initialize();
 
 			void CreateResourceFromMemory(const std::string &id, const MemoryBuffer &buffer);
-			std::shared_ptr<MemoryBuffer> GetResource(const std::string &id);
+			sp<MemoryBuffer> GetResource(const std::string &id);
 			
 			void ReleaseResource(const std::string &id);
 

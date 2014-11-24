@@ -76,7 +76,7 @@ namespace oakvr
 			auto buffWriter = oakvr::core::MakeBufferWriter(mb);
 			
 			// numberOfVertices
-			buffWriter.Write(static_cast<uint32_t>(mb.Size() / vertexStride));
+			buffWriter.Write(static_cast<uint32_t>(indices.size() / sources.size() ));
 
 			// numberOfChannels
 			buffWriter.Write(static_cast<uint32_t>(sources.size()));
@@ -347,7 +347,7 @@ namespace oakvr
 		------ submesh 0
 		numberOfVertices: 4 bytes
 		numberOfChannels: 4 byte
-		channeltypes: numberOfChannels bytes
+		channeltypes: numberOfChannels * 4 bytes
 		vertices: numberOfVertices * (numberOfChannels  * channelsize[channel])
 
 		numberOfIndices: 4 bytes

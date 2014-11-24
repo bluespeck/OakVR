@@ -3,6 +3,7 @@
 #include "Oakvr/Interface.h"
 #include "Utils/Singleton.h"
 #include "Utils/Buffer.h"
+#include "Utils/Types.h"
 #include "FontFace.h"
 #include "Math/Vector3.h"
 #include "Renderer/Renderer/Color.h"
@@ -31,7 +32,7 @@ namespace oakvr
 		{
 			friend class Singleton < Text > ;
 		public:
-			void AddFontFace(std::shared_ptr<oakvr::core::MemoryBuffer> fontFileBuff);
+			void AddFontFace(sp<oakvr::core::MemoryBuffer> fontFileBuff);
 			
 			void RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName, float scale = 1.0f, float angle = 0.0f) const;
 

@@ -20,11 +20,11 @@ namespace construct
 			}			
 			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::a))
 			{
-				m_position -= m_strafeSpeed * dt * GetRight();
+				m_position += m_strafeSpeed * dt * GetRight();
 			}
 			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::d))
 			{
-				m_position += m_strafeSpeed * dt * GetRight();
+				m_position -= m_strafeSpeed * dt * GetRight();
 			}
 			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::space) )
 			{

@@ -9,8 +9,8 @@ namespace oakvr
 {
 	namespace render
 	{	
-		auto CreateMesh(const std::string &name, const oakvr::render::VertexDescriptor &vertexDescriptor, const oakvr::core::MemoryBuffer &vertexBuffer, uint8_t indexStride, const oakvr::core::MemoryBuffer &indexBuffer, std::shared_ptr<Material> pMaterial, std::vector<std::string> textureNames)
-			-> std::shared_ptr<oakvr::render::Mesh>
+		auto CreateMesh(const std::string &name, const oakvr::render::VertexDescriptor &vertexDescriptor, const oakvr::core::MemoryBuffer &vertexBuffer, uint8_t indexStride, const oakvr::core::MemoryBuffer &indexBuffer, sp<Material> pMaterial, std::vector<std::string> textureNames)
+			-> sp<oakvr::render::Mesh>
 		{
 			auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(vertexDescriptor, vertexBuffer, indexStride, indexBuffer, pMaterial, textureNames);
 			
@@ -22,7 +22,7 @@ namespace oakvr
 			return pMesh;
 		}
 
-		auto CreateMesh(const std::string &name, const std::string &resourceId, std::shared_ptr<oakvr::render::Material> pMaterial) -> std::shared_ptr<oakvr::render::Mesh>
+		auto CreateMesh(const std::string &name, const std::string &resourceId, sp<oakvr::render::Material> pMaterial) -> sp<oakvr::render::Mesh>
 		{
 			auto pMeshBuffer = oakvr::core::GetResource(resourceId);
 			auto pMesh = oakvr::OakVR::GetInstance().CreateMesh(name, pMeshBuffer, pMaterial);
@@ -36,7 +36,7 @@ namespace oakvr
 			oakvr::OakVR::GetInstance().UnregisterMesh(GetMesh(name));
 		}
 
-		auto GetMesh(const std::string &name)->std::shared_ptr<oakvr::render::Mesh>
+		auto GetMesh(const std::string &name)->sp<oakvr::render::Mesh>
 		{
 			return oakvr::OakVR::GetInstance().GetRegisteredMesh(name);
 		}
@@ -51,27 +51,27 @@ namespace oakvr
 			oakvr::OakVR::GetInstance().RegisterShader(shaderName);
 		}
 
-		void RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+		void RegisterCamera(sp<oakvr::render::Camera> pCamera)
 		{
 			oakvr::OakVR::GetInstance().RegisterCamera(pCamera);
 		}
 
-		void UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+		void UnregisterCamera(sp<oakvr::render::Camera> pCamera)
 		{
 			oakvr::OakVR::GetInstance().UnregisterCamera(pCamera);
 		}
 
-		auto GetCamera(const std::string &cameraId)->std::shared_ptr<oakvr::render::Camera>
+		auto GetCamera(const std::string &cameraId)->sp<oakvr::render::Camera>
 		{
 			return oakvr::OakVR::GetInstance().GetCamera(cameraId);
 		}
 
-		auto GetCurrentCamera()->std::shared_ptr<oakvr::render::Camera>
+		auto GetCurrentCamera()->sp<oakvr::render::Camera>
 		{
 			return oakvr::OakVR::GetInstance().GetCurrentCamera();
 		}
 
-		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+		void SetCurrentCamera(sp<oakvr::render::Camera> pCamera)
 		{
 			oakvr::OakVR::GetInstance().SetCurrentCamera(pCamera);
 		}
@@ -138,6 +138,33 @@ namespace oakvr
 		{
 			oakvr::OakVR::GetInstance().DrawLine(start, end, thickness, color, startColor);
 		}
+
+#define IMPLEMENT_DISABLEENABLE_FCT(paramName) \
+		void Enable ## paramName ()\
+		{\
+			oakvr::OakVR::GetInstance().Enable ## paramName();\
+		}\
+		\
+		void Disable ## paramName ()\
+		{\
+			oakvr::OakVR::GetInstance().Disable ## paramName();\
+		}\
+		\
+		void Toggle ## paramName ()\
+		{\
+			oakvr::OakVR::GetInstance().Toggle ## paramName();\
+		}\
+		\
+		bool Is ## paramName ## Enabled()\
+		{\
+			return oakvr::OakVR::GetInstance().Is ## paramName ## Enabled();\
+		}
+		
+		IMPLEMENT_DISABLEENABLE_FCT(Wireframe)
+		IMPLEMENT_DISABLEENABLE_FCT(Culling)
+		IMPLEMENT_DISABLEENABLE_FCT(DepthTest)
+		IMPLEMENT_DISABLEENABLE_FCT(Blending)
+	
 	}
 
 	namespace core
@@ -147,18 +174,18 @@ namespace oakvr
 			return oakvr::OakVR::GetInstance().RegisterSubFolderPaths(path);
 		}
 
-		auto GetResource(const std::string &id)->std::shared_ptr<oakvr::core::MemoryBuffer>
+		auto GetResource(const std::string &id)->sp<oakvr::core::MemoryBuffer>
 		{
 			return oakvr::OakVR::GetInstance().GetResource(id);
 		}
 	}
 
-	void RegisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable)
+	void RegisterUpdatable(sp<oakvr::Updatable> pUpdatable)
 	{
 		oakvr::OakVR::GetInstance().RegisterUpdatable(pUpdatable);
 	}
 
-	void UnregisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable)
+	void UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable)
 	{
 		oakvr::OakVR::GetInstance().UnregisterUpdatable(pUpdatable);
 	}

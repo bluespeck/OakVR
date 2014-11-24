@@ -81,7 +81,7 @@ namespace oakvr
 			ShowWindow(hWnd, SW_SHOW);
 			UpdateWindow(hWnd);
 
-			Log::PrintInfo("RW Initialized!\n");
+			Log::Info("RW Initialized!\n");
 
 			return true;
 		}

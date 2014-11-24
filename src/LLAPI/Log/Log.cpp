@@ -49,7 +49,7 @@ namespace oakvr
 		return s_errFilename;
 	}
 
-	void Log::PrintError(const char * logMsg, ...)
+	void Log::Error(const char * logMsg, ...)
 	{
 		va_list vl;
 		va_start(vl, logMsg);
@@ -57,7 +57,7 @@ namespace oakvr
 		va_end(vl);
 	}
 
-	void Log::PrintWarning(const char * logMsg, ...)
+	void Log::Warning(const char * logMsg, ...)
 	{
 		va_list vl;
 		va_start(vl, logMsg);
@@ -65,7 +65,7 @@ namespace oakvr
 		va_end(vl);
 	}
 
-	void Log::PrintInfo(const char * logMsg, ...)
+	void Log::Info(const char * logMsg, ...)
 	{
 		va_list vl;
 		va_start(vl, logMsg);

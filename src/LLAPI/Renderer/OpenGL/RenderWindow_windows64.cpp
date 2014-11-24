@@ -55,7 +55,7 @@ namespace oakvr
 			// Initialize GLFW
 			if (!glfwInit())
 			{
-				Log::PrintError("Failed to initialize GLFW!\n");
+				Log::Error("Failed to initialize GLFW!\n");
 				return false;
 			}
 
@@ -67,7 +67,7 @@ namespace oakvr
 
 			if (!(m_pImpl->m_pWindow = glfwCreateWindow(m_width, m_height, m_title.c_str(), nullptr, nullptr)))
 			{
-				Log::PrintError("Failed to open a window ! Most likely cause \"GLFW: Window creation will fail if the Microsoft GDI software OpenGL implementation is the only one available\"\n");
+				Log::Error("Failed to open a window ! Most likely cause \"GLFW: Window creation will fail if the Microsoft GDI software OpenGL implementation is the only one available\"\n");
 				glfwTerminate();
 				return false;
 			}
@@ -86,6 +86,12 @@ namespace oakvr
 		bool RenderWindow::IsOpen()
 		{
 			return !!glfwGetWindowAttrib(m_pImpl->m_pWindow, GLFW_VISIBLE);
+		}
+
+		// --------------------------------------------------------------------------------
+		bool RenderWindow::IsValid()
+		{	
+			return glfwGetCurrentContext() != nullptr;
 		}
 
 		// --------------------------------------------------------------------------------

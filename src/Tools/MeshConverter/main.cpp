@@ -2,6 +2,9 @@
 
 #include <vector>
 #include <string>
+
+// Usage example for dae2oakvr:
+// MeshConverter dae2oakvr /path/to/dae /path/where/to/save/oakvr/output/file
 int main(const int argc, char **argv)
 {
 #if defined(OAKVR_WINDOWS64) || defined(OAKVR_WINDOWS32)

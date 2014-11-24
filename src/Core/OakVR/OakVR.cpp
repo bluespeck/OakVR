@@ -553,18 +553,18 @@ namespace oakvr
 	}
 
 
-	void OakVR::RegisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable)
+	void OakVR::RegisterUpdatable(sp<oakvr::Updatable> pUpdatable)
 	{
 		m_pUpdatables.push_back(pUpdatable);
 	}
 
-	void OakVR::UnregisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable)
+	void OakVR::UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable)
 	{
 		auto size = m_pUpdatables.size();
-		std::remove_if(std::begin(m_pUpdatables), std::end(m_pUpdatables), [&](const std::shared_ptr<Updatable> &pRegisteredUpdatable)->bool{ return pRegisteredUpdatable == pUpdatable; });
+		m_pUpdatables.erase(std::remove_if(std::begin(m_pUpdatables), std::end(m_pUpdatables), [&](const sp<Updatable> &pRegisteredUpdatable)->bool{ return pRegisteredUpdatable == pUpdatable; }), m_pUpdatables.end());
 		if (size == m_pUpdatables.size())
 		{
-			Log::PrintError("Trying to unregister an Updatable that was not registered! But how can this be?!... ");
+			Log::Error("Trying to unregister an Updatable that was not registered! But how can this be?!... ");
 		}
 	}
 
@@ -574,41 +574,16 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------
 
-	/* oakvr mesh format:
-	numberOfSubmeshes: 4 bytes
-	submeshOffset: 4 bytes	| repeat numberOfSubmeshes times
-	submeshSize: 4 bytes	|
-
-	------ submesh 0
-	numberOfVertices: 4 bytes
-	numberOfChannels: 4 byte
-	channeltypes: numberOfChannels bytes
-	vertices: numberOfVertices * (numberOfChannels  * channelsize[channel])
-
-	numberOfIndices: 4 bytes
-	indexStride: 4 bytes
-	primitiveTopology: 4 bytes
-	indices: numberOfIndices * indexStride
-
-	numberOfTextures: 4 bytes
-	textureNameLength: 4 bytes				| repeat numberOfTextures times
-	textureName: textureNameLength bytes	|
-
-	?? materialNameLength: 4 bytes
-	?? materialName: materialNameLength
-
-	------ end submesh 0
-	------ submesh 1
-	...
-	------ end submesh 1
-	...
-
-
-	*/
-
-	auto OakVR::CreateMesh(const std::string &name, std::shared_ptr<oakvr::core::MemoryBuffer> pMeshBuffer, std::shared_ptr<oakvr::render::Material> pMaterial)->std::shared_ptr < oakvr::render::Mesh >
+	auto OakVR::CreateMesh(const std::string &name, sp<oakvr::core::MemoryBuffer> pMeshBuffer, sp<oakvr::render::Material> pMaterial)-> sp<oakvr::render::Mesh>
 	{
 		auto pMesh = std::make_shared<oakvr::render::Mesh>(name);
+
+		if (!pMeshBuffer.get())
+		{
+			Log::Error("Could not create mesh \"%s\"", name.c_str());
+			return pMesh;
+		}
+		
 		auto meshBufferReader = oakvr::core::MakeBufferReader(*pMeshBuffer);
 		uint32_t numMeshElements = 0;
 		meshBufferReader.Read(numMeshElements);
@@ -673,17 +648,17 @@ namespace oakvr
 		return pMesh;
 	}
 
-	void OakVR::RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh)
+	void OakVR::RegisterMesh(sp<oakvr::render::Mesh> pMesh)
 	{
 		m_pRenderer->RegisterMesh(pMesh);
 	}
 
-	auto OakVR::GetRegisteredMesh(const std::string &name)->std::shared_ptr < oakvr::render::Mesh >
+	auto OakVR::GetRegisteredMesh(const std::string &name)->sp < oakvr::render::Mesh >
 	{
 		return m_pRenderer->GetRegisteredMesh(name);
 	}
 
-	void OakVR::UnregisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh)
+	void OakVR::UnregisterMesh(sp<oakvr::render::Mesh> pMesh)
 	{
 		m_pRenderer->UnregisterMesh(pMesh);
 	}
@@ -701,27 +676,27 @@ namespace oakvr
 		m_pRenderer->RegisterShaderProgram(shaderName);
 	}
 
-	void OakVR::RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+	void OakVR::RegisterCamera(sp<oakvr::render::Camera> pCamera)
 	{
 		m_pCM->RegisterCamera(pCamera);
 	}
 
-	void OakVR::UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+	void OakVR::UnregisterCamera(sp<oakvr::render::Camera> pCamera)
 	{
 		m_pCM->UnregisterCamera(pCamera);
 	}
 
-	std::shared_ptr<oakvr::render::Camera> OakVR::GetCamera(const std::string &cameraId)
+	sp<oakvr::render::Camera> OakVR::GetCamera(const std::string &cameraId)
 	{
 		return m_pCM->GetCamera(cameraId);
 	}
 
-	auto OakVR::GetCurrentCamera()->std::shared_ptr < oakvr::render::Camera >
+	auto OakVR::GetCurrentCamera()->sp < oakvr::render::Camera >
 	{
 		return m_pCM->GetCurrentCamera();
 	}
 
-	void OakVR::SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera)
+	void OakVR::SetCurrentCamera(sp<oakvr::render::Camera> pCamera)
 	{
 		m_pCM->SetCurrentCamera(pCamera);
 	}
@@ -804,6 +779,32 @@ namespace oakvr
 		return m_pRW->HasFocus();
 	}
 
+#define IMPLEMENT_DISABLEENABLE_FCT(paramName) \
+	void OakVR::Enable ## paramName ()\
+	{\
+		m_pRenderer->Enable ## paramName();\
+	}\
+	\
+	void OakVR::Disable ## paramName ()\
+		{\
+		m_pRenderer->Disable ## paramName();\
+		}\
+	\
+	void OakVR::Toggle ## paramName ()\
+		{\
+		m_pRenderer->Toggle ## paramName();\
+		}\
+	\
+	bool OakVR::Is ## paramName ## Enabled() const\
+	{\
+		return m_pRenderer->Is ## paramName ## Enabled();\
+	}
+
+	IMPLEMENT_DISABLEENABLE_FCT(Wireframe)
+	IMPLEMENT_DISABLEENABLE_FCT(Culling)
+	IMPLEMENT_DISABLEENABLE_FCT(DepthTest)
+	IMPLEMENT_DISABLEENABLE_FCT(Blending)
+
 	// --------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------
 	// core interface
@@ -815,7 +816,7 @@ namespace oakvr
 		return m_pRM->AddPathsFromFolder(path);
 	}
 
-	std::shared_ptr<oakvr::core::MemoryBuffer> OakVR::GetResource(const std::string &id)
+	sp<oakvr::core::MemoryBuffer> OakVR::GetResource(const std::string &id)
 	{
 		return m_pRM->GetResource(id);
 	}
@@ -846,7 +847,7 @@ namespace oakvr
 	void oakvrExit()
 	{
 		OakVR::GetInstance().Cleanup();
-		Log::PrintInfo("OakVR shutting down!\n");
+		Log::Info("OakVR shutting down!\n");
 
 	}
 }	// namespace oakvr

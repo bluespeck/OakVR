@@ -22,16 +22,9 @@ namespace oakvr
 		Texture::Texture(const oakvr::core::MemoryBuffer &buff)
 			: m_pImpl {std::make_unique<TextureImpl>()}
 		{
-			glGenTextures(1, &m_pImpl->textureId);
+			glCallAndCheck(glGenTextures, 1, &m_pImpl->textureId);
+			glCallAndCheck(glBindTexture, GL_TEXTURE_2D, m_pImpl->textureId);
 
-			glBindTexture(GL_TEXTURE_2D, m_pImpl->textureId);
-#ifdef OAKVR_RENDER_DEBUG
-			{
-				GLenum err = glGetError();
-				if (err)
-					Log::PrintWarning("1OpenGL texture creation has failed : 0x%x", err);
-			}
-#endif
 			uint32_t width, height;
 			uint32_t bitsPerPixel;
 			TextureFormat textureFormat;
@@ -64,29 +57,23 @@ namespace oakvr
 				format = GL_RGBA;
 				break;
 			}
-			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, pixelData.GetDataPtr());
+			glCallAndCheck(glTexImage2D, GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, pixelData.GetDataPtr());
 
-#ifdef OAKVR_RENDER_DEBUG
-			{
-				GLenum err = glGetError();
-				if(err)
-					Log::PrintWarning("2OpenGL texture creation has failed : 0x%x", err);
-			}
-#endif
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glCallAndCheck(glTexParameteri, GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glCallAndCheck(glTexParameteri, GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		}
 			
 		Texture::~Texture()
 		{
-			glDeleteTextures(1, &m_pImpl->textureId);
+			if (m_contextIsValid)
+				glCallAndCheck(glDeleteTextures, 1, &m_pImpl->textureId);
 		}
 
 		void Texture::Use()
 		{
-			glBindTexture(GL_TEXTURE_2D, m_pImpl->textureId);
+			if (m_contextIsValid)
+				glCallAndCheck(glBindTexture, GL_TEXTURE_2D, m_pImpl->textureId);
 		}
 	}
 }

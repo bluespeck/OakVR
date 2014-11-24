@@ -51,18 +51,18 @@ namespace oakvr
 			GLenum err = glewInit();
 			if (err != GLEW_OK)
 			{
-				Log::PrintError("Failed to initialize GLEW. (%s)", glewGetErrorString(err));
+				Log::Error("Failed to initialize GLEW. (%s)", glewGetErrorString(err));
 				return false;
 			}
 			else
 			{
-				Log::PrintInfo("GLEW initialized!");
+				Log::Info("GLEW initialized!");
 			}
 
 			int version[] = { 0, 0 };
 			glGetIntegerv(GL_MAJOR_VERSION, &version[0]);
 			glGetIntegerv(GL_MINOR_VERSION, &version[1]);
-			Log::PrintInfo("OpenGL version %d.%d", version[0], version[1]);
+			Log::Info("OpenGL version %d.%d", version[0], version[1]);
 
 			glCullFace(GL_BACK);
 			glFrontFace(GL_CW);

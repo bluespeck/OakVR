@@ -24,6 +24,7 @@ namespace oakvr
 			
 			bool Initialize();
 			bool IsOpen();
+			bool IsValid(); // true if it is backed by a valid render context
 			void Minimize();
 			void Maximize();
 			void RestoreSize();

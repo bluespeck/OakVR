@@ -29,6 +29,8 @@ namespace oakvr
 
 			TextureFormat GetFormat() const { return m_textureFormat; }
 
+			void InvalidateContext() { m_contextIsValid = false; }
+
 		private:
 			class TextureImpl;
 			std::unique_ptr<TextureImpl> m_pImpl;
@@ -36,6 +38,7 @@ namespace oakvr
 			uint32_t m_width;
 			uint32_t m_height;
 			TextureFormat m_textureFormat;
+			bool m_contextIsValid = true;
 		};
 
 	} // namespace render

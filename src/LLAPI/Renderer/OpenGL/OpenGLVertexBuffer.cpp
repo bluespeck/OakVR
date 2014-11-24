@@ -44,8 +44,8 @@ namespace oakvr
 		{
 			if (m_pImpl->m_bInitialized)
 			{
-				glDeleteBuffers(1, &m_pImpl->m_vbId);
-				glDeleteVertexArrays(1, &m_pImpl->m_vaoId);
+				glCallAndCheck(glDeleteBuffers, 1, &m_pImpl->m_vbId);
+				glCallAndCheck(glDeleteVertexArrays,1, &m_pImpl->m_vaoId);
 			}
 		}
 
@@ -54,15 +54,15 @@ namespace oakvr
 		{
 			if (!m_pImpl->m_bInitialized)
 			{
-				glGenVertexArrays(1, &m_pImpl->m_vaoId);
-				glBindVertexArray(m_pImpl->m_vaoId);
-				glGenBuffers(1, &m_pImpl->m_vbId);
-				glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+				glCallAndCheck(glGenVertexArrays, 1, &m_pImpl->m_vaoId);
+				glCallAndCheck(glBindVertexArray, m_pImpl->m_vaoId);
+				glCallAndCheck(glGenBuffers, 1, &m_pImpl->m_vbId);
+				glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
 			}
 
 			m_count = vertexCount;
 			m_stride = vertexStride;
-			glBufferData(GL_ARRAY_BUFFER, vertexCount * vertexStride, nullptr, GL_STATIC_DRAW);
+			glCallAndCheck(glBufferData, GL_ARRAY_BUFFER, vertexCount * vertexStride, nullptr, GL_STATIC_DRAW);
 			m_pImpl->m_bInitialized = true;
 		}
 		
@@ -70,7 +70,7 @@ namespace oakvr
 		void VertexBuffer::Lock(void **ppBuff, uint32_t flags)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
-			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+			glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
 			*ppBuff = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 		}
 
@@ -78,8 +78,8 @@ namespace oakvr
 		void VertexBuffer::Unlock()
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
-			glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-			glUnmapBuffer(GL_ARRAY_BUFFER);
+			glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+			glCallAndCheck(glUnmapBuffer, GL_ARRAY_BUFFER);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -88,8 +88,8 @@ namespace oakvr
 			PROFILER_FUNC_SCOPED_TIMER;
 			if (m_pImpl->m_bInitialized)
 			{
-				glDeleteBuffers(1, &m_pImpl->m_vbId);
-				glDeleteVertexArrays(1, &m_pImpl->m_vaoId);
+				glCallAndCheck(glDeleteBuffers, 1, &m_pImpl->m_vbId);
+				glCallAndCheck(glDeleteVertexArrays, 1, &m_pImpl->m_vaoId);
 				m_pImpl->m_bInitialized = false;
 			}
 		}
@@ -99,7 +99,7 @@ namespace oakvr
 			PROFILER_FUNC_SCOPED_TIMER;
 			if (m_pImpl->m_bInitialized)
 			{
-				glBindVertexArray(m_pImpl->m_vaoId);
+				glCallAndCheck(glBindVertexArray, m_pImpl->m_vaoId);
 				int offset = 0;
 				for (auto &e : vertexElementDescriptors)
 				{
@@ -107,41 +107,41 @@ namespace oakvr
 					{
 					case VertexElementDescriptor::Semantic::position:
 					{
-						glEnableVertexAttribArray(0);
-						glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-						glVertexAttribPointer(0, e.size / sizeof(float), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
+						glCallAndCheck(glEnableVertexAttribArray, 0);
+						glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+						glCallAndCheck(glVertexAttribPointer, 0, e.size / sizeof(float), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
 					}
 						break;
 					case VertexElementDescriptor::Semantic::normal:
 					{
-						glEnableVertexAttribArray(1);
-						glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-						glVertexAttribPointer(1, e.size / sizeof(float), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
+						glCallAndCheck(glEnableVertexAttribArray, 1);
+						glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+						glCallAndCheck(glVertexAttribPointer, 1, e.size / sizeof(float), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
 					}
 						break;
 					case VertexElementDescriptor::Semantic::tex_coord:
 					{
-						glEnableVertexAttribArray(2);
-						glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-						glVertexAttribPointer(2, e.size / sizeof(float), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
+						glCallAndCheck(glEnableVertexAttribArray, 2);
+						glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+						glCallAndCheck(glVertexAttribPointer, 2, e.size / sizeof(float), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
 					}
 						break;
 					case VertexElementDescriptor::Semantic::color:
 					{
-						glEnableVertexAttribArray(3);
-						glBindBuffer(GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-						glVertexAttribPointer(3, e.size / sizeof(float), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
+						glCallAndCheck(glEnableVertexAttribArray, 3);
+						glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
+						glCallAndCheck(glVertexAttribPointer, 3, e.size / sizeof(float), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
 					}
 						break;
 					default:
-						Log::PrintError("Unrecognized vertex element semantic");
+						Log::Error("Unrecognized vertex element semantic");
 						break;
 					}
 					offset += e.size;
 				}
 			}
 			else
-				Log::PrintError("Trying to use uninitialized index buffer!");
+				Log::Error("Trying to use uninitialized index buffer!");
 		}
 
 	}	// namespace render

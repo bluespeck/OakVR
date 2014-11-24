@@ -9,8 +9,8 @@
 #include "FileIO/File.h"
 #include "FileIO/Path.h"
 #include "Log/Log.h"
+#include "Utils/Types.h"
 
-using std::shared_ptr;
 
 namespace oakvr
 {
@@ -112,7 +112,7 @@ namespace oakvr
 			auto files = dir.GetFileList(true);
 			if (files.size() == 0)
 			{
-				oakvr::Log::PrintError("Could not load files from path \"%s\" !", path);
+				oakvr::Log::Error("Could not load files from path \"%s\" !", path.c_str());
 				return false;
 			}
 			// retrieve path id and add to path map
@@ -156,7 +156,7 @@ namespace oakvr
 			auto it = m_mapResources.find(id);
 			if (it != std::end(m_mapResources))
 			{
-				Log::PrintWarning("Trying to create a resource with an id that already exists! (Resource id = %s)", id.c_str());
+				Log::Warning("Trying to create a resource with an id that already exists! (Resource id = %s)", id.c_str());
 				return;
 			}
 
@@ -164,7 +164,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		std::shared_ptr<MemoryBuffer> ResourceManager::GetResource(const std::string &id)
+		sp<MemoryBuffer> ResourceManager::GetResource(const std::string &id)
 		{
 			auto it = m_mapResources.find(id);
 			if (it != std::end(m_mapResources))
@@ -185,7 +185,7 @@ namespace oakvr
 					f.Read(pMemBuff->GetDataPtr(), pMemBuff->Size(), pMemBuff->Size());
 					f.Close();
 
-					for (std::shared_ptr<FileLoader> &pLoader : FileLoaderManager::GetFileLoaders())
+					for (sp<FileLoader> &pLoader : FileLoaderManager::GetFileLoaders())
 					{
 						if (pLoader->CanLoad(*pMemBuff))
 						{
@@ -199,7 +199,7 @@ namespace oakvr
 				}
 			}
 
-			Log::PrintWarning("Could not retrieve resource %s", id.c_str());
+			Log::Warning("Could not retrieve resource %s", id.c_str());
 			return nullptr;
 		}
 		

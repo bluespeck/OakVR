@@ -19,7 +19,7 @@ namespace oakvr
 
 		}
 
-		void MeshManager::AddMesh(std::shared_ptr<Mesh> pMesh)
+		void MeshManager::AddMesh(sp<Mesh> pMesh)
 		{
 			m_meshes.push_back(pMesh);
 		}
@@ -29,7 +29,7 @@ namespace oakvr
 			m_meshes.clear();
 		}
 
-		void MeshManager::AddOneFrameMesh(std::shared_ptr<Mesh> pMesh)
+		void MeshManager::AddOneFrameMesh(sp<Mesh> pMesh)
 		{
 			m_oneFrameMeshes.push_back(pMesh);
 		}
@@ -39,10 +39,10 @@ namespace oakvr
 			m_oneFrameMeshes.clear();
 		}
 
-		void MeshManager::RemoveMesh(std::shared_ptr<Mesh> pMesh)
+		void MeshManager::RemoveMesh(sp<Mesh> pMesh)
 		{
 			auto itEnd = std::remove_if(std::begin(m_meshes), std::end(m_meshes), 
-				[&pMesh](std::shared_ptr<Mesh> pElem){ return pElem == pMesh; });
+				[&pMesh](sp<Mesh> pElem){ return pElem == pMesh; });
 			if (itEnd != std::end(m_meshes))
 				m_meshes.erase(itEnd);
 		}

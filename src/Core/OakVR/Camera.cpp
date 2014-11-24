@@ -34,7 +34,7 @@ namespace oakvr
 			}
 			else
 			{
-				Log::PrintError("Trying to initialize camera with incomplete initializer list!");
+				Log::Error("Trying to initialize camera with incomplete initializer list!");
 			}
 		}
 
@@ -54,16 +54,21 @@ namespace oakvr
 				
 		oakvr::math::Matrix Camera::ComputeViewMatrix() const
 		{
-			auto zaxis = m_forward.GetNormalized();
-			auto xaxis = GetRight().GetNormalized();
-			auto yaxis = xaxis.Cross(zaxis).GetNormalized();
+			auto zaxis = -m_forward.GetNormalized();
+			auto xaxis = -GetRight().GetNormalized();
+			auto yaxis = zaxis.Cross(xaxis).GetNormalized();
 
 			
 			oakvr::math::Matrix mat;
-			mat._11 = xaxis.x;			mat._12 = yaxis.x;			mat._13 = -zaxis.x;			mat._14 = 0.f;
-			mat._21 = xaxis.y;			mat._22 = yaxis.y;			mat._23 = -zaxis.y;			mat._24 = 0.f;
-			mat._31 = xaxis.z;			mat._32 = yaxis.z;			mat._33 = -zaxis.z;			mat._34 = 0.f;
-			mat._41 = -(xaxis.Dot(m_position));	mat._42 = -(yaxis.Dot(m_position));	mat._43 = zaxis.Dot(m_position);	mat._44 = 1.f;
+			//mat._11 = xaxis.x;			mat._12 = xaxis.y;			mat._13 = xaxis.z;			mat._14 = -xaxis.Dot(m_position);
+			//mat._21 = yaxis.x;			mat._22 = yaxis.y;			mat._23 = yaxis.z;			mat._24 = -yaxis.Dot(m_position);
+			//mat._31 = zaxis.x;			mat._32 = zaxis.y;			mat._33 = zaxis.z;			mat._34 = -zaxis.Dot(m_position);
+			//mat._41 = 0.f;				mat._42 = 0.f;				mat._43 = 0.f;				mat._44 = 1.f;
+
+			mat._11 = xaxis.x;			mat._12 = yaxis.x;			mat._13 = zaxis.x;			mat._14 = 0.f;
+			mat._21 = xaxis.y;			mat._22 = yaxis.y;			mat._23 = zaxis.y;			mat._24 = 0.f;
+			mat._31 = xaxis.z;			mat._32 = yaxis.z;			mat._33 = zaxis.z;			mat._34 = 0.f ;
+			mat._41 = -xaxis.Dot(m_position); mat._42 = -yaxis.Dot(m_position); mat._43 = -zaxis.Dot(m_position); mat._44 = 1.f;
 			
 			return mat;
 		}

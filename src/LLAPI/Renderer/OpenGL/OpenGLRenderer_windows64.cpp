@@ -51,39 +51,28 @@ namespace oakvr
 			GLenum err = glewInit();
 			if (err != GLEW_OK)
 			{
-				Log::PrintError("Failed to initialize GLEW. (%s)", glewGetErrorString(err));
+				Log::Error("Failed to initialize GLEW. (%s)", glewGetErrorString(err));
 				return false;
 			}
 			else
 			{
-				Log::PrintInfo("GLEW initialized!");
+				Log::Info("GLEW initialized!");
 			}
-			CHECK_OPENGL_ERROR;
 
 			int version[] = { 0, 0 };
 			glGetIntegerv(GL_MAJOR_VERSION, &version[0]);
 			glGetIntegerv(GL_MINOR_VERSION, &version[1]);
-			Log::PrintInfo("OpenGL version %d.%d", version[0], version[1]);
+			Log::Info("OpenGL version %d.%d", version[0], version[1]);
 			
-			glViewport(0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
-			CHECK_OPENGL_ERROR;
-			glCullFace(GL_BACK);
-			CHECK_OPENGL_ERROR;
-			glFrontFace(GL_CCW);
-			CHECK_OPENGL_ERROR;
-			glEnable(GL_CULL_FACE);
-			CHECK_OPENGL_ERROR;
-			glEnable(GL_DEPTH_TEST);
-			CHECK_OPENGL_ERROR;
-			glDepthFunc(GL_LESS);
-			CHECK_OPENGL_ERROR;
-			glEnable(GL_BLEND);
-			CHECK_OPENGL_ERROR;
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-			// Wireframe mode
-			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			CHECK_OPENGL_ERROR;
+			glCallAndCheck(glViewport, 0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
+			glCallAndCheck(glCullFace, GL_BACK);
+			glCallAndCheck(glFrontFace, GL_CCW);
+			glCallAndCheck(glEnable, GL_CULL_FACE);
+			glCallAndCheck(glDepthFunc, GL_LESS);
+			glCallAndCheck(glEnable, GL_DEPTH_TEST);
+			glCallAndCheck(glBlendFunc, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glCallAndCheck(glEnable, GL_BLEND);
+						
 			return true;
 		}
 
@@ -92,16 +81,16 @@ namespace oakvr
 		void Renderer::ClearBackground(const Color &color)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
-			glClearColor(color.r, color.g, color.b, color.a);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glCallAndCheck(glClearColor, color.r, color.g, color.b, color.a);
+			glCallAndCheck(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
 		// --------------------------------------------------------------------------------
 		void Renderer::BeginDraw()
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
-			glClearColor(0.4f, 0.6f, 0.9f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+			glCallAndCheck(glClearColor, 0.4f, 0.6f, 0.9f, 1.0f);
+			glCallAndCheck(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -112,27 +101,17 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::Cleanup()
-		{
-			// force release of shader programs
-			m_shaderPrograms.clear();
-
-			// force release of textures
-			m_textures.clear();
-		}
-
-		// --------------------------------------------------------------------------------
 		void Renderer::UseTexture(Texture *texture)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			if (texture != nullptr)
 			{
-				glEnable(GL_TEXTURE_2D);
+				glCallAndCheck(glEnable, GL_TEXTURE_2D);
 				//glBindTexture(GL_TEXTURE_2D, reinterpret_cast<GLuint>(texture->GetData()));
 			}
 			else
 			{
-				glDisable(GL_TEXTURE_2D);
+				glCallAndCheck(glDisable, GL_TEXTURE_2D);
 			}
 
 		}
@@ -141,50 +120,39 @@ namespace oakvr
 		void Renderer::DrawPrimitives(uint32_t numVertices, uint32_t startVertex /* = 0 */)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
-			glDrawArrays(GL_TRIANGLES, startVertex, numVertices);
-#ifdef OAKVR_RENDER_DEBUG
-			GLenum err = glGetError();
-			if (err)
-				oakvr::Log::PrintError("glDrawArrays 0x%x", err);
-#endif
-			
+			glCallAndCheck(glDrawArrays, GL_TRIANGLES, startVertex, numVertices);
 		}
 
-		void Renderer::UseShaderProgram(std::shared_ptr<oakvr::render::ShaderProgram> pShaderProgram)
+		void Renderer::UseShaderProgram(sp<oakvr::render::ShaderProgram> pShaderProgram)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
-			glUseProgram(reinterpret_cast<GLuint>(pShaderProgram.get()->GetNativeHandle()));
-#ifdef OAKVR_RENDER_DEBUG
-			GLenum err = glGetError();
-			if (err)
-				oakvr::Log::PrintError("glAttachShader error 0x%x", err);
-#endif
+			if (pShaderProgram)
+				glCallAndCheck(glUseProgram, reinterpret_cast<GLuint>(pShaderProgram.get()->GetNativeHandle()));
 		}
 
-		void Renderer::UpdateShaderParams(std::shared_ptr<oakvr::render::ShaderProgram> pShaderProgram)
+		void Renderer::UpdateShaderParams(sp<oakvr::render::ShaderProgram> pShaderProgram)
 		{
 			//TODO: Add set shader param function
 			PROFILER_FUNC_SCOPED_TIMER;
-			const oakvr::math::Matrix &mProj = m_projMatrix;
-			const oakvr::math::Matrix &mView = m_viewMatrix;
-			const oakvr::math::Matrix &mWorld = m_worldMatrix;
-			// TODO: Change name of model matrix to world matrix, even in shaders
-			GLuint programId = reinterpret_cast<GLuint>(pShaderProgram->GetNativeHandle());
-			int projectionMatrixLocation = glGetUniformLocation(programId, "projectionMatrix");
-			int viewMatrixLocation = glGetUniformLocation(programId, "viewMatrix");
-			int worldMatrixLocation = glGetUniformLocation(programId, "worldMatrix");
-			glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &mProj.m[0][0]);
-			glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &mView.m[0][0]);
-			glUniformMatrix4fv(worldMatrixLocation, 1, GL_FALSE, &mWorld.m[0][0]);
+			//const oakvr::math::Matrix mProj = m_projMatrix.GetTransposed();
+			//const oakvr::math::Matrix mView = m_viewMatrix.GetTransposed();
+			//const oakvr::math::Matrix mWorld = m_worldMatrix.GetTransposed();
 
-			GLint textureLocation = glGetUniformLocation(programId, "texDiffuse0");
+			const oakvr::math::Matrix mProj = m_projMatrix;
+			const oakvr::math::Matrix mView = m_viewMatrix;
+			const oakvr::math::Matrix mWorld = m_worldMatrix;
+			
+			GLuint programId = reinterpret_cast<GLuint>(pShaderProgram->GetNativeHandle());
+			int projectionMatrixLocation = glCallAndCheck(glGetUniformLocation, programId, "projectionMatrix");
+			int viewMatrixLocation = glCallAndCheck(glGetUniformLocation, programId, "viewMatrix");
+			int worldMatrixLocation = glCallAndCheck(glGetUniformLocation, programId, "worldMatrix");
+			glCallAndCheck(glUniformMatrix4fv, projectionMatrixLocation, 1, GL_FALSE, &mProj.m[0][0]);
+			glCallAndCheck(glUniformMatrix4fv, viewMatrixLocation, 1, GL_FALSE, &mView.m[0][0]);
+			glCallAndCheck(glUniformMatrix4fv, worldMatrixLocation, 1, GL_FALSE, &mWorld.m[0][0]);
+
+			GLint textureLocation = glCallAndCheck(glGetUniformLocation, programId, "texDiffuse0");
 			//glActiveTexture(GL_TEXTURE0);
-			glUniform1i(textureLocation, 0);
-#ifdef OAKVR_RENDER_DEBUG
-			GLenum err = glGetError();
-			if (err)
-				oakvr::Log::PrintError("glUseProgram error 0x%x", err);
-#endif
+			glCallAndCheck(glUniform1i, textureLocation, 0);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -193,62 +161,109 @@ namespace oakvr
 			PROFILER_FUNC_SCOPED_TIMER;
 			//oakvr::profiler::ScopedTimer oakvrScopedTimername("drawIndexed", "", __FUNCTION__, __FILE__ + std::to_string(__LINE__));
 			if (stride == 4)
-				glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, nullptr);
+				glCallAndCheck(glDrawElements, GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, nullptr);
 			else
-				glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, nullptr);
-#ifdef OAKVR_RENDER_DEBUG
-			GLenum err = glGetError();
-			if (err)
-			{
-				oakvr::Log::PrintError("glDrawArrays 0x%x", err);
-			}
-#endif
-			
+				glCallAndCheck(glDrawElements, GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, nullptr);
 		}
 
 		void Renderer::OnResize(unsigned int newWidth, unsigned int newHeight)
 		{
-			glViewport(0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
+			glCallAndCheck(glViewport, 0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
 		}
 		
-		/*
-
-		// --------------------------------------------------------------------------------
-		void Renderer::EnableDepthBuffer()
+		bool Renderer::IsValid()
 		{
-		glEnable(GL_DEPTH_TEST);
+			return m_pRenderWindow && m_pRenderWindow->IsValid();
 		}
 
-		// --------------------------------------------------------------------------------
-		void Renderer::DisableDepthBuffer()
+		// Wireframe
+		void Renderer::EnableWireframe()
 		{
-		glDisable(GL_DEPTH_TEST);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			m_bWireframeEnabled = true;
 		}
 
-		// --------------------------------------------------------------------------------
-		void Renderer::EnableOrtographicProjection()
+		void Renderer::DisableWireframe()
 		{
-		m_bPerspectiveProjection = false;
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			m_bWireframeEnabled = false;
 		}
 
-		// --------------------------------------------------------------------------------
-		void Renderer::EnablePerspectiveProjection()
+		void Renderer::ToggleWireframe()
 		{
-		m_bPerspectiveProjection = true;
+			if (m_bWireframeEnabled == false)
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			else
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			m_bWireframeEnabled = !m_bWireframeEnabled;
 		}
 
-		// --------------------------------------------------------------------------------
-		void Renderer::EnableFillWireframe()
+		// Wireframe
+		void Renderer::EnableCulling()
 		{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glCallAndCheck(glEnable, GL_CULL_FACE);
+			m_bCullingEnabled = true;
 		}
 
-		// --------------------------------------------------------------------------------
-		void Renderer::EnableFillSolid()
+		void Renderer::DisableCulling()
 		{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glCallAndCheck(glDisable, GL_CULL_FACE);
+			m_bCullingEnabled = false;
 		}
-		*/
+
+		void Renderer::ToggleCulling()
+		{
+			if (m_bCullingEnabled == false)
+				glCallAndCheck(glEnable, GL_CULL_FACE);
+			else
+				glCallAndCheck(glDisable, GL_CULL_FACE);
+			m_bCullingEnabled = !m_bCullingEnabled;
+		}
+
+		// DepthTest 
+		void Renderer::EnableDepthTest()
+		{
+			glCallAndCheck(glEnable, GL_DEPTH_TEST);
+			m_bDepthTestEnabled = true;
+		}
+		
+		void Renderer::DisableDepthTest()
+		{
+			glCallAndCheck(glDisable, GL_DEPTH_TEST);
+			m_bDepthTestEnabled = false;
+		}
+
+		void Renderer::ToggleDepthTest()
+		{
+			if (m_bDepthTestEnabled == false)
+				glCallAndCheck(glEnable, GL_DEPTH_TEST);
+			else
+				glCallAndCheck(glDisable, GL_DEPTH_TEST);
+			m_bDepthTestEnabled = !m_bDepthTestEnabled;
+		}
+
+		// Blending
+		void Renderer::EnableBlending()
+		{
+			glCallAndCheck(glEnable, GL_BLEND);
+			m_bBlendingEnabled = true;
+		}
+
+		void Renderer::DisableBlending()
+		{
+			glCallAndCheck(glDisable, GL_BLEND);
+			m_bBlendingEnabled = false;
+		}
+
+		void Renderer::ToggleBlending()
+		{
+			if (m_bBlendingEnabled == false)
+				glCallAndCheck(glEnable, GL_BLEND);
+			else
+				glCallAndCheck(glDisable, GL_BLEND);
+			m_bBlendingEnabled = !m_bBlendingEnabled;
+		}
+
 	} // namespace render
 } // namespace oakvr
 

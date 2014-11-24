@@ -39,7 +39,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		IndexBuffer::~IndexBuffer()
 		{
-			glDeleteBuffers(1, &m_pImpl->m_ibId);
+			glCallAndCheck(glDeleteBuffers, 1, &m_pImpl->m_ibId);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -47,29 +47,29 @@ namespace oakvr
 		{
 			if (m_pImpl->m_bInitialized)
 			{
-				glDeleteBuffers(1, &m_pImpl->m_ibId);
+				glCallAndCheck(glDeleteBuffers, 1, &m_pImpl->m_ibId);
 				m_pImpl->m_bInitialized = false;
 			}
 			m_count = indexCount;
 			m_stride = indexStride;
-			glGenBuffers(1, &m_pImpl->m_ibId);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * indexStride, nullptr, GL_STATIC_DRAW);
+			glCallAndCheck(glGenBuffers, 1, &m_pImpl->m_ibId);
+			glCallAndCheck(glBindBuffer, GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
+			glCallAndCheck(glBufferData, GL_ELEMENT_ARRAY_BUFFER, indexCount * indexStride, nullptr, GL_STATIC_DRAW);
 			m_pImpl->m_bInitialized = true;
 		}
 
 		// --------------------------------------------------------------------------------
 		void IndexBuffer::Lock(void **ppBuff, uint32_t offsetToLock, uint32_t sizeToLock, uint32_t flags)
 		{
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
-			*ppBuff = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_READ_WRITE);
+			glCallAndCheck(glBindBuffer, GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
+			*ppBuff = glCallAndCheck(glMapBuffer, GL_ELEMENT_ARRAY_BUFFER, GL_READ_WRITE);
 		}
 
 		// --------------------------------------------------------------------------------
 		void IndexBuffer::Unlock()
 		{
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
-			glUnmapBufferARB(GL_ELEMENT_ARRAY_BUFFER);
+			glCallAndCheck(glBindBuffer, GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
+			glCallAndCheck(glUnmapBufferARB, GL_ELEMENT_ARRAY_BUFFER);
 		}
 
 		// --------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ namespace oakvr
 		{
 			if (m_pImpl->m_bInitialized)
 			{
-				glDeleteBuffers(1, &m_pImpl->m_ibId);
+				glCallAndCheck(glDeleteBuffers, 1, &m_pImpl->m_ibId);
 				m_pImpl->m_bInitialized = false;
 			}
 		}
@@ -85,9 +85,9 @@ namespace oakvr
 		void IndexBuffer::Use()
 		{
 			if (m_pImpl->m_bInitialized)
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
+				glCallAndCheck(glBindBuffer, GL_ELEMENT_ARRAY_BUFFER, m_pImpl->m_ibId);
 			else
-				Log::PrintError("Trying to use uninitialized index buffer!");
+				Log::Error("Trying to use uninitialized index buffer!");
 		}
 
 	}	// namespace render

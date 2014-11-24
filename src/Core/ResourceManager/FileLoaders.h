@@ -3,7 +3,7 @@
 #include "PngLoader.h"
 #include "OakVRLoader.h"
 #include "FileLoaderManager.h"
-
+#include "Utils/Types.h"
 #include <memory>
 
 namespace oakvr
@@ -12,8 +12,8 @@ namespace oakvr
 	{
 		inline void InitializeFileLoaders()
 		{
-			FileLoaderManager::RegisterFileLoader(std::shared_ptr<FileLoader>(new PngLoader()));
-			FileLoaderManager::RegisterFileLoader(std::shared_ptr<FileLoader>(new OakVRLoader()));
+			FileLoaderManager::RegisterFileLoader(sp<FileLoader>(new PngLoader()));
+			FileLoaderManager::RegisterFileLoader(sp<FileLoader>(new OakVRLoader()));
 		}
 	}
 }

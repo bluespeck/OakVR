@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FileLoader.h"
+#include "Utils/Types.h"
 
 #include <vector>
 #include <memory>
@@ -12,9 +13,9 @@ namespace oakvr
 		class FileLoaderManager
 		{
 		public:
-			static void RegisterFileLoader(std::shared_ptr<FileLoader> pFileLoader);
-			static void UnregisterFileLoader(std::shared_ptr<FileLoader> pFileLoader);
-			static std::vector<std::shared_ptr<FileLoader>> &GetFileLoaders();
+			static void RegisterFileLoader(sp<FileLoader> pFileLoader);
+			static void UnregisterFileLoader(sp<FileLoader> pFileLoader);
+			static std::vector<sp<FileLoader>> &GetFileLoaders();
 		};
 	}
 }

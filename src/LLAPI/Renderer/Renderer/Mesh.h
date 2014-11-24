@@ -14,12 +14,12 @@ namespace oakvr
 		class Mesh
 		{
 		public:
-			typedef std::vector<std::shared_ptr<MeshElement>> MeshElementVector;
+			typedef std::vector<sp<MeshElement>> MeshElementVector;
 
 			Mesh(const std::string &name = "");
 			~Mesh();
 
-			void AddMeshElement(const std::shared_ptr<MeshElement> &meshElem);
+			void AddMeshElement(const sp<MeshElement> &meshElem);
 			auto GetMeshElements() -> MeshElementVector & { return m_vMeshElements; }
 			auto GetMeshElements() const -> const MeshElementVector &{ return m_vMeshElements; }
 			void SetWorldMatrix(const oakvr::math::Matrix &worldMatrix) { m_worldMatrix = worldMatrix; }

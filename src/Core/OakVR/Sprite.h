@@ -1,6 +1,7 @@
 #pragma once
 
 #include "OakVR/OakVR.h"
+#include "Utils/Types.h"
 
 #include <string>
 
@@ -24,7 +25,7 @@ namespace oakvr
 			void SetScaleFactor(float newScaleFactor);
 
 		protected:
-			std::shared_ptr<oakvr::render::Mesh> m_pMesh;
+			sp<oakvr::render::Mesh> m_pMesh;
 
 			std::string m_name;
 			oakvr::math::Vector3 m_center;

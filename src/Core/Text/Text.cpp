@@ -27,7 +27,7 @@ namespace oakvr
 		{
 			FT_Error err = FT_Init_FreeType(&m_pFTLib);
 			if (err)
-				Log::PrintError("Could not initialize OakVR text manager.");
+				Log::Error("Could not initialize OakVR text manager.");
 		}
 
 		// --------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Text::AddFontFace(std::shared_ptr<MemoryBuffer> fontFileBuff)
+		void Text::AddFontFace(sp<MemoryBuffer> fontFileBuff)
 		{
 			m_fontFaces.emplace_back(m_pFTLib, fontFileBuff);	// add new text::FontFace object to m_fontFaces
 			auto face = m_fontFaces.back();
@@ -76,9 +76,9 @@ namespace oakvr
 				std::unique_ptr<uint32_t[]> pIndices = std::make_unique<uint32_t[]>(text.length() * 6);
 				for (int i = 0; i < text.length(); ++i)
 				{
-					if (text[i] < ' ' || text[i] > 127)
+					if (text[i] < ' ')
 					{
-						oakvr::Log::PrintWarning("Trying to output a character that is not in the range 32-127! [%c]", text[i]);
+						oakvr::Log::Warning("Trying to output a character that is not in the range 32-127! [%c]", text[i]);
 						continue;
 					}
 
@@ -156,7 +156,7 @@ namespace oakvr
 					pIndices[offset + 4] = i * 4 + 2;
 					pIndices[offset + 5] = i * 4 + 3;
 
-					posX += cwPixels;	// advance horrizontally
+					posX += 1.1 * cwPixels;	// advance horrizontally (small hack to limit glyphs from overlapping)
 				}
 				
 				memcpy(vb.GetDataPtr(), pVertices.get(), vb.Size());
@@ -177,7 +177,7 @@ namespace oakvr
 			}
 			else
 			{
-				Log::PrintWarning("Could not find font face \"%s\" for rendering.", fontName.c_str());
+				Log::Warning("Could not find font face \"%s\" for rendering.", fontName.c_str());
 			}
 		}
 

@@ -8,6 +8,7 @@
 #include "Updatable.h"
 
 #include "OakVR/UtilityTypes.h"
+#include "Utils/Types.h"
 
 #include <memory>
 
@@ -43,13 +44,13 @@ namespace oakvr
 		auto GetRenderWindowPositionX() const -> float;
 		auto GetRenderWindowPositionY() const -> float;
 
-		void RegisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable);
-		void UnregisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable);
+		void RegisterUpdatable(sp<oakvr::Updatable> pUpdatable);
+		void UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable);
 
-		auto CreateMesh(const std::string &name, std::shared_ptr<oakvr::core::MemoryBuffer> pMeshBuffer, std::shared_ptr<oakvr::render::Material> pMaterial) -> std::shared_ptr < oakvr::render::Mesh > ;
-		void RegisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh);
-		auto GetRegisteredMesh(const std::string &name) -> std::shared_ptr<oakvr::render::Mesh>;
-		void UnregisterMesh(std::shared_ptr<oakvr::render::Mesh> pMesh);
+		auto CreateMesh(const std::string &name, sp<oakvr::core::MemoryBuffer> pMeshBuffer, sp<oakvr::render::Material> pMaterial) -> sp < oakvr::render::Mesh > ;
+		void RegisterMesh(sp<oakvr::render::Mesh> pMesh);
+		auto GetRegisteredMesh(const std::string &name) -> sp<oakvr::render::Mesh>;
+		void UnregisterMesh(sp<oakvr::render::Mesh> pMesh);
 		void TransformMesh(const std::string &meshName, const oakvr::math::Matrix &mat);
 
 		void RegisterShader(std::string shaderName);
@@ -57,11 +58,11 @@ namespace oakvr
 		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color);
 		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color, const oakvr::render::Color &startColor);
 
-		void RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
-		void UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
-		auto GetCamera(const std::string &cameraId) -> std::shared_ptr<oakvr::render::Camera>;
-		auto GetCurrentCamera()->std::shared_ptr<oakvr::render::Camera>;
-		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
+		void RegisterCamera(sp<oakvr::render::Camera> pCamera);
+		void UnregisterCamera(sp<oakvr::render::Camera> pCamera);
+		auto GetCamera(const std::string &cameraId) -> sp<oakvr::render::Camera>;
+		auto GetCurrentCamera()->sp<oakvr::render::Camera>;
+		void SetCurrentCamera(sp<oakvr::render::Camera> pCamera);
 		void SetCurrentCamera(const std::string &cameraId);
 
 		void SetRenderWindowSize(unsigned int width, unsigned int height);
@@ -70,10 +71,22 @@ namespace oakvr
 
 		bool HasFocus();
 
+#define DECLARE_ENABLEDISABLE_FCT(fName) \
+	void Enable ## fName();\
+	void Disable ## fName();\
+	void Toggle ## fName();\
+	bool Is ## fName ## Enabled() const;
+
+		DECLARE_ENABLEDISABLE_FCT(Wireframe)
+		DECLARE_ENABLEDISABLE_FCT(Culling)
+		DECLARE_ENABLEDISABLE_FCT(DepthTest)
+		DECLARE_ENABLEDISABLE_FCT(Blending)
+#undef DECLARE_ENABLEDISABLE_FCT
+
 		///////////////////////////////////////////////////////////////////////////////////
 		// resources related interface
 		auto RegisterSubFolderPaths(const std::string &path)->bool;
-		auto GetResource(const std::string &id) -> std::shared_ptr<oakvr::core::MemoryBuffer>;
+		auto GetResource(const std::string &id) -> sp<oakvr::core::MemoryBuffer>;
 				
 		void Cleanup();
 		void RegisterInitializer(std::function<void()> fct) { m_initializers.push_back(fct); }
@@ -107,12 +120,12 @@ namespace oakvr
 	private:
 		Timer m_timer;
 
-		std::shared_ptr<oakvr::core::ResourceManager> m_pRM;
-		std::shared_ptr<oakvr::render::RenderWindow> m_pRW;
-		std::shared_ptr<oakvr::render::Renderer> m_pRenderer;
-		std::shared_ptr<oakvr::render::CameraManager> m_pCM;
+		sp<oakvr::core::ResourceManager> m_pRM;
+		sp<oakvr::render::RenderWindow> m_pRW;
+		sp<oakvr::render::Renderer> m_pRenderer;
+		sp<oakvr::render::CameraManager> m_pCM;
 		
-		std::vector<std::shared_ptr<oakvr::Updatable>> m_pUpdatables;
+		std::vector<sp<oakvr::Updatable>> m_pUpdatables;
 
 		std::vector<std::function<void()>> m_initializers;
 	};

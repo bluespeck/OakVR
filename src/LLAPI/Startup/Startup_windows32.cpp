@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 	//oakvr::oakvr *oak3D = oakvr::oakvr::GetInstance();
 	if(!oakvr::oakvrInit(oakvr::ParseCommandLine(argc, argv)))//std::string(lpCmdLine))))
 	{
-		oakvr::Log::PrintError("Failed to initialize OakVR!!!\n");
+		oakvr::Log::Error("Failed to initialize OakVR!!!\n");
 	}
 	else
 	{
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 		// Add our handler for the console window
 		SetConsoleCtrlHandler(ConsoleHandlerRoutine, TRUE);
 #endif
-		oakvr::Log::PrintInfo("OakVR successfully initialized.\n");
+		oakvr::Log::Info("OakVR successfully initialized.\n");
 
 		// Enter the main loop
 		MSG msg = {0};

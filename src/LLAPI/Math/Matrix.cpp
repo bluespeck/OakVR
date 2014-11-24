@@ -2,6 +2,7 @@
 #include <cstring>
 #include "Matrix.h"
 #include <cmath>
+#include <utility>
 
 namespace oakvr
 {
@@ -37,48 +38,19 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		void Matrix::Transpose()
 		{
-			Matrix mat;
-			mat._11 = _11;
-			mat._12 = _21;
-			mat._13 = _31;
-			mat._14 = -(_11 * _14 + _21 * _24 + _31 * _34);
-
-			mat._21 = _12;
-			mat._22 = _22;
-			mat._23 = _32;
-			mat._24 = -(_12 * _14 + _22 * _24 + _32 * _34);
-
-			mat._31 = _13;
-			mat._32 = _23;
-			mat._33 = _33;
-			mat._34 = -(_13 * _14 + _23 * _24 + _33 * _34);
-			
-			mat._41 = mat._42 = mat._43 = 0.0f; mat._44 = 1.0f;
-
-			*this = mat;
+			std::swap(_12, _21);
+			std::swap(_13, _31);
+			std::swap(_14, _41);
+			std::swap(_23, _32);
+			std::swap(_24, _42);
+			std::swap(_34, _43);
 		}
 
 		// --------------------------------------------------------------------------------
 		Matrix Matrix::GetTransposed() const
 		{
-			Matrix mat;
-			mat._11 = _11;
-			mat._12 = _21;
-			mat._13 = _31;
-			mat._14 = -(_11 * _14 + _21 * _24 + _31 * _34);
-
-			mat._21 = _12;
-			mat._22 = _22;
-			mat._23 = _32;
-			mat._24 = -(_12 * _14 + _22 * _24 + _32 * _34);
-
-			mat._31 = _13;
-			mat._32 = _23;
-			mat._33 = _33;
-			mat._34 = -(_13 * _14 + _23 * _24 + _33 * _34);
-
-			mat._41 = mat._42 = mat._43 = 0.0f; mat._44 = 1.0f;
-			
+			Matrix mat = *this;
+			mat.Transpose();
 			return mat;
 		}
 
@@ -533,13 +505,12 @@ namespace oakvr
 		{
 			Matrix mat;
 			float frustumDepth = zfar - znear;
-			float oneOverDepth = 1.f / frustumDepth;
 			
-			mat._22 = 1.f / tan(fov / 2.f);
+			mat._22 = 1.f / tan(0.5f * fov);
 			mat._11 = mat._22 / aspect;
-			mat._33 = zfar * oneOverDepth;
-			mat._34 = -(zfar * znear) * oneOverDepth;
-			mat._43 = 1;
+			mat._33 = -(znear + zfar) / frustumDepth;
+			mat._34 = -(2 * zfar * znear) / frustumDepth;
+			mat._43 = -1;
 			mat._44 = 0;
 			return mat;
 		}
@@ -554,10 +525,10 @@ namespace oakvr
 			mat._11 = 2 * oneOverRightMinusLeft;
 			mat._22 = 2 * oneOverTopMinusButtom;
 			mat._33 = -2 * oneOverFarMinusNear;
-			mat._41 = -(right + left) * oneOverRightMinusLeft;
-			mat._42 = -(top + bottom) * oneOverTopMinusButtom;
-			mat._43 = (far + near) * oneOverFarMinusNear;
-			mat._44 = 0.0f;
+			mat._14 = -(right + left) * oneOverRightMinusLeft;
+			mat._24 = -(top + bottom) * oneOverTopMinusButtom;
+			mat._34 = -(far + near) * oneOverFarMinusNear;
+			mat._44 = 1.0f;
 
 			return mat;
 		}

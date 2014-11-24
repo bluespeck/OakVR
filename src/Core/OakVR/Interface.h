@@ -10,6 +10,7 @@
 #include "Updatable.h"
 
 #include "Utils/Buffer.h"
+#include "Utils/Types.h"
 
 #include <memory>
 #include <vector>
@@ -23,20 +24,20 @@ namespace oakvr
 				
 		auto CreateMesh(const std::string &name, const oakvr::render::VertexDescriptor &vertexDescriptor, 
 			const oakvr::core::MemoryBuffer &vertexBuffer, uint8_t indexStride, const oakvr::core::MemoryBuffer &indexBuffer,	
-			std::shared_ptr<Material> pMaterial, std::vector<std::string> textureNames // for each texcoord
-			)->std::shared_ptr<oakvr::render::Mesh>;
-		auto CreateMesh(const std::string &name, const std::string &resourceId, std::shared_ptr<oakvr::render::Material> pMaterial)->std::shared_ptr<oakvr::render::Mesh>;
+			sp<Material> pMaterial, std::vector<std::string> textureNames // for each texcoord
+			)->sp<oakvr::render::Mesh>;
+		auto CreateMesh(const std::string &name, const std::string &resourceId, sp<oakvr::render::Material> pMaterial)->sp<oakvr::render::Mesh>;
 		void RemoveMesh(const std::string &name);
-		auto GetMesh(const std::string &name)->std::shared_ptr<oakvr::render::Mesh>;
+		auto GetMesh(const std::string &name)->sp<oakvr::render::Mesh>;
 		void TransformMesh(const std::string &name, const oakvr::math::Matrix &mat);
 
 		void RegisterShader(const std::string &shaderName);
 
-		void RegisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
-		void UnregisterCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
-		auto GetCamera(const std::string &cameraId)->std::shared_ptr<oakvr::render::Camera>;
-		auto GetCurrentCamera()->std::shared_ptr<oakvr::render::Camera>;
-		void SetCurrentCamera(std::shared_ptr<oakvr::render::Camera> pCamera);
+		void RegisterCamera(sp<oakvr::render::Camera> pCamera);
+		void UnregisterCamera(sp<oakvr::render::Camera> pCamera);
+		auto GetCamera(const std::string &cameraId)->sp<oakvr::render::Camera>;
+		auto GetCurrentCamera()->sp<oakvr::render::Camera>;
+		void SetCurrentCamera(sp<oakvr::render::Camera> pCamera);
 		void SetCurrentCamera(const std::string &cameraId);
 
 		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color);
@@ -52,15 +53,27 @@ namespace oakvr
 		auto RenderWindowHasFocus()->bool;
 
 		auto ScreenCoordsToWindowClient(oakvr::math::Vector2)->oakvr::math::Vector2;
+
+#define DECLARE_ENABLEDISABLE_FCT(fName) \
+		void Enable ## fName();\
+		void Disable ## fName();\
+		void Toggle ## fName();\
+		bool Is ## fName ## Enabled();
+
+		DECLARE_ENABLEDISABLE_FCT(Wireframe)
+		DECLARE_ENABLEDISABLE_FCT(Culling)
+		DECLARE_ENABLEDISABLE_FCT(DepthTest)
+		DECLARE_ENABLEDISABLE_FCT(Blending)
+#undef DECLARE_ENABLEDISABLE_FCT
 		
 	}
 
-	void RegisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable);
-	void UnregisterUpdatable(std::shared_ptr<oakvr::Updatable> pUpdatable);
+	void RegisterUpdatable(sp<oakvr::Updatable> pUpdatable);
+	void UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable);
 
 	namespace core
 	{
 		auto RegisterSubFolderPaths(const std::string &path)->bool;
-		auto GetResource(const std::string &id)->std::shared_ptr<oakvr::core::MemoryBuffer>;
+		auto GetResource(const std::string &id)->sp<oakvr::core::MemoryBuffer>;
 	}
 } // namespace oakvr

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Camera.h"
+#include "Utils/Types.h"
 
 #include <vector>
 #include <memory>
@@ -16,16 +17,16 @@ namespace oakvr
 		public:
 			CameraManager();
 
-			void RegisterCamera(std::shared_ptr<Camera>);
-			void UnregisterCamera(std::shared_ptr<Camera>);
+			void RegisterCamera(sp<Camera>);
+			void UnregisterCamera(sp<Camera>);
 
-			std::shared_ptr<Camera> GetCamera(const std::string &cameraId);
-			std::shared_ptr<Camera> GetCurrentCamera() { return m_currentCameraIndex < m_cameras.size() ? m_cameras[m_currentCameraIndex] : nullptr; }
-			void SetCurrentCamera(std::shared_ptr<Camera>);
+			sp<Camera> GetCamera(const std::string &cameraId);
+			sp<Camera> GetCurrentCamera() { return m_currentCameraIndex < m_cameras.size() ? m_cameras[m_currentCameraIndex] : nullptr; }
+			void SetCurrentCamera(sp<Camera>);
 			void SetCurrentCamera(const std::string &cameraId);
 		private:
 			int m_currentCameraIndex;
-			std::vector<std::shared_ptr<Camera>> m_cameras;
+			std::vector<sp<Camera>> m_cameras;
 		};
 	}
 }

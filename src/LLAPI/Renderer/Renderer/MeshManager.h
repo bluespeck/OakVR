@@ -14,17 +14,17 @@ namespace oakvr
 		class MeshManager
 		{
 		public:
-			typedef std::vector<std::shared_ptr<Mesh>> MeshVector;
+			typedef std::vector<sp<Mesh>> MeshVector;
 
 			MeshManager();
 			~MeshManager();
 
-			void AddMesh(std::shared_ptr<Mesh> pMesh);
-			void AddOneFrameMesh(std::shared_ptr<Mesh> pMesh);
+			void AddMesh(sp<Mesh> pMesh);
+			void AddOneFrameMesh(sp<Mesh> pMesh);
 			void ClearOneFrameMeshes();
 			void Clear();
 
-			void RemoveMesh(std::shared_ptr<Mesh> pMesh);
+			void RemoveMesh(sp<Mesh> pMesh);
 
 			auto SortMeshesByMaterial()->Mesh::MeshElementVector;
 			auto SortByCameraDistance(const oakvr::math::Vector3 &cameraPos, const oakvr::math::Vector3 &cameraForward)->Mesh::MeshElementVector;

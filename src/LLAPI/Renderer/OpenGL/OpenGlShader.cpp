@@ -48,30 +48,31 @@ namespace oakvr
 			default:
 				break;
 			}
-			GLuint shaderId = glCreateShader(st);
+			GLuint shaderId = glCallAndCheck(glCreateShader, st);
 			m_pImpl->shaderId = shaderId;
 			
 			const char *shaderSource = reinterpret_cast<const char *>(buff.GetDataPtr());
 			GLint length = static_cast<GLint>(buff.Size());
 
-			glShaderSource(shaderId, 1, &shaderSource, &length);
-			glCompileShader(shaderId);
+			glCallAndCheck(glShaderSource, shaderId, 1, &shaderSource, &length);
+			glCallAndCheck(glCompileShader, shaderId);
 			
 			GLint compileSuccessfull;
-			glGetShaderiv(shaderId, GL_COMPILE_STATUS, &compileSuccessfull);
+			glCallAndCheck(glGetShaderiv, shaderId, GL_COMPILE_STATUS, &compileSuccessfull);
 			if (compileSuccessfull == GL_FALSE)
 			{
 				GLcharARB infoLog[1024];
 				GLsizei charsWritten;
-				glGetInfoLogARB(shaderId, 1024, &charsWritten, infoLog);
+				glCallAndCheck(glGetInfoLogARB, shaderId, 1024, &charsWritten, infoLog);
 				infoLog[charsWritten] = 0;
-				Log::PrintWarning("OpenGL shader compilation has failed: %s", infoLog);
+				Log::Warning("OpenGL shader compilation has failed: %s", infoLog);
 			}
 		}
 
 		Shader::~Shader()
 		{
-			glDeleteShader(m_pImpl->shaderId);
+			if (m_contextIsValid == true)
+				glCallAndCheck(glDeleteShader, m_pImpl->shaderId);
 		}
 
 		void *Shader::GetNativeHandle()

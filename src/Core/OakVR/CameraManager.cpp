@@ -12,32 +12,32 @@ namespace oakvr
 		{			
 		}
 
-		void CameraManager::RegisterCamera(std::shared_ptr<Camera> pCamera)
+		void CameraManager::RegisterCamera(sp<Camera> pCamera)
 		{
 			m_cameras.push_back(pCamera);
 		}
 
-		void CameraManager::UnregisterCamera(std::shared_ptr<Camera> pCamera)
+		void CameraManager::UnregisterCamera(sp<Camera> pCamera)
 		{
 			auto size = m_cameras.size();
-			std::remove_if(std::begin(m_cameras), std::end(m_cameras), [&](const std::shared_ptr<Camera> &pRegisteredCamera)->bool{ return pRegisteredCamera == pCamera; });
+			std::remove_if(std::begin(m_cameras), std::end(m_cameras), [&](const sp<Camera> &pRegisteredCamera)->bool{ return pRegisteredCamera == pCamera; });
 			if (size == m_cameras.size())
 			{
-				Log::PrintWarning("Trying to unregister a camera that was not registered before.");
+				Log::Warning("Trying to unregister a camera that was not registered before.");
 			}
 		}
 
-		std::shared_ptr<Camera> CameraManager::GetCamera(const std::string &cameraId)
+		sp<Camera> CameraManager::GetCamera(const std::string &cameraId)
 		{
-			auto it = std::find_if(m_cameras.begin(), m_cameras.end(), [&](std::shared_ptr<Camera> &e) { return e->GetId() == cameraId; });
+			auto it = std::find_if(m_cameras.begin(), m_cameras.end(), [&](sp<Camera> &e) { return e->GetId() == cameraId; });
 			if (it != m_cameras.end())
 				return *it;
 			
-			Log::PrintWarning("Could not find camera with id = %s !", cameraId.c_str());
+			Log::Warning("Could not find camera with id = %s !", cameraId.c_str());
 			return nullptr;
 		}
 
-		void CameraManager::SetCurrentCamera(std::shared_ptr<Camera> pCamera)
+		void CameraManager::SetCurrentCamera(sp<Camera> pCamera)
 		{
 			for (int i = 0; i < m_cameras.size(); ++i)
 			{	
@@ -47,7 +47,7 @@ namespace oakvr
 					return;
 				}
 			}
-			Log::PrintError("Trying to set an unregistered camera (%s) as the current camera!", pCamera->GetId());
+			Log::Error("Trying to set an unregistered camera (%s) as the current camera!", pCamera->GetId());
 		}
 
 		void CameraManager::SetCurrentCamera(const std::string &cameraId)
@@ -60,7 +60,7 @@ namespace oakvr
 					return;
 				}
 			}
-			Log::PrintError("Trying to set an unregistered camera (%s) as the current camera!", cameraId.c_str());
+			Log::Error("Trying to set an unregistered camera (%s) as the current camera!", cameraId.c_str());
 		}
 	}
 }

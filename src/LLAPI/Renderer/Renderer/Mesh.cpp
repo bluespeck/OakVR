@@ -1,4 +1,5 @@
 #include "Mesh.h"
+#include "Utils/Types.h"
 
 namespace oakvr
 {
@@ -15,7 +16,7 @@ namespace oakvr
 		{	
 		}
 
-		void Mesh::AddMeshElement(const std::shared_ptr<MeshElement> &pMeshElem)
+		void Mesh::AddMeshElement(const sp<MeshElement> &pMeshElem)
 		{
 			pMeshElem->m_pMesh = this;
 			m_vMeshElements.push_back(pMeshElem);

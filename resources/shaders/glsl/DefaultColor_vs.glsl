@@ -10,10 +10,10 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 worldMatrix;
 
-out vec4 Color;
+out vec4 fColor;
 
 void main(void)
 {
 	gl_Position = projectionMatrix * viewMatrix * worldMatrix * vec4(in_Position , 1.0);
-	Color = in_Color;
+	fColor = in_Color;
 }

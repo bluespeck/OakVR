@@ -42,7 +42,7 @@ namespace io
 		struct stat st;
 		if(stat(filepath.c_str(), &st ))
 		{
-			Log::PrintError("stat(%s, %p) error code(errno) %d", filepath.c_str(), &st, errno);
+			Log::Error("stat(%s, %p) error code(errno) %d", filepath.c_str(), &st, errno);
 			return false;
 		}
 		return st.st_size != 0;
@@ -54,7 +54,7 @@ namespace io
 		struct stat st; 
 		if(stat(filepath.c_str(), &st ))
 		{
-			Log::PrintError("stat(%s, %p) error code(errno) %d.\n", filepath.c_str(), &st, errno);
+			Log::Error("stat(%s, %p) error code(errno) %d.\n", filepath.c_str(), &st, errno);
 			return false;
 		}
 
@@ -94,7 +94,7 @@ namespace io
 
 		errno_t err = fopen_s(&m_pImpl->pFileHandle, m_filePath.c_str(), mode);
 		if(!m_pImpl->pFileHandle)
-			Log::PrintError("File could not be opened (%s). Errno is %d.", m_filePath.c_str(), err);
+			Log::Error("File could not be opened (%s). Errno is %d.", m_filePath.c_str(), err);
 		m_bFileOpened = m_pImpl->pFileHandle != nullptr;
 	}
 
@@ -102,7 +102,7 @@ namespace io
 	void File::Close()
 	{
 		if(fclose(m_pImpl->pFileHandle))
-			Log::PrintError("File could not be closed (%s). Errno is %d.", m_filePath.c_str(), errno );
+			Log::Error("File could not be closed (%s). Errno is %d.", m_filePath.c_str(), errno );
 
 		m_eFileOpenMode = FileOpenMode::unknown;
 		m_pImpl->pFileHandle = nullptr;
@@ -114,7 +114,7 @@ namespace io
 	{
 		if(offset + bytesToRead > bufferSize) 
 		{
-			Log::PrintError("Reading from %s; attempt to read past buffer limit!\n", m_filePath.c_str());
+			Log::Error("Reading from %s; attempt to read past buffer limit!\n", m_filePath.c_str());
 			return 0;
 		}
 			
@@ -125,7 +125,7 @@ namespace io
 				
 		if(bytesToRead > fileSize)
 		{
-			Log::PrintError("Reading from %s; attempt to read more than the file size!\n", m_filePath.c_str());
+			Log::Error("Reading from %s; attempt to read more than the file size!\n", m_filePath.c_str());
 			return 0;
 		}
 			
@@ -137,7 +137,7 @@ namespace io
 	{
 		if(offset + bytesToWrite > bufferSize)
 		{
-			Log::PrintError("Writing to %s; attempt to write past buffer limit!\n", m_filePath.c_str());
+			Log::Error("Writing to %s; attempt to write past buffer limit!\n", m_filePath.c_str());
 			exit(1);
 		}
 			

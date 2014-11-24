@@ -29,7 +29,8 @@ namespace oakvr
 			auto GetPosition() const -> const Vector3 &{ return m_position; }
 			auto GetForward() const -> const Vector3 &{ return m_forward; }
 			auto GetUp() const -> const Vector3 &{ return m_up; }
-			auto GetRight() const ->Vector3{ return m_forward.Cross(m_up); }
+			auto GetRight() const ->Vector3{ 
+				return m_up.Cross(m_forward); }
 			auto ComputeViewMatrix() const -> Matrix;
 			auto GetProjMatrix() const -> Matrix { return m_matProj; }
 			

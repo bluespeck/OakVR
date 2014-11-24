@@ -2,6 +2,7 @@
 
 #include "Shader.h"
 #include "Utils/Buffer.h"
+#include "Utils/Types.h"
 
 #include <memory>
 #include <string>
@@ -14,21 +15,24 @@ namespace oakvr
 		{
 		public:
 			ShaderProgram::ShaderProgram(const std::string &shaderProgram
-				, std::shared_ptr<oakvr::core::MemoryBuffer> vsBuffer
-				, std::shared_ptr<oakvr::core::MemoryBuffer> psBuffer
-				, std::shared_ptr<oakvr::core::MemoryBuffer> gsBuffer
-				, std::shared_ptr<oakvr::core::MemoryBuffer> dsBuffer
-				, std::shared_ptr<oakvr::core::MemoryBuffer> hsBuffer);
+				, sp<oakvr::core::MemoryBuffer> vsBuffer
+				, sp<oakvr::core::MemoryBuffer> psBuffer
+				, sp<oakvr::core::MemoryBuffer> gsBuffer
+				, sp<oakvr::core::MemoryBuffer> dsBuffer
+				, sp<oakvr::core::MemoryBuffer> hsBuffer);
 			~ShaderProgram();
 
 
 			void *GetNativeHandle();
+			void InvalidateContext() { m_contextIsValid = false; }
 		private:
 
 			std::unique_ptr<Shader> m_vs, m_ps, m_gs, m_ds, m_hs;
 
 			class ShaderProgramImpl;
 			std::unique_ptr<ShaderProgramImpl> m_pImpl;
+
+			bool m_contextIsValid = false;
 		};
 	}
 }

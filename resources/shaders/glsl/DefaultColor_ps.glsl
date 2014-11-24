@@ -1,10 +1,10 @@
 #version 420 core
 
-in vec4 Color;
-
+in vec4 fColor;
+out vec4 out_color;
 uniform sampler2D texDiffuse0;
 
 void main(void)
 {	
-	gl_FragColor = Color, 1.0;
+	out_color = fColor;
 }

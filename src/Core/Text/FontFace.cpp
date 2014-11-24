@@ -23,6 +23,11 @@ namespace oakvr
 			// --------------------------------------------------------------------------------
 			FontFace::FontFace(FT_LibraryRec_ *pFTLib, std::shared_ptr<MemoryBuffer> pFontFileBuffer, std::string fontFaceName /* = "" */)
 			{
+				if (!pFontFileBuffer.get())
+				{
+					Log::Error("Could not find font face \"%s\"", fontFaceName.c_str());
+					return;
+				}
 				FT_Face fontFace;
 				FT_Error err = FT_New_Memory_Face(pFTLib, pFontFileBuffer->GetDataPtr(), static_cast<FT_Long>(pFontFileBuffer->Size()), 0, &fontFace);
 				if (!err)
@@ -37,7 +42,7 @@ namespace oakvr
 				else
 				{
 					m_name = fontFaceName;
-					Log::PrintError("Could not load font face %s", fontFaceName.c_str());
+					Log::Error("Could not load font face %s", fontFaceName.c_str());
 					return;
 				}
 				
@@ -60,7 +65,7 @@ namespace oakvr
 					FT_Error err = FT_Load_Char(m_pFTFace, i, FT_LOAD_RENDER);
 					if (err)
 					{
-						Log::PrintWarning("Could not load glyph for character code %d ('%c').", i, i);
+						Log::Warning("Could not load glyph for character code %d ('%c').", i, i);
 						continue;
 					}
 					
@@ -96,7 +101,7 @@ namespace oakvr
 					FT_Error err = FT_Load_Char(m_pFTFace, i, FT_LOAD_RENDER);
 					if (err)
 					{
-						Log::PrintWarning("Could not load glyph for character code %d ('%c').", i, i);
+						Log::Warning("Could not load glyph for character code %d ('%c').", i, i);
 						continue;
 					}
 					int32_t slotAdvanceX = slot->advance.x >> 6;

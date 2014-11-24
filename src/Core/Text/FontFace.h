@@ -2,6 +2,7 @@
 
 #include "Utils/Buffer.h"
 #include "Math/Vector2.h"
+#include "Utils/Types.h"
 
 #include <array>
 #include <vector>
@@ -21,7 +22,7 @@ namespace oakvr
 			class FontFace
 			{
 			public:
-				FontFace(FT_LibraryRec_ *pFTLib, std::shared_ptr<MemoryBuffer> pFontFileBuffer, std::string fontFaceName = "");
+				FontFace(FT_LibraryRec_ *pFTLib, sp<MemoryBuffer> pFontFileBuffer, std::string fontFaceName = "");
 				
 				struct CharInfo
 				{
