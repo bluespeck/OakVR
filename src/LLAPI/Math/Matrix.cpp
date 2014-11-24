@@ -501,13 +501,28 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		Matrix Matrix::PerspectiveProjection(float fov, float aspect, float znear, float zfar)
+		Matrix Matrix::PerspectiveProjection(float fov, float width, float height, float znear, float zfar)
 		{
 			Matrix mat;
 			float frustumDepth = zfar - znear;
 			
 			mat._22 = 1.f / tan(0.5f * fov);
-			mat._11 = mat._22 / aspect;
+			mat._11 = mat._22 * height / width;
+			mat._33 = -(znear + zfar) / frustumDepth;
+			mat._43 = -(2 * zfar * znear) / frustumDepth;
+			mat._34 = -1;
+			mat._44 = 0;
+			return mat;
+		}
+
+		// --------------------------------------------------------------------------------
+		Matrix Matrix::PerspectiveProjection(float fov, float aspectY, float znear, float zfar)
+		{
+			Matrix mat;
+			float frustumDepth = zfar - znear;
+
+			mat._22 = 1.f / tan(0.5f * fov);
+			mat._11 = mat._22 * aspectY;
 			mat._33 = -(znear + zfar) / frustumDepth;
 			mat._43 = -(2 * zfar * znear) / frustumDepth;
 			mat._34 = -1;
@@ -525,9 +540,9 @@ namespace oakvr
 			mat._11 = 2 * oneOverRightMinusLeft;
 			mat._22 = 2 * oneOverTopMinusButtom;
 			mat._33 = -2 * oneOverFarMinusNear;
-			mat._41 = -(right + left) * oneOverRightMinusLeft;
-			mat._42 = -(top + bottom) * oneOverTopMinusButtom;
-			mat._43 = -(far + near) * oneOverFarMinusNear;
+			mat._14 = -(right + left) * oneOverRightMinusLeft;
+			mat._24 = -(top + bottom) * oneOverTopMinusButtom; 
+			mat._34 = -(far + near) * oneOverFarMinusNear;
 			mat._44 = 1.0f;
 
 			return mat;

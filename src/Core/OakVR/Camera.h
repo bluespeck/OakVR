@@ -37,7 +37,8 @@ namespace oakvr
 			void SetPosition( const Vector3 & position )	{ m_position = position; }
 			void SetLook(const Vector3& forward)			{ m_forward = forward; }
 			void SetUp( const Vector3& up )					{ m_up = up; }
-			void SetPerspectiveProjection(float fov, float aspect, float nearPlaneDist, float farPlaneDist) { m_matProj = Matrix::PerspectiveProjection(fov, aspect, nearPlaneDist, farPlaneDist); }
+			void SetPerspectiveProjection(float fov, float aspectY, float nearPlaneDist, float farPlaneDist) { m_matProj = Matrix::PerspectiveProjection(fov, aspectY, nearPlaneDist, farPlaneDist); }
+			void SetPerspectiveProjection(float fov, float width, float height, float nearPlaneDist, float farPlaneDist) { m_matProj = Matrix::PerspectiveProjection(fov, width, height, nearPlaneDist, farPlaneDist); }
 			void SetOrthographicProjection(float left, float right, float bottom, float top, float near, float far) { m_matProj = Matrix::OrthographicProjection(left, right, bottom, top, near, far); }
 			void SetOrthographicProjection(float width, float height, float near, float far) { m_matProj = Matrix::OrthographicProjection(- width / 2, width / 2, -height / 2, height / 2, near, far); }
 

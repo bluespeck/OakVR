@@ -31,25 +31,25 @@ namespace construct
 		oakvr::core::AddFontFace("NotoSans-Bold");
 
 		auto pCamera = std::make_shared<oakvr::render::Camera>("rotating_camera", oakvr::math::Vector3{ 0.f, 0.f, 500.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
-		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(60.f), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
+		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(60.f), oakvr::render::GetRenderWindowWidth() , oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
 		oakvr::render::RegisterCamera(pCamera);
 
 		pCamera = std::make_shared<oakvr::render::Camera>("panning_camera", oakvr::math::Vector3{ 0.f, 0.f, 500.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
-		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(60.f), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
+		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(60.f), oakvr::render::GetRenderWindowWidth() , oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
 		oakvr::render::RegisterCamera(pCamera);
 
 		pCamera = std::make_shared<oakvr::render::Camera>("static_camera", oakvr::math::Vector3{ 0.f, 0.f, 500.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f });
-		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(60.f), oakvr::render::GetRenderWindowWidth() / oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
+		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(60.f), oakvr::render::GetRenderWindowWidth() , oakvr::render::GetRenderWindowHeight(), 1.f, 1000.f);
 		oakvr::render::RegisterCamera(pCamera);
 
 		pCamera = std::make_shared<FreeCamera>("free_camera", oakvr::math::Vector3{ 0.f, 0.f, 500.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 1000.f, 1.f);
-		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(60.f), oakvr::render::GetRenderWindowHeight() / oakvr::render::GetRenderWindowWidth(), 1.f, 2000.f);
+		pCamera->SetPerspectiveProjection(oakvr::math::DegreesToRadians(60.f), oakvr::render::GetRenderWindowWidth() , oakvr::render::GetRenderWindowHeight(), 1.f, 2000.f);
 		oakvr::render::RegisterCamera(pCamera);
 		oakvr::render::SetCurrentCamera(pCamera);
 
 
 		pCamera = std::make_shared<FreeCamera>("orthographic_camera", oakvr::math::Vector3{ 0.f, 0.f, 500.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 1000.f, 1.f);
-		pCamera->SetOrthographicProjection(100, 100, -100, 100);
+		pCamera->SetOrthographicProjection(oakvr::render::GetRenderWindowWidth(), oakvr::render::GetRenderWindowHeight(), -10, 10000);
 		oakvr::render::RegisterCamera(pCamera);
 
 		//CreateTestMesh1();
