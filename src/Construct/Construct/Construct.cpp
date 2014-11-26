@@ -18,8 +18,8 @@ namespace construct
 	{
 		oakvr::Log::SetMaxLevel(oakvr::Log::LogLevel::info);
 
-		oakvr::render::SetRenderWindowPosition(2000, 100);
-		oakvr::render::SetRenderWindowSize(1200, 768);
+		oakvr::render::SetRenderWindowPosition(-1900, 100);
+		oakvr::render::SetRenderWindowSize(1800, 900);
 		oakvr::render::SetRenderWindowTitle("Construct with Oak VR");
 
 		oakvr::core::RegisterSubFolderPaths("E:/Projects/OakVR/resources");
@@ -55,7 +55,7 @@ namespace construct
 		//CreateTestMesh1();
 		//CreateTestMesh2();
 		CreateTestMesh3();
-		CreateTestMeshRoom();
+		//CreateTestMeshRoom();
 	}
 
 	const int meshNum = 2;
@@ -232,10 +232,5 @@ namespace construct
 		pMesh->SetWorldMatrix(oakvr::math::Matrix::Scale(1000));
 	}
 
-	void InitializeConstruct()
-	{
-		oakvr::RegisterUpdatable(std::make_shared<Construct>());
-	}
-
-	OAKVR_REGISTER_INITIALIZER(InitializeConstruct)
+	OAKVR_REGISTER_UPDATABLE(Construct)
 }

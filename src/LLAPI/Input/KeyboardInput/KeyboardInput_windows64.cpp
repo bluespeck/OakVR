@@ -64,6 +64,18 @@ namespace oakvr
 			return !((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0);
 		}
 
+		auto KeyboardInput::GetKeysPressed() const->std::vector < Key >
+		{
+			std::vector<Key> result;
+			for (auto key = static_cast<int>(Key::__first); key < static_cast<int>(Key::__last); ++key)
+			{
+				int keyCode = m_pImpl->keyMap.at(static_cast<Key>(key));
+				if (((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0) && !((m_pImpl->keyStatesPrevious[keyCode] & 0x80) != 0))
+					result.push_back(static_cast<Key>(key));
+			}
+			return result;
+		}
+
 		KeyboardInput::KeyboardInputImpl::KeyboardInputImpl()
 		{
 			keyMap = std::unordered_map<Key, int>{ 
@@ -126,6 +138,7 @@ namespace oakvr
 					{ Key::down, VK_DOWN },
 
 					{ Key::home, VK_HOME },
+					{ Key::end, VK_END },
 
 					{ Key::f1, VK_F1 },
 					{ Key::f2, VK_F2 },
@@ -159,10 +172,12 @@ namespace oakvr
 					{ Key::num9, VK_NUMPAD9 },
 
 					{ Key::divide, VK_DIVIDE },
+					{ Key::multiply, VK_MULTIPLY },
 					{ Key::subtract, VK_SUBTRACT },
 					{ Key::add, VK_ADD },
 					{ Key::numLock, VK_NUMLOCK },
 					{ Key::numEnter, VK_RETURN },	// no way to differentiate from the other 'enter' key with this approach
+					{ Key::decimal, VK_DECIMAL},
 
 					{ Key::backtick_tilde, VK_OEM_3 },
 					{ Key::minus_underscore, VK_OEM_MINUS },

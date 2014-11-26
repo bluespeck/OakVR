@@ -1,9 +1,10 @@
 #pragma once
 
+#include "Utils/Singleton.h"
+
 #include <cstdint>
 #include <memory>
-
-#include "Utils/Singleton.h"
+#include <vector>
 
 namespace oakvr
 {
@@ -11,7 +12,8 @@ namespace oakvr
 	{
 		enum class Key : uint8_t
 		{
-			_0, _1, _2, _3, _4, _5, _6, _7, _8, _9,
+			__first,
+			_0 = __first, _1, _2, _3, _4, _5, _6, _7, _8, _9,
 			
 			a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z,
 			
@@ -49,14 +51,15 @@ namespace oakvr
 
 			num0, num1, num2, num3, num4, num5, num6, num7, num8, num9,
 			divide, multiply, subtract, add,
-			numLock, numEnter,
+			numLock, numEnter, decimal,
 
 			backtick_tilde, minus_underscore, equal_plus,
 			lBracket_curly, rBracket_curly, backslash_pipe,
 			semicolon_colon, singleQuote_doubleQuote,
 			comma_less, period_greater, slash_questionMark,
 
-			printScreen
+			printScreen,
+			__last = printScreen
 		};
 
 		class KeyboardInput : public oakvr::Singleton<KeyboardInput>
@@ -74,6 +77,8 @@ namespace oakvr
 			bool IsReleased(Key key) const;
 			bool IsDown(Key key) const;
 			bool IsUp(Key key) const;
+			auto GetKeysPressed() const->std::vector < Key > ;
+			auto ToASCII(Key key) const -> char;
 			
 		private:
 			std::unique_ptr<KeyboardInputImpl> m_pImpl;
@@ -88,6 +93,8 @@ namespace oakvr
 			inline bool IsReleased(Key key) { return KeyboardInput::GetInstance().IsReleased(key); }
 			inline bool IsDown(Key key)		{ return KeyboardInput::GetInstance().IsDown(key); }
 			inline bool IsUp(Key key)		{ return KeyboardInput::GetInstance().IsUp(key); }
+			inline auto GetKeysPressed() ->std::vector < Key > { return KeyboardInput::GetInstance().GetKeysPressed(); }
+			inline auto ToASCII(Key key) -> char { return KeyboardInput::GetInstance().ToASCII(key); }
 		}
 	}
 }

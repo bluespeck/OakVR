@@ -131,11 +131,11 @@ namespace oakvr
 	};
 }	// namespace oakvr
 
-#define _OAKVR_REGISTER_INITIALIZER(myInitializer, file, line) \
+#define _OAKVR_REGISTER_UPDATABLE_INITIALIZER(myInitializer, file, line) \
 	struct OakVRInitializer  ## file ## line\
 	{\
 		OakVRInitializer  ## file ## line() { oakvr::OakVR::GetInstance().RegisterInitializer(myInitializer); }\
 	} oakVRInitializer ## __FILE__ ## line;
 
-// OAKVR initializer; Use it in a compilation unit to have one of your functions called
-#define OAKVR_REGISTER_INITIALIZER(myInitializer) _OAKVR_REGISTER_INITIALIZER(myInitializer, __FILE__, __LINE__)
+// creates a global object that upon construction initializes an object of the <className> class
+#define OAKVR_REGISTER_UPDATABLE(className) _OAKVR_REGISTER_UPDATABLE_INITIALIZER([](){::oakvr::RegisterUpdatable(std::make_shared<className>());}, __FILE__, __LINE__)

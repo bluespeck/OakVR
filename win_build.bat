@@ -1,8 +1,10 @@
+echo off
+
 if "%1" == "clean" (
 	del /S/Q workspace
 	del /S/Q bin
 )
-echo off
+
 SET PLF=windows64
 SET CFG=debug
 

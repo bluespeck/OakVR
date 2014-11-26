@@ -169,8 +169,7 @@ namespace oakvr
 
 				auto pMesh = std::make_shared<oakvr::render::Mesh>();
 				pMesh->AddMeshElement(pMeshElem);
-				pMesh->SetWorldMatrix(oakvr::math::Matrix::RotationZ(angle) * oakvr::math::Matrix::Scale(scale) * oakvr::math::Matrix::Translation(position));
-				//pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(position) * oakvr::math::Matrix::Scale(scale) * oakvr::math::Matrix::RotationZ(angle));
+				pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(position) * oakvr::math::Matrix::RotationZ(angle) * oakvr::math::Matrix::Scale(scale));
 				m_pRenderer->RegisterOneFrameMesh(pMesh);
 				m_pRenderer->RegisterShaderProgram("DefaultText");
 

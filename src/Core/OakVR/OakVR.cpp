@@ -20,6 +20,7 @@
 #include "Renderer/Renderer/Color.h"
 
 #include "Text/Text.h"
+#include "Console/Console.h"
 
 #include "Profiler/Profiler.h"
 #include "Utils/BufferReader.h"
@@ -137,7 +138,7 @@ namespace oakvr
 			oakvr::core::Text::GetInstance().SetResourceManagerPtr(m_pRM);
 			oakvr::core::Text::GetInstance().SetRendererPtr(m_pRenderer);
 		}
-
+		Console();
 		m_timer.Reset();
 		return true;
 	}

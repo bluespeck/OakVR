@@ -6,4 +6,5 @@ Project "KeyboardInput"
 	includedirs{ ".", "../.." }
 	
 	files {"**.h"}
+	files {"KeyboardInput.cpp"}
 	PlatformSpecificFiles("**_", ".cpp")

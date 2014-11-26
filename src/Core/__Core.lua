@@ -10,7 +10,9 @@
 ]]
 	startproject "OakVR"
 
-	dofile("ResourceManager/__ResourceManager.lua")
-	dofile("OakVR/__OakVR.lua")
+	dofile("Console/__Console.lua")
 	dofile("CoreExternals/__CoreExternals.lua")
+	dofile("OakVR/__OakVR.lua")
+	dofile("ResourceManager/__ResourceManager.lua")
 	dofile("Text/__Text.lua")
+	
