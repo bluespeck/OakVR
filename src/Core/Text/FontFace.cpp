@@ -60,6 +60,7 @@ namespace oakvr
 				int penX = 0;
 				int32_t maxRows = 0;
 				int32_t maxSlotAdvanceX = 0;
+				int32_t maxSlotAdvanceY = 0;
 				for (char i = 33, k = 0; i < 127; ++i, ++k)
 				{
 					FT_Error err = FT_Load_Char(m_pFTFace, i, FT_LOAD_RENDER);
@@ -72,11 +73,14 @@ namespace oakvr
 					if (maxRows < slot->bitmap.rows)
 						maxRows = slot->bitmap.rows;
 					int32_t advanceX = slot->advance.x >> 6; // 1/64s of a pixel
+					int32_t advanceY = slot->advance.y >> 6; // 1/64s of a pixel
 					if (maxSlotAdvanceX < advanceX)
 						maxSlotAdvanceX = advanceX;
+					if (maxSlotAdvanceY < advanceY)
+						maxSlotAdvanceY = advanceY;
 					penX += advanceX + 2; 
 				}
-				penX += maxSlotAdvanceX / 2; // add width of space
+				penX += maxSlotAdvanceX; // add width of space
 				m_textureWidth = oakvr::math::NextPowerOfTwo(penX);
 				m_textureHeight = oakvr::math::NextPowerOfTwo(maxRows);
 
@@ -90,11 +94,11 @@ namespace oakvr
 				// add space
 				m_characterMap[0].texCoords1.x = 0.f;
 				m_characterMap[0].texCoords1.y = 0.f;
-				accumulatedWidth += maxSlotAdvanceX / 2;
+				accumulatedWidth += maxSlotAdvanceX;
 				m_characterMap[0].texCoords2.x = static_cast<float>(accumulatedWidth);
-				m_characterMap[0].texCoords2.y = static_cast<float>(maxRows);
+				m_characterMap[0].texCoords2.y = static_cast<float>(maxSlotAdvanceY);
 				m_characterMap[0].leftTopFromBaseline.x = 0.;
-				m_characterMap[0].leftTopFromBaseline.y = static_cast<float>(maxRows);
+				m_characterMap[0].leftTopFromBaseline.y = static_cast<float>(maxSlotAdvanceY);
 
 				for (char i = 33, k = 1; i < 127; ++i, ++k)
 				{

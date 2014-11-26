@@ -26,8 +26,8 @@ namespace oakvr
 					{ Key::m, 0x6D },
 					{ Key::n, 0x6E },
 					{ Key::o, 0x6F },
-					{ Key::p, 0x60 },
-					{ Key::q, 0x61 },
+					{ Key::p, 0x70 },
+					{ Key::q, 0x71 },
 					{ Key::r, 0x72 },
 					{ Key::s, 0x73 },
 					{ Key::t, 0x74 },
@@ -49,11 +49,11 @@ namespace oakvr
 					{ Key::_8, 0x38 },
 					{ Key::_9, 0x39 },
 
-					{ Key::enter, 0x0D },
+					{ Key::enter, -1 },
 					{ Key::space, 32 },
-					{ Key::backspace, 0x08 },
-					{ Key::insert, 0x2D },
-					{ Key::del, 0x2e },
+					{ Key::backspace, -1 },
+					{ Key::insert, -1 },
+					{ Key::del, -1 },
 
 					{ Key::lControl, -1},
 					{ Key::rControl, -1 },
@@ -88,9 +88,9 @@ namespace oakvr
 					{ Key::pageUp, -1 },
 					{ Key::pageDown, -1 },
 					
-					{ Key::esc, 0x1b },
-					{ Key::tab, 0x09 },
-					{ Key::capsLock, 0x14 },
+					{ Key::esc, -1 },
+					{ Key::tab, -1 },
+					{ Key::capsLock, -1 },
 					
 					{ Key::num0, 48+0 },
 					{ Key::num1, 48+1 },
@@ -108,7 +108,7 @@ namespace oakvr
 					{ Key::subtract, '-' },
 					{ Key::add, '+' },
 					{ Key::numLock, -1 },
-					{ Key::numEnter, 0x0D },	// no way to differentiate from the other 'enter' key with this approach
+					{ Key::numEnter, -1 },
 					{ Key::decimal, '.' },
 
 					{ Key::backtick_tilde, '`' },
@@ -127,6 +127,21 @@ namespace oakvr
 			}; // keymap initializer list end
 
 			return keyToAsciiMap.at(key);
+		}
+
+		void KeyboardInput::Capture(void *pCaptor)
+		{
+			m_pCaptor = pCaptor;
+		}
+
+		void KeyboardInput::Release()
+		{
+			m_pCaptor = nullptr;
+		}
+
+		auto KeyboardInput::GetCaptor() const -> void*
+		{
+			return m_pCaptor;
 		}
 	}
 }

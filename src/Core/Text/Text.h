@@ -36,6 +36,9 @@ namespace oakvr
 			
 			void RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName, float scale = 1.0f, float angle = 0.0f) const;
 
+			auto GetGlyphWidth(char character, std::string fontName, float scale = 1.0f) -> float;
+			auto GetGlyphHeight(char character, std::string fontName, float scale = 1.0f) -> float;
+
 			void SetResourceManagerPtr(std::shared_ptr<oakvr::core::ResourceManager> pRM) { m_pRM = pRM; }
 			void SetRendererPtr(std::shared_ptr<oakvr::render::Renderer> pRenderer) { m_pRenderer = pRenderer; }
 			
@@ -63,5 +66,7 @@ namespace oakvr
 	namespace render
 	{
 		inline void DrawText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName, float scale = 1.0f, float angle = 0.0f) { oakvr::core::Text::GetInstance().RenderText(text, position, color, fontName, scale, angle); }
+		inline float GetGlyphWidth(char glyph, std::string fontName, float scale = 1.0f) { return oakvr::core::Text::GetInstance().GetGlyphWidth(glyph, fontName, scale); }
+		inline float GetGlyphHeight(char glyph, std::string fontName, float scale = 1.0f) { return oakvr::core::Text::GetInstance().GetGlyphHeight(glyph, fontName, scale); }
 	}
 }

@@ -62,7 +62,7 @@ namespace construct
 	auto Construct::Update(float dt)->bool
 	{
 		static float fovValue = 0.f;
-		if (oakvr::render::RenderWindowHasFocus())
+		if (oakvr::render::RenderWindowHasFocus() && !oakvr::input::keyboard::GetCaptor())
 		{
 			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::y))
 				oakvr::render::DrawText("Y key is down", oakvr::math::Vector3(-0.9f, 215.9f, -20.f), oakvr::render::Color::Yellow, "Tinos Regular", 20);
@@ -120,7 +120,7 @@ namespace construct
 			+ " C" + std::to_string(oakvr::render::IsCullingEnabled())
 			+ " D" + std::to_string(oakvr::render::IsDepthTestEnabled())
 			+ " B" + std::to_string(oakvr::render::IsBlendingEnabled())
-			, oakvr::math::Vector3(0.f, 30.f, 0.f), oakvr::render::Color::Yellow, "Fira Mono Regular", 20);
+			, oakvr::math::Vector3(0.f, 100.f, 0.f), oakvr::render::Color::Yellow, "Fira Mono Regular", 20);
 		
 		/*auto vec = oakvr::profiler::Profiler::GetInstance().GetSortedProfilingData();
 		float fIndex = 0.0f;

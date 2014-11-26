@@ -79,9 +79,14 @@ namespace oakvr
 			bool IsUp(Key key) const;
 			auto GetKeysPressed() const->std::vector < Key > ;
 			auto ToASCII(Key key) const -> char;
+
+			void Capture(void *);
+			void Release();
+			auto GetCaptor() const -> void*;
 			
 		private:
 			std::unique_ptr<KeyboardInputImpl> m_pImpl;
+			void *m_pCaptor = nullptr;
 			
 		};
 
@@ -95,6 +100,9 @@ namespace oakvr
 			inline bool IsUp(Key key)		{ return KeyboardInput::GetInstance().IsUp(key); }
 			inline auto GetKeysPressed() ->std::vector < Key > { return KeyboardInput::GetInstance().GetKeysPressed(); }
 			inline auto ToASCII(Key key) -> char { return KeyboardInput::GetInstance().ToASCII(key); }
+			inline void Capture(void *p)		{ KeyboardInput::GetInstance().Capture(p); }
+			inline void Release()				{ KeyboardInput::GetInstance().Release(); }
+			inline auto GetCaptor() -> void*	{ return KeyboardInput::GetInstance().GetCaptor(); }
 		}
 	}
 }

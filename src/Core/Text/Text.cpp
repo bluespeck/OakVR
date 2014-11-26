@@ -33,7 +33,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		Text::~Text()
 		{
-			
+
 		}
 
 		// --------------------------------------------------------------------------------
@@ -69,7 +69,7 @@ namespace oakvr
 
 				float posX = 0.0f;
 				float posY = 0.0f;
-				
+
 				// create the mesh for this text
 				int vertexStrideInFloats = vertexStride / sizeof(float);
 				std::unique_ptr<float[]> pVertices = std::make_unique<float[]>(text.length() * 4 * vertexStrideInFloats);
@@ -83,14 +83,14 @@ namespace oakvr
 					}
 
 					const auto &charProps = cm[text[i] - ' '];
-					
+
 					float horizontalNormalizationFactor = 1.f / it->GetTextureWidth();
 					float verticalNormalizationFactor = 1.f / it->GetTextureHeight();
 					float cwPixels = fabs(charProps.texCoords2.x - charProps.texCoords1.x) * scaleFactor;
 					float chPixels = fabs(charProps.texCoords2.y - charProps.texCoords1.y) * scaleFactor;
 					float clPixels = charProps.leftTopFromBaseline.x * scaleFactor;
 					float ctPixels = charProps.leftTopFromBaseline.y * scaleFactor;
-					
+
 					// Vertex # layout
 					//	position.x
 					//	position.y
@@ -100,13 +100,13 @@ namespace oakvr
 					//	color.r
 					//	color.g
 					//	color.b
-					
+
 					int offset = i * 4 * vertexStrideInFloats;
 
 					// Vertex #1
-					pVertices[offset + 0 * vertexStrideInFloats + 0] =  posX + clPixels;				
-					pVertices[offset + 0 * vertexStrideInFloats + 1] = posY - chPixels + ctPixels;				
-					pVertices[offset + 0 * vertexStrideInFloats + 2] = 0.0f;				
+					pVertices[offset + 0 * vertexStrideInFloats + 0] = posX + clPixels;
+					pVertices[offset + 0 * vertexStrideInFloats + 1] = posY - chPixels + ctPixels;
+					pVertices[offset + 0 * vertexStrideInFloats + 2] = 0.0f;
 					pVertices[offset + 0 * vertexStrideInFloats + 3] = charProps.texCoords1.x * horizontalNormalizationFactor;
 					pVertices[offset + 0 * vertexStrideInFloats + 4] = charProps.texCoords2.y * verticalNormalizationFactor;
 					pVertices[offset + 0 * vertexStrideInFloats + 5] = color.r;
@@ -115,9 +115,9 @@ namespace oakvr
 					pVertices[offset + 0 * vertexStrideInFloats + 8] = color.a;
 
 					// Vertex #2
-					pVertices[offset + 1 * vertexStrideInFloats + 0] = posX + cwPixels + clPixels;	
-					pVertices[offset + 1 * vertexStrideInFloats + 1] = posY - chPixels + ctPixels;				
-					pVertices[offset + 1 * vertexStrideInFloats + 2] = 0.0f;				
+					pVertices[offset + 1 * vertexStrideInFloats + 0] = posX + cwPixels + clPixels;
+					pVertices[offset + 1 * vertexStrideInFloats + 1] = posY - chPixels + ctPixels;
+					pVertices[offset + 1 * vertexStrideInFloats + 2] = 0.0f;
 					pVertices[offset + 1 * vertexStrideInFloats + 3] = charProps.texCoords2.x * horizontalNormalizationFactor;
 					pVertices[offset + 1 * vertexStrideInFloats + 4] = charProps.texCoords2.y * verticalNormalizationFactor;
 					pVertices[offset + 1 * vertexStrideInFloats + 5] = color.r;
@@ -158,7 +158,7 @@ namespace oakvr
 
 					posX += 1.1 * cwPixels;	// advance horrizontally (small hack to limit glyphs from overlapping)
 				}
-				
+
 				memcpy(vb.GetDataPtr(), pVertices.get(), vb.Size());
 				memcpy(ib.GetDataPtr(), pIndices.get(), ib.Size());
 
@@ -180,8 +180,38 @@ namespace oakvr
 			}
 		}
 
+		auto Text::GetGlyphWidth(char character, std::string fontName, float scale) -> float
+		{
+			auto it = FindFontFace(fontName);
+
+			if (it != m_fontFaces.end())
+			{
+				auto cm = it->GetCharacterMap();
+				if (character < ' ')
+					return -1;
+
+				auto charProps = cm[character];
+				return 1.1f * fabs(charProps.texCoords2.x - charProps.texCoords1.x) * 0.05f * scale; //(1.1 hack from renderText and 0.05 scalefactor from renderText)
+			}
+		}
+
+		auto Text::GetGlyphHeight(char character, std::string fontName, float scale) -> float
+		{
+			auto it = FindFontFace(fontName);
+
+			if (it != m_fontFaces.end())
+			{
+				auto cm = it->GetCharacterMap();
+				if (character < ' ')
+					return -1;
+
+				auto charProps = cm[character];
+				return 1.1f * fabs(charProps.texCoords2.y - charProps.texCoords1.y) * 0.05f * scale; //(1.1 hack from renderText and 0.05 scalefactor from renderText)
+			}
+		}
+
 		// --------------------------------------------------------------------------------
-		std::vector<text::FontFace>::const_iterator Text::FindFontFace(const std::string &name) const
+		auto Text::FindFontFace(const std::string &name) const -> std::vector<text::FontFace>::const_iterator
 		{
 			return std::find_if(m_fontFaces.begin(), m_fontFaces.end(), [&](const text::FontFace &face)
 			{
@@ -190,7 +220,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		std::vector<text::FontFace>::iterator Text::FindFontFace(const std::string &name)
+		auto Text::FindFontFace(const std::string &name) -> std::vector<text::FontFace>::iterator
 		{
 			return std::find_if(m_fontFaces.begin(), m_fontFaces.end(), [&](const text::FontFace &face)
 			{

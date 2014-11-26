@@ -8,7 +8,7 @@ namespace construct
 {
 	auto FreeCamera::Update(float dt)->bool
 	{
-		if (oakvr::render::RenderWindowHasFocus())
+		if (oakvr::render::RenderWindowHasFocus() && !oakvr::input::keyboard::GetCaptor())
 		{
 			if (oakvr::input::keyboard::IsDown(oakvr::input::Key::s))
 			{
