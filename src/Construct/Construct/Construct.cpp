@@ -52,10 +52,10 @@ namespace construct
 		pCamera->SetOrthographicProjection(oakvr::render::GetRenderWindowWidth(), oakvr::render::GetRenderWindowHeight(), -10, 10000);
 		oakvr::render::RegisterCamera(pCamera);
 
-		//CreateTestMesh1();
+		CreateTestMesh1();
 		//CreateTestMesh2();
 		CreateTestMesh3();
-		//CreateTestMeshRoom();
+		CreateTestMeshRoom();
 	}
 
 	const int meshNum = 2;
@@ -134,9 +134,9 @@ namespace construct
 			fIndex += 3.0f;
 		}*/
 
-		oakvr::render::DrawLine({ -50.f, 0.f, 0.f }, { 50.f, 0.f, 0.f }, 2.1f, oakvr::render::Color::Red, oakvr::render::Color::White);
-		oakvr::render::DrawLine({ 0.f, 0.f, -50.f }, { 0.f, 0.f, 50.f }, 2.1f, oakvr::render::Color::Blue, oakvr::render::Color::White);
-		oakvr::render::DrawLine({ 0.f, -50.f, 0.f }, { 0.f, 50.f, 0.f }, 2.1f, oakvr::render::Color::Green, oakvr::render::Color::White);
+		oakvr::render::DrawLine({ -50.f, 0.f, 0.f }, { 50.f, 0.f, 0.f }, 1.f, oakvr::render::Color::Red, oakvr::render::Color::White);
+		oakvr::render::DrawLine({ 0.f, 0.f, -50.f }, { 0.f, 0.f, 50.f }, 1.f, oakvr::render::Color::Blue, oakvr::render::Color::White);
+		oakvr::render::DrawLine({ 0.f, -50.f, 0.f }, { 0.f, 50.f, 0.f }, 1.f, oakvr::render::Color::Green, oakvr::render::Color::White);
 		
 		auto pCamera = oakvr::render::GetCurrentCamera();
 		if (pCamera)
@@ -165,7 +165,7 @@ namespace construct
 			oakvr::render::VertexElementDescriptor::Semantic::tex_coord,
 		};
 
-		oakvr::core::MemoryBuffer vb{ 8 * ComputeVertexStride(ved) };
+		oakvr::core::MemoryBuffer vb{ 24 * ComputeVertexStride(ved) };
 		oakvr::core::MemoryBuffer ib{ 6 * 2 * 3 * sizeof(uint32_t) };
 		float pVertices[] = {
 			-1.0f, -1.0f, -1.0f, 0.0f, 0.0f,
@@ -173,27 +173,48 @@ namespace construct
 			1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
 			-1.0f, -1.0f, 1.0f, 0.0f, 1.0f,
 
-			-1.0f, 1.0f, -1.0f, 1.0f, 0.0f,
+			-1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, -1.0f, 0.0f, 1.0f,
+			1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+			-1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+
+			-1.0f, -1.0f, -1.0f, 1.0f, 0.0f,
+			1.0f, -1.0f, -1.0f, 0.0f, 0.0f,
+			1.0f, -1.0f, 1.0f, 1.0f, 0.0f,
+			-1.0f, -1.0f, 1.0f, 0.0f, 0.0f,
+
+			-1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, -1.0f, 0.0f, 1.0f,
+			1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+
+			-1.0f, -1.0f, -1.0f, 0.0f, 0.0f,
+			1.0f, -1.0f, -1.0f, 1.0f, 0.0f,
+			1.0f, -1.0f, 1.0f, 0.0f, 0.0f,
+			-1.0f, -1.0f, 1.0f, 1.0f, 0.0f,
+
+			-1.0f, 1.0f, -1.0f, 0.0f, 1.0f,
 			1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
 			1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-			-1.0f, 1.0f, 1.0f, 0.0f, 0.0f
+			-1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
 		};
 
 		uint32_t pIndices[] = {
-			0, 1, 2,
-			0, 2, 3,
-			1, 6, 2,
-			1, 5, 6,
+			0 + 00, 1 + 00, 3 + 00,
+			3 + 00, 1 + 00, 2 + 00,
+			7 + 00, 6 + 00, 4 + 00,
+			4 + 00, 6 + 00, 5 + 00,
 
-			0, 5, 1,
-			0, 4, 5,
-			4, 6, 5,
-			4, 7, 6,
+			7 +  8, 4 +  8, 3 +  8,
+			3 +  8, 4 +  8, 0 +  8,
+			5 +  8, 6 +  8, 1 +  8,
+			1 +  8, 6 +  8, 2 +  8,
 
-			2, 7, 3,
-			2, 6, 7,
-			3, 4, 0,
-			3, 7, 4
+			4 + 16, 5 + 16, 0 + 16,
+			0 + 16, 5 + 16, 1 + 16,
+			6 + 16, 7 + 16, 2 + 16,
+			2 + 16, 7 + 16, 3 + 16
+			
 		};
 
 		memcpy(vb.GetDataPtr(), pVertices, vb.Size());
