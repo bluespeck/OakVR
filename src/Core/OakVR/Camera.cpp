@@ -73,5 +73,17 @@ namespace oakvr
 			return mat;
 		}
 
+		void Camera::OnRenderWindowSizeChanged(float newWidth, float newHeight)
+		{
+			if (fabs(m_matProj._44) > 1e-9)
+			{
+				SetOrthographicProjection(newWidth, newHeight, m_near, m_far);
+			}
+			else
+			{
+				SetPerspectiveProjection(m_fov, newWidth, newHeight, m_near, m_far);
+			}
+		}
+
 	}	// namespace Render
 }	// namespace oakvr

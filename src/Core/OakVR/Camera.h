@@ -37,14 +37,16 @@ namespace oakvr
 			void SetPosition( const Vector3 & position )	{ m_position = position; }
 			void SetLook(const Vector3& forward)			{ m_forward = forward; }
 			void SetUp( const Vector3& up )					{ m_up = up; }
-			void SetPerspectiveProjection(float fov, float aspectY, float nearPlaneDist, float farPlaneDist) { m_matProj = Matrix::PerspectiveProjection(fov, aspectY, nearPlaneDist, farPlaneDist); }
-			void SetPerspectiveProjection(float fov, float width, float height, float nearPlaneDist, float farPlaneDist) { m_matProj = Matrix::PerspectiveProjection(fov, width, height, nearPlaneDist, farPlaneDist); }
-			void SetOrthographicProjection(float left, float right, float bottom, float top, float near, float far) { m_matProj = Matrix::OrthographicProjection(left, right, bottom, top, near, far); }
-			void SetOrthographicProjection(float width, float height, float near, float far) { m_matProj = Matrix::OrthographicProjection(- width / 2, width / 2, -height / 2, height / 2, near, far); }
+			void SetPerspectiveProjection(float fov, float aspectY, float nearPlaneDist, float farPlaneDist) { m_matProj = Matrix::PerspectiveProjection(fov, aspectY, nearPlaneDist, farPlaneDist); m_fov = fov; m_rwWidth = aspectY; m_rwHeight = 1; m_near = nearPlaneDist; m_far = farPlaneDist; }
+			void SetPerspectiveProjection(float fov, float width, float height, float nearPlaneDist, float farPlaneDist) { m_matProj = Matrix::PerspectiveProjection(fov, width, height, nearPlaneDist, farPlaneDist); m_fov = fov; m_rwWidth = width; m_rwHeight = height; m_near = nearPlaneDist; m_far = farPlaneDist; }
+			void SetOrthographicProjection(float left, float right, float bottom, float top, float near, float far) { m_matProj = Matrix::OrthographicProjection(left, right, bottom, top, near, far); m_rwWidth = right - left; m_rwHeight = top - bottom; m_near = near; m_far = far; }
+			void SetOrthographicProjection(float width, float height, float near, float far) { m_matProj = Matrix::OrthographicProjection(-width / 2, width / 2, -height / 2, height / 2, near, far); m_rwWidth = width; m_rwHeight = height; m_near = near; m_far = far; }
 
 			void Rotate( float alpha, float beta, float gamma );	// angles around x,y,z axes [radians]
 			inline void Translate(float x, float y, float z) { Translate({ x, y, z }); }
 			inline void Translate(const oakvr::math::Vector3 &displacement) { m_position += displacement; }
+
+			void OnRenderWindowSizeChanged(float newWidth, float newHeight);
 
 			const std::string &GetId() const { return m_id; }
 			
@@ -55,6 +57,8 @@ namespace oakvr
 			Vector3		m_position;
 			Vector3		m_forward;
 			Vector3		m_up;
+
+			float m_fov, m_rwWidth, m_rwHeight, m_near, m_far;
 
 			Matrix	m_matProj;
 		};

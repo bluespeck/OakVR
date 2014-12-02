@@ -1,4 +1,5 @@
 Solution "OAKVR"
+	startproject "Construct"
 	configuration "linux*"
 		buildoptions { "-std=c++11" }
 	configuration "linux32"

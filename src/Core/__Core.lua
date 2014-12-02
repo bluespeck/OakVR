@@ -7,9 +7,9 @@
 	configuration "linux64"
 		buildoptions {"-m64"}
 	configuration {}
-]]
-	startproject "OakVR"
 
+	startproject "OakVR"
+]]
 	dofile("Console/__Console.lua")
 	dofile("CoreExternals/__CoreExternals.lua")
 	dofile("OakVR/__OakVR.lua")

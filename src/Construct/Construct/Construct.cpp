@@ -18,7 +18,7 @@ namespace construct
 	{
 		oakvr::Log::SetMaxLevel(oakvr::Log::LogLevel::info);
 
-		oakvr::render::SetRenderWindowPosition(-1900, 100);
+		oakvr::render::SetRenderWindowPosition(1900, 100);
 		oakvr::render::SetRenderWindowSize(1800, 900);
 		oakvr::render::SetRenderWindowTitle("Construct with Oak VR");
 
@@ -200,10 +200,10 @@ namespace construct
 		};
 
 		uint32_t pIndices[] = {
-			0 + 00, 1 + 00, 3 + 00,
-			3 + 00, 1 + 00, 2 + 00,
-			7 + 00, 6 + 00, 4 + 00,
-			4 + 00, 6 + 00, 5 + 00,
+			0 +  0, 1 +  0, 3 +  0,
+			3 +  0, 1 +  0, 2 +  0,
+			7 +  0, 6 +  0, 4 +  0,
+			4 +  0, 6 +  0, 5 +  0,
 
 			7 +  8, 4 +  8, 3 +  8,
 			3 +  8, 4 +  8, 0 +  8,
