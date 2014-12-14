@@ -46,7 +46,7 @@ namespace oakvr
 			const std::string &GetTitle() { return m_title; }
 			void SetTitle(const std::string &title);
 
-			long int GetNativeHandle() { return m_nativeHandle; }
+			uint64_t GetNativeHandle() { return m_nativeHandle; }
 
 			inline bool HasFocus() const { return m_bHasFocus; }
 			void OnFocusChanged(bool focused) { m_bHasFocus = focused; }
@@ -67,7 +67,7 @@ namespace oakvr
 			unsigned int m_width, m_height;
 			WindowState m_windowState;
 			
-			long int m_nativeHandle;
+			uint64_t m_nativeHandle;
 
 			class RenderWindowImpl;
 			std::unique_ptr<RenderWindowImpl> m_pImpl;

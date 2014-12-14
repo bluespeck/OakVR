@@ -73,7 +73,7 @@ namespace oakvr
 			}
 			m_bHasFocus = true;
 
-			m_nativeHandle = reinterpret_cast<long>(m_pImpl->m_pWindow);
+			m_nativeHandle = reinterpret_cast<decltype(m_nativeHandle)>(m_pImpl->m_pWindow);	// watch out in the future! pointer to int conversion
 			glfwSetWindowPos(m_pImpl->m_pWindow, m_posX, m_posY);
 			glfwMakeContextCurrent(m_pImpl->m_pWindow);
 			glfwSetWindowCloseCallback(m_pImpl->m_pWindow, OnCloseWindow);

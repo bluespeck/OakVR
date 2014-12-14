@@ -73,6 +73,60 @@ namespace oakvr
 			return mat;
 		}
 
+		auto Camera::GetFrustum() const->Frustum
+		{
+			Frustum f;
+			using oakvr::math::Vector3;
+
+			if (m_fov < 1e-6f)
+			{
+				Vector3 right = GetRight();
+				float halfWidth = m_rwWidth / 2;
+				float halfHeight = m_rwHeight / 2;
+				f.m_planes[Frustum::near].normal = m_forward;
+				f.m_planes[Frustum::near].w = (m_position + m_near * m_forward).Dot(f.m_planes[Frustum::near].normal);
+				f.m_planes[Frustum::far].normal = -m_forward;
+				f.m_planes[Frustum::far].w = (m_position + m_far * m_forward).Dot(f.m_planes[Frustum::far].normal);
+				f.m_planes[Frustum::left].normal = right;
+				f.m_planes[Frustum::left].w = (m_position - halfWidth * right).Dot(f.m_planes[Frustum::left].normal);
+				f.m_planes[Frustum::right].normal = -right;
+				f.m_planes[Frustum::right].w = (m_position + halfWidth * right).Dot(f.m_planes[Frustum::right].normal);
+				f.m_planes[Frustum::bottom].normal = m_up;
+				f.m_planes[Frustum::bottom].w = (m_position - halfHeight * m_up).Dot(f.m_planes[Frustum::bottom].normal);
+				f.m_planes[Frustum::top].normal = -m_up;
+				f.m_planes[Frustum::top].w = (m_position + halfHeight * m_up).Dot(f.m_planes[Frustum::top].normal);
+			}
+			else
+			{
+				f.m_planes[Frustum::near].normal = m_forward;
+				f.m_planes[Frustum::near].w = (m_position + m_near * m_forward).Dot(f.m_planes[Frustum::near].normal);
+				f.m_planes[Frustum::far].normal = -m_forward;
+				f.m_planes[Frustum::far].w = (m_position + m_far * m_forward).Dot(f.m_planes[Frustum::far].normal);
+
+				{
+					float halfWidth = m_near * tanf(m_fov);
+					Vector3 right = GetRight();
+					Vector3 tLeft = (m_forward * m_near - right * halfWidth).GetNormalized();
+					Vector3 tRight = (m_forward * m_near + right * halfWidth).GetNormalized();
+
+					f.m_planes[Frustum::left].normal = Vector3{ tLeft.z, tLeft.y, -tLeft.x };
+					f.m_planes[Frustum::left].w = m_position.Dot(f.m_planes[Frustum::left].normal);
+					f.m_planes[Frustum::right].normal = Vector3{ -tRight.z, tRight.y, tRight.x };
+					f.m_planes[Frustum::right].w = m_position.Dot(f.m_planes[Frustum::right].normal);
+				}
+
+				float halfHeight = m_near * tanf(m_fov); // TODO: maybe multiply with aspect ratio here
+				Vector3 tBottom = (m_forward * m_near - m_up * halfHeight).GetNormalized();
+				Vector3 tTop = (m_forward * m_near + m_up * halfHeight).GetNormalized();
+
+				f.m_planes[Frustum::bottom].normal = Vector3{ tBottom.x, -tBottom.z, tBottom.y };
+				f.m_planes[Frustum::bottom].w = m_position.Dot(f.m_planes[Frustum::bottom].normal);
+				f.m_planes[Frustum::top].normal = Vector3{ tTop.x, tTop.z, tTop.y };
+				f.m_planes[Frustum::top].w = m_position.Dot(f.m_planes[Frustum::top].normal);
+			}
+			return f;
+		}
+
 		void Camera::OnRenderWindowSizeChanged(float newWidth, float newHeight)
 		{
 			if (fabs(m_matProj._44) > 1e-9)

@@ -749,19 +749,19 @@ namespace oakvr
 
 	void OakVR::OnWindowSizeChanged(void *pNativeWindowHandle, int width, int height)
 	{
-		if (m_pRW->GetNativeHandle() == (long)pNativeWindowHandle)
+		if (m_pRW->GetNativeHandle() == reinterpret_cast<decltype(m_pRW->GetNativeHandle())>(pNativeWindowHandle))
 		{
 			m_pRW->SetSize(width, height);
 			m_pRenderer->OnResize(m_pRW->GetWidth(), m_pRW->GetHeight());
 			auto p = m_pCM->GetCurrentCamera();
 			if (p)
-				p->OnRenderWindowSizeChanged(width, height);
+				p->OnRenderWindowSizeChanged(static_cast<float>(width), static_cast<float>(height));
 		}
 	}
 
 	void OakVR::OnWindowFocusChanged(void *pNativeWindowHandle, int focused)
 	{
-		if (m_pRW->GetNativeHandle() == (long)pNativeWindowHandle)
+		if (m_pRW->GetNativeHandle() == reinterpret_cast<decltype(m_pRW->GetNativeHandle())>(pNativeWindowHandle))
 		{
 			m_pRW->OnFocusChanged(!!focused);
 
@@ -771,7 +771,7 @@ namespace oakvr
 
 	void OakVR::OnWindowPositionChanged(void *pNativeWindowHandle, int x, int y)
 	{
-		if (m_pRW->GetNativeHandle() == (long)pNativeWindowHandle)
+		if (m_pRW->GetNativeHandle() == reinterpret_cast<decltype(m_pRW->GetNativeHandle())>(pNativeWindowHandle))
 		{
 			m_pRW->OnPositionChanged(x, y);
 		}

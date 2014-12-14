@@ -156,7 +156,7 @@ namespace oakvr
 					pIndices[offset + 4] = i * 4 + 2;
 					pIndices[offset + 5] = i * 4 + 3;
 
-					posX += 1.1 * cwPixels;	// advance horrizontally (small hack to limit glyphs from overlapping)
+					posX += 1.1f * cwPixels;	// advance horrizontally (small hack to limit glyphs from overlapping)
 				}
 
 				memcpy(vb.GetDataPtr(), pVertices.get(), vb.Size());
@@ -193,6 +193,8 @@ namespace oakvr
 				auto charProps = cm[character];
 				return 1.1f * fabs(charProps.texCoords2.x - charProps.texCoords1.x) * 0.05f * scale; //(1.1 hack from renderText and 0.05 scalefactor from renderText)
 			}
+
+			return 0.0f;
 		}
 
 		auto Text::GetGlyphHeight(char character, std::string fontName, float scale) -> float
@@ -208,6 +210,7 @@ namespace oakvr
 				auto charProps = cm[character];
 				return 1.1f * fabs(charProps.texCoords2.y - charProps.texCoords1.y) * 0.05f * scale; //(1.1 hack from renderText and 0.05 scalefactor from renderText)
 			}
+			return 0.0f;
 		}
 
 		// --------------------------------------------------------------------------------

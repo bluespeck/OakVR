@@ -21,7 +21,7 @@ namespace oakvr
 		std::string m_currentCommand;
 		std::vector<std::string> m_history;
 		up<ConsoleVisual> m_pConsoleVisual;
-		int m_cursorPosition = 0;
+		size_t m_cursorPosition = 0;
 		bool m_bOnScreen = false;
 	};
 }

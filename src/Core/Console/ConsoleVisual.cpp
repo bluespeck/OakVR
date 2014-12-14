@@ -12,22 +12,22 @@ namespace oakvr
 
 	auto ConsoleVisual::DrawHistory(std::vector<std::string> vecHistory) -> void
 	{
-		long int maxLines = vecHistory.size();
+		long int maxLines = static_cast<long int>(vecHistory.size());
 		if (maxLines > 30)
 			maxLines = 30;
 		int lineIndex = 0;
-		for (long int i = vecHistory.size() - 1; i >= static_cast<long int>(vecHistory.size() - maxLines); --i, lineIndex++)
+		for (long int i = static_cast<long int>(vecHistory.size()) - 1; i >= static_cast<long int>(vecHistory.size() - maxLines); --i, lineIndex++)
 		{
 			static float verticalSize = render::GetGlyphHeight(' ', "Fira Mono Regular", 5);
-			oakvr::render::DrawText(vecHistory[i], math::Vector3(-400, 5 + lineIndex * verticalSize, 5.2), 0xffdcdccc, "Fira Mono Regular", 5);
+			oakvr::render::DrawText(vecHistory[i], math::Vector3(-400, 5 + lineIndex * verticalSize, 5.2f), 0xffdcdccc, "Fira Mono Regular", 5);
 		}
 	}
 
-	auto ConsoleVisual::DrawCommandline(std::string commandLine, int cursorPosition)->void
+	auto ConsoleVisual::DrawCommandline(std::string commandLine, size_t cursorPosition)->void
 	{
 		static float spaceSize = render::GetGlyphWidth(' ', "Fira Mono Regular", 5);
-		oakvr::render::DrawText(commandLine, math::Vector3(-400, -30, 5.2), 0xffdcdccc, "Fira Mono Regular", 5);
-		oakvr::render::DrawText("_", math::Vector3(-400 + cursorPosition * spaceSize, -31, 5.4), 0xffdcdccc, "Fira Mono Regular", 5);
+		oakvr::render::DrawText(commandLine, math::Vector3(-400, -30, 5.2f), 0xffdcdccc, "Fira Mono Regular", 5);
+		oakvr::render::DrawText("_", math::Vector3(-400 + cursorPosition * spaceSize, -31, 5.4f), 0xffdcdccc, "Fira Mono Regular", 5);
 	}
 
 }
