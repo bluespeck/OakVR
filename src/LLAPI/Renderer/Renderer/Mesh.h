@@ -2,6 +2,7 @@
 
 #include "MeshElement.h"
 #include "Math/Matrix.h"
+#include "Utils/StringId.h"
 
 #include <memory>
 #include <vector>
@@ -16,7 +17,7 @@ namespace oakvr
 		public:
 			typedef std::vector<sp<MeshElement>> MeshElementVector;
 
-			Mesh(const std::string &name = "");
+			Mesh(const StringId &name = "");
 			~Mesh();
 
 			void AddMeshElement(const sp<MeshElement> &meshElem);
@@ -26,10 +27,10 @@ namespace oakvr
 			auto GetWorldMatrix() const -> const oakvr::math::Matrix & { return m_worldMatrix; }
 			void Transform(const oakvr::math::Matrix &transform) { m_worldMatrix = transform * m_worldMatrix; }
 
-			auto GetName() const -> const std::string & { return m_name; }
+			auto GetName() const -> const StringId & { return m_name; }
 
 		private:
-			std::string m_name;
+			StringId m_name;
 			MeshElementVector m_vMeshElements;
 			oakvr::math::Matrix m_worldMatrix;
 

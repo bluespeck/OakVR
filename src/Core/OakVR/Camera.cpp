@@ -13,7 +13,7 @@ namespace oakvr
 		using oakvr::math::Vector3;
 
 		// --------------------------------------------------------------------------------
-		Camera::Camera(const std::string& cameraId, const Vector3 &pos, const Vector3 &target, const Vector3 &up)
+		Camera::Camera(const StringId& cameraId, const Vector3 &pos, const Vector3 &target, const Vector3 &up)
 			: m_id( cameraId )
 			, m_position( pos )
 		{
@@ -22,7 +22,7 @@ namespace oakvr
 			m_up = s.Cross(m_forward);
 		}
 
-		Camera::Camera(const std::string &cameraId, const std::initializer_list<Vector3> &initList)
+		Camera::Camera(const StringId &cameraId, const std::initializer_list<Vector3> &initList)
 			: m_id( cameraId )
 		{
 			if (initList.size() >= 3)
@@ -83,25 +83,25 @@ namespace oakvr
 				Vector3 right = GetRight();
 				float halfWidth = m_rwWidth / 2;
 				float halfHeight = m_rwHeight / 2;
-				f.m_planes[Frustum::near].normal = m_forward;
-				f.m_planes[Frustum::near].w = (m_position + m_near * m_forward).Dot(f.m_planes[Frustum::near].normal);
-				f.m_planes[Frustum::far].normal = -m_forward;
-				f.m_planes[Frustum::far].w = (m_position + m_far * m_forward).Dot(f.m_planes[Frustum::far].normal);
-				f.m_planes[Frustum::left].normal = right;
-				f.m_planes[Frustum::left].w = (m_position - halfWidth * right).Dot(f.m_planes[Frustum::left].normal);
-				f.m_planes[Frustum::right].normal = -right;
-				f.m_planes[Frustum::right].w = (m_position + halfWidth * right).Dot(f.m_planes[Frustum::right].normal);
-				f.m_planes[Frustum::bottom].normal = m_up;
-				f.m_planes[Frustum::bottom].w = (m_position - halfHeight * m_up).Dot(f.m_planes[Frustum::bottom].normal);
-				f.m_planes[Frustum::top].normal = -m_up;
-				f.m_planes[Frustum::top].w = (m_position + halfHeight * m_up).Dot(f.m_planes[Frustum::top].normal);
+				f.m_planes[Frustum::nearIndex].normal = m_forward;
+				f.m_planes[Frustum::nearIndex].w = (m_position + m_near * m_forward).Dot(f.m_planes[Frustum::nearIndex].normal);
+				f.m_planes[Frustum::farIndex].normal = -m_forward;
+				f.m_planes[Frustum::farIndex].w = (m_position + m_far * m_forward).Dot(f.m_planes[Frustum::farIndex].normal);
+				f.m_planes[Frustum::leftIndex].normal = right;
+				f.m_planes[Frustum::leftIndex].w = (m_position - halfWidth * right).Dot(f.m_planes[Frustum::leftIndex].normal);
+				f.m_planes[Frustum::rightIndex].normal = -right;
+				f.m_planes[Frustum::rightIndex].w = (m_position + halfWidth * right).Dot(f.m_planes[Frustum::rightIndex].normal);
+				f.m_planes[Frustum::bottomIndex].normal = m_up;
+				f.m_planes[Frustum::bottomIndex].w = (m_position - halfHeight * m_up).Dot(f.m_planes[Frustum::bottomIndex].normal);
+				f.m_planes[Frustum::topIndex].normal = -m_up;
+				f.m_planes[Frustum::topIndex].w = (m_position + halfHeight * m_up).Dot(f.m_planes[Frustum::topIndex].normal);
 			}
 			else
 			{
-				f.m_planes[Frustum::near].normal = m_forward;
-				f.m_planes[Frustum::near].w = (m_position + m_near * m_forward).Dot(f.m_planes[Frustum::near].normal);
-				f.m_planes[Frustum::far].normal = -m_forward;
-				f.m_planes[Frustum::far].w = (m_position + m_far * m_forward).Dot(f.m_planes[Frustum::far].normal);
+				f.m_planes[Frustum::nearIndex].normal = m_forward;
+				f.m_planes[Frustum::nearIndex].w = (m_position + m_near * m_forward).Dot(f.m_planes[Frustum::nearIndex].normal);
+				f.m_planes[Frustum::farIndex].normal = -m_forward;
+				f.m_planes[Frustum::farIndex].w = (m_position + m_far * m_forward).Dot(f.m_planes[Frustum::farIndex].normal);
 
 				{
 					float halfWidth = m_near * tanf(m_fov);
@@ -109,20 +109,20 @@ namespace oakvr
 					Vector3 tLeft = (m_forward * m_near - right * halfWidth).GetNormalized();
 					Vector3 tRight = (m_forward * m_near + right * halfWidth).GetNormalized();
 
-					f.m_planes[Frustum::left].normal = Vector3{ tLeft.z, tLeft.y, -tLeft.x };
-					f.m_planes[Frustum::left].w = m_position.Dot(f.m_planes[Frustum::left].normal);
-					f.m_planes[Frustum::right].normal = Vector3{ -tRight.z, tRight.y, tRight.x };
-					f.m_planes[Frustum::right].w = m_position.Dot(f.m_planes[Frustum::right].normal);
+					f.m_planes[Frustum::leftIndex].normal = Vector3{ tLeft.z, tLeft.y, -tLeft.x };
+					f.m_planes[Frustum::leftIndex].w = m_position.Dot(f.m_planes[Frustum::leftIndex].normal);
+					f.m_planes[Frustum::rightIndex].normal = Vector3{ -tRight.z, tRight.y, tRight.x };
+					f.m_planes[Frustum::rightIndex].w = m_position.Dot(f.m_planes[Frustum::rightIndex].normal);
 				}
 
 				float halfHeight = m_near * tanf(m_fov); // TODO: maybe multiply with aspect ratio here
 				Vector3 tBottom = (m_forward * m_near - m_up * halfHeight).GetNormalized();
 				Vector3 tTop = (m_forward * m_near + m_up * halfHeight).GetNormalized();
 
-				f.m_planes[Frustum::bottom].normal = Vector3{ tBottom.x, -tBottom.z, tBottom.y };
-				f.m_planes[Frustum::bottom].w = m_position.Dot(f.m_planes[Frustum::bottom].normal);
-				f.m_planes[Frustum::top].normal = Vector3{ tTop.x, tTop.z, tTop.y };
-				f.m_planes[Frustum::top].w = m_position.Dot(f.m_planes[Frustum::top].normal);
+				f.m_planes[Frustum::bottomIndex].normal = Vector3{ tBottom.x, -tBottom.z, tBottom.y };
+				f.m_planes[Frustum::bottomIndex].w = m_position.Dot(f.m_planes[Frustum::bottomIndex].normal);
+				f.m_planes[Frustum::topIndex].normal = Vector3{ tTop.x, tTop.z, tTop.y };
+				f.m_planes[Frustum::topIndex].w = m_position.Dot(f.m_planes[Frustum::topIndex].normal);
 			}
 			return f;
 		}

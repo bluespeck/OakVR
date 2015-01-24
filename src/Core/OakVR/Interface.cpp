@@ -9,7 +9,7 @@ namespace oakvr
 {
 	namespace render
 	{	
-		auto CreateMesh(const std::string &name, const oakvr::render::VertexDescriptor &vertexDescriptor, const oakvr::core::MemoryBuffer &vertexBuffer, uint8_t indexStride, const oakvr::core::MemoryBuffer &indexBuffer, sp<Material> pMaterial, std::vector<std::string> textureNames)
+		auto CreateMesh(const StringId &name, const oakvr::render::VertexDescriptor &vertexDescriptor, const oakvr::core::MemoryBuffer &vertexBuffer, uint8_t indexStride, const oakvr::core::MemoryBuffer &indexBuffer, sp<Material> pMaterial, std::vector<StringId> textureNames)
 			-> sp<oakvr::render::Mesh>
 		{
 			auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(vertexDescriptor, vertexBuffer, indexStride, indexBuffer, pMaterial, textureNames);
@@ -22,7 +22,7 @@ namespace oakvr
 			return pMesh;
 		}
 
-		auto CreateMesh(const std::string &name, const std::string &resourceId, sp<oakvr::render::Material> pMaterial) -> sp<oakvr::render::Mesh>
+		auto CreateMesh(const StringId &name, const StringId &resourceId, sp<oakvr::render::Material> pMaterial) -> sp<oakvr::render::Mesh>
 		{
 			auto pMeshBuffer = oakvr::core::GetResource(resourceId);
 			auto pMesh = oakvr::OakVR::GetInstance().CreateMesh(name, pMeshBuffer, pMaterial);
@@ -31,22 +31,22 @@ namespace oakvr
 			return pMesh;
 		}
 
-		void RemoveMesh(const std::string &name)
+		void RemoveMesh(const StringId &name)
 		{
 			oakvr::OakVR::GetInstance().UnregisterMesh(GetMesh(name));
 		}
 
-		auto GetMesh(const std::string &name)->sp<oakvr::render::Mesh>
+		auto GetMesh(const StringId &name)->sp<oakvr::render::Mesh>
 		{
 			return oakvr::OakVR::GetInstance().GetRegisteredMesh(name);
 		}
 
-		void TransformMesh(const std::string &name, const oakvr::math::Matrix &mat)
+		void TransformMesh(const StringId &name, const oakvr::math::Matrix &mat)
 		{
 			oakvr::OakVR::GetInstance().TransformMesh(name, mat);
 		}
 
-		void RegisterShader(const std::string &shaderName)
+		void RegisterShader(const StringId &shaderName)
 		{
 			oakvr::OakVR::GetInstance().RegisterShader(shaderName);
 		}
@@ -61,7 +61,7 @@ namespace oakvr
 			oakvr::OakVR::GetInstance().UnregisterCamera(pCamera);
 		}
 
-		auto GetCamera(const std::string &cameraId)->sp<oakvr::render::Camera>
+		auto GetCamera(const StringId &cameraId)->sp<oakvr::render::Camera>
 		{
 			return oakvr::OakVR::GetInstance().GetCamera(cameraId);
 		}
@@ -76,7 +76,7 @@ namespace oakvr
 			oakvr::OakVR::GetInstance().SetCurrentCamera(pCamera);
 		}
 
-		void SetCurrentCamera(const std::string &cameraId)
+		void SetCurrentCamera(const StringId &cameraId)
 		{
 			oakvr::OakVR::GetInstance().SetCurrentCamera(cameraId);
 		}
@@ -174,7 +174,7 @@ namespace oakvr
 			return oakvr::OakVR::GetInstance().RegisterSubFolderPaths(path);
 		}
 
-		auto GetResource(const std::string &id)->sp<oakvr::core::MemoryBuffer>
+		auto GetResource(const StringId &id)->sp<oakvr::core::MemoryBuffer>
 		{
 			return oakvr::OakVR::GetInstance().GetResource(id);
 		}

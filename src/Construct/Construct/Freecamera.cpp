@@ -3,6 +3,7 @@
 #include "Input/MouseInput/MouseInput.h"
 #include "Math/Vector2.h"
 #include "Math/MathUtils.h"
+#include "OakVR/Interface.h"
 
 namespace construct
 {

@@ -162,8 +162,8 @@ namespace oakvr
 				memcpy(vb.GetDataPtr(), pVertices.get(), vb.Size());
 				memcpy(ib.GetDataPtr(), pIndices.get(), ib.Size());
 
-				std::vector<std::string> vecTextures = { it->GetName() + "_texture" };
-				auto pMaterial = std::make_shared<oakvr::render::Material>(std::string("DefaultText"));
+				std::vector<StringId> vecTextures = { it->GetName() + "_texture" };
+				auto pMaterial = std::make_shared<oakvr::render::Material>("DefaultText");
 
 				auto pMeshElem = std::make_shared<oakvr::render::MeshElement>(ved, vb, static_cast<uint8_t>(sizeof(uint32_t)), ib, pMaterial, vecTextures);
 

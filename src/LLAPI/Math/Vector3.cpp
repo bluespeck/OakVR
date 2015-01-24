@@ -20,6 +20,8 @@ namespace oakvr
 			float *p = &x;
 			for (size_t i = 0; i < initList.size() && i < 3; ++i)
 				*(p++) = *(initList.begin() + i);
+			for (size_t i = initList.size(); i < 3; ++i)
+				*(p++) = 0.0f;
 		}
 
 		// --------------------------------------------------------------------------------

@@ -29,11 +29,13 @@ namespace oakvr
 			y = coords.second;
 		}
 
-		Vector2::Vector2(const std::initializer_list<float> &coords)
+		Vector2::Vector2(const std::initializer_list<float> &initList)
 		{
 			float *p = &x;
-			for (size_t i = 0; i < coords.size() && i < 2; ++i)
-				*(p++) = *(coords.begin() + i);
+			for (size_t i = 0; i < initList.size() && i < 2; ++i)
+				*(p++) = *(initList.begin() + i);
+			for (size_t i = initList.size(); i < 2; ++i)
+				*(p++) = 0.0f;
 		}
 
 		//------------------------------------------------------

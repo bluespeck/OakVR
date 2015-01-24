@@ -209,7 +209,7 @@ namespace oakvr
 			}
 		}
 
-		sp<Mesh> Renderer::GetRegisteredMesh(const std::string &name)
+		sp<Mesh> Renderer::GetRegisteredMesh(const StringId &name)
 		{
 			auto &meshes = m_pMeshManager->GetMeshes();
 			auto it = std::find_if(meshes.begin(), meshes.end(), [&name](oakvr::render::MeshManager::MeshVector::value_type &e) { return e->GetName() == name; });
@@ -239,7 +239,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::RegisterTexture(const std::string &textureName, sp<oakvr::core::MemoryBuffer> pBuff)
+		void Renderer::RegisterTexture(const StringId &textureName, sp<oakvr::core::MemoryBuffer> pBuff)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			if (pBuff.get() == nullptr)
@@ -248,17 +248,17 @@ namespace oakvr
 				m_textures[textureName] = std::make_shared<Texture>(*pBuff);
 		}
 
-		void Renderer::RegisterShaderProgram(const std::string &shaderName)
+		void Renderer::RegisterShaderProgram(const StringId &shaderName)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			if (m_shaderPrograms.find(shaderName) == m_shaderPrograms.end())
 				m_shaderPrograms[shaderName] = std::make_shared<ShaderProgram>(
 				shaderName,
-				m_pResourceManager->GetResource(shaderName + "_vs"),
-				m_pResourceManager->GetResource(shaderName + "_ps"),
-				m_pResourceManager->GetResource(shaderName + "_gs"),
-				m_pResourceManager->GetResource(shaderName + "_ds"),
-				m_pResourceManager->GetResource(shaderName + "_hs"));
+				m_pResourceManager->GetResource(shaderName.operator const std::string() + "_vs"),
+				m_pResourceManager->GetResource(shaderName.operator const std::string() + "_ps"),
+				m_pResourceManager->GetResource(shaderName.operator const std::string() + "_hs"),
+				m_pResourceManager->GetResource(shaderName.operator const std::string() + "_gs"),
+				m_pResourceManager->GetResource(shaderName.operator const std::string() + "_ds"));
 		}
 	}	// namespace render
 }	// namespace oakvr

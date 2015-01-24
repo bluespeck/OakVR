@@ -35,6 +35,15 @@ namespace oakvr
 			_11 = _22 = _33 = _44 = diagValue;
 		}
 
+		Matrix::Matrix(const std::initializer_list<float> &initList)
+		{
+			float *p = &m[0][0];
+			for (size_t i = 0; i < initList.size() && i < 16; ++i)
+				*(p++) = *(initList.begin() + i);
+			for (size_t i = initList.size(); i < 16; ++i)
+				*(p++) = 0.0f;
+		}
+
 		// --------------------------------------------------------------------------------
 		void Matrix::Transpose()
 		{
@@ -243,16 +252,13 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		Matrix Matrix::Identity()
-		{
-			Matrix mat;
-			mat._11 = mat._22 = mat._33 = mat._44 = 1.0f;
-			mat._12 = mat._13 = mat._14 = 0.0f;
-			mat._21 = mat._23 = mat._24 = 0.0f;
-			mat._31 = mat._32 = mat._34 = 0.0f;
-			mat._41 = mat._42 = mat._43 = 0.0f;
-			return mat;
-		}
+		Matrix Matrix::Identity = 
+		{ 
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		};
 
 		// --------------------------------------------------------------------------------
 		void Matrix::SetYawPitchRoll(float yaw, float pitch, float roll) // y * x * z

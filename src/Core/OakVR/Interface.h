@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Utils/RendererUtils.h"
+#include "Utils/RenderUtils.h"
 #include "Renderer/Renderer/Material.h"
 #include "OakVR/Camera.h"
 #include "Renderer/Renderer/Mesh.h"
@@ -22,23 +22,23 @@ namespace oakvr
 	{
 		typedef std::vector<oakvr::render::VertexElementDescriptor> VertexDescriptor;
 				
-		auto CreateMesh(const std::string &name, const oakvr::render::VertexDescriptor &vertexDescriptor, 
+		auto CreateMesh(const StringId &name, const oakvr::render::VertexDescriptor &vertexDescriptor, 
 			const oakvr::core::MemoryBuffer &vertexBuffer, uint8_t indexStride, const oakvr::core::MemoryBuffer &indexBuffer,	
-			sp<Material> pMaterial, std::vector<std::string> textureNames // for each texcoord
+			sp<Material> pMaterial, std::vector<StringId> textureNames // for each texcoord
 			)->sp<oakvr::render::Mesh>;
-		auto CreateMesh(const std::string &name, const std::string &resourceId, sp<oakvr::render::Material> pMaterial)->sp<oakvr::render::Mesh>;
-		void RemoveMesh(const std::string &name);
-		auto GetMesh(const std::string &name)->sp<oakvr::render::Mesh>;
-		void TransformMesh(const std::string &name, const oakvr::math::Matrix &mat);
+		auto CreateMesh(const StringId &name, const StringId &resourceId, sp<oakvr::render::Material> pMaterial)->sp<oakvr::render::Mesh>;
+		void RemoveMesh(const StringId &name);
+		auto GetMesh(const StringId &name)->sp<oakvr::render::Mesh>;
+		void TransformMesh(const StringId &name, const oakvr::math::Matrix &mat);
 
-		void RegisterShader(const std::string &shaderName);
+		void RegisterShader(const StringId &shaderName);
 
 		void RegisterCamera(sp<oakvr::render::Camera> pCamera);
 		void UnregisterCamera(sp<oakvr::render::Camera> pCamera);
-		auto GetCamera(const std::string &cameraId)->sp<oakvr::render::Camera>;
+		auto GetCamera(const StringId &cameraId)->sp<oakvr::render::Camera>;
 		auto GetCurrentCamera()->sp<oakvr::render::Camera>;
 		void SetCurrentCamera(sp<oakvr::render::Camera> pCamera);
-		void SetCurrentCamera(const std::string &cameraId);
+		void SetCurrentCamera(const StringId &cameraId);
 
 		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color);
 		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color, const oakvr::render::Color &startColor);
@@ -74,6 +74,6 @@ namespace oakvr
 	namespace core
 	{
 		auto RegisterSubFolderPaths(const std::string &path)->bool;
-		auto GetResource(const std::string &id)->sp<oakvr::core::MemoryBuffer>;
+		auto GetResource(const StringId &id)->sp<oakvr::core::MemoryBuffer>;
 	}
 } // namespace oakvr

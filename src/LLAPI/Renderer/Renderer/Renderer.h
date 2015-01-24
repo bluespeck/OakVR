@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Utils/RendererUtils.h"
+#include "Utils/RenderUtils.h"
 #include "Utils/Buffer.h"
 #include "Utils/Types.h"
+#include "Utils/StringId.h"
 #include "Math/Matrix.h"
 #include "Mesh.h"
 
@@ -46,12 +47,12 @@ namespace oakvr
 			void EndDraw();
 
 			void RegisterMesh(sp<Mesh> pMesh);
-			auto GetRegisteredMesh(const std::string &name)->sp<Mesh>;
+			auto GetRegisteredMesh(const StringId &name)->sp<Mesh>;
 			void RegisterOneFrameMesh(sp<Mesh> pMesh);
 			void UnregisterMesh(sp<Mesh> pMesh);
-			void RegisterTexture(const std::string &textureName, sp<oakvr::core::MemoryBuffer> pBuff);
+			void RegisterTexture(const StringId &textureName, sp<oakvr::core::MemoryBuffer> pBuff);
 			
-			void RegisterShaderProgram(const std::string &shaderProgramName);
+			void RegisterShaderProgram(const StringId &shaderProgramName);
 			
 			// render
 			void DrawPrimitives(uint32_t numVertices, uint32_t startVertex = 0);
@@ -101,9 +102,9 @@ namespace oakvr
 			class RendererImpl;
 			std::unique_ptr<RendererImpl> m_pImpl;
 			
-			std::unordered_map<std::string, sp<Texture>> m_textures;
+			std::unordered_map<StringId, sp<Texture>> m_textures;
 
-			std::unordered_map<std::string, sp<ShaderProgram>> m_shaderPrograms;
+			std::unordered_map<StringId, sp<ShaderProgram>> m_shaderPrograms;
 			
 			std::unique_ptr<MeshManager> m_pMeshManager;
 

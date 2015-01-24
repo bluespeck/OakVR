@@ -15,7 +15,7 @@
 #include "Renderer/Renderer/Shader.h"
 #include "Renderer/Renderer/ShaderProgram.h"
 
-#include "Utils/RendererUtils.h"
+#include "Utils/RenderUtils.h"
 
 #include "FileIO/File.h"
 #include "Log/Log.h"

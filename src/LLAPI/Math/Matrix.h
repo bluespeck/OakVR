@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector3.h"
+#include <initializer_list>
 
 namespace oakvr
 {
@@ -23,6 +24,7 @@ namespace oakvr
 			};
 			Matrix();
 			Matrix( float *m );
+			Matrix(const std::initializer_list<float> &initList);
 			Matrix(float diagValue);
 
 			inline operator float* ();
@@ -58,7 +60,8 @@ namespace oakvr
 			static Matrix OrthographicProjection(float left, float right, float bottom, float top, float near, float far);
 
 			static Matrix YawPitchRoll(float yaw, float pitch, float roll);
-			static Matrix Identity();
+			static Matrix Identity;
+			static Matrix Zero;
 		};
 
 		// --------------------------------------------------------------------------------

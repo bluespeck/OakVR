@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <unordered_map>
 
 #include "Utils/StringId.h"
 #include "Utils/Types.h"
@@ -11,6 +12,7 @@ namespace oakvr
 	using ObjectSharedPointer = sp < Object > ;
 	using ObjectUniquePointer = up < Object > ;
 	using ObjectVector = std::vector < ObjectSharedPointer >;
+	using ObjectMap = std::unordered_map < oakvr::StringId, ObjectSharedPointer > ;
 
 	class Object
 	{

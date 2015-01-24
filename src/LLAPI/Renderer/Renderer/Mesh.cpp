@@ -6,7 +6,7 @@ namespace oakvr
 	namespace render
 	{
 		// --------------------------------------------------------------------------------
-		Mesh::Mesh(const std::string &name)
+		Mesh::Mesh(const StringId &name)
 			:m_name( name )
 		{
 		}

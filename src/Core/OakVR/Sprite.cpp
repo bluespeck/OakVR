@@ -1,4 +1,7 @@
 #include "Sprite.h"
+#include "Utils/RenderUtils.h"
+#include "Utils/Buffer.h"
+#include "Interface.h"
 
 namespace oakvr
 {

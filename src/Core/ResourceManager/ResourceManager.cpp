@@ -18,92 +18,14 @@ namespace oakvr
 	{
 		// --------------------------------------------------------------------------------
 		ResourceManager::ResourceManager()
-		//: m_bRMThreadsShouldStop(false)
+		
 		{
-			// ------------------------------------------
-			// Defining the resource loding worker thread
-			/*
-			m_pRMLoadThread.reset(new std::thread([this]()
-			{
-				
-				while(true)
-				{
-					{
-						// check if we have any resources to be loaded
-						std::unique_lock<std::mutex> ul(m_toBeLoadedMutex);
-						m_toBeLoadedCondVar.wait_for(ul, std::chrono::milliseconds(50), [=]()->bool{ return m_toBeLoaded.size() > 0; } );
-						while(m_toBeLoaded.size())
-						{
-							auto e = m_toBeLoaded.back();
-							m_toBeLoaded.pop_back();
-
-							{
-								std::lock_guard<std::mutex> lg(m_inMemoryMutex);
-								//m_mapResources[m_inMemory.push_back(e);
-							}
-							//e->_Load();
-							//e->SetState(ResourceState::loading);
-						}
-					}
-
-					{
-						// sleep for 50 milliseconds or end the thread
-						std::unique_lock<std::mutex> ul(m_rmThreadsShouldStopMutex);
-						m_rmThreadsShouldStopCondVar.wait_for(ul, std::chrono::milliseconds(50),[=]()->bool{ return !m_bRMThreadsShouldStop; });
-						if(m_bRMThreadsShouldStop)
-							return;
-					}
-				}
-			}));*/
-			/*
-			// --------------------------------------------
-			// Defining the resource unloding worker thread
-			m_pRMUnloadThread.reset(new std::thread([this]()
-			{
-				while(true)
-				{
-					{
-						std::unique_lock<std::mutex> ul(m_unloadMutex);
-						m_unloadCondVar.wait_for(ul, std::chrono::milliseconds(50), [=]()->bool{ return m_toBeUnloaded.size() > 0; } );
-						
-						while(m_toBeUnloaded.size())
-						{
-							auto e = m_toBeUnloaded.back();
-							m_toBeUnloaded.pop_back();
-						//	e->SetState(ResourceState::unloading);
-						}
-					}
-
-					{
-						// sleep for 50 milliseconds or end the thread
-						std::unique_lock<std::mutex> ul(m_rmThreadsShouldStopMutex);
-						m_rmThreadsShouldStopCondVar.wait_for(ul, std::chrono::milliseconds(50),[=]()->bool{ return !m_bRMThreadsShouldStop; });
-						if(m_bRMThreadsShouldStop)
-							return;
-					}
-				}
-			}));
-			*/
+			
 		}
 
 		// --------------------------------------------------------------------------------
 		ResourceManager::~ResourceManager()
-		{/*
-			{
-				std::lock_guard<std::mutex> lg(m_rmThreadsShouldStopMutex);
-				m_bRMThreadsShouldStop = true;
-				m_rmThreadsShouldStopCondVar.notify_all();
-			}
-				
-
-			//m_pRMUnloadThread->join();
-			//m_pRMLoadThread->join();
-			
-			//for(auto e:m_inMemory)
-			//	e->Release();
-			//for(auto e:m_toBeUnloaded)
-			//	e->Release();
-			*/
+		{
 		} 
 
 		auto ResourceManager::AddPathsFromFolder(const std::string &path)->bool
@@ -129,34 +51,18 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void ResourceManager::ReleaseResource(const std::string &id)
+		void ResourceManager::ReleaseResource(const StringId &id)
 		{
-			/*
-			std::lock_guard<std::mutex> mlg(m_inMemoryMutex);
-
-			typedef decltype(*m_inMemory.begin()) ElemType;
-			auto it = std::find_if(m_inMemory.begin(), m_inMemory.end(), [&](ElemType &pRes)
-			{
-				return pRes->GetId() == id;
-			});
-			if(it != m_inMemory.end())
-			{
-				{
-					std::lock_guard<std::mutex> ulg(m_unloadMutex);
-					m_toBeUnloaded.push_back(*it);
-				}
-				m_inMemory.erase(it);
-			}
-			*/
+			
 		}
 
 		// --------------------------------------------------------------------------------
-		void ResourceManager::CreateResourceFromMemory(const std::string &id, const MemoryBuffer &buffer)
+		void ResourceManager::CreateResourceFromMemory(const StringId &id, const MemoryBuffer &buffer)
 		{
 			auto it = m_mapResources.find(id);
 			if (it != std::end(m_mapResources))
 			{
-				Log::Warning("Trying to create a resource with an id that already exists! (Resource id = %s)", id.c_str());
+				Log::Warning("Trying to create a resource with an id that already exists! (Resource id = %s)", id);
 				return;
 			}
 
@@ -164,7 +70,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		sp<MemoryBuffer> ResourceManager::GetResource(const std::string &id)
+		sp<MemoryBuffer> ResourceManager::GetResource(const StringId &id)
 		{
 			auto it = m_mapResources.find(id);
 			if (it != std::end(m_mapResources))
@@ -199,7 +105,7 @@ namespace oakvr
 				}
 			}
 
-			Log::Warning("Could not retrieve resource %s", id.c_str());
+			Log::Warning("Could not retrieve resource %s", id);
 			return nullptr;
 		}
 		
