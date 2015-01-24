@@ -13,15 +13,15 @@ namespace oakvr
 		public:
 			std::string m_name;
 
-			oakvr::render::Color m_vAmbient;
-			oakvr::render::Color m_vDiffuse;
-			oakvr::render::Color m_vSpecular;
+			oakvr::render::Color m_vAmbient = 0xffffffff;
+			oakvr::render::Color m_vDiffuse = 0xffffffff;
+			oakvr::render::Color m_vSpecular = 0xffffffff;
 
-			int m_nShininess;
-			float m_fAlpha;
+			//int m_nShininess;
+			//float m_fAlpha;
 
-			bool m_bSpecular;
-			std::string m_shaderName;
+			//bool m_bSpecular;
+			std::string m_shaderName = "";
 
 		public:
 			explicit Material(std::string &);

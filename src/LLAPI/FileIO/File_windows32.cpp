@@ -24,8 +24,15 @@ namespace io
 	File::File(const oakvr::core::io::path::PathType &filepath)
 		: m_bFileOpened(false) , m_eFileOpenMode(FileOpenMode::unknown), m_filePath(filepath)
 	{
-		m_pImpl = new FileImpl;
+		m_pImpl = std::make_unique<FileImpl>();
 		m_bFileOpened = false;
+	}
+
+	File::File(File &&file)
+	{
+		m_pImpl = std::move(file.m_pImpl);
+		m_bFileOpened = std::move(file.m_bFileOpened);
+		m_filePath = std::move(file.m_filePath);
 	}
 
 	// --------------------------------------------------------------------------------
@@ -33,7 +40,6 @@ namespace io
 	{
 		if(m_bFileOpened)
 			Close();
-		delete m_pImpl;
 	}
 
 	// --------------------------------------------------------------------------------

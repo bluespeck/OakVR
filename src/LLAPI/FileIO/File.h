@@ -2,6 +2,7 @@
 
 #include "FileIO.h"
 #include "Path.h"
+#include "Utils/Types.h"
 
 
 namespace oakvr
@@ -24,6 +25,8 @@ namespace oakvr
 				};
 
 				File(const oakvr::core::io::path::PathType &filepath);
+				File(const File&) = delete;
+				File(File &&);
 				~File();
 			
 				static bool Exists(const oakvr::core::io::path::PathType &filepath);
@@ -44,7 +47,7 @@ namespace oakvr
 				FileOpenMode GetFileOpenMode() { return m_eFileOpenMode; }
 
 			private:
-				FileImpl *m_pImpl;
+				up<FileImpl> m_pImpl;
 				bool m_bFileOpened;
 				FileOpenMode m_eFileOpenMode;
 				oakvr::core::io::path::PathType m_filePath;

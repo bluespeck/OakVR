@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Path.h"
+#include "Utils/Types.h"
 
 namespace oakvr
 {
@@ -27,7 +28,9 @@ namespace oakvr
 				struct DirectoryImpl;
 						
 				Directory(const oakvr::core::io::path::PathType &path);
-				~Directory();
+				Directory(const Directory &dir) = delete;
+				Directory(Directory &&dir);
+				~Directory() = default;
 
 			
 				std::vector<DirEntry> GetEntryList();			
@@ -40,7 +43,7 @@ namespace oakvr
 			private:
 			
 
-				DirectoryImpl *m_pImpl;
+				up<DirectoryImpl> m_pImpl;
 			};
 		}	// namespace io
 	}	// namespace core

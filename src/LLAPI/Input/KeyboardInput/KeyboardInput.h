@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Utils/Singleton.h"
+#include "Utils/Types.h"
 
 #include <cstdint>
-#include <memory>
 #include <vector>
 
 namespace oakvr
@@ -85,7 +85,7 @@ namespace oakvr
 			auto GetCaptor() const -> void*;
 			
 		private:
-			std::unique_ptr<KeyboardInputImpl> m_pImpl;
+			up<KeyboardInputImpl> m_pImpl;
 			void *m_pCaptor = nullptr;
 			
 		};

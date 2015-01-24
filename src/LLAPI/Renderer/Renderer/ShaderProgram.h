@@ -14,7 +14,7 @@ namespace oakvr
 		class ShaderProgram
 		{
 		public:
-			ShaderProgram::ShaderProgram(const std::string &shaderProgram
+			ShaderProgram(const std::string &shaderProgram
 				, sp<oakvr::core::MemoryBuffer> vsBuffer
 				, sp<oakvr::core::MemoryBuffer> psBuffer
 				, sp<oakvr::core::MemoryBuffer> gsBuffer

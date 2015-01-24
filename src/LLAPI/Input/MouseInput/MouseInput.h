@@ -4,6 +4,7 @@
 #include <utility>
 
 #include "Utils/Singleton.h"
+#include "Utils/Types.h"
 
 namespace oakvr
 {
@@ -43,8 +44,8 @@ namespace oakvr
 			void *SetMouseOwner(void *newOwner);
 
 		private:
-			MouseInputImpl *m_pImpl;
-			void *m_pMouseOwner;
+			up<MouseInputImpl> m_pImpl;
+			void *m_pMouseOwner = nullptr;
 		};
 
 		namespace mouse

@@ -19,16 +19,16 @@ namespace io
 	// --------------------------------------------------------------------------------
 	Directory::Directory(const oakvr::core::io::path::PathType &path)
 	{
-		m_pImpl = new DirectoryImpl;
+		m_pImpl = std::make_unique<DirectoryImpl>();
 		m_pImpl->path = path;
 	}
 
-	// --------------------------------------------------------------------------------
-	Directory::~Directory()
+	Directory::Directory(Directory &&dir)
 	{
-		delete m_pImpl;
+		m_pImpl = std::move(dir.m_pImpl);
 	}
 
+	
 	// --------------------------------------------------------------------------------
 	bool Directory::Exists(const oakvr::core::io::path::PathType &path)
 	{

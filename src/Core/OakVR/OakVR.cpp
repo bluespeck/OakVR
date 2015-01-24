@@ -55,6 +55,7 @@ namespace oakvr
 				if (!e->Update(dt))
 					return false;
 			auto pCamera = GetCurrentCamera();
+			static oakvr::Frustum frustum = pCamera->GetFrustum();
 			if (pCamera)
 			{
 				m_pRenderer->SetCurrentCamera(pCamera);
@@ -591,7 +592,7 @@ namespace oakvr
 
 		// read mesh element offsets in the buffer and sizes in bytes
 		std::vector<std::pair<uint32_t, uint32_t>> offsetsAndSizes;
-		for (size_t i = 0; i < numMeshElements; ++i)
+		for (uint32_t i = 0; i < numMeshElements; ++i)
 		{
 			uint32_t meshElementOffset = 0, meshElementSize = 0;
 			meshBufferReader.Read(meshElementOffset);

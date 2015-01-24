@@ -14,6 +14,7 @@
 
 namespace construct
 {
+	static oakvr::Frustum frustum;
 	Construct::Construct()
 	{
 		oakvr::Log::SetMaxLevel(oakvr::Log::LogLevel::info);
@@ -50,7 +51,7 @@ namespace construct
 		pCamera = std::make_shared<FreeCamera>("orthographic_camera", oakvr::math::Vector3{ 0.f, 0.f, -500.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 1000.f, 1.f);
 		pCamera->SetOrthographicProjection(oakvr::render::GetRenderWindowWidth(), oakvr::render::GetRenderWindowHeight(), 10, 2000);
 		oakvr::render::RegisterCamera(pCamera);
-		pCamera->GetFrustum();
+		frustum = pCamera->GetFrustum();
 
 		CreateTestMesh1();
 		//CreateTestMesh2();
@@ -116,7 +117,8 @@ namespace construct
 			str = "FPS: " + std::to_string(static_cast<int>(dt > 1e-9f ? 1.f / dt : 0.f));
 		}
 		oakvr::render::DrawText(str, oakvr::math::Vector3(0.f, 0.f, 0.f), oakvr::render::Color::Yellow, "Fira Mono Regular", 20);
-		oakvr::render::DrawText("Fov" + std::to_string(static_cast<int>(fovValue))
+		oakvr::render::DrawText(
+			"Fov" + std::to_string(static_cast<int>(fovValue))
 			+ " C" + std::to_string(oakvr::render::IsCullingEnabled())
 			+ " D" + std::to_string(oakvr::render::IsDepthTestEnabled())
 			+ " B" + std::to_string(oakvr::render::IsBlendingEnabled())

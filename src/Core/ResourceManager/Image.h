@@ -14,7 +14,7 @@ namespace oakvr
 			Image(const StringId &id);
 						
 		private:
-			RawImageData *m_pRawImageData;
+			RawImageData *m_pRawImageData = nullptr;
 		protected:
 			virtual void Init();
 			virtual void Load();

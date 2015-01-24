@@ -19,8 +19,8 @@ namespace oakvr
 			static MouseInputImpl *m_pInstance;
 			struct MouseState
 			{
-				int32_t m_wheelDelta;
 				int32_t m_x, m_y;
+				int32_t m_wheelDelta;
 				bool m_bLButtonDown;
 				bool m_bMButtonDown;
 				bool m_bRButtonDown;
@@ -35,14 +35,14 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		MouseInput::MouseInput()
 		{
-			m_pImpl = new MouseInputImpl();
+			m_pImpl = std::make_unique<MouseInputImpl>();
 			//::SetWindowsHookEx(WH_MOUSE_LL, LowLevelMouseProc, nullptr, 0);
 		}
 
 		// --------------------------------------------------------------------------------
 		MouseInput::~MouseInput()
 		{
-			delete m_pImpl;
+			
 		}
 
 		// --------------------------------------------------------------------------------
@@ -183,12 +183,14 @@ namespace oakvr
 		MouseInput::MouseInputImpl::MouseInputImpl()
 		{
 			m_pInstance = this;	// to be used by HandleMessage
-			m_volatileState.m_bLButtonDown = false;
-			m_volatileState.m_bMButtonDown = false;
-			m_volatileState.m_bRButtonDown = false;
 			m_volatileState.m_x = 0;
 			m_volatileState.m_y = 0;
 			m_volatileState.m_wheelDelta = 0;
+			m_volatileState.m_bLButtonDown = false;
+			m_volatileState.m_bMButtonDown = false;
+			m_volatileState.m_bRButtonDown = false;
+			m_previousState = { 0 };
+			m_currentState = { 0 };
 
 		}
 

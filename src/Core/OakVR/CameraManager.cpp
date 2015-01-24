@@ -20,7 +20,7 @@ namespace oakvr
 		void CameraManager::UnregisterCamera(sp<Camera> pCamera)
 		{
 			auto size = m_cameras.size();
-			std::remove_if(std::begin(m_cameras), std::end(m_cameras), [&](const sp<Camera> &pRegisteredCamera)->bool{ return pRegisteredCamera == pCamera; });
+			m_cameras.erase(std::remove_if(std::begin(m_cameras), std::end(m_cameras), [&](const sp<Camera> &pRegisteredCamera)->bool{ return pRegisteredCamera == pCamera; }), std::begin(m_cameras));
 			if (size == m_cameras.size())
 			{
 				Log::Warning("Trying to unregister a camera that was not registered before.");

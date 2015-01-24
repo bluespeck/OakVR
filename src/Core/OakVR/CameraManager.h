@@ -25,7 +25,7 @@ namespace oakvr
 			void SetCurrentCamera(sp<Camera>);
 			void SetCurrentCamera(const std::string &cameraId);
 		private:
-			int m_currentCameraIndex;
+			int m_currentCameraIndex = -1;
 			std::vector<sp<Camera>> m_cameras;
 		};
 	}

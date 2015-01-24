@@ -30,7 +30,7 @@ namespace oakvr
 			void Unlock();
 			void Release();
 
-			void VertexBuffer::Use(const std::vector<VertexElementDescriptor> &vertexElementDescriptors);
+			void Use(const std::vector<VertexElementDescriptor> &vertexElementDescriptors);
 			
 		private:
 			class VertexBufferImpl;

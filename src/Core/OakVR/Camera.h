@@ -61,7 +61,12 @@ namespace oakvr
 			Vector3		m_forward;
 			Vector3		m_up;
 
-			float m_fov, m_rwWidth, m_rwHeight, m_near, m_far;
+			// projection config
+			float m_fov = 0.f;
+			float m_rwWidth = 0.f;
+			float m_rwHeight = 0.f;
+			float m_near = 0.f;
+			float m_far = 0.f;
 
 			Matrix	m_matProj;
 		};

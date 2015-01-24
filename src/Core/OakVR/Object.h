@@ -1,41 +1,33 @@
 #pragma once
 
-#include <list>
+#include <vector>
 
 #include "Utils/StringId.h"
+#include "Utils/Types.h"
 
 namespace oakvr
 {
-	namespace render
+	class Object;
+	using ObjectSharedPointer = sp < Object > ;
+	using ObjectUniquePointer = up < Object > ;
+	using ObjectVector = std::vector < ObjectSharedPointer >;
+
+	class Object
 	{
+	public:
+		Object( void ); 	
+		virtual ~Object( void );
+		void AddChild(ObjectSharedPointer pObj);
 
-		class IController;
+		
 
-		class Object
-		{
-		public:
-			Object( void ); 	
-			virtual ~Object( void );
+	public:
+		// links to other objects
+		ObjectSharedPointer m_pParent;
+		ObjectVector m_children;
 
-			void AddChild(Object *pObj);
-			void AddBrother(Object *pObj);
+		oakvr::StringId m_objID;
+	};
 
-			Object *GetRootObj();
-			
-		public:
-			// links to other objects
-			Object *m_pParent;
-			Object *m_pChild;
-			Object *m_pBrother;
-
-			oakvr::StringId m_objID;
-
-			// Controllers running on this object
-			std::list<IController *> m_lstControllers;
-
-		protected:
-			static unsigned long m_objCount;
-
-		};
-	} // namespace Render
+	
 } // namespace oakvr
