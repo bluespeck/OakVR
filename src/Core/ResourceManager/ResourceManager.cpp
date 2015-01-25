@@ -62,7 +62,7 @@ namespace oakvr
 			auto it = m_mapResources.find(id);
 			if (it != std::end(m_mapResources))
 			{
-				Log::Warning("Trying to create a resource with an id that already exists! (Resource id = %s)", id);
+				Log::Warning("Trying to create a resource with an id that already exists! (Resource id = %s)", id.c_str());
 				return;
 			}
 
@@ -105,7 +105,7 @@ namespace oakvr
 				}
 			}
 
-			Log::Warning("Could not retrieve resource %s", id);
+			Log::Warning("Could not retrieve resource %s", id.c_str());
 			return nullptr;
 		}
 		

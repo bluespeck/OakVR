@@ -13,6 +13,7 @@ namespace oakvr
 		inline StringId(const StringId & other);
 		inline StringId(StringId && other);
 
+		inline char const * c_str() const;
 		inline operator std::string ();
 		inline operator const std::string() const;
 		inline operator const char *() const;
@@ -20,6 +21,8 @@ namespace oakvr
 		inline StringId & operator = (StringId && other);
 
 		inline bool operator == (const StringId & other) const;
+		inline bool operator == (const std::string & other) const;
+		inline bool operator == (const char * other) const;
 		inline bool operator < (const StringId & other) const;
 
 
@@ -50,6 +53,11 @@ namespace oakvr
 	inline StringId::StringId(StringId && other)
 	{
 		m_id = std::move(other.m_id);
+	}
+
+	inline char const * StringId::c_str() const
+	{
+		return m_id.c_str();
 	}
 
 	// --------------------------------------------------------------------------------
@@ -87,6 +95,16 @@ namespace oakvr
 	inline bool StringId::operator == (const StringId & other) const
 	{
 		return m_id == other.m_id;
+	}
+
+	inline bool StringId::operator == (const std::string & other) const
+	{
+		return m_id == other;
+	}
+
+	inline bool StringId::operator == (const char *other) const
+	{
+		return m_id == other;
 	}
 
 	// --------------------------------------------------------------------------------

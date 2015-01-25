@@ -33,7 +33,7 @@ namespace oakvr
 			if (it != m_cameras.end())
 				return *it;
 			
-			Log::Warning("Could not find camera with id = %s !", cameraId);
+			Log::Warning("Could not find camera with id = %s !", cameraId.c_str());
 			return nullptr;
 		}
 
@@ -60,7 +60,7 @@ namespace oakvr
 					return;
 				}
 			}
-			Log::Error("Trying to set an unregistered camera (%s) as the current camera!", cameraId);
+			Log::Error("Trying to set an unregistered camera (%s) as the current camera!", cameraId.c_str());
 		}
 	}
 }

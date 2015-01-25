@@ -5,6 +5,7 @@
 
 #include "Utils/StringId.h"
 #include "Utils/Types.h"
+#include "Math/Matrix.h"
 
 namespace oakvr
 {
@@ -17,18 +18,27 @@ namespace oakvr
 	class Object
 	{
 	public:
-		Object( void ); 	
-		virtual ~Object( void );
-		void AddChild(ObjectSharedPointer pObj);
-
+		Object(); 	
+		virtual ~Object();
 		
+		void AddChild(ObjectSharedPointer pObj);
+		void RemoveChild(ObjectSharedPointer pObj);
+		auto GetId() const -> const StringId &{ return m_objID; }
+		auto GetParent() -> ObjectSharedPointer { return m_pParent; }
+		auto GetChildren() -> const ObjectVector &{ return m_vecChildren; }
+		void SetParent(ObjectSharedPointer pParent) { m_pParent = pParent; }
+
+		auto GetRelativeTransform()->math::Matrix & { return m_matRelativeTransform; }
+		void SetRelativeTransform(const math::Matrix &matRelativeTransform) { m_matRelativeTransform = matRelativeTransform; }
+
 
 	public:
 		// links to other objects
 		ObjectSharedPointer m_pParent;
-		ObjectVector m_children;
+		ObjectVector m_vecChildren;
+		math::Matrix m_matRelativeTransform = math::Matrix::Identity;
 
-		oakvr::StringId m_objID;
+		StringId m_objID;
 	};
 
 	
