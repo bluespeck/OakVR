@@ -50,6 +50,10 @@ namespace oakvr
 			Vector2 Normalize() const;
 			float Dot( const Vector2 &vec ) const;
 
+			// static constants
+			static Vector2 One;
+			static Vector2 Zero;
+
 			// members
 			float x, y;
 		};

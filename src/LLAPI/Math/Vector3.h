@@ -52,6 +52,10 @@ namespace oakvr
 			float Dot( const Vector3 &vec ) const;
 			Vector3 Cross( const Vector3 &vec ) const;
 
+			// static constants
+			static Vector3 One;
+			static Vector3 Zero;
+
 			// members
 			float x, y, z;
 		};

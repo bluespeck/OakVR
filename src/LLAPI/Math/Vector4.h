@@ -46,6 +46,10 @@ namespace oakvr
 			Vector4 Normalize() const;
 			float Dot( const Vector4 &vec ) const;			
 
+			// static constants
+			static Vector4 One;
+			static Vector4 Zero;
+
 			// members
 			float x, y, z, w;
 		};

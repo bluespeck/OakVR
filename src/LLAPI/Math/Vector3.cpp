@@ -199,5 +199,9 @@ namespace oakvr
 			return (x != vec.x) || (y != vec.y) || (z != vec.z);
 		}
 
+		// static member initialization
+		Vector3 Vector3::One =	{ 1.0f, 1.0f, 1.0f };
+		Vector3 Vector3::Zero = { 0.0f, 0.0f, 0.0f };
+
 	}	// namespace Math
 }	// namespace oakvr
