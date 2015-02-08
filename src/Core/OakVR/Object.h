@@ -7,6 +7,8 @@
 #include "Utils/Types.h"
 #include "Math/Matrix.h"
 
+#include "ObjectComponent.h"
+
 namespace oakvr
 {
 	class Object;
@@ -15,9 +17,11 @@ namespace oakvr
 	using ObjectVector = std::vector < ObjectSharedPointer >;
 	using ObjectMap = std::unordered_map < oakvr::StringId, ObjectSharedPointer > ;
 
-	class Object
+	class Object: public std::enable_shared_from_this<Object>
 	{
+
 	public:
+
 		Object(); 	
 		virtual ~Object();
 		
@@ -28,17 +32,17 @@ namespace oakvr
 		auto GetChildren() -> const ObjectVector &{ return m_vecChildren; }
 		void SetParent(ObjectSharedPointer pParent) { m_pParent = pParent; }
 
-		auto GetRelativeTransform()->math::Matrix & { return m_matRelativeTransform; }
-		void SetRelativeTransform(const math::Matrix &matRelativeTransform) { m_matRelativeTransform = matRelativeTransform; }
-
+		void AddComponent(const std::string &componentName);
+		auto GetComponent(const std::string &componentName)->ObjectComponentSharedPointer;
 
 	public:
-		// links to other objects
+
 		ObjectSharedPointer m_pParent;
 		ObjectVector m_vecChildren;
-		math::Matrix m_matRelativeTransform = math::Matrix::Identity;
-
 		StringId m_objID;
+
+		std::unordered_map<std::string, ObjectComponentSharedPointer> m_componentMap;
+		
 	};
 
 	
