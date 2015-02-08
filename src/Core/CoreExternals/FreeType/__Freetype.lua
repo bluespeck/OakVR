@@ -86,3 +86,6 @@ Project "FreeType"
 		"src/type42/type42.c",
 		"src/winfonts/winfnt.c",
 	}
+	
+	configuration {"vs*"}
+		buildoptions {  "/wd\"4244\""}

@@ -40,3 +40,7 @@ Project "Png"
 	defines { "_CRT_SECURE_NO_WARNINGS" }
 	
 	links { "Zlib" }
+	
+	configuration {"vs*"}
+		-- ignore C4996: The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name
+		buildoptions {  "/wd\"4996\""}
