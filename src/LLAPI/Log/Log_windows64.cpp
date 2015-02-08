@@ -44,7 +44,7 @@ namespace oakvr
 		case LogLevel::error:
 			fprintf(f, (std::string(s_logLabel) + " Error: ").c_str());
 			break;
-		dafault:
+		default:
 			break;
 		}
 

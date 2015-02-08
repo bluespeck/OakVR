@@ -6,5 +6,8 @@ namespace oakvr
 {
 	namespace core
 	{
+		FileLoader::~FileLoader()
+		{ }
+
 	}
 }

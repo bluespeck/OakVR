@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 #if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
 
 #	include <GL/glew.h>
@@ -13,6 +11,8 @@
 #	include <GL/glext.h>
 #	include <GL/glfw.h>
 #endif
+
+#include <cstdint>
 
 #include "Log/Log.h"
 
