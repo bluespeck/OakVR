@@ -18,7 +18,7 @@ namespace oakvr
 		class CameraManager;
 		class Mesh;
 		class Material;
-		class Color;
+		struct Color;
 		class Camera;
 
 	}
@@ -32,7 +32,7 @@ namespace oakvr
 	///////////////////////////////////////////////////////////////////////////////////
 	// render related interface
 
-	class OakVRRenderComponent
+	class OakVRRenderUnit
 	{
 	public:
 		auto GetScreenSize() const->ScreenSize;
@@ -83,7 +83,7 @@ namespace oakvr
 #undef DECLARE_ENABLEDISABLE_FCT
 
 	protected:
-		OakVRRenderComponent();
+		OakVRRenderUnit();
 	protected:
 		sp<oakvr::render::RenderWindow> m_pRW;
 		sp<oakvr::render::Renderer> m_pRenderer;

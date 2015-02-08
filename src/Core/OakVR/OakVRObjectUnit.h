@@ -9,13 +9,13 @@
 
 namespace oakvr
 {
-	class OakVRObjectComponent
+	class OakVRObjectUnit
 	{
 	public:
-		void AddObject(ObjectSharedPointer pObject, const StringId &parentId, const math::Matrix &relativeTransform);
+		void AddObject(ObjectSharedPointer pObject, const StringId &parentId);
 		void RemoveObject(const StringId &name);
 		ObjectSharedPointer FindObject(const StringId &objectId);
-		void TransferObject(const StringId &id, const StringId &newParentId, const math::Matrix &newRelativeTransform = math::Matrix::Identity);
+		void TransferObject(const StringId &id, const StringId &newParentId);
 
 	protected:
 		ObjectMap m_objectMap;

@@ -11,8 +11,8 @@
 #include "Utils/Types.h"
 
 
-#include "OakVR/OakVRObjectComponent.h"
-#include "OakVR/OakVRRenderComponent.h"
+#include "OakVR/OakVRObjectUnit.h"
+#include "OakVR/OakVRRenderUnit.h"
 
 namespace oakvr
 {
@@ -25,7 +25,7 @@ namespace oakvr
 	}
 
 	// Engine class
-	class OakVR : public Singleton<OakVR>, public OakVRRenderComponent, public OakVRObjectComponent
+	class OakVR : public Singleton<OakVR>, public OakVRRenderUnit, public OakVRObjectUnit
 	{
 		friend class Singleton < OakVR >;
 		friend bool oakvrUpdate();

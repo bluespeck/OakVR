@@ -1,4 +1,4 @@
-#include "OakVR/OakVRRenderComponent.h"
+#include "OakVR/OakVRRenderUnit.h"
 
 #include "Renderer/Renderer/Renderer.h"
 #include "Renderer/Renderer/RenderWindow.h"
@@ -24,20 +24,20 @@
 
 namespace oakvr
 {
-		OakVRRenderComponent::OakVRRenderComponent()
+		OakVRRenderUnit::OakVRRenderUnit()
 			: m_pRW{ std::make_shared<oakvr::render::RenderWindow>("oakvr", 100, 100, 1024, 768) }
 			, m_pRenderer{ std::make_shared<oakvr::render::Renderer>() }
 			, m_pCM{ std::make_shared<oakvr::render::CameraManager>() }
 		{ 
 		}
 
-		void OakVRRenderComponent::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const oakvr::render::Color &color)
+		void OakVRRenderUnit::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const oakvr::render::Color &color)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			DrawLine(start, end, thickness, color, color);
 		}
 
-		void OakVRRenderComponent::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &endColor, const oakvr::render::Color &startColor)
+		void OakVRRenderUnit::DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &endColor, const oakvr::render::Color &startColor)
 		{
 			oakvr::math::Vector3 up{ 0, 1, 0 };
 			oakvr::math::Vector3 lineDir = end - start;
@@ -116,7 +116,7 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		// --------------------------------------------------------------------------------
 
-		auto OakVRRenderComponent::CreateMesh(const StringId &name, sp<oakvr::core::MemoryBuffer> pMeshBuffer, sp<oakvr::render::Material> pMaterial)-> sp<oakvr::render::Mesh>
+		auto OakVRRenderUnit::CreateMesh(const StringId &name, sp<oakvr::core::MemoryBuffer> pMeshBuffer, sp<oakvr::render::Material> pMaterial)-> sp<oakvr::render::Mesh>
 		{
 			auto pMesh = std::make_shared<oakvr::render::Mesh>(name);
 
@@ -190,105 +190,105 @@ namespace oakvr
 			return pMesh;
 		}
 
-		void OakVRRenderComponent::RegisterMesh(sp<oakvr::render::Mesh> pMesh)
+		void OakVRRenderUnit::RegisterMesh(sp<oakvr::render::Mesh> pMesh)
 		{
 			m_pRenderer->RegisterMesh(pMesh);
 		}
 
-		auto OakVRRenderComponent::GetRegisteredMesh(const StringId &name)->sp < oakvr::render::Mesh >
+		auto OakVRRenderUnit::GetRegisteredMesh(const StringId &name)->sp < oakvr::render::Mesh >
 		{
 			return m_pRenderer->GetRegisteredMesh(name);
 		}
 
-		void OakVRRenderComponent::UnregisterMesh(sp<oakvr::render::Mesh> pMesh)
+		void OakVRRenderUnit::UnregisterMesh(sp<oakvr::render::Mesh> pMesh)
 		{
 			m_pRenderer->UnregisterMesh(pMesh);
 		}
 
 
-		void OakVRRenderComponent::TransformMesh(const StringId &meshName, const oakvr::math::Matrix &mat)
+		void OakVRRenderUnit::TransformMesh(const StringId &meshName, const oakvr::math::Matrix &mat)
 		{
 			auto pMesh = m_pRenderer->GetRegisteredMesh(meshName);
 			if (pMesh)
 				pMesh->Transform(mat);
 		}
 
-		void OakVRRenderComponent::RegisterShader(StringId shaderName)
+		void OakVRRenderUnit::RegisterShader(StringId shaderName)
 		{
 			m_pRenderer->RegisterShaderProgram(shaderName);
 		}
 
-		void OakVRRenderComponent::RegisterCamera(sp<oakvr::render::Camera> pCamera)
+		void OakVRRenderUnit::RegisterCamera(sp<oakvr::render::Camera> pCamera)
 		{
 			m_pCM->RegisterCamera(pCamera);
 		}
 
-		void OakVRRenderComponent::UnregisterCamera(sp<oakvr::render::Camera> pCamera)
+		void OakVRRenderUnit::UnregisterCamera(sp<oakvr::render::Camera> pCamera)
 		{
 			m_pCM->UnregisterCamera(pCamera);
 		}
 
-		sp<oakvr::render::Camera> OakVRRenderComponent::GetCamera(const StringId &cameraId)
+		sp<oakvr::render::Camera> OakVRRenderUnit::GetCamera(const StringId &cameraId)
 		{
 			return m_pCM->GetCamera(cameraId);
 		}
 
-		auto OakVRRenderComponent::GetCurrentCamera()->sp < oakvr::render::Camera >
+		auto OakVRRenderUnit::GetCurrentCamera()->sp < oakvr::render::Camera >
 		{
 			return m_pCM->GetCurrentCamera();
 		}
 
-		void OakVRRenderComponent::SetCurrentCamera(sp<oakvr::render::Camera> pCamera)
+		void OakVRRenderUnit::SetCurrentCamera(sp<oakvr::render::Camera> pCamera)
 		{
 			m_pCM->SetCurrentCamera(pCamera);
 		}
 
-		void OakVRRenderComponent::SetCurrentCamera(const StringId &cameraId)
+		void OakVRRenderUnit::SetCurrentCamera(const StringId &cameraId)
 		{
 			m_pCM->SetCurrentCamera(cameraId);
 		}
 
-		void OakVRRenderComponent::SetRenderWindowPosition(int x, int y)
+		void OakVRRenderUnit::SetRenderWindowPosition(int x, int y)
 		{
 			m_pRW->SetPosition(x, y);
 		}
 
-		void OakVRRenderComponent::SetRenderWindowSize(unsigned int width, unsigned int height)
+		void OakVRRenderUnit::SetRenderWindowSize(unsigned int width, unsigned int height)
 		{
 			m_pRW->SetSize(width, height);
 		}
 
-		auto OakVRRenderComponent::GetRenderWindowSize()const->WindowSize
+		auto OakVRRenderUnit::GetRenderWindowSize()const->WindowSize
 		{
 			return{ m_pRW->GetWidth(), m_pRW->GetHeight() };
 		}
 
-		auto OakVRRenderComponent::GetRenderWindowWidth()const -> float
+		auto OakVRRenderUnit::GetRenderWindowWidth()const -> float
 		{
 			return static_cast<float>(m_pRW->GetWidth());
 		}
 
-		auto OakVRRenderComponent::GetRenderWindowHeight() const -> float
+		auto OakVRRenderUnit::GetRenderWindowHeight() const -> float
 		{
 			return static_cast<float>(m_pRW->GetHeight());
 		}
 
-		auto OakVRRenderComponent::GetRenderWindowPositionX()const->float
+		auto OakVRRenderUnit::GetRenderWindowPositionX()const->float
 		{
 			return static_cast<float>(m_pRW->GetPositionX());
 		}
 
-		auto OakVRRenderComponent::GetRenderWindowPositionY()const ->float
+		auto OakVRRenderUnit::GetRenderWindowPositionY()const ->float
 		{
 			return static_cast<float>(m_pRW->GetPositionY());
 		}
 
-		void OakVRRenderComponent::SetRenderWindowTitle(const std::string &title)
+		void OakVRRenderUnit::SetRenderWindowTitle(const std::string &title)
 		{
 			m_pRW->SetTitle(title);
 		}
 
-		void OakVRRenderComponent::OnWindowSizeChanged(void *pNativeWindowHandle, int width, int height)
+		void OakVRRenderUnit::OnWindowSizeChanged(void *pNativeWindowHandle, int width, int height)
 		{
 			if (m_pRW->GetNativeHandle() == reinterpret_cast<decltype(m_pRW->GetNativeHandle())>(pNativeWindowHandle))
 			{
@@ -300,7 +300,7 @@ namespace oakvr
 			}
 		}
 
-		void OakVRRenderComponent::OnWindowFocusChanged(void *pNativeWindowHandle, int focused)
+		void OakVRRenderUnit::OnWindowFocusChanged(void *pNativeWindowHandle, int focused)
 		{
 			if (m_pRW->GetNativeHandle() == reinterpret_cast<decltype(m_pRW->GetNativeHandle())>(pNativeWindowHandle))
 			{
@@ -310,7 +310,7 @@ namespace oakvr
 			}
 		}
 
-		void OakVRRenderComponent::OnWindowPositionChanged(void *pNativeWindowHandle, int x, int y)
+		void OakVRRenderUnit::OnWindowPositionChanged(void *pNativeWindowHandle, int x, int y)
 		{
 			if (m_pRW->GetNativeHandle() == reinterpret_cast<decltype(m_pRW->GetNativeHandle())>(pNativeWindowHandle))
 			{
@@ -319,28 +319,28 @@ namespace oakvr
 		}
 
 
-		bool OakVRRenderComponent::HasFocus()
+		bool OakVRRenderUnit::HasFocus()
 		{
 			return m_pRW->HasFocus();
 		}
 
 #define IMPLEMENT_DISABLEENABLE_FCT(paramName) \
-	void OakVRRenderComponent::Enable ## paramName ()\
+	void OakVRRenderUnit::Enable ## paramName ()\
 			{\
 		m_pRenderer->Enable ## paramName();\
 			}\
 	\
-	void OakVRRenderComponent::Disable ## paramName ()\
+	void OakVRRenderUnit::Disable ## paramName ()\
 				{\
 		m_pRenderer->Disable ## paramName();\
 				}\
 	\
-	void OakVRRenderComponent::Toggle ## paramName ()\
+	void OakVRRenderUnit::Toggle ## paramName ()\
 				{\
 		m_pRenderer->Toggle ## paramName();\
 				}\
 	\
-	bool OakVRRenderComponent::Is ## paramName ## Enabled() const\
+	bool OakVRRenderUnit::Is ## paramName ## Enabled() const\
 			{\
 		return m_pRenderer->Is ## paramName ## Enabled();\
 			}
