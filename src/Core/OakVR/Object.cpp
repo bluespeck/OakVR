@@ -13,6 +13,12 @@ namespace oakvr
 
 	}
 
+	Object::Object(const StringId &objId)
+		:m_objID{ objId }
+	{
+
+	}
+
 	Object::~Object()
 	{
 	}

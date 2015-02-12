@@ -1,5 +1,8 @@
 #include "ObjectComponent.h"
 
+#include "TransformComponent.h"
+#include "VisualComponent.h"
+
 namespace oakvr
 {
 	std::set < std::string > ObjectComponent::s_allObjectComponentTypes;

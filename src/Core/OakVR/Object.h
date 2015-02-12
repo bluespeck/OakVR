@@ -22,7 +22,8 @@ namespace oakvr
 
 	public:
 
-		Object(); 	
+		Object();
+		Object(const StringId &name);
 		virtual ~Object();
 		
 		void AddChild(ObjectSharedPointer pObj);

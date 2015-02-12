@@ -36,18 +36,18 @@ namespace oakvr
 
 
 
-#define __OC_DECLARE_INITIALIZER\
-	private:																													\
-	static struct __ObjectComponentInitializer { __ObjectComponentInitializer(); } s_initializer;								\
-	public:																														\
-	static ObjectComponentSharedPointer Create(ObjectSharedPointer, ObjectComponentSharedPointer dependantComponent = nullptr); \
-	virtual std::string GetComponentTypeAsString();
+#define _OC_DECLARE_INITIALIZER\
+	public:																															\
+		static ObjectComponentSharedPointer Create(ObjectSharedPointer, ObjectComponentSharedPointer dependentComponent = nullptr); \
+		virtual std::string GetComponentTypeAsString();
 
-#define __OC_DEFINE_INITIALIZER2(ocClassName, ocTypeStr)\
-	ocClassName::__ObjectComponentInitializer ocClassName::s_initializer;										\
-	ocClassName::__ObjectComponentInitializer::__ObjectComponentInitializer() { ObjectComponentFactory::s_objectComponentCreators[ocTypeStr] = ocClassName::Create; } \
-	ObjectComponentSharedPointer ocClassName::Create(ObjectSharedPointer pObj, ObjectComponentSharedPointer dependantComponent /*= nullptr */) { return std::make_shared<ocClassName>(pObj, dependantComponent); }	\
+#define _OC_DEFINE_INITIALIZER2(ocClassName, ocTypeStr)\
+	_OAKVR_REGISTER_ENGINE_INITIALIZER([](){ std::cout<<"Transform or not!";ObjectComponentFactory::s_objectComponentCreators[ocTypeStr] = ocClassName::Create; }, ocClassName) \
+	ObjectComponentSharedPointer ocClassName::Create(ObjectSharedPointer pObj, ObjectComponentSharedPointer dependentComponent) { return std::make_shared<ocClassName>(pObj, dependentComponent); }	\
 	std::string ocClassName::GetComponentTypeAsString() { return ocTypeStr; }
 
-#define __OC_DEFINE_INITIALIZER(componentType) __OC_DEFINE_INITIALIZER2(componentType ## Component, #componentType)
+
+#define _OC_DEFINE_INITIALIZER(componentType) _OC_DEFINE_INITIALIZER2(componentType ## Component, #componentType)
+
 }
+

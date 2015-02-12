@@ -22,6 +22,6 @@ namespace oakvr
 		sp<render::Mesh> m_pMesh;
 		sp<TransformComponent> m_pTransformComponent;
 
-		__OC_DECLARE_INITIALIZER
+		//_OC_DECLARE_INITIALIZER
 	};
 }

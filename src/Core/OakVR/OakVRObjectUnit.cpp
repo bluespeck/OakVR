@@ -2,9 +2,15 @@
 
 #include "Log/Log.h"
 
+
 namespace oakvr
 {
-	void OakVRObjectUnit::AddObject(ObjectSharedPointer pObject, const StringId &parentId)
+	ObjectSharedPointer OakVRObjectUnit::CreateObject(const StringId &objId)
+	{
+		return std::make_shared<Object>(objId);
+	}
+
+	void OakVRObjectUnit::AddObjectToGraph(ObjectSharedPointer pObject, const StringId &parentId)
 	{
 		m_objectMap[pObject->GetId()] = pObject;
 		auto pCurrentParent = pObject->GetParent();
@@ -27,7 +33,7 @@ namespace oakvr
 		}
 	}
 
-	void OakVRObjectUnit::RemoveObject(const StringId &id)
+	void OakVRObjectUnit::RemoveObjectFromGraph(const StringId &id)
 	{
 		auto it = m_objectMap.find(id);
 		if (it != m_objectMap.end())

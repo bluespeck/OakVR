@@ -36,16 +36,18 @@ namespace oakvr
 		void RegisterUpdatable(sp<oakvr::Updatable> pUpdatable);
 		void UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable);
 
-
-
 		///////////////////////////////////////////////////////////////////////////////////
 		// resources related interface
 		auto RegisterSubFolderPaths(const std::string &path)->bool;
 		auto GetResource(const std::string &id) -> sp<oakvr::core::MemoryBuffer>;
 				
 		void Cleanup();
-		void RegisterInitializer(std::function<void()> fct) { m_initializers.push_back(fct); }
-		
+		void RegisterUserInitializer(std::function<void()> fct) { 
+			m_userInitializers.push_back(fct); }
+		void RegisterEngineInitializer(std::function<void()> fct) { 
+			m_engineInitializers.push_back(fct); }
+
+
 	private:
 		bool Initialize();
 		bool Update();
@@ -78,15 +80,23 @@ namespace oakvr
 		
 		std::vector<sp<oakvr::Updatable>> m_pUpdatables;
 
-		std::vector<std::function<void()>> m_initializers;
+		std::vector<std::function<void()>> m_userInitializers;
+		std::vector<std::function<void()>> m_engineInitializers;
 	};
 }	// namespace oakvr
 
-#define _OAKVR_REGISTER_UPDATABLE_INITIALIZER(myInitializer, file, line) \
-	struct OakVRInitializer  ## file ## line\
+#define _OAKVR_REGISTER_UPDATABLE_INITIALIZER(myInitializer, counter) \
+	struct OakVRInitializer  ## counter\
 	{\
-		OakVRInitializer  ## file ## line() { oakvr::OakVR::GetInstance().RegisterInitializer(myInitializer); }\
-	} oakVRInitializer ## __FILE__ ## line;
+		OakVRInitializer  ## counter() { oakvr::OakVR::GetInstance().RegisterUserInitializer(myInitializer); }\
+	} oakVRInitializer ## counter;
 
 // creates a global object that upon construction initializes an object of the <className> class
-#define OAKVR_REGISTER_UPDATABLE(className) _OAKVR_REGISTER_UPDATABLE_INITIALIZER([](){::oakvr::RegisterUpdatable(std::make_shared<className>());}, __FILE__, __LINE__)
+#define OAKVR_REGISTER_UPDATABLE(className) _OAKVR_REGISTER_UPDATABLE_INITIALIZER([](){::oakvr::RegisterUpdatable(std::make_shared<className>());}, __COUNTER__)
+
+// creates a global object that upon construction 
+#define _OAKVR_REGISTER_ENGINE_INITIALIZER(myInitializer, tag) \
+	struct OakVREngineInitializer  ## tag\
+	{\
+		OakVREngineInitializer  ## tag() { oakvr::OakVR::GetInstance().RegisterEngineInitializer(myInitializer); }\
+	} oakVREngineInitializer ## tag;

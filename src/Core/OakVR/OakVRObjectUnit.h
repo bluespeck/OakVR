@@ -12,8 +12,9 @@ namespace oakvr
 	class OakVRObjectUnit
 	{
 	public:
-		void AddObject(ObjectSharedPointer pObject, const StringId &parentId);
-		void RemoveObject(const StringId &name);
+		ObjectSharedPointer CreateObject(const StringId &name);
+		void AddObjectToGraph(ObjectSharedPointer pObject, const StringId &parentId);
+		void RemoveObjectFromGraph(const StringId &name);
 		ObjectSharedPointer FindObject(const StringId &objectId);
 		void TransferObject(const StringId &id, const StringId &newParentId);
 

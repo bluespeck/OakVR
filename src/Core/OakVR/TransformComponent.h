@@ -10,7 +10,7 @@ namespace oakvr
 	class TransformComponent : public ObjectComponent
 	{
 	public:
-		TransformComponent(ObjectSharedPointer pObj, ObjectComponentSharedPointer pDependeeComponent = nullptr) : ObjectComponent{ pObj }, m_position( math::Vector3::Zero ), m_orientation( 0.0f, 0.0f, 1.0f ), m_scale( math::Vector3::One ) {}
+		TransformComponent(ObjectSharedPointer pObj, ObjectComponentSharedPointer pDependeeComponent = nullptr);
 
 		const math::Vector3 & GetPosition() { return m_position; }
 		void SetPosition(const math::Vector3 &position) { m_position = position; }
@@ -26,6 +26,6 @@ namespace oakvr
 		math::Vector3 m_orientation;
 		math::Vector3 m_scale;
 
-		__OC_DECLARE_INITIALIZER
+		_OC_DECLARE_INITIALIZER
 	};
 }
