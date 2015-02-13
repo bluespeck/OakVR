@@ -4,6 +4,7 @@
 #include "Utils/StringId.h"
 
 #include "OakVR/Object.h"
+#include "OakVR/ObjectComponents.h"
 
 #include "Math/Matrix.h"
 

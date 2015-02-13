@@ -1,8 +1,5 @@
 #include "ObjectComponent.h"
 
-#include "TransformComponent.h"
-#include "VisualComponent.h"
-
 namespace oakvr
 {
 	std::set < std::string > ObjectComponent::s_allObjectComponentTypes;
@@ -10,7 +7,6 @@ namespace oakvr
 	ObjectComponent::ObjectComponent(ObjectSharedPointer pObject, ObjectComponentSharedPointer dependeeComponent/* = nullptr*/)
 		:m_pObject{ pObject }
 	{
-		
 	}
 
 	auto ObjectComponent::GetAllObjectComponentTypes() -> std::set < std::string > &

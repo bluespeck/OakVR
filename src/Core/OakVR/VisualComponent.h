@@ -16,12 +16,17 @@ namespace oakvr
 		~VisualComponent() {}
 
 		void SetMeshFromResource(StringId resourceId);
-		auto GetMesh()->sp < render::Mesh > { return m_pMesh; }
+		auto GetMesh()->sp < render::Mesh >;
 
 	private:
 		sp<render::Mesh> m_pMesh;
 		sp<TransformComponent> m_pTransformComponent;
 
-		//_OC_DECLARE_INITIALIZER
+		_OC_DECLARE_INITIALIZER_HELPERS(Visual);
 	};
+
+	inline auto VisualComponent::GetMesh()->sp < render::Mesh >
+	{
+		return m_pMesh;
+	}
 }

@@ -15,7 +15,6 @@
 
 #include "Profiler/Profiler.h"
 #include "Log/Log.h"
-#include "TransformComponent.h"
 
 #include <algorithm>
 #include <memory>
