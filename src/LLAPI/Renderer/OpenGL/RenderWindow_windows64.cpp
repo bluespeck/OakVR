@@ -50,7 +50,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		bool RenderWindow::Initialize()
+		auto RenderWindow::Initialize() -> bool
 		{
 			// Initialize GLFW
 			if (!glfwInit())
@@ -83,13 +83,13 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		bool RenderWindow::IsOpen()
+		auto RenderWindow::IsOpen() -> bool
 		{
 			return !!glfwGetWindowAttrib(m_pImpl->m_pWindow, GLFW_VISIBLE);
 		}
 
 		// --------------------------------------------------------------------------------
-		bool RenderWindow::IsValid()
+		auto RenderWindow::IsValid() -> bool
 		{	
 			return glfwGetCurrentContext() != nullptr;
 		}

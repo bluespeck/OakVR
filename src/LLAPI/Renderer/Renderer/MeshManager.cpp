@@ -19,27 +19,27 @@ namespace oakvr
 
 		}
 
-		void MeshManager::AddMesh(sp<Mesh> pMesh)
+		auto MeshManager::AddMesh(sp<Mesh> pMesh) -> void
 		{
 			m_meshes.push_back(pMesh);
 		}
 
-		void MeshManager::Clear()
+		auto MeshManager::Clear() -> void
 		{
 			m_meshes.clear();
 		}
 
-		void MeshManager::AddOneFrameMesh(sp<Mesh> pMesh)
+		auto MeshManager::AddOneFrameMesh(sp<Mesh> pMesh) -> void
 		{
 			m_oneFrameMeshes.push_back(pMesh);
 		}
 
-		void MeshManager::ClearOneFrameMeshes()
+		auto MeshManager::ClearOneFrameMeshes() -> void
 		{
 			m_oneFrameMeshes.clear();
 		}
 
-		void MeshManager::RemoveMesh(sp<Mesh> pMesh)
+		auto MeshManager::RemoveMesh(sp<Mesh> pMesh) -> void
 		{
 			auto itEnd = std::remove_if(std::begin(m_meshes), std::end(m_meshes), 
 				[&pMesh](sp<Mesh> pElem){ return pElem == pMesh; });

@@ -19,37 +19,37 @@ namespace oakvr
 	Log::LogLevel Log::s_maxLevel = Log::LogLevel::error;
 #endif
 
-	void Log::SetMaxLevel(Log::LogLevel level)
+	auto Log::SetMaxLevel(Log::LogLevel level) -> void
 	{
 		s_maxLevel = level;
 	}
 
-	Log::LogLevel Log::GetMaxLevel()
+	auto Log::GetMaxLevel() -> Log::LogLevel
 	{
 		return s_maxLevel;
 	}
 
-	void Log::SetOutFilename(std::string filename)
+	auto Log::SetOutFilename(std::string filename) -> void
 	{
 		s_outFilename = filename;
 	}
 
-	std::string Log::GetOutFilename()
+	auto Log::GetOutFilename() -> std::string
 	{
 		return s_outFilename;
 	}
 
-	void Log::SetErrFilename(std::string filename)
+	auto Log::SetErrFilename(std::string filename) -> void
 	{
 		s_errFilename = filename;
 	}
 
-	std::string Log::GetErrFilename()
+	auto Log::GetErrFilename() -> std::string
 	{
 		return s_errFilename;
 	}
 
-	void Log::Error(const char * logMsg, ...)
+	auto Log::Error(const char * logMsg, ...) -> void
 	{
 		va_list vl;
 		va_start(vl, logMsg);
@@ -57,7 +57,7 @@ namespace oakvr
 		va_end(vl);
 	}
 
-	void Log::Warning(const char * logMsg, ...)
+	auto Log::Warning(const char * logMsg, ...) -> void
 	{
 		va_list vl;
 		va_start(vl, logMsg);
@@ -65,7 +65,7 @@ namespace oakvr
 		va_end(vl);
 	}
 
-	void Log::Info(const char * logMsg, ...)
+	auto Log::Info(const char * logMsg, ...) -> void
 	{
 		va_list vl;
 		va_start(vl, logMsg);

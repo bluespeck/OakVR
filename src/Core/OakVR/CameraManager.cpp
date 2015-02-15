@@ -12,12 +12,12 @@ namespace oakvr
 		{			
 		}
 
-		void CameraManager::RegisterCamera(sp<Camera> pCamera)
+		auto CameraManager::RegisterCamera(sp<Camera> pCamera) -> void
 		{
 			m_cameras.push_back(pCamera);
 		}
 
-		void CameraManager::UnregisterCamera(sp<Camera> pCamera)
+		auto CameraManager::UnregisterCamera(sp<Camera> pCamera) -> void
 		{
 			auto size = m_cameras.size();
 			m_cameras.erase(std::remove_if(std::begin(m_cameras), std::end(m_cameras), [&](const sp<Camera> &pRegisteredCamera)->bool{ return pRegisteredCamera == pCamera; }), std::begin(m_cameras));
@@ -37,7 +37,7 @@ namespace oakvr
 			return nullptr;
 		}
 
-		void CameraManager::SetCurrentCamera(sp<Camera> pCamera)
+		auto CameraManager::SetCurrentCamera(sp<Camera> pCamera) -> void
 		{
 			for (int i = 0; i < m_cameras.size(); ++i)
 			{	
@@ -50,7 +50,7 @@ namespace oakvr
 			Log::Error("Trying to set an unregistered camera (%s) as the current camera!", pCamera->GetId());
 		}
 
-		void CameraManager::SetCurrentCamera(const StringId &cameraId)
+		auto CameraManager::SetCurrentCamera(const StringId &cameraId) -> void
 		{
 			for (int i = 0; i < m_cameras.size(); ++i)
 			{

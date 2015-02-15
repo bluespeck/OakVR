@@ -44,7 +44,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Camera::Rotate( float alpha, float beta, float gamma )
+		auto Camera::Rotate( float alpha, float beta, float gamma ) -> void
 		{
 			oakvr::math::Matrix matRotate;
 			matRotate.SetYawPitchRoll(beta, alpha, gamma);
@@ -127,7 +127,7 @@ namespace oakvr
 			return f;
 		}
 
-		void Camera::OnRenderWindowSizeChanged(float newWidth, float newHeight)
+		auto Camera::OnRenderWindowSizeChanged(float newWidth, float newHeight) -> void
 		{
 			if (fabs(m_matProj._44) > 1e-9)
 			{

@@ -13,7 +13,7 @@ namespace oakvr
 			virtual ~FileLoader();
 
 			virtual MemoryBuffer GetResourceData(const MemoryBuffer &fileBuffer) = 0;
-			virtual bool CanLoad(const MemoryBuffer &filebuffer) = 0;
+			virtual auto CanLoad(const MemoryBuffer &filebuffer) -> bool = 0;
 			
 		};
 	}

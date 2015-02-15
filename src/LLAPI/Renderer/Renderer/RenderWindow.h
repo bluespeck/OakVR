@@ -22,36 +22,36 @@ namespace oakvr
 			RenderWindow& operator=(const RenderWindow &rw) = delete;
 			~RenderWindow();
 			
-			bool Initialize();
-			bool IsOpen();
-			bool IsValid(); // true if it is backed by a valid render context
-			void Minimize();
-			void Maximize();
-			void RestoreSize();
-			void SwapBuffers();
+			auto Initialize() -> bool;
+			auto IsOpen() -> bool;
+			auto IsValid() -> bool; // true if it is backed by a valid render context
+			auto Minimize() -> void;
+			auto Maximize() -> void;
+			auto RestoreSize() -> void;
+			auto SwapBuffers() -> void;
 
 			
-			inline int GetPositionX() const { return m_posX; }
-			inline int GetPositionY() const { return m_posY; }
-			void SetPosition(int x, int y);
+			inline auto GetPositionX() const -> int { return m_posX; }
+			inline auto GetPositionY() const -> int { return m_posY; }
+			auto SetPosition(int x, int y) -> void;
 
-			inline unsigned int GetWidth();
-			inline unsigned int GetHeight();
-			void SetSize(unsigned int width, unsigned int height);
+			inline auto GetWidth() -> unsigned int;
+			inline auto GetHeight() -> unsigned int;
+			auto SetSize(unsigned int width, unsigned int height) -> void;
 
-			void SetWindowSizeCallback(void(*f)(void *, int, int));
-			void SetWindowFocusCallback(void(*f)(void *, int));
-			void SetWindowPositionCallback(void(*f)(void *, int, int));
+			auto SetWindowSizeCallback(void(*f)(void *, int, int)) -> void;
+			auto SetWindowFocusCallback(void(*f)(void *, int)) -> void;
+			auto SetWindowPositionCallback(void(*f)(void *, int, int)) -> void;
 
-			const std::string &GetTitle() { return m_title; }
-			void SetTitle(const std::string &title);
+			auto GetTitle() const -> const std::string & { return m_title; }
+			auto SetTitle(const std::string &title) -> void;
 
 			uint64_t GetNativeHandle() { return m_nativeHandle; }
 
-			inline bool HasFocus() const { return m_bHasFocus; }
-			void OnFocusChanged(bool focused) { m_bHasFocus = focused; }
+			inline auto HasFocus() const -> bool { return m_bHasFocus; }
+			auto OnFocusChanged(bool focused) -> void { m_bHasFocus = focused; }
 
-			void OnPositionChanged(int x, int y) { m_posX = x; m_posY = y; }
+			auto OnPositionChanged(int x, int y) -> void { m_posX = x; m_posY = y; }
 
 		private:
 
@@ -76,17 +76,17 @@ namespace oakvr
 			bool m_bHasFocus = false;
 
 #if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
-			friend LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+			friend auto WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) -> LRESULT;
 #endif
 
 		};
 
-		inline unsigned int RenderWindow::GetWidth()
+		inline auto RenderWindow::GetWidth() -> unsigned int
 		{
 			return m_width;
 		}
 
-		inline unsigned int RenderWindow::GetHeight()
+		inline auto RenderWindow::GetHeight() -> unsigned int
 		{
 			return m_height;
 		}

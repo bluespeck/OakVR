@@ -43,7 +43,7 @@ namespace oakvr
 			}
 		};
 
-		inline uint32_t ComputeVertexStride(const std::vector<VertexElementDescriptor> &vertexElementDescriptors)
+		inline auto ComputeVertexStride(const std::vector<VertexElementDescriptor> &vertexElementDescriptors) -> uint32_t
 		{
 			uint32_t stride = 0;
 			for (auto &ved : vertexElementDescriptors)

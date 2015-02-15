@@ -9,9 +9,9 @@ namespace oakvr
 		public:
 			IController( class Object * ) { m_pObj = nullptr; }
 			virtual ~IController() { }
-			virtual void DeleteMe();
+			virtual auto DeleteMe() -> void;
 
-			virtual	void Update( float dt ) { };
+			virtual	auto Update( float dt )  -> void{ };
 
 			class CObject *m_pObj;	// Points to the object on which this controller is placed
 		};

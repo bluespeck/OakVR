@@ -15,7 +15,7 @@ namespace oakvr
 {
 	namespace profiler
 	{
-		void Profiler::Update(const ProfileId &id, uint64_t microSeconds)
+		auto Profiler::Update(const ProfileId &id, uint64_t microSeconds) -> void
 		{
 			auto &pd = m_groupProfilingDataMap[id.groupName][id.name];
 			
@@ -33,7 +33,7 @@ namespace oakvr
 			pd.avgTime = pd.totalTime / pd.hits;
 		}
 
-		void Profiler::PrintSortedData()
+		auto Profiler::PrintSortedData() -> void
 		{
 #if defined(OAKVR_PROFILER_ENABLED)
 			PROFILER_FUNC_SCOPED_TIMER;

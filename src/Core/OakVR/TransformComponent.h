@@ -13,13 +13,13 @@ namespace oakvr
 		TransformComponent(ObjectSharedPointer pObj, ObjectComponentSharedPointer pDependeeComponent = nullptr);
 
 		auto GetPosition() -> const math::Vector3 &;
-		void SetPosition(const math::Vector3 &position);
+		auto SetPosition(const math::Vector3 &position) -> void;
 		
 		auto GetOrientation() -> const math::Vector3 &;
-		void SetOrientation(const math::Vector3 &orientation);
+		auto SetOrientation(const math::Vector3 &orientation) -> void;
 
 		auto GetScale() -> const math::Vector3 &;
-		void SetScale(const math::Vector3 &scale);
+		auto SetScale(const math::Vector3 &scale) -> void;
 
 	private:
 		math::Vector3 m_position;
@@ -36,7 +36,7 @@ namespace oakvr
 		return m_position;
 	}
 	
-	inline void TransformComponent::SetPosition(const math::Vector3 &position)
+	inline auto TransformComponent::SetPosition(const math::Vector3 &position) -> void
 	{
 		m_position = position;
 	}
@@ -46,7 +46,7 @@ namespace oakvr
 		return m_orientation;
 	}
 
-	inline void TransformComponent::SetOrientation(const math::Vector3 &orientation)
+	inline auto TransformComponent::SetOrientation(const math::Vector3 &orientation) -> void
 	{
 		m_orientation = orientation;
 	}
@@ -56,7 +56,7 @@ namespace oakvr
 		return m_scale;
 	}
 
-	inline void TransformComponent::SetScale(const math::Vector3 &scale)
+	inline auto TransformComponent::SetScale(const math::Vector3 &scale) -> void
 	{
 		m_scale = scale;
 	}

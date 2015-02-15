@@ -10,8 +10,8 @@ namespace construct
 
 		auto Update(float dt) -> bool override;
 
-		void SetStrafeSpeed(float newStrafeSpeed) { m_strafeSpeed = newStrafeSpeed; }
-		void SetRotationSpeed(float newRotationSpeed) { m_rotationSpeed = newRotationSpeed; }
+		auto SetStrafeSpeed(float newStrafeSpeed)  -> void{ m_strafeSpeed = newStrafeSpeed; }
+		auto SetRotationSpeed(float newRotationSpeed)  -> void{ m_rotationSpeed = newRotationSpeed; }
 		auto GetStrafeSpeed() -> float{ return m_strafeSpeed;  }
 		auto GetRotationSpeed() -> float { return m_rotationSpeed; }
 	private:

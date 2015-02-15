@@ -20,12 +20,12 @@ namespace oakvr
 			Mesh(const StringId &name = "");
 			~Mesh();
 
-			void AddMeshElement(const sp<MeshElement> &meshElem);
+			auto AddMeshElement(const sp<MeshElement> &meshElem) -> void;
 			auto GetMeshElements() -> MeshElementVector & { return m_vMeshElements; }
 			auto GetMeshElements() const -> const MeshElementVector &{ return m_vMeshElements; }
-			void SetWorldMatrix(const oakvr::math::Matrix &worldMatrix) { m_worldMatrix = worldMatrix; }
+			auto SetWorldMatrix(const oakvr::math::Matrix &worldMatrix)  -> void{ m_worldMatrix = worldMatrix; }
 			auto GetWorldMatrix() const -> const oakvr::math::Matrix & { return m_worldMatrix; }
-			void Transform(const oakvr::math::Matrix &transform) { m_worldMatrix = transform * m_worldMatrix; }
+			auto Transform(const oakvr::math::Matrix &transform)  -> void{ m_worldMatrix = transform * m_worldMatrix; }
 
 			auto GetName() const -> const StringId & { return m_name; }
 

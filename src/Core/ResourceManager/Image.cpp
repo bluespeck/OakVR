@@ -14,12 +14,12 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Image::Init()
+		auto Image::Init() -> void
 		{
 		}
 
 		// --------------------------------------------------------------------------------
-		void Image::Load()
+		auto Image::Load() -> void
 		{
 			core::io::File file(m_id);
 			core::MemoryBuffer buff(file.Size());
@@ -28,12 +28,12 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Image::Reload()
+		auto Image::Reload() -> void
 		{
 		}
 
 		// --------------------------------------------------------------------------------
-		void Image::Release()
+		auto Image::Release() -> void
 		{
 			delete m_pRawImageData;
 		}

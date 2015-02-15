@@ -26,7 +26,7 @@ namespace oakvr
 		virtual std::string GetComponentTypeAsString() { return "unknown"; };
 
 		auto GetObject()->ObjectSharedPointer;
-		void SetObject(ObjectSharedPointer pObj);
+		auto SetObject(ObjectSharedPointer pObj) -> void;
 
 	private:
 
@@ -39,7 +39,7 @@ namespace oakvr
 		return m_pObject; 
 	}
 
-	inline void ObjectComponent::SetObject(ObjectSharedPointer pObj)
+	inline auto ObjectComponent::SetObject(ObjectSharedPointer pObj) -> void
 	{
 		m_pObject = pObj;
 	}

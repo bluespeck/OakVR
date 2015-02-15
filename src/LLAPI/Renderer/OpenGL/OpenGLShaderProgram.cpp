@@ -98,7 +98,7 @@ namespace oakvr
 			}
 		}
 
-		void *ShaderProgram::GetNativeHandle()
+		auto ShaderProgram::GetNativeHandle() -> void *
 		{
 			return reinterpret_cast<void *>(m_pImpl->m_shaderProgramId);
 		}

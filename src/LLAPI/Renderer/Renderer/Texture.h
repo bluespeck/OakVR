@@ -25,11 +25,11 @@ namespace oakvr
 			Texture(const oakvr::core::MemoryBuffer &buff);
 			~Texture();
 		
-			void Use();
+			auto Use() -> void;
 
-			TextureFormat GetFormat() const { return m_textureFormat; }
+			auto GetFormat() const -> TextureFormat { return m_textureFormat; }
 
-			void InvalidateContext() { m_contextIsValid = false; }
+			auto InvalidateContext() -> void{ m_contextIsValid = false; }
 
 		private:
 			class TextureImpl;

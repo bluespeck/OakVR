@@ -43,7 +43,7 @@ namespace io
 	}
 
 	// --------------------------------------------------------------------------------
-	bool File::Exists(const oakvr::core::io::path::PathType &filepath)
+	auto File::Exists(const oakvr::core::io::path::PathType &filepath) -> bool
 	{
 		struct stat st;
 		if(stat(filepath.c_str(), &st ))
@@ -55,7 +55,7 @@ namespace io
 	}
 
 	// --------------------------------------------------------------------------------
-	OffsetType File::Size(const oakvr::core::io::path::PathType &filepath)
+	auto File::Size(const oakvr::core::io::path::PathType &filepath) -> OffsetType
 	{
 		struct stat st; 
 		if(stat(filepath.c_str(), &st ))
@@ -68,13 +68,13 @@ namespace io
 	}
 
 	// --------------------------------------------------------------------------------
-	OffsetType File::Size()
+	auto File::Size() -> OffsetType
 	{
 		return Size(m_filePath);
 	}
 
 	// --------------------------------------------------------------------------------
-	void File::Open(FileOpenMode eFileOpenMode)
+	auto File::Open(FileOpenMode eFileOpenMode) -> void
 	{
 		m_eFileOpenMode = eFileOpenMode;
 		char mode[4];
@@ -105,7 +105,7 @@ namespace io
 	}
 
 	// --------------------------------------------------------------------------------
-	void File::Close()
+	auto File::Close() -> void
 	{
 		if(fclose(m_pImpl->pFileHandle))
 			Log::Error("File could not be closed (%s). Errno is %d.", m_filePath.c_str(), errno );
@@ -116,7 +116,7 @@ namespace io
 	}
 
 	// --------------------------------------------------------------------------------
-	OffsetType File::Read(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToRead, OffsetType offset)
+	auto File::Read(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToRead, OffsetType offset) -> OffsetType
 	{
 		if(offset + bytesToRead > bufferSize) 
 		{
@@ -139,7 +139,7 @@ namespace io
 	}
 
 	// --------------------------------------------------------------------------------
-	OffsetType File::Write(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToWrite, OffsetType offset)
+	auto File::Write(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToWrite, OffsetType offset) -> OffsetType
 	{
 		if(offset + bytesToWrite > bufferSize)
 		{

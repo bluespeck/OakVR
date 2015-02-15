@@ -59,7 +59,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector2 operator * (float scalar, const Vector2 &vec)
+		auto operator * (float scalar, const Vector2 &vec) -> Vector2
 		{
 			return Vector2(scalar * vec.x, scalar * vec.y);
 		}
@@ -130,12 +130,12 @@ namespace oakvr
 		//------------------------------------------------------
 		// other methods
 
-		float Vector2::GetLength() const
+		auto Vector2::GetLength() const -> float
 		{ 
 			return std::pow(x * x + y * y, 0.5f); 
 		}
 		
-		Vector2 Vector2::Normalize() const
+		auto Vector2::Normalize() const -> Vector2
 		{
 			const float magnitudeSquare = x * x + y * y;
 
@@ -146,7 +146,7 @@ namespace oakvr
 			return Vector2(x * invDenom, y * invDenom);
 		}
 
-		float Vector2::Dot(const Vector2 &vec) const
+		auto Vector2::Dot(const Vector2 &vec) const -> float
 		{
 			return x * vec.x + y * vec.y;
 		}

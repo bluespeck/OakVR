@@ -24,7 +24,7 @@ namespace oakvr
 
 
 			void *GetNativeHandle();
-			void InvalidateContext() { m_contextIsValid = false; }
+			auto InvalidateContext()  -> void{ m_contextIsValid = false; }
 		private:
 
 			std::unique_ptr<Shader> m_vs, m_ps, m_gs, m_ds, m_hs;

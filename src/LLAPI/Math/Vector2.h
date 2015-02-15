@@ -23,32 +23,32 @@ namespace oakvr
 			operator const float * () const;
 
 			// assignment operators
-			Vector2& operator += ( const Vector2 &vec );
-			Vector2& operator -= ( const Vector2 &vec );
-			Vector2& operator *= ( float scalar );
-			Vector2& operator /= ( float scalar );
+			auto operator += ( const Vector2 &vec ) -> Vector2&;
+			auto operator -= ( const Vector2 &vec ) -> Vector2&;
+			auto operator *= ( float scalar ) -> Vector2&;
+			auto operator /= ( float scalar ) -> Vector2&;
 
 			// unary operators
-			Vector2 operator + () const;
-			Vector2 operator - () const;
+			auto operator + () const -> Vector2;
+			auto operator - () const -> Vector2;
 
 			// binary operators
-			Vector2 operator + ( const Vector2 &vec ) const;
-			Vector2 operator - ( const Vector2 &vec ) const;
-			Vector2 operator * ( float scalar ) const;
-			Vector2 operator / ( float scalar ) const;
+			auto operator + ( const Vector2 &vec ) const -> Vector2;
+			auto operator - ( const Vector2 &vec ) const -> Vector2;
+			auto operator * ( float scalar ) const -> Vector2;
+			auto operator / ( float scalar ) const -> Vector2;
 
-			friend Vector2 operator * ( float scalar, const Vector2 &vec );
+			friend auto operator * ( float scalar, const Vector2 &vec ) -> Vector2;
 
 			// equality operators
-			bool operator == ( const Vector2 &vec ) const;
-			bool operator != ( const Vector2 &vec ) const;
+			auto operator == ( const Vector2 &vec ) const -> bool;
+			auto operator != ( const Vector2 &vec ) const -> bool;
 
 			// other methods
-			float GetLength() const;
-			Vector3 GetNormalized() const;
+			auto GetLength() const -> float;
+			auto GetNormalized() const -> Vector3;
 			Vector2 Normalize() const;
-			float Dot( const Vector2 &vec ) const;
+			auto Dot( const Vector2 &vec ) const -> float;
 
 			// static constants
 			static Vector2 One;
@@ -58,7 +58,7 @@ namespace oakvr
 			float x, y;
 		};
 
-		Vector2 operator * ( float scalar, const Vector2 &vec );
+		auto operator * ( float scalar, const Vector2 &vec ) -> Vector2;
 
 	} // namespace Math
 }

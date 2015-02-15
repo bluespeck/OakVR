@@ -33,12 +33,12 @@ namespace oakvr
 				~Directory() = default;
 
 			
-				std::vector<DirEntry> GetEntryList();			
-				std::vector<oakvr::core::io::path::PathType> GetFileList(bool bRecursive = false);
+				auto GetEntryList() -> std::vector<DirEntry>;
+				auto GetFileList(bool bRecursive = false) -> std::vector<oakvr::core::io::path::PathType>;
 
-				static bool Exists(const oakvr::core::io::path::PathType &path);
-				static std::vector<DirEntry> GetEntryList(const oakvr::core::io::path::PathType &path);
-				static std::vector<oakvr::core::io::path::PathType> GetFileList(const oakvr::core::io::path::PathType &path, bool bRecursive = false);
+				static auto Exists(const oakvr::core::io::path::PathType &path) -> bool;
+				static auto GetEntryList(const oakvr::core::io::path::PathType &path) -> std::vector<DirEntry>;
+				static auto GetFileList(const oakvr::core::io::path::PathType &path, bool bRecursive = false) -> std::vector<oakvr::core::io::path::PathType>;
 
 			private:
 			

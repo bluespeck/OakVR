@@ -2,7 +2,7 @@
 
 namespace oakvr
 {
-	bool Frustum::Intersects(const math::Vector3 &point)
+	auto Frustum::Intersects(const math::Vector3 &point) -> bool
 	{
 		for (int i = 0; i < 6; ++i)
 			if (m_planes[i].SignedDistance(point) < 0)
@@ -10,7 +10,7 @@ namespace oakvr
 		return true;
 	}
 
-	bool Frustum::Intersects(const math::Vector3 &point, float radius)
+	auto Frustum::Intersects(const math::Vector3 &point, float radius) -> bool
 	{
 		for (int i = 0; i < 6; ++i)
 		{

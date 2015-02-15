@@ -14,10 +14,10 @@ namespace oakvr
 	{
 	public:
 		ObjectSharedPointer CreateObject(const StringId &name);
-		void AddObjectToGraph(ObjectSharedPointer pObject, const StringId &parentId);
-		void RemoveObjectFromGraph(const StringId &name);
+		auto AddObjectToGraph(ObjectSharedPointer pObject, const StringId &parentId) -> void;
+		auto RemoveObjectFromGraph(const StringId &name) -> void;
 		ObjectSharedPointer FindObject(const StringId &objectId);
-		void TransferObject(const StringId &id, const StringId &newParentId);
+		auto TransferObject(const StringId &id, const StringId &newParentId) -> void;
 
 	protected:
 		ObjectMap m_objectMap;

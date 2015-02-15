@@ -17,13 +17,13 @@ namespace oakvr
 		inline operator std::string ();
 		inline operator const std::string() const;
 		inline operator const char *() const;
-		inline StringId & operator = (const StringId & other);
-		inline StringId & operator = (StringId && other);
+		inline auto operator = (const StringId & other) -> StringId &;
+		inline auto operator = (StringId && other) -> StringId &;
 
-		inline bool operator == (const StringId & other) const;
-		inline bool operator == (const std::string & other) const;
-		inline bool operator == (const char * other) const;
-		inline bool operator < (const StringId & other) const;
+		inline auto operator == (const StringId & other) const -> bool;
+		inline auto operator == (const std::string & other) const -> bool;
+		inline auto operator == (const char * other) const -> bool;
+		inline auto operator < (const StringId & other) const -> bool;
 
 
 		
@@ -61,14 +61,14 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	inline StringId & StringId::operator = (const StringId & other)
+	inline auto StringId::operator = (const StringId & other) -> StringId &
 	{
 		m_id = other.m_id;
 		return *this;
 	}
 
 	// --------------------------------------------------------------------------------
-	inline StringId & StringId::operator = (StringId && other)
+	inline auto StringId::operator = (StringId && other) -> StringId &
 	{
 		m_id = std::move(other.m_id);
 		return *this;
@@ -92,23 +92,23 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	inline bool StringId::operator == (const StringId & other) const
+	inline auto StringId::operator == (const StringId & other) const -> bool
 	{
 		return m_id == other.m_id;
 	}
 
-	inline bool StringId::operator == (const std::string & other) const
+	inline auto StringId::operator == (const std::string & other) const -> bool
 	{
 		return m_id == other;
 	}
 
-	inline bool StringId::operator == (const char *other) const
+	inline auto StringId::operator == (const char *other) const -> bool
 	{
 		return m_id == other;
 	}
 
 	// --------------------------------------------------------------------------------
-	inline bool StringId::operator < (const StringId & other) const
+	inline auto StringId::operator < (const StringId & other) const -> bool
 	{
 		return m_id.compare(other.m_id) < 0;
 	}
@@ -117,8 +117,8 @@ namespace oakvr
 template<>
 struct std::hash < oakvr::StringId >
 {
-	size_t operator()(const oakvr::StringId& _Keyval) const
+	auto operator()(const oakvr::StringId& _Keyval) const -> size_t
 	{
-		return std::hash<std::string>()(_Keyval);
+		return std::hash < std::string > {} (_Keyval);
 	}
 };

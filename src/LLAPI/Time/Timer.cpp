@@ -17,7 +17,7 @@ namespace oakvr
 	{
 	}
 
-	void Timer::Tick()
+	auto Timer::Tick() -> void
 	{
 		if( m_bPaused )
 		{
@@ -39,7 +39,7 @@ namespace oakvr
 	}
 
 	// Time elapsed since the timer was started (excluding the time it was paused)
-	float Timer::GetElapsedTime()const
+	float Timer::GetElapsedTime() const
 	{	
 		if( m_bPaused )
 		{
@@ -51,17 +51,17 @@ namespace oakvr
 		}
 	}
 
-	float Timer::GetDeltaTime()const
+	float Timer::GetDeltaTime() const
 	{
 		return m_dt;
 	}
 
-	bool Timer::IsPaused()const
+	auto Timer::IsPaused() const -> bool
 	{
 		return m_bPaused;
 	}
 
-	void Timer::Reset()
+	auto Timer::Reset() -> void
 	{			
 		m_baseTimePoint = TimePoint::clock::now();
 		m_prevTimePoint = m_baseTimePoint;
@@ -69,7 +69,7 @@ namespace oakvr
 		m_bPaused  = false;
 	}
 
-	void Timer::Unpause()
+	auto Timer::Unpause() -> void
 	{			
 		if( m_bPaused )
 		{
@@ -81,7 +81,7 @@ namespace oakvr
 		}
 	}
 
-	void Timer::Pause()
+	auto Timer::Pause() -> void
 	{
 		if( !m_bPaused )
 		{

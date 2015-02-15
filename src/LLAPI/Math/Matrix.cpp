@@ -261,7 +261,7 @@ namespace oakvr
 		};
 
 		// --------------------------------------------------------------------------------
-		void Matrix::SetYawPitchRoll(float yaw, float pitch, float roll) // y * x * z
+		auto Matrix::SetYawPitchRoll(float yaw, float pitch, float roll)  -> void// y * x * z
 		{
 			float cx = std::cos(pitch);
 			float cy = std::cos(yaw);

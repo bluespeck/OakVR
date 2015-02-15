@@ -15,7 +15,7 @@ namespace oakvr
 		public:
 			MouseInputImpl();
 
-			static void HandleMessage(WPARAM wParam, LPARAM lParam);
+			static auto HandleMessage(WPARAM wParam, LPARAM lParam) -> void;
 			static MouseInputImpl *m_pInstance;
 			struct MouseState
 			{
@@ -46,7 +46,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void MouseInput::Update()
+		auto MouseInput::Update() -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			memcpy(&m_pImpl->m_previousState, &m_pImpl->m_currentState, sizeof(MouseInputImpl::MouseState));
@@ -66,115 +66,115 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsLeftButtonDown() const
+		auto MouseInput::IsLeftButtonDown() const -> bool
 		{
 			return m_pImpl->m_currentState.m_bLButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsMiddleButtonDown() const
+		auto MouseInput::IsMiddleButtonDown() const -> bool
 		{
 			return m_pImpl->m_currentState.m_bMButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsRightButtonDown() const
+		auto MouseInput::IsRightButtonDown() const -> bool
 		{
 			return m_pImpl->m_currentState.m_bRButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsLeftButtonUp() const
+		auto MouseInput::IsLeftButtonUp() const -> bool
 		{
 			return !m_pImpl->m_currentState.m_bLButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsMiddleButtonUp() const
+		auto MouseInput::IsMiddleButtonUp() const -> bool
 		{
 			return !m_pImpl->m_currentState.m_bMButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsRightButtonUp() const
+		auto MouseInput::IsRightButtonUp() const -> bool
 		{
 			return !m_pImpl->m_currentState.m_bRButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsLeftButtonHeld() const
+		auto MouseInput::IsLeftButtonHeld() const -> bool
 		{
 			return m_pImpl->m_currentState.m_bLButtonDown && m_pImpl->m_previousState.m_bLButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsMiddleButtonHeld() const
+		auto MouseInput::IsMiddleButtonHeld() const -> bool
 		{
 			return m_pImpl->m_currentState.m_bMButtonDown && m_pImpl->m_previousState.m_bMButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsRightButtonHeld() const
+		auto MouseInput::IsRightButtonHeld() const -> bool
 		{
 			return m_pImpl->m_currentState.m_bRButtonDown && m_pImpl->m_previousState.m_bRButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsLeftButtonPressed() const
+		auto MouseInput::IsLeftButtonPressed() const -> bool
 		{
 			return m_pImpl->m_currentState.m_bLButtonDown && !m_pImpl->m_previousState.m_bLButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsMiddleButtonPressed() const
+		auto MouseInput::IsMiddleButtonPressed() const -> bool
 		{
 			return m_pImpl->m_currentState.m_bMButtonDown && !m_pImpl->m_previousState.m_bMButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsRightButtonPressed() const
+		auto MouseInput::IsRightButtonPressed() const -> bool
 		{
 			return m_pImpl->m_currentState.m_bRButtonDown && !m_pImpl->m_previousState.m_bRButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsLeftButtonReleased() const
+		auto MouseInput::IsLeftButtonReleased() const -> bool
 		{
 			return !m_pImpl->m_currentState.m_bLButtonDown && m_pImpl->m_previousState.m_bLButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsMiddleButtonReleased() const
+		auto MouseInput::IsMiddleButtonReleased() const -> bool
 		{
 			return !m_pImpl->m_currentState.m_bMButtonDown && m_pImpl->m_previousState.m_bMButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::IsRightButtonReleased() const
+		auto MouseInput::IsRightButtonReleased() const -> bool
 		{
 			return !m_pImpl->m_currentState.m_bRButtonDown && m_pImpl->m_previousState.m_bRButtonDown;
 		}
 
 		// --------------------------------------------------------------------------------
-		bool MouseInput::HasMouseMoved() const
+		auto MouseInput::HasMouseMoved() const -> bool
 		{
 			return (m_pImpl->m_previousState.m_x != m_pImpl->m_currentState.m_x) || (m_pImpl->m_previousState.m_y != m_pImpl->m_currentState.m_y);
 		}
 
 		// --------------------------------------------------------------------------------
-		std::pair<float, float> MouseInput::GetPosition() const
+		auto MouseInput::GetPosition() const -> std::pair<float, float>
 		{
 			return std::make_pair(static_cast<float>(m_pImpl->m_currentState.m_x), static_cast<float>(m_pImpl->m_currentState.m_y));
 		}
 
 		// --------------------------------------------------------------------------------
-		std::pair<float, float> MouseInput::GetPositionDelta() const
+		auto MouseInput::GetPositionDelta() const -> std::pair<float, float>
 		{
 			return std::make_pair(static_cast<float>(m_pImpl->m_currentState.m_x - m_pImpl->m_previousState.m_x), static_cast<float>(m_pImpl->m_currentState.m_y - m_pImpl->m_previousState.m_y));
 		}
 
 		// --------------------------------------------------------------------------------
-		int32_t MouseInput::GetWheelDelta() const
+		auto MouseInput::GetWheelDelta() const -> int32_t
 		{
 			return m_pImpl->m_currentState.m_wheelDelta;
 		}
@@ -195,7 +195,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void MouseInput::MouseInputImpl::HandleMessage(WPARAM wParam, LPARAM lParam)
+		auto MouseInput::MouseInputImpl::HandleMessage(WPARAM wParam, LPARAM lParam) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			MSLLHOOKSTRUCT msllhs = *(MSLLHOOKSTRUCT *)lParam;

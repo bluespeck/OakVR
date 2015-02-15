@@ -30,13 +30,13 @@ namespace io
 
 	
 	// --------------------------------------------------------------------------------
-	bool Directory::Exists(const oakvr::core::io::path::PathType &path)
+	auto Directory::Exists(const oakvr::core::io::path::PathType &path) -> bool
 	{
 		return GetFileAttributesA(path.c_str()) != INVALID_FILE_ATTRIBUTES;
 	}
 
 	// --------------------------------------------------------------------------------
-	std::vector<Directory::DirEntry> Directory::GetEntryList()
+	auto Directory::GetEntryList() -> std::vector<Directory::DirEntry>
 	{
 		std::string searchString = m_pImpl->path + "\\*";
 		std::vector<DirEntry> result;
@@ -60,13 +60,13 @@ namespace io
 	}
 
 	// --------------------------------------------------------------------------------
-	std::vector<oakvr::core::io::path::PathType> Directory::GetFileList(bool bRecursive)
+	auto Directory::GetFileList(bool bRecursive) -> std::vector<oakvr::core::io::path::PathType>
 	{
 		return GetFileList(m_pImpl->path, bRecursive);
 	}
 
 	// --------------------------------------------------------------------------------
-	std::vector<oakvr::core::io::path::PathType> Directory::GetFileList(const oakvr::core::io::path::PathType &path, bool bRecursive)
+	auto Directory::GetFileList(const oakvr::core::io::path::PathType &path, bool bRecursive) -> std::vector<oakvr::core::io::path::PathType>
 	{
 		WIN32_FIND_DATAA findFileData;
 		std::vector<oakvr::core::io::path::PathType> result;

@@ -23,7 +23,7 @@
 namespace oakvr
 {
 	// --------------------------------------------------------------------------------
-	bool OakVR::Update(TimeDeltaType dt)
+	auto OakVR::Update(TimeDeltaType dt) -> bool
 	{
 		PROFILER_FUNC_SCOPED_TIMER;
 		oakvr::input::keyboard::Update();
@@ -85,17 +85,17 @@ namespace oakvr
 	// callback functions begin
 	// --------------------------------------------------------------------------------
 
-	void WindowSizeChangedCallback(void *pNativeHandler, int width, int height)
+	auto WindowSizeChangedCallback(void *pNativeHandler, int width, int height) -> void
 	{
 		oakvr::OakVR::GetInstance().OnWindowSizeChanged(pNativeHandler, width, height);
 	}
 
-	void WindowFocusChangedCallback(void *pNativeHandler, int focused)
+	auto WindowFocusChangedCallback(void *pNativeHandler, int focused) -> void
 	{
 		oakvr::OakVR::GetInstance().OnWindowFocusChanged(pNativeHandler, focused);
 	}
 
-	void WindowPositionChangedCallback(void *pNativeHandler, int x, int y)
+	auto WindowPositionChangedCallback(void *pNativeHandler, int x, int y) -> void
 	{
 		oakvr::OakVR::GetInstance().OnWindowPositionChanged(pNativeHandler, x, y);
 	}
@@ -106,7 +106,7 @@ namespace oakvr
 
 
 	// --------------------------------------------------------------------------------
-	bool OakVR::Initialize()
+	auto OakVR::Initialize() -> bool
 	{
 		oakvr::core::InitializeFileLoaders();
 
@@ -133,30 +133,30 @@ namespace oakvr
 		return true;
 	}
 
-	void OakVR::Cleanup()
+	auto OakVR::Cleanup() -> void
 	{
 		m_pRenderer->Cleanup();
 	}
 
 	// --------------------------------------------------------------------------------
-	bool OakVR::Update()
+	auto OakVR::Update() -> bool
 	{
 		m_timer.Tick();
 		return Update(m_timer.GetDeltaTime());
 	}
 
 	// --------------------------------------------------------------------------------
-	void OakVR::DrawMeshBoundingBoxes()
+	auto OakVR::DrawMeshBoundingBoxes() -> void
 	{
 
 	}
 
-	void OakVR::RegisterUpdatable(sp<oakvr::Updatable> pUpdatable)
+	auto OakVR::RegisterUpdatable(sp<oakvr::Updatable> pUpdatable) -> void
 	{
 		m_pUpdatables.push_back(pUpdatable);
 	}
 
-	void OakVR::UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable)
+	auto OakVR::UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable) -> void
 	{
 		auto size = m_pUpdatables.size();
 		m_pUpdatables.erase(std::remove_if(std::begin(m_pUpdatables), std::end(m_pUpdatables), [&](const sp<Updatable> &pRegisteredUpdatable)->bool{ return pRegisteredUpdatable == pUpdatable; }), m_pUpdatables.end());
@@ -214,7 +214,7 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	void oakvrExit()
+	auto oakvrExit() -> void
 	{
 		OakVR::GetInstance().Cleanup();
 		Log::Info("OakVR shutting down!\n");

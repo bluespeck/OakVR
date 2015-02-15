@@ -14,9 +14,9 @@ namespace oakvr
 		EmptyResource(const oakvr::StringId &id): IResource(id) { m_type = "EmptyResource"; }
 		~EmptyResource() {}
 	protected:
-		virtual void Init() {};
-		virtual void Load() {};
-		virtual void Reload() {};
-		virtual void Release() {};
+		virtual auto Init()  -> void{};
+		virtual auto Load()  -> void{};
+		virtual auto Reload()  -> void{};
+		virtual auto Release()  -> void{};
 	};
 } // end namespace oakvr

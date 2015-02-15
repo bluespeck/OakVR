@@ -21,8 +21,8 @@ namespace oakvr
 		class Profiler : public Singleton<Profiler>
 		{
 		public:
-			void Update(const ProfileId &id, uint64_t microSeconds);
-			void PrintSortedData();
+			auto Update(const ProfileId &id, uint64_t microSeconds) -> void;
+			auto PrintSortedData() -> void;
 			auto GetSortedProfilingData()->ProfilingDataVector;
 
 		private:

@@ -19,10 +19,10 @@ namespace oakvr
 			auto GetName() const -> std::string { return m_name; }
 
 			auto GetCenterPosition() const -> const oakvr::math::Vector3 &{ return m_center; }
-			void SetCenterPosition(const oakvr::math::Vector3 &vec);
+			auto SetCenterPosition(const oakvr::math::Vector3 &vec) -> void;
 
 			auto GetScaleFactor() const -> float { return m_scaleFactor; }
-			void SetScaleFactor(float newScaleFactor);
+			auto SetScaleFactor(float newScaleFactor) -> void;
 
 		protected:
 			sp<oakvr::render::Mesh> m_pMesh;

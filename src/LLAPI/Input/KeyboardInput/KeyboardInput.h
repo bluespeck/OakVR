@@ -92,17 +92,17 @@ namespace oakvr
 
 		namespace keyboard
 		{
-			inline void Update()			{ KeyboardInput::GetInstance().Update(); }
-			inline bool IsPressed(Key key)	{ return KeyboardInput::GetInstance().IsPressed(key); }
-			inline bool IsHeld(Key key)		{ return KeyboardInput::GetInstance().IsHeld(key); }
-			inline bool IsReleased(Key key) { return KeyboardInput::GetInstance().IsReleased(key); }
-			inline bool IsDown(Key key)		{ return KeyboardInput::GetInstance().IsDown(key); }
-			inline bool IsUp(Key key)		{ return KeyboardInput::GetInstance().IsUp(key); }
-			inline auto GetKeysPressed() ->std::vector < Key > { return KeyboardInput::GetInstance().GetKeysPressed(); }
-			inline auto ToASCII(Key key) -> char { return KeyboardInput::GetInstance().ToASCII(key); }
-			inline void Capture(void *p)		{ KeyboardInput::GetInstance().Capture(p); }
-			inline void Release()				{ KeyboardInput::GetInstance().Release(); }
-			inline auto GetCaptor() -> void*	{ return KeyboardInput::GetInstance().GetCaptor(); }
+			inline auto Update() -> void			{ KeyboardInput::GetInstance().Update(); }
+			inline auto IsPressed(Key key) -> bool	{ return KeyboardInput::GetInstance().IsPressed(key); }
+			inline auto IsHeld(Key key) -> bool		{ return KeyboardInput::GetInstance().IsHeld(key); }
+			inline auto IsReleased(Key key) -> bool { return KeyboardInput::GetInstance().IsReleased(key); }
+			inline auto IsDown(Key key) -> bool		{ return KeyboardInput::GetInstance().IsDown(key); }
+			inline auto IsUp(Key key) -> bool		{ return KeyboardInput::GetInstance().IsUp(key); }
+			inline auto GetKeysPressed() -> std::vector < Key > { return KeyboardInput::GetInstance().GetKeysPressed(); }
+			inline auto ToASCII(Key key) -> char	{ return KeyboardInput::GetInstance().ToASCII(key); }
+			inline auto Capture(void *p) -> void	{ KeyboardInput::GetInstance().Capture(p); }
+			inline auto Release() -> void			{ KeyboardInput::GetInstance().Release(); }
+			inline auto GetCaptor() -> void*		{ return KeyboardInput::GetInstance().GetCaptor(); }
 		}
 	}
 }

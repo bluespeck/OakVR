@@ -16,10 +16,10 @@ namespace oakvr
 		private:
 			RawImageData *m_pRawImageData = nullptr;
 		protected:
-			virtual void Init();
-			virtual void Load();
-			virtual void Reload();
-			virtual void Release();
+			virtual auto Init() -> void;
+			virtual auto Load() -> void;
+			virtual auto Reload() -> void;
+			virtual auto Release() -> void;
 		};
 	}
 }

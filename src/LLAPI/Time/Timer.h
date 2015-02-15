@@ -11,14 +11,14 @@ namespace oakvr
 		typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
 		Timer();
 		~Timer();
-		float GetElapsedTime() const;  // [s]
+		auto GetElapsedTime() const -> float;  // [s]
 		
-		virtual float GetDeltaTime() const; // [s]
-		virtual bool IsPaused() const; // true if timer is paused
-		virtual void Tick();  
-		virtual void Unpause(); 
-		virtual void Pause();  
-		virtual void Reset(); 
+		virtual auto GetDeltaTime() const -> float; // [s]
+		virtual auto IsPaused() const -> bool; // true if timer is paused
+		virtual auto Tick() -> void;  
+		virtual auto Unpause() -> void; 
+		virtual auto Pause() -> void;  
+		virtual auto Reset() -> void; 
 
 		private:
 		float m_dt;

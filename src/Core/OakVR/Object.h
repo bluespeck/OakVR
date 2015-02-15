@@ -28,15 +28,15 @@ namespace oakvr
 		
 		auto GetId() const -> const StringId &;
 
-		void AddChild(ObjectSharedPointer pObj);
-		void RemoveChild(ObjectSharedPointer pObj);
+		auto AddChild(ObjectSharedPointer pObj) -> void;
+		auto RemoveChild(ObjectSharedPointer pObj) -> void;
 		auto GetChildren() -> const ObjectVector &;
 		auto GetParent()->ObjectSharedPointer;
-		void SetParent(ObjectSharedPointer pParent);
+		auto SetParent(ObjectSharedPointer pParent) -> void;
 		
 		
 
-		void AddComponent(const std::string &componentName);
+		auto AddComponent(const std::string &componentName) -> void;
 		auto GetComponent(const std::string &componentName)->ObjectComponentSharedPointer;
 
 	public:
@@ -64,7 +64,7 @@ namespace oakvr
 		return m_pParent;
 	}
 
-	inline void Object::SetParent(ObjectSharedPointer pParent)
+	inline auto Object::SetParent(ObjectSharedPointer pParent) -> void
 	{ 
 		m_pParent = pParent; 
 	}

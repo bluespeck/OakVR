@@ -6,7 +6,7 @@
 
 namespace oakvr
 {
-	std::vector<std::string> ParseCommandLine(int argc, char **argv)
+	auto ParseCommandLine(int argc, char **argv) -> std::vector<std::string>
 	{
 		std::vector<std::string> cmdLine;
 		cmdLine.resize(argc);
@@ -17,7 +17,7 @@ namespace oakvr
 		return cmdLine;			
 	}
 
-	std::vector<std::string> ParseCommandLine(const std::string& args)
+	auto ParseCommandLine(const std::string& args) -> std::vector<std::string>
 	{
 		std::vector<std::string> cmdLine;
 #if defined(_WIN32)

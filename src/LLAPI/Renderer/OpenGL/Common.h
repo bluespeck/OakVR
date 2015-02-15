@@ -18,7 +18,7 @@
 
 #ifdef OAKVR_RENDER_DEBUG
 
-inline void CheckOpenGLError(const char *file, int line)
+inline auto CheckOpenGLError(const char *file, int line) -> void
 {
 	GLenum err = glGetError();
 	while (err)

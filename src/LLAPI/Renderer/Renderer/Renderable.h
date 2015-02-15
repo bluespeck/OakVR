@@ -11,17 +11,17 @@ namespace oakvr
 		class Renderable
 		{
 		public:
-			Renderable(const sp<Mesh> &pMesh = nullptr);
+			Renderable(const MeshSharedPointer &pMesh = nullptr);
 
-			void SetMesh(const sp<Mesh> &pMesh);
-			auto GetMesh() const -> const sp<Mesh> &;
+			auto SetMesh(const MeshSharedPointer &pMesh) -> void;
+			auto GetMesh() const -> const MeshSharedPointer &;
 
-			void SetTransform(const oakvr::math::Matrix &transform);
+			auto SetTransform(const oakvr::math::Matrix &transform) -> void;
 			auto GetTransform() const -> const oakvr::math::Matrix &;
-			void Transform(const oakvr::math::Matrix &transform);
+			auto Transform(const oakvr::math::Matrix &transform) -> void;
 
 		private:
-			sp<Mesh> m_mesh;
+			MeshSharedPointer m_mesh;
 			oakvr::math::Matrix m_transform;
 		};
 	}

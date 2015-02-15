@@ -12,7 +12,7 @@ namespace oakvr
 			{
 				typedef std::string PathType;
 
-				inline PathType GetPathSeparator()
+				inline auto GetPathSeparator() -> PathType
 				{
 #if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
 					return "\\";

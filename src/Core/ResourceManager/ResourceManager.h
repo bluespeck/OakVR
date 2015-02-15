@@ -22,12 +22,12 @@ namespace oakvr
 		class ResourceManager
 		{
 		public:
-			void Initialize();
+			auto Initialize() -> void;
 
-			void CreateResourceFromMemory(const StringId &id, const MemoryBuffer &buffer);
-			sp<MemoryBuffer> GetResource(const StringId &id);
+			auto CreateResourceFromMemory(const StringId &id, const MemoryBuffer &buffer) -> void;
+			auto GetResource(const StringId &id) -> sp<MemoryBuffer>;
 			
-			void ReleaseResource(const StringId &id);
+			auto ReleaseResource(const StringId &id) -> void;
 
 			ResourceManager();
 			~ResourceManager();

@@ -37,7 +37,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Text::AddFontFace(sp<MemoryBuffer> fontFileBuff)
+		auto Text::AddFontFace(sp<MemoryBuffer> fontFileBuff) -> void
 		{
 			m_fontFaces.emplace_back(m_pFTLib, fontFileBuff);	// add new text::FontFace object to m_fontFaces
 			auto face = m_fontFaces.back();
@@ -46,7 +46,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Text::RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName, float scale /* = 1.0f */, float angle /*= 0.f*/) const
+		auto Text::RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName, float scale /* = 1.0f */, float angle /*= 0.f*/) const -> void
 		{
 			float scaleFactor = 0.05f;
 

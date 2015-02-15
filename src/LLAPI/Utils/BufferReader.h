@@ -48,16 +48,16 @@ namespace oakvr
 			}
 
 			// --------------------------------------------------------------------------------
-			void Rewind()
+			auto Rewind() -> void
 			{ 
 				m_readPos = 0;
 			}
 
 			// --------------------------------------------------------------------------------
-			void Skip(IndexSizeType count) { m_readPos += count; }
+			auto Skip(IndexSizeType count)  -> void{ m_readPos += count; }
 
 			// --------------------------------------------------------------------------------
-			void SetOffset(IndexSizeType readOffset) { m_readPos = readOffset; }
+			auto SetOffset(IndexSizeType readOffset)  -> void{ m_readPos = readOffset; }
 
 			// --------------------------------------------------------------------------------
 			auto GetOffset() -> IndexSizeType { return m_readPos; }

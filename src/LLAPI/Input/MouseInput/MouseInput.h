@@ -17,31 +17,31 @@ namespace oakvr
 
 			MouseInput();
 			~MouseInput();
-			void Update();
+			auto Update() -> void;
 
-			bool IsLeftButtonDown() const;
-			bool IsMiddleButtonDown() const;
-			bool IsRightButtonDown() const;
-			bool IsLeftButtonUp() const;
-			bool IsMiddleButtonUp() const;
-			bool IsRightButtonUp() const;
-			bool IsLeftButtonHeld() const;
-			bool IsMiddleButtonHeld() const;
-			bool IsRightButtonHeld() const;
-			bool IsLeftButtonPressed() const;
-			bool IsMiddleButtonPressed() const;
-			bool IsRightButtonPressed() const;
-			bool IsLeftButtonReleased() const;
-			bool IsMiddleButtonReleased() const;
-			bool IsRightButtonReleased() const;
-			bool HasMouseMoved() const;
+			auto IsLeftButtonDown() const -> bool;
+			auto IsMiddleButtonDown() const -> bool;
+			auto IsRightButtonDown() const -> bool;
+			auto IsLeftButtonUp() const -> bool;
+			auto IsMiddleButtonUp() const -> bool;
+			auto IsRightButtonUp() const -> bool;
+			auto IsLeftButtonHeld() const -> bool;
+			auto IsMiddleButtonHeld() const -> bool;
+			auto IsRightButtonHeld() const -> bool;
+			auto IsLeftButtonPressed() const -> bool;
+			auto IsMiddleButtonPressed() const -> bool;
+			auto IsRightButtonPressed() const -> bool;
+			auto IsLeftButtonReleased() const -> bool;
+			auto IsMiddleButtonReleased() const -> bool;
+			auto IsRightButtonReleased() const -> bool;
+			auto HasMouseMoved() const -> bool;
 
-			std::pair<float, float> GetPosition() const;
-			std::pair<float, float> GetPositionDelta() const;
-			int32_t GetWheelDelta() const;
+			auto GetPosition() const -> std::pair<float, float>;
+			auto GetPositionDelta() const -> std::pair<float, float>;
+			auto GetWheelDelta() const -> int32_t;
 
-			void *GetMouseOwner();
-			void *SetMouseOwner(void *newOwner);
+			auto GetMouseOwner() -> void *;
+			auto SetMouseOwner(void *newOwner) -> void *;
 
 		private:
 			up<MouseInputImpl> m_pImpl;
@@ -50,28 +50,28 @@ namespace oakvr
 
 		namespace mouse
 		{
-			inline void Update()			{ MouseInput::GetInstance().Update(); }
-			inline bool IsLeftButtonDown()	{ return MouseInput::GetInstance().IsLeftButtonDown(); }
-			inline bool IsMiddleButtonDown() { return MouseInput::GetInstance().IsMiddleButtonDown(); }
-			inline bool IsRightButtonDown()		{ return MouseInput::GetInstance().IsRightButtonDown(); }
-			inline bool IsLeftButtonUp()		{ return MouseInput::GetInstance().IsLeftButtonUp(); }
-			inline bool IsMiddleButtonUp()		{ return MouseInput::GetInstance().IsMiddleButtonUp(); }
-			inline bool IsRightButtonUp()		{ return MouseInput::GetInstance().IsRightButtonUp(); }
-			inline bool IsLeftButtonHeld()		{ return MouseInput::GetInstance().IsLeftButtonHeld(); }
-			inline bool IsMiddleButtonHeld()	{ return MouseInput::GetInstance().IsMiddleButtonHeld(); }
-			inline bool IsRightButtonHeld()		{ return MouseInput::GetInstance().IsRightButtonHeld(); }
-			inline bool IsLeftButtonPressed()	{ return MouseInput::GetInstance().IsLeftButtonPressed(); }
-			inline bool IsMiddleButtonPressed() { return MouseInput::GetInstance().IsMiddleButtonPressed(); }
-			inline bool IsRightButtonPressed()	{ return MouseInput::GetInstance().IsRightButtonPressed(); }
-			inline bool IsLeftButtonReleased()	{ return MouseInput::GetInstance().IsLeftButtonReleased(); }
-			inline bool IsMiddleButtonReleased(){ return MouseInput::GetInstance().IsMiddleButtonReleased(); }
-			inline bool IsRightButtonReleased() { return MouseInput::GetInstance().IsRightButtonReleased(); }
-			inline bool HasMouseMoved()			{ return MouseInput::GetInstance().HasMouseMoved(); }
+			inline auto Update() -> void { MouseInput::GetInstance().Update(); }
+			inline auto IsLeftButtonDown()	-> bool { return MouseInput::GetInstance().IsLeftButtonDown(); }
+			inline auto IsMiddleButtonDown() -> bool { return MouseInput::GetInstance().IsMiddleButtonDown(); }
+			inline auto IsRightButtonDown()	-> bool	{ return MouseInput::GetInstance().IsRightButtonDown(); }
+			inline auto IsLeftButtonUp() -> bool { return MouseInput::GetInstance().IsLeftButtonUp(); }
+			inline auto IsMiddleButtonUp() -> bool { return MouseInput::GetInstance().IsMiddleButtonUp(); }
+			inline auto IsRightButtonUp() -> bool { return MouseInput::GetInstance().IsRightButtonUp(); }
+			inline auto IsLeftButtonHeld() -> bool { return MouseInput::GetInstance().IsLeftButtonHeld(); }
+			inline auto IsMiddleButtonHeld() -> bool { return MouseInput::GetInstance().IsMiddleButtonHeld(); }
+			inline auto IsRightButtonHeld() -> bool { return MouseInput::GetInstance().IsRightButtonHeld(); }
+			inline auto IsLeftButtonPressed() -> bool { return MouseInput::GetInstance().IsLeftButtonPressed(); }
+			inline auto IsMiddleButtonPressed() -> bool { return MouseInput::GetInstance().IsMiddleButtonPressed(); }
+			inline auto IsRightButtonPressed() -> bool { return MouseInput::GetInstance().IsRightButtonPressed(); }
+			inline auto IsLeftButtonReleased() -> bool { return MouseInput::GetInstance().IsLeftButtonReleased(); }
+			inline auto IsMiddleButtonReleased() -> bool { return MouseInput::GetInstance().IsMiddleButtonReleased(); }
+			inline auto IsRightButtonReleased() -> bool { return MouseInput::GetInstance().IsRightButtonReleased(); }
+			inline auto HasMouseMoved() -> bool { return MouseInput::GetInstance().HasMouseMoved(); }
 
-			inline std::pair<float, float> GetPosition() { return MouseInput::GetInstance().GetPosition(); }
-			inline std::pair<float, float> GetPositionDelta() { return MouseInput::GetInstance().GetPositionDelta(); }
+			inline auto GetPosition() -> std::pair<float, float> { return MouseInput::GetInstance().GetPosition(); }
+			inline auto GetPositionDelta() -> std::pair<float, float> { return MouseInput::GetInstance().GetPositionDelta(); }
 
-			inline int32_t GetWheelDelta() { return MouseInput::GetInstance().GetWheelDelta(); }
+			inline auto GetWheelDelta() -> int32_t { return MouseInput::GetInstance().GetWheelDelta(); }
 
 			inline void *GetMouseOwner() { return MouseInput::GetInstance().GetMouseOwner(); }
 			inline void *SetMouseOwner(void *newOwner) { MouseInput::GetInstance().SetMouseOwner(newOwner); }

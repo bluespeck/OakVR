@@ -27,20 +27,20 @@ namespace oakvr
 		IResource(const StringId &id) : m_id(id), m_state(ResourceState::uninitialized), m_type("IResource") {}
 		virtual ~IResource() {}
 			
-		inline void SetState(ResourceState resourceState);
+		inline auto SetState(ResourceState resourceState) -> void;
 		inline ResourceState GetState() const;
 		inline StringId GetId() const;
 		inline ResourceType GetType() const;
 		
 		inline bool operator==(const IResource& res) const;
-		inline bool IsReady() const;
+		inline auto IsReady() const -> bool;
 		
 	private:
 		friend class oakvr::core::ResourceManager;
-		void _Init() { this->Init(); }
-		void _Load() { this->Load(); }
-		void _Reload() { this->Reload(); }
-		void _Release() { this->Release(); }
+		auto _Init()  -> void{ this->Init(); }
+		auto _Load()  -> void{ this->Load(); }
+		auto _Reload()  -> void{ this->Reload(); }
+		auto _Release()  -> void{ this->Release(); }
 
 	protected:
 		StringId m_id;
@@ -48,15 +48,15 @@ namespace oakvr
 		ResourceType m_type;
 		
 
-		virtual void Init() = 0;
-		virtual void Load() = 0;
-		virtual void Reload() = 0;
-		virtual void Release() = 0;
+		virtual auto Init()  -> void= 0;
+		virtual auto Load()  -> void= 0;
+		virtual auto Reload()  -> void= 0;
+		virtual auto Release()  -> void= 0;
 			
 	};
 
 	// --------------------------------------------------------------------------------
-	inline bool IResource::IsReady() const
+	inline auto IResource::IsReady() const -> bool
 	{
 		return m_state == ResourceState::ready;
 	}
@@ -74,7 +74,7 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	inline void IResource::SetState(ResourceState resourceState)
+	inline auto IResource::SetState(ResourceState resourceState) -> void
 	{
 		m_state = resourceState;
 	}
@@ -85,7 +85,7 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	inline bool IResource::operator==(const IResource& res) const
+	inline auto IResource::operator==(const IResource& res) const -> bool
 	{
 		return GetId() == res.GetId();
 	}

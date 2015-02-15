@@ -28,7 +28,7 @@ namespace oakvr
 	namespace render
 	{
 		// --------------------------------------------------------------------------------
-		void Renderer::Update(double dt)
+		auto Renderer::Update(double dt) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			std::lock_guard<std::mutex> lockGuard(m_cleanupMutex);
@@ -49,7 +49,7 @@ namespace oakvr
 			m_pMeshManager->ClearOneFrameMeshes();
 		}
 
-		void Renderer::RenderMeshElems(const Mesh::MeshElementVector &meshElems)
+		auto Renderer::RenderMeshElems(const Mesh::MeshElementVector &meshElems) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 
@@ -113,7 +113,7 @@ namespace oakvr
 			vb.Release();
 		}
 
-		void Renderer::RenderMeshes(const MeshManager::MeshVector &meshes)
+		auto Renderer::RenderMeshes(const MeshManager::MeshVector &meshes) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 
@@ -170,13 +170,13 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::InitCommon()
+		auto Renderer::InitCommon() -> void
 		{
 			m_pMeshManager.reset(new MeshManager);
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::Cleanup()
+		auto Renderer::Cleanup() -> void
 		{	
 			std::lock_guard<std::mutex> lockGuard(m_cleanupMutex);
 
@@ -197,19 +197,19 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::SetRenderWindow(sp<RenderWindow> pRenderWindow)
+		auto Renderer::SetRenderWindow(sp<RenderWindow> pRenderWindow) -> void
 		{
 			m_pRenderWindow = pRenderWindow;
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::SetResourceManager(sp<oakvr::core::ResourceManager> pRM)
+		auto Renderer::SetResourceManager(sp<oakvr::core::ResourceManager> pRM) -> void
 		{
 			m_pResourceManager = pRM;
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::RegisterMesh(sp<Mesh> pMesh)
+		auto Renderer::RegisterMesh(sp<Mesh> pMesh) -> void
 		{
 			m_pMeshManager->AddMesh(pMesh);
 			for (const auto &pMeshElement : pMesh->GetMeshElements())
@@ -221,7 +221,7 @@ namespace oakvr
 			}
 		}
 
-		sp<Mesh> Renderer::GetRegisteredMesh(const StringId &name)
+		auto Renderer::GetRegisteredMesh(const StringId &name) -> MeshSharedPointer
 		{
 			auto &meshes = m_pMeshManager->GetMeshes();
 			auto it = std::find_if(meshes.begin(), meshes.end(), [&name](oakvr::render::MeshManager::MeshVector::value_type &e) { return e->GetName() == name; });
@@ -232,7 +232,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::RegisterOneFrameMesh(sp<Mesh> pMesh)
+		auto Renderer::RegisterOneFrameMesh(sp<Mesh> pMesh) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			m_pMeshManager->AddOneFrameMesh(pMesh);
@@ -245,13 +245,13 @@ namespace oakvr
 			}
 		}
 
-		void Renderer::UnregisterMesh(sp<Mesh> pMesh)
+		auto Renderer::UnregisterMesh(sp<Mesh> pMesh) -> void
 		{
 			m_pMeshManager->RemoveMesh(pMesh);
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::RegisterTexture(const StringId &textureName, sp<oakvr::core::MemoryBuffer> pBuff)
+		auto Renderer::RegisterTexture(const StringId &textureName, sp<oakvr::core::MemoryBuffer> pBuff) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			if (pBuff.get() == nullptr)
@@ -260,7 +260,7 @@ namespace oakvr
 				m_textures[textureName] = std::make_shared<Texture>(*pBuff);
 		}
 
-		void Renderer::RegisterShaderProgram(const StringId &shaderName)
+		auto Renderer::RegisterShaderProgram(const StringId &shaderName) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			if (m_shaderPrograms.find(shaderName) == m_shaderPrograms.end())

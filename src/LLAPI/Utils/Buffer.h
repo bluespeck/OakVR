@@ -16,13 +16,13 @@ namespace oakvr
 			Buffer(std::size_t size);
 			Buffer(const Buffer & buffer);
 			Buffer(Buffer && buffer);
-			Buffer & operator=(const Buffer & buffer);
-			Buffer & operator=(Buffer && buffer);
+			auto operator = (const Buffer & buffer) -> Buffer &;
+			auto operator = (Buffer && buffer) -> Buffer &;
 			~Buffer();
 
 			auto Size() const -> size_t {
 				return m_size; }
-			void Resize(std::size_t size);
+			auto Resize(std::size_t size) -> void;
 
 			auto GetDataPtr() const -> value_type const * { 
 				return m_buffer; }
@@ -65,7 +65,7 @@ namespace oakvr
 
 		//------------------------------------------------------
 		template <typename T>
-		Buffer<T> & Buffer<T>::operator=(const Buffer<T> & buffer)
+		auto Buffer<T>::operator=(const Buffer<T> & buffer) -> Buffer<T> &
 		{
 			m_size = buffer.size;
 			m_buffer = new T[m_size];
@@ -75,7 +75,7 @@ namespace oakvr
 
 		//------------------------------------------------------
 		template <typename T>
-		Buffer<T> & Buffer<T>::operator=(Buffer<T> && buffer)
+		auto Buffer<T>::operator=(Buffer<T> && buffer) -> Buffer<T> &
 		{
 			m_size = std::move(buffer.m_size);
 			m_buffer = std::move(buffer.m_buffer);
@@ -85,7 +85,7 @@ namespace oakvr
 		}
 		//------------------------------------------------------
 		template <typename T>
-		void Buffer<T>::Resize(std::size_t size)
+		auto Buffer<T>::Resize(std::size_t size) -> void
 		{
 			auto pNewBuffer = new T[size];
 			if (m_size)

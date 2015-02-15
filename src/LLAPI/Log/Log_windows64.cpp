@@ -6,7 +6,7 @@
 namespace oakvr
 {
 	// --------------------------------------------------------------------------------
-	void Log::Print(Log::LogLevel level, const char * logMsg, va_list args)
+	auto Log::Print(Log::LogLevel level, const char * logMsg, va_list args) -> void
 	{
 		if (level == LogLevel::disabled || level > s_maxLevel)
 			return;

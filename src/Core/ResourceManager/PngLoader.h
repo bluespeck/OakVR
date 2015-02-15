@@ -10,8 +10,8 @@ namespace oakvr
 		class PngLoader : public FileLoader
 		{
 		public:
-			MemoryBuffer GetResourceData(const MemoryBuffer &fileBuffer);
-			virtual bool CanLoad(const MemoryBuffer &filebuffer);
+			auto GetResourceData(const MemoryBuffer &fileBuffer) -> MemoryBuffer;
+			virtual auto CanLoad(const MemoryBuffer &filebuffer) -> bool;
 		};
 	}
 }

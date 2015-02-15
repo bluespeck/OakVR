@@ -13,8 +13,8 @@ namespace oakvr
 		const float PiOverSix = Pi / 6.f;
 		const float PiOverTwelve = Pi / 12.f;
 
-		inline float DegreesToRadians(float degrees) { return 3.14159265358979f / 180.0f * degrees; }
-		inline float RadiansToDegrees(float radians) { return 180.0f / 3.14159265358979f * radians; }
+		inline auto DegreesToRadians(float degrees) -> float { return 3.14159265358979f / 180.0f * degrees; }
+		inline auto RadiansToDegrees(float radians) -> float { return 180.0f / 3.14159265358979f * radians; }
 
 
 		inline uint32_t NextPowerOfTwo(uint32_t n)

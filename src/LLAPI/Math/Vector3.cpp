@@ -43,13 +43,13 @@ namespace oakvr
 		//------------------------------------------------------
 		// other methods
 		// --------------------------------------------------------------------------------
-		float Vector3::GetLength() const
+		auto Vector3::GetLength() const -> float
 		{
 			return std::pow(x * x + y * y + z * z, 0.5f);
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3 Vector3::GetNormalized() const
+		auto Vector3::GetNormalized() const -> Vector3
 		{
 			const float magnitudeSquare = x * x + y * y + z * z;
 
@@ -61,7 +61,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		float Vector3::Normalize()
+		auto Vector3::Normalize() -> float
 		{
 			const float magnitudeSquare = x * x + y * y + z * z;
 
@@ -77,13 +77,13 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		float Vector3::Dot(const Vector3 &vec) const
+		auto Vector3::Dot(const Vector3 &vec) const -> float
 		{
 			return x * vec.x + y * vec.y + z * vec.z;
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3 Vector3::Cross(const Vector3 &vec) const
+		auto Vector3::Cross(const Vector3 &vec) const -> Vector3
 		{
 			// compute as 3D cross product
 			return Vector3(y * vec.z - z * vec.y, z * vec.x - x * vec.z, x * vec.y - y * vec.x);
@@ -91,7 +91,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3 Vector3::operator * (const Matrix &mat) const
+		auto Vector3::operator * (const Matrix &mat) const -> Vector3
 		{
 			Vector3 result;
 			result.x = x * mat._11 + y * mat._21 + z * mat._31 + mat._41;
@@ -101,7 +101,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3 operator * (const Matrix &mat, const Vector3 &vec)
+		auto operator * (const Matrix &mat, const Vector3 &vec) -> Vector3
 		{
 			Vector3 result;
 			result.x = vec.x * mat._11 + vec.y * mat._12 + vec.z * mat._13 + mat._14;
@@ -111,44 +111,44 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3 Vector3::operator * (float scalar) const
+		auto Vector3::operator * (float scalar) const -> Vector3
 		{
 			return Vector3(scalar * x, scalar * y, scalar * z);
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3 operator * (float scalar, const Vector3 &vec)
+		auto operator * (float scalar, const Vector3 &vec) -> Vector3
 		{
 			return Vector3(scalar * vec.x, scalar * vec.y, scalar * vec.z);
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3 Vector3::operator / (float scalar) const
+		auto Vector3::operator / (float scalar) const -> Vector3
 		{
 			float invDenom = 1 / scalar;
 			return Vector3(x * invDenom, y * invDenom, z * invDenom);
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3 Vector3::operator + () const
+		auto Vector3::operator + () const -> Vector3
 		{
 			return *this;
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3 Vector3::operator - () const
+		auto Vector3::operator - () const -> Vector3
 		{
 			return Vector3(-x, -y, -z);
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3 Vector3::operator + (const Vector3 &vec) const
+		auto Vector3::operator + (const Vector3 &vec) const -> Vector3
 		{
 			return Vector3(x + vec.x, y + vec.y, z + vec.z);
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector3 Vector3::operator - (const Vector3 &vec) const
+		auto Vector3::operator - (const Vector3 &vec) const -> Vector3
 		{
 			return Vector3(x - vec.x, y - vec.y, z - vec.z);
 		}

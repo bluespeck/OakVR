@@ -20,7 +20,7 @@ namespace oakvr
 		virtual ~Singleton(){}
 		Singleton(const Singleton &);
 		Singleton(Singleton &&);
-		void operator=(const Singleton &);
+		auto operator=(const Singleton &) -> void;
 	};
 
 }	// namespace oakvr

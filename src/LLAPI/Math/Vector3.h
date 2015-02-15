@@ -23,34 +23,34 @@ namespace oakvr
 			inline operator const float * () const;
 
 			// assignment operators
-			Vector3& operator += ( const Vector3 &vec );
-			Vector3& operator -= ( const Vector3 &vec );
-			Vector3& operator *= ( float scalar );
-			Vector3& operator /= ( float scalar );
+			auto operator += ( const Vector3 &vec ) -> Vector3&;
+			auto operator -= ( const Vector3 &vec ) -> Vector3&;
+			auto operator *= ( float scalar ) -> Vector3&;
+			auto operator /= ( float scalar ) -> Vector3&;
 
 			// unary operators
-			Vector3 operator + () const;
-			Vector3 operator - () const;
+			auto operator + () const -> Vector3;
+			auto operator - () const -> Vector3;
 
 			// binary operators
-			Vector3 operator + ( const Vector3 &vec ) const;
-			Vector3 operator - ( const Vector3 &vec ) const;
-			Vector3 operator * ( float scalar ) const;
-			Vector3 operator / ( float scalar ) const;
-			Vector3 operator * ( const Matrix &mat ) const;
-			friend Vector3 operator *(const Matrix &mat, const Vector3 &vec);
-			friend Vector3 operator * ( float scalar, const Vector3 &vec );
+			auto operator + ( const Vector3 &vec ) const -> Vector3;
+			auto operator - ( const Vector3 &vec ) const -> Vector3;
+			auto operator * ( float scalar ) const -> Vector3;
+			auto operator / ( float scalar ) const -> Vector3;
+			auto operator * ( const Matrix &mat ) const -> Vector3;
+			friend auto operator *(const Matrix &mat, const Vector3 &vec) -> Vector3;
+			friend auto operator * ( float scalar, const Vector3 &vec ) -> Vector3;
 
 			// equality operators
-			bool operator != ( const Vector3 &vec ) const;
-			bool operator ==(const Vector3& vec) const;
+			auto operator != ( const Vector3 &vec ) const -> bool;
+			auto operator ==(const Vector3& vec) const -> bool;
 
 			// other methods
-			float GetLength() const;
-			Vector3 GetNormalized() const;
-			float Normalize();
-			float Dot( const Vector3 &vec ) const;
-			Vector3 Cross( const Vector3 &vec ) const;
+			auto GetLength() const -> float;
+			auto GetNormalized() const -> Vector3;
+			auto Normalize() -> float;
+			auto Dot( const Vector3 &vec ) const -> float;
+			auto Cross( const Vector3 &vec ) const -> Vector3;
 
 			// static constants
 			static Vector3 One;
@@ -60,8 +60,8 @@ namespace oakvr
 			float x, y, z;
 		};
 
-		Vector3 operator * ( float scalar, const Vector3 &vec );
-		Vector3 operator * ( const Matrix &mat, const Vector3 &vec );
+		auto operator * ( float scalar, const Vector3 &vec ) -> Vector3;
+		auto operator * ( const Matrix &mat, const Vector3 &vec ) -> Vector3;
 		
 		//------------------------------------------------------
 		// cast operators

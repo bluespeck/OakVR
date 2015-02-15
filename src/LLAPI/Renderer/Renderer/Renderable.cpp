@@ -10,7 +10,7 @@ namespace oakvr
 			
 		}
 
-		void Renderable::SetMesh(const sp<Mesh> &pMesh)
+		auto Renderable::SetMesh(const sp<Mesh> &pMesh) -> void
 		{
 			m_mesh = pMesh;
 		}
@@ -25,12 +25,12 @@ namespace oakvr
 			return m_transform;
 		}
 
-		void Renderable::SetTransform(const oakvr::math::Matrix &transform)
+		auto Renderable::SetTransform(const oakvr::math::Matrix &transform) -> void
 		{
 			m_transform = transform;
 		}
 
-		void Renderable::Transform(const oakvr::math::Matrix &transform)
+		auto Renderable::Transform(const oakvr::math::Matrix &transform) -> void
 		{
 			m_transform = transform * m_transform;
 		}

@@ -30,36 +30,36 @@ namespace oakvr
 			inline operator float* ();
 			inline operator const float* () const;
 
-			Matrix GetTransposed() const;
-			Matrix GetInverse() const;
+			auto GetTransposed() const -> Matrix;
+			auto GetInverse() const -> Matrix;
 			
-			Matrix operator+(const Matrix &mat) const;
-			Matrix operator*(const Matrix &mat) const;
+			auto operator+(const Matrix &mat) const -> Matrix;
+			auto operator*(const Matrix &mat) const -> Matrix;
 			
-			void SetRotationX(float angle);
-			void SetRotationY(float angle);
-			void SetRotationZ(float angle);
-			void SetIdentity();
+			auto SetRotationX(float angle) -> void;
+			auto SetRotationY(float angle) -> void;
+			auto SetRotationZ(float angle) -> void;
+			auto SetIdentity() -> void;
 
-			void Transpose();
-			void Invert();
-			void SetYawPitchRoll(float yaw, float pitch, float roll);
+			auto Transpose() -> void;
+			auto Invert() -> void;
+			auto SetYawPitchRoll(float yaw, float pitch, float roll) -> void;
 
-			static Matrix RotationX(float angle);
-			static Matrix RotationY(float angle);
-			static Matrix RotationZ(float angle);
-			static Matrix RotationAxisRightHanded(float angle, const Vector3& axis); // note that axis has to be normalized beforehand
+			static auto RotationX(float angle) -> Matrix;
+			static auto RotationY(float angle) -> Matrix;
+			static auto RotationZ(float angle) -> Matrix;
+			static auto RotationAxisRightHanded(float angle, const Vector3& axis) -> Matrix; // note that axis has to be normalized beforehand
 
-			static Matrix Translation(float x, float y, float z);
-			static Matrix Translation(const Vector3 &vec);
-			static Matrix Scale(float x, float y, float z);
-			static Matrix Scale(float scale);
+			static auto Translation(float x, float y, float z) -> Matrix;
+			static auto Translation(const Vector3 &vec) -> Matrix;
+			static auto Scale(float x, float y, float z) -> Matrix;
+			static auto Scale(float scale) -> Matrix;
 
-			static Matrix PerspectiveProjection(float fov, float width, float height, float znear, float zfar);
-			static Matrix PerspectiveProjection(float fov, float aspectY, float znear, float zfar);
-			static Matrix OrthographicProjection(float left, float right, float bottom, float top, float near, float far);
+			static auto PerspectiveProjection(float fov, float width, float height, float znear, float zfar) -> Matrix;
+			static auto PerspectiveProjection(float fov, float aspectY, float znear, float zfar) -> Matrix;
+			static auto OrthographicProjection(float left, float right, float bottom, float top, float near, float far) -> Matrix;
 
-			static Matrix YawPitchRoll(float yaw, float pitch, float roll);
+			static auto YawPitchRoll(float yaw, float pitch, float roll) -> Matrix;
 			static Matrix Identity;
 			static Matrix Zero;
 		};

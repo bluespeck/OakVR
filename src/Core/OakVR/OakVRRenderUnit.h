@@ -43,32 +43,32 @@ namespace oakvr
 		auto GetRenderWindowPositionY() const -> float;
 
 		auto CreateMesh(const StringId &name, sp<oakvr::core::MemoryBuffer> pMeshBuffer, sp<oakvr::render::Material> pMaterial)->sp < oakvr::render::Mesh >;
-		void RegisterMesh(sp<oakvr::render::Mesh> pMesh);
+		auto RegisterMesh(sp<oakvr::render::Mesh> pMesh) -> void;
 		auto GetRegisteredMesh(const StringId &name)->sp<oakvr::render::Mesh>;
-		void UnregisterMesh(sp<oakvr::render::Mesh> pMesh);
-		void TransformMesh(const StringId &meshName, const oakvr::math::Matrix &mat);
+		auto UnregisterMesh(sp<oakvr::render::Mesh> pMesh) -> void;
+		auto TransformMesh(const StringId &meshName, const oakvr::math::Matrix &mat) -> void;
 
-		void RegisterShader(StringId shaderName);
+		auto RegisterShader(StringId shaderName) -> void;
 
-		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color);
-		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color, const oakvr::render::Color &startColor);
+		auto DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color) -> void;
+		auto DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color, const oakvr::render::Color &startColor) -> void;
 
-		void RegisterCamera(sp<oakvr::render::Camera> pCamera);
-		void UnregisterCamera(sp<oakvr::render::Camera> pCamera);
+		auto RegisterCamera(sp<oakvr::render::Camera> pCamera) -> void;
+		auto UnregisterCamera(sp<oakvr::render::Camera> pCamera) -> void;
 		auto GetCamera(const StringId &cameraId)->sp<oakvr::render::Camera>;
 		auto GetCurrentCamera()->sp<oakvr::render::Camera>;
-		void SetCurrentCamera(sp<oakvr::render::Camera> pCamera);
-		void SetCurrentCamera(const StringId &cameraId);
+		auto SetCurrentCamera(sp<oakvr::render::Camera> pCamera) -> void;
+		auto SetCurrentCamera(const StringId &cameraId) -> void;
 
-		void SetRenderWindowSize(unsigned int width, unsigned int height);
-		void SetRenderWindowPosition(int x, int y);
-		void SetRenderWindowTitle(const std::string &title);
+		auto SetRenderWindowSize(unsigned int width, unsigned int height) -> void;
+		auto SetRenderWindowPosition(int x, int y) -> void;
+		auto SetRenderWindowTitle(const std::string &title) -> void;
 
 		bool HasFocus();
 
-		void OnWindowSizeChanged(void *pNativeHandler, int width, int height);
-		void OnWindowFocusChanged(void *pNativeHandler, int focused);
-		void OnWindowPositionChanged(void *pNativeHandler, int x, int y);
+		auto OnWindowSizeChanged(void *pNativeHandler, int width, int height) -> void;
+		auto OnWindowFocusChanged(void *pNativeHandler, int focused) -> void;
+		auto OnWindowPositionChanged(void *pNativeHandler, int x, int y) -> void;
 
 #define DECLARE_ENABLEDISABLE_FCT(fName) \
 	void Enable ## fName();\

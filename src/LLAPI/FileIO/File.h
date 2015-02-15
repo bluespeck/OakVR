@@ -29,22 +29,26 @@ namespace oakvr
 				File(File &&);
 				~File();
 			
-				static bool Exists(const oakvr::core::io::path::PathType &filepath);
-				static OffsetType Size(const oakvr::core::io::path::PathType &filepath);
+				static auto Exists(const oakvr::core::io::path::PathType &filepath) -> bool;
+				static auto Size(const oakvr::core::io::path::PathType &filepath) -> OffsetType;
 
-				OffsetType Size();
+				auto Size() -> OffsetType;
 			
-				void Open(FileOpenMode eFileOpenMode);
-				void Close();
+				auto Open(FileOpenMode eFileOpenMode) -> void;
+				auto Close() -> void;
 
-				OffsetType Read(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToRead, OffsetType offset = 0);
-				OffsetType Write(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToWrite, OffsetType offset = 0);
+				auto Read(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToRead, OffsetType offset = 0) -> OffsetType;
+				auto Write(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToWrite, OffsetType offset = 0)-> OffsetType;
 			
-				oakvr::core::io::path::PathType GetFilePathWithoutFileName();
-				oakvr::core::io::path::PathType GetFilePath() { return m_filePath; } // also includes file name
-				oakvr::core::io::path::PathType GetFileName();
-				bool IsOpen() { return m_bFileOpened; }
-				FileOpenMode GetFileOpenMode() { return m_eFileOpenMode; }
+				auto GetFilePathWithoutFileName() -> oakvr::core::io::path::PathType;
+				auto GetFilePath() -> oakvr::core::io::path::PathType { 
+					return m_filePath; } // also includes file name
+				auto GetFileName() -> oakvr::core::io::path::PathType; 
+					
+				auto IsOpen() -> bool { 
+					return m_bFileOpened; }
+				auto GetFileOpenMode() -> FileOpenMode { 
+					return m_eFileOpenMode; }
 
 			private:
 				up<FileImpl> m_pImpl;

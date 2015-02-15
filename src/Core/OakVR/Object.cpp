@@ -23,18 +23,18 @@ namespace oakvr
 	{
 	}
 
-	void Object::AddChild(ObjectSharedPointer pObj)
+	auto Object::AddChild(ObjectSharedPointer pObj) -> void
 	{
 		if (std::find(std::begin(m_vecChildren), std::end(m_vecChildren), pObj) == std::end(m_vecChildren))
 			m_vecChildren.push_back(pObj);
 	}
 
-	void Object::RemoveChild(ObjectSharedPointer pObj)
+	auto Object::RemoveChild(ObjectSharedPointer pObj) -> void
 	{
 		m_vecChildren.erase(std::remove(std::begin(m_vecChildren), std::end(m_vecChildren), pObj));
 	}
 
-	void Object::AddComponent(const std::string &componentName)
+	auto Object::AddComponent(const std::string &componentName) -> void
 	{
 		auto pComponent = GetComponent(componentName);
 		if (!pComponent)

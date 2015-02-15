@@ -28,31 +28,31 @@ namespace oakvr
 
 			auto Update(float dt)->bool override { return true; }
 
-			auto GetPosition() const -> const Vector3 &{ return m_position; }
-			auto GetForward() const -> const Vector3 &{ return m_forward; }
-			auto GetUp() const -> const Vector3 &{ return m_up; }
-			auto GetRight() const ->Vector3{ 
+			auto GetPosition() const -> const Vector3 & { return m_position; }
+			auto GetForward() const -> const Vector3 & { return m_forward; }
+			auto GetUp() const -> const Vector3 & { return m_up; }
+			auto GetRight() const ->Vector3 { 
 				return m_up.Cross(m_forward); }
 			auto ComputeViewMatrix() const -> Matrix;
 			auto GetProjMatrix() const -> Matrix { return m_matProj; }
 			
 			auto GetFrustum() const->Frustum;
 
-			void SetPosition( const Vector3 & position )	{ m_position = position; }
-			void SetLook(const Vector3& forward)			{ m_forward = forward; }
-			void SetUp( const Vector3& up )					{ m_up = up; }
-			void SetPerspectiveProjection(float fov, float aspectY, float nearDistance, float farDistance) { m_matProj = Matrix::PerspectiveProjection(fov, aspectY, nearDistance, farDistance); m_fov = fov; m_rwWidth = aspectY; m_rwHeight = 1; m_near = nearDistance; m_far = farDistance; }
-			void SetPerspectiveProjection(float fov, float width, float height, float nearDistance, float farDistance) { m_matProj = Matrix::PerspectiveProjection(fov, width, height, nearDistance, farDistance); m_fov = fov; m_rwWidth = width; m_rwHeight = height; m_near = nearDistance; m_far = farDistance; }
-			void SetOrthographicProjection(float left, float right, float bottom, float top, float nearDistance, float farDistance) { m_matProj = Matrix::OrthographicProjection(left, right, bottom, top, nearDistance, farDistance); m_fov = 0.f; m_rwWidth = right - left; m_rwHeight = top - bottom; m_near = nearDistance; m_far = farDistance; }
-			void SetOrthographicProjection(float width, float height, float nearDistance, float farDistance) { m_matProj = Matrix::OrthographicProjection(-width / 2, width / 2, -height / 2, height / 2, nearDistance, farDistance); m_fov = 0.f; m_rwWidth = width; m_rwHeight = height; m_near = nearDistance; m_far = farDistance; }
+			auto SetPosition( const Vector3 & position ) -> void	{ m_position = position; }
+			auto SetLook(const Vector3& forward) -> void			{ m_forward = forward; }
+			auto SetUp( const Vector3& up ) -> void					{ m_up = up; }
+			auto SetPerspectiveProjection(float fov, float aspectY, float nearDistance, float farDistance)  -> void { m_matProj = Matrix::PerspectiveProjection(fov, aspectY, nearDistance, farDistance); m_fov = fov; m_rwWidth = aspectY; m_rwHeight = 1; m_near = nearDistance; m_far = farDistance; }
+			auto SetPerspectiveProjection(float fov, float width, float height, float nearDistance, float farDistance) -> void { m_matProj = Matrix::PerspectiveProjection(fov, width, height, nearDistance, farDistance); m_fov = fov; m_rwWidth = width; m_rwHeight = height; m_near = nearDistance; m_far = farDistance; }
+			auto SetOrthographicProjection(float left, float right, float bottom, float top, float nearDistance, float farDistance) -> void { m_matProj = Matrix::OrthographicProjection(left, right, bottom, top, nearDistance, farDistance); m_fov = 0.f; m_rwWidth = right - left; m_rwHeight = top - bottom; m_near = nearDistance; m_far = farDistance; }
+			auto SetOrthographicProjection(float width, float height, float nearDistance, float farDistance)  -> void { m_matProj = Matrix::OrthographicProjection(-width / 2, width / 2, -height / 2, height / 2, nearDistance, farDistance); m_fov = 0.f; m_rwWidth = width; m_rwHeight = height; m_near = nearDistance; m_far = farDistance; }
 
-			void Rotate( float alpha, float beta, float gamma );	// angles around x,y,z axes [radians]
-			inline void Translate(float x, float y, float z) { Translate({ x, y, z }); }
-			inline void Translate(const oakvr::math::Vector3 &displacement) { m_position += displacement; }
+			auto Rotate( float alpha, float beta, float gamma ) -> void;	// angles around x,y,z axes [radians]
+			auto Translate(float x, float y, float z) -> void { Translate({ x, y, z }); }
+			auto Translate(const oakvr::math::Vector3 &displacement) -> void { m_position += displacement; }
 
-			void OnRenderWindowSizeChanged(float newWidth, float newHeight);
+			auto OnRenderWindowSizeChanged(float newWidth, float newHeight) -> void;
 
-			const StringId &GetId() const { return m_id; }
+			auto GetId() const -> const StringId & { return m_id; }
 			
 		private:
 			StringId m_id;

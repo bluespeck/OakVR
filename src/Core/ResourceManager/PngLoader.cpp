@@ -7,14 +7,14 @@
 #include "Utils/BufferWriter.h"
 #include "RawImageData.h"
 
-void PngReadFn(png_structp pPng, png_bytep outBytes, png_size_t bytecountToRead);
+auto PngReadFn(png_structp pPng, png_bytep outBytes, png_size_t bytecountToRead) -> void;
 
 namespace oakvr
 {
 	namespace core
 	{
 		// --------------------------------------------------------------------------------
-		MemoryBuffer PngLoader::GetResourceData(const MemoryBuffer &fileBuffer)
+		auto PngLoader::GetResourceData(const MemoryBuffer &fileBuffer) -> MemoryBuffer
 		{
 			png_structp pPng = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
 			
@@ -73,7 +73,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		bool PngLoader::CanLoad(const MemoryBuffer &fileBuffer)
+		auto PngLoader::CanLoad(const MemoryBuffer &fileBuffer) -> bool
 		{
 			auto p = fileBuffer.GetDataPtr();
 
@@ -84,7 +84,7 @@ namespace oakvr
 }
 
 // --------------------------------------------------------------------------------
-void PngReadFn(png_structp pPng, png_bytep outBytes, png_size_t bytecountToRead)
+auto PngReadFn(png_structp pPng, png_bytep outBytes, png_size_t bytecountToRead) -> void
 {
 	auto pReader = static_cast<oakvr::core::BufferReader<uint8_t, size_t>*>(pPng->io_ptr);
 	pReader->Read(outBytes, bytecountToRead);

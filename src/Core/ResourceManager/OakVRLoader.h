@@ -11,7 +11,7 @@ namespace oakvr
 		{
 		public:
 			MemoryBuffer GetResourceData(const MemoryBuffer &fileBuffer);
-			virtual bool CanLoad(const MemoryBuffer &filebuffer);
+			virtual auto CanLoad(const MemoryBuffer &filebuffer) -> bool;
 		};
 	}
 }

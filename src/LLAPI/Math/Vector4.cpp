@@ -47,13 +47,13 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		// other methods
 		// --------------------------------------------------------------------------------
-		float Vector4::Length() const
+		auto Vector4::Length() const -> float
 		{ 
 			return std::pow(x * x + y * y + z * z + w * w, 0.5f); 
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector4 Vector4::Normalize() const
+		auto Vector4::Normalize() const -> Vector4
 		{
 			const float magnitudeSquare = x * x + y * y + z * z;
 
@@ -65,7 +65,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		float Vector4::Dot(const Vector4 &vec) const
+		auto Vector4::Dot(const Vector4 &vec) const -> float
 		{
 			return x * vec.x + y * vec.y + z * vec.z + w * vec.w;
 		}

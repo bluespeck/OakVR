@@ -10,7 +10,7 @@ namespace oakvr
 		{
 		public:
 			UniqueId(): m_id(s_currentId++) {}
-			uint32_t Get() { return m_id; }
+			auto Get() -> uint32_t { return m_id; }
 		private:
 			static uint32_t s_currentId;
 			uint32_t m_id;

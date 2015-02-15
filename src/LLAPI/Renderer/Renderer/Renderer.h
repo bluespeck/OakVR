@@ -39,50 +39,50 @@ namespace oakvr
 			Renderer();
 			~Renderer();
 
-			bool Initialize();
-			void Update( double dt );
-			void Cleanup();
+			auto Initialize() -> bool;
+			auto Update( double dt ) -> void;
+			auto Cleanup() -> void;
 
-			void ClearBackground(const Color &color);
-			void BeginDraw();
-			void EndDraw();
+			auto ClearBackground(const Color &color) -> void;
+			auto BeginDraw() -> void;
+			auto EndDraw() -> void;
 
-			void RegisterMesh(sp<Mesh> pMesh);
-			auto GetRegisteredMesh(const StringId &name)->sp<Mesh>;
-			void RegisterOneFrameMesh(sp<Mesh> pMesh);
-			void UnregisterMesh(sp<Mesh> pMesh);
-			void RegisterTexture(const StringId &textureName, sp<oakvr::core::MemoryBuffer> pBuff);
+			auto RegisterMesh(sp<Mesh> pMesh) -> void;
+			auto GetRegisteredMesh(const StringId &name) -> sp<Mesh>;
+			auto RegisterOneFrameMesh(sp<Mesh> pMesh) -> void;
+			auto UnregisterMesh(sp<Mesh> pMesh) -> void;
+			auto RegisterTexture(const StringId &textureName, sp<oakvr::core::MemoryBuffer> pBuff) -> void;
 			
-			void RegisterShaderProgram(const StringId &shaderProgramName);
+			auto RegisterShaderProgram(const StringId &shaderProgramName) -> void;
 			
 			// render
-			void DrawPrimitives(uint32_t numVertices, uint32_t startVertex = 0);
-			void DrawIndexed(uint32_t numIndices, uint8_t indexStride = 4, uint32_t startIndex = 0, uint32_t startVertex = 0);
+			auto DrawPrimitives(uint32_t numVertices, uint32_t startVertex = 0) -> void;
+			auto DrawIndexed(uint32_t numIndices, uint8_t indexStride = 4, uint32_t startIndex = 0, uint32_t startVertex = 0) -> void;
 
 			// texture
-			void CreateTexture	( Texture *texture );
-			void ReleaseTexture	( Texture *texture );
-			void UseTexture ( Texture *texture );
+			auto CreateTexture(Texture *texture) -> void;
+			auto ReleaseTexture(Texture *texture) -> void;
+			auto UseTexture(Texture *texture) -> void;
 			
-			void UseShaderProgram(sp<ShaderProgram> pShader);
-			void SetVertexLayout(uint32_t vertexStride, const std::vector<VertexElementDescriptor> &vertexElementDescriptors);
+			auto UseShaderProgram(sp<ShaderProgram> pShader) -> void;
+			auto SetVertexLayout(uint32_t vertexStride, const std::vector<VertexElementDescriptor> &vertexElementDescriptors) -> void;
 			
-			void SetRenderWindow( sp<RenderWindow> pRenderWindow );
-			void SetResourceManager(sp<oakvr::core::ResourceManager> pRM);
+			auto SetRenderWindow(sp<RenderWindow> pRenderWindow) -> void;
+			auto SetResourceManager(sp<oakvr::core::ResourceManager> pRM) -> void;
 
-			void SetCurrentCamera(const sp<Camera> &pCamera) { m_pCurrentCamera = pCamera; }
-			void SetViewMatrix(const oakvr::math::Matrix &mat) { m_viewMatrix = mat; }
-			void SetProjMatrix(const oakvr::math::Matrix &mat) { m_projMatrix = mat; }
+			auto SetCurrentCamera(const sp<Camera> &pCamera) -> void { m_pCurrentCamera = pCamera; }
+			auto SetViewMatrix(const oakvr::math::Matrix &mat) -> void { m_viewMatrix = mat; }
+			auto SetProjMatrix(const oakvr::math::Matrix &mat) -> void { m_projMatrix = mat; }
 			auto GetViewMatrix() const -> const oakvr::math::Matrix& { return m_viewMatrix; }
 
-			void OnResize(unsigned int newWidth, unsigned int newHeight);
+			auto OnResize(unsigned int newWidth, unsigned int newHeight) -> void;
 
-			bool IsValid();	//true if the native render context/device are valid
+			auto IsValid() -> bool;	//true if the native render context/device are valid
 #define DECLARE_ENABLEDISABLE_FCT(fName) \
-	void Enable ## fName();\
-	void Disable ## fName();\
-	void Toggle ## fName();\
-	bool Is ## fName ## Enabled() const { return m_b ## fName ## Enabled; }
+	auto Enable ## fName() -> void;\
+	auto Disable ## fName() -> void;\
+	auto Toggle ## fName() -> void;\
+	auto Is ## fName ## Enabled() const -> bool { return m_b ## fName ## Enabled; }
 
 			DECLARE_ENABLEDISABLE_FCT(Wireframe);
 			DECLARE_ENABLEDISABLE_FCT(Culling);
@@ -91,12 +91,13 @@ namespace oakvr
 #undef DECLARE_ENABLEDISABLE_FCT
 
 		private:
-			void InitCommon();
+			auto InitCommon() -> void;
 
-			void RenderMeshes(const std::vector<sp<Mesh>> &meshes);
-			void RenderMeshElems(const Mesh::MeshElementVector &meshElems);
-			void UpdateShaderParams(sp<ShaderProgram> pShader);
+			auto RenderMeshes(const std::vector<sp<Mesh>> &meshes) -> void;
+			auto RenderMeshElems(const Mesh::MeshElementVector &meshElems) -> void;
+			auto UpdateShaderParams(sp<ShaderProgram> pShader) -> void;
 
+		private:
 			sp<RenderWindow> m_pRenderWindow;
 			sp<oakvr::core::ResourceManager> m_pResourceManager;
 

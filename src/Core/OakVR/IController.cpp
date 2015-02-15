@@ -5,7 +5,7 @@ namespace oakvr
 	namespace core
 	{	
 		// --------------------------------------------------------------------------------
-		void IController::DeleteMe()
+		auto IController::DeleteMe() -> void
 		{
 			delete this;
 		}

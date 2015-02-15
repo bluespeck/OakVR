@@ -19,18 +19,18 @@ namespace oakvr
 			MeshManager();
 			~MeshManager();
 
-			void AddMesh(sp<Mesh> pMesh);
-			void AddOneFrameMesh(sp<Mesh> pMesh);
-			void ClearOneFrameMeshes();
-			void Clear();
+			auto AddMesh(sp<Mesh> pMesh) -> void;
+			auto AddOneFrameMesh(sp<Mesh> pMesh) -> void;
+			auto ClearOneFrameMeshes() -> void;
+			auto Clear() -> void;
 
-			void RemoveMesh(sp<Mesh> pMesh);
+			auto RemoveMesh(sp<Mesh> pMesh) -> void;
 
 			auto SortMeshesByMaterial()->Mesh::MeshElementVector;
-			auto SortByCameraDistance(const oakvr::math::Vector3 &cameraPos, const oakvr::math::Vector3 &cameraForward)->Mesh::MeshElementVector;
+			auto SortByCameraDistance(const oakvr::math::Vector3 &cameraPos, const oakvr::math::Vector3 &cameraForward) -> Mesh::MeshElementVector;
 
-			auto GetMeshes()->MeshVector & { return m_meshes; }
-			auto GetOneFrameMeshes()->MeshVector & { return m_oneFrameMeshes; }
+			auto GetMeshes() -> MeshVector & { return m_meshes; }
+			auto GetOneFrameMeshes() -> MeshVector & { return m_oneFrameMeshes; }
 		private:
 			MeshVector m_meshes;
 			MeshVector m_oneFrameMeshes;

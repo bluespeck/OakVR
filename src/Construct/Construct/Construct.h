@@ -8,11 +8,11 @@ namespace construct
 	{
 	public:
 		Construct();
-		auto Update(float dt) ->bool override;
+		auto Update(float dt) -> bool;
 	private:
-		void CreateTestMesh1();
-		void CreateTestMesh2();
-		void CreateTestMesh3();
-		void CreateTestMeshRoom();
+		auto CreateTestMesh2() -> void;
+		auto CreateTestMesh1() -> void;
+		auto CreateTestMesh3() -> void;
+		auto CreateTestMeshRoom() -> void;
 	};
 }

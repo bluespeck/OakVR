@@ -70,7 +70,7 @@ namespace oakvr
 				glCallAndCheck(glDeleteTextures, 1, &m_pImpl->textureId);
 		}
 
-		void Texture::Use()
+		auto Texture::Use() -> void
 		{
 			if (m_contextIsValid)
 				glCallAndCheck(glBindTexture, GL_TEXTURE_2D, m_pImpl->textureId);

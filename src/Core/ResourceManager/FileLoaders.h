@@ -10,7 +10,7 @@ namespace oakvr
 {
 	namespace core
 	{
-		inline void InitializeFileLoaders()
+		inline auto InitializeFileLoaders() -> void
 		{
 			FileLoaderManager::RegisterFileLoader(sp<FileLoader>(new PngLoader()));
 			FileLoaderManager::RegisterFileLoader(sp<FileLoader>(new OakVRLoader()));

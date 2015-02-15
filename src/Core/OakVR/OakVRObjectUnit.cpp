@@ -10,7 +10,7 @@ namespace oakvr
 		return std::make_shared<Object>(objId);
 	}
 
-	void OakVRObjectUnit::AddObjectToGraph(ObjectSharedPointer pObject, const StringId &parentId)
+	auto OakVRObjectUnit::AddObjectToGraph(ObjectSharedPointer pObject, const StringId &parentId) -> void
 	{
 		m_objectMap[pObject->GetId()] = pObject;
 		auto pCurrentParent = pObject->GetParent();
@@ -33,7 +33,7 @@ namespace oakvr
 		}
 	}
 
-	void OakVRObjectUnit::RemoveObjectFromGraph(const StringId &id)
+	auto OakVRObjectUnit::RemoveObjectFromGraph(const StringId &id) -> void
 	{
 		auto it = m_objectMap.find(id);
 		if (it != m_objectMap.end())
@@ -57,7 +57,7 @@ namespace oakvr
 		return nullptr;
 	}
 
-	void OakVRObjectUnit::TransferObject(const StringId &id, const StringId &newParentId)
+	auto OakVRObjectUnit::TransferObject(const StringId &id, const StringId &newParentId) -> void
 	{
 		if (id == "root")
 			return;

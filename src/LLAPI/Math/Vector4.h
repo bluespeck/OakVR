@@ -20,31 +20,31 @@ namespace oakvr
 			operator const float * () const;
 
 			// assignment operators
-			Vector4& operator += ( const Vector4 &vec );
-			Vector4& operator -= ( const Vector4 &vec );
-			Vector4& operator *= ( float scalar );
-			Vector4& operator /= ( float scalar );
+			auto operator += ( const Vector4 &vec ) -> Vector4&;
+			auto operator -= ( const Vector4 &vec ) -> Vector4&;
+			auto operator *= ( float scalar ) -> Vector4&;
+			auto operator /= ( float scalar ) -> Vector4&;
 
 			// unary operators
-			Vector4 operator + () const;
-			Vector4 operator - () const;
+			auto operator + () const -> Vector4;
+			auto operator - () const -> Vector4;
 
 			// binary operators
-			Vector4 operator + ( const Vector4 &vec ) const;
-			Vector4 operator - ( const Vector4 &vec ) const;
-			Vector4 operator * ( float scalar ) const;
-			Vector4 operator / ( float scalar ) const;
+			auto operator + ( const Vector4 &vec ) const -> Vector4;
+			auto operator - ( const Vector4 &vec ) const -> Vector4;
+			auto operator * ( float scalar ) const -> Vector4;
+			auto operator / ( float scalar ) const -> Vector4;
 
-			friend Vector4 operator * ( float scalar, const Vector4 &vec );
+			friend auto operator * ( float scalar, const Vector4 &vec ) -> Vector4;
 
 			// equality operators
-			bool operator == ( const Vector4 &vec ) const;
-			bool operator != ( const Vector4 &vec ) const;
+			auto operator == ( const Vector4 &vec ) const -> bool;
+			auto operator != ( const Vector4 &vec ) const -> bool;
 
 			// other methods
-			float Length() const;
+			auto Length() const -> float;
 			Vector4 Normalize() const;
-			float Dot( const Vector4 &vec ) const;			
+			auto Dot( const Vector4 &vec ) const -> float;			
 
 			// static constants
 			static Vector4 One;
@@ -54,7 +54,7 @@ namespace oakvr
 			float x, y, z, w;
 		};
 
-		Vector4 operator * ( float scalar, const Vector4 &vec );
+		auto operator * ( float scalar, const Vector4 &vec ) -> Vector4;
 
 	} // namespace Math
 }

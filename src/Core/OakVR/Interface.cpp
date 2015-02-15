@@ -31,7 +31,7 @@ namespace oakvr
 			return pMesh;
 		}
 
-		void RemoveMesh(const StringId &name)
+		auto RemoveMesh(const StringId &name) -> void
 		{
 			oakvr::OakVR::GetInstance().UnregisterMesh(GetMesh(name));
 		}
@@ -41,22 +41,22 @@ namespace oakvr
 			return oakvr::OakVR::GetInstance().GetRegisteredMesh(name);
 		}
 
-		void TransformMesh(const StringId &name, const oakvr::math::Matrix &mat)
+		auto TransformMesh(const StringId &name, const oakvr::math::Matrix &mat) -> void
 		{
 			oakvr::OakVR::GetInstance().TransformMesh(name, mat);
 		}
 
-		void RegisterShader(const StringId &shaderName)
+		auto RegisterShader(const StringId &shaderName) -> void
 		{
 			oakvr::OakVR::GetInstance().RegisterShader(shaderName);
 		}
 
-		void RegisterCamera(sp<oakvr::render::Camera> pCamera)
+		auto RegisterCamera(sp<oakvr::render::Camera> pCamera) -> void
 		{
 			oakvr::OakVR::GetInstance().RegisterCamera(pCamera);
 		}
 
-		void UnregisterCamera(sp<oakvr::render::Camera> pCamera)
+		auto UnregisterCamera(sp<oakvr::render::Camera> pCamera) -> void
 		{
 			oakvr::OakVR::GetInstance().UnregisterCamera(pCamera);
 		}
@@ -71,22 +71,22 @@ namespace oakvr
 			return oakvr::OakVR::GetInstance().GetCurrentCamera();
 		}
 
-		void SetCurrentCamera(sp<oakvr::render::Camera> pCamera)
+		auto SetCurrentCamera(sp<oakvr::render::Camera> pCamera) -> void
 		{
 			oakvr::OakVR::GetInstance().SetCurrentCamera(pCamera);
 		}
 
-		void SetCurrentCamera(const StringId &cameraId)
+		auto SetCurrentCamera(const StringId &cameraId) -> void
 		{
 			oakvr::OakVR::GetInstance().SetCurrentCamera(cameraId);
 		}
 		
-		void SetRenderWindowPosition(int x, int y)
+		auto SetRenderWindowPosition(int x, int y) -> void
 		{
 			oakvr::OakVR::GetInstance().SetRenderWindowPosition(x, y);
 		}
 
-		void SetRenderWindowSize(unsigned int width, unsigned int height)
+		auto SetRenderWindowSize(unsigned int width, unsigned int height) -> void
 		{
 			oakvr::OakVR::GetInstance().SetRenderWindowSize(width, height);
 		}
@@ -111,7 +111,7 @@ namespace oakvr
 			return oakvr::OakVR::GetInstance().GetRenderWindowHeight();
 		}
 
-		void SetRenderWindowTitle(const std::string &title)
+		auto SetRenderWindowTitle(const std::string &title) -> void
 		{
 			oakvr::OakVR::GetInstance().SetRenderWindowTitle(title);
 		}
@@ -129,12 +129,12 @@ namespace oakvr
 			};
 		}
 
-		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color)
+		auto DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color) -> void
 		{
 			oakvr::OakVR::GetInstance().DrawLine(start, end, thickness, color);
 		}
 
-		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color, const oakvr::render::Color &startColor)
+		auto DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color, const oakvr::render::Color &startColor) -> void
 		{
 			oakvr::OakVR::GetInstance().DrawLine(start, end, thickness, color, startColor);
 		}
@@ -180,12 +180,12 @@ namespace oakvr
 		}
 	}
 
-	void RegisterUpdatable(sp<oakvr::Updatable> pUpdatable)
+	auto RegisterUpdatable(sp<oakvr::Updatable> pUpdatable) -> void
 	{
 		oakvr::OakVR::GetInstance().RegisterUpdatable(pUpdatable);
 	}
 
-	void UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable)
+	auto UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable) -> void
 	{
 		oakvr::OakVR::GetInstance().UnregisterUpdatable(pUpdatable);
 	}

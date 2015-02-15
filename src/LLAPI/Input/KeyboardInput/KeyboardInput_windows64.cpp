@@ -21,7 +21,7 @@ namespace oakvr
 			std::unordered_map<Key, int> keyMap;
 		};
 
-		void KeyboardInput::Update()
+		auto KeyboardInput::Update() -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			memcpy(m_pImpl->keyStatesPrevious, m_pImpl->keyStatesCurrent, 256 * sizeof(m_pImpl->keyStatesPrevious[0]));
@@ -29,35 +29,35 @@ namespace oakvr
 			GetKeyboardState(m_pImpl->keyStatesCurrent);
 		}
 
-		bool KeyboardInput::IsPressed(Key key) const
+		auto KeyboardInput::IsPressed(Key key) const -> bool
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			int keyCode = m_pImpl->keyMap.at(key);
 			return ((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0) && !((m_pImpl->keyStatesPrevious[keyCode] & 0x80) != 0);
 		}
 
-		bool KeyboardInput::IsHeld(Key key) const
+		auto KeyboardInput::IsHeld(Key key) const -> bool
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			int keyCode = m_pImpl->keyMap.at(key);
 			return ((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0) && ((m_pImpl->keyStatesPrevious[keyCode] & 0x80) != 0);
 		}
 
-		bool KeyboardInput::IsReleased(Key key) const
+		auto KeyboardInput::IsReleased(Key key) const -> bool
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			int keyCode = m_pImpl->keyMap.at(key);
 			return !((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0) && ((m_pImpl->keyStatesPrevious[keyCode] & 0x80) != 0);
 		}
 
-		bool KeyboardInput::IsDown(Key key) const
+		auto KeyboardInput::IsDown(Key key) const -> bool
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			int keyCode = m_pImpl->keyMap.at(key);
 			return ((m_pImpl->keyStatesCurrent[keyCode] & 0x80) != 0);
 		}
 
-		bool KeyboardInput::IsUp(Key key) const
+		auto KeyboardInput::IsUp(Key key) const -> bool
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			int keyCode = m_pImpl->keyMap.at(key);

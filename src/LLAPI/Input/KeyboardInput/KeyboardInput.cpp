@@ -129,12 +129,12 @@ namespace oakvr
 			return keyToAsciiMap.at(key);
 		}
 
-		void KeyboardInput::Capture(void *pCaptor)
+		auto KeyboardInput::Capture(void *pCaptor) -> void
 		{
 			m_pCaptor = pCaptor;
 		}
 
-		void KeyboardInput::Release()
+		auto KeyboardInput::Release() -> void
 		{
 			m_pCaptor = nullptr;
 		}

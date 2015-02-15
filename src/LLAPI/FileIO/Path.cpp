@@ -9,28 +9,28 @@ namespace oakvr
 			namespace path
 			{
 				// --------------------------------------------------------------------------------
-				PathType GetParentPath(const PathType &path)
+				auto GetParentPath(const PathType &path) -> PathType
 				{
 					auto pos = path.rfind(GetPathSeparator());
 					return (pos != std::string::npos) ? path.substr(0, pos) : "";
 				}
 
 				// --------------------------------------------------------------------------------
-				PathType GetFileName(const PathType &path)
+				auto GetFileName(const PathType &path) -> PathType
 				{
 					size_t pos = path.rfind(GetPathSeparator());
 					return (pos != std::string::npos ) ? path.substr(pos + 1) : "";
 				}
 
 				// --------------------------------------------------------------------------------
-				PathType GetExtension(const PathType &path)
+				auto GetExtension(const PathType &path) -> PathType
 				{
 					auto pos = path.rfind('.');
 					return (pos != std::string::npos ) ? path.substr(pos + 1) : "";
 				}
 
 				// --------------------------------------------------------------------------------
-				PathType GetStem(const PathType &path)
+				auto GetStem(const PathType &path) -> PathType
 				{
 					auto filename = GetFileName(path);
 					auto pos = filename.rfind('.');

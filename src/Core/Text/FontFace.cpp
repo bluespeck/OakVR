@@ -50,7 +50,7 @@ namespace oakvr
 			}
 
 			// --------------------------------------------------------------------------------
-			MemoryBuffer FontFace::RenderGlyphs()
+			auto FontFace::RenderGlyphs() -> MemoryBuffer
 			{
 				FT_GlyphSlot slot = m_pFTFace->glyph;
 				int scale = 20;
@@ -84,7 +84,7 @@ namespace oakvr
 				m_textureWidth = oakvr::math::NextPowerOfTwo(penX);
 				m_textureHeight = oakvr::math::NextPowerOfTwo(maxRows);
 
-				MemoryBuffer buff(m_textureWidth * m_textureHeight * sizeof(uint8_t)); // uint8_t corresponding to GRAYS
+				MemoryBuffer buff{ m_textureWidth * m_textureHeight * sizeof(uint8_t) }; // uint8_t corresponding to GRAYS
 				MemoryBuffer::value_type *pBuff = buff.GetDataPtr();
 				memset(pBuff, 0, buff.Size());
 
@@ -134,7 +134,7 @@ namespace oakvr
 				imageData.pixelBuffer = std::move(buff);
 
 				// serialize image data
-				MemoryBuffer rawImageData(sizeof(imageData.width) + sizeof(imageData.height) + sizeof(imageData.bitsPerPixel) + sizeof(imageData.pixelFormat) + imageData.pixelBuffer.Size());
+				MemoryBuffer rawImageData{ sizeof(imageData.width) + sizeof(imageData.height) + sizeof(imageData.bitsPerPixel) + sizeof(imageData.pixelFormat) + imageData.pixelBuffer.Size() };
 
 				BufferWriter<MemoryBuffer::value_type> bufferWriter(rawImageData);
 				bufferWriter.Write(imageData.width);

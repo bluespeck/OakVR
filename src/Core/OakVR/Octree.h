@@ -11,7 +11,7 @@ namespace oakvr
 	class Octree
 	{
 	public:
-		void Add(sp<T> m_pData);
+		auto Add(sp<T> m_pData) -> void;
 	private:
 		struct Node
 		{

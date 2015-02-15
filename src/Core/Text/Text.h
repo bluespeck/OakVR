@@ -32,15 +32,15 @@ namespace oakvr
 		{
 			friend class Singleton < Text > ;
 		public:
-			void AddFontFace(sp<oakvr::core::MemoryBuffer> fontFileBuff);
+			auto AddFontFace(sp<oakvr::core::MemoryBuffer> fontFileBuff) -> void;
 			
-			void RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName, float scale = 1.0f, float angle = 0.0f) const;
+			auto RenderText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName, float scale = 1.0f, float angle = 0.0f) const -> void;
 
 			auto GetGlyphWidth(char character, std::string fontName, float scale = 1.0f) -> float;
 			auto GetGlyphHeight(char character, std::string fontName, float scale = 1.0f) -> float;
 
-			void SetResourceManagerPtr(std::shared_ptr<oakvr::core::ResourceManager> pRM) { m_pRM = pRM; }
-			void SetRendererPtr(std::shared_ptr<oakvr::render::Renderer> pRenderer) { m_pRenderer = pRenderer; }
+			auto SetResourceManagerPtr(std::shared_ptr<oakvr::core::ResourceManager> pRM) -> void { m_pRM = pRM; }
+			auto SetRendererPtr(std::shared_ptr<oakvr::render::Renderer> pRenderer) -> void { m_pRenderer = pRenderer; }
 			
 		private:
 			Text();
@@ -48,8 +48,8 @@ namespace oakvr
 
 			
 
-			std::vector<text::FontFace>::const_iterator FindFontFace(const std::string &name) const;
-			std::vector<text::FontFace>::iterator FindFontFace(const std::string &name);
+			auto FindFontFace(const std::string &name) const -> std::vector<text::FontFace>::const_iterator;
+			auto FindFontFace(const std::string &name) -> std::vector<text::FontFace>::iterator;
 		private:
 			FT_LibraryRec_ *m_pFTLib;
 			std::vector<text::FontFace> m_fontFaces;
@@ -61,12 +61,14 @@ namespace oakvr
 
 	namespace core
 	{
-		inline void AddFontFace(std::string fileName) { oakvr::core::Text::GetInstance().AddFontFace(oakvr::core::GetResource(fileName)); }
+		inline auto AddFontFace(std::string fileName)  -> void{ oakvr::core::Text::GetInstance().AddFontFace(oakvr::core::GetResource(fileName)); }
 	}
 	namespace render
 	{
-		inline void DrawText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName, float scale = 1.0f, float angle = 0.0f) { oakvr::core::Text::GetInstance().RenderText(text, position, color, fontName, scale, angle); }
-		inline float GetGlyphWidth(char glyph, std::string fontName, float scale = 1.0f) { return oakvr::core::Text::GetInstance().GetGlyphWidth(glyph, fontName, scale); }
-		inline float GetGlyphHeight(char glyph, std::string fontName, float scale = 1.0f) { return oakvr::core::Text::GetInstance().GetGlyphHeight(glyph, fontName, scale); }
+		inline auto DrawText(std::string text, oakvr::math::Vector3 position, oakvr::render::Color color, std::string fontName, float scale = 1.0f, float angle = 0.0f) -> void{ oakvr::core::Text::GetInstance().RenderText(text, position, color, fontName, scale, angle); }
+		inline auto GetGlyphWidth(char glyph, std::string fontName, float scale = 1.0f) -> float { 
+			return oakvr::core::Text::GetInstance().GetGlyphWidth(glyph, fontName, scale); }
+		inline auto GetGlyphHeight(char glyph, std::string fontName, float scale = 1.0f) -> float{ 
+			return oakvr::core::Text::GetInstance().GetGlyphHeight(glyph, fontName, scale); }
 	}
 }

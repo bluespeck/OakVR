@@ -30,21 +30,21 @@ namespace oakvr
 		friend class Singleton < OakVR >;
 		friend bool oakvrUpdate();
 		friend bool oakvrInit(std::vector<std::string> cmdLine);
-		friend void oakvrExit();
+		friend auto oakvrExit() -> void;
 	public:
 
-		void RegisterUpdatable(sp<oakvr::Updatable> pUpdatable);
-		void UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable);
+		auto RegisterUpdatable(sp<oakvr::Updatable> pUpdatable) -> void;
+		auto UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable) -> void;
 
 		///////////////////////////////////////////////////////////////////////////////////
 		// resources related interface
-		auto RegisterSubFolderPaths(const std::string &path)->bool;
+		auto RegisterSubFolderPaths(const std::string &path) -> bool;
 		auto GetResource(const std::string &id) -> sp<oakvr::core::MemoryBuffer>;
 				
-		void Cleanup();
-		void RegisterUserInitializer(std::function<void()> fct) { 
+		auto Cleanup() -> void;
+		auto RegisterUserInitializer(std::function<void()> fct) -> void { 
 			m_userInitializers.push_back(fct); }
-		void RegisterEngineInitializer(std::function<void()> fct) { 
+		auto RegisterEngineInitializer(std::function<void()> fct) -> void { 
 			m_engineInitializers.push_back(fct); }
 
 
@@ -54,17 +54,17 @@ namespace oakvr
 
 		bool Update(TimeDeltaType dt);
 
-		void TriggerInputEvents();
-		void DrawInterface();
-		void DrawMeshes();
-		void DrawDebugText();
+		auto TriggerInputEvents() -> void;
+		auto DrawInterface() -> void;
+		auto DrawMeshes() -> void;
+		auto DrawDebugText() -> void;
 		
-		void DrawMeshBoundingBoxes();
+		auto DrawMeshBoundingBoxes() -> void;
 
 		// window related
-		friend void WindowSizeChangedCallback(void *pNativeHandler, int w, int h);
-		friend void WindowFocusChangedCallback(void *pNativeHandler, int focused);
-		friend void WindowPositionChangedCallback(void *pNativeHandler, int x, int y);
+		friend auto WindowSizeChangedCallback(void *pNativeHandler, int w, int h) -> void;
+		friend auto WindowFocusChangedCallback(void *pNativeHandler, int focused) -> void;
+		friend auto WindowPositionChangedCallback(void *pNativeHandler, int x, int y) -> void;
 
 
 

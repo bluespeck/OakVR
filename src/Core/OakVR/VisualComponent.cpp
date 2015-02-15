@@ -8,7 +8,7 @@ namespace oakvr
 {
 	_OC_DEFINE_INITIALIZER_HELPERS(Visual)
 
-	void VisualComponent::SetMeshFromResource(StringId resourceId)
+	auto VisualComponent::SetMeshFromResource(StringId resourceId) -> void
 	{
 		m_pMesh = oakvr::render::GetMesh(GetObject()->GetId());
 

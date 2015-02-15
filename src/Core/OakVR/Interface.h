@@ -27,29 +27,29 @@ namespace oakvr
 			sp<Material> pMaterial, std::vector<StringId> textureNames // for each texcoord
 			)->sp<oakvr::render::Mesh>;
 		auto CreateMesh(const StringId &name, const StringId &resourceId, sp<oakvr::render::Material> pMaterial)->sp<oakvr::render::Mesh>;
-		void RemoveMesh(const StringId &name);
+		auto RemoveMesh(const StringId &name) -> void;
 		auto GetMesh(const StringId &name)->sp<oakvr::render::Mesh>;
-		void TransformMesh(const StringId &name, const oakvr::math::Matrix &mat);
+		auto TransformMesh(const StringId &name, const oakvr::math::Matrix &mat) -> void;
 
-		void RegisterShader(const StringId &shaderName);
+		auto RegisterShader(const StringId &shaderName) -> void;
 
-		void RegisterCamera(sp<oakvr::render::Camera> pCamera);
-		void UnregisterCamera(sp<oakvr::render::Camera> pCamera);
+		auto RegisterCamera(sp<oakvr::render::Camera> pCamera) -> void;
+		auto UnregisterCamera(sp<oakvr::render::Camera> pCamera) -> void;
 		auto GetCamera(const StringId &cameraId)->sp<oakvr::render::Camera>;
 		auto GetCurrentCamera()->sp<oakvr::render::Camera>;
-		void SetCurrentCamera(sp<oakvr::render::Camera> pCamera);
-		void SetCurrentCamera(const StringId &cameraId);
+		auto SetCurrentCamera(sp<oakvr::render::Camera> pCamera) -> void;
+		auto SetCurrentCamera(const StringId &cameraId) -> void;
 
-		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color);
-		void DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color, const oakvr::render::Color &startColor);
+		auto DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color) -> void;
+		auto DrawLine(const oakvr::math::Vector3 &start, const oakvr::math::Vector3 &end, float thickness, const  oakvr::render::Color &color, const oakvr::render::Color &startColor) -> void;
 
-		void SetRenderWindowPosition(int x, int y);
-		void SetRenderWindowSize(unsigned int width, unsigned int height);
+		auto SetRenderWindowPosition(int x, int y) -> void;
+		auto SetRenderWindowSize(unsigned int width, unsigned int height) -> void;
 		auto GetRenderWindowPositionX()->int;
 		auto GetRenderWindowPositionY()->int;
 		auto GetRenderWindowWidth()->float;
 		auto GetRenderWindowHeight()->float;
-		void SetRenderWindowTitle(const std::string &title);
+		auto SetRenderWindowTitle(const std::string &title) -> void;
 		auto RenderWindowHasFocus()->bool;
 
 		auto ScreenCoordsToWindowClient(oakvr::math::Vector2)->oakvr::math::Vector2;
@@ -68,8 +68,8 @@ namespace oakvr
 		
 	}
 
-	void RegisterUpdatable(sp<oakvr::Updatable> pUpdatable);
-	void UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable);
+	auto RegisterUpdatable(sp<oakvr::Updatable> pUpdatable) -> void;
+	auto UnregisterUpdatable(sp<oakvr::Updatable> pUpdatable) -> void;
 
 	namespace core
 	{

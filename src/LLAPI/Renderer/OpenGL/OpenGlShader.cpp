@@ -75,7 +75,7 @@ namespace oakvr
 				glCallAndCheck(glDeleteShader, m_pImpl->shaderId);
 		}
 
-		void *Shader::GetNativeHandle()
+		auto Shader::GetNativeHandle() -> void *
 		{
 			return reinterpret_cast<void *>(m_pImpl->shaderId);
 		}

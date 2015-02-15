@@ -44,7 +44,7 @@ namespace oakvr
 		{
 		}
 				
-		bool Renderer::Initialize()
+		auto Renderer::Initialize() -> bool
 		{
 			//PROFILER_FUNC_SCOPED_TIMER;
 			glewExperimental = GL_TRUE;
@@ -78,7 +78,7 @@ namespace oakvr
 
 
 		// --------------------------------------------------------------------------------
-		void Renderer::ClearBackground(const Color &color)
+		auto Renderer::ClearBackground(const Color &color) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			glCallAndCheck(glClearColor, color.r, color.g, color.b, color.a);
@@ -86,7 +86,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::BeginDraw()
+		auto Renderer::BeginDraw() -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			glCallAndCheck(glClearColor, 0.4f, 0.6f, 0.9f, 1.0f);
@@ -94,14 +94,14 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::EndDraw()
+		auto Renderer::EndDraw() -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			m_pRenderWindow->SwapBuffers();
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::UseTexture(Texture *texture)
+		auto Renderer::UseTexture(Texture *texture) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			if (texture != nullptr)
@@ -117,20 +117,20 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::DrawPrimitives(uint32_t numVertices, uint32_t startVertex /* = 0 */)
+		auto Renderer::DrawPrimitives(uint32_t numVertices, uint32_t startVertex /* = 0 */) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			glCallAndCheck(glDrawArrays, GL_TRIANGLES, startVertex, numVertices);
 		}
 
-		void Renderer::UseShaderProgram(sp<oakvr::render::ShaderProgram> pShaderProgram)
+		auto Renderer::UseShaderProgram(sp<oakvr::render::ShaderProgram> pShaderProgram) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			if (pShaderProgram)
 				glCallAndCheck(glUseProgram, reinterpret_cast<GLuint>(pShaderProgram.get()->GetNativeHandle()));
 		}
 
-		void Renderer::UpdateShaderParams(sp<oakvr::render::ShaderProgram> pShaderProgram)
+		auto Renderer::UpdateShaderParams(sp<oakvr::render::ShaderProgram> pShaderProgram) -> void
 		{
 			//TODO: Add set shader param function
 			PROFILER_FUNC_SCOPED_TIMER;
@@ -156,7 +156,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void Renderer::DrawIndexed(uint32_t numIndices, uint8_t stride /* = 4 */, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */)
+		auto Renderer::DrawIndexed(uint32_t numIndices, uint8_t stride /* = 4 */, uint32_t startIndex /* = 0 */, uint32_t startVertex /* = 0 */) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			//oakvr::profiler::ScopedTimer oakvrScopedTimername("drawIndexed", "", __FUNCTION__, __FILE__ + std::to_string(__LINE__));
@@ -166,30 +166,30 @@ namespace oakvr
 				glCallAndCheck(glDrawElements, GL_TRIANGLES, numIndices, GL_UNSIGNED_SHORT, nullptr);
 		}
 
-		void Renderer::OnResize(unsigned int newWidth, unsigned int newHeight)
+		auto Renderer::OnResize(unsigned int newWidth, unsigned int newHeight) -> void
 		{
 			glCallAndCheck(glViewport, 0, 0, m_pRenderWindow->GetWidth(), m_pRenderWindow->GetHeight());
 		}
 		
-		bool Renderer::IsValid()
+		auto Renderer::IsValid() -> bool
 		{
 			return m_pRenderWindow && m_pRenderWindow->IsValid();
 		}
 
 		// Wireframe
-		void Renderer::EnableWireframe()
+		auto Renderer::EnableWireframe() -> void
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			m_bWireframeEnabled = true;
 		}
 
-		void Renderer::DisableWireframe()
+		auto Renderer::DisableWireframe() -> void
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			m_bWireframeEnabled = false;
 		}
 
-		void Renderer::ToggleWireframe()
+		auto Renderer::ToggleWireframe() -> void
 		{
 			if (m_bWireframeEnabled == false)
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -199,19 +199,19 @@ namespace oakvr
 		}
 
 		// Wireframe
-		void Renderer::EnableCulling()
+		auto Renderer::EnableCulling() -> void
 		{
 			glCallAndCheck(glEnable, GL_CULL_FACE);
 			m_bCullingEnabled = true;
 		}
 
-		void Renderer::DisableCulling()
+		auto Renderer::DisableCulling() -> void
 		{
 			glCallAndCheck(glDisable, GL_CULL_FACE);
 			m_bCullingEnabled = false;
 		}
 
-		void Renderer::ToggleCulling()
+		auto Renderer::ToggleCulling() -> void
 		{
 			if (m_bCullingEnabled == false)
 				glCallAndCheck(glEnable, GL_CULL_FACE);
@@ -221,19 +221,19 @@ namespace oakvr
 		}
 
 		// DepthTest 
-		void Renderer::EnableDepthTest()
+		auto Renderer::EnableDepthTest() -> void
 		{
 			glCallAndCheck(glEnable, GL_DEPTH_TEST);
 			m_bDepthTestEnabled = true;
 		}
 		
-		void Renderer::DisableDepthTest()
+		auto Renderer::DisableDepthTest() -> void
 		{
 			glCallAndCheck(glDisable, GL_DEPTH_TEST);
 			m_bDepthTestEnabled = false;
 		}
 
-		void Renderer::ToggleDepthTest()
+		auto Renderer::ToggleDepthTest() -> void
 		{
 			if (m_bDepthTestEnabled == false)
 				glCallAndCheck(glEnable, GL_DEPTH_TEST);
@@ -243,19 +243,19 @@ namespace oakvr
 		}
 
 		// Blending
-		void Renderer::EnableBlending()
+		auto Renderer::EnableBlending() -> void
 		{
 			glCallAndCheck(glEnable, GL_BLEND);
 			m_bBlendingEnabled = true;
 		}
 
-		void Renderer::DisableBlending()
+		auto Renderer::DisableBlending() -> void
 		{
 			glCallAndCheck(glDisable, GL_BLEND);
 			m_bBlendingEnabled = false;
 		}
 
-		void Renderer::ToggleBlending()
+		auto Renderer::ToggleBlending() -> void
 		{
 			if (m_bBlendingEnabled == false)
 				glCallAndCheck(glEnable, GL_BLEND);

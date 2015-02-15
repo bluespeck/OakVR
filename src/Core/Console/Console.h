@@ -12,11 +12,11 @@ namespace oakvr
 	class Console : public Updatable
 	{
 	public:
-		bool Update(float dt) override;
+		auto Update(float dt) -> bool;
 		
 		
 	private:
-		void HandleInput();
+		auto HandleInput() -> void;
 
 		std::string m_currentCommand;
 		std::vector<std::string> m_history;

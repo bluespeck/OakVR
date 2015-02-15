@@ -50,7 +50,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void VertexBuffer::Create(uint32_t vertexCount, uint8_t vertexStride)
+		auto VertexBuffer::Create(uint32_t vertexCount, uint8_t vertexStride) -> void
 		{
 			if (!m_pImpl->m_bInitialized)
 			{
@@ -67,7 +67,7 @@ namespace oakvr
 		}
 		
 		// --------------------------------------------------------------------------------
-		void VertexBuffer::Lock(void **ppBuff, uint32_t flags)
+		auto VertexBuffer::Lock(void **ppBuff, uint32_t flags) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
@@ -75,7 +75,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void VertexBuffer::Unlock()
+		auto VertexBuffer::Unlock() -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
@@ -83,7 +83,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void VertexBuffer::Release()
+		auto VertexBuffer::Release() -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			if (m_pImpl->m_bInitialized)
@@ -94,7 +94,7 @@ namespace oakvr
 			}
 		}
 
-		void VertexBuffer::Use(const std::vector<VertexElementDescriptor> &vertexElementDescriptors)
+		auto VertexBuffer::Use(const std::vector<VertexElementDescriptor> &vertexElementDescriptors) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			if (m_pImpl->m_bInitialized)

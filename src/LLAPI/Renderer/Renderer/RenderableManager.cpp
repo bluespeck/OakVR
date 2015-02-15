@@ -18,27 +18,27 @@ namespace oakvr
 
 		}
 
-		void RenderableManager::AddRenderable(sp<Renderable> pRenderable)
+		auto RenderableManager::AddRenderable(sp<Renderable> pRenderable) -> void
 		{
 			m_renderables.push_back(pRenderable);
 		}
 
-		void RenderableManager::Clear()
+		auto RenderableManager::Clear() -> void
 		{
 			m_renderables.clear();
 		}
 
-		void RenderableManager::AddOneFrameRenderable(sp<Renderable> pRenderable)
+		auto RenderableManager::AddOneFrameRenderable(sp<Renderable> pRenderable) -> void
 		{
 			m_oneFrameRenderables.push_back(pRenderable);
 		}
 
-		void RenderableManager::ClearOneFrameRenderables()
+		auto RenderableManager::ClearOneFrameRenderables() -> void
 		{
 			m_oneFrameRenderables.clear();
 		}
 
-		void RenderableManager::RemoveRenderable(sp<Renderable> pRenderable)
+		auto RenderableManager::RemoveRenderable(sp<Renderable> pRenderable) -> void
 		{
 			m_renderables.erase(std::remove(std::begin(m_renderables), std::end(m_renderables), pRenderable), m_renderables.end());
 		}

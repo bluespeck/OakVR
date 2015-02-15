@@ -9,8 +9,8 @@ namespace oakvr
 		class Plane
 		{
 		public:
-			float Distance(const Vector3 &point) const;
-			float SignedDistance(const Vector3 &point) const;
+			auto Distance(const Vector3 &point) const -> float;
+			auto SignedDistance(const Vector3 &point) const -> float;
 
 			Vector3 normal;
 			float w;

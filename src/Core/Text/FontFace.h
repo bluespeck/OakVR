@@ -31,15 +31,15 @@ namespace oakvr
 					oakvr::math::Vector2 leftTopFromBaseline;
 				};
 
-				const std::string &GetName() const { return m_name; }
-				const MemoryBuffer &GetMemoryBuffer() const { return m_buff; }
-				const std::array<CharInfo, 127 - 32> &GetCharacterMap() const { return m_characterMap; }
-				uint32_t GetTextureWidth() const { return m_textureWidth; }
-				uint32_t GetTextureHeight() const { return m_textureHeight; }
+				auto GetName() const -> const std::string & { return m_name; }
+				auto GetMemoryBuffer() const -> const MemoryBuffer & { return m_buff; }
+				auto GetCharacterMap() const -> const std::array<CharInfo, 127 - 32> & { return m_characterMap; }
+				auto GetTextureWidth() const -> uint32_t { return m_textureWidth; }
+				auto GetTextureHeight() const -> uint32_t { return m_textureHeight; }
 
 				
 			private:
-				MemoryBuffer RenderGlyphs();
+				auto RenderGlyphs() -> MemoryBuffer;
 
 			private:
 				std::string m_name;

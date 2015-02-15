@@ -20,17 +20,21 @@ namespace oakvr
 			VertexBuffer(uint32_t count, uint8_t stride);
 			~VertexBuffer();
 
-			auto GetVertexCount() const -> uint32_t { return m_count; }
-			auto GetVertexStride() const -> uint8_t { return m_stride; }
-			void SetVertexCount(uint32_t count) { m_count = count; }
-			void SetVertexStride(uint8_t stride) { m_stride = stride; }
+			auto GetVertexCount() const -> uint32_t { 
+				return m_count; }
+			auto GetVertexStride() const -> uint8_t { 
+				return m_stride; }
+			auto SetVertexCount(uint32_t count)  -> void { 
+				m_count = count; }
+			auto SetVertexStride(uint8_t stride)  -> void { 
+				m_stride = stride; }
 
-			void Create( uint32_t count, uint8_t stride );
-			void Lock( void **ppBuff, uint32_t flags = 0 );
-			void Unlock();
-			void Release();
+			auto Create( uint32_t count, uint8_t stride ) -> void;
+			auto Lock( void **ppBuff, uint32_t flags = 0 ) -> void;
+			auto Unlock() -> void;
+			auto Release() -> void;
 
-			void Use(const std::vector<VertexElementDescriptor> &vertexElementDescriptors);
+			auto Use(const std::vector<VertexElementDescriptor> &vertexElementDescriptors) -> void;
 			
 		private:
 			class VertexBufferImpl;

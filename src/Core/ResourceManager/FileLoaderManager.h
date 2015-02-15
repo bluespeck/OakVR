@@ -13,8 +13,8 @@ namespace oakvr
 		class FileLoaderManager
 		{
 		public:
-			static void RegisterFileLoader(sp<FileLoader> pFileLoader);
-			static void UnregisterFileLoader(sp<FileLoader> pFileLoader);
+			static auto RegisterFileLoader(sp<FileLoader> pFileLoader) -> void;
+			static auto UnregisterFileLoader(sp<FileLoader> pFileLoader) -> void;
 			static std::vector<sp<FileLoader>> &GetFileLoaders();
 		};
 	}

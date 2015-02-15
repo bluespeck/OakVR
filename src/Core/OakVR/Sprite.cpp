@@ -43,7 +43,7 @@ namespace oakvr
 
 		}
 
-		void Sprite::SetCenterPosition(const oakvr::math::Vector3 &vec)
+		auto Sprite::SetCenterPosition(const oakvr::math::Vector3 &vec) -> void
 		{
 			m_center = vec;
 			auto pMesh = oakvr::render::GetMesh(m_name);
@@ -52,7 +52,7 @@ namespace oakvr
 			m_pMesh->SetWorldMatrix(translationMatrix * scaleMatrix);
 		}
 
-		void Sprite::SetScaleFactor(float newScaleFactor)
+		auto Sprite::SetScaleFactor(float newScaleFactor) -> void
 		{
 			m_scaleFactor = newScaleFactor;
 			auto pMesh = oakvr::render::GetMesh(m_name);

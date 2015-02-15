@@ -51,13 +51,13 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		void ResourceManager::ReleaseResource(const StringId &id)
+		auto ResourceManager::ReleaseResource(const StringId &id) -> void
 		{
 			
 		}
 
 		// --------------------------------------------------------------------------------
-		void ResourceManager::CreateResourceFromMemory(const StringId &id, const MemoryBuffer &buffer)
+		auto ResourceManager::CreateResourceFromMemory(const StringId &id, const MemoryBuffer &buffer) -> void
 		{
 			auto it = m_mapResources.find(id);
 			if (it != std::end(m_mapResources))
@@ -70,7 +70,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		sp<MemoryBuffer> ResourceManager::GetResource(const StringId &id)
+		auto ResourceManager::GetResource(const StringId &id) -> sp<MemoryBuffer>
 		{
 			auto it = m_mapResources.find(id);
 			if (it != std::end(m_mapResources))

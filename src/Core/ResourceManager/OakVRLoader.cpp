@@ -14,7 +14,7 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
-		bool OakVRLoader::CanLoad(const MemoryBuffer &fileBuffer)
+		auto OakVRLoader::CanLoad(const MemoryBuffer &fileBuffer) -> bool
 		{
 			auto p = fileBuffer.GetDataPtr();
 

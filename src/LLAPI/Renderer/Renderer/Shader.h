@@ -26,11 +26,11 @@ namespace oakvr
 			Shader(ShaderType shaderType, const oakvr::core::MemoryBuffer &buff);
 			~Shader();
 
-			inline ShaderType GetType();
+			inline auto GetType() const -> ShaderType;
 
 
-			void InvalidateContext() { m_contextIsValid = false; }
-			void *GetNativeHandle();
+			auto InvalidateContext() -> void{ m_contextIsValid = false; }
+			auto GetNativeHandle() -> void *;
 		private:
 			class ShaderImpl;
 			std::unique_ptr<ShaderImpl> m_pImpl;
@@ -41,7 +41,7 @@ namespace oakvr
 		};
 
 		// --------------------------------------------------------------------------------		
-		inline Shader::ShaderType Shader::GetType()
+		inline auto Shader::GetType() const -> Shader::ShaderType
 		{
 			return m_shaderType;
 		}

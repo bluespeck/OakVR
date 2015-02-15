@@ -15,7 +15,7 @@ namespace oakvr
 		VisualComponent(ObjectSharedPointer pObject, ObjectComponentSharedPointer pTransformComponent) : ObjectComponent(pObject), m_pTransformComponent{ std::dynamic_pointer_cast<TransformComponent>(pTransformComponent) } {}
 		~VisualComponent() {}
 
-		void SetMeshFromResource(StringId resourceId);
+		auto SetMeshFromResource(StringId resourceId) -> void;
 		auto GetMesh()->render::MeshSharedPointer;
 
 	private:

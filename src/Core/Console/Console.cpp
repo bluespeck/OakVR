@@ -11,14 +11,14 @@
 
 namespace oakvr
 {
-	bool Console::Update(float dt)
+	auto Console::Update(float dt) -> bool
 	{
 		HandleInput();
 
 		return true;
 	}
 
-	void Console::HandleInput()
+	auto Console::HandleInput() -> void
 	{
 		if (oakvr::render::RenderWindowHasFocus() && input::keyboard::IsPressed(input::Key::backtick_tilde))
 		{
