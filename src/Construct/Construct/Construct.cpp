@@ -14,13 +14,12 @@
 
 namespace construct
 {
-	static oakvr::Frustum frustum;
 	Construct::Construct()
 	{
 		oakvr::Log::SetMaxLevel(oakvr::Log::LogLevel::info);
 
-		oakvr::render::SetRenderWindowPosition(1900, 100);
-		oakvr::render::SetRenderWindowSize(1800, 900);
+		oakvr::render::SetRenderWindowPosition(1930, 100);
+		oakvr::render::SetRenderWindowSize(1200, 900);
 		oakvr::render::SetRenderWindowTitle("Construct with Oak VR");
 
 		oakvr::core::RegisterSubFolderPaths("E:/Projects/OakVR/resources");
@@ -51,12 +50,11 @@ namespace construct
 		pCamera = std::make_shared<FreeCamera>("orthographic_camera", oakvr::math::Vector3{ 0.f, 0.f, -500.f }, oakvr::math::Vector3{ 0.f, 0.f, 0.f }, oakvr::math::Vector3{ 0.f, 1.f, 0.f }, 1000.f, 1.f);
 		pCamera->SetOrthographicProjection(oakvr::render::GetRenderWindowWidth(), oakvr::render::GetRenderWindowHeight(), 10, 2000);
 		oakvr::render::RegisterCamera(pCamera);
-		frustum = pCamera->GetFrustum();
 
 		CreateTestMesh1();
 		//CreateTestMesh2();
-		CreateTestMesh3();
-		CreateTestMeshRoom();
+		//CreateTestMesh3();
+		//CreateTestMeshRoom();
 	}
 
 	const int meshNum = 2;
@@ -145,7 +143,7 @@ namespace construct
 			pCamera->Update(dt);
 		
 		oakvr::render::TransformMesh("TestCube", oakvr::math::Matrix::RotationY(dt * oakvr::math::PiOverTwelve));
-
+		/*
 		// update the marix of spinning monkeys
 		for (int i = -meshNum; i < meshNum; ++i)
 		{
@@ -156,6 +154,7 @@ namespace construct
 		}
 		
 		oakvr::render::TransformMesh("monkey2", oakvr::math::Matrix::RotationX(-dt * oakvr::math::PiOverTwo));
+		*/
 		return true;
 	}
 
@@ -226,6 +225,18 @@ namespace construct
 
 		auto pMesh = oakvr::render::CreateMesh("TestCube", ved, vb, sizeof(uint32_t), ib, pMaterial, { "oakvr" });
 		pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(10, 0, 0) * oakvr::math::Matrix::Scale(200));
+
+		auto pObj = oakvr::OakVR::GetInstance().CreateObject("TestCube");
+		pObj->AddComponent("Transform");
+		pObj->AddComponent("Visual");
+		auto pComponent = pObj->GetComponent("Transform");
+		auto pTransformComp = oakvr::TransformComponent::AsTransformComponent(pComponent);
+		pTransformComp->SetPosition({ 10, 10, 10 });
+		auto pVisualComp = oakvr::VisualComponent::AsVisualComponent(pObj->GetComponent("Visual"));
+		pVisualComp->SetMeshFromResource("TestCube");
+		pVisualComp->GetMesh()->SetWorldMatrix(oakvr::math::Matrix::Translation(pTransformComp->GetPosition()));
+		
+
 	}
 
 	void Construct::CreateTestMesh2()
