@@ -29,6 +29,8 @@ namespace oakvr
 		_OC_DECLARE_INITIALIZER_HELPERS(Transform)
 	};
 
+	using TransformComponentSharedPointer = sp < TransformComponent > ;
+
 	inline auto TransformComponent::GetPosition()->const math::Vector3 &
 	{
 		return m_position;

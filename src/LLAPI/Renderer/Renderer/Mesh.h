@@ -15,7 +15,7 @@ namespace oakvr
 		class Mesh
 		{
 		public:
-			typedef std::vector<sp<MeshElement>> MeshElementVector;
+			typedef std::vector<MeshElementSharedPointer> MeshElementVector;
 
 			Mesh(const StringId &name = "");
 			~Mesh();
@@ -35,6 +35,8 @@ namespace oakvr
 			oakvr::math::Matrix m_worldMatrix;
 
 		};
+
+		using MeshSharedPointer = sp < Mesh > ;
 
 	} // namespace render
 } // namespace oakvr

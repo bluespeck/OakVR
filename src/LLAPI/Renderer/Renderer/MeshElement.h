@@ -43,5 +43,7 @@ namespace oakvr
 			friend class Renderer;
 			Mesh *m_pMesh;
 		};
+
+		using MeshElementSharedPointer = sp < MeshElement >;
 	}
 }
