@@ -10,7 +10,7 @@ BOOL WINAPI ConsoleHandlerRoutine(_In_ DWORD dwCtrlType);
 
 // --------------------------------------------------------------------------------
 //int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
-int main(int argc, char **argv)
+auto main(int argc, char **argv) -> int
 {
 	//oakvr::Log::SetOutFilename("output.log");
 	//oakvr::oakvr *oak3D = oakvr::oakvr::GetInstance();
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-BOOL WINAPI ConsoleHandlerRoutine(_In_ DWORD dwCtrlType)
+auto WINAPI ConsoleHandlerRoutine(_In_ DWORD dwCtrlType) -> BOOL
 {
 	if (dwCtrlType == CTRL_CLOSE_EVENT)
 	{
