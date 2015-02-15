@@ -13,6 +13,7 @@
 #include <vector>
 #include <tuple>
 #include <unordered_map>
+#include <mutex>
 
 namespace oakvr
 {
@@ -120,6 +121,8 @@ namespace oakvr
 			DECLARE_ENABLEDISABLE_VAR(DepthTest, true);
 			DECLARE_ENABLEDISABLE_VAR(Blending, true);
 #undef DECLARE_ENABLEDISABLE_VAR
+
+			std::mutex m_cleanupMutex;
 		};
 	}	// namespace render
 }	// namespace oakvr

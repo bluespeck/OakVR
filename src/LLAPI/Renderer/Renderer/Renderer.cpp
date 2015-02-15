@@ -1,4 +1,6 @@
 #include "Renderer.h"
+
+#include "RenderWindow.h"
 #include "MeshManager.h"
 #include "Mesh.h"
 #include "MeshElement.h"
@@ -7,12 +9,19 @@
 #include "ShaderProgram.h"
 #include "Texture.h"
 #include "Material.h"
+
 #include "OakVR/Camera.h"
+
 #include "ResourceManager/ResourceManager.h"
+
+
 #include "Profiler/Profiler.h"
-#include "RenderWindow.h"
+
+
+#include "Log/Log.h"
 
 #include <algorithm>
+#include <utility>
 
 namespace oakvr
 {
@@ -22,6 +31,7 @@ namespace oakvr
 		void Renderer::Update(double dt)
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
+			std::lock_guard<std::mutex> lockGuard(m_cleanupMutex);
 			BeginDraw();
 
 			//RenderMeshes(m_pMeshManager->GetMeshes());
@@ -167,7 +177,9 @@ namespace oakvr
 
 		// --------------------------------------------------------------------------------
 		void Renderer::Cleanup()
-		{
+		{	
+			std::lock_guard<std::mutex> lockGuard(m_cleanupMutex);
+
 			if (!m_pRenderWindow->IsValid())
 			{
 				for (auto &e : m_shaderPrograms)
