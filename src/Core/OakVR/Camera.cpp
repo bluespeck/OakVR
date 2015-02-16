@@ -43,16 +43,7 @@ namespace oakvr
 		{
 		}
 
-		// --------------------------------------------------------------------------------
-		auto Camera::Rotate( float alpha, float beta, float gamma ) -> void
-		{
-			oakvr::math::Matrix matRotate;
-			matRotate.SetYawPitchRoll(beta, alpha, gamma);
-			m_forward = (m_forward * matRotate).GetNormalized();
-			m_up = (m_up * matRotate).GetNormalized();
-		}
-				
-		oakvr::math::Matrix Camera::ComputeViewMatrix() const
+		auto Camera::ComputeViewMatrix() const -> oakvr::math::Matrix
 		{
 			auto zaxis = -m_forward.GetNormalized();
 			auto xaxis = -GetRight().GetNormalized();
@@ -73,7 +64,7 @@ namespace oakvr
 			return mat;
 		}
 
-		auto Camera::GetFrustum() const->Frustum
+		auto Camera::ComputeFrustum() const -> Frustum
 		{
 			Frustum f;
 			using oakvr::math::Vector3;

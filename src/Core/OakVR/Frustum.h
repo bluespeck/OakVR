@@ -11,8 +11,8 @@ namespace oakvr
 	class Frustum
 	{
 	public:
-		bool Intersects(const math::Vector3 &point);
-		bool Intersects(const math::Vector3 &point, float radius);
+		auto Intersects(const math::Vector3 &point) -> bool;
+		auto Intersects(const math::Vector3 &point, float radius) -> bool;
 
 		static const uint8_t nearIndex = 0;
 		static const uint8_t farIndex = 1;

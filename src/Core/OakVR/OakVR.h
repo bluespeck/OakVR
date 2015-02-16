@@ -26,11 +26,7 @@ namespace oakvr
 
 	// Engine class
 	class OakVR : public Singleton<OakVR>, public OakVRRenderUnit, public OakVRObjectUnit
-	{
-		friend class Singleton < OakVR >;
-		friend bool oakvrUpdate();
-		friend bool oakvrInit(std::vector<std::string> cmdLine);
-		friend auto oakvrExit() -> void;
+	{	
 	public:
 
 		auto RegisterUpdatable(sp<oakvr::Updatable> pUpdatable) -> void;
@@ -43,16 +39,16 @@ namespace oakvr
 				
 		auto Cleanup() -> void;
 		auto RegisterUserInitializer(std::function<void()> fct) -> void { 
-			m_userInitializers.push_back(fct); }
+																			m_userInitializers.push_back(fct); }
 		auto RegisterEngineInitializer(std::function<void()> fct) -> void { 
-			m_engineInitializers.push_back(fct); }
+																			m_engineInitializers.push_back(fct); }
 
 
 	private:
-		bool Initialize();
-		bool Update();
+		auto Initialize() -> bool;
+		auto Update() -> bool;
 
-		bool Update(TimeDeltaType dt);
+		auto Update(TimeDeltaType dt) -> bool;
 
 		auto TriggerInputEvents() -> void;
 		auto DrawInterface() -> void;
@@ -66,6 +62,10 @@ namespace oakvr
 		friend auto WindowFocusChangedCallback(void *pNativeHandler, int focused) -> void;
 		friend auto WindowPositionChangedCallback(void *pNativeHandler, int x, int y) -> void;
 
+		friend class Singleton < OakVR >;
+		friend auto oakvrUpdate() -> bool;
+		friend auto oakvrInit(std::vector<std::string> cmdLine) -> bool;
+		friend auto oakvrExit() -> void;
 
 
 	private:

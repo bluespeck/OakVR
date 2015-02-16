@@ -45,10 +45,11 @@ namespace oakvr
 			for (auto &e : pUpdatables)
 				if (!e->Update(dt))
 					return false;
+
 			auto pCamera = GetCurrentCamera();
-			static oakvr::Frustum frustum = pCamera->GetFrustum();
 			if (pCamera)
 			{
+				static oakvr::Frustum frustum = pCamera->ComputeFrustum();
 				m_pRenderer->SetCurrentCamera(pCamera);
 				m_pRenderer->SetViewMatrix(pCamera->ComputeViewMatrix());
 				m_pRenderer->SetProjMatrix(pCamera->GetProjMatrix());
@@ -179,7 +180,7 @@ namespace oakvr
 		return m_pRM->AddPathsFromFolder(path);
 	}
 
-	sp<oakvr::core::MemoryBuffer> OakVR::GetResource(const std::string &id)
+	auto OakVR::GetResource(const std::string &id) -> sp<oakvr::core::MemoryBuffer>
 	{
 		return m_pRM->GetResource(id);
 	}
@@ -191,7 +192,7 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 
 	// --------------------------------------------------------------------------------
-	bool oakvrInit(std::vector<std::string> cmdLine)
+	auto oakvrInit(std::vector<std::string> cmdLine) -> bool
 	{
 		for (auto e : OakVR::GetInstance().m_engineInitializers)
 		{
@@ -207,7 +208,7 @@ namespace oakvr
 	}
 
 	// --------------------------------------------------------------------------------
-	bool oakvrUpdate()
+	auto oakvrUpdate() -> bool
 	{
 		PROFILER_FUNC_SCOPED_TIMER;
 		return OakVR::GetInstance().Update();

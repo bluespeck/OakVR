@@ -38,17 +38,17 @@ namespace oakvr
 				auto Close() -> void;
 
 				auto Read(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToRead, OffsetType offset = 0) -> OffsetType;
-				auto Write(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToWrite, OffsetType offset = 0)-> OffsetType;
+				auto Write(uint8_t *buffer, OffsetType bufferSize, OffsetType bytesToWrite, OffsetType offset = 0) -> OffsetType;
 			
 				auto GetFilePathWithoutFileName() -> oakvr::core::io::path::PathType;
 				auto GetFilePath() -> oakvr::core::io::path::PathType { 
-					return m_filePath; } // also includes file name
+																		return m_filePath; } // also includes file name
 				auto GetFileName() -> oakvr::core::io::path::PathType; 
 					
 				auto IsOpen() -> bool { 
-					return m_bFileOpened; }
+										return m_bFileOpened; }
 				auto GetFileOpenMode() -> FileOpenMode { 
-					return m_eFileOpenMode; }
+														 return m_eFileOpenMode; }
 
 			private:
 				up<FileImpl> m_pImpl;

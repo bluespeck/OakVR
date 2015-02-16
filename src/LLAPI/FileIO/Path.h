@@ -21,10 +21,33 @@ namespace oakvr
 #endif
 				}
 
-				PathType GetParentPath(const PathType &path);
-				PathType GetFileName(const PathType &path);
-				PathType GetExtension(const PathType &path);
-				PathType GetStem(const PathType &path);	// filename without the extension
+				inline auto GetParentPath(const PathType &path) -> PathType
+				{
+					auto pos = path.rfind(GetPathSeparator());
+					return (pos != std::string::npos) ? path.substr(0, pos) : "";
+				}
+
+				// --------------------------------------------------------------------------------
+				inline auto GetFileName(const PathType &path) -> PathType
+				{
+					size_t pos = path.rfind(GetPathSeparator());
+					return (pos != std::string::npos) ? path.substr(pos + 1) : "";
+				}
+
+				// --------------------------------------------------------------------------------
+				inline auto GetExtension(const PathType &path) -> PathType
+				{
+					auto pos = path.rfind('.');
+					return (pos != std::string::npos) ? path.substr(pos + 1) : "";
+				}
+
+				// --------------------------------------------------------------------------------
+				inline auto GetStem(const PathType &path) -> PathType
+				{
+					auto filename = GetFileName(path);
+					auto pos = filename.rfind('.');
+					return (pos != std::string::npos) ? filename.substr(0, pos) : "";
+				}
 				
 			}	// namespace path
 		}	// namespace io
