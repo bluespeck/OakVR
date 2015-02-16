@@ -37,7 +37,7 @@ namespace oakvr
 		
 
 		auto AddComponent(const std::string &componentName) -> void;
-		auto GetComponent(const std::string &componentName)->ObjectComponentSharedPointer;
+		auto GetComponent(const std::string &componentName) -> ObjectComponentSharedPointer;
 
 	public:
 

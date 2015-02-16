@@ -27,9 +27,11 @@ namespace oakvr
 		
 			auto Use() -> void;
 
-			auto GetFormat() const -> TextureFormat { return m_textureFormat; }
+			auto GetFormat() const -> TextureFormat {
+														return m_textureFormat; }
 
-			auto InvalidateContext() -> void{ m_contextIsValid = false; }
+			auto InvalidateContext() -> void {
+												m_contextIsValid = false; }
 
 		private:
 			class TextureImpl;

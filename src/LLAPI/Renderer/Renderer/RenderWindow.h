@@ -31,9 +31,10 @@ namespace oakvr
 			auto SwapBuffers() -> void;
 
 			
-			inline auto GetPositionX() const -> int { return m_posX; }
-			inline auto GetPositionY() const -> int { return m_posY; }
 			auto SetPosition(int x, int y) -> void;
+			inline auto GetPositionX() const -> int;
+			inline auto GetPositionY() const -> int;
+			
 
 			inline auto GetWidth() -> unsigned int;
 			inline auto GetHeight() -> unsigned int;
@@ -43,15 +44,16 @@ namespace oakvr
 			auto SetWindowFocusCallback(void(*f)(void *, int)) -> void;
 			auto SetWindowPositionCallback(void(*f)(void *, int, int)) -> void;
 
-			auto GetTitle() const -> const std::string & { return m_title; }
+			
 			auto SetTitle(const std::string &title) -> void;
+			inline auto GetTitle() const -> const std::string &;
 
-			uint64_t GetNativeHandle() { return m_nativeHandle; }
+			inline auto GetNativeHandle() -> uint64_t;
 
-			inline auto HasFocus() const -> bool { return m_bHasFocus; }
-			auto OnFocusChanged(bool focused) -> void { m_bHasFocus = focused; }
+			inline auto HasFocus() const -> bool;
+			inline auto OnFocusChanged(bool focused) -> void;
 
-			auto OnPositionChanged(int x, int y) -> void { m_posX = x; m_posY = y; }
+			inline auto OnPositionChanged(int x, int y) -> void;
 
 		private:
 
@@ -89,6 +91,41 @@ namespace oakvr
 		inline auto RenderWindow::GetHeight() -> unsigned int
 		{
 			return m_height;
+		}
+
+		auto RenderWindow::GetPositionX() const -> int
+		{
+			return m_posX;
+		}
+
+		auto RenderWindow::GetPositionY() const -> int
+		{
+			return m_posY;
+		}
+
+		auto RenderWindow::GetTitle() const -> const std::string &
+		{
+			return m_title;
+		}
+
+		auto RenderWindow::GetNativeHandle() -> uint64_t
+		{
+			return m_nativeHandle;
+		}
+
+		auto RenderWindow::HasFocus() const -> bool
+		{
+			return m_bHasFocus;
+		}
+
+		auto RenderWindow::OnFocusChanged(bool focused) -> void
+		{
+			m_bHasFocus = focused;
+		}
+
+		auto RenderWindow::OnPositionChanged(int x, int y) -> void
+		{
+			m_posX = x; m_posY = y;
 		}
 
 	} // namespace render

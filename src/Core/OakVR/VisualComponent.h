@@ -16,7 +16,7 @@ namespace oakvr
 		~VisualComponent() {}
 
 		auto SetMeshFromResource(StringId resourceId) -> void;
-		auto GetMesh()->render::MeshSharedPointer;
+		auto GetMesh() -> render::MeshSharedPointer;
 
 	private:
 		render::MeshSharedPointer m_pMesh;
@@ -27,7 +27,7 @@ namespace oakvr
 
 	using VisualComponentSharedPointer = sp < VisualComponent > ;
 
-	inline auto VisualComponent::GetMesh()->render::MeshSharedPointer
+	inline auto VisualComponent::GetMesh() -> render::MeshSharedPointer
 	{
 		return m_pMesh;
 	}

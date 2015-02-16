@@ -21,13 +21,13 @@ namespace oakvr
 			~VertexBuffer();
 
 			auto GetVertexCount() const -> uint32_t { 
-				return m_count; }
+														return m_count; }
 			auto GetVertexStride() const -> uint8_t { 
-				return m_stride; }
+														return m_stride; }
 			auto SetVertexCount(uint32_t count)  -> void { 
-				m_count = count; }
+															m_count = count; }
 			auto SetVertexStride(uint8_t stride)  -> void { 
-				m_stride = stride; }
+															m_stride = stride; }
 
 			auto Create( uint32_t count, uint8_t stride ) -> void;
 			auto Lock( void **ppBuff, uint32_t flags = 0 ) -> void;

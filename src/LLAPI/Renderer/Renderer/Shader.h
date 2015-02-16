@@ -29,11 +29,13 @@ namespace oakvr
 			inline auto GetType() const -> ShaderType;
 
 
-			auto InvalidateContext() -> void{ m_contextIsValid = false; }
+			auto InvalidateContext() -> void {
+												m_contextIsValid = false; }
 			auto GetNativeHandle() -> void *;
 		private:
 			class ShaderImpl;
 			std::unique_ptr<ShaderImpl> m_pImpl;
+
 			ShaderType m_shaderType;
 			bool m_contextIsValid = true;
 

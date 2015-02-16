@@ -9,16 +9,15 @@ namespace oakvr
 	{
 	}
 
-	auto ObjectComponent::GetAllObjectComponentTypes() -> std::set < std::string > &
-	{
-		static std::set < std::string > s_ObjectComponentTypes;
-		return s_ObjectComponentTypes;
-	}
-
 	ObjectComponent::~ObjectComponent()
 	{
 
 	}
 
+	auto ObjectComponent::GetAllObjectComponentTypes() -> std::set < std::string > &
+	{
+		static std::set < std::string > s_ObjectComponentTypes;
+		return s_ObjectComponentTypes;
+	}
 	
-}
+} // namespace oakvr

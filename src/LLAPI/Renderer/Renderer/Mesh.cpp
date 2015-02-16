@@ -16,11 +16,5 @@ namespace oakvr
 		{	
 		}
 
-		auto Mesh::AddMeshElement(const sp<MeshElement> &pMeshElem) -> void
-		{
-			pMeshElem->m_pMesh = this;
-			m_vMeshElements.push_back(pMeshElem);
-		}
-
 	} // namespace render
 }// namespace oakvr

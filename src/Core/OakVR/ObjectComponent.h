@@ -21,11 +21,12 @@ namespace oakvr
 		ObjectComponent(ObjectSharedPointer pObject, ObjectComponentSharedPointer dependeeComponent = nullptr);
 		virtual ~ObjectComponent();
 
-		static std::set < std::string > & GetAllObjectComponentTypes();
+		static auto GetAllObjectComponentTypes() -> std::set < std::string > &;
 
-		virtual std::string GetComponentTypeAsString() { return "unknown"; };
+		virtual auto GetComponentTypeAsString() -> std::string {
+																return "unknown"; };
 
-		auto GetObject()->ObjectSharedPointer;
+		auto GetObject() -> ObjectSharedPointer;
 		auto SetObject(ObjectSharedPointer pObj) -> void;
 
 	private:
@@ -33,6 +34,8 @@ namespace oakvr
 		ObjectSharedPointer m_pObject;
 		static std::set < std::string > s_allObjectComponentTypes;
 	};
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	inline auto ObjectComponent::GetObject() -> ObjectSharedPointer 
 	{ 
@@ -43,6 +46,8 @@ namespace oakvr
 	{
 		m_pObject = pObj;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define _OC_DECLARE_INITIALIZER_HELPERS2(ocClassName, ocTypeStr)\
 	public:																															\

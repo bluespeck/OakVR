@@ -26,7 +26,7 @@ namespace oakvr
 
 			auto RemoveMesh(sp<Mesh> pMesh) -> void;
 
-			auto SortMeshesByMaterial()->Mesh::MeshElementVector;
+			auto SortMeshesByMaterial() -> Mesh::MeshElementVector;
 			auto SortByCameraDistance(const oakvr::math::Vector3 &cameraPos, const oakvr::math::Vector3 &cameraForward) -> Mesh::MeshElementVector;
 
 			auto GetMeshes() -> MeshVector & { return m_meshes; }
