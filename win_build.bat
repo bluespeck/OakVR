@@ -12,7 +12,7 @@ echo --------------------------------------------------------------------------
 echo --------------------------------------------------------------------------
 echo Generating OakVR solution
 echo
-premake5 vs2013
+premake5 vs2015
 
 echo
 echo Building OakVR [%PLF%/%CFG%]
