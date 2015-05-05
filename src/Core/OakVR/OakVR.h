@@ -50,6 +50,9 @@ namespace oakvr
 
 		auto Update(TimeDeltaType dt) -> bool;
 
+		auto FrustumCull() -> ObjectVector;
+
+		// Useful?
 		auto TriggerInputEvents() -> void;
 		auto DrawInterface() -> void;
 		auto DrawMeshes() -> void;

@@ -38,6 +38,8 @@ namespace oakvr
 				)
 				return false;
 
+
+			// Update step
 			// Keep Updatables from interfering with the Updatables vector while they are updated
 			// there is a problem with deleting Updatables while the loop is under way in that deleted objects might
 			// have Update called for them
@@ -46,13 +48,16 @@ namespace oakvr
 				if (!e->Update(dt))
 					return false;
 
+			// Render step
 			auto pCamera = GetCurrentCamera();
+			
 			if (pCamera)
-			{
-				static oakvr::Frustum frustum = pCamera->ComputeFrustum();
+			{	
 				m_pRenderer->SetCurrentCamera(pCamera);
 				m_pRenderer->SetViewMatrix(pCamera->ComputeViewMatrix());
 				m_pRenderer->SetProjMatrix(pCamera->GetProjMatrix());
+
+				auto vecMeshes = FrustumCull();
 			}
 			m_pRenderer->Update(dt);
 		}
@@ -64,6 +69,22 @@ namespace oakvr
 
 		oakvr::profiler::Profiler::GetInstance().PrintSortedData();
 		return true;
+	}
+
+	auto OakVR::FrustumCull() -> ObjectVector
+	{
+		auto const &vecObjects = GetAllObjects();
+		ObjectVector vecCulledObjects;
+		for (auto &pObj : vecObjects)
+		{
+//			auto pVisualComp = oakvr::VisualComponent::AsVisualComponent(pObj->GetComponent("Visual"));
+			
+			//if (pVisualComp->GetMesh()->)
+
+		}
+
+		return vecObjects;
+		
 	}
 
 	// --------------------------------------------------------------------------------
