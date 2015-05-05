@@ -1,12 +1,15 @@
 #pragma once
 
-#include "MeshElement.h"
-#include "Math/Matrix.h"
-#include "Utils/StringId.h"
-
 #include <memory>
 #include <vector>
 #include <cstdint>
+
+#include "Utils/StringId.h"
+#include "MeshElement.h"
+#include "Math/Matrix.h"
+#include "BoundingSphere.h"
+
+
 
 namespace oakvr
 {
@@ -34,6 +37,8 @@ namespace oakvr
 			MeshElementVector m_vMeshElements;
 			oakvr::math::Matrix m_worldMatrix;
 
+			BoundingSphere m_boundingSphere;
+
 		};
 
 		using MeshSharedPointer = sp < Mesh > ;
@@ -42,6 +47,10 @@ namespace oakvr
 		{
 			pMeshElem->m_pMesh = this;
 			m_vMeshElements.push_back(pMeshElem);
+
+			//TODO: How to compute bounding box/sphere form vertex data?
+			// iterate through all position channels?
+			// add a setter for the bb/bs and compute them offline?
 		}
 
 		auto Mesh::GetMeshElements() -> MeshElementVector &
