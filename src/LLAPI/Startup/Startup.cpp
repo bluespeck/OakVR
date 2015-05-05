@@ -20,23 +20,32 @@ namespace oakvr
 	auto ParseCommandLine(const std::string& args) -> std::vector<std::string>
 	{
 		std::vector<std::string> cmdLine;
-#if defined(_WIN32)
+
+		// this is deleted in newer vs versions
+		/*
 		std::sregex_token_iterator it(args.begin(), args.end(), std::regex("[ ]+"), -1);
 		std::sregex_token_iterator end;
 		for(; it != end; ++it)
 		{
 			cmdLine.push_back(it->str());
 		}
-#else
-		for(int i = 0, start = 0; i < args.size(); ++i)
+		*/
+		std::string acc;
+		for (auto e : args)
 		{
-			if(args[i] == ' ')
+			if (e == ' ' || e == '\t')
 			{
-				cmdLine.push_back(args.substr(start, i-start));
-				start = i+1;
+				if (acc.length() > 0)
+				{
+					cmdLine.push_back(acc);
+					acc.clear();
+				}
+				else
+					continue;
 			}
+			else
+				acc.append(1, e);
 		}
-#endif
 
 		return cmdLine;
 	}
