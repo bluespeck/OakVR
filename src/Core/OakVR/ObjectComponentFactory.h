@@ -12,7 +12,7 @@ namespace oakvr
 	{
 	public:
 		static ObjectComponentSharedPointer MakeObjectComponent(const std::string objectComponentType, ObjectSharedPointer pObj ,ObjectComponentSharedPointer pDependeeComp = nullptr);
-
+		
 
 
 	public:

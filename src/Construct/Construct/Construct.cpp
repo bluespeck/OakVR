@@ -227,15 +227,30 @@ namespace construct
 		pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(10, 0, 0) * oakvr::math::Matrix::Scale(200));
 
 		auto pObj = oakvr::OakVR::GetInstance().CreateObject("TestCube");
-		pObj->AddComponent("Transform");
-		pObj->AddComponent("Visual");
-		auto pComponent = pObj->GetComponent("Transform");
-		auto pTransformComp = oakvr::TransformComponent::AsTransformComponent(pComponent);
+		auto pTransformComp = pObj->AddComponent<oakvr::TransformComponent>();
 		pTransformComp->SetPosition({ 10, 10, 10 });
-		auto pVisualComp = oakvr::VisualComponent::AsVisualComponent(pObj->GetComponent("Visual"));
+
+		auto pVisualComp = pObj->AddComponent<oakvr::VisualComponent>();
 		pVisualComp->SetMeshFromResource("TestCube");
+		// updating the world matrix for the mesh should be done by the parent object 
+		// when it detects that the translation component changed in the current frame
 		pVisualComp->GetMesh()->SetWorldMatrix(oakvr::math::Matrix::Translation(pTransformComp->GetPosition()));
 		
+		// Add object to scene
+		oakvr::OakVR::GetInstance().AddObjectToGraph(pObj, "root");
+
+		
+
+		// On engine update do a filter on the objects
+
+
+		// based on frustum intersection (use BSpheres)
+		// Further parse the structure and batch geometries based on material
+		// Create vertex/index buffers for batches
+		// 
+
+
+
 
 	}
 

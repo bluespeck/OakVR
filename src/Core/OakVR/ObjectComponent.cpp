@@ -2,22 +2,9 @@
 
 namespace oakvr
 {
-	std::set < std::string > ObjectComponent::s_allObjectComponentTypes;
-
-	ObjectComponent::ObjectComponent(ObjectSharedPointer pObject, ObjectComponentSharedPointer dependeeComponent/* = nullptr*/)
+	ObjectComponent::ObjectComponent(ObjectSharedPointer pObject)
 		:m_pObject{ pObject }
 	{
-	}
-
-	ObjectComponent::~ObjectComponent()
-	{
-
-	}
-
-	auto ObjectComponent::GetAllObjectComponentTypes() -> std::set < std::string > &
-	{
-		static std::set < std::string > s_ObjectComponentTypes;
-		return s_ObjectComponentTypes;
 	}
 	
 } // namespace oakvr

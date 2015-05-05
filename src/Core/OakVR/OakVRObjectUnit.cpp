@@ -1,5 +1,7 @@
 #include "OakVRObjectUnit.h"
 
+#include <algorithm>
+
 #include "Log/Log.h"
 
 
@@ -13,9 +15,10 @@ namespace oakvr
 	auto OakVRObjectUnit::AddObjectToGraph(ObjectSharedPointer pObject, const StringId &parentId) -> void
 	{
 		m_objectMap[pObject->GetId()] = pObject;
+		m_objectVector.push_back(pObject);
 		auto pCurrentParent = pObject->GetParent();
 		
-		if (parentId != pCurrentParent->GetId())
+		if (!pCurrentParent || parentId != pCurrentParent->GetId())
 		{
 			// we must also add the object as a child of the parent
 			auto pParent = FindObject(parentId);
@@ -45,6 +48,8 @@ namespace oakvr
 			}
 			m_objectMap.erase(it);
 		}
+
+		m_objectVector.erase(std::remove_if(std::begin(m_objectVector), std::end(m_objectVector), [&id](const ObjectSharedPointer &pObj) { return pObj->GetId() == id; }));
 	}
 
 	ObjectSharedPointer OakVRObjectUnit::FindObject(const StringId &objectId)

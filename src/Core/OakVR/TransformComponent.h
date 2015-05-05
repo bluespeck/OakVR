@@ -4,13 +4,14 @@
 
 #include "Math/Vector3.h"
 #include "Math/Matrix.h"
+#include <string>
 
 namespace oakvr
 {
 	class TransformComponent : public ObjectComponent
 	{
 	public:
-		TransformComponent(ObjectSharedPointer pObj, ObjectComponentSharedPointer pDependeeComponent = nullptr);
+		TransformComponent(ObjectSharedPointer pObj);
 
 		auto GetPosition() -> const math::Vector3 &;
 		auto SetPosition(const math::Vector3 &position) -> void;
@@ -21,12 +22,15 @@ namespace oakvr
 		auto GetScale() -> const math::Vector3 &;
 		auto SetScale(const math::Vector3 &scale) -> void;
 
+		auto GetComponentObjectTypeAsString() -> std::string override { return "TransformComponent"s; }
+
+		static auto GetComponentClassTypeAsString() -> std::string { return "TransformComponent"s;}
+
 	private:
 		math::Vector3 m_position;
 		math::Vector3 m_orientation;
 		math::Vector3 m_scale;
 
-		_OC_DECLARE_INITIALIZER_HELPERS(Transform)
 	};
 
 	using TransformComponentSharedPointer = sp < TransformComponent > ;

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <memory>
 
 #include "Utils/StringId.h"
 #include "Utils/Types.h"
@@ -34,10 +35,11 @@ namespace oakvr
 		auto GetParent()->ObjectSharedPointer;
 		auto SetParent(ObjectSharedPointer pParent) -> void;
 		
-		
+		template <typename ComponentType>
+		auto AddComponent() -> std::shared_ptr<ComponentType>;
 
-		auto AddComponent(const std::string &componentName) -> void;
-		auto GetComponent(const std::string &componentName) -> ObjectComponentSharedPointer;
+		template <typename ComponentType>
+		auto GetComponent() -> std::shared_ptr<ComponentType>;
 
 	public:
 
@@ -67,6 +69,28 @@ namespace oakvr
 	inline auto Object::SetParent(ObjectSharedPointer pParent) -> void
 	{ 
 		m_pParent = pParent; 
+	}
+
+	template <typename ComponentType>
+	auto Object::AddComponent() -> std::shared_ptr<ComponentType>
+	{
+		auto pObjComp = std::make_shared<ComponentType>(shared_from_this());
+		auto componentTypeName = ComponentType::GetComponentClassTypeAsString();
+
+		m_componentMap[componentTypeName] = std::static_pointer_cast<ObjectComponent>(pObjComp);
+
+		return pObjComp;
+	}
+
+	template <typename ComponentType>
+	auto Object::GetComponent() -> std::shared_ptr<ComponentType>
+	{
+		auto componentTypeName = ComponentType::GetComponentClassTypeAsString();
+		auto it = m_componentMap.find(componentTypeName);
+		if (it != m_componentMap.end())
+			return std::dynamic_pointer_cast<ComponentType>(it->second);
+		else
+			return nullptr;
 	}
 
 } // namespace oakvr

@@ -5,6 +5,8 @@
 
 #include "Utils/Types.h"
 
+using namespace std::literals::string_literals;
+
 namespace oakvr
 {
 	class Object;
@@ -18,13 +20,11 @@ namespace oakvr
 
 	public:
 
-		ObjectComponent(ObjectSharedPointer pObject, ObjectComponentSharedPointer dependeeComponent = nullptr);
-		virtual ~ObjectComponent();
+		ObjectComponent(ObjectSharedPointer pObject);
+		virtual ~ObjectComponent() = default;
 
-		static auto GetAllObjectComponentTypes() -> std::set < std::string > &;
-
-		virtual auto GetComponentTypeAsString() -> std::string {
-																return "unknown"; };
+		virtual auto GetComponentObjectTypeAsString() -> std::string { return "ObjectComponent"s; }
+		static auto GetComponentClassTypeAsString() -> std::string { return "ObjectComponent"s; }
 
 		auto GetObject() -> ObjectSharedPointer;
 		auto SetObject(ObjectSharedPointer pObj) -> void;
@@ -46,26 +46,5 @@ namespace oakvr
 	{
 		m_pObject = pObj;
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#define _OC_DECLARE_INITIALIZER_HELPERS2(ocClassName, ocTypeStr)\
-	public:																															\
-		static auto As ## ocClassName(ObjectComponentSharedPointer pComp)->sp < ocClassName >;										\
-		virtual std::string GetComponentTypeAsString();																				\
-	private:																														\
-	static ObjectComponentSharedPointer _Create(ObjectSharedPointer, ObjectComponentSharedPointer dependentComponent = nullptr);	\
-	friend struct OakVREngineInitializer ## ocClassName;
-
-
-#define _OC_DEFINE_INITIALIZER_HELPERS2(ocClassName, ocTypeStr)\
-	ObjectComponentSharedPointer ocClassName::_Create(ObjectSharedPointer pObj, ObjectComponentSharedPointer dependentComponent) { return std::make_shared<ocClassName>(pObj, dependentComponent); }\
-	auto ocClassName::As ## ocClassName(ObjectComponentSharedPointer pComp)->sp < ocClassName > { return std::static_pointer_cast<ocClassName>(pComp); }											\
-	std::string ocClassName::GetComponentTypeAsString() { return ocTypeStr; }
-
-
-#define _OC_DECLARE_INITIALIZER_HELPERS(componentType) _OC_DECLARE_INITIALIZER_HELPERS2(componentType ## Component, #componentType)
-#define _OC_DEFINE_INITIALIZER_HELPERS(componentType) _OC_DEFINE_INITIALIZER_HELPERS2(componentType ## Component, #componentType)
-
 }
 
