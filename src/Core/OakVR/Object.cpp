@@ -4,7 +4,6 @@
 #include <algorithm>
 
 #include "Utils/UniqueId.h"
-#include "ObjectComponentFactory.h"
 
 namespace oakvr
 {

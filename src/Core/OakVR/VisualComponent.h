@@ -18,9 +18,11 @@ namespace oakvr
 		auto SetMeshFromResource(StringId resourceId) -> void;
 		auto GetMesh() -> render::MeshSharedPointer;
 
-		virtual auto GetComponentObjectTypeAsString() -> std::string override { return "VisualComponent"s; }
+		virtual	auto GetComponentObjectType() const noexcept -> oakvr::ObjectComponentId override { return oakvr::ObjectComponentId::visual; }
+		virtual	auto GetComponentObjectTypeAsString() const noexcept -> std::string override { return "VisualComponent"s; }
 
-		static auto GetComponentClassTypeAsString() -> std::string { return "VisualComponent"s; }
+		static	auto GetComponentClassType() -> oakvr::ObjectComponentId { return oakvr::ObjectComponentId::visual; }
+		static 	auto GetComponentClassTypeAsString() -> std::string { return "VisualComponent"s; }
 
 	private:
 		render::MeshSharedPointer m_pMesh;

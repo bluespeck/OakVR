@@ -1,6 +1,5 @@
 #include "TransformComponent.h"
 
-#include "ObjectComponentFactory.h"
 #include "OakVR.h"
 
 namespace oakvr

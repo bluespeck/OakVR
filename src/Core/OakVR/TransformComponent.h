@@ -22,9 +22,11 @@ namespace oakvr
 		auto GetScale() -> const math::Vector3 &;
 		auto SetScale(const math::Vector3 &scale) -> void;
 
-		auto GetComponentObjectTypeAsString() -> std::string override { return "TransformComponent"s; }
+		virtual	auto GetComponentObjectType() const noexcept -> oakvr::ObjectComponentId override { return oakvr::ObjectComponentId::transform; }
+		virtual	auto GetComponentObjectTypeAsString() const noexcept -> std::string override { return "TransformComponent"s; }
 
-		static auto GetComponentClassTypeAsString() -> std::string { return "TransformComponent"s;}
+		static	auto GetComponentClassType() noexcept -> oakvr::ObjectComponentId { return oakvr::ObjectComponentId::transform; }
+		static 	auto GetComponentClassTypeAsString() noexcept -> std::string { return "TransformComponent"s; }
 
 	private:
 		math::Vector3 m_position;

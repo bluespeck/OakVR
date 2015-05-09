@@ -1,7 +1,6 @@
 #include "VisualComponent.h"
 
 #include "Interface.h"
-#include "ObjectComponentFactory.h"
 #include "OakVR.h"
 
 namespace oakvr

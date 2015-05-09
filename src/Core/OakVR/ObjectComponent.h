@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
-#include <set>
 
 #include "Utils/Types.h"
+#include "ObjectComponents.h"
 
 using namespace std::literals::string_literals;
 
@@ -20,11 +20,15 @@ namespace oakvr
 
 	public:
 
-		ObjectComponent(ObjectSharedPointer pObject);
-		virtual ~ObjectComponent() = default;
+		ObjectComponent(ObjectSharedPointer pObject) : m_pObject{ pObject } {};
 
-		virtual auto GetComponentObjectTypeAsString() -> std::string { return "ObjectComponent"s; }
-		static auto GetComponentClassTypeAsString() -> std::string { return "ObjectComponent"s; }
+		virtual	~ObjectComponent() = default;
+		
+		virtual	auto GetComponentObjectType() const -> oakvr::ObjectComponentId { return oakvr::ObjectComponentId::object; }
+		virtual	auto GetComponentObjectTypeAsString() const -> std::string { return "ObjectComponent"s; }
+
+		static	auto GetComponentClassType() -> oakvr::ObjectComponentId { return oakvr::ObjectComponentId::object; }
+		static 	auto GetComponentClassTypeAsString() -> std::string { return "ObjectComponent"s; }
 
 		auto GetObject() -> ObjectSharedPointer;
 		auto SetObject(ObjectSharedPointer pObj) -> void;
@@ -32,7 +36,6 @@ namespace oakvr
 	private:
 
 		ObjectSharedPointer m_pObject;
-		static std::set < std::string > s_allObjectComponentTypes;
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
