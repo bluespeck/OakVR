@@ -1,6 +1,8 @@
 #include "Construct.h"
 
 #include "OakVR/OakVR.h"
+#include "OakVR/TransformComponent.h"
+#include "OakVR/VisualComponent.h"
 
 #include "Input/KeyboardInput/KeyboardInput.h"
 #include "Input/MouseInput/MouseInput.h"

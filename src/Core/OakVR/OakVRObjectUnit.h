@@ -4,10 +4,6 @@
 #include "Utils/StringId.h"
 
 #include "OakVR/Object.h"
-#include "OakVR/TransformComponent.h"
-#include "OakVR/VisualComponent.h"
-
-#include "Math/Matrix.h"
 
 namespace oakvr
 {
@@ -19,20 +15,13 @@ namespace oakvr
 		auto RemoveObjectFromGraph(const StringId &name) -> void;
 		auto FindObject(const StringId &objectId) -> ObjectSharedPointer;
 		auto TransferObject(const StringId &id, const StringId &newParentId) -> void;
-		inline auto GetAllObjects() -> ObjectVector &;
-		inline auto GetAllObjects() const -> const ObjectVector &;
+		//auto GetAllObjects() -> ObjectVector &;
+		//auto GetAllObjects() const -> const ObjectVector &;
+
+		OakVRObjectUnit();
+		~OakVRObjectUnit();
 	protected:
-		ObjectMap m_objectMap;
-		ObjectVector m_objectVector;
+		class OakVRObjectUnitImpl;
+		up<OakVRObjectUnitImpl> m_pImpl;
 	};
-
-	auto OakVRObjectUnit::GetAllObjects() -> ObjectVector &
-	{
-		return m_objectVector;
-	}
-
-	auto OakVRObjectUnit::GetAllObjects() const -> const ObjectVector &
-	{
-		return m_objectVector;
-	}
 }

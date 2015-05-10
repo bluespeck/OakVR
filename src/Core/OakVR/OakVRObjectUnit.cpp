@@ -1,12 +1,22 @@
-#include "OakVRObjectUnit.h"
+#include "OakVRObjectUnitImpl.h"
 
 #include <algorithm>
+#include <memory>
 
 #include "Log/Log.h"
 
 
 namespace oakvr
 {
+	OakVRObjectUnit::OakVRObjectUnit()
+	{
+		m_pImpl = std::make_unique<OakVRObjectUnitImpl>();
+	}
+
+	OakVRObjectUnit::~OakVRObjectUnit()
+	{
+	}
+
 	ObjectSharedPointer OakVRObjectUnit::CreateObject(const StringId &objId)
 	{
 		return std::make_shared<Object>(objId);
@@ -14,8 +24,10 @@ namespace oakvr
 
 	auto OakVRObjectUnit::AddObjectToGraph(ObjectSharedPointer pObject, const StringId &parentId) -> void
 	{
-		m_objectMap[pObject->GetId()] = pObject;
-		m_objectVector.push_back(pObject);
+		auto &objectMap = m_pImpl->m_objectMap;
+		auto &objectVector = m_pImpl->m_objectVector;
+		objectMap[pObject->GetId()] = pObject;
+		objectVector.push_back(pObject);
 		auto pCurrentParent = pObject->GetParent();
 		
 		if (!pCurrentParent || parentId != pCurrentParent->GetId())
@@ -38,24 +50,27 @@ namespace oakvr
 
 	auto OakVRObjectUnit::RemoveObjectFromGraph(const StringId &id) -> void
 	{
-		auto it = m_objectMap.find(id);
-		if (it != m_objectMap.end())
+		auto &objectMap = m_pImpl->m_objectMap;
+		auto it = objectMap.find(id);
+		if (it != objectMap.end())
 		{
 			if (id != "root")
 			{
 				auto pObject = it->second;
 				pObject->GetParent()->RemoveChild(pObject);
 			}
-			m_objectMap.erase(it);
+			m_pImpl->m_objectMap.erase(it);
 		}
 
-		m_objectVector.erase(std::remove_if(std::begin(m_objectVector), std::end(m_objectVector), [&id](const ObjectSharedPointer &pObj) { return pObj->GetId() == id; }));
+		auto &objectVector = m_pImpl->m_objectVector;
+		objectVector.erase(std::remove_if(std::begin(objectVector), std::end(objectVector), [&id](const ObjectSharedPointer &pObj) { return pObj->GetId() == id; }));
 	}
 
 	ObjectSharedPointer OakVRObjectUnit::FindObject(const StringId &objectId)
 	{
-		auto it = m_objectMap.find(objectId);
-		if (it != std::end(m_objectMap))
+		auto &objectMap = m_pImpl->m_objectMap;
+		auto it = objectMap.find(objectId);
+		if (it != std::end(objectMap))
 		{
 			return it->second;
 		}

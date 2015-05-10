@@ -73,9 +73,9 @@ namespace oakvr
 
 	auto OakVR::FrustumCull() -> ObjectVector
 	{
-		auto const &vecObjects = GetAllObjects();
-		ObjectVector vecCulledObjects;
-		for (auto &pObj : vecObjects)
+		//auto const &vecObjects = GetAllObjects();
+		//ObjectVector vecCulledObjects;
+		//for (auto &pObj : vecObjects)
 		{
 //			auto pVisualComp = oakvr::VisualComponent::AsVisualComponent(pObj->GetComponent("Visual"));
 			
@@ -83,7 +83,7 @@ namespace oakvr
 
 		}
 
-		return vecObjects;
+		return {};
 		
 	}
 
