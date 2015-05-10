@@ -24,6 +24,8 @@ namespace oakvr
 
 	auto OakVRObjectUnit::AddObjectToGraph(ObjectSharedPointer pObject, const StringId &parentId) -> void
 	{
+		OAKVR_ASSERT(m_pImpl);
+
 		auto &objectMap = m_pImpl->m_objectMap;
 		auto &objectVector = m_pImpl->m_objectVector;
 		objectMap[pObject->GetId()] = pObject;
@@ -50,6 +52,8 @@ namespace oakvr
 
 	auto OakVRObjectUnit::RemoveObjectFromGraph(const StringId &id) -> void
 	{
+		OAKVR_ASSERT(m_pImpl);
+
 		auto &objectMap = m_pImpl->m_objectMap;
 		auto it = objectMap.find(id);
 		if (it != objectMap.end())
@@ -68,6 +72,8 @@ namespace oakvr
 
 	ObjectSharedPointer OakVRObjectUnit::FindObject(const StringId &objectId)
 	{
+		OAKVR_ASSERT(m_pImpl);
+
 		auto &objectMap = m_pImpl->m_objectMap;
 		auto it = objectMap.find(objectId);
 		if (it != std::end(objectMap))
