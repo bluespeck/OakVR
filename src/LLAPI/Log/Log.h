@@ -43,5 +43,11 @@ namespace oakvr
 	};
 }
 
-#define OAKVR_ASSERT_MESSAGE(cond, message, ...) do{ if(!(cond)) Log::Error(message, __VA_ARGS__); }while(false);
-#define OAKVR_ASSERT(cond) do{ if(!(cond)) Log::Error(#cond); }while(false);
+#ifdef OAKVR_DEBUG
+#	define OAKVR_ASSERT_MESSAGE(cond, message, ...) do{ if(!(cond)) Log::Error(message, __VA_ARGS__); }while(false)
+#	define OAKVR_ASSERT(cond) do{ if(!(cond)) Log::Error(#cond); }while(false)
+#else
+#	define NO_OPERATION (void)0
+#	define OAKVR_ASSERT_MESSAGE(cond, message, ...) NO_OPERATION
+#	define OAKVR_ASSERT(cond) NO_OPERATION
+#endif
