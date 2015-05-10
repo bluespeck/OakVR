@@ -42,3 +42,6 @@ namespace oakvr
 		static const char * s_logLabel;
 	};
 }
+
+#define OAKVR_ASSERT_MESSAGE(cond, message, ...) do{ if(!(cond)) Log::Error(message, __VA_ARGS__); }while(false);
+#define OAKVR_ASSERT(cond) do{ if(!(cond)) Log::Error(#cond); }while(false);
