@@ -4,18 +4,9 @@
 
 namespace oakvr
 {
-	namespace render
+	struct AABB
 	{
-
-		class AABB
-		{
-		public:
-			AABB(void);
-			~AABB(void);
-
-			oakvr::math::Vector3 m_vecLeftBottomFront;
-			oakvr::math::Vector3 m_vecRightTopBack;
-		};
-
-	} // namespace render
+		oakvr::math::Vector3 m_vecLeftBottomFront = { 0.f, 0.f, 0.f };
+		oakvr::math::Vector3 m_vecRightTopBack = { 0.f, 0.f, 0.f };
+	};
 } // namespace oakvr

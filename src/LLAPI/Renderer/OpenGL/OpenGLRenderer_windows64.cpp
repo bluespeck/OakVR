@@ -236,10 +236,15 @@ namespace oakvr
 		auto Renderer::ToggleDepthTest() -> void
 		{
 			if (m_bDepthTestEnabled == false)
+			{
 				glCallAndCheck(glEnable, GL_DEPTH_TEST);
+				m_bDepthTestEnabled = true;
+			}
 			else
+			{
 				glCallAndCheck(glDisable, GL_DEPTH_TEST);
-			m_bDepthTestEnabled = !m_bDepthTestEnabled;
+				m_bDepthTestEnabled = false;
+			}
 		}
 
 		// Blending

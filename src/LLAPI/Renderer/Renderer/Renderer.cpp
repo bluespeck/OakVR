@@ -224,7 +224,7 @@ namespace oakvr
 		auto Renderer::GetRegisteredMesh(const StringId &name) -> MeshSharedPointer
 		{
 			auto &meshes = m_pMeshManager->GetMeshes();
-			auto it = std::find_if(meshes.begin(), meshes.end(), [&name](oakvr::render::MeshManager::MeshVector::value_type &e) { return e->GetName() == name; });
+			auto it = std::find_if(meshes.begin(), meshes.end(), [&name](auto &e) { return e->GetName() == name; });
 			if (it != meshes.end())
 				return *it;
 			else

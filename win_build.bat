@@ -13,6 +13,7 @@ echo --------------------------------------------------------------------------
 echo Generating OakVR solution
 echo
 premake5 vs2015
+.\workspace\vs2015\OAKVR\OAKVR.sln
 
 echo
 echo Building OakVR [%PLF%/%CFG%]

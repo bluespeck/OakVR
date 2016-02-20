@@ -46,6 +46,7 @@ namespace oakvr
 
 			// other methods
 			auto GetLength() const -> float;
+			auto GetSquareLength() const -> float;
 			auto GetNormalized() const -> Vector3;
 			Vector2 Normalize() const;
 			auto Dot( const Vector2 &vec ) const -> float;

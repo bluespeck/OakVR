@@ -1,15 +1,15 @@
 #pragma once
 
-#include <memory>
-#include <vector>
-#include <cstdint>
-
 #include "Utils/StringId.h"
 #include "MeshElement.h"
 #include "Math/Matrix.h"
 #include "BoundingSphere.h"
 
+#include <memory>
+#include <vector>
+#include <cstdint>
 
+using namespace std::string_literals;
 
 namespace oakvr
 {
@@ -20,7 +20,7 @@ namespace oakvr
 		public:
 			typedef std::vector<MeshElementSharedPointer> MeshElementVector;
 
-			Mesh(const StringId &name = "");
+			Mesh(const StringId &name = ""s);
 			~Mesh();
 
 			inline auto AddMeshElement(const sp<MeshElement> &meshElem) -> void;
@@ -29,6 +29,8 @@ namespace oakvr
 			inline auto SetWorldMatrix(const oakvr::math::Matrix &worldMatrix) -> void;
 			inline auto GetWorldMatrix() const -> const oakvr::math::Matrix &;
 			inline auto Transform(const oakvr::math::Matrix &transform) -> void;
+			
+			inline auto GetBoundingSphere() const noexcept -> const BoundingSphere &;
 
 			inline auto GetName() const -> const StringId &;
 
@@ -48,9 +50,16 @@ namespace oakvr
 			pMeshElem->m_pMesh = this;
 			m_vMeshElements.push_back(pMeshElem);
 
-			//TODO: How to compute bounding box/sphere form vertex data?
-			// iterate through all position channels?
-			// add a setter for the bb/bs and compute them offline?
+			const auto &c1 = m_boundingSphere.m_position;
+			const auto &c2 = pMeshElem->m_boundingSphere.m_position;
+			const auto &r1 = m_boundingSphere.m_radius;
+			const auto &r2 = pMeshElem->m_boundingSphere.m_radius;
+
+			auto deltaR = c2 - c1;
+			auto c11 = c1 + r1 * deltaR.GetNormalized();
+			auto c22 = c2 - r2 * deltaR.GetNormalized();
+			m_boundingSphere.m_position = c11 - (c11 - c22) / 2;
+			m_boundingSphere.m_radius = (r1 + r2) - abs(r1 - r2) / 2;
 		}
 
 		auto Mesh::GetMeshElements() -> MeshElementVector &
@@ -76,6 +85,11 @@ namespace oakvr
 		auto Mesh::Transform(const oakvr::math::Matrix &transform) -> void
 		{
 			m_worldMatrix = transform * m_worldMatrix;
+		}
+
+		auto Mesh::GetBoundingSphere() const noexcept -> const BoundingSphere &
+		{
+			return m_boundingSphere;
 		}
 
 		auto Mesh::GetName() const -> const StringId &

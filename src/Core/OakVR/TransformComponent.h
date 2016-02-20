@@ -32,7 +32,7 @@ namespace oakvr
 		math::Vector3 m_position;
 		math::Vector3 m_orientation;
 		math::Vector3 m_scale;
-
+		
 	};
 
 	using TransformComponentSharedPointer = sp < TransformComponent > ;

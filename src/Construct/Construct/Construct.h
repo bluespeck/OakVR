@@ -13,6 +13,7 @@ namespace construct
 		auto CreateTestMesh2() -> void;
 		auto CreateTestMesh1() -> void;
 		auto CreateTestMesh3() -> void;
+		auto CreateTestMesh4() -> void;
 		auto CreateTestMeshRoom() -> void;
 	};
 }

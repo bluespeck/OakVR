@@ -1,17 +1,17 @@
 #include "Dae2Oak.h"
 
+#include "Utils/Buffer.h"
+#include "Utils/BufferReader.h"
+#include "Utils/BufferWriter.h"
+#include "Utils/RenderUtils.h"
+#include "Windows.h"
+#include <TinyXML2/tinyxml2.h>
+
 #include <fstream>
 #include <algorithm>
 #include <sstream>
 #include <type_traits>
 #include <tuple>
-
-#include "Utils/Buffer.h"
-#include "Utils/BufferReader.h"
-#include "Utils/BufferWriter.h"
-#include "Utils/RendererUtils.h"
-#include "Windows.h"
-#include <TinyXML2/tinyxml2.h>
 
 namespace oakvr
 {

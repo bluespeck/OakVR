@@ -49,6 +49,12 @@ namespace oakvr
 		}
 
 		// --------------------------------------------------------------------------------
+		auto Vector3::GetSquareLength() const -> float
+		{
+			return x * x + y * y + z * z;
+		}
+
+		// --------------------------------------------------------------------------------
 		auto Vector3::GetNormalized() const -> Vector3
 		{
 			const float magnitudeSquare = x * x + y * y + z * z;

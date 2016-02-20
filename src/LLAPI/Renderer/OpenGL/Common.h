@@ -33,6 +33,7 @@ inline auto CheckOpenGLError(const char *file, int line) -> void
 			case GL_STACK_UNDERFLOW:		error = "GL_STACK_UNDERFLOW";		break;
 			case GL_OUT_OF_MEMORY:          error = "GL_OUT_OF_MEMORY";			break;
 			case GL_INVALID_FRAMEBUFFER_OPERATION:	error = "GL_INVALID_FRAMEBUFFER_OPERATION";	break;
+			default: error = "GL_UNKNOWN_ERROR"; break;
 		}
 		oakvr::Log::Warning("%s:%d : OpenGL error \"%s\"", file, line, error.c_str());
 		err = glGetError();

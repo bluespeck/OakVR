@@ -2,18 +2,11 @@
 
 #include "Math/Vector3.h"
 
-
 namespace oakvr
 {
-	namespace render
+	struct BoundingSphere
 	{
-		class BoundingSphere
-		{
-		public:
-			auto IntersectsFrustum() -> bool;
-
-			oakvr::math::Vector3 m_position;
-			float m_radius;
-		};
-	}
+		oakvr::math::Vector3 m_position;
+		float m_radius;
+	};
 }

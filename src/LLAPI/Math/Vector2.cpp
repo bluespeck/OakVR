@@ -129,10 +129,16 @@ namespace oakvr
 
 		//------------------------------------------------------
 		// other methods
-
+		//------------------------------------------------------
 		auto Vector2::GetLength() const -> float
 		{ 
 			return std::pow(x * x + y * y, 0.5f); 
+		}
+
+		//------------------------------------------------------
+		auto Vector2::GetSquareLength() const -> float
+		{
+			return x * x + y * y;
 		}
 		
 		auto Vector2::Normalize() const -> Vector2

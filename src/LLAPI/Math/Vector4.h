@@ -42,8 +42,9 @@ namespace oakvr
 			auto operator != ( const Vector4 &vec ) const -> bool;
 
 			// other methods
-			auto Length() const -> float;
-			Vector4 Normalize() const;
+			auto GetLength() const -> float;
+			auto GetSquareLength() const -> float;
+			auto Normalize() const -> Vector4;
 			auto Dot( const Vector4 &vec ) const -> float;			
 
 			// static constants
