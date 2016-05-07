@@ -24,14 +24,12 @@ namespace oakvr
 			// ctors & dtors
 			Texture(const oakvr::core::MemoryBuffer &buff);
 			~Texture();
-		
-			auto Use() -> void;
 
-			auto GetFormat() const -> TextureFormat {
-														return m_textureFormat; }
+			auto GetFormat() const noexcept -> TextureFormat { return m_textureFormat; }
 
-			auto InvalidateContext() -> void {
-												m_contextIsValid = false; }
+			auto InvalidateContext() noexcept -> void {	m_contextIsValid = false; }
+
+			auto GetNativeHandle() const noexcept -> void*;
 
 		private:
 			class TextureImpl;

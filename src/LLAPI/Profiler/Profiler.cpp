@@ -67,7 +67,7 @@ namespace oakvr
 				{
 					auto &pd = elem.second;
 					auto percentage = static_cast<int>(static_cast<float>(pd.totalTime) / static_cast<float>(vec.front().second.totalTime) * 100.0f);
-					Log::Info("\t%60s -- [%%]=%3d h=%-6lu total[ms]=%-9llu crt[\346s]=%-9llu max[\346s]=%-9llu avg[\346s]=%-9llu", pd.id.name.c_str(), percentage, pd.hits, pd.totalTime / 1000, pd.latestTime, pd.maxTime, pd.avgTime);
+					Log::Info("\t%80s -- [%%]=%3d h=%-6lu total[ms]=%-9llu crt[\346s]=%-9llu max[\346s]=%-9llu avg[\346s]=%-9llu", pd.id.name.c_str(), percentage, pd.hits, pd.totalTime / 1000, pd.latestTime, pd.maxTime, pd.avgTime);
 				}
 				Log::SetOutFilename(oldOutFileName);
 			}

@@ -8,6 +8,7 @@
 #include "Renderer/Renderer/IndexBuffer.h"
 #include "Renderer/Renderer/Texture.h"
 #include "Renderer/Renderer/Color.h"
+#include "Renderer/Renderer/RenderableManager.h"
 #include "Renderer/Renderer/MeshManager.h"
 #include "Renderer/Renderer/Mesh.h"
 
@@ -107,7 +108,7 @@ namespace oakvr
 			if (texture != nullptr)
 			{
 				glCallAndCheck(glEnable, GL_TEXTURE_2D);
-				//glBindTexture(GL_TEXTURE_2D, reinterpret_cast<GLuint>(texture->GetData()));
+				glBindTexture(GL_TEXTURE_2D, reinterpret_cast<GLuint>(texture->GetNativeHandle()));
 			}
 			else
 			{

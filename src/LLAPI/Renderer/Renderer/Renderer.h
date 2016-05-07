@@ -32,7 +32,10 @@ namespace oakvr
 		struct Color;
 		class DebugTextRenderer;
 		class MeshManager;
+		class Renderable;
+		class RenderableManager;
 		class Camera;
+
 		class Renderer
 		{
 		public:
@@ -52,9 +55,12 @@ namespace oakvr
 			auto RegisterOneFrameMesh(sp<Mesh> pMesh) -> void;
 			auto UnregisterMesh(sp<Mesh> pMesh) -> void;
 			auto RegisterTexture(const StringId &textureName, sp<oakvr::core::MemoryBuffer> pBuff) -> void;
-			
+
 			auto RegisterShaderProgram(const StringId &shaderProgramName) -> void;
 			
+			auto RegisterRenderable(sp<Mesh> pMesh, oakvr::math::Matrix transform) -> void;
+			auto UnregisterAllRenderables() -> void;
+
 			// render
 			auto DrawPrimitives(uint32_t numVertices, uint32_t startVertex = 0) -> void;
 			auto DrawIndexed(uint32_t numIndices, uint8_t indexStride = 4, uint32_t startIndex = 0, uint32_t startVertex = 0) -> void;
@@ -95,6 +101,7 @@ namespace oakvr
 
 			auto RenderMeshes(const std::vector<sp<Mesh>> &meshes) -> void;
 			auto RenderMeshElems(const Mesh::MeshElementVector &meshElems) -> void;
+			auto RenderRenderables(const std::vector<sp<Renderable>> &renderables) -> void;
 			auto UpdateShaderParams(sp<ShaderProgram> pShader) -> void;
 
 		private:
@@ -109,6 +116,7 @@ namespace oakvr
 			std::unordered_map<StringId, sp<ShaderProgram>> m_shaderPrograms;
 			
 			std::unique_ptr<MeshManager> m_pMeshManager;
+			std::unique_ptr<RenderableManager> m_pRenderableManager;
 
 			sp<Camera> m_pCurrentCamera;
 

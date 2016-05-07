@@ -1,4 +1,6 @@
 #include "OakVR.h"
+#include "OakVR/VisualComponent.h"
+#include "OakVR/TransformComponent.h"
 #include "Time/Timer.h"
 #include "input/MouseInput/MouseInput.h"
 #include "input/KeyboardInput/KeyboardInput.h"
@@ -59,6 +61,7 @@ namespace oakvr
 
 				auto vecMeshes = FrustumCull();
 			}
+			RegisterObjectsAsRenderables(GetAllObjects());
 			m_pRenderer->Update(dt);
 		}
 		else
@@ -69,6 +72,28 @@ namespace oakvr
 
 		oakvr::profiler::Profiler::GetInstance().PrintSortedData();
 		return true;
+	}
+
+	auto OakVR::RegisterObjectsAsRenderables(const ObjectVector  &objects) -> void
+	{
+		m_pRenderer->UnregisterAllRenderables();
+
+		for (const auto &obj : objects)
+		{
+			auto visualComponent = obj->GetComponent<oakvr::VisualComponent>();
+			if (visualComponent)
+			{
+				auto transformComponent = obj->GetComponent<oakvr::TransformComponent>();
+				auto transform = oakvr::math::Matrix::Identity;
+				if (transformComponent)
+				{
+					transform = oakvr::math::Matrix::Translation(transformComponent->GetPosition()) *
+						oakvr::math::Matrix::Scale(transformComponent->GetScale());
+						//TODO: * oakvr::math::Matrix::RotationAxisRightHanded(transformComponent->GetOrientation())
+				}
+				m_pRenderer->RegisterRenderable(visualComponent->GetMesh(), transform);
+			}
+		}
 	}
 
 	auto OakVR::FrustumCull() -> ObjectVector
@@ -150,6 +175,7 @@ namespace oakvr
 			oakvr::core::Text::GetInstance().SetResourceManagerPtr(m_pRM);
 			oakvr::core::Text::GetInstance().SetRendererPtr(m_pRenderer);
 		}
+
 		Console();
 		m_timer.Reset();
 		return true;

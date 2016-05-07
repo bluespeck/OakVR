@@ -100,7 +100,7 @@ namespace oakvr
 			if (m_pImpl->m_bInitialized)
 			{
 				glCallAndCheck(glBindVertexArray, m_pImpl->m_vaoId);
-				int offset = 0;
+				intptr_t offset = 0;
 				for (auto &e : vertexElementDescriptors)
 				{
 					switch (e.semantic)
@@ -109,28 +109,28 @@ namespace oakvr
 					{
 						glCallAndCheck(glEnableVertexAttribArray, 0);
 						glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-						glCallAndCheck(glVertexAttribPointer, 0, static_cast<GLint>(e.size / sizeof(float)), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
+						glCallAndCheck(glVertexAttribPointer, 0, static_cast<GLint>(e.size / sizeof(float)), GL_FLOAT, GL_FALSE, m_stride, reinterpret_cast<const void *>(offset));
 					}
 						break;
 					case VertexElementDescriptor::Semantic::normal:
 					{
 						glCallAndCheck(glEnableVertexAttribArray, 1);
 						glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-						glCallAndCheck(glVertexAttribPointer, 1, static_cast<GLint>(e.size / sizeof(float)), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
+						glCallAndCheck(glVertexAttribPointer, 1, static_cast<GLint>(e.size / sizeof(float)), GL_FLOAT, GL_FALSE, m_stride, reinterpret_cast<const void *>(offset));
 					}
 						break;
 					case VertexElementDescriptor::Semantic::tex_coord:
 					{
 						glCallAndCheck(glEnableVertexAttribArray, 2);
 						glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-						glCallAndCheck(glVertexAttribPointer, 2, static_cast<GLint>(e.size / sizeof(float)), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
+						glCallAndCheck(glVertexAttribPointer, 2, static_cast<GLint>(e.size / sizeof(float)), GL_FLOAT, GL_FALSE, m_stride, reinterpret_cast<const void *>(offset));
 					}
 						break;
 					case VertexElementDescriptor::Semantic::color:
 					{
 						glCallAndCheck(glEnableVertexAttribArray, 3);
 						glCallAndCheck(glBindBuffer, GL_ARRAY_BUFFER, m_pImpl->m_vbId);
-						glCallAndCheck(glVertexAttribPointer, 3, static_cast<GLint>(e.size / sizeof(float)), GL_FLOAT, GL_FALSE, m_stride, (void *)offset);
+						glCallAndCheck(glVertexAttribPointer, 3, static_cast<GLint>(e.size / sizeof(float)), GL_FLOAT, GL_FALSE, m_stride, reinterpret_cast<const void *>(offset));
 					}
 						break;
 					default:

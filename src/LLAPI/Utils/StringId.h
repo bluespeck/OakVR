@@ -8,7 +8,7 @@ namespace oakvr
 	{
 	public:
 		inline StringId(const std::string & str);
-		inline StringId(const char * str);
+		inline StringId(const char * str = "unknown");
 		
 		inline StringId(const StringId & other);
 		inline StringId(StringId && other);
@@ -24,9 +24,6 @@ namespace oakvr
 		inline auto operator == (const std::string & other) const -> bool;
 		inline auto operator == (const char * other) const -> bool;
 		inline auto operator < (const StringId & other) const -> bool;
-
-
-		
 
 	private:
 		std::string m_id;

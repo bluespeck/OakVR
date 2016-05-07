@@ -20,7 +20,7 @@ namespace construct
 	{
 		oakvr::Log::SetMaxLevel(oakvr::Log::LogLevel::info);
 
-		oakvr::render::SetRenderWindowPosition(1930, 100);
+		oakvr::render::SetRenderWindowPosition(0, 100);
 		oakvr::render::SetRenderWindowSize(1200, 900);
 		oakvr::render::SetRenderWindowTitle("Construct with Oak VR");
 
@@ -54,7 +54,7 @@ namespace construct
 		oakvr::render::RegisterCamera(pCamera);
 
 		CreateTestMesh1();
-		//CreateTestMesh2();
+		CreateTestMesh2();
 		CreateTestMesh3();
 		CreateTestMesh4();
 		CreateTestMeshRoom();
@@ -117,7 +117,7 @@ namespace construct
 			accumulatedTime = 0.f;
 			str = "FPS: " + std::to_string(static_cast<int>(dt > 1e-9f ? 1.f / dt : 0.f));
 		}
-		oakvr::render::DrawText(str, oakvr::math::Vector3(1.f, 0.f, 1.f), oakvr::render::Color::Yellow, "Fira Mono Regular", 0.2);
+		oakvr::render::DrawText(str, oakvr::math::Vector3(1.f, 0.f, 1.f), oakvr::render::Color::Yellow, "Fira Mono Regular", 0.2f);
 		oakvr::render::DrawText(
 			"Fov" + std::to_string(static_cast<int>(fovValue))
 			+ " C" + std::to_string(oakvr::render::IsCullingEnabled())
@@ -265,12 +265,26 @@ namespace construct
 	void Construct::CreateTestMesh2()
 	{
 		auto pMaterial = std::make_shared<oakvr::render::Material>("DefaultColor");
+		auto pMesh = oakvr::render::CreateMesh("monkey", "monkeymesh", pMaterial);
+		
+
 		for (int i = -meshNum; i < meshNum; ++i)
 		{
 			for (int j = -meshNum; j < meshNum; ++j)
 			{
-				auto pMesh = oakvr::render::CreateMesh(std::string("monkey") + std::to_string(i) + std::to_string(j), "monkeymesh", pMaterial);
-				pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(static_cast<float>(i * 3), static_cast<float>(j * 3), 3.0f)* oakvr::math::Matrix::Scale(30));
+				auto pObj = oakvr::OakVR::GetInstance().CreateObject("monkey_" + std::to_string(i) + "_" + std::to_string(j));
+				auto pTransformComp = pObj->AddComponent<oakvr::TransformComponent>();
+				pTransformComp->SetPosition({ 0, 0, 0 });
+
+				auto pVisualComp = pObj->AddComponent<oakvr::VisualComponent>();
+				pVisualComp->SetMeshFromResource("monkey");
+				// updating the world matrix for the mesh should be done by the parent object 
+				// when it detects that the translation component changed in the current frame
+				pVisualComp->GetMesh()->SetWorldMatrix(oakvr::math::Matrix::Translation(static_cast<float>(i * 3), static_cast<float>(j * 3), 3.0f)* oakvr::math::Matrix::Scale(30));
+
+				// Add object to scene
+				oakvr::OakVR::GetInstance().AddObjectToGraph(pObj, "root");
+
 			}
 		}
 	}
@@ -287,6 +301,17 @@ namespace construct
 		auto pMaterial = std::make_shared<oakvr::render::Material>("Default");
 		auto pMesh = oakvr::render::CreateMesh("sphere1", "sphere", pMaterial);
 		pMesh->SetWorldMatrix(oakvr::math::Matrix::Scale(1) * oakvr::math::Matrix::Translation(1, 1, 1));
+
+		auto pObj = oakvr::OakVR::GetInstance().CreateObject("sphere1");
+		auto pTransformComp = pObj->AddComponent<oakvr::TransformComponent>();
+		pTransformComp->SetPosition({ 5, 0, 0 });
+		pTransformComp->SetScale(3);
+
+		auto pVisualComp = pObj->AddComponent<oakvr::VisualComponent>();
+		pVisualComp->SetMeshFromResource("sphere1");
+
+		// Add object to scene
+		oakvr::OakVR::GetInstance().AddObjectToGraph(pObj, "root");
 	}
 
 	void Construct::CreateTestMeshRoom()
@@ -294,6 +319,19 @@ namespace construct
 		auto pMaterial = std::make_shared<oakvr::render::Material>("Default");
 		auto pMesh = oakvr::render::CreateMesh("room", "roommesh", pMaterial);
 		pMesh->SetWorldMatrix(oakvr::math::Matrix::Scale(10));
+
+		auto pObj = oakvr::OakVR::GetInstance().CreateObject("room");
+		auto pTransformComp = pObj->AddComponent<oakvr::TransformComponent>();
+		pTransformComp->SetPosition( 0, 0, 0 );
+		pTransformComp->SetScale(5);
+
+		auto pVisualComp = pObj->AddComponent<oakvr::VisualComponent>();
+		pVisualComp->SetMeshFromResource("room");
+		// updating the world matrix for the mesh should be done by the parent object 
+		// when it detects that the translation component changed in the current frame
+		
+		// Add object to scene
+		oakvr::OakVR::GetInstance().AddObjectToGraph(pObj, "root");
 	}
 
 	OAKVR_REGISTER_UPDATABLE(Construct)

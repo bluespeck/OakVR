@@ -12,6 +12,7 @@ namespace oakvr
 		{
 		public:
 			Renderable(const MeshSharedPointer &pMesh = nullptr);
+			~Renderable() {}
 
 			auto SetMesh(const MeshSharedPointer &pMesh) -> void;
 			auto GetMesh() const -> const MeshSharedPointer &;

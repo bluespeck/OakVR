@@ -7,13 +7,7 @@ namespace oakvr
 	namespace math
 	{
 		// --------------------------------------------------------------------------------
-		Vector4::Vector4(float x, float y, float z, float w)
-			:x(x), y(y), z(z), w(w)
-		{
-		}
-		
-		// --------------------------------------------------------------------------------
-		Vector4::Vector4(const float* arr)
+		Vector4::Vector4(const BaseType* arr) noexcept
 		{ 
 			x = arr[0];
 			y = arr[1];
@@ -21,9 +15,9 @@ namespace oakvr
 			w = arr[3];
 		}
 
-		Vector4::Vector4(const std::initializer_list<float> &initList)
+		Vector4::Vector4(const std::initializer_list<BaseType> &initList) noexcept
 		{
-			float *p = &x;
+			BaseType *p = &x;
 			for (size_t i = 0; i < initList.size() && i < 4; ++i)
 				*(p++) = *(initList.begin() + i);
 			for (size_t i = initList.size(); i < 4; ++i)
@@ -33,13 +27,13 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		// cast operators
 		// --------------------------------------------------------------------------------
-		Vector4::operator float *()
+		Vector4::operator BaseType *() noexcept
 		{
 			return &x;
 		}
 
 		// --------------------------------------------------------------------------------
-		Vector4::operator const float *() const
+		Vector4::operator const BaseType *() const noexcept
 		{
 			return &x;
 		}
@@ -47,31 +41,31 @@ namespace oakvr
 		// --------------------------------------------------------------------------------
 		// other methods
 		// --------------------------------------------------------------------------------
-		auto Vector4::GetLength() const -> float
+		auto Vector4::GetLength() const noexcept -> BaseType
 		{ 
 			return std::pow(x * x + y * y + z * z + w * w, 0.5f); 
 		}
 
 		// --------------------------------------------------------------------------------
-		auto Vector4::GetSquareLength() const -> float
+		auto Vector4::GetSquareLength() const noexcept -> BaseType
 		{
 			return x * x + y * y + z * z + w * w;
 		}
 
 		// --------------------------------------------------------------------------------
-		auto Vector4::Normalize() const -> Vector4
+		auto Vector4::Normalize() const noexcept -> Vector4
 		{
-			const float magnitudeSquare = x * x + y * y + z * z;
+			const BaseType magnitudeSquare = x * x + y * y + z * z;
 
 			if(magnitudeSquare < 1e-15f)
 				return Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 
-			const float invDenom = 1.0f / std::pow(magnitudeSquare, 0.5f);
+			const BaseType invDenom = 1.0f / std::pow(magnitudeSquare, 0.5f);
 			return Vector4(x * invDenom, y * invDenom, z * invDenom, w * invDenom);
 		}
 
 		// --------------------------------------------------------------------------------
-		auto Vector4::Dot(const Vector4 &vec) const -> float
+		auto Vector4::Dot(const Vector4 &vec) const noexcept -> BaseType
 		{
 			return x * vec.x + y * vec.y + z * vec.z + w * vec.w;
 		}

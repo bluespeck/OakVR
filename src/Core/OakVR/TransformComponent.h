@@ -15,12 +15,14 @@ namespace oakvr
 
 		auto GetPosition() -> const math::Vector3 &;
 		auto SetPosition(const math::Vector3 &position) -> void;
+		auto SetPosition(math::Vector3::BaseType x, math::Vector3::BaseType y, math::Vector3::BaseType z) -> void;
 		
 		auto GetOrientation() -> const math::Vector3 &;
 		auto SetOrientation(const math::Vector3 &orientation) -> void;
 
 		auto GetScale() -> const math::Vector3 &;
 		auto SetScale(const math::Vector3 &scale) -> void;
+		auto SetScale(math::Vector3::BaseType scale) -> void;
 
 		virtual	auto GetComponentObjectType() const noexcept -> oakvr::ObjectComponentId override { return oakvr::ObjectComponentId::transform; }
 		virtual	auto GetComponentObjectTypeAsString() const noexcept -> std::string override { return "TransformComponent"s; }
@@ -47,6 +49,13 @@ namespace oakvr
 		m_position = position;
 	}
 
+	inline auto TransformComponent::SetPosition(math::Vector3::BaseType x, math::Vector3::BaseType y, math::Vector3::BaseType z) -> void
+	{
+		m_position.x = x;
+		m_position.y = y;
+		m_position.z = z;
+	}
+
 	inline auto TransformComponent::GetOrientation()->const math::Vector3 &
 	{
 		return m_orientation;
@@ -65,5 +74,12 @@ namespace oakvr
 	inline auto TransformComponent::SetScale(const math::Vector3 &scale) -> void
 	{
 		m_scale = scale;
+	}
+
+	inline auto TransformComponent::SetScale(math::Vector3::BaseType scale) -> void
+	{
+		m_scale.x = scale;
+		m_scale.y = scale;
+		m_scale.z = scale;
 	}
 }

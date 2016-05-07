@@ -11,6 +11,8 @@ namespace oakvr
 	OakVRObjectUnit::OakVRObjectUnit()
 	{
 		m_pImpl = std::make_unique<OakVRObjectUnitImpl>();
+		m_pImpl->m_root = std::make_unique<Object>(StringId("root"));
+
 	}
 
 	OakVRObjectUnit::~OakVRObjectUnit()
@@ -30,23 +32,32 @@ namespace oakvr
 		auto &objectVector = m_pImpl->m_objectVector;
 		objectMap[pObject->GetId()] = pObject;
 		objectVector.push_back(pObject);
-		auto pCurrentParent = pObject->GetParent();
-		
-		if (!pCurrentParent || parentId != pCurrentParent->GetId())
-		{
-			// we must also add the object as a child of the parent
-			auto pParent = FindObject(parentId);
-			
-			if (pParent)
-			{
-				pParent->AddChild(pObject);
-			}
-			else
-			{
-				Log::Error("Parent id [%s] was not found", parentId.c_str());
-			}
 
-			pObject->SetParent(pParent);
+		if (parentId == "root")
+		{
+			m_pImpl->m_root->AddChild(pObject);
+			pObject->SetParent(m_pImpl->m_root);
+		}
+		else
+		{
+			auto pCurrentParent = pObject->GetParent();
+
+			if (!pCurrentParent || parentId != pCurrentParent->GetId())
+			{
+				// we must also add the object as a child of the parent
+				auto pParent = FindObject(parentId);
+
+				if (pParent)
+				{
+					pParent->AddChild(pObject);
+				}
+				else
+				{
+					Log::Error("Parent id [%s] was not found", parentId.c_str());
+				}
+
+				pObject->SetParent(pParent);
+			}
 		}
 	}
 
@@ -101,5 +112,10 @@ namespace oakvr
 			}
 			
 		}
+	}
+
+	auto OakVRObjectUnit::GetAllObjects() -> ObjectVector&
+	{
+		return m_pImpl->m_objectVector;
 	}
 }

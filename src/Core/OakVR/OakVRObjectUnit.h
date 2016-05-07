@@ -11,12 +11,13 @@ namespace oakvr
 	{
 	public:
 		ObjectSharedPointer CreateObject(const StringId &name);
-		auto AddObjectToGraph(ObjectSharedPointer pObject, const StringId &parentId) -> void;
+		auto AddObjectToGraph(ObjectSharedPointer pObject, const StringId &parentId = StringId("root")) -> void;
 		auto RemoveObjectFromGraph(const StringId &name) -> void;
 		auto FindObject(const StringId &objectId) -> ObjectSharedPointer;
 		auto TransferObject(const StringId &id, const StringId &newParentId) -> void;
-		//auto GetAllObjects() -> ObjectVector &;
-		//auto GetAllObjects() const -> const ObjectVector &;
+		
+		auto GetAllObjects() -> ObjectVector &;
+		auto GetAllObjects() const -> const ObjectVector &;
 
 		OakVRObjectUnit();
 		~OakVRObjectUnit();

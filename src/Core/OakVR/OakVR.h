@@ -14,6 +14,8 @@
 #include "OakVR/OakVRObjectUnit.h"
 #include "OakVR/OakVRRenderUnit.h"
 
+#include "Interface.h"
+
 namespace oakvr
 {
 	using TimeDeltaType = float;
@@ -49,6 +51,8 @@ namespace oakvr
 		auto Update() -> bool;
 
 		auto Update(TimeDeltaType dt) -> bool;
+
+		auto RegisterObjectsAsRenderables(const ObjectVector  &objects) -> void;
 
 		auto FrustumCull() -> ObjectVector;
 

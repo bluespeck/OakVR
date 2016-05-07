@@ -486,6 +486,16 @@ namespace oakvr
 			return mat;
 		}
 
+		Matrix Matrix::Scale(const Vector3 &vec)
+		{
+			Matrix mat;
+			mat._11 = vec.x;
+			mat._22 = vec.y;
+			mat._33 = vec.z;
+
+			return mat;
+		}
+
 		Matrix Matrix::Scale(float x, float y, float z)
 		{
 			Matrix mat;

@@ -52,6 +52,7 @@ namespace oakvr
 	namespace render
 	{
 		// credit to Mircea for this nice piece of code ^^ http://pushcpp.blogspot.ro/2014/10/simple-opengl-error-checking.html
+		// define glCallAndCheck with both a return type and without
 		template<typename glFunction, typename... glFunctionParams>
 		auto glCallAndCheck(glFunction glFunc, glFunctionParams... params)->typename std::enable_if <
 			std::is_same<void, decltype(glFunc(params...))>::value,
