@@ -74,7 +74,27 @@ namespace oakvr
 		return true;
 	}
 
-	auto OakVR::RegisterObjectsAsRenderables(const ObjectVector  &objects) -> void
+	auto OakVR::DrawObjects(const ObjectVector &objects) const noexcept -> void
+	{
+		for (const auto &obj : objects)
+		{
+			auto visualComponent = obj->GetComponent<oakvr::VisualComponent>();
+			if (visualComponent)
+			{
+				auto transformComponent = obj->GetComponent<oakvr::TransformComponent>();
+				auto transform = oakvr::math::Matrix::Identity;
+				if (transformComponent)
+				{
+					transform = oakvr::math::Matrix::Translation(transformComponent->GetPosition()) *
+						oakvr::math::Matrix::Scale(transformComponent->GetScale());
+					//TODO: * oakvr::math::Matrix::RotationAxisRightHanded(transformComponent->GetOrientation())
+				}
+				m_pRenderer->RegisterRenderable(visualComponent->GetMesh(), transform);
+			}
+		}
+	}
+
+	auto OakVR::RegisterObjectsAsRenderables(const ObjectVector  &objects) const noexcept -> void
 	{
 		m_pRenderer->UnregisterAllRenderables();
 

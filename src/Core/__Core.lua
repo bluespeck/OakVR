@@ -14,5 +14,6 @@
 	dofile("CoreExternals/__CoreExternals.lua")
 	dofile("OakVR/__OakVR.lua")
 	dofile("ResourceManager/__ResourceManager.lua")
+	dofile("DeferredRenderer/__DeferredRenderer.lua")
 	dofile("Text/__Text.lua")
 	

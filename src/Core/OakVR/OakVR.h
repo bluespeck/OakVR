@@ -52,7 +52,8 @@ namespace oakvr
 
 		auto Update(TimeDeltaType dt) -> bool;
 
-		auto RegisterObjectsAsRenderables(const ObjectVector  &objects) -> void;
+		auto DrawObjects(const ObjectVector &objects) const noexcept -> void;
+		auto RegisterObjectsAsRenderables(const ObjectVector  &objects) const noexcept-> void;
 
 		auto FrustumCull() -> ObjectVector;
 
