@@ -20,6 +20,7 @@ Project "OakVR"
 		"MouseInput",
 		"KeyboardInput",
 		"Renderer",
+		"DeferredRenderer",
 		"ResourceManager",
 		"Startup",
 		"FileIO",

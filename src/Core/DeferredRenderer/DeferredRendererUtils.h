@@ -19,7 +19,7 @@ namespace oakvr
 		addVertices
 	};
 
-	enum class VertexFormat
+	enum class VertexFormat : uint8_t
 	{
 		xyz = 12,
 		xyz_nxyz = 24,
@@ -27,7 +27,7 @@ namespace oakvr
 		xyz_uv = 20
 	};
 
-	uint8_t GetVertexFormatStride(VertexFormat vertexFormat) { return static_cast<uint8_t>(vertexFormat); }
+	inline uint8_t GetVertexFormatStride(VertexFormat vertexFormat) { return static_cast<uint8_t>(vertexFormat); }
 
 	class Texture;
 	class VertexBuffer;
@@ -40,15 +40,15 @@ namespace oakvr
 	struct RenderCall
 	{
 		RenderCallType type;
-		union
-		{
+		//union
+		//{
 			VertexFormat vertexFormat;
 			oakvr::core::MemoryBuffer* vertices;
 			oakvr::StringId textureId;
 			oakvr::StringId vsId;
 			oakvr::StringId psId;
 			Color color;
-		};
+		//};
 
 		RenderCall(RenderCallType type = RenderCallType::unknown) : type{ type } {}
 		RenderCall(const RenderCall& renderCall) { memcpy(this, &renderCall, sizeof(RenderCall)); }

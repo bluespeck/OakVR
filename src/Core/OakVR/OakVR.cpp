@@ -24,6 +24,120 @@
 
 namespace oakvr
 {
+	void OakVR::UpdateThread()
+	{
+		while (true)
+		{
+			WaitForUpdateFrameStart();
+
+			m_timer.Tick();
+			Update(m_timer.GetDeltaTime());
+
+			NotifyUpdateFrameFinished();
+		}
+	}
+
+	void OakVR::RenderThread()
+	{
+		while (true)
+		{
+			WaitForRenderFrameStart();
+			
+			Render();
+			
+			NotifyRenderFrameFinished();
+		}
+	}
+
+	void OakVR::WaitForUpdateFrameStart()
+	{
+		auto ul = std::unique_lock<std::mutex>(m_updateMutex);
+
+		do
+		{
+			m_updateFrameCanStartCondVar.wait(ul, [this]()->bool {
+				return m_updateFrameCanStart;
+			});
+		} while (!m_updateFrameCanStart);
+
+		m_updateFrameCanStart = false;
+	}
+
+	void OakVR::WaitForRenderFrameStart()
+	{
+		auto ul = std::unique_lock<std::mutex>(m_renderMutex);
+
+		do
+		{
+			m_renderFrameCanStartCondVar.wait(ul, [this]()->bool {
+				return m_renderFrameCanStart;
+			});
+		} while (!m_renderFrameCanStart);
+
+		m_renderFrameCanStart = false;
+	}
+
+	void OakVR::WaitForUpdateFrameEnd()
+	{
+		auto ul = std::unique_lock<std::mutex>(m_updateMutex);
+
+		do
+		{
+			m_updateFrameFinishedCondVar.wait(ul, [this]()->bool {
+				return m_updateFrameFinished;
+			});
+		} while (!m_updateFrameFinished);
+
+		m_updateFrameFinished = false;
+	}
+
+	void OakVR::WaitForRenderFrameEnd()
+	{
+		auto ul = std::unique_lock<std::mutex>(m_renderMutex);
+
+		do
+		{
+			m_renderFrameFinishedCondVar.wait(ul, [this]()->bool {
+				return m_renderFrameFinished;
+			});
+		} while (!m_renderFrameFinished);
+
+		m_renderFrameFinished = false;
+	}
+
+	void OakVR::NotifyUpdateFrameCanStart()
+	{
+		auto ul = std::unique_lock<std::mutex>(m_updateMutex);
+
+		m_updateFrameCanStart = true;
+		m_updateFrameCanStartCondVar.notify_all();
+		
+	}
+
+	void OakVR::NotifyRenderFrameCanStart()
+	{
+		auto ul = std::unique_lock<std::mutex>(m_renderMutex);
+
+		m_renderFrameCanStart = true;
+		m_renderFrameCanStartCondVar.notify_all();
+	}
+
+	void OakVR::NotifyUpdateFrameFinished()
+	{
+		auto ul = std::unique_lock<std::mutex>(m_updateMutex);
+
+		m_updateFrameFinished = true;
+		m_updateFrameFinishedCondVar.notify_all();
+	}
+
+	void OakVR::NotifyRenderFrameFinished()
+	{
+		auto ul = std::unique_lock<std::mutex>(m_renderMutex);
+
+		m_renderFrameFinished = true;
+		m_renderFrameFinishedCondVar.notify_all();
+	}
+
 	// --------------------------------------------------------------------------------
 	auto OakVR::Update(TimeDeltaType dt) -> bool
 	{
@@ -71,6 +185,12 @@ namespace oakvr
 		}
 
 		oakvr::profiler::Profiler::GetInstance().PrintSortedData();
+		return true;
+	}
+
+	auto OakVR::Render() -> bool
+	{
+		m_pRenderer->Render();
 		return true;
 	}
 
@@ -135,7 +255,6 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	OakVR::OakVR()
 		: m_pRM{ std::make_shared<oakvr::core::ResourceManager>() }
-		
 	{
 		m_timer = oakvr::Timer();
 
@@ -198,6 +317,17 @@ namespace oakvr
 
 		Console();
 		m_timer.Reset();
+
+		{
+			m_updateFrameCanStart = true;
+			auto updateThread = std::thread(&OakVR::UpdateThread, this);
+			updateThread.detach();
+		}
+		{
+			m_renderFrameCanStart = true;
+			auto renderThread = std::thread(&OakVR::RenderThread, this);
+			renderThread.detach();
+		}
 		return true;
 	}
 
@@ -209,8 +339,15 @@ namespace oakvr
 	// --------------------------------------------------------------------------------
 	auto OakVR::Update() -> bool
 	{
-		m_timer.Tick();
-		return Update(m_timer.GetDeltaTime());
+		NotifyUpdateFrameCanStart();
+		NotifyRenderFrameCanStart();
+
+		WaitForUpdateFrameEnd();
+		WaitForRenderFrameEnd();
+
+		m_pRenderer->SwapBuffers();
+
+		return true;
 	}
 
 	// --------------------------------------------------------------------------------

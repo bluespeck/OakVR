@@ -47,13 +47,13 @@ namespace oakvr
 
 		auto Mesh::AddMeshElement(const sp<MeshElement> &pMeshElem) -> void
 		{
-			pMeshElem->m_pMesh = this;
+			pMeshElem->SetMesh(this);
 			m_vMeshElements.push_back(pMeshElem);
 
 			const auto &c1 = m_boundingSphere.m_position;
-			const auto &c2 = pMeshElem->m_boundingSphere.m_position;
+			const auto &c2 = pMeshElem->GetBoundingSphere().m_position;
 			const auto &r1 = m_boundingSphere.m_radius;
-			const auto &r2 = pMeshElem->m_boundingSphere.m_radius;
+			const auto &r2 = pMeshElem->GetBoundingSphere().m_radius;
 
 			auto deltaR = c2 - c1;
 			auto c11 = c1 + r1 * deltaR.GetNormalized();

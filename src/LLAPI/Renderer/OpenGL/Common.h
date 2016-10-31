@@ -16,9 +16,9 @@
 
 #include "Log/Log.h"
 
-#ifdef OAKVR_RENDER_DEBUG
+#ifndef OAKVR_RENDER_DEBUG
 
-inline auto CheckOpenGLError(const char *file, int line) -> void
+inline auto CheckOpenGLError(const char *file, int line, const char* glFuncName) -> void
 {
 	GLenum err = glGetError();
 	while (err)
@@ -35,15 +35,15 @@ inline auto CheckOpenGLError(const char *file, int line) -> void
 			case GL_INVALID_FRAMEBUFFER_OPERATION:	error = "GL_INVALID_FRAMEBUFFER_OPERATION";	break;
 			default: error = "GL_UNKNOWN_ERROR"; break;
 		}
-		oakvr::Log::Warning("%s:%d : OpenGL error \"%s\"", file, line, error.c_str());
+		oakvr::Log::Warning("%s:%d : OpenGL error calling \"%s\" \"%s\"", file, line, glFuncName, error.c_str());
 		err = glGetError();
 	}
 }
 
-#	define CHECK_OPENGL_ERROR CheckOpenGLError(__FILE__, __LINE__)
+#	define CHECK_OPENGL_ERROR(file, line, glFuncName) CheckOpenGLError(file, line, glFuncName)
 
 #else
-#	define CHECK_OPENGL_ERROR
+#	define CHECK_OPENGL_ERROR(file, line, glFuncName)
 
 #endif
 
@@ -54,24 +54,26 @@ namespace oakvr
 		// credit to Mircea for this nice piece of code ^^ http://pushcpp.blogspot.ro/2014/10/simple-opengl-error-checking.html
 		// define glCallAndCheck with both a return type and without
 		template<typename glFunction, typename... glFunctionParams>
-		auto glCallAndCheck(glFunction glFunc, glFunctionParams... params)->typename std::enable_if <
+		auto glCallAndCheck_indirect(const char *file, int line, const char* glFuncName, glFunction glFunc, glFunctionParams... params)->typename std::enable_if <
 			std::is_same<void, decltype(glFunc(params...))>::value,
 			decltype(glFunc(params...))
 		> ::type
 		{
 			glFunc(std::forward<glFunctionParams>(params)...);
-			CHECK_OPENGL_ERROR;
+			CHECK_OPENGL_ERROR(file, line, glFuncName);
 		}
 
 		template<typename glFunction, typename... glFunctionParams>
-		auto glCallAndCheck(glFunction glFunc, glFunctionParams... params)->typename std::enable_if <
+		auto glCallAndCheck_indirect(const char *file, int line, const char* glFuncName, glFunction glFunc, glFunctionParams... params)->typename std::enable_if <
 			!std::is_same<void, decltype(glFunc(params...))>::value,
 			decltype(glFunc(params...))
 		> ::type
 		{
 			auto result = glFunc(std::forward<glFunctionParams>(params)...);
-			CHECK_OPENGL_ERROR;
+			CHECK_OPENGL_ERROR(file, line, glFuncName);
 			return result;
 		}
 	}
 }
+
+#define glCallAndCheck(glFunc, ...) glCallAndCheck_indirect(__FILE__, __LINE__, #glFunc, glFunc, __VA_ARGS__)

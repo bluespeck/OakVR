@@ -65,7 +65,7 @@ namespace oakvr
 			}
 
 			std::sort(std::begin(sortedElements), std::end(sortedElements), [](const Mesh::MeshElementVector::value_type &left, const Mesh::MeshElementVector::value_type &right) {
-				return left->m_pMaterial > right->m_pMaterial;
+				return left->GetMaterial() > right->GetMaterial();
 			});
 			
 			return sortedElements;
@@ -89,8 +89,8 @@ namespace oakvr
 			}
 
 			std::sort(std::begin(sortedElements), std::end(sortedElements), [&](const Mesh::MeshElementVector::value_type &left, const Mesh::MeshElementVector::value_type &right) {
-				auto &matLeft = left->m_pMesh->GetWorldMatrix();
-				auto &matRight = right->m_pMesh->GetWorldMatrix();
+				auto &matLeft = left->GetMesh()->GetWorldMatrix();
+				auto &matRight = right->GetMesh()->GetWorldMatrix();
 				float squareDistanceLeft = (matLeft._41 * cameraForward.x - cameraPos.x * cameraPos.x) +
 					(matLeft._42 * cameraForward.y - cameraPos.y * cameraPos.y) +
 					(matLeft._43 * cameraForward.z - cameraPos.z * cameraPos.z);

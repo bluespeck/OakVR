@@ -43,7 +43,7 @@
 			-- glew
 			includedirs { "GLEW/include" }
 			defines { "GLEW_STATIC" }
-			files { "GLEW/src/*.c" }
+			files { "GLEW/src/glew.c" }
 			
 			-- opengl
 			defines { "GL_GLEXT_PROTOTYPES" }

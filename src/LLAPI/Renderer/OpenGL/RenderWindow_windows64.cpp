@@ -78,7 +78,7 @@ namespace oakvr
 			glfwMakeContextCurrent(m_pImpl->m_pWindow);
 			glfwSetWindowCloseCallback(m_pImpl->m_pWindow, OnCloseWindow);
 
-			CHECK_OPENGL_ERROR;
+			CHECK_OPENGL_ERROR(__FILE__, __LINE__, "");
 			return true;
 		}
 

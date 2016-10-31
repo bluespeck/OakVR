@@ -15,10 +15,12 @@ namespace oakvr
 {	
 	namespace render
 	{
+		class Renderable;
+
 		class DeferredRenderer : public Renderer
 		{
 		public:
-			static constexpr uint32_t s_maxNumRenderCalls = 8192;
+			static constexpr uint32_t s_maxNumRenderCalls = 32768;
 			static constexpr uint32_t s_vertexBufferSize = 32 * 1024 * 1024; // 32MB
 
 		public:
@@ -36,15 +38,21 @@ namespace oakvr
 
 			void RenderQueuedRenderCalls() noexcept;
 
-			// swap when all update threads have finished running
-			void SwapRenderCallQueues() noexcept;
+			void Update(double dt) noexcept override;
+			void Render() noexcept override;
+			void SwapBuffers() noexcept override;
 
 		private:
 			void AddRenderCall(const RenderCall& renderCall) noexcept;
 
 			void AccumulateVertices(const void* vertices, oakvr::VertexFormat vertexFormat, uint32_t vertexCount) noexcept;
-			void AccumulateTextures(const oakvr::StringId& textureId) noexcept;
+			void AccumulateTexture(const oakvr::StringId& textureId) noexcept;
 			void Flush() noexcept;
+
+			void RenderRenderables(const std::vector<sp<Renderable>> &renderables) ;
+
+			// swap when all update threads have finished running
+			void SwapRenderCallQueues() noexcept;
 
 			struct RendererState
 			{

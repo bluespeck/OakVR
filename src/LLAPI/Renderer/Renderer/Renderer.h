@@ -19,7 +19,7 @@ namespace oakvr
 {
 	namespace core
 	{
-		class ResourceManager;
+		class ResourceManager; 
 	}
 
 	namespace render
@@ -40,10 +40,12 @@ namespace oakvr
 		{
 		public:
 			Renderer();
-			~Renderer();
+			virtual ~Renderer();
 
 			auto Initialize() -> bool;
-			auto Update( double dt ) -> void;
+			virtual void Update( double dt ) noexcept;
+			virtual void Render() noexcept;
+			virtual void SwapBuffers() noexcept;
 			auto Cleanup() -> void;
 
 			auto ClearBackground(const Color &color) -> void;
@@ -70,6 +72,7 @@ namespace oakvr
 			auto ReleaseTexture(Texture *texture) -> void;
 			auto UseTexture(Texture *texture) -> void;
 			
+			auto UseShaderProgram(const StringId &shaderProgramName) -> void;
 			auto UseShaderProgram(sp<ShaderProgram> pShader) -> void;
 			auto SetVertexLayout(uint32_t vertexStride, const std::vector<VertexElementDescriptor> &vertexElementDescriptors) -> void;
 			
@@ -99,12 +102,13 @@ namespace oakvr
 		private:
 			auto InitCommon() -> void;
 
+		protected:
 			auto RenderMeshes(const std::vector<sp<Mesh>> &meshes) -> void;
 			auto RenderMeshElems(const Mesh::MeshElementVector &meshElems) -> void;
 			auto RenderRenderables(const std::vector<sp<Renderable>> &renderables) -> void;
 			auto UpdateShaderParams(sp<ShaderProgram> pShader) -> void;
 
-		private:
+		protected:
 			sp<RenderWindow> m_pRenderWindow;
 			sp<oakvr::core::ResourceManager> m_pResourceManager;
 

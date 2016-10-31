@@ -1,6 +1,6 @@
 #include "OakVR/OakVRRenderUnit.h"
 
-#include "Renderer/Renderer/Renderer.h"
+#include "DeferredRenderer/DeferredRenderer.h"
 #include "Renderer/Renderer/RenderWindow.h"
 #include "Renderer/Renderer/Shader.h"
 #include "Renderer/Renderer/Mesh.h"
@@ -26,7 +26,8 @@ namespace oakvr
 {
 		OakVRRenderUnit::OakVRRenderUnit()
 			: m_pRW{ std::make_shared<oakvr::render::RenderWindow>("oakvr", 100, 100, 1024, 768) }
-			, m_pRenderer{ std::make_shared<oakvr::render::Renderer>() }
+			, m_pRenderer{ std::make_shared<oakvr::render::DeferredRenderer>() }
+			//, m_pRenderer{ std::make_shared<oakvr::render::Renderer>() }
 			, m_pCM{ std::make_shared<oakvr::render::CameraManager>() }
 		{ 
 		}

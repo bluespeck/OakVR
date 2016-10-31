@@ -1,5 +1,5 @@
 --allowedPlatforms = { "linux32", "linux64", "windows32", "windows64" }
-allowedPlatforms = { "windows64" } -- temporary for development on win64
+allowedPlatforms = { "windows64", "linux64", }
 allowedConfigs = { "debug", "fastdebug", "profile", "final"}
 
 function GetTableWithDescriptions(_table)
@@ -197,8 +197,7 @@ end
 function Build(plf, cfg)
 	local wsFolder = "workspace"
 	if plf == "linux64" or plf == "linux32" then
-		os.execute("cd " .. wsFolder .. "/gmake/LLAPI && make config=".. cfg .. "_"..plf)
-		os.execute("cd " .. wsFolder .. "/gmake/Core && make config=".. cfg .. "_"..plf)
+		os.execute("cd " .. wsFolder .. "/gmake/OAKVR && make config=".. cfg .. "_"..plf)
 	elseif plf == "windows64" or plf == "windows32" then
 		print("Build action not implemented for this platform!\n")
 	end

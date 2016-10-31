@@ -29,7 +29,7 @@ namespace oakvr
 	namespace render
 	{
 		// --------------------------------------------------------------------------------
-		auto Renderer::Update(double dt) -> void
+		void Renderer::Update(double dt) noexcept
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
 			std::lock_guard<std::mutex> lockGuard(m_cleanupMutex);
@@ -53,6 +53,16 @@ namespace oakvr
 			m_pMeshManager->ClearOneFrameMeshes();
 		}
 
+		void Renderer::Render() noexcept
+		{
+			// Does nothing for the default renderer; all rendering is done in Update
+		}
+
+		void Renderer::SwapBuffers() noexcept
+		{
+			// Does nothing for the default renderer since we have no double buffering of render resources by default
+		}
+
 		auto Renderer::RenderRenderables(const RenderableVector &renderables) -> void
 		{
 			PROFILER_FUNC_SCOPED_TIMER;
@@ -67,52 +77,52 @@ namespace oakvr
 				for (auto& pMeshElem : pRenderable->GetMesh()->GetMeshElements())
 				{
 					void *pBuff = nullptr;
-					if (vb.GetVertexCount() * vb.GetVertexStride() < pMeshElem->m_vertexCount * pMeshElem->m_vertexStride)
+					if (vb.GetVertexCount() * vb.GetVertexStride() < pMeshElem->GetVertexCount() * pMeshElem->GetVertexStride())
 					{
 						// Create vertex buffer for this mesh element
-						vb.Create(pMeshElem->m_vertexCount, pMeshElem->m_vertexStride);
+						vb.Create(pMeshElem->GetVertexCount(), pMeshElem->GetVertexStride());
 					}
-					else if (vb.GetVertexCount() != pMeshElem->m_vertexCount || vb.GetVertexStride() != pMeshElem->m_vertexStride)
+					else if (vb.GetVertexCount() != pMeshElem->GetVertexCount() || vb.GetVertexStride() != pMeshElem->GetVertexStride())
 					{
-						vb.SetVertexCount(pMeshElem->m_vertexCount);
-						vb.SetVertexStride(pMeshElem->m_vertexStride);
+						vb.SetVertexCount(pMeshElem->GetVertexCount());
+						vb.SetVertexStride(pMeshElem->GetVertexStride());
 					}
 
 					// and populate it with vertex data
 					vb.Lock(&pBuff);
 
-					memcpy(pBuff, pMeshElem->m_vertexData.GetDataPtr(), pMeshElem->m_vertexData.Size());
+					memcpy(pBuff, pMeshElem->GetVertexData().GetDataPtr(), pMeshElem->GetVertexData().Size());
 					vb.Unlock();
 
-					if (ib.GetIndexCount() * ib.GetIndexStride() < pMeshElem->m_indexCount * pMeshElem->m_indexStride)
+					if (ib.GetIndexCount() * ib.GetIndexStride() < pMeshElem->GetIndexCount() * pMeshElem->GetIndexStride())
 					{
 						// Create index buffer for this mesh element
-						ib.Create(pMeshElem->m_indexCount, pMeshElem->m_indexStride);
+						ib.Create(pMeshElem->GetIndexCount(), pMeshElem->GetIndexStride());
 					}
 
 					// and populate it with index data
 					ib.Lock(&pBuff);
-					memcpy(pBuff, pMeshElem->m_indexData.GetDataPtr(), pMeshElem->m_indexData.Size());
+					memcpy(pBuff, pMeshElem->GetIndexData().GetDataPtr(), pMeshElem->GetIndexData().Size());
 					ib.Unlock();
 
-					auto it = m_shaderPrograms.find(pMeshElem->m_pMaterial->m_shaderName);
+					auto it = m_shaderPrograms.find(pMeshElem->GetMaterial()->m_shaderName);
 					if (it != std::end(m_shaderPrograms))
 					{
 						UseShaderProgram(it->second);
 
-						vb.Use(pMeshElem->m_vertexFormat);
+						vb.Use(pMeshElem->GetVertexElementDescriptors());
 						ib.Use();
 
 						UpdateShaderParams(it->second);
-						if (pMeshElem->m_vecTextures.size())
+						if (pMeshElem->GetTextureNames().size())
 						{
 							//if (m_textures[pMeshElem->m_vecTextures[0]].get())
-							UseTexture(m_textures[pMeshElem->m_vecTextures[0]].get());
+							UseTexture(m_textures[pMeshElem->GetTextureNames()[0]].get());
 							//else
 							//	continue;
 						}
 
-						DrawIndexed(pMeshElem->m_indexCount);
+						DrawIndexed(pMeshElem->GetIndexCount());
 					}
 				}
 			}
@@ -130,51 +140,51 @@ namespace oakvr
 
 			for (auto &pMeshElem : meshElems)
 			{
-				m_worldMatrix = pMeshElem->m_pMesh->GetWorldMatrix();
+				m_worldMatrix = pMeshElem->GetMesh()->GetWorldMatrix();
 				void *pBuff = nullptr;
-				if (vb.GetVertexCount() * vb.GetVertexStride() < pMeshElem->m_vertexCount * pMeshElem->m_vertexStride)
+				if (vb.GetVertexCount() * vb.GetVertexStride() < pMeshElem->GetVertexCount() * pMeshElem->GetVertexStride())
 				{
 					// Create vertex buffer for this mesh element
-					vb.Create(pMeshElem->m_vertexCount, pMeshElem->m_vertexStride);
+					vb.Create(pMeshElem->GetVertexCount(), pMeshElem->GetVertexStride());
 				}
-				else if (vb.GetVertexCount() != pMeshElem->m_vertexCount || vb.GetVertexStride() != pMeshElem->m_vertexStride)
+				else if (vb.GetVertexCount() != pMeshElem->GetVertexCount() || vb.GetVertexStride() != pMeshElem->GetVertexStride())
 				{
-					vb.SetVertexCount(pMeshElem->m_vertexCount);
-					vb.SetVertexStride(pMeshElem->m_vertexStride);
+					vb.SetVertexCount(pMeshElem->GetVertexCount());
+					vb.SetVertexStride(pMeshElem->GetVertexStride());
 				}
 
 				// and populate it with vertex data
 				vb.Lock(&pBuff);
 
-				memcpy(pBuff, pMeshElem->m_vertexData.GetDataPtr(), pMeshElem->m_vertexData.Size());
+				memcpy(pBuff, pMeshElem->GetVertexData().GetDataPtr(), pMeshElem->GetVertexData().Size());
 				vb.Unlock();
 
-				if (ib.GetIndexCount() * ib.GetIndexStride() < pMeshElem->m_indexCount * pMeshElem->m_indexStride)
+				if (ib.GetIndexCount() * ib.GetIndexStride() < pMeshElem->GetIndexCount() * pMeshElem->GetIndexStride())
 				{
 					// Create index buffer for this mesh element
-					ib.Create(pMeshElem->m_indexCount, pMeshElem->m_indexStride);
+					ib.Create(pMeshElem->GetIndexCount(), pMeshElem->GetIndexStride());
 				}
 
 				// and populate it with index data
 				ib.Lock(&pBuff);
-				memcpy(pBuff, pMeshElem->m_indexData.GetDataPtr(), pMeshElem->m_indexData.Size());
+				memcpy(pBuff, pMeshElem->GetIndexData().GetDataPtr(), pMeshElem->GetIndexData().Size());
 				ib.Unlock();
 
-				auto it = m_shaderPrograms.find(pMeshElem->m_pMaterial->m_shaderName);
+				auto it = m_shaderPrograms.find(pMeshElem->GetMaterial()->m_shaderName);
 				if (it != std::end(m_shaderPrograms))
 				{
 					UseShaderProgram(it->second);
 
-					vb.Use(pMeshElem->m_vertexFormat);
+					vb.Use(pMeshElem->GetVertexElementDescriptors());
 					ib.Use();
 
 					UpdateShaderParams(it->second);
-					if (pMeshElem->m_vecTextures.size())
+					if (pMeshElem->GetTextureNames().size())
 					{	
-						UseTexture(m_textures[pMeshElem->m_vecTextures[0]].get());
+						UseTexture(m_textures[pMeshElem->GetTextureNames()[0]].get());
 					}
 
-					DrawIndexed(pMeshElem->m_indexCount);
+					DrawIndexed(pMeshElem->GetIndexCount());
 				}
 			}
 			ib.Release();
@@ -195,48 +205,48 @@ namespace oakvr
 				for (auto &pMeshElem : pMesh->GetMeshElements())
 				{
 					void *pBuff = nullptr;
-					if (vb.GetVertexCount() * vb.GetVertexStride() < pMeshElem->m_vertexCount * pMeshElem->m_vertexStride)
+					if (vb.GetVertexCount() * vb.GetVertexStride() < pMeshElem->GetVertexCount() * pMeshElem->GetVertexStride())
 					{
 						// Create vertex buffer for this mesh element
-						vb.Create(pMeshElem->m_vertexCount, pMeshElem->m_vertexStride);
+						vb.Create(pMeshElem->GetVertexCount(), pMeshElem->GetVertexStride());
 					}
-					else if (vb.GetVertexCount() != pMeshElem->m_vertexCount || vb.GetVertexStride() != pMeshElem->m_vertexStride)
+					else if (vb.GetVertexCount() != pMeshElem->GetVertexCount() || vb.GetVertexStride() != pMeshElem->GetVertexStride())
 					{
-						vb.SetVertexCount(pMeshElem->m_vertexCount);
-						vb.SetVertexStride(pMeshElem->m_vertexStride);
+						vb.SetVertexCount(pMeshElem->GetVertexCount());
+						vb.SetVertexStride(pMeshElem->GetVertexStride());
 					}
 					// and populate it with vertex data
 					vb.Lock(&pBuff);
 
-					memcpy(pBuff, pMeshElem->m_vertexData.GetDataPtr(), pMeshElem->m_vertexData.Size());
+					memcpy(pBuff, pMeshElem->GetVertexData().GetDataPtr(), pMeshElem->GetVertexData().Size());
 					vb.Unlock();
 
-					if (ib.GetIndexCount() * ib.GetIndexStride() < pMeshElem->m_indexCount * pMeshElem->m_indexStride)
+					if (ib.GetIndexCount() * ib.GetIndexStride() < pMeshElem->GetIndexCount() * pMeshElem->GetIndexStride())
 					{
 						// Create index buffer for this mesh element
-						ib.Create(pMeshElem->m_indexCount, pMeshElem->m_indexStride);
+						ib.Create(pMeshElem->GetIndexCount(), pMeshElem->GetIndexStride());
 					}
 
 					// and populate it with index data
 					ib.Lock(&pBuff);
-					memcpy(pBuff, pMeshElem->m_indexData.GetDataPtr(), pMeshElem->m_indexData.Size());
+					memcpy(pBuff, pMeshElem->GetIndexData().GetDataPtr(), pMeshElem->GetIndexData().Size());
 					ib.Unlock();
 
-					auto it = m_shaderPrograms.find(pMeshElem->m_pMaterial->m_shaderName);
+					auto it = m_shaderPrograms.find(pMeshElem->GetMaterial()->m_shaderName);
 					if (it != std::end(m_shaderPrograms))
 					{
 						UseShaderProgram(it->second);
 
-						vb.Use(pMeshElem->m_vertexFormat);
+						vb.Use(pMeshElem->GetVertexElementDescriptors());
 						ib.Use();
 
 						UpdateShaderParams(it->second);
-						if (pMeshElem->m_vecTextures.size())
+						if (pMeshElem->GetTextureNames().size())
 						{
-							UseTexture(m_textures[pMeshElem->m_vecTextures[0]].get());
+							UseTexture(m_textures[pMeshElem->GetTextureNames()[0]].get());
 						}
 
-						DrawIndexed(pMeshElem->m_indexCount);
+						DrawIndexed(pMeshElem->GetIndexCount());
 					}
 				}
 			}
@@ -290,7 +300,7 @@ namespace oakvr
 			m_pMeshManager->AddMesh(pMesh);
 			for (const auto &pMeshElement : pMesh->GetMeshElements())
 			{
-				for (const auto &textureName : pMeshElement->m_vecTextures)
+				for (const auto &textureName : pMeshElement->GetTextureNames())
 				{
 					RegisterTexture(textureName, m_pResourceManager->GetResource(textureName));
 				}
@@ -314,7 +324,7 @@ namespace oakvr
 			m_pMeshManager->AddOneFrameMesh(pMesh);
 			for (const auto &pMeshElement : pMesh->GetMeshElements())
 			{
-				for (const auto &textureName : pMeshElement->m_vecTextures)
+				for (const auto &textureName : pMeshElement->GetTextureNames())
 				{
 					RegisterTexture(textureName, m_pResourceManager->GetResource(textureName));
 				}
@@ -359,6 +369,15 @@ namespace oakvr
 		auto Renderer::UnregisterAllRenderables() -> void
 		{
 			m_pRenderableManager->Clear();
+		}
+
+		auto Renderer::UseShaderProgram(const StringId &shaderProgramName) -> void
+		{
+			auto it = m_shaderPrograms.find(shaderProgramName);
+			if (it != std::end(m_shaderPrograms))
+			{
+				UseShaderProgram(it->second);
+			}
 		}
 	}	// namespace render
 }	// namespace oakvr

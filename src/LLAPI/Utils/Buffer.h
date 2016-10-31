@@ -67,7 +67,7 @@ namespace oakvr
 		template <typename T>
 		auto Buffer<T>::operator=(const Buffer<T> & buffer) -> Buffer<T> &
 		{
-			m_size = buffer.size;
+			m_size = buffer.m_size;
 			m_buffer = new T[m_size];
 			memcpy(m_buffer, buffer.m_buffer, m_size);
 			return *this;
