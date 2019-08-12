@@ -1,5 +1,4 @@
---allowedPlatforms = { "linux32", "linux64", "windows32", "windows64" }
-allowedPlatforms = { "windows64" } -- temporary for development on win64
+allowedPlatforms = { "windows64", "linux64", }
 allowedConfigs = { "debug", "fastdebug", "profile", "final"}
 
 function GetTableWithDescriptions(_table)
@@ -121,10 +120,10 @@ function AddBinDirAsLinkDir(prjName)
 end
 				
 CurrentSln = nil
-function Solution(solutionName)
-	print("### Configuring solution(" .. solutionName .. ") ###")
+function Workspace(workspaceName)
+	print("### Configuring workspace(" .. workspaceName .. ") ###")
 
-	CurrentSln = solution (solutionName)
+	CurrentSln = workspace (workspaceName)
 		plfs = allowedPlatforms
 		cfgs = allowedConfigs
 
@@ -133,46 +132,35 @@ function Solution(solutionName)
 		
 	
 		configuration "debug"
-			flags       { "Symbols" }
+			symbols "On"
 			defines		{ "OAKVR_DEBUG" }
 
 		configuration "fastdebug"
-			flags       { "OptimizeSpeed", "Symbols" }
+			symbols "On"
+			optimize "Speed"
 			defines		{ "OAKVR_FASTDEBUG" }
 
 		configuration "profile"
-			flags       { "OptimizeSpeed" }	
+			optimize "Speed"	
 			defines		{ "OAKVR_PROFILE" }
 
 		configuration "final"
-			flags		{ "OptimizeSpeed" }
+			optimize "Speed"
 			defines		{ "OAKVR_FINAL" }
 
-		configuration "linux32"
-			system "Linux"
-			architecture "x32"
-			toolset "gcc"
-			defines		{ "OAKVR_LINUX32" }
-		
 		configuration "linux64"
 			system "Linux"
 			architecture "x64"
-			toolset "gcc"
+			toolset "clang"
 			defines		{ "OAKVR_LINUX64" }
-
-		configuration "windows32"
-			system "Windows"
-			architecture "x32"
-			flags { "StaticRuntime" }
-			--toolset "msc"
-			defines		{ "OAKVR_WINDOWS32" }
 
 		configuration "windows64"
 			system "Windows"
 			architecture "x64"
-			flags { "StaticRuntime" }
+			staticruntime "On"
 			--toolset "msc"	
 			defines		{ "OAKVR_WINDOWS64" }
+			buildoptions { "/std:c++latest" }
 		
 		for _, cfg in ipairs(cfgs) do
 			for _, plf in ipairs(plfs) do
@@ -183,12 +171,13 @@ function Solution(solutionName)
 		
 		configuration {}
 		
-		location(oakvrRoot .. "/workspace/" .. (_ACTION or "").. "/" .. solutionName)
+		location(oakvrRoot .. "/workspace/" .. (_ACTION or "").. "/" .. workspaceName)
 end
 
 function Project(projectName)
 	project(projectName)
-		location(oakvrRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.api.scope.solution.name .. "/" .. projectName)
+		location(oakvrRoot .. "/workspace/" .. (_ACTION or "") .. "/" .. premake.api.scope.workspace.name .. "/" .. projectName)
+		systemversion ("10.0.15063.0")
 end
 
 function ProjectGlobalConfig()
@@ -197,8 +186,7 @@ end
 function Build(plf, cfg)
 	local wsFolder = "workspace"
 	if plf == "linux64" or plf == "linux32" then
-		os.execute("cd " .. wsFolder .. "/gmake/LLAPI && make config=".. cfg .. "_"..plf)
-		os.execute("cd " .. wsFolder .. "/gmake/Core && make config=".. cfg .. "_"..plf)
+		os.execute("cd " .. wsFolder .. "/gmake/OAKVR && make config=".. cfg .. "_"..plf)
 	elseif plf == "windows64" or plf == "windows32" then
 		print("Build action not implemented for this platform!\n")
 	end

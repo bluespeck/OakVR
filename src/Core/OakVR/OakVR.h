@@ -16,6 +16,11 @@
 
 #include "Interface.h"
 
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <functional>
+
 namespace oakvr
 {
 	using TimeDeltaType = float;
@@ -49,10 +54,23 @@ namespace oakvr
 	private:
 		auto Initialize() -> bool;
 		auto Update() -> bool;
-
 		auto Update(TimeDeltaType dt) -> bool;
+		auto Render() -> bool;
+		
+		auto UpdateThread() -> void; // triggers another iteration of the update job
+		auto RenderThread() -> void; // triggers another iteration of the render job
+		void WaitForUpdateFrameStart();
+		void WaitForRenderFrameStart();
+		void WaitForUpdateFrameEnd();
+		void WaitForRenderFrameEnd();
+		void NotifyUpdateFrameCanStart();
+		void NotifyRenderFrameCanStart();
+		void NotifyUpdateFrameFinished();
+		void NotifyRenderFrameFinished();
+		auto SwapBuffers()-> bool; // called when both update and render jobs have finished their work
 
-		auto RegisterObjectsAsRenderables(const ObjectVector  &objects) -> void;
+		auto DrawObjects(const ObjectVector &objects) const noexcept -> void;
+		auto RegisterObjectsAsRenderables(const ObjectVector  &objects) const noexcept-> void;
 
 		auto FrustumCull() -> ObjectVector;
 
@@ -84,6 +102,18 @@ namespace oakvr
 
 		sp<oakvr::core::ResourceManager> m_pRM;
 		
+		mutable std::mutex m_updateMutex;
+		mutable std::mutex m_renderMutex;
+		mutable std::condition_variable m_updateFrameCanStartCondVar;
+		mutable std::condition_variable m_renderFrameCanStartCondVar;
+		mutable std::condition_variable m_updateFrameFinishedCondVar;
+		mutable std::condition_variable m_renderFrameFinishedCondVar;
+		bool m_updateFrameCanStart;
+		bool m_renderFrameCanStart;
+		bool m_updateFrameFinished;
+		bool m_renderFrameFinished;
+		bool m_exitAllThreads;
+
 		
 		std::vector<sp<oakvr::Updatable>> m_pUpdatables;
 

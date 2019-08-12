@@ -1,6 +1,7 @@
 #include "MeshElement.h"
 
 #include <algorithm>
+#include <cmath>
 
 namespace oakvr
 {

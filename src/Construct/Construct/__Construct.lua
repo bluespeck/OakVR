@@ -12,7 +12,6 @@ Project "Construct"
 	
 	links {"OakVR"}
 	
-	configuration {"windows32"}
-		links { "opengl32" }
 	configuration {"windows64"}
 		links { "opengl32" }
+		buildoptions {"/std:c++latest"}
