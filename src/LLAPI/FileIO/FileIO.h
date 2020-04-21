@@ -3,13 +3,7 @@
 #include <cstdint>
 #include <string>
 
-namespace oakvr
+namespace oakvr::core::io
 {
-	namespace core
-	{
-		namespace io
-		{
-			typedef int64_t OffsetType;
-		}	// namespace io
-	}	// namespace core
-}	// namespace oakvr
+	typedef int64_t OffsetType;
+}

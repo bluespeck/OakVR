@@ -2,19 +2,13 @@
 
 #include <string>
 
-namespace oakvr
-{
-	namespace core
-	{
-		namespace io
-		{
-			namespace path
+namespace oakvr::core::io::path
 			{
 				typedef std::string PathType;
 
 				inline auto GetPathSeparator() -> PathType
 				{
-#if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
+#if defined(OAKVR_WINDOWS64)
 					return "\\";
 #else
 					return "/";
@@ -49,7 +43,4 @@ namespace oakvr
 					return (pos != std::string::npos) ? filename.substr(0, pos) : "";
 				}
 				
-			}	// namespace path
-		}	// namespace io
-	}	// namespace core
-}	// namespace oakvr
+			}
