@@ -74,7 +74,7 @@ namespace oakvr
 		return true;
 	}
 
-	auto OakVR::RegisterObjectsAsRenderables(const ObjectVector  &objects) -> void
+	auto OakVR::RegisterObjectsAsRenderables(const ObjectVector  &objects) const noexcept -> void
 	{
 		m_pRenderer->UnregisterAllRenderables();
 
