@@ -8,11 +8,7 @@
 
 #define strcpy strcpy_s
 
-namespace oakvr
-{
-namespace core
-{
-namespace io
+namespace oakvr::core::io
 {	
 	// --------------------------------------------------------------------------------
 	struct File::FileImpl
@@ -150,6 +146,4 @@ namespace io
 		return fwrite(buffer + offset, bytesToWrite, 1, m_pImpl->pFileHandle);
 	}
 
-}	// namespace io
-}	// namespace core
-}	// namespace oakvr
+}

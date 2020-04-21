@@ -1,20 +1,16 @@
 #include "Mesh.h"
 #include "Utils/Types.h"
 
-namespace oakvr
+namespace oakvr::render
 {
-	namespace render
+	// --------------------------------------------------------------------------------
+	Mesh::Mesh(const StringId &name)
+		:m_name( name )
 	{
-		// --------------------------------------------------------------------------------
-		Mesh::Mesh(const StringId &name)
-			:m_name( name )
-		{
-		}
+	}
 
-		// --------------------------------------------------------------------------------
-		Mesh::~Mesh()
-		{	
-		}
-
-	} // namespace render
-}// namespace oakvr
+	// --------------------------------------------------------------------------------
+	Mesh::~Mesh()
+	{	
+	}
+}

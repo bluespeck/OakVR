@@ -1,12 +1,9 @@
 #pragma once
 
-namespace oakvr
+namespace oakvr::render
 {
-	namespace render
+	class Scene
 	{
-		class Scene
-		{
 
-		};
-	}	// namespace render
-}	// namespace oakvr
+	};
+}

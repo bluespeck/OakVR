@@ -1,19 +1,16 @@
 #pragma once
 
-namespace oakvr
+namespace oakvr::core
 {
-	namespace core
+	class IController
 	{
-		class IController
-		{
-		public:
-			IController( class Object * ) { m_pObj = nullptr; }
-			virtual ~IController() { }
-			virtual auto DeleteMe() -> void;
+	public:
+		IController( class Object * ) { m_pObj = nullptr; }
+		virtual ~IController() { }
+		virtual auto DeleteMe() -> void;
 
-			virtual	auto Update( float dt )  -> void{ };
+		virtual	auto Update( float dt )  -> void{ };
 
-			class CObject *m_pObj;	// Points to the object on which this controller is placed
-		};
-	} // namespace core
-}	// namespace oakvr
+		class CObject *m_pObj;	// Points to the object on which this controller is placed
+	};
+}

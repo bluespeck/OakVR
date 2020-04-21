@@ -1,9 +1,6 @@
 #pragma once
 
 
-namespace oakvr
+namespace oakvr::core
 {
-	namespace core
-	{
-	}
 }

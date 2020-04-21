@@ -9,25 +9,22 @@
 
 
 
-namespace oakvr
+namespace oakvr::render
 {
-	namespace render
+	class CameraManager
 	{
-		class CameraManager
-		{
-		public:
-			CameraManager();
+	public:
+		CameraManager();
 
-			auto RegisterCamera(sp<Camera>) -> void;
-			auto UnregisterCamera(sp<Camera>) -> void;
+		auto RegisterCamera(sp<Camera>) -> void;
+		auto UnregisterCamera(sp<Camera>) -> void;
 
-			sp<Camera> GetCamera(const StringId &cameraId);
-			sp<Camera> GetCurrentCamera() { return m_currentCameraIndex < m_cameras.size() ? m_cameras[m_currentCameraIndex] : nullptr; }
-			auto SetCurrentCamera(sp<Camera>) -> void;
-			auto SetCurrentCamera(const StringId &cameraId) -> void;
-		private:
-			int m_currentCameraIndex = -1;
-			std::vector<sp<Camera>> m_cameras;
-		};
-	}
+		sp<Camera> GetCamera(const StringId &cameraId);
+		sp<Camera> GetCurrentCamera() { return m_currentCameraIndex < m_cameras.size() ? m_cameras[m_currentCameraIndex] : nullptr; }
+		auto SetCurrentCamera(sp<Camera>) -> void;
+		auto SetCurrentCamera(const StringId &cameraId) -> void;
+	private:
+		int m_currentCameraIndex = -1;
+		std::vector<sp<Camera>> m_cameras;
+	};
 }

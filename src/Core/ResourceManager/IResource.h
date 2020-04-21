@@ -4,9 +4,6 @@
 
 #include <mutex>
 
-
-
-
 namespace oakvr
 {
 	namespace core{class ResourceManager; }

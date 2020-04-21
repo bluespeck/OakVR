@@ -1,13 +1,10 @@
 #include "IController.h"
 
-namespace oakvr
+namespace oakvr::core
 {
-	namespace core
-	{	
-		// --------------------------------------------------------------------------------
-		auto IController::DeleteMe() -> void
-		{
-			delete this;
-		}
-	} // namespace core
+	// --------------------------------------------------------------------------------
+	auto IController::DeleteMe() -> void
+	{
+		delete this;
+	}
 }

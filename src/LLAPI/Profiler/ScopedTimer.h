@@ -4,22 +4,19 @@
 #include <chrono>
 #include <string>
 
-namespace oakvr
+namespace oakvr::profiler
 {
-	namespace profiler
+	class ScopedTimer
 	{
-		class ScopedTimer
-		{
-		public:
-			ScopedTimer(std::string name, std::string group = "", std::string funcName = "", std::string location = "");
-			~ScopedTimer();
+	public:
+		ScopedTimer(std::string name, std::string group = "", std::string funcName = "", std::string location = "");
+		~ScopedTimer();
 
-		private:
-			typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
+	private:
+		typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
 
-			ProfileId m_id;
+		ProfileId m_id;
 
-			TimePoint m_startingTimePoint;
-		};
-	}
+		TimePoint m_startingTimePoint;
+	};
 }

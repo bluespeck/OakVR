@@ -2,12 +2,7 @@
 #include "Shader.h"
 #include "Renderer.h"
 
-
-
-namespace oakvr
+namespace oakvr::render
 {
-	namespace render
-	{
-
-	}
+	
 }

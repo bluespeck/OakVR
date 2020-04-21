@@ -4,26 +4,23 @@
 #include "Mesh.h"
 #include "Math/Matrix.h"
 
-namespace oakvr
+namespace oakvr::render
 {
-	namespace render
+	class Renderable
 	{
-		class Renderable
-		{
-		public:
-			Renderable(const MeshSharedPointer &pMesh = nullptr);
-			~Renderable() {}
+	public:
+		Renderable(const MeshSharedPointer &pMesh = nullptr);
+		~Renderable() {}
 
-			auto SetMesh(const MeshSharedPointer &pMesh) -> void;
-			auto GetMesh() const -> const MeshSharedPointer &;
+		auto SetMesh(const MeshSharedPointer &pMesh) -> void;
+		auto GetMesh() const -> const MeshSharedPointer &;
 
-			auto SetTransform(const oakvr::math::Matrix &transform) -> void;
-			auto GetTransform() const -> const oakvr::math::Matrix &;
-			auto Transform(const oakvr::math::Matrix &transform) -> void;
+		auto SetTransform(const oakvr::math::Matrix &transform) -> void;
+		auto GetTransform() const -> const oakvr::math::Matrix &;
+		auto Transform(const oakvr::math::Matrix &transform) -> void;
 
-		private:
-			MeshSharedPointer m_mesh;
-			oakvr::math::Matrix m_transform;
-		};
-	}
+	private:
+		MeshSharedPointer m_mesh;
+		oakvr::math::Matrix m_transform;
+	};
 }

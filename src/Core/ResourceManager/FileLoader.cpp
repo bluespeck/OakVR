@@ -2,12 +2,9 @@
 #include "FileLoaderManager.h"
 #include <memory>
 
-namespace oakvr
+namespace oakvr::core
 {
-	namespace core
+	FileLoader::~FileLoader()
 	{
-		FileLoader::~FileLoader()
-		{ }
-
 	}
 }

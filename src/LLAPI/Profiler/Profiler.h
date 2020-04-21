@@ -10,25 +10,22 @@
 // enable this macro to have profiling data
 #define OAKVR_PROFILER_ENABLED
 
-namespace oakvr
+namespace oakvr::profiler
 {
-	namespace profiler
+	typedef std::unordered_map<std::string, ProfilingData> ProfilingDataMap;
+	typedef std::unordered_map<std::string, ProfilingDataMap> GroupProfilingDataMap;
+	typedef std::vector< std::pair<std::string, ProfilingData> > ProfilingDataVector;
+
+	class Profiler : public Singleton<Profiler>
 	{
-		typedef std::unordered_map<std::string, ProfilingData> ProfilingDataMap;
-		typedef std::unordered_map<std::string, ProfilingDataMap> GroupProfilingDataMap;
-		typedef std::vector< std::pair<std::string, ProfilingData> > ProfilingDataVector;
+	public:
+		auto Update(const ProfileId &id, uint64_t microSeconds) -> void;
+		auto PrintSortedData() -> void;
+		auto GetSortedProfilingData()->ProfilingDataVector;
 
-		class Profiler : public Singleton<Profiler>
-		{
-		public:
-			auto Update(const ProfileId &id, uint64_t microSeconds) -> void;
-			auto PrintSortedData() -> void;
-			auto GetSortedProfilingData()->ProfilingDataVector;
-
-		private:
-			GroupProfilingDataMap m_groupProfilingDataMap;
-		};
-	}
+	private:
+		GroupProfilingDataMap m_groupProfilingDataMap;
+	};
 }
 
 #ifndef _MSC_VER

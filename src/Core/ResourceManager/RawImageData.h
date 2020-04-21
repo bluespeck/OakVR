@@ -4,25 +4,23 @@
 
 #include "Utils/Buffer.h"
 
-namespace oakvr
+namespace oakvr::core
 {
-	namespace core
+	struct RawImageData
 	{
-		struct RawImageData
+		uint32_t width;
+		uint32_t height;
+		uint32_t bitsPerPixel;
+		enum class PixelFormat
 		{
-			uint32_t width;
-			uint32_t height;
-			uint32_t bitsPerPixel;
-			enum class PixelFormat
-			{
-				unknown,
-				rgba,
-				rgb,
-				argb,
-				alpha
-			}pixelFormat;
-			MemoryBuffer pixelBuffer;
-		};
-	}
+			unknown,
+			rgba,
+			rgb,
+			argb,
+			alpha
+		}pixelFormat;
+		MemoryBuffer pixelBuffer;
+	};
+	
 }
 

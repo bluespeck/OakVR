@@ -4,7 +4,7 @@
 #include <memory>
 #include <functional>
 
-#if defined(OAKVR_WINDOWS32) || defined(OAKVR_WINDOWS64)
+#if defined(OAKVR_WINDOWS64)
 #	include <Windows.h>
 #endif
 

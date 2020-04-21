@@ -5,8 +5,6 @@
 #include <vector>
 #include <string>
 
-
-
 int main(int argc, char **argv)
 {
 	if(!oakvr::oakvrInit(oakvr::ParseCommandLine(argc, argv)))

@@ -2,11 +2,8 @@
 
 #include <cstdint>
 
-namespace oakvr
+namespace oakvr::math
 {
-	namespace math
-	{
-		using Real = float;
-		using Integer = uint32_t;
-	}
+	using Real = float;
+	using Integer = uint32_t;
 }

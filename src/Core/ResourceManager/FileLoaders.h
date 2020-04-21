@@ -6,14 +6,11 @@
 #include "Utils/Types.h"
 #include <memory>
 
-namespace oakvr
+namespace oakvr::core
 {
-	namespace core
+	inline auto InitializeFileLoaders() -> void
 	{
-		inline auto InitializeFileLoaders() -> void
-		{
-			FileLoaderManager::RegisterFileLoader(sp<FileLoader>(new PngLoader()));
-			FileLoaderManager::RegisterFileLoader(sp<FileLoader>(new OakVRLoader()));
-		}
+		FileLoaderManager::RegisterFileLoader(sp<FileLoader>(new PngLoader()));
+		FileLoaderManager::RegisterFileLoader(sp<FileLoader>(new OakVRLoader()));
 	}
 }

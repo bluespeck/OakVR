@@ -11,92 +11,88 @@
 
 using namespace std::string_literals;
 
-namespace oakvr
+namespace oakvr::render
 {
-	namespace render
+	class Mesh
 	{
-		class Mesh
-		{
-		public:
-			typedef std::vector<MeshElementSharedPointer> MeshElementVector;
+	public:
+		typedef std::vector<MeshElementSharedPointer> MeshElementVector;
 
-			Mesh(const StringId &name = ""s);
-			~Mesh();
+		Mesh(const StringId& name = ""s);
+		~Mesh();
 
-			inline auto AddMeshElement(const sp<MeshElement> &meshElem) -> void;
-			inline auto GetMeshElements() -> MeshElementVector &;
-			inline auto GetMeshElements() const -> const MeshElementVector &;
-			inline auto SetWorldMatrix(const oakvr::math::Matrix &worldMatrix) -> void;
-			inline auto GetWorldMatrix() const -> const oakvr::math::Matrix &;
-			inline auto Transform(const oakvr::math::Matrix &transform) -> void;
-			
-			inline auto GetBoundingSphere() const noexcept -> const BoundingSphere &;
+		inline auto AddMeshElement(const sp<MeshElement>& meshElem) -> void;
+		inline auto GetMeshElements()->MeshElementVector&;
+		inline auto GetMeshElements() const -> const MeshElementVector&;
+		inline auto SetWorldMatrix(const oakvr::math::Matrix& worldMatrix) -> void;
+		inline auto GetWorldMatrix() const -> const oakvr::math::Matrix&;
+		inline auto Transform(const oakvr::math::Matrix& transform) -> void;
 
-			inline auto GetName() const -> const StringId &;
+		inline auto GetBoundingSphere() const noexcept -> const BoundingSphere&;
 
-		private:
-			StringId m_name;
-			MeshElementVector m_vMeshElements;
-			oakvr::math::Matrix m_worldMatrix;
+		inline auto GetName() const -> const StringId&;
 
-			BoundingSphere m_boundingSphere;
+	private:
+		StringId m_name;
+		MeshElementVector m_vMeshElements;
+		oakvr::math::Matrix m_worldMatrix;
 
-		};
+		BoundingSphere m_boundingSphere;
 
-		using MeshSharedPointer = sp < Mesh > ;
+	};
 
-		auto Mesh::AddMeshElement(const sp<MeshElement> &pMeshElem) -> void
-		{
-			pMeshElem->m_pMesh = this;
-			m_vMeshElements.push_back(pMeshElem);
+	using MeshSharedPointer = sp < Mesh >;
 
-			const auto &c1 = m_boundingSphere.m_position;
-			const auto &c2 = pMeshElem->m_boundingSphere.m_position;
-			const auto &r1 = m_boundingSphere.m_radius;
-			const auto &r2 = pMeshElem->m_boundingSphere.m_radius;
+	auto Mesh::AddMeshElement(const sp<MeshElement>& pMeshElem) -> void
+	{
+		pMeshElem->m_pMesh = this;
+		m_vMeshElements.push_back(pMeshElem);
 
-			auto deltaR = c2 - c1;
-			auto c11 = c1 + r1 * deltaR.GetNormalized();
-			auto c22 = c2 - r2 * deltaR.GetNormalized();
-			m_boundingSphere.m_position = c11 - (c11 - c22) / 2;
-			m_boundingSphere.m_radius = (r1 + r2) - abs(r1 - r2) / 2;
-		}
+		const auto& c1 = m_boundingSphere.m_position;
+		const auto& c2 = pMeshElem->m_boundingSphere.m_position;
+		const auto& r1 = m_boundingSphere.m_radius;
+		const auto& r2 = pMeshElem->m_boundingSphere.m_radius;
 
-		auto Mesh::GetMeshElements() -> MeshElementVector &
-		{
-			return m_vMeshElements;
-		}
+		auto deltaR = c2 - c1;
+		auto c11 = c1 + r1 * deltaR.GetNormalized();
+		auto c22 = c2 - r2 * deltaR.GetNormalized();
+		m_boundingSphere.m_position = c11 - (c11 - c22) / 2;
+		m_boundingSphere.m_radius = (r1 + r2) - abs(r1 - r2) / 2;
+	}
 
-		auto Mesh::GetMeshElements() const -> const MeshElementVector &
-		{
-			return m_vMeshElements;
-		}
+	auto Mesh::GetMeshElements() -> MeshElementVector&
+	{
+		return m_vMeshElements;
+	}
 
-		auto Mesh::SetWorldMatrix(const oakvr::math::Matrix &worldMatrix) -> void
-		{
-			m_worldMatrix = worldMatrix; 
-		}
+	auto Mesh::GetMeshElements() const -> const MeshElementVector&
+	{
+		return m_vMeshElements;
+	}
 
-		auto Mesh::GetWorldMatrix() const -> const oakvr::math::Matrix &
-		{
-			return m_worldMatrix;
-		}
+	auto Mesh::SetWorldMatrix(const oakvr::math::Matrix& worldMatrix) -> void
+	{
+		m_worldMatrix = worldMatrix;
+	}
 
-		auto Mesh::Transform(const oakvr::math::Matrix &transform) -> void
-		{
-			m_worldMatrix = transform * m_worldMatrix;
-		}
+	auto Mesh::GetWorldMatrix() const -> const oakvr::math::Matrix&
+	{
+		return m_worldMatrix;
+	}
 
-		auto Mesh::GetBoundingSphere() const noexcept -> const BoundingSphere &
-		{
-			return m_boundingSphere;
-		}
+	auto Mesh::Transform(const oakvr::math::Matrix& transform) -> void
+	{
+		m_worldMatrix = transform * m_worldMatrix;
+	}
 
-		auto Mesh::GetName() const -> const StringId &
-		{
-			return m_name;
-		}
+	auto Mesh::GetBoundingSphere() const noexcept -> const BoundingSphere&
+	{
+		return m_boundingSphere;
+	}
 
-	} // namespace render
-} // namespace oakvr
+	auto Mesh::GetName() const -> const StringId&
+	{
+		return m_name;
+	}
+}
 

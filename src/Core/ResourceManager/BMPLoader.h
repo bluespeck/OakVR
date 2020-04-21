@@ -5,15 +5,12 @@
 
 #include "RawImageData.h"
 
-namespace oakvr
+namespace oakvr::core
 {
-	namespace core
+	class BMPLoader
 	{
-		class BMPLoader
-		{
-		public:
-			static MemoryBuffer GetRawImage(const MemoryBuffer &fileBuffer);
-		};
-	}
+	public:
+		static MemoryBuffer GetRawImage(const MemoryBuffer &fileBuffer);
+	};
 }
 

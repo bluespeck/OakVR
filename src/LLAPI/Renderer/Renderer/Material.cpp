@@ -1,25 +1,22 @@
 
 #include "Material.h"
 
-namespace oakvr
+namespace oakvr::render
 {
-	namespace render
+	// --------------------------------------------------------------------------------
+	Material::Material(std::string &name)
+		: m_shaderName(name)
 	{
-		// --------------------------------------------------------------------------------
-		Material::Material(std::string &name)
-			: m_shaderName(name)
-		{
-		}
+	}
 
-		// --------------------------------------------------------------------------------
-		Material::Material(const char *name)
-			: m_shaderName(name)
-		{
-		}
+	// --------------------------------------------------------------------------------
+	Material::Material(const char *name)
+		: m_shaderName(name)
+	{
+	}
 
-		// --------------------------------------------------------------------------------
-		Material::~Material()
-		{
-		}
-	} // namespace render
-} //oakvr
+	// --------------------------------------------------------------------------------
+	Material::~Material()
+	{
+	}
+}

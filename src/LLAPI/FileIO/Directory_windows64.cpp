@@ -4,11 +4,7 @@
 #include <cassert>
 #include <windows.h>
 
-namespace oakvr
-{
-namespace core
-{
-namespace io
+namespace oakvr::core::io
 {
 	// --------------------------------------------------------------------------------
 	struct Directory::DirectoryImpl
@@ -92,6 +88,4 @@ namespace io
 
 		return result;
 	}
-}	// namespace io
-}	// namespace core
-}	// namespace oakvr
+}

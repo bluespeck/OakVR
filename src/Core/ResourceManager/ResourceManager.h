@@ -15,29 +15,26 @@
 #include "Utils/Buffer.h"
 #include "Utils/Types.h"
 
-namespace oakvr
+namespace oakvr::core
 {
-	namespace core
+	class ResourceManager
 	{
-		class ResourceManager
-		{
-		public:
-			auto Initialize() -> void;
+	public:
+		auto Initialize() -> void;
 
-			auto CreateResourceFromMemory(const StringId &id, const MemoryBuffer &buffer) -> void;
-			auto GetResource(const StringId &id) -> sp<MemoryBuffer>;
+		auto CreateResourceFromMemory(const StringId &id, const MemoryBuffer &buffer) -> void;
+		auto GetResource(const StringId &id) -> sp<MemoryBuffer>;
 			
-			auto ReleaseResource(const StringId &id) -> void;
+		auto ReleaseResource(const StringId &id) -> void;
 
-			ResourceManager();
-			~ResourceManager();
+		ResourceManager();
+		~ResourceManager();
 		
-			auto AddPathsFromFolder(const std::string &path)->bool;
+		auto AddPathsFromFolder(const std::string &path)->bool;
 			
-		private:
-			std::unordered_map<StringId, std::shared_ptr<MemoryBuffer>> m_mapResources;
-			std::unordered_map<StringId, std::string> m_mapPaths;
+	private:
+		std::unordered_map<StringId, std::shared_ptr<MemoryBuffer>> m_mapResources;
+		std::unordered_map<StringId, std::string> m_mapPaths;
 
-		};
-	}
+	};
 }

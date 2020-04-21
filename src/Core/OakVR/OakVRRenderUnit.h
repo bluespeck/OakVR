@@ -14,31 +14,29 @@
 	auto Toggle ## fName() -> void;\
 	auto Is ## fName ## Enabled() const -> bool;
 
+// forward declarations
+namespace oakvr::render
+{
+	
+	class Renderer;
+	class RenderWindow;
+	class CameraManager;
+	class Mesh;
+	class Material;
+	struct Color;
+	class Camera;
+}
+
+namespace oakvr::math
+{
+	class Vector3;
+	class Matrix;
+}
 
 namespace oakvr
 {
-	// forward declarations
-	namespace render
-	{
-		class Renderer;
-		class RenderWindow;
-		class CameraManager;
-		class Mesh;
-		class Material;
-		struct Color;
-		class Camera;
-
-	}
-
-	namespace math
-	{
-		class Vector3;
-		class Matrix;
-	}
-
 	///////////////////////////////////////////////////////////////////////////////////
 	// render related interface
-
 	class OakVRRenderUnit
 	{
 	public:

@@ -3,15 +3,12 @@
 #include "FileLoader.h"
 #include "Utils/Buffer.h"
 
-namespace oakvr
+namespace oakvr::core
 {
-	namespace core
+	class PngLoader : public FileLoader
 	{
-		class PngLoader : public FileLoader
-		{
-		public:
-			auto GetResourceData(const MemoryBuffer &fileBuffer) -> MemoryBuffer;
-			virtual auto CanLoad(const MemoryBuffer &filebuffer) -> bool;
-		};
-	}
+	public:
+		auto GetResourceData(const MemoryBuffer &fileBuffer) -> MemoryBuffer;
+		virtual auto CanLoad(const MemoryBuffer &filebuffer) -> bool;
+	};
 }
