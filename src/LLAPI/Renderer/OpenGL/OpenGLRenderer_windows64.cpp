@@ -30,7 +30,13 @@ namespace oakvr::render
 	class Renderer::RendererImpl
 	{
 	public:
+		static auto ConvertToNativeHandle(void* nativeHandle) noexcept ->GLuint;
 	};
+
+	auto Renderer::RendererImpl::ConvertToNativeHandle(void* nativeHandle) noexcept ->GLuint
+	{
+		return static_cast<GLuint>(reinterpret_cast<size_t>(nativeHandle));
+	}
 
 	// --------------------------------------------------------------------------------
 	Renderer::Renderer()
@@ -75,7 +81,6 @@ namespace oakvr::render
 		return true;
 	}
 
-
 	// --------------------------------------------------------------------------------
 	auto Renderer::ClearBackground(const Color& color) -> void
 	{
@@ -106,7 +111,7 @@ namespace oakvr::render
 		if (texture != nullptr)
 		{
 			glCallAndCheck(glEnable, GL_TEXTURE_2D);
-			glBindTexture(GL_TEXTURE_2D, reinterpret_cast<GLuint>(texture->GetNativeHandle()));
+			glBindTexture(GL_TEXTURE_2D, RendererImpl::ConvertToNativeHandle(texture->GetNativeHandle()));
 		}
 		else
 		{
@@ -126,7 +131,7 @@ namespace oakvr::render
 	{
 		PROFILER_FUNC_SCOPED_TIMER;
 		if (pShaderProgram)
-			glCallAndCheck(glUseProgram, reinterpret_cast<GLuint>(pShaderProgram.get()->GetNativeHandle()));
+			glCallAndCheck(glUseProgram, RendererImpl::ConvertToNativeHandle(pShaderProgram.get()->GetNativeHandle()));
 	}
 
 	auto Renderer::UpdateShaderParams(sp<oakvr::render::ShaderProgram> pShaderProgram) -> void
@@ -141,7 +146,7 @@ namespace oakvr::render
 		//const oakvr::math::Matrix44 mView = m_viewMatrix;
 		//const oakvr::math::Matrix44 mWorld = m_worldMatrix;
 
-		GLuint programId = reinterpret_cast<GLuint>(pShaderProgram->GetNativeHandle());
+		GLuint programId = RendererImpl::ConvertToNativeHandle(pShaderProgram->GetNativeHandle());
 		int projectionMatrixLocation = glCallAndCheck(glGetUniformLocation, programId, "projectionMatrix");
 		int viewMatrixLocation = glCallAndCheck(glGetUniformLocation, programId, "viewMatrix");
 		int worldMatrixLocation = glCallAndCheck(glGetUniformLocation, programId, "worldMatrix");
