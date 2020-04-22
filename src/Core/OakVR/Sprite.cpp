@@ -37,8 +37,8 @@ namespace oakvr
 			auto pMaterial = std::make_shared<oakvr::render::Material>("Default");
 
 			m_pMesh = oakvr::render::CreateMesh(m_name, ved, vb, 4, ib, pMaterial, { m_textureName });
-			auto scaleMatrix = oakvr::math::Matrix::Scale(width, height, 1.0f);
-			auto translationMatrix = oakvr::math::Matrix::Translation(m_center);
+			auto scaleMatrix = oakvr::math::Matrix44::Scale(width, height, 1.0f);
+			auto translationMatrix = oakvr::math::Matrix44::Translation(m_center);
 			m_pMesh->SetWorldMatrix(translationMatrix * scaleMatrix);
 
 		}
@@ -47,8 +47,8 @@ namespace oakvr
 		{
 			m_center = vec;
 			auto pMesh = oakvr::render::GetMesh(m_name);
-			auto scaleMatrix = oakvr::math::Matrix::Scale(m_width, m_height, 1.0f);
-			auto translationMatrix = oakvr::math::Matrix::Translation(m_center);
+			auto scaleMatrix = oakvr::math::Matrix44::Scale(m_width, m_height, 1.0f);
+			auto translationMatrix = oakvr::math::Matrix44::Translation(m_center);
 			m_pMesh->SetWorldMatrix(translationMatrix * scaleMatrix);
 		}
 
@@ -56,8 +56,8 @@ namespace oakvr
 		{
 			m_scaleFactor = newScaleFactor;
 			auto pMesh = oakvr::render::GetMesh(m_name);
-			auto scaleMatrix = oakvr::math::Matrix::Scale(m_width * m_scaleFactor, m_height * m_scaleFactor, 1.0f);
-			auto translationMatrix = oakvr::math::Matrix::Translation(m_center);
+			auto scaleMatrix = oakvr::math::Matrix44::Scale(m_width * m_scaleFactor, m_height * m_scaleFactor, 1.0f);
+			auto translationMatrix = oakvr::math::Matrix44::Translation(m_center);
 			m_pMesh->SetWorldMatrix(translationMatrix * scaleMatrix);
 		}
 

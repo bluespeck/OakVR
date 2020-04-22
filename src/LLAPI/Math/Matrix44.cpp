@@ -1,6 +1,6 @@
 
 #include <cstring>
-#include "Matrix.h"
+#include "Matrix44.h"
 #include <cmath>
 #include <utility>
 
@@ -8,7 +8,7 @@ namespace oakvr::math
 {
 
 	// --------------------------------------------------------------------------------
-	Matrix::Matrix()
+	Matrix44::Matrix44()
 	{
 		_12 = _13 = _14 = 0.0f;
 		_21 = _23 = _24 = 0.0f;
@@ -19,12 +19,12 @@ namespace oakvr::math
 	}
 
 	// --------------------------------------------------------------------------------
-	Matrix::Matrix(float *a)
+	Matrix44::Matrix44(float *a)
 	{
 		std::memcpy(m, a, sizeof(m));
 	}		
 
-	Matrix::Matrix(float diagValue)
+	Matrix44::Matrix44(float diagValue)
 	{
 		_12 = _13 = _14 = 0.0f;
 		_21 = _23 = _24 = 0.0f;
@@ -33,7 +33,7 @@ namespace oakvr::math
 		_11 = _22 = _33 = _44 = diagValue;
 	}
 
-	Matrix::Matrix(const std::initializer_list<float> &initList)
+	Matrix44::Matrix44(const std::initializer_list<float> &initList)
 	{
 		float *p = &m[0][0];
 		for (size_t i = 0; i < initList.size() && i < 16; ++i)
@@ -43,7 +43,7 @@ namespace oakvr::math
 	}
 
 	// --------------------------------------------------------------------------------
-	void Matrix::Transpose()
+	void Matrix44::Transpose()
 	{
 		std::swap(_12, _21);
 		std::swap(_13, _31);
@@ -54,15 +54,15 @@ namespace oakvr::math
 	}
 
 	// --------------------------------------------------------------------------------
-	Matrix Matrix::GetTransposed() const
+	Matrix44 Matrix44::GetTransposed() const
 	{
-		Matrix mat = *this;
+		Matrix44 mat = *this;
 		mat.Transpose();
 		return mat;
 	}
 
 	// --------------------------------------------------------------------------------
-	void Matrix::Invert()
+	void Matrix44::Invert()
 	{
 		//a11 = n(-h k + g l) + o( h j - f l) + p( - g j + f k)
 		//a12 = n(d k - c l) + o(- d j + b l) + p(c j - b k)
@@ -147,7 +147,7 @@ namespace oakvr::math
 			_43 * (_31 * ( df - bh) + _32 * (-de + ah) + _34 * ( be - af)) + 
 			_44 * (_31 * (-cf + bg) + _32 * ( ce - ag) + _33 * (-be + af)));
 			
-		Matrix inv;
+		Matrix44 inv;
 		inv._11 = invDet * _42 * (-hk + gl) + _43 * ( hj - fl) + _44 * (-gj + fk);
 		inv._12 = invDet * _42 * ( dk - cl) + _43 * (-dj + bl) + _44 * ( cj - bk);
 		inv._13 = invDet * _42 * (-dg + ch) + _43 * ( df - bh) + _44 * (-cf + bg);
@@ -172,7 +172,7 @@ namespace oakvr::math
 	}
 
 	// --------------------------------------------------------------------------------
-	Matrix Matrix::GetInverse() const
+	Matrix44 Matrix44::GetInverse() const
 	{
 		const float af = _11 * _22;
 		const float ag = _11 * _23;
@@ -225,7 +225,7 @@ namespace oakvr::math
 			_43 * (_31 * ( df - bh) + _32 * (-de + ah) + _34 * ( be - af)) + 
 			_44 * (_31 * (-cf + bg) + _32 * ( ce - ag) + _33 * (-be + af)));
 
-		Matrix inv;
+		Matrix44 inv;
 		inv._11 = invDet * _42 * (-hk + gl) + _43 * ( hj - fl) + _44 * (-gj + fk);
 		inv._12 = invDet * _42 * ( dk - cl) + _43 * (-dj + bl) + _44 * ( cj - bk);
 		inv._13 = invDet * _42 * (-dg + ch) + _43 * ( df - bh) + _44 * (-cf + bg);
@@ -250,7 +250,7 @@ namespace oakvr::math
 	}
 
 	// --------------------------------------------------------------------------------
-	Matrix Matrix::Identity = 
+	Matrix44 Matrix44::Identity = 
 	{ 
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
@@ -259,7 +259,7 @@ namespace oakvr::math
 	};
 
 	// --------------------------------------------------------------------------------
-	auto Matrix::SetYawPitchRoll(float yaw, float pitch, float roll)  -> void// y * x * z
+	auto Matrix44::SetYawPitchRoll(float yaw, float pitch, float roll)  -> void// y * x * z
 	{
 		float cx = std::cos(pitch);
 		float cy = std::cos(yaw);
@@ -288,7 +288,7 @@ namespace oakvr::math
 
 
 	// --------------------------------------------------------------------------------
-	Matrix Matrix::YawPitchRoll(float yaw, float pitch, float roll)
+	Matrix44 Matrix44::YawPitchRoll(float yaw, float pitch, float roll)
 	{
 		float cx = std::cos(pitch);
 		float cy = std::cos(yaw);
@@ -297,7 +297,7 @@ namespace oakvr::math
 		float sy = std::sin(yaw);
 		float sz = std::sin(roll);
 			
-		Matrix mat;
+		Matrix44 mat;
 
 		mat._11 = cz * cy + sz * sx * sy;
 		mat._12 = sz * cz;
@@ -318,9 +318,9 @@ namespace oakvr::math
 	}
 
 	// --------------------------------------------------------------------------------
-	Matrix Matrix::operator+(const Matrix &mat) const
+	Matrix44 Matrix44::operator+(const Matrix44 &mat) const
 	{
-		Matrix result;
+		Matrix44 result;
 		result._11 = _11 + mat._11;
 		result._12 = _12 + mat._12;
 		result._13 = _13 + mat._13;
@@ -345,9 +345,9 @@ namespace oakvr::math
 	}
 
 	// --------------------------------------------------------------------------------
-	Matrix Matrix::operator*(const Matrix &mat) const
+	Matrix44 Matrix44::operator*(const Matrix44 &mat) const
 	{
-		Matrix result;
+		Matrix44 result;
 		result._11 = _11 * mat._11 + _12 * mat._21 + _13 * mat._31 + _14 * mat._41;
 		result._12 = _11 * mat._12 + _12 * mat._22 + _13 * mat._32 + _14 * mat._42;
 		result._13 = _11 * mat._13 + _12 * mat._23 + _13 * mat._33 + _14 * mat._43;
@@ -372,7 +372,7 @@ namespace oakvr::math
 	}
 
 
-	void Matrix::SetIdentity()
+	void Matrix44::SetIdentity()
 	{
 		// Init to identity matrix
 		_11 = _22 = _33 = _44 = 1.0f;
@@ -382,7 +382,7 @@ namespace oakvr::math
 		_41 = _42 = _43 = 0.0f;
 	}
 
-	void Matrix::SetRotationX(float angle)
+	void Matrix44::SetRotationX(float angle)
 	{	
 		_11 = 1.0f;	_12 = _13 = _14 = 0.0f;
 		_21 = 0.0f;	_22 = std::cos(angle); _23 = -std::sin(angle);	_24 = 0.0f;
@@ -390,7 +390,7 @@ namespace oakvr::math
 		_41 = _42 = _43 = 0.0f; _44 = 1.0f;
 	}
 
-	void Matrix::SetRotationY(float angle)
+	void Matrix44::SetRotationY(float angle)
 	{
 		_11 = std::cos(angle); _12 = 0.0f; _13 = std::sin(angle); _14 = 0.0f;
 		_21 = 0.0f;	_22 = 1.0f; _23 = _24 = 0.0f;
@@ -398,7 +398,7 @@ namespace oakvr::math
 		_41 = _42 = _43 = 0.0f; _44 = 1.0f;
 	}
 
-	void Matrix::SetRotationZ(float angle)
+	void Matrix44::SetRotationZ(float angle)
 	{
 		_11 = std::cos(angle); _12 = -std::sin(angle); _13 = _14 = 0.0f;
 		_21 = -_12;	_22 = _11; _23 = _24 = 0.0f;
@@ -406,9 +406,9 @@ namespace oakvr::math
 		_41 = _42 = _43 = 0.0f; _44 = 1.0f;
 	}
 
-	Matrix Matrix::RotationX(float angle)
+	Matrix44 Matrix44::RotationX(float angle)
 	{
-		Matrix mat;
+		Matrix44 mat;
 		mat._22 = std::cos(angle); 
 		mat._23 = -std::sin(angle);
 		mat._32 = -mat._23;	
@@ -417,9 +417,9 @@ namespace oakvr::math
 		return mat;
 	}
 
-	Matrix Matrix::RotationY(float angle)
+	Matrix44 Matrix44::RotationY(float angle)
 	{
-		Matrix mat;
+		Matrix44 mat;
 		mat._11 = std::cos(angle);
 		mat._13 = std::sin(angle);
 		mat._31 = -mat._13;
@@ -428,9 +428,9 @@ namespace oakvr::math
 		return mat;
 	}
 
-	Matrix Matrix::RotationZ(float angle)
+	Matrix44 Matrix44::RotationZ(float angle)
 	{
-		Matrix mat;
+		Matrix44 mat;
 		mat._11 = std::cos(angle);
 		mat._12 = -std::sin(angle);
 		mat._21 = -mat._12;
@@ -439,9 +439,9 @@ namespace oakvr::math
 		return mat;
 	}
 
-	Matrix Matrix::RotationAxisRightHanded(float angle, const Vector3& axis)
+	Matrix44 Matrix44::RotationAxisRightHanded(float angle, const Vector3& axis)
 	{
-		Matrix mat;
+		Matrix44 mat;
 		float c = std::cos(angle);
 		float s = std::sin(angle);
 		float t = 1 - c;
@@ -464,9 +464,9 @@ namespace oakvr::math
 		return mat;
 	}
 
-	Matrix Matrix::Translation(float x, float y, float z)
+	Matrix44 Matrix44::Translation(float x, float y, float z)
 	{
-		Matrix mat;
+		Matrix44 mat;
 		mat._14 = x;
 		mat._24 = y;
 		mat._34 = z;
@@ -474,9 +474,9 @@ namespace oakvr::math
 		return mat;
 	}
 
-	Matrix Matrix::Translation(const Vector3 &vec)
+	Matrix44 Matrix44::Translation(const Vector3 &vec)
 	{
-		Matrix mat;
+		Matrix44 mat;
 		mat._14 = vec.x;
 		mat._24 = vec.y;
 		mat._34 = vec.z;
@@ -484,9 +484,9 @@ namespace oakvr::math
 		return mat;
 	}
 
-	Matrix Matrix::Scale(const Vector3 &vec)
+	Matrix44 Matrix44::Scale(const Vector3 &vec)
 	{
-		Matrix mat;
+		Matrix44 mat;
 		mat._11 = vec.x;
 		mat._22 = vec.y;
 		mat._33 = vec.z;
@@ -494,9 +494,9 @@ namespace oakvr::math
 		return mat;
 	}
 
-	Matrix Matrix::Scale(float x, float y, float z)
+	Matrix44 Matrix44::Scale(float x, float y, float z)
 	{
-		Matrix mat;
+		Matrix44 mat;
 		mat._11 = x;
 		mat._22 = y;
 		mat._33 = z;
@@ -504,9 +504,9 @@ namespace oakvr::math
 		return mat;
 	}
 
-	Matrix Matrix::Scale(float scale)
+	Matrix44 Matrix44::Scale(float scale)
 	{
-		Matrix mat;
+		Matrix44 mat;
 		mat._11 = scale;
 		mat._22 = scale;
 		mat._33 = scale;
@@ -515,9 +515,9 @@ namespace oakvr::math
 	}
 
 	// --------------------------------------------------------------------------------
-	Matrix Matrix::PerspectiveProjection(float fov, float width, float height, float znear, float zfar)
+	Matrix44 Matrix44::PerspectiveProjection(float fov, float width, float height, float znear, float zfar)
 	{
-		Matrix mat;
+		Matrix44 mat;
 		float frustumDepth = zfar - znear;
 			
 		mat._22 = 1.f / tan(0.5f * fov);
@@ -530,9 +530,9 @@ namespace oakvr::math
 	}
 
 	// --------------------------------------------------------------------------------
-	Matrix Matrix::PerspectiveProjection(float fov, float aspectY, float znear, float zfar)
+	Matrix44 Matrix44::PerspectiveProjection(float fov, float aspectY, float znear, float zfar)
 	{
-		Matrix mat;
+		Matrix44 mat;
 		float frustumDepth = zfar - znear;
 
 		mat._22 = 1.f / tan(0.5f * fov);
@@ -545,12 +545,12 @@ namespace oakvr::math
 	}
 
 	// --------------------------------------------------------------------------------
-	Matrix Matrix::OrthographicProjection(float left, float right, float bottom, float top, float near, float far)
+	Matrix44 Matrix44::OrthographicProjection(float left, float right, float bottom, float top, float near, float far)
 	{
 		float oneOverRightMinusLeft = 1 / (right - left);
 		float oneOverTopMinusButtom = 1 / (top - bottom);
 		float oneOverFarMinusNear = 1 / (far - near);
-		Matrix mat;
+		Matrix44 mat;
 		mat._11 = 2 * oneOverRightMinusLeft;
 		mat._22 = 2 * oneOverTopMinusButtom;
 		mat._33 = -2 * oneOverFarMinusNear;

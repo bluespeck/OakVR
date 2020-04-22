@@ -1,7 +1,7 @@
 
 #include "Camera.h"
 
-#include "Math/Matrix.h"
+#include "Math/Matrix44.h"
 #include "Renderer/Renderer/AABB.h"
 
 #include "Log/Log.h"
@@ -41,14 +41,14 @@ namespace oakvr::render
 	{
 	}
 
-	auto Camera::ComputeViewMatrix() const -> oakvr::math::Matrix
+	auto Camera::ComputeViewMatrix() const -> oakvr::math::Matrix44
 	{
 		auto zaxis = -m_forward.GetNormalized();
 		auto xaxis = -GetRight().GetNormalized();
 		auto yaxis = zaxis.Cross(xaxis).GetNormalized();
 
 
-		oakvr::math::Matrix mat;
+		oakvr::math::Matrix44 mat;
 		mat._11 = xaxis.x;			mat._12 = xaxis.y;			mat._13 = xaxis.z;			mat._14 = -xaxis.Dot(m_position);
 		mat._21 = yaxis.x;			mat._22 = yaxis.y;			mat._23 = yaxis.z;			mat._24 = -yaxis.Dot(m_position);
 		mat._31 = zaxis.x;			mat._32 = zaxis.y;			mat._33 = zaxis.z;			mat._34 = -zaxis.Dot(m_position);

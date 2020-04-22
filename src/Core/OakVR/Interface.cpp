@@ -39,7 +39,7 @@ namespace oakvr::render
 		return oakvr::OakVR::GetInstance().GetRegisteredMesh(name);
 	}
 
-	auto TransformMesh(const StringId &name, const oakvr::math::Matrix &mat) -> void
+	auto TransformMesh(const StringId &name, const oakvr::math::Matrix44 &mat) -> void
 	{
 		oakvr::OakVR::GetInstance().TransformMesh(name, mat);
 	}

@@ -2,7 +2,7 @@
 
 #include "Utils/Types.h"
 #include "Mesh.h"
-#include "Math/Matrix.h"
+#include "Math/Matrix44.h"
 
 namespace oakvr::render
 {
@@ -15,12 +15,12 @@ namespace oakvr::render
 		auto SetMesh(const MeshSharedPointer &pMesh) -> void;
 		auto GetMesh() const -> const MeshSharedPointer &;
 
-		auto SetTransform(const oakvr::math::Matrix &transform) -> void;
-		auto GetTransform() const -> const oakvr::math::Matrix &;
-		auto Transform(const oakvr::math::Matrix &transform) -> void;
+		auto SetTransform(const oakvr::math::Matrix44 &transform) -> void;
+		auto GetTransform() const -> const oakvr::math::Matrix44 &;
+		auto Transform(const oakvr::math::Matrix44 &transform) -> void;
 
 	private:
 		MeshSharedPointer m_mesh;
-		oakvr::math::Matrix m_transform;
+		oakvr::math::Matrix44 m_transform;
 	};
 }

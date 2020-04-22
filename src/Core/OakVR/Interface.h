@@ -33,7 +33,7 @@ namespace oakvr::render
 	auto CreateMesh(const StringId &name, const StringId &resourceId, sp<oakvr::render::Material> pMaterial) -> MeshSharedPointer;
 	auto RemoveMesh(const StringId &name) -> void;
 	auto GetMesh(const StringId &name) -> MeshSharedPointer;
-	auto TransformMesh(const StringId &name, const oakvr::math::Matrix &mat) -> void;
+	auto TransformMesh(const StringId &name, const oakvr::math::Matrix44 &mat) -> void;
 
 	auto RegisterShader(const StringId &shaderName) -> void;
 

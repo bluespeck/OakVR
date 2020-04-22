@@ -4,7 +4,7 @@
 #include "Utils/Buffer.h"
 #include "Utils/Types.h"
 #include "Utils/StringId.h"
-#include "Math/Matrix.h"
+#include "Math/Matrix44.h"
 #include "Mesh.h"
 
 #include <cstdint>
@@ -56,7 +56,7 @@ namespace oakvr::render
 
 		auto RegisterShaderProgram(const StringId& shaderProgramName) -> void;
 
-		auto RegisterRenderable(sp<Mesh> pMesh, oakvr::math::Matrix transform) -> void;
+		auto RegisterRenderable(sp<Mesh> pMesh, oakvr::math::Matrix44 transform) -> void;
 		auto UnregisterAllRenderables() -> void;
 
 		// render
@@ -75,9 +75,9 @@ namespace oakvr::render
 		auto SetResourceManager(sp<oakvr::core::ResourceManager> pRM) -> void;
 
 		auto SetCurrentCamera(const sp<Camera>& pCamera) -> void { m_pCurrentCamera = pCamera; }
-		auto SetViewMatrix(const oakvr::math::Matrix& mat) -> void { m_viewMatrix = mat; }
-		auto SetProjMatrix(const oakvr::math::Matrix& mat) -> void { m_projMatrix = mat; }
-		auto GetViewMatrix() const -> const oakvr::math::Matrix& { return m_viewMatrix; }
+		auto SetViewMatrix(const oakvr::math::Matrix44& mat) -> void { m_viewMatrix = mat; }
+		auto SetProjMatrix(const oakvr::math::Matrix44& mat) -> void { m_projMatrix = mat; }
+		auto GetViewMatrix() const -> const oakvr::math::Matrix44& { return m_viewMatrix; }
 
 		auto OnResize(unsigned int newWidth, unsigned int newHeight) -> void;
 
@@ -118,9 +118,9 @@ auto Is ## fName ## Enabled() const -> bool { return m_b ## fName ## Enabled; }
 
 		sp<Camera> m_pCurrentCamera;
 
-		oakvr::math::Matrix m_viewMatrix;
-		oakvr::math::Matrix m_projMatrix;
-		oakvr::math::Matrix m_worldMatrix;
+		oakvr::math::Matrix44 m_viewMatrix;
+		oakvr::math::Matrix44 m_projMatrix;
+		oakvr::math::Matrix44 m_worldMatrix;
 
 #define DECLARE_ENABLEDISABLE_VAR(fName, defaultValue) bool m_b ## fName ## Enabled = defaultValue;
 		DECLARE_ENABLEDISABLE_VAR(Wireframe, false);

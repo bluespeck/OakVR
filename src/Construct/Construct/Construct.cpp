@@ -8,7 +8,7 @@
 #include "Input/MouseInput/MouseInput.h"
 #include "Text/Text.h"
 #include "Log/Log.h"
-#include "Math/Matrix.h"
+#include "Math/Matrix44.h"
 
 #include "FreeCamera.h"
 
@@ -147,9 +147,9 @@ namespace construct
 			pCamera->Update(dt);
 		
 		if (oakvr::input::keyboard::IsHeld(oakvr::input::Key::t))
-			oakvr::render::TransformMesh("TestCube", oakvr::math::Matrix::RotationY(dt * oakvr::math::PiOverSix));
+			oakvr::render::TransformMesh("TestCube", oakvr::math::Matrix44::RotationY(dt * oakvr::math::PiOverSix));
 		else if (oakvr::input::keyboard::IsHeld(oakvr::input::Key::r))
-			oakvr::render::TransformMesh("TestCube", oakvr::math::Matrix::RotationY(dt * -oakvr::math::PiOverSix));
+			oakvr::render::TransformMesh("TestCube", oakvr::math::Matrix44::RotationY(dt * -oakvr::math::PiOverSix));
 		
 		/*
 		// update the marix of spinning monkeys
@@ -157,11 +157,11 @@ namespace construct
 		{
 			for (int j = -meshNum; j < meshNum; ++j)
 			{
-				oakvr::render::TransformMesh("monkey" + std::to_string(i) + std::to_string(j), oakvr::math::Matrix::RotationX(dt * i / meshNum * j / meshNum * oakvr::math::PiOverSix));
+				oakvr::render::TransformMesh("monkey" + std::to_string(i) + std::to_string(j), oakvr::math::Matrix44::RotationX(dt * i / meshNum * j / meshNum * oakvr::math::PiOverSix));
 			}
 		}
 		*/
-		oakvr::render::TransformMesh("monkey2", oakvr::math::Matrix::RotationX(-dt * oakvr::math::PiOverTwo));
+		oakvr::render::TransformMesh("monkey2", oakvr::math::Matrix44::RotationX(-dt * oakvr::math::PiOverTwo));
 		
 		return true;
 	}
@@ -232,7 +232,7 @@ namespace construct
 		auto pMaterial = std::make_shared<oakvr::render::Material>("Default");
 
 		auto pMesh = oakvr::render::CreateMesh("TestCube", ved, vb, sizeof(uint32_t), ib, pMaterial, { "oakvr" });
-		pMesh->SetWorldMatrix(oakvr::math::Matrix::Translation(0, 0, 0) * oakvr::math::Matrix::Scale(1));
+		pMesh->SetWorldMatrix(oakvr::math::Matrix44::Translation(0, 0, 0) * oakvr::math::Matrix44::Scale(1));
 
 		auto pObj = oakvr::OakVR::GetInstance().CreateObject("TestCube");
 		auto pTransformComp = pObj->AddComponent<oakvr::TransformComponent>();
@@ -242,7 +242,7 @@ namespace construct
 		pVisualComp->SetMeshFromResource("TestCube");
 		// updating the world matrix for the mesh should be done by the parent object 
 		// when it detects that the translation component changed in the current frame
-		pVisualComp->GetMesh()->SetWorldMatrix(oakvr::math::Matrix::Translation(pTransformComp->GetPosition()));
+		pVisualComp->GetMesh()->SetWorldMatrix(oakvr::math::Matrix44::Translation(pTransformComp->GetPosition()));
 		
 		// Add object to scene
 		oakvr::OakVR::GetInstance().AddObjectToGraph(pObj, "root");
@@ -280,7 +280,7 @@ namespace construct
 				pVisualComp->SetMeshFromResource("monkey");
 				// updating the world matrix for the mesh should be done by the parent object 
 				// when it detects that the translation component changed in the current frame
-				pVisualComp->GetMesh()->SetWorldMatrix(oakvr::math::Matrix::Translation(static_cast<float>(i * 3), static_cast<float>(j * 3), 3.0f)* oakvr::math::Matrix::Scale(30));
+				pVisualComp->GetMesh()->SetWorldMatrix(oakvr::math::Matrix44::Translation(static_cast<float>(i * 3), static_cast<float>(j * 3), 3.0f)* oakvr::math::Matrix44::Scale(30));
 
 				// Add object to scene
 				oakvr::OakVR::GetInstance().AddObjectToGraph(pObj, "root");
@@ -293,14 +293,14 @@ namespace construct
 	{
 		auto pMaterial = std::make_shared<oakvr::render::Material>("Default");
 		auto pMesh = oakvr::render::CreateMesh("monkey2", "monkeymesh", pMaterial);
-		pMesh->SetWorldMatrix(oakvr::math::Matrix::Scale(250) * oakvr::math::Matrix::Translation(1, 1, 1));
+		pMesh->SetWorldMatrix(oakvr::math::Matrix44::Scale(250) * oakvr::math::Matrix44::Translation(1, 1, 1));
 	}
 
 	void Construct::CreateTestMesh4()
 	{
 		auto pMaterial = std::make_shared<oakvr::render::Material>("Default");
 		auto pMesh = oakvr::render::CreateMesh("sphere1", "sphere", pMaterial);
-		pMesh->SetWorldMatrix(oakvr::math::Matrix::Scale(1) * oakvr::math::Matrix::Translation(1, 1, 1));
+		pMesh->SetWorldMatrix(oakvr::math::Matrix44::Scale(1) * oakvr::math::Matrix44::Translation(1, 1, 1));
 
 		auto pObj = oakvr::OakVR::GetInstance().CreateObject("sphere1");
 		auto pTransformComp = pObj->AddComponent<oakvr::TransformComponent>();
@@ -318,7 +318,7 @@ namespace construct
 	{
 		auto pMaterial = std::make_shared<oakvr::render::Material>("Default");
 		auto pMesh = oakvr::render::CreateMesh("room", "roommesh", pMaterial);
-		pMesh->SetWorldMatrix(oakvr::math::Matrix::Scale(10));
+		pMesh->SetWorldMatrix(oakvr::math::Matrix44::Scale(10));
 
 		auto pObj = oakvr::OakVR::GetInstance().CreateObject("room");
 		auto pTransformComp = pObj->AddComponent<oakvr::TransformComponent>();

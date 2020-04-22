@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Object.h"
-#include "Math/Matrix.h"
+#include "Math/Matrix44.h"
 #include "Math/Vector3.h"
 #include "Frustum.h"
 #include "Math/MathUtils.h"
@@ -12,7 +12,7 @@
 
 
 using oakvr::math::Vector3;
-using oakvr::math::Matrix;
+using oakvr::math::Matrix44;
 
 namespace oakvr::render
 {
@@ -26,9 +26,9 @@ namespace oakvr::render
 
 		auto ComputeFrustum() const->Frustum;
 
-		auto ComputeViewMatrix() const->Matrix;
+		auto ComputeViewMatrix() const->Matrix44;
 
-		inline auto GetProjMatrix() const->Matrix;
+		inline auto GetProjMatrix() const->Matrix44;
 
 		inline auto Update(float dt) -> bool;
 
@@ -69,14 +69,14 @@ namespace oakvr::render
 		float m_near = 0.f;
 		float m_far = 0.f;
 
-		Matrix	m_matProj;
+		Matrix44	m_matProj;
 	};
 
 	using CameraSharedPointer = sp < Camera >;
 
 	auto Camera::SetPerspectiveProjection(float fov, float aspectY, float nearDistance, float farDistance) -> void
 	{
-		m_matProj = Matrix::PerspectiveProjection(fov, aspectY, nearDistance, farDistance);
+		m_matProj = Matrix44::PerspectiveProjection(fov, aspectY, nearDistance, farDistance);
 		m_fov = fov;
 		m_rwWidth = aspectY;
 		m_rwHeight = 1;
@@ -86,7 +86,7 @@ namespace oakvr::render
 
 	auto Camera::SetPerspectiveProjection(float fov, float width, float height, float nearDistance, float farDistance) -> void
 	{
-		m_matProj = Matrix::PerspectiveProjection(fov, width, height, nearDistance, farDistance);
+		m_matProj = Matrix44::PerspectiveProjection(fov, width, height, nearDistance, farDistance);
 		m_fov = fov;
 		m_rwWidth = width;
 		m_rwHeight = height;
@@ -96,7 +96,7 @@ namespace oakvr::render
 
 	auto Camera::SetOrthographicProjection(float left, float right, float bottom, float top, float nearDistance, float farDistance) -> void
 	{
-		m_matProj = Matrix::OrthographicProjection(left, right, bottom, top, nearDistance, farDistance);
+		m_matProj = Matrix44::OrthographicProjection(left, right, bottom, top, nearDistance, farDistance);
 		m_fov = 0.f;
 		m_rwWidth = right - left;
 		m_rwHeight = top - bottom;
@@ -106,7 +106,7 @@ namespace oakvr::render
 
 	auto Camera::SetOrthographicProjection(float width, float height, float nearDistance, float farDistance) -> void
 	{
-		m_matProj = Matrix::OrthographicProjection(-width / 2, width / 2, -height / 2, height / 2, nearDistance, farDistance);
+		m_matProj = Matrix44::OrthographicProjection(-width / 2, width / 2, -height / 2, height / 2, nearDistance, farDistance);
 		m_fov = 0.f;
 		m_rwWidth = width;
 		m_rwHeight = height;
@@ -129,7 +129,7 @@ namespace oakvr::render
 		m_up = up;
 	}
 
-	auto Camera::GetProjMatrix() const -> Matrix
+	auto Camera::GetProjMatrix() const -> Matrix44
 	{
 		return m_matProj;
 	}
@@ -171,7 +171,7 @@ namespace oakvr::render
 
 	auto Camera::Rotate(float alpha, float beta, float gamma) -> void
 	{
-		oakvr::math::Matrix matRotate;
+		oakvr::math::Matrix44 matRotate;
 		matRotate.SetYawPitchRoll(beta, alpha, gamma);
 		m_forward = (m_forward * matRotate).GetNormalized();
 		m_up = (m_up * matRotate).GetNormalized();

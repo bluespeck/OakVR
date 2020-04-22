@@ -14,7 +14,7 @@
 
 #include "Utils/BufferReader.h"
 
-#include "Math/Matrix.h"
+#include "Math/Matrix44.h"
 #include "Math/Vector3.h"
 #include "Math/Vector4.h"
 
@@ -206,7 +206,7 @@ namespace oakvr
 		}
 
 
-		auto OakVRRenderUnit::TransformMesh(const StringId &meshName, const oakvr::math::Matrix &mat) -> void
+		auto OakVRRenderUnit::TransformMesh(const StringId &meshName, const oakvr::math::Matrix44 &mat) -> void
 		{
 			auto pMesh = m_pRenderer->GetRegisteredMesh(meshName);
 			if (pMesh)

@@ -8,7 +8,7 @@
 #include "Renderer/Renderer/Texture.h"
 #include "Renderer/Renderer/Color.h"
 
-#include "Math/Matrix.h"
+#include "Math/Matrix44.h"
 #include "Math/Transform.h"
 #include "Renderer/Renderer/Shader.h"
 
@@ -414,11 +414,11 @@ namespace oakvr::render
 		}
 
 		// --------------------------------------------------------------------------------
-		oakvr::Math::Matrix Renderer::CreateViewMatrix(oakvr::Math::Vector3 eye, oakvr::Math::Vector3 lookAt, oakvr::Math::Vector3 up)
+		oakvr::Math::Matrix44 Renderer::CreateViewMatrix(oakvr::Math::Vector3 eye, oakvr::Math::Vector3 lookAt, oakvr::Math::Vector3 up)
 		{
 			oakvr::Math::Vector3 look = (lookAt - eye).GetNormalized();
 			oakvr::Math::Vector3 right = look.Cross(up).GetNormalized();
-			oakvr::Math::Matrix mat;
+			oakvr::Math::Matrix44 mat;
 			mat._11 = right.x;
 			mat._12 = right.y;
 			mat._13 = right.z;

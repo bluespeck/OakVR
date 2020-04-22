@@ -44,8 +44,8 @@ namespace construct
 				oakvr::math::Vector2 delta = oakvr::input::mouse::GetPositionDelta();
 				delta.Normalize();
 
-				auto mRotationAroundRightDir = oakvr::math::Matrix::RotationAxisRightHanded(delta.y * m_rotationSpeed * dt, GetRight());
-				auto mRotationAroundUpDir = oakvr::math::Matrix::RotationAxisRightHanded(-delta.x * m_rotationSpeed * dt, m_up);
+				auto mRotationAroundRightDir = oakvr::math::Matrix44::RotationAxisRightHanded(delta.y * m_rotationSpeed * dt, GetRight());
+				auto mRotationAroundUpDir = oakvr::math::Matrix44::RotationAxisRightHanded(-delta.x * m_rotationSpeed * dt, m_up);
 				m_forward = (m_forward * mRotationAroundUpDir * mRotationAroundRightDir).GetNormalized();
 				m_up = (m_up * mRotationAroundRightDir).GetNormalized();
 			}

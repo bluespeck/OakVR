@@ -84,12 +84,12 @@ namespace oakvr
 			if (visualComponent)
 			{
 				auto transformComponent = obj->GetComponent<oakvr::TransformComponent>();
-				auto transform = oakvr::math::Matrix::Identity;
+				auto transform = oakvr::math::Matrix44::Identity;
 				if (transformComponent)
 				{
-					transform = oakvr::math::Matrix::Translation(transformComponent->GetPosition()) *
-						oakvr::math::Matrix::Scale(transformComponent->GetScale());
-						//TODO: * oakvr::math::Matrix::RotationAxisRightHanded(transformComponent->GetOrientation())
+					transform = oakvr::math::Matrix44::Translation(transformComponent->GetPosition()) *
+						oakvr::math::Matrix44::Scale(transformComponent->GetScale());
+						//TODO: * oakvr::math::Matrix44::RotationAxisRightHanded(transformComponent->GetOrientation())
 				}
 				m_pRenderer->RegisterRenderable(visualComponent->GetMesh(), transform);
 			}

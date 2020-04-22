@@ -347,7 +347,7 @@ namespace oakvr::render
 				m_pResourceManager->GetResource(shaderName.operator const std::string() + "_ds"));
 	}
 
-	auto Renderer::RegisterRenderable(sp<Mesh> pMesh, oakvr::math::Matrix transform) -> void
+	auto Renderer::RegisterRenderable(sp<Mesh> pMesh, oakvr::math::Matrix44 transform) -> void
 	{
 		auto renderable = std::make_shared<Renderable>(pMesh);
 		renderable->SetTransform(transform);

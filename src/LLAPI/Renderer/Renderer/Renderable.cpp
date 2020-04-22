@@ -18,17 +18,17 @@ namespace oakvr::render
 		return m_mesh;
 	}
 
-	auto Renderable::GetTransform() const -> const oakvr::math::Matrix &
+	auto Renderable::GetTransform() const -> const oakvr::math::Matrix44 &
 	{
 		return m_transform;
 	}
 
-	auto Renderable::SetTransform(const oakvr::math::Matrix &transform) -> void
+	auto Renderable::SetTransform(const oakvr::math::Matrix44 &transform) -> void
 	{
 		m_transform = transform;
 	}
 
-	auto Renderable::Transform(const oakvr::math::Matrix &transform) -> void
+	auto Renderable::Transform(const oakvr::math::Matrix44 &transform) -> void
 	{
 		m_transform = transform * m_transform;
 	}

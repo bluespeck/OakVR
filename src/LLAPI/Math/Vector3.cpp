@@ -3,7 +3,7 @@
 
 #include "Vector3.h"
 #include "Vector4.h"
-#include "Matrix.h"
+#include "Matrix44.h"
 
 
 namespace oakvr::math
@@ -95,7 +95,7 @@ namespace oakvr::math
 	}
 
 	// --------------------------------------------------------------------------------
-	auto Vector3::operator * (const Matrix& mat) const noexcept -> Vector3
+	auto Vector3::operator * (const Matrix44& mat) const noexcept -> Vector3
 	{
 		Vector3 result;
 		result.x = x * mat._11 + y * mat._21 + z * mat._31 + mat._41;
@@ -105,7 +105,7 @@ namespace oakvr::math
 	}
 
 	// --------------------------------------------------------------------------------
-	auto operator * (const Matrix& mat, const Vector3& vec) noexcept -> Vector3
+	auto operator * (const Matrix44& mat, const Vector3& vec) noexcept -> Vector3
 	{
 		Vector3 result;
 		result.x = vec.x * mat._11 + vec.y * mat._12 + vec.z * mat._13 + mat._14;

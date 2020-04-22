@@ -5,7 +5,7 @@
 
 namespace oakvr::math
 {
-	class Matrix;
+	class Matrix44;
 
 	class Vector3
 	{
@@ -39,8 +39,8 @@ namespace oakvr::math
 		auto operator - (const Vector3& vec) const noexcept->Vector3;
 		auto operator * (BaseType scalar) const noexcept->Vector3;
 		auto operator / (BaseType scalar) const noexcept->Vector3;
-		auto operator * (const Matrix& mat) const noexcept->Vector3;
-		friend auto operator *(const Matrix& mat, const Vector3& vec) noexcept->Vector3;
+		auto operator * (const Matrix44& mat) const noexcept->Vector3;
+		friend auto operator *(const Matrix44& mat, const Vector3& vec) noexcept->Vector3;
 		friend auto operator * (BaseType scalar, const Vector3& vec) noexcept->Vector3;
 
 		// equality operators
@@ -64,7 +64,7 @@ namespace oakvr::math
 	};
 
 	auto operator * (Vector3::BaseType scalar, const Vector3& vec) noexcept->Vector3;
-	auto operator * (const Matrix& mat, const Vector3& vec) noexcept->Vector3;
+	auto operator * (const Matrix44& mat, const Vector3& vec) noexcept->Vector3;
 
 	//------------------------------------------------------
 	// cast operators

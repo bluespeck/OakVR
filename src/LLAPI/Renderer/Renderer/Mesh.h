@@ -2,7 +2,7 @@
 
 #include "Utils/StringId.h"
 #include "MeshElement.h"
-#include "Math/Matrix.h"
+#include "Math/Matrix44.h"
 #include "BoundingSphere.h"
 
 #include <memory>
@@ -24,9 +24,9 @@ namespace oakvr::render
 		inline auto AddMeshElement(const sp<MeshElement>& meshElem) -> void;
 		inline auto GetMeshElements()->MeshElementVector&;
 		inline auto GetMeshElements() const -> const MeshElementVector&;
-		inline auto SetWorldMatrix(const oakvr::math::Matrix& worldMatrix) -> void;
-		inline auto GetWorldMatrix() const -> const oakvr::math::Matrix&;
-		inline auto Transform(const oakvr::math::Matrix& transform) -> void;
+		inline auto SetWorldMatrix(const oakvr::math::Matrix44& worldMatrix) -> void;
+		inline auto GetWorldMatrix() const -> const oakvr::math::Matrix44&;
+		inline auto Transform(const oakvr::math::Matrix44& transform) -> void;
 
 		inline auto GetBoundingSphere() const noexcept -> const BoundingSphere&;
 
@@ -35,7 +35,7 @@ namespace oakvr::render
 	private:
 		StringId m_name;
 		MeshElementVector m_vMeshElements;
-		oakvr::math::Matrix m_worldMatrix;
+		oakvr::math::Matrix44 m_worldMatrix;
 
 		BoundingSphere m_boundingSphere;
 
@@ -70,17 +70,17 @@ namespace oakvr::render
 		return m_vMeshElements;
 	}
 
-	auto Mesh::SetWorldMatrix(const oakvr::math::Matrix& worldMatrix) -> void
+	auto Mesh::SetWorldMatrix(const oakvr::math::Matrix44& worldMatrix) -> void
 	{
 		m_worldMatrix = worldMatrix;
 	}
 
-	auto Mesh::GetWorldMatrix() const -> const oakvr::math::Matrix&
+	auto Mesh::GetWorldMatrix() const -> const oakvr::math::Matrix44&
 	{
 		return m_worldMatrix;
 	}
 
-	auto Mesh::Transform(const oakvr::math::Matrix& transform) -> void
+	auto Mesh::Transform(const oakvr::math::Matrix44& transform) -> void
 	{
 		m_worldMatrix = transform * m_worldMatrix;
 	}

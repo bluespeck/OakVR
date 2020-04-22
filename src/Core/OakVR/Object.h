@@ -6,7 +6,7 @@
 
 #include "Utils/StringId.h"
 #include "Utils/Types.h"
-#include "Math/Matrix.h"
+#include "Math/Matrix44.h"
 
 #include "ObjectComponent.h"
 

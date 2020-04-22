@@ -30,7 +30,7 @@ namespace oakvr::render
 namespace oakvr::math
 {
 	class Vector3;
-	class Matrix;
+	class Matrix44;
 }
 
 namespace oakvr
@@ -51,7 +51,7 @@ namespace oakvr
 		auto RegisterMesh(sp<oakvr::render::Mesh> pMesh) -> void;
 		auto GetRegisteredMesh(const StringId &name) -> sp < oakvr::render::Mesh >;
 		auto UnregisterMesh(sp<oakvr::render::Mesh> pMesh) -> void;
-		auto TransformMesh(const StringId &meshName, const oakvr::math::Matrix &mat) -> void;
+		auto TransformMesh(const StringId &meshName, const oakvr::math::Matrix44 &mat) -> void;
 
 		auto RegisterShader(StringId shaderName) -> void;
 
