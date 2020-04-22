@@ -19,7 +19,7 @@ namespace oakvr::core::io
 		m_pImpl->path = path;
 	}
 
-	Directory::Directory(Directory &&dir)
+	Directory::Directory(Directory &&dir) noexcept
 	{
 		m_pImpl = std::move(dir.m_pImpl);
 	}

@@ -24,7 +24,7 @@ namespace oakvr::core::io
 		m_bFileOpened = false;
 	}
 
-	File::File(File &&file)
+	File::File(File &&file) noexcept
 	{
 		m_pImpl = std::move(file.m_pImpl);
 		m_bFileOpened = std::move(file.m_bFileOpened);

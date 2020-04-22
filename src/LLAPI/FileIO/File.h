@@ -22,7 +22,7 @@ namespace oakvr::core::io
 
 		File(const oakvr::core::io::path::PathType &filepath);
 		File(const File&) = delete;
-		File(File &&);
+		File(File &&) noexcept;
 		~File();
 			
 		static auto Exists(const oakvr::core::io::path::PathType &filepath) -> bool;
