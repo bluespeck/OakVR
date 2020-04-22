@@ -18,7 +18,7 @@ namespace oakvr::core::io
 			{
 				file,
 				directory
-			} type;
+			} type = EntryType::file;
 		};
 			
 		struct DirectoryImpl;
